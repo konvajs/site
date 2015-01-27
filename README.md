@@ -5,7 +5,12 @@ You can see the generated files at [konvajs/konvajs.github.io](https://github.co
 
 ## How to help?
 
-Hm...
+We need to replace jsbin code examples with iframe example and code snippet.
+All demos will be stored in this repo. It will much ease to maintain them.
+
+You can see `source/docs/shapes/Rect.md` (docs) and `source/downloads/code/shapes/rect.html` (working code snippet).
+All demos should be stored under `source/downloads/code`.
+
 
 ## Getting started
 
