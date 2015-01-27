@@ -3,6 +3,10 @@
 The website for Konva. Created with Hexo framework.
 You can see the generated files at [konvajs/konvajs.github.io](https://github.com/konvajs/konvajs.github.io) repository.
 
+## How to help?
+
+Hm...
+
 ## Getting started
 
 Install dependencies:
