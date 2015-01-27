@@ -1,0 +1,17 @@
+menu:
+  Docs: /docs/
+  API: /api/
+
+doc_sidebar:
+  Getting Started:
+    Overview: index.html
+    Node Structure: node_structure.html
+  Shapes:
+    Rect: shapes/rect.html
+    Circle: shapes/circle.html
+
+google_analytics:
+fb_admins:
+swiftype_key:
+twitter: lavrton
+github: konvajs/konva

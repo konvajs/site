@@ -1,0 +1,22 @@
+title: Documentation
+---
+Welcome to the Konva's documentation. This documentation will help you get started fast.
+If you get any problems when using Konva you can ask me on [GitHub](https://github.com/konvajs/konva/issues).
+
+## What's Konva?
+
+Konva is an HTML5 Canvas JavaScript framework that extends the 2d context
+by enabling canvas interactivity for desktop and mobile applications.
+
+## Install Konva
+
+If you are using package managares:
+``` bash
+$ npm install konva
+$ # or
+$ bower install konva
+```
+
+Or download from CDN:
+* [Full version konva.js](link_soon)
+* [Min version konva.min.js](link_soon)

@@ -1,0 +1,8 @@
+.DS_Store
+.idea
+node_modules
+public
+.deploy
+db.json
+debug.log
+tmp
