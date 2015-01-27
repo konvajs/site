@@ -5,10 +5,10 @@ menu:
 doc_sidebar:
   Getting Started:
     Overview: index.html
-    Node Structure: node_structure.html
+    How it works: how_it_works.html
   Shapes:
-    Rect: shapes/rect.html
-    Circle: shapes/circle.html
+    Rect: shape_rect.html
+    Circle: shape_circle.html
 
 google_analytics:
 fb_admins:

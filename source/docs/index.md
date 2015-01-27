@@ -8,6 +8,13 @@ If you get any problems when using Konva you can ask me on [GitHub](https://gith
 Konva is an HTML5 Canvas JavaScript framework that extends the 2d context
 by enabling canvas interactivity for desktop and mobile applications.
 
+Konva enables high performance animations, transitions, node nesting, layering, filtering,
+caching, event handling for desktop and mobile applications, and much more.
+
+You can draw things onto the stage, add event listeners to them, move them,
+scale them, and rotate them independently from other shapes to support high performance
+animations, even if your application uses thousands of shapes.
+
 ## Install Konva
 
 If you are using package managares:
