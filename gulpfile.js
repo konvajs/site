@@ -16,23 +16,23 @@ gulp.task('clean-public', function(){
 });
 
 // 2
-gulp.task('generate-hexo', shell.task(['hexo generate']));
+gulp.task('generate-hexo', ['clean-public'], shell.task(['hexo generate']));
 
 
 // 3
-gulp.task('clean-public-downloads', function(){
+gulp.task('clean-public-downloads', ['generate-hexo'], function(){
   return gulp.src('public/downloads', {read: false})
     .pipe(clean());
 });
 
-gulp.task('copy-source-download', function() {
-   gulp.src('source/downloads/**')
+gulp.task('copy-source-download', ['clean-public-downloads'] ,function() {
+   return gulp.src('source/downloads/**')
    .pipe(gulp.dest('public/downloads'));
 });
 
 // 4
-gulp.task('docs', function() {
-  gulp.src("konva.js")
+gulp.task('docs', ['generate-hexo'], function() {
+  return gulp.src("konva.js")
     .pipe(jsdoc('./public/api', {
       "path": "ink-docstrap",
       "cleverLinks"           : false,

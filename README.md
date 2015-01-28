@@ -21,7 +21,6 @@ Generate:
 
 ``` bash
 $ gulp
-$ hexo generate
 ```
 
 Run server:
