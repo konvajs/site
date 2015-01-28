@@ -7,115 +7,115 @@ doc_sidebar:
     Overview: index.html
     How it works: how_it_works.html
   Shapes:
-    Rect : 01_Shapes/01_Rect.html
-    Circle : 01_Shapes/02_Circle.html
-    Ellipse : 01_Shapes/03_Ellipse.html
-    Wedge : 01_Shapes/04_Wedge.html
-    Line - Simple Line : 01_Shapes/05_Line_-_Simple_Line.html
-    Line - Polygon : 01_Shapes/06_Line_-_Polygon.html
-    Line - Spline : 01_Shapes/07_Line_-_Spline.html
-    Line - Blob : 01_Shapes/08_Line_-_Blob.html
-    Sprite : 01_Shapes/09_Sprite.html
-    Image : 01_Shapes/10_Image.html
-    Text : 01_Shapes/11_Text.html
-    TextPath : 01_Shapes/12_TextPath.html
-    Star : 01_Shapes/13_Star.html
-    Label : 01_Shapes/14_Label.html
-    Path : 01_Shapes/15_Path.html
-    RegularPolygon : 01_Shapes/16_RegularPolygon.html
-    Custom : 01_Shapes/17_Custom.html
+    Rect : shapes/Rect.html
+    Circle : shapes/Circle.html
+    Ellipse : shapes/Ellipse.html
+    Wedge : shapes/Wedge.html
+    Line - Simple Line : shapes/Line_-_Simple_Line.html
+    Line - Polygon : shapes/Line_-_Polygon.html
+    Line - Spline : shapes/Line_-_Spline.html
+    Line - Blob : shapes/Line_-_Blob.html
+    Sprite : shapes/Sprite.html
+    Image : shapes/Image.html
+    Text : shapes/Text.html
+    TextPath : shapes/TextPath.html
+    Star : shapes/Star.html
+    Label : shapes/Label.html
+    Path : shapes/Path.html
+    RegularPolygon : shapes/RegularPolygon.html
+    Custom : shapes/Custom.html
   Styling:
-    Fill : ./02_Styling/01_Fill.html
-    Stroke : ./02_Styling/02_Stroke.html
-    Opacity : ./02_Styling/03_Opacity.html
-    Shadow : ./02_Styling/04_Shadow.html
-    Line Join : ./02_Styling/05_Line_Join.html
-    Hide and Show : ./02_Styling/06_Hide_and_Show.html
+    Fill : styling/Fill.html
+    Stroke : styling/Stroke.html
+    Opacity : styling/Opacity.html
+    Shadow : styling/Shadow.html
+    Line Join : styling/Line_Join.html
+    Hide and Show : styling/Hide_and_Show.html
   Events:
-    Binding Events : 03_Events/01_Binding_Events.html
-    Image Events : 03_Events/02_Image_Events.html
-    Mobile Events : 03_Events/03_Mobile_Events.html
-    Multi Event : 03_Events/04_Multi_Event.html
-    Desktop and Mobile : 03_Events/05_Desktop_and_Mobile.html
-    Remove Event : 03_Events/06_Remove_Event.html
-    Remove by Name : 03_Events/07_Remove_by_Name.html
-    Custom Hit Region : 03_Events/08_Custom_Hit_Region.html
-    Listen for Events : 03_Events/09_Listen_for_Events.html
-    Cancel Propagation : 03_Events/10_Cancel_Propagation.html
-    Event Delegation : 03_Events/11_Event_Delegation.html
-    Fire Events : 03_Events/12_Fire_Events.html
+    Binding Events : events/Binding_Events.html
+    Image Events : events/Image_Events.html
+    Mobile Events : events/Mobile_Events.html
+    Multi Event : events/Multi_Event.html
+    Desktop and Mobile : events/Desktop_and_Mobile.html
+    Remove Event : events/Remove_Event.html
+    Remove by Name : events/Remove_by_Name.html
+    Custom Hit Region : events/Custom_Hit_Region.html
+    Listen for Events : events/Listen_for_Events.html
+    Cancel Propagation : events/Cancel_Propagation.html
+    Event Delegation : events/Event_Delegation.html
+    Fire Events : events/Fire_Events.html
   Drag and Drop:
-    Drag and Drop : 04_Drag_and_Drop/01_Drag_and_Drop.html
-    Drag an Image : 04_Drag_and_Drop/02_Drag_an_Image.html
-    Drag a Group : 04_Drag_and_Drop/03_Drag_a_Group.html
-    Drag a Line : 04_Drag_and_Drop/04_Drag_a_Line.html
-    Drag a Stage : 04_Drag_and_Drop/05_Drag_a_Stage.html
-    Drag Events : 04_Drag_and_Drop/06_Drag_Events.html
-    Simple Drag Bounds : 04_Drag_and_Drop/07_Simple_Drag_Bounds.html
-    Complex Drag and Drop : 04_Drag_and_Drop/08_Complex_Drag_and_Drop.html
-    Drop Events : 04_Drag_and_Drop/09_Drop_Events.html
+    Drag and Drop : drag_and_Drop/Drag_and_Drop.html
+    Drag an Image : drag_and_Drop/Drag_an_Image.html
+    Drag a Group : drag_and_Drop/Drag_a_Group.html
+    Drag a Line : drag_and_Drop/Drag_a_Line.html
+    Drag a Stage : drag_and_Drop/Drag_a_Stage.html
+    Drag Events : drag_and_Drop/Drag_Events.html
+    Simple Drag Bounds : drag_and_Drop/Simple_Drag_Bounds.html
+    Complex Drag and Drop : drag_and_Drop/Complex_Drag_and_Drop.html
+    Drop Events : drag_and_Drop/Drop_Events.html
   Groups and Layers:
-    Groups : 05_Groups_and_Layers/01_Groups.html
-    Layering : 05_Groups_and_Layers/02_Layering.html
-    Change_Containers : 05_Groups_and_Layers/03_Change_Containers.html
-    Clipping_Regions : 05_Groups_and_Layers/04_Clipping_Regions.html
+    Groups : groups_and_Layers/Groups.html
+    Layering : groups_and_Layers/Layering.html
+    Change_Containers : groups_and_Layers/Change_Containers.html
+    Clipping_Regions : groups_and_Layers/Clipping_Regions.html
   Filters:
-    Invert : 06_Filters/01_Invert.html
-    Grayscale : 06_Filters/02_Grayscale.html
-    Brighten : 06_Filters/03_Brighten.html
-    Kaleidoscope : 06_Filters/04_Kaleidoscope.html
-    Blur : 06_Filters/05_Blur.html
+    Invert : filters/Invert.html
+    Grayscale : filters/Grayscale.html
+    Brighten : filters/Brighten.html
+    Kaleidoscope : filters/Kaleidoscope.html
+    Blur : filters/Blur.html
   Tweens:
-    Linear Easing : ./07_Tweens/01_Linear_Easing.html
-    Common Easings : ./07_Tweens/02_Common_Easings.html
-    All Easings : ./07_Tweens/03_All_Easings.html
-    Finish Event : ./07_Tweens/04_Finish_Event.html
-    All Controls : ./07_Tweens/05_All_Controls.html
-    Tween Filter : ./07_Tweens/06_Tween_Filter.html
-    GreenSock Plugin : ./07_Tweens/07_GreenSock_Plugin.html
+    Linear Easing : tweens/Linear_Easing.html
+    Common Easings : tweens/Common_Easings.html
+    All Easings : tweens/All_Easings.html
+    Finish Event : tweens/Finish_Event.html
+    All Controls : tweens/All_Controls.html
+    Tween Filter : tweens/Tween_Filter.html
+    GreenSock Plugin : tweens/GreenSock_Plugin.html
   Animations:
-    Create_an_Animation : 08_Animations/01_Create_an_Animation.html
-    Moving : 08_Animations/02_Moving.html
-    Rotation  : 08_Animations/03_Rotation .html
-    Scaling : 08_Animations/04_Scaling.html
-    Stop_Animation : 08_Animations/05_Stop_Animation.html
+    Create_an_Animation : animations/Create_an_Animation.html
+    Moving : animations/Moving.html
+    Rotation  : animations/Rotation .html
+    Scaling : animations/Scaling.html
+    Stop_Animation : animations/Stop_Animation.html
   Selectors:
-    Select by id : 09_Selectors/01_Select_by_id.html
-    Select by Type : 09_Selectors/02_Select_by_Type.html
-    Select by Name : 09_Selectors/03_Select_by_Name.html
+    Select by id : Selectors/Select_by_id.html
+    Select by Type : Selectors/Select_by_Type.html
+    Select by Name : Selectors/Select_by_Name.html
   Data & Serialization:
-    Select_by_id : 10_Data_&_Serialization/01_Select_by_id.html
-    Serialize_a_Stage : 10_Data_&_Serialization/02_Serialize_a_Stage.html
-    Simple_Load : 10_Data_&_Serialization/03_Simple_Load.html
-    Complex_Load : 10_Data_&_Serialization/04_Complex_Load.html
+    Select_by_id : Data_&_Serialization/Select_by_id.html
+    Serialize_a_Stage : Data_&_Serialization/Serialize_a_Stage.html
+    Simple_Load : Data_&_Serialization/Simple_Load.html
+    Complex_Load : Data_&_Serialization/Complex_Load.html
   Performance:
-    Layer Management : 11_Performance/01_Layer_Management.html
-    Batch Draw : 11_Performance/02_Batch_Draw.html
-    Shape Caching : 11_Performance/03_Shape_Caching.html
+    Layer Management : Performance/Layer_Management.html
+    Batch Draw : Performance/Batch_Draw.html
+    Shape Caching : Performance/Shape_Caching.html
   Sandbox:
-    Zoom Layer On hover : 12_Sandbox/977_Zoom_Layer_On_hover.html
-    Wheel of Fortune : 12_Sandbox/978_Wheel of Fortune.html
-    Quantum_Squiggle : 12_Sandbox/979_Quantum_Squiggle.html
-    20000_Nodes : 12_Sandbox/980_20000_Nodes.html
-    Elastic_Stars : 12_Sandbox/981_Elastic_Stars.html
-    Shape_Tango : 12_Sandbox/982_Shape_Tango.html
-    Multi-touch_Scale_Shape : 12_Sandbox/983_Multi-touch_Scale_Shape.html
-    Multi-touch_Scale_Stage : 12_Sandbox/984_Multi-touch_Scale_Stage.html
-    Interactive_Building_Map : 12_Sandbox/985_Interactive_Building_Map.html
-    Modify_Curves_with_Anchor_Points : 12_Sandbox/986_Modify_Curves_with_Anchor_Points.html
-    Drag_and_Drop_Stress_Test : 12_Sandbox/987_Drag_and_Drop_Stress_Test.html
-    Animals_on_the_Beach_Game : 12_Sandbox/988_Animals_on_the_Beach_Game.html
-    Animation_Stress_Test : 12_Sandbox/989_Animation_Stress_Test.html
-    10000_Shapes_with_Tooltips : 12_Sandbox/990_10000_Shapes_with_Tooltips.html
-    Modify_Shape_Color_on_Click : 12_Sandbox/991_Modify_Shape_Color_on_Click.html
-    Physics_Simulator : 12_Sandbox/992_Physics_Simulator.html
-    Expand_Images_on_Hover : 12_Sandbox/993_Expand_Images_on_Hover.html
-    Planets_Image_Map : 12_Sandbox/994_Planets_Image_Map.html
-    Image_Resize : 12_Sandbox/995_Image_Resize.html
-    Shape_Tooltips : 12_Sandbox/996_Shape_Tooltips.html
-    Star_Spiner : 12_Sandbox/997_Star_Spiner.html
-    Drag_and_Drop_Multiple_Shapes : 12_Sandbox/998_Drag_and_Drop_Multiple_Shapes.html
-    Image_Border_Highlighting : 12_Sandbox/999_Image_Border_Highlighting.html
+    Zoom Layer On hover : Sandbox/Zoom_Layer_On_hover.html
+    Wheel of Fortune : Sandbox/Wheel of Fortune.html
+    Quantum_Squiggle : Sandbox/Quantum_Squiggle.html
+    20000_Nodes : Sandbox/20000_Nodes.html
+    Elastic_Stars : Sandbox/Elastic_Stars.html
+    Shape_Tango : Sandbox/Shape_Tango.html
+    Multi-touch_Scale_Shape : Sandbox/Multi-touch_Scale_Shape.html
+    Multi-touch_Scale_Stage : Sandbox/Multi-touch_Scale_Stage.html
+    Interactive_Building_Map : Sandbox/Interactive_Building_Map.html
+    Modify_Curves_with_Anchor_Points : Sandbox/Modify_Curves_with_Anchor_Points.html
+    Drag_and_Drop_Stress_Test : Sandbox/Drag_and_Drop_Stress_Test.html
+    Animals_on_the_Beach_Game : Sandbox/Animals_on_the_Beach_Game.html
+    Animation_Stress_Test : Sandbox/Animation_Stress_Test.html
+    10000_Shapes_with_Tooltips : Sandbox/10000_Shapes_with_Tooltips.html
+    Modify_Shape_Color_on_Click : Sandbox/Modify_Shape_Color_on_Click.html
+    Physics_Simulator : Sandbox/Physics_Simulator.html
+    Expand_Images_on_Hover : Sandbox/Expand_Images_on_Hover.html
+    Planets_Image_Map : Sandbox/Planets_Image_Map.html
+    Image_Resize : Sandbox/Image_Resize.html
+    Shape_Tooltips : Sandbox/Shape_Tooltips.html
+    Star_Spiner : Sandbox/Star_Spiner.html
+    Drag_and_Drop_Multiple_Shapes : Sandbox/Drag_and_Drop_Multiple_Shapes.html
+    Image_Border_Highlighting : Sandbox/Image_Border_Highlighting.html
 
 google_analytics: UA-54202824-2
 fb_admins:

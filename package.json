@@ -14,8 +14,7 @@
   "devDependencies": {
     "gulp": "^3.6.2",
     "gulp-clean": "^0.2.4",
-    "gulp-yuidoc": "^0.1.2",
-    "gulp-shell": "^0.2.4",
-    "gulp-rename": "^1.2.0"
+    "gulp-jsdoc": "^0.1.4",
+    "gulp-shell": "^0.2.4"
   }
 }

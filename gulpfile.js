@@ -1,52 +1,67 @@
 var gulp = require('gulp'),
-  yuidoc = require('gulp-yuidoc'),
   clean = require('gulp-clean'),
   shell = require('gulp-shell'),
-  rename = require('gulp-rename');
+  jsdoc = require("gulp-jsdoc");
 
-gulp.task('clean-hexo', function(){
-  return gulp.src('tmp/hexo/', {read: false})
+// steps
+// 1. clean /public folder
+// 2. generate new /public with hexo
+// 3. replace /public/downloads with /source/downloads
+// 4. generate api docs to /public
+
+// 1
+gulp.task('clean-public', function(){
+  return gulp.src('public', {read: false})
     .pipe(clean());
 });
 
-gulp.task('clean-warehouse', function(){
-  return gulp.src('tmp/warehouse/', {read: false})
+// 2
+gulp.task('generate-hexo', shell.task(['hexo generate']));
+
+
+// 3
+gulp.task('clean-public-downloads', function(){
+  return gulp.src('public/downloads', {read: false})
     .pipe(clean());
 });
 
-gulp.task('clean-yuidoc', function(){
-  return gulp.src('source/_yuidoc/', {read: false})
-    .pipe(clean());
+gulp.task('copy-source-download', function() {
+   gulp.src('source/downloads/**')
+   .pipe(gulp.dest('public/downloads'));
 });
 
-gulp.task('clean', ['clean-hexo', 'clean-warehouse', 'clean-yuidoc']);
-
-gulp.task('clone-hexo', ['clean-hexo'], shell.task(['git clone https://github.com/tommy351/hexo.git -b dev tmp/hexo']));
-
-gulp.task('clone-warehouse', ['clean-warehouse'], shell.task(['git clone https://github.com/tommy351/warehouse.git -b develop tmp/warehouse']));
-
-gulp.task('clone', ['clone-hexo', 'clone-warehouse']);
-
-gulp.task('yuidoc-hexo', ['clone-hexo'], function(){
-  return gulp.src('tmp/hexo/lib/**/*.js')
-    .pipe(yuidoc.parser({
-      project: require('./tmp/hexo/package.json')
+// 4
+gulp.task('docs', function() {
+  gulp.src("konva.js")
+    .pipe(jsdoc('./public/api', {
+      "path": "ink-docstrap",
+      "cleverLinks"           : false,
+      "monospaceLinks"        : false,
+      "dateFormat"            : "ddd MMM Do YYYY",
+      "outputSourceFiles"     : true,
+      "outputSourcePath"      : true,
+      "systemName"            : "Konva",
+      "footer"                : "",
+      "copyright"             : "Konva Copyright © 2015 The contributors to the Konva project.",
+      "navType"               : "vertical",
+      "theme"                 : "cosmo",
+      "linenums"              : true,
+      "collapseSymbols"       : false,
+      "inverseNav"            : true,
+      "highlightTutorialCode" : true,
+      "analytics" : {
+        "ua" : "UA-54202824-2",
+        "domain" : "http://konvajs.github.io"
+      }
     }))
-    .pipe(rename('index.json'))
-    .pipe(gulp.dest('source/_yuidoc/'));
 });
 
-gulp.task('yuidoc-warehouse', ['clone-warehouse'], function(){
-  return gulp.src('tmp/warehouse/lib/**/*.js')
-    .pipe(yuidoc.parser({
-      project: require('./tmp/warehouse/package.json')
-    }))
-    .pipe(rename('warehouse.json'))
-    .pipe(gulp.dest('source/_yuidoc/'));
-});
 
-gulp.task('yuidoc', ['yuidoc-hexo', 'yuidoc-warehouse']);
 
-gulp.task('default', ['yuidoc'], function(){
-  return gulp.start('clean-hexo', 'clean-warehouse');
-});
+gulp.task('default', [
+  'clean-public',
+  'generate-hexo',
+  'clean-public-downloads',
+  'copy-source-download',
+  'docs'
+  ]);

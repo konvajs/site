@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- source: http://jsbin.com/mutuyu/3 -->
+<html>
+<head>
+<meta name="description" content="Konva Rect Demo" />
+  <script src="https://rawgit.com/konvajs/konva/master/konva.min.js"></script>
+  <meta charset="utf-8">
+  <title>Konva Rect Demo</title>
+</head>
+<body>
+  <div id="container"></div>
+<script id="jsbin-javascript">
+var stage = new Konva.Stage({
+  container: 'container',
+  width: 300,
+  height: 300
+});
+
+var layer = new Konva.Layer();
+
+var rect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+// add the shape to the layer
+layer.add(rect);
+
+// add the layer to the stage
+stage.add(layer);
+</script>
+
+
+
+<script id="jsbin-source-javascript" type="text/javascript">var stage = new Konva.Stage({
+  container: 'container',
+  width: 300,
+  height: 300
+});
+
+var layer = new Konva.Layer();
+
+var rect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+// add the shape to the layer
+layer.add(rect);
+
+// add the layer to the stage
+stage.add(layer);</script></body>
+</html>
