@@ -7,4 +7,6 @@ Shapes can have an opacity value between 0 and 1, where 0 is fully transparent, 
 
 Instructions: Mouseover the pentagon to change its opacity.
 
-<a class="jsbin-embed" href="http://jsbin.com/zozefa/1/embed?js,output">Konva Opacity Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/styling/Opacity.html %}
+
+{% include_code Konva Circle Demo styling/Opacity.html %}

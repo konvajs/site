@@ -7,4 +7,6 @@ Konva supports colors, patterns, linear gradients, and radial gradients.
 
 Instructions: Mouseover each pentagon to change its fill.  You can also drag and drop the shapes.
 
-<a class="jsbin-embed" href="http://jsbin.com/zaraxeg/1/embed?js,output">Konva Fill Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/styling/Fill.html %}
+
+{% include_code Konva Circle Demo styling/Fill.html %}

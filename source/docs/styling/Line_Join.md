@@ -7,4 +7,6 @@ The `lineJoin` property can be set to `miter`, `bevel`, or `round`.  Unless othe
 
 Instructions: Mouseover the triangle to change the line join style.
 
-<a class="jsbin-embed" href="http://jsbin.com/pahoba/1/embed?js,output">Konva Line Join Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/styling/Line_Join.html %}
+
+{% include_code Konva Circle Demo styling/Line_Join.html %}

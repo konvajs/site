@@ -5,4 +5,6 @@ To hide and show a shape with Konva, we can set the visible property when we ins
 
 Instructions: Click on the buttons to show and hide the shape.
 
-<a class="jsbin-embed" href="http://jsbin.com/cimiye/1/embed?js,output">Konva Hide and Show Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/styling/Hide_and_Show.html %}
+
+{% include_code Konva Circle Demo styling/Hide_and_Show.html %}

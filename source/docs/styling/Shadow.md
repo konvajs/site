@@ -6,4 +6,6 @@ To apply shadows with Konva, we can set the `shadowColor`, `shadowOffset`, `shad
 We can adjust the shadow properties after instantiation by using the `shadowColor()`, `shadowOffset()`, `shadowBlur()`, and `shadowOpacity()` methods.
 
 
-<a class="jsbin-embed" href="http://jsbin.com/sugel/1/embed?js,output">Konva Shadows Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/styling/Shadow.html %}
+
+{% include_code Konva Circle Demo styling/Shadow.html %}
