@@ -5,4 +5,6 @@ To create a polygon with `Konva`, we can instantiate a `Konva.Line()` object wit
 
 For a full list of attributes and methods, check out the [Konva.Line documentation](http://konva.github.io/api/Konva.Line.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/wetabu/1/embed?js,output">Konva Polygon Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Line_-_Pol.html %}
+
+{% include_code Konva Line Demo shapes/Line_-_Pol.html %}
