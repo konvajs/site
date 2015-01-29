@@ -80,42 +80,42 @@ doc_sidebar:
     Scaling : animations/Scaling.html
     Stop_Animation : animations/Stop_Animation.html
   Selectors:
-    Select by id : Selectors/Select_by_id.html
-    Select by Type : Selectors/Select_by_Type.html
-    Select by Name : Selectors/Select_by_Name.html
+    Select by id : selectors/Select_by_id.html
+    Select by Type : selectors/Select_by_Type.html
+    Select by Name : selectors/Select_by_Name.html
   Data & Serialization:
-    Select_by_id : Data_&_Serialization/Select_by_id.html
-    Serialize_a_Stage : Data_&_Serialization/Serialize_a_Stage.html
-    Simple_Load : Data_&_Serialization/Simple_Load.html
-    Complex_Load : Data_&_Serialization/Complex_Load.html
+    Select_by_id : data_&_Serialization/Select_by_id.html
+    Serialize_a_Stage : data_&_Serialization/Serialize_a_Stage.html
+    Simple_Load : data_&_Serialization/Simple_Load.html
+    Complex_Load : data_&_Serialization/Complex_Load.html
   Performance:
     Layer Management : performance/Layer_Management.html
     Batch Draw : performance/Batch_Draw.html
     Shape Caching : performance/Shape_Caching.html
   Sandbox:
-    Zoom Layer On hover : Sandbox/Zoom_Layer_On_hover.html
-    Wheel of Fortune : Sandbox/Wheel of Fortune.html
-    Quantum_Squiggle : Sandbox/Quantum_Squiggle.html
-    20000_Nodes : Sandbox/20000_Nodes.html
-    Elastic_Stars : Sandbox/Elastic_Stars.html
-    Shape_Tango : Sandbox/Shape_Tango.html
-    Multi-touch_Scale_Shape : Sandbox/Multi-touch_Scale_Shape.html
-    Multi-touch_Scale_Stage : Sandbox/Multi-touch_Scale_Stage.html
-    Interactive_Building_Map : Sandbox/Interactive_Building_Map.html
-    Modify_Curves_with_Anchor_Points : Sandbox/Modify_Curves_with_Anchor_Points.html
-    Drag_and_Drop_Stress_Test : Sandbox/Drag_and_Drop_Stress_Test.html
-    Animals_on_the_Beach_Game : Sandbox/Animals_on_the_Beach_Game.html
-    Animation_Stress_Test : Sandbox/Animation_Stress_Test.html
-    10000_Shapes_with_Tooltips : Sandbox/10000_Shapes_with_Tooltips.html
-    Modify_Shape_Color_on_Click : Sandbox/Modify_Shape_Color_on_Click.html
-    Physics_Simulator : Sandbox/Physics_Simulator.html
-    Expand_Images_on_Hover : Sandbox/Expand_Images_on_Hover.html
-    Planets_Image_Map : Sandbox/Planets_Image_Map.html
-    Image_Resize : Sandbox/Image_Resize.html
-    Shape_Tooltips : Sandbox/Shape_Tooltips.html
-    Star_Spiner : Sandbox/Star_Spiner.html
-    Drag_and_Drop_Multiple_Shapes : Sandbox/Drag_and_Drop_Multiple_Shapes.html
-    Image_Border_Highlighting : Sandbox/Image_Border_Highlighting.html
+    Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
+    Wheel of Fortune : sandbox/Wheel of Fortune.html
+    Quantum_Squiggle : sandbox/Quantum_Squiggle.html
+    20000_Nodes : sandbox/20000_Nodes.html
+    Elastic_Stars : sandbox/Elastic_Stars.html
+    Shape_Tango : sandbox/Shape_Tango.html
+    Multi-touch_Scale_Shape : sandbox/Multi-touch_Scale_Shape.html
+    Multi-touch_Scale_Stage : sandbox/Multi-touch_Scale_Stage.html
+    Interactive_Building_Map : sandbox/Interactive_Building_Map.html
+    Modify_Curves_with_Anchor_Points : sandbox/Modify_Curves_with_Anchor_Points.html
+    Drag_and_Drop_Stress_Test : sandbox/Drag_and_Drop_Stress_Test.html
+    Animals_on_the_Beach_Game : sandbox/Animals_on_the_Beach_Game.html
+    Animation_Stress_Test : sandbox/Animation_Stress_Test.html
+    10000_Shapes_with_Tooltips : sandbox/10000_Shapes_with_Tooltips.html
+    Modify_Shape_Color_on_Click : sandbox/Modify_Shape_Color_on_Click.html
+    Physics_Simulator : sandbox/Physics_Simulator.html
+    Expand_Images_on_Hover : sandbox/Expand_Images_on_Hover.html
+    Planets_Image_Map : sandbox/Planets_Image_Map.html
+    Image_Resize : sandbox/Image_Resize.html
+    Shape_Tooltips : sandbox/Shape_Tooltips.html
+    Star_Spiner : sandbox/Star_Spiner.html
+    Drag_and_Drop_Multiple_Shapes : sandbox/Drag_and_Drop_Multiple_Shapes.html
+    Image_Border_Highlighting : sandbox/Image_Border_Highlighting.html
 
 google_analytics: UA-54202824-2
 fb_admins:
