@@ -12,4 +12,6 @@ canvas element per layer.
 This tutorial has two layers, one layer that's animated, and another static layer
 that contains text.  Since there's no reason to continually redraw the text, it's placed in its own layer.
 
-<a class="jsbin-embed" href="http://jsbin.com/weqaki/1/embed?js,output">Konva Layer Management Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/performance/LayerManagement.html %}
+
+{% include_code Konva Shape Caching Demo performance/LayerManagement.html %}
