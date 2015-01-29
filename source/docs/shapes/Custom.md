@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Custom S Tutorial
+title: Custom Shape Tutorial
+---
 
 To create a custom shape with Konva, we can instantiate a `Konva.Shape()` object.
 

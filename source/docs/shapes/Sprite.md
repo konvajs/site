@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Sprite Tutorial
+title: Sprite Tutorial
+---
 
 To create an sprite with `Konva`, we can instantiate a `Konva.Sprite()` object.
 

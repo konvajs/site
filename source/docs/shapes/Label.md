@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Label Tutorial
+title: Label Tutorial
+---
 
 To create an SVG path with Konva, we can instantiate a `Konva.Path()` object.
 

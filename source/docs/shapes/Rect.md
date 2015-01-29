@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Rect Tutorial
+title: Rect Tutorial
+---
 
 To create  a rectangle with `Konva`, we can instantiate a `Konva.Rect()` object.
 

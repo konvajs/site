@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Line Tutorial
+title: Line Tutorial
+---
 
 To create a line with `Konva`, we can instantiate a `Konva.Line()` object.
 
