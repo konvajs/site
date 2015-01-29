@@ -14,4 +14,4 @@ that contains text.  Since there's no reason to continually redraw the text, it'
 
 {% iframe /downloads/code/performance/LayerManagement.html %}
 
-{% include_code Konva Shape Caching Demo performance/LayerManagement.html %}
+{% include_code Konva Layer Management Demo performance/LayerManagement.html %}
