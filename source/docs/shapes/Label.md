@@ -7,4 +7,6 @@ Paths are most commonly used when we want to export an SVG Path into an HTML5 Ca
 
 For a full list of attributes and methods, check out the [Konva.Path documentation](http://konva.github.io/api/Konva.Path.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/xewana/1/embed?js,output">Konva Path Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Label.html %}
+
+{% include_code Konva Label Demo shapes/Label.html %}

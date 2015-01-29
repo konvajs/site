@@ -7,4 +7,4 @@ For a full list of attributes and methods, check out the [Konva.Circle documenta
 
 {% iframe /downloads/code/shapes/Circle.html %}
 
-{% include_code Konva Rect Demo shapes/Circle.html %}
+{% include_code Konva Circle Demo shapes/Circle.html %}
