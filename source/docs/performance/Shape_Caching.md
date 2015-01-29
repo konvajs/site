@@ -1,19 +1,19 @@
 
-#HTML5 Canvas Konva Batch Draw
+#HTML5 Canvas Shape Caching with Konva
 
-In some situations, we may want to update a Konva shape as fast as possible,
-but without causing too many redraws.  For example, if we want to update an
-element on the stage via mousemove, we don't want to redraw the layer with the
-`draw()` method, because the mousemove event could be fired hundreds of times per
-second, which would result in a forced frame rate of over a hundred frames per second.
-Often times this can cause jumpy animations because browsers simply can't handle excessive redraws.
+One way to drastically improve drawing performance for complex Konva shapes is to cache them as images.
+This can be achieved by using the `cache()` method to convert a node into an image object.
 
-For situations like this, it's much better to use the `batchDraw()` method
-which automatically hooks redraws into the Konva animation engine.
-No matter how many times you call `batchDraw()`, Konva will automatically
-limit the number of redraws per second based on the maximum number of frames
-per second that the browser can handle at any given point in time.
+This particular tutorial of drawing 10 cached stars rather than drawing 10 individual
+stars sees about a 4x drawing performance boost.  Caching can be applied to any node,
+including the stage, layers, groups, and shapes.
 
-Instructions: Move your mouse over the stage to spin the rectangle
+Note: The `cache()` method requires that the image is hosted on a web server with the same domain as the code executing it.
 
-<a class="jsbin-embed" href="http://jsbin.com/somaqa/1/embed?js,output">Konva Batch Draw Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+In same cases `cache()` function can not automatically detect size of node.
+So you should be carefull for groups and shapes with shadows and strokes.
+If you see unexpected result pass bound properties to `cache()` function with `x`, `y`, `width` and `height` properties.
+
+{% iframe /downloads/code/performance/ShapeCaching.html %}
+
+{% include_code Konva Shape Caching Demo performance/ShapeCaching.html %}
