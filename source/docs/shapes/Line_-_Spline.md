@@ -5,4 +5,6 @@ To create a spline with `Konva`, we can instantiate a `Konva.Line()` object with
 
 For a full list of attributes and methods, check out the [Konva.Line documentation](http://konva.github.io/api/Konva.Line.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/xuqabi/1/embed?js,output">Konva Spline Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Line_-_Spline.html %}
+
+{% include_code Konva Line Demo shapes/Line_-_Spline.html %}
