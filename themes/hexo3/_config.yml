@@ -89,9 +89,9 @@ doc_sidebar:
     Simple_Load : Data_&_Serialization/Simple_Load.html
     Complex_Load : Data_&_Serialization/Complex_Load.html
   Performance:
-    Layer Management : Performance/Layer_Management.html
-    Batch Draw : Performance/Batch_Draw.html
-    Shape Caching : Performance/Shape_Caching.html
+    Layer Management : performance/Layer_Management.html
+    Batch Draw : performance/Batch_Draw.html
+    Shape Caching : performance/Shape_Caching.html
   Sandbox:
     Zoom Layer On hover : Sandbox/Zoom_Layer_On_hover.html
     Wheel of Fortune : Sandbox/Wheel of Fortune.html
