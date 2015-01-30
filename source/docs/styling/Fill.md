@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Set Fill with Konva
+title: Set Fill Tutorial
+---
 
 To fill a shape with Konva, we can set the fill property when we instantiate a shape, or we can use the `fill()` method.
 

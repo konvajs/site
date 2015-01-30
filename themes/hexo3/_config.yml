@@ -84,10 +84,10 @@ doc_sidebar:
     Select by Type : selectors/Select_by_Type.html
     Select by Name : selectors/Select_by_Name.html
   Data & Serialization:
-    Select_by_id : data_&_Serialization/Select_by_id.html
-    Serialize_a_Stage : data_&_Serialization/Serialize_a_Stage.html
-    Simple_Load : data_&_Serialization/Simple_Load.html
-    Complex_Load : data_&_Serialization/Complex_Load.html
+    Select_by_id : data_&_serialization/Select_by_id.html
+    Serialize_a_Stage : data_&_serialization/Serialize_a_Stage.html
+    Simple_Load : data_&_serialization/Simple_Load.html
+    Complex_Load : data_&_serialization/Complex_Load.html
   Performance:
     Layer Management : performance/Layer_Management.html
     Batch Draw : performance/Batch_Draw.html

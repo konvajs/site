@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Hide and Show Shape with Konva
+title: Hide and Show Shape Tutorial
+---
 
 To hide and show a shape with Konva, we can set the visible property when we instantiate a shape, or we can use the `hide()` and `show()` methods.
 
