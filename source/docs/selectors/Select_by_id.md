@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Select Shape by Id with Konva
+title: Select Shape by id Tutorial
+---
 
 To select a shape by id with Konva, we can use the `find()` method using the # selector.
 The `find()` method always returns an array of elements, even if we are expecting it to return one element.
@@ -8,4 +8,6 @@ The `find()` method works for any node, including the stage, layers, groups, and
 
 Instructions: press the "Activate Rectangle" button to select the rectangle by id and perform a transition.  You can also drag and drop the rectangle.
 
-<a class="jsbin-embed" href="http://jsbin.com/garuki/1/embed?js,output">Konva Select Shape by Id Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/selectors/Select_by_id.html %}
+
+{% include_code Konva Select Shape by id Demo selectors/Select_by_id.html %}
