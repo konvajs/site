@@ -8,4 +8,6 @@ Instructions: Click on the circle to see an alert triggered from the onclick
 event binding.  Remove the event listener by clicking on the button and again
 click on the circle to observe that the event binding has been removed.
 
-<a class="jsbin-embed" href="http://jsbin.com/zezele/2/embed?js,output">Konva Remove Event Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Remove_Event.html %}
+
+{% include_code Konva Remove_Event Demo shapes/Remove_Event.html %}

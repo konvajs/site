@@ -9,4 +9,6 @@ Instructions: Click on the circle to see two alerts triggered from two different
 onclick event bindings.  Remove the event listeners using the buttons to
 the left, and again click on the circle to observe the new onclick bindings.
 
-<a class="jsbin-embed" href="http://jsbin.com/qivaf/1/embed?js,output">Konva Remove Event Listener by Name Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Remove_By_Name.html %}
+
+{% include_code Konva Remove_By_Name Demo shapes/Remove_By_Name.html %}

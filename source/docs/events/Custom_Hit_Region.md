@@ -12,4 +12,6 @@ in order to improve rendering performance.
 Instructions: Mouseover, mouseout, mousedown, and mouseup over the star and
 observe that the hit region is an over sized circle encompassing the shape.
 
-<a class="jsbin-embed" href="http://jsbin.com/ruyica/1/embed?js,output">Konva Custom Hit Function  Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Custom_Hit_Region.html %}
+
+{% include_code Konva Custom_Hit_Region Demo shapes/Custom_Hit_Region.html %}

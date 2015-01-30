@@ -8,4 +8,6 @@ Instructions: Click on the circle to observe that only the circle event binding
 is handled because the event propagation was canceled when the circle event was triggered,
 therefore preventing the event object from bubbling upwards.
 
-<a class="jsbin-embed" href="http://jsbin.com/xazasa/1/embed?js,output">Konva Cancel Event Bubble Propagation  Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Cancel_Propagation.html %}
+
+{% include_code Konva Cancel_Propagation Demo shapes/Cancel_Propagation.html %}
