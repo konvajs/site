@@ -9,4 +9,6 @@ Konva supports `touchstart`, `touchmove`, `touchend`, `tap`, `dbltap`, `dragstar
 
 Instructions: move your finger across the triangle to see touch coordinates and touch start and touch end the circle.
 
-<a class="jsbin-embed" href="http://jsbin.com/memivo/1/embed?js,output">Konva Mobile Touch Events Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Mobile_Events.html %}
+
+{% include_code Konva Mobile_Events Demo shapes/Mobile_Events.html %}

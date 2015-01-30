@@ -9,4 +9,6 @@ We can use the renderer to access the HTML5 Canvas context, and to use special m
 
 For a full list of attributes and methods, check out the [Konva.Shape documentation](http://konva.github.io/api/Konva.Shape.html)
 
-<a class="jsbin-embed" href="http://jsbin.com/retafi/1/embed?js,output">Konva Custom Shape Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Custom.html %}
+
+{% include_code Konva Custom Demo shapes/Custom.html %}

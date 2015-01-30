@@ -8,4 +8,6 @@ Konva supports `mouseover`, `mouseout`, `mouseenter`, `mouseleave`, `mousemove`,
 
 Instructions: Mouseover and mouseout of the triangle, and mouseover, mouseout, mousedown, and mouseup over the circle.
 
-<a class="jsbin-embed" href="http://jsbin.com/yaxiwi/1/embed?js,output">Konva Shape Events Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/shapes/Binding_Events.html %}
+
+{% include_code Konva Binding_Events Demo shapes/Binding_Events.html %}
