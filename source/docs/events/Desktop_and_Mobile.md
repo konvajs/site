@@ -8,6 +8,6 @@ We can also use the "dblclick dbltap" event pair to bind a double click event th
 
 Instructions: Mousedown, mouseup, touchstart, or touchend the circle on either a desktop or mobile device to observe the same functionality.
 
-{% iframe /downloads/code/shapes/Desktop_and_Mobile.html %}
+{% iframe /downloads/code/events/Desktop_and_Mobile.html %}
 
-{% include_code Konva Desktop_and_Mobile Demo shapes/Desktop_and_Mobile.html %}
+{% include_code Konva Desktop_and_Mobile Demo events/Desktop_and_Mobile.html %}
