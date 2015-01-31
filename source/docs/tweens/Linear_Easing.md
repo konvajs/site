@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Tweening Tutorial
+title: Tweening Tutorial
+---
 
 To tween properties with Konva, we can instantiate a `Konva.Tween` object
 and then start the tween by calling `play()`.  Any numeric property of a `Shape`,
@@ -8,4 +8,6 @@ and then start the tween by calling `play()`.  Any numeric property of a `Shape`
 
 For a full list of attributes and methods, check out the [Konva.Tween documentation](http://konva.github.io/api/Konva.Tween.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/rixufe/1/embed?js,output">Konva Tweening Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/tweens/Linear_Easing.html %}
+
+{% include_code Konva Tweening Demo tweens/Linear_Easing.html %}

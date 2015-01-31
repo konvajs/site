@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Simple Easings with Konva
+title: Simple Easings Tutorial
+---
 
 To create a non linear easing tween with Konva, we can set the `easing`
 property to an easing function.  Other than `Konva.Easings.Linear`,
@@ -10,4 +10,6 @@ For all available easings go to [Easings Documentation](http://konva.github.io/a
 
 Instructions: Mouseover or touchstart the boxes to tween them with different easing functions
 
-<a class="jsbin-embed" href="http://jsbin.com/warope/1/embed?js,output">Konva Simple Easings Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/tweens/Common_Easing.html %}
+
+{% include_code Konva Simple Easings Demo tweens/Common_Easing.html %}

@@ -1,8 +1,10 @@
+title: GreenSock Tween Plugin Tutorial
+---
 
-#HTML5 Canvas GreenSock Tween with Konva
-
-Also you can use [GreenSock Konva Plugin](http://greensock.com/docs#/HTML5/Plugins/KonvaPlugin/) for tweens.
+Also you can use [GreenSock Konva Plugin](https://github.com/konvajs/greensock-plugin) for tweens.
 
 GreenSock tweens are more powerfull than Konva's tween.
 
-<a class="jsbin-embed" href="http://jsbin.com/josisi/1/embed?js,output">Konva  GreenSock Tween Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/tweens/GreenSock_Plugin.html %}
+
+{% include_code Konva GreenSock Tween Plugin Demo tweens/GreenSock_Plugin.html %}
