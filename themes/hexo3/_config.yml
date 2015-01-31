@@ -57,8 +57,8 @@ doc_sidebar:
   Groups and Layers:
     Groups : groups_and_Layers/Groups.html
     Layering : groups_and_Layers/Layering.html
-    Change_Containers : groups_and_Layers/Change_Containers.html
-    Clipping_Regions : groups_and_Layers/Clipping_Regions.html
+    Change Containers : groups_and_Layers/Change_Containers.html
+    Clipping Regions : groups_and_Layers/Clipping_Regions.html
   Filters:
     Invert : filters/Invert.html
     Grayscale : filters/Grayscale.html
@@ -74,20 +74,20 @@ doc_sidebar:
     Tween Filter : tweens/Tween_Filter.html
     GreenSock Plugin : tweens/GreenSock_Plugin.html
   Animations:
-    Create_an_Animation : animations/Create_an_Animation.html
+    Create an Animation : animations/Create_an_Animation.html
     Moving : animations/Moving.html
     Rotation  : animations/Rotation .html
     Scaling : animations/Scaling.html
-    Stop_Animation : animations/Stop_Animation.html
+    Stop Animation : animations/Stop_Animation.html
   Selectors:
     Select by id : selectors/Select_by_id.html
     Select by Type : selectors/Select_by_Type.html
     Select by Name : selectors/Select_by_Name.html
   Data & Serialization:
-    Select_by_id : data_&_serialization/Select_by_id.html
-    Serialize_a_Stage : data_&_serialization/Serialize_a_Stage.html
-    Simple_Load : data_&_serialization/Simple_Load.html
-    Complex_Load : data_&_serialization/Complex_Load.html
+    Select by id : data_&_serialization/Select_by_id.html
+    Serialize a Stage : data_&_serialization/Serialize_a_Stage.html
+    Simple Load : data_&_serialization/Simple_Load.html
+    Complex Load : data_&_serialization/Complex_Load.html
   Performance:
     Layer Management : performance/Layer_Management.html
     Batch Draw : performance/Batch_Draw.html
@@ -95,27 +95,27 @@ doc_sidebar:
   Sandbox:
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
     Wheel of Fortune : sandbox/Wheel of Fortune.html
-    Quantum_Squiggle : sandbox/Quantum_Squiggle.html
-    20000_Nodes : sandbox/20000_Nodes.html
-    Elastic_Stars : sandbox/Elastic_Stars.html
-    Shape_Tango : sandbox/Shape_Tango.html
-    Multi-touch_Scale_Shape : sandbox/Multi-touch_Scale_Shape.html
-    Multi-touch_Scale_Stage : sandbox/Multi-touch_Scale_Stage.html
-    Interactive_Building_Map : sandbox/Interactive_Building_Map.html
-    Modify_Curves_with_Anchor_Points : sandbox/Modify_Curves_with_Anchor_Points.html
-    Drag_and_Drop_Stress_Test : sandbox/Drag_and_Drop_Stress_Test.html
-    Animals_on_the_Beach_Game : sandbox/Animals_on_the_Beach_Game.html
-    Animation_Stress_Test : sandbox/Animation_Stress_Test.html
-    10000_Shapes_with_Tooltips : sandbox/10000_Shapes_with_Tooltips.html
-    Modify_Shape_Color_on_Click : sandbox/Modify_Shape_Color_on_Click.html
-    Physics_Simulator : sandbox/Physics_Simulator.html
-    Expand_Images_on_Hover : sandbox/Expand_Images_on_Hover.html
-    Planets_Image_Map : sandbox/Planets_Image_Map.html
-    Image_Resize : sandbox/Image_Resize.html
-    Shape_Tooltips : sandbox/Shape_Tooltips.html
-    Star_Spiner : sandbox/Star_Spiner.html
-    Drag_and_Drop_Multiple_Shapes : sandbox/Drag_and_Drop_Multiple_Shapes.html
-    Image_Border_Highlighting : sandbox/Image_Border_Highlighting.html
+    Quantum Squiggle : sandbox/Quantum_Squiggle.html
+    20000 Nodes : sandbox/20000_Nodes.html
+    Elastic Stars : sandbox/Elastic_Stars.html
+    Shape Tango : sandbox/Shape_Tango.html
+    Multi-touch Scale Shape : sandbox/Multi-touch_Scale_Shape.html
+    Multi-touch Scale Stage : sandbox/Multi-touch_Scale_Stage.html
+    Interactive Building Map : sandbox/Interactive_Building_Map.html
+    Modify Curves with Anchor Points : sandbox/Modify_Curves_with_Anchor_Points.html
+    Drag and Drop Stress Test : sandbox/Drag_and_Drop_Stress_Test.html
+    Animals on the Beach Game : sandbox/Animals_on_the_Beach_Game.html
+    Animation Stress_Test : sandbox/Animation_Stress_Test.html
+    10000 Shapes with Tooltips : sandbox/10000_Shapes_with_Tooltips.html
+    Modify Shape Color on Click : sandbox/Modify_Shape_Color_on_Click.html
+    Physics Simulator : sandbox/Physics_Simulator.html
+    Expand Images on Hover : sandbox/Expand_Images_on_Hover.html
+    Planets Image Map : sandbox/Planets_Image_Map.html
+    Image Resize : sandbox/Image_Resize.html
+    Shape Tooltips : sandbox/Shape_Tooltips.html
+    Star Spiner : sandbox/Star_Spiner.html
+    Drag and Drop Multiple Shapes : sandbox/Drag_and_Drop_Multiple_Shapes.html
+    Image Border Highlighting : sandbox/Image_Border_Highlighting.html
 
 google_analytics: UA-54202824-2
 fb_admins:

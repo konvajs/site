@@ -1,5 +1,6 @@
+title: Drag, Drop, and Resize Images
+---
 
-#HTML5 Canvas Drag, Drop, and Resize Images with Konva
+{% iframe /downloads/code/sandbox/Image_Resize.html %}
 
-
-<a class="jsbin-embed" href="http://jsbin.com/wimuja/1/embed?js,output">Konva Drag, Drop, and Resize Images Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% include_code Konva Drag, Drop, and Resize Images Demo sandbox/Image_Resize.html %}

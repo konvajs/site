@@ -1,5 +1,7 @@
+title: Drag and Drop Multiple Images with Border Highlighting
+---
 
-#HTML5 Canvas Canvas Drag and Drop Multiple Images with Border Highlighting with Konva
+{% iframe /downloads/code/sandbox/Image_Border_Highlighting.html %}
 
+{% include_code Konva Image Border Highlighting Demo sandbox/Image_Border_Highlighting.html %}
 
-<a class="jsbin-embed" href="http://jsbin.com/kizagi/1/embed?js,output">Konva Canvas Drag and Drop Multiple Images with Border Highlighting Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>

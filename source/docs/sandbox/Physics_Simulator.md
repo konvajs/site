@@ -1,6 +1,8 @@
-
-#HTML5 Canvas Physics Simulator with Curve Detection with Konva
+title: Physics Simulator with Curve Detection
+---
 
 Instructions: Throw the ball around with your cursor.
 
-<a class="jsbin-embed" href="http://jsbin.com/sikifo/1/embed?js,output">Konva Physics Simulator Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/sandbox/Physics_Simulator.html %}
+
+{% include_code Konva Physics Simulator with Curve Detection sandbox/Physics_Simulator.html %}

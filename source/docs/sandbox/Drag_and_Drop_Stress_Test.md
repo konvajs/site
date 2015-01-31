@@ -1,4 +1,6 @@
+title: Drag and Drop Stress Test with 10,000 Shapes
+---
 
-#HTML5 Canvas Drag and Drop Stress Test with 10,000 Shapes with Konva
+{% iframe /downloads/code/sandbox/Drag_And_Drop_Stress_Test.html %}
 
-<a class="jsbin-embed" href="http://jsbin.com/hifaci/1/embed?js,output">Konva Drag and Drop Stress Test  Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% include_code Konva Drag and Drop Stress Test with 10,000 Shapes Demo sandbox/Drag_And_Drop_Stress_Test.html %}

@@ -1,6 +1,8 @@
-
-#HTML5 Canvas Modify Shape Color on Click with Konva
+title: Modify Shape Color on Click
+---
 
 Instructions: Click on a shape to change its color
 
-<a class="jsbin-embed" href="http://jsbin.com/wovehe/1/embed?js,output">Konva Modify Shape Color on Click Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/sandbox/Modify_Shape_Color_on_Click.html %}
+
+{% include_code Konva Modify Shape Color on Click sandbox/Modify_Shape_Color_on_Click.html %}

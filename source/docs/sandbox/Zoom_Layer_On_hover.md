@@ -1,6 +1,8 @@
-
-#HTML5 Canvas Zoom Image on Hover with Konva
+title: Zoom Image on Hover
+---
 
 Instructions: Hover over an Image.
 
-<a class="jsbin-embed" href="http://jsbin.com/tageku/4/embed?js,output">Konva zoom layer on hover</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/sandbox/Zoom_Layer_On_Hover.html %}
+
+{% include_code Konva Zoom Image on Hover Demo sandbox/Zoom_Layer_On_Hover.html %}
