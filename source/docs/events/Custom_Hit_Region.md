@@ -12,6 +12,6 @@ in order to improve rendering performance.
 Instructions: Mouseover, mouseout, mousedown, and mouseup over the star and
 observe that the hit region is an over sized circle encompassing the shape.
 
-{% iframe /downloads/code/shapes/Custom_Hit_Region.html %}
+{% iframe /downloads/code/events/Custom_Hit_Region.html %}
 
-{% include_code Konva Custom_Hit_Region Demo shapes/Custom_Hit_Region.html %}
+{% include_code Konva Custom_Hit_Region Demo events/Custom_Hit_Region.html %}
