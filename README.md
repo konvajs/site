@@ -25,13 +25,13 @@ $ npm install
 Generate:
 
 ``` bash
-$ gulp
+$ gulp generate
 ```
 
 Run server:
 
 ``` bash
-$ hexo server
+$ gulp server
 ```
 
 ## Requirements

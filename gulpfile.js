@@ -1,7 +1,8 @@
 var gulp = require('gulp'),
   clean = require('gulp-clean'),
   shell = require('gulp-shell'),
-  jsdoc = require("gulp-jsdoc");
+  jsdoc = require("gulp-jsdoc"),
+  webserver = require('gulp-webserver');
 
 // steps
 // 1. clean /public folder
@@ -56,12 +57,17 @@ gulp.task('docs', ['generate-hexo'], function() {
     }))
 });
 
+gulp.task('server', function() {
+    gulp.src('public')
+        .pipe(webserver({}));
+});
 
-
-gulp.task('default', [
+gulp.task('generate', [
   'clean-public',
   'generate-hexo',
   'clean-public-downloads',
   'copy-source-download',
   'docs'
   ]);
+
+gulp.task('default', ['generate', 'server']);
