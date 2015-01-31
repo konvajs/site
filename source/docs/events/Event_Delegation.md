@@ -9,6 +9,6 @@ that occur on its children.
 Instructions: Click on the star and observe that the layer event binding
 correctly identifies the shape that was clicked on.
 
-{% iframe /downloads/code/shapes/Event_Delegation.html %}
+{% iframe /downloads/code/events/Event_Delegation.html %}
 
-{% include_code Konva Event_Delegation Demo shapes/Event_Delegation.html %}
+{% include_code Konva Event_Delegation Demo events/Event_Delegation.html %}
