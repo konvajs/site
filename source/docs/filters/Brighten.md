@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Brighten Image Tutorial
+title: Brighten Image Tutorial
+---
 
 To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
 function. Then apply filter with `filter()` function.
@@ -13,4 +13,6 @@ Instructions: Slide the control to adjust the brightness
 
 For all available filters go to [Filters Documentation](http://konva.github.io/api/Konva.Filters.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/qanur/1/embed?js,output">Konva Brighten Image Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/filters/Brighten.html %}
+
+{% include_code Konva Brighten Image Demo filters/Brighten.html %}
