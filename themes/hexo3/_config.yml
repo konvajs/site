@@ -55,10 +55,10 @@ doc_sidebar:
     Complex Drag and Drop : drag_and_Drop/Complex_Drag_and_Drop.html
     Drop Events : drag_and_Drop/Drop_Events.html
   Groups and Layers:
-    Groups : groups_and_Layers/Groups.html
-    Layering : groups_and_Layers/Layering.html
-    Change Containers : groups_and_Layers/Change_Containers.html
-    Clipping Regions : groups_and_Layers/Clipping_Regions.html
+    Groups : groups_and_layers/Groups.html
+    Layering : groups_and_layers/Layering.html
+    Change Containers : groups_and_layers/Change_Containers.html
+    Clipping Regions : groups_and_layers/Clipping_Regions.html
   Filters:
     Invert : filters/Invert.html
     Grayscale : filters/Grayscale.html

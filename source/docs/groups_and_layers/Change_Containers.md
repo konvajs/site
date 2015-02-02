@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Move Shape to Another Container with Konva
+title:  Move Shape to Another Container
+---
 
 To move a shape from one container into another with Konva, we can use the
 `moveTo()` method which requires a container as a parameter.
@@ -10,4 +10,6 @@ Instructions: Drag and drop the groups and observe that the red rectangle is
 bound to either the yellow group or the blue group.
 Use the buttons on the left to move the box from one group into another.
 
-<a class="jsbin-embed" href="http://jsbin.com/pisamo/1/embed?js,output">Konva Move Shape to Another Container  Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/groups_and_layers/Change_Containers.html %}
+
+{% include_code Konva Move Shape to Another Container Demo groups_and_layers/Change_Containers.html %}
