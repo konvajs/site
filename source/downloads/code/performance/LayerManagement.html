@@ -17,10 +17,13 @@
   <div id="container"></div>
   
   <script>
-      var stage = new Konva.Stage({
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
+    var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 250
+      width: width,
+      height: height
     });
     var animLayer = new Konva.Layer();
     var staticLayer = new Konva.Layer();

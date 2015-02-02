@@ -8,6 +8,6 @@ For all available easings go to [Easings Documentation](http://konvajs.github.io
 
 Instructions: Press "Play" to transition all of the text nodes.
 
-{% iframe /downloads/code/tweens/All_Easings.html %}
+{% iframe /downloads/code/tweens/All_Easings.html 500 700 %}
 
 {% include_code More Easing Functions Demo tweens/All_Easings.html %}
