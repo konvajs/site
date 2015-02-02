@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Stage Data URL with Konva
+title: Stage Data URL
+---
 
 To get the data URL of the stage with Konva, we can use the `toDataURL()`
 method which requires a callback function for `Stage` (for other nodes callback is not required).
@@ -12,4 +12,6 @@ If this condition is not met, a SECURITY_ERR exception is thrown.*
 
 Instructions: Drag and drop the rectangle and then click on the save button to get the composite data url and open the resulting image in a new window
 
-<a class="jsbin-embed" href="http://jsbin.com/yoqida/1/embed?js,output">Konva Stage Data URL Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/data_&_serialization/Stage_Data_URL.html %}
+
+{% include_code Konva Stage Data URL Demo data_&_serialization/Stage_Data_URL.html %}

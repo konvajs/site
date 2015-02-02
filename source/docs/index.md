@@ -15,6 +15,8 @@ You can draw things onto the stage, add event listeners to them, move them,
 scale them, and rotate them independently from other shapes to support high performance
 animations, even if your application uses thousands of shapes.
 
+This project began as a GitHub fork of [KineticJS](https://github.com/ericdrowell/KineticJS).
+
 ## Install Konva
 
 If you are using package managares:
