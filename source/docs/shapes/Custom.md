@@ -7,7 +7,7 @@ When creating a custom shape, we need to define a drawing function that is passe
 
 We can use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(this)` which automatically handles filling, stroking, and applying shadows.
 
-For a full list of attributes and methods, check out the [Konva.Shape documentation](http://konva.github.io/api/Konva.Shape.html)
+For a full list of attributes and methods, check out the [Konva.Shape documentation](http://konvajs.github.io/api/Konva.Shape.html)
 
 {% iframe /downloads/code/shapes/Custom.html %}
 

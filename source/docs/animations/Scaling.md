@@ -9,7 +9,7 @@ of a yellow hexagon, and the x component of a red hexagon about an axis position
 
 Instructions: drag and drop the hexagons as they animate
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](http://konva.github.io/api/Konva.Animation.html).
+For a full list of attributes and methods, check out the [Konva.Animation documentation](http://konvajs.github.io/api/Konva.Animation.html).
 
 {% iframe /downloads/code/animations/Scaling.html %}
 

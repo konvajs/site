@@ -9,7 +9,7 @@ filter and set the `kaleidoscopePower` and `kaleidoscopeAngle` properties.
 
 Instructions: Slide the control to adjust the kaleidoscope angle.
 
-For all available filters go to [Filters Documentation](http://konva.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](http://konvajs.github.io/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/Kaleidoscope.html %}
 

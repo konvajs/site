@@ -6,7 +6,7 @@ and then start the tween by calling `play()`.  Any numeric property of a `Shape`
 `Group`, `Layer`, or `Stage` can be transitioned, such as `x`, `y`, `rotation`,
 `width`, `height`, `radius`, `strokeWidth`, `opacity`, `scaleX`, `offsetX`, etc.
 
-For a full list of attributes and methods, check out the [Konva.Tween documentation](http://konva.github.io/api/Konva.Tween.html).
+For a full list of attributes and methods, check out the [Konva.Tween documentation](http://konvajs.github.io/api/Konva.Tween.html).
 
 {% iframe /downloads/code/tweens/Linear_Easing.html %}
 

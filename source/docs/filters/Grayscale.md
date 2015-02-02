@@ -6,7 +6,7 @@ To apply filter to an `Konva.Image`, we have to cache it first with `cache()` fu
 To invert the colors of an image with Konva, we can use the
 `Konva.Filters.Grayscale` filter.
 
-For all available filters go to [Filters Documentation](http://konva.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](http://konvajs.github.io/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/Grayscale.html %}
 
