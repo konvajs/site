@@ -94,7 +94,7 @@ doc_sidebar:
     Shape Caching : performance/Shape_Caching.html
   Sandbox:
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
-    Wheel of Fortune : sandbox/Wheel of Fortune.html
+    Wheel of Fortune : sandbox/Wheel_of_Fortune.html
     Quantum Squiggle : sandbox/Quantum_Squiggle.html
     20000 Nodes : sandbox/20000_Nodes.html
     Elastic Stars : sandbox/Elastic_Stars.html
@@ -105,7 +105,7 @@ doc_sidebar:
     Modify Curves with Anchor Points : sandbox/Modify_Curves_with_Anchor_Points.html
     Drag and Drop Stress Test : sandbox/Drag_and_Drop_Stress_Test.html
     Animals on the Beach Game : sandbox/Animals_on_the_Beach_Game.html
-    Animation Stress_Test : sandbox/Animation_Stress_Test.html
+    Animation Stress Test : sandbox/Animation_Stress_Test.html
     10000 Shapes with Tooltips : sandbox/10000_Shapes_with_Tooltips.html
     Modify Shape Color on Click : sandbox/Modify_Shape_Color_on_Click.html
     Physics Simulator : sandbox/Physics_Simulator.html
