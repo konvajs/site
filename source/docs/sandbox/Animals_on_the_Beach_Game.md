@@ -1,4 +1,6 @@
+title: Animals on the Beach Game
+---
 
-#HTML5 Canvas Animals on the Beach Game with Konva
+{% iframe /downloads/code/sandbox/Animals_on_the_Beach_Game.html %}
 
-<a class="jsbin-embed" href="http://jsbin.com/lunotix/1/embed?js,output">Konva Animals on the Beach Game Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% include_code Konva Animals on the Beach Game Demo sandbox/Animals_on_the_Beach_Game.html %}

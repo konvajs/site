@@ -1,6 +1,8 @@
-
-#HTML5 Canvas Drag and Drop Multiple Shapes with Konva
+title: Drag and Drop Multiple Shapes
+---
 
 Instructions: Drag and drop the shapes or remove them by double clicking or double tapping.
 
-<a class="jsbin-embed" href="http://jsbin.com/jocela/1/embed?js,output">Konva Drag and Drop Multiple Shapes Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/sandbox/Drag_And_Drop_Multiple_Shapes.html %}
+
+{% include_code Konva Drag and Drop Multiple Shapes Demo sandbox/Drag_And_Drop_Multiple_Shapes.html %}

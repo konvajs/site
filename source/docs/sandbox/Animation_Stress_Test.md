@@ -1,4 +1,6 @@
+title: Animation Stress Test
+---
 
-#HTML5 Canvas Animation Stress Test with Konva
+{% iframe /downloads/code/sandbox/Animation_Stress_Test.html %}
 
-<a class="jsbin-embed" href="http://jsbin.com/yonuce/1/embed?js,output">Konva Animation Stress Test</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% include_code Konva Animation Stress Test Demo sandbox/Animation_Stress_Test.html %}
