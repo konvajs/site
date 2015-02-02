@@ -45,15 +45,15 @@ doc_sidebar:
     Event Delegation : events/Event_Delegation.html
     Fire Events : events/Fire_Events.html
   Drag and Drop:
-    Drag and Drop : drag_and_Drop/Drag_and_Drop.html
-    Drag an Image : drag_and_Drop/Drag_an_Image.html
-    Drag a Group : drag_and_Drop/Drag_a_Group.html
-    Drag a Line : drag_and_Drop/Drag_a_Line.html
-    Drag a Stage : drag_and_Drop/Drag_a_Stage.html
-    Drag Events : drag_and_Drop/Drag_Events.html
-    Simple Drag Bounds : drag_and_Drop/Simple_Drag_Bounds.html
-    Complex Drag and Drop : drag_and_Drop/Complex_Drag_and_Drop.html
-    Drop Events : drag_and_Drop/Drop_Events.html
+    Drag and Drop : drag_and_drop/Drag_and_Drop.html
+    Drag an Image : drag_and_drop/Drag_an_Image.html
+    Drag a Group : drag_and_drop/Drag_a_Group.html
+    Drag a Line : drag_and_drop/Drag_a_Line.html
+    Drag a Stage : drag_and_drop/Drag_a_Stage.html
+    Drag Events : drag_and_drop/Drag_Events.html
+    Simple Drag Bounds : drag_and_drop/Simple_Drag_Bounds.html
+    Complex Drag and Drop : drag_and_drop/Complex_Drag_and_Drop.html
+    Drop Events : drag_and_drop/Drop_Events.html
   Groups and Layers:
     Groups : groups_and_layers/Groups.html
     Layering : groups_and_layers/Layering.html
