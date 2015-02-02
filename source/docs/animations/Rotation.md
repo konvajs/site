@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Rotation Animation Tutorial
+title: Rotation Animation
+---
 
 To animate a shape's rotation with Konva, we can create a new animation with
 `Konva.Animation`, and define a function which modifies the shape's rotation with each animation frame.
@@ -9,4 +9,6 @@ a yellow rectangle about its center, and a red rectangle about an outside point.
 
 For a full list of attributes and methods, check out the [Konva.Animation documentation](http://konva.github.io/api/Konva.Animation.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/dedubi/1/embed?js,output">Konva Rotation Animation Demo</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/animations/Rotation.html %}
+
+{% include_code Konva Rotation Animation Demo animations/Rotation.html %}

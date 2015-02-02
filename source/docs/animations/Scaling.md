@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Scale Animation Tutorial
+title: Scale Animation
+---
 
 To animate a shape's scale with Konva, we can create a new animation with
 `Konva.Animation`, and define a function which modifies the shape's scale with each animation frame.
@@ -11,4 +11,6 @@ Instructions: drag and drop the hexagons as they animate
 
 For a full list of attributes and methods, check out the [Konva.Animation documentation](http://konva.github.io/api/Konva.Animation.html).
 
-<a class="jsbin-embed" href="http://jsbin.com/nefapo/1/embed?js,output">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
+{% iframe /downloads/code/animations/Scaling.html %}
+
+{% include_code Konva Scale Animation Demo animations/Scaling.html %}
