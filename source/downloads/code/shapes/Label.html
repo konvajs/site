@@ -24,19 +24,77 @@
 
     var layer = new Konva.Layer();
 
-    var path = new Konva.Path({
-      x: 50,
-      y: 40,
-      data: 'M12.582,9.551C3.251,16.237,0.921,29.021,7.08,38.564l-2.36,1.689l4.893,2.262l4.893,2.262l-0.568-5.36l-0.567-5.359l-2.365,1.694c-4.657-7.375-2.83-17.185,4.352-22.33c7.451-5.338,17.817-3.625,23.156,3.824c5.337,7.449,3.625,17.813-3.821,23.152l2.857,3.988c9.617-6.893,11.827-20.277,4.935-29.896C35.591,4.87,22.204,2.658,12.582,9.551z',
-      fill: 'green',
-      scale: {
-        x : 2,
-        y : 2
-      }
+    // tooltip
+    var tooltip = new Konva.Label({
+        x: 170,
+        y: 75,
+        opacity: 0.75
     });
 
-    // add the shape to the layer
-    layer.add(path);
+    tooltip.add(new Konva.Tag({
+        fill: 'black',
+        pointerDirection: 'down',
+        pointerWidth: 10,
+        pointerHeight: 10,
+        lineJoin: 'round',
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffset: 10,
+        shadowOpacity: 0.5
+    }));
+
+    tooltip.add(new Konva.Text({
+        text: 'Tooltip pointing down',
+        fontFamily: 'Calibri',
+        fontSize: 18,
+        padding: 5,
+        fill: 'white'
+    }));
+
+    // label with left pointer
+    var labelLeft = new Konva.Label({
+        x: 20,
+        y: 130,
+        opacity: 0.75
+    });
+
+    labelLeft.add(new Konva.Tag({
+        fill: 'green',
+        pointerDirection: 'left',
+        pointerWidth: 20,
+        pointerHeight: 28,
+        lineJoin: 'round'
+    }));
+
+    labelLeft.add(new Konva.Text({
+        text: 'Label pointing left',
+        fontFamily: 'Calibri',
+        fontSize: 18,
+        padding: 5,
+        fill: 'white'
+    }));
+
+    // simple label
+    var simpleLabel = new Konva.Label({
+        x: 180,
+        y: 150,
+        opacity: 0.75
+    });
+
+    simpleLabel.add(new Konva.Tag({
+        fill: 'yellow'
+    }));
+
+    simpleLabel.add(new Konva.Text({
+        text: 'Simple label',
+        fontFamily: 'Calibri',
+        fontSize: 18,
+        padding: 5,
+        fill: 'black'
+    }));
+
+    // add the labels to layer
+    layer.add(tooltip).add(labelLeft).add(simpleLabel);
 
     // add the layer to the stage
     stage.add(layer);

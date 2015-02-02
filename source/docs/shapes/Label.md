@@ -1,11 +1,9 @@
 title: Label Tutorial
 ---
 
-To create an SVG path with Konva, we can instantiate a `Konva.Path()` object.
+To create a text label with Konva, which can be used for creating text with backgrounds, simple tooltips, or tooltips with pointers, we can instantiate a `Konva.Label()` object.
 
-Paths are most commonly used when we want to export an SVG Path into an HTML5 Canvas path, or if we want to manifest complex drawings as a data string rather than creating a custom shape.
-
-For a full list of attributes and methods, check out the [Konva.Path documentation](http://konvajs.github.io/api/Konva.Path.html).
+For a full list of attributes and methods, check out the [Konva.Label documentation](http://konvajs.github.io/api/Konva.Label.html).
 
 {% iframe /downloads/code/shapes/Label.html %}
 

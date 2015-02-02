@@ -9,4 +9,4 @@ Instructions: Mouseover each pentagon to change its fill.  You can also drag and
 
 {% iframe /downloads/code/styling/Fill.html %}
 
-{% include_code Konva Circle Demo styling/Fill.html %}
+{% include_code Konva Fill Demo styling/Fill.html %}

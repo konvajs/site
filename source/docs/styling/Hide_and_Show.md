@@ -7,4 +7,4 @@ Instructions: Click on the buttons to show and hide the shape.
 
 {% iframe /downloads/code/styling/Hide_and_Show.html %}
 
-{% include_code Konva Circle Demo styling/Hide_and_Show.html %}
+{% include_code Konva Hide and Show Demo styling/Hide_and_Show.html %}

@@ -7,4 +7,4 @@ Instructions: Mouseover the pentagon to change its stroke color and width.
 
 {% iframe /downloads/code/styling/Stroke.html %}
 
-{% include_code Konva Circle Demo styling/Stroke.html %}
+{% include_code Konva Stroke Demo styling/Stroke.html %}

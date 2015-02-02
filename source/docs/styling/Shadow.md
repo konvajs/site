@@ -8,4 +8,4 @@ We can adjust the shadow properties after instantiation by using the `shadowColo
 
 {% iframe /downloads/code/styling/Shadow.html %}
 
-{% include_code Konva Circle Demo styling/Shadow.html %}
+{% include_code Konva Shadows Demo styling/Shadow.html %}

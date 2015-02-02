@@ -7,4 +7,4 @@ For a full list of attributes and methods, check out the [Konva.Line documentati
 
 {% iframe /downloads/code/shapes/Line_-_Polygon.html %}
 
-{% include_code Konva Line Demo shapes/Line_-_Polygon.html %}
+{% include_code Konva Polygon Demo shapes/Line_-_Polygon.html %}

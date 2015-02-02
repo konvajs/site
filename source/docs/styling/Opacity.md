@@ -9,4 +9,4 @@ Instructions: Mouseover the pentagon to change its opacity.
 
 {% iframe /downloads/code/styling/Opacity.html %}
 
-{% include_code Konva Circle Demo styling/Opacity.html %}
+{% include_code Konva Opacity Demo styling/Opacity.html %}

@@ -56,7 +56,6 @@
     layer.draw();
 
     stage.on("dragstart", function(e){
-        console.log(e.target);
         e.target.moveTo(tempLayer);
         text.text('Moving ' + e.target.name());
         layer.draw();
@@ -67,7 +66,6 @@
     stage.on("dragmove", function(evt){
         var pos = stage.getPointerPosition();
         var shape = layer.getIntersection(pos);
-        console.log(previousShape, shape);
         if (previousShape && shape) {
             if (previousShape !== shape) {
                 // leave from old targer

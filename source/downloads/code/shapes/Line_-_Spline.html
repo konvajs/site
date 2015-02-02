@@ -16,10 +16,13 @@
 <body>
   <div id="container"></div>
   <script>
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
     var stage = new Konva.Stage({
       container: 'container',
-      width: 310,
-      height: 300
+      width: width,
+      height: height
     });
 
     var layer = new Konva.Layer();
@@ -65,20 +68,20 @@
     });
 
     /*
-           * since each line has the same point array, we can
-           * adjust the position of each one using the
-           * move() method
-           */
+    * since each line has the same point array, we can
+    * adjust the position of each one using the
+    * move() method
+    */
     redLine.move({
-      x : 0,
+      x : 20,
       y : 5
     });
     greenLine.move({
-      x : 0,
+      x : 20,
       y : 55
     });
     blueLine.move({
-      x : 0,
+      x : 20,
       y : 105
     });
 
