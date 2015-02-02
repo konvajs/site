@@ -19,7 +19,7 @@ This project began as a GitHub fork of [KineticJS](https://github.com/ericdrowel
 
 ## Install Konva
 
-If you are using package managares:
+If you are using package managers:
 ``` bash
 $ npm install konva
 $ # or
@@ -27,5 +27,6 @@ $ bower install konva
 ```
 
 Or download from CDN:
+
 * [Full version konva.js](https://rawgit.com/konvajs/konva/master/konva.js)
 * [Min version konva.min.js](https://rawgit.com/konvajs/konva/master/konva.min.js)
