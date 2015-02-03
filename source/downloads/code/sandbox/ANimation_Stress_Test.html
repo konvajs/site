@@ -37,12 +37,12 @@
     });
 
     /*
-    * setting the drawHit property to false will improve
+    * setting the hitGraphEnabled property to false will improve
     * drawing performance because the rectangles won't have to be
     * drawn onto the hit graph
     */
     var layer = new Konva.Layer({
-        drawHit: false
+        hitGraphEnabled : false
     });
     var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
     var colorIndex = 0;

@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Layer Management with Konva
+title: Layer Management Tip
+---
 
 When creating Konva applications, the most important thing to consider,
 in regards to performance, is layer management.  One of the things that makes

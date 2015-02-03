@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Batch Draw
+title: Batch Draw Tip
+---
 
 In some situations, we may want to update a Konva shape as fast as possible,
 but without causing too many redraws.  For example, if we want to update an

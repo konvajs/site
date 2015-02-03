@@ -49,20 +49,14 @@
       x : - 55,
       y : - 55,
       width: 120,
-      height: 120,
+      height: 120
     });
     
     var clone;
     for(var n = 0; n < 10; n++) {
       clone = star.clone({
         x: Math.random() * stage.getWidth(),
-        y: Math.random() * stage.getHeight(),
-      });
-      clone.cache({
-        x : - 55,
-        y : - 55,
-        width: 120,
-        height: 120,
+        y: Math.random() * stage.getHeight()
       });
       clone.cache({
         x : - 55,

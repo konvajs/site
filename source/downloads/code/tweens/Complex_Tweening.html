@@ -5,8 +5,9 @@
   <script src="https://rawgit.com/konvajs/greensock-plugin/master/KonvaPlugin.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TimelineLite.min.js"></script>
+  <script src="http://www.snorkl.tv/dev/libs/greensock/plugins/ColorPropsPlugin.min.js"></script>
   <meta charset="utf-8">
-  <title>Konva GreenSock Plugin Demo</title>
+  <title>Konva Complex Tweening Demo</title>
   <style>
     body {
       margin: 0;
@@ -44,6 +45,7 @@
 
     var tl = new TimelineLite();
 
+    // plugin example
     tl.to(star, 2, {
         konva: {
             x:300,
@@ -72,6 +74,60 @@
                     rotation: 0
                 }
             });
+
+
+    var linearGradPentagon = new Konva.RegularPolygon({
+        x: 70,
+        y: 70,
+        sides: 5,
+        radius: 70,
+        fillLinearGradientStartPoint: {
+            x: -50,
+            y: -50
+        },
+        fillLinearGradientEndPoint: {
+            x: 50,
+            y: 50
+        },
+        fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
+        stroke: 'black',
+        strokeWidth: 4,
+        draggable: true
+    });
+
+    layer.add(linearGradPentagon);
+    linearGradPentagon.moveToBottom();
+
+
+    //activate ColorPropsPlugin
+    TweenPlugin.activate([ColorPropsPlugin]);
+
+    //object to store color values
+    var tmpColors = {
+        color0: 'white',
+        color1: 'black'
+    };
+
+
+    //tween the color values in myObject
+    TweenLite.to(tmpColors, 5, {
+        colorProps: {
+            color0: 'black',
+            color1: 'red'
+        },
+        yoyo: true,
+        repeat: 5,
+        ease:Linear.easeNone,
+        onUpdate: applyProps
+    });
+
+    //apply new color values to gradient css of target
+    function applyProps() {
+        linearGradPentagon.setAttrs({
+            fillLinearGradientColorStops: [0, tmpColors.color0, 1, tmpColors.color1]
+        });
+        layer.batchDraw();
+    }
   </script>
 
 </body>

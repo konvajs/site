@@ -23,6 +23,7 @@ doc_sidebar:
     Label : shapes/Label.html
     Path : shapes/Path.html
     RegularPolygon : shapes/RegularPolygon.html
+    Arrow : shapes/Arrow.html
     Custom : shapes/Custom.html
   Styling:
     Fill : styling/Fill.html
@@ -65,6 +66,7 @@ doc_sidebar:
     Brighten : filters/Brighten.html
     Kaleidoscope : filters/Kaleidoscope.html
     Blur : filters/Blur.html
+    Multiple Filters : filters/Multiple_Filters.html
   Tweens:
     Linear Easing : tweens/Linear_Easing.html
     Common Easings : tweens/Common_Easings.html
@@ -72,7 +74,7 @@ doc_sidebar:
     Finish Event : tweens/Finish_Event.html
     All Controls : tweens/All_Controls.html
     Tween Filter : tweens/Tween_Filter.html
-    GreenSock Plugin : tweens/GreenSock_Plugin.html
+    Complex Tweening : tweens/Complex_Tweening.html
   Animations:
     Create an Animation : animations/Create_an_Animation.html
     Moving : animations/Moving.html
@@ -92,6 +94,9 @@ doc_sidebar:
     Layer Management : performance/Layer_Management.html
     Batch Draw : performance/Batch_Draw.html
     Shape Caching : performance/Shape_Caching.html
+    Optimize Animation : performance/Optimize_Animation.html
+    Shape Redraw : performance/Shape_Redraw.html
+    All tips : performance/All_Performance_Tips.html
   Sandbox:
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
     Wheel of Fortune : sandbox/Wheel_of_Fortune.html
