@@ -12,4 +12,4 @@ title: All KonvaJS performance tips list
 9. If you have bad performance on retina devices set `Konva.pixelRatio = 1`. Make sure that quality of result is ok for you.
 10. While dragging a node you can move it on separate layer. Then move it back to original layer.
 11. Set `shape.strokeHitEnabled(false)`. In case where stroke is small and not useful for hit detection. For more info read [Shape API doc](http://konvajs.github.io/api/Konva.Shape.html).
-12. If a shape has fill, stroke and opacity you may set `shape.perfectDrawEnabled(false)`. See demo for more information[Disable Perfect Drawing](http://konvajs.github.io/docs/performance/Disable_Perfect_Draw.html).
+12. If a shape has fill, stroke and opacity you may set `shape.perfectDrawEnabled(false)`. See demo for more information [Disable Perfect Drawing](http://konvajs.github.io/docs/performance/Disable_Perfect_Draw.html).

@@ -11,10 +11,24 @@
       overflow: hidden;
       background-color: #F0F0F0;
     }
+    #controls {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        z-index: 99999;
+    }
+    label {
+        color: white;
+        vertical-align: top;
+    }
   </style>
 </head>
 <body>
   <div id="container"></div>
+  <div id="controls">
+      <input type="checkbox" id="checkbox">
+      <label> Show map overlay </label>
+  </div>
   <script>
     var width = window.innerWidth;
     var height = window.innerHeight;
