@@ -8,6 +8,7 @@ doc_sidebar:
     Overview: index.html
     How it works: how_it_works.html
     Support: support.html
+    Tools : tools.html
   Shapes:
     Rect : shapes/Rect.html
     Circle : shapes/Circle.html
@@ -99,6 +100,8 @@ doc_sidebar:
     Optimize Animation : performance/Optimize_Animation.html
     Shape Redraw : performance/Shape_Redraw.html
     Disable Perfect Drawing : performance/Disable_Perfect_Draw.html
+    Listening False : performance/Listening_False.html
+    Avoid Memory Leaks : performance/Avoid_Memory_Leaks.html
     All tips : performance/All_Performance_Tips.html
   Sandbox:
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
