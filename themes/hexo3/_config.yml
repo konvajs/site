@@ -98,6 +98,7 @@ doc_sidebar:
     Batch Draw : performance/Batch_Draw.html
     Shape Caching : performance/Shape_Caching.html
     Optimize Animation : performance/Optimize_Animation.html
+    Optimize Strokes : performance/Optimize_Strokes.html
     Shape Redraw : performance/Shape_Redraw.html
     Disable Perfect Drawing : performance/Disable_Perfect_Draw.html
     Listening False : performance/Listening_False.html

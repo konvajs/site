@@ -12,6 +12,6 @@ If you don't really need shadow for stroke you can set `shape.shadowForStrokeEna
 Remember that shadow will be disable if you are using `Konva.Line` without fill.
 
 
-{% iframe /downloads/code/performance/Listening_False.html %}
+{% iframe /downloads/code/performance/Optimize_Strokes.html %}
 
-{% include_code Konva Disable Listening Shapes Demo performance/Listening_False.html %}
+{% include_code Konva Optimizing Strokes Demo performance/Optimize_Strokes.html %}

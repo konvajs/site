@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.rawgit.com/konvajs/konva/0.8.0/konva.min.js"></script>
+  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.min.js"></script>
   <meta charset="utf-8">
   <title>Konva Shape Caching Demo</title>
   <style>
@@ -45,12 +45,7 @@
     
     layer.add(star);
     stage.add(layer);
-    star.cache({
-      x : - 55,
-      y : - 55,
-      width: 120,
-      height: 120
-    });
+    star.cache();
     
     var clone;
     for(var n = 0; n < 10; n++) {
@@ -58,12 +53,7 @@
         x: Math.random() * stage.getWidth(),
         y: Math.random() * stage.getHeight()
       });
-      clone.cache({
-        x : - 55,
-        y : - 55,
-        width: 120,
-        height: 120,
-      });
+      clone.cache();
       layer.add(clone);
     }
     

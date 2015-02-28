@@ -11,7 +11,7 @@ title: All KonvaJS performance tips list
 8. For mobile application set viewport: `<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">`
 9. If you have bad performance on retina devices set `Konva.pixelRatio = 1`. Make sure that quality of result is ok for you.
 10. While dragging a node you can move it on separate layer. Then move it back to original layer.
-11. Set `shape.strokeHitEnabled(false)`. In case where stroke is small and not useful for hit detection. For more info read [Shape API doc](http://konvajs.github.io/api/Konva.Shape.html).
+11. [Optimize Stroke Drawing](http://konvajs.github.io/docs/performance/Optimize_Strokes.html)
 12. If a shape has fill, stroke and opacity you may set `shape.perfectDrawEnabled(false)`. See demo for more information [Disable Perfect Drawing](http://konvajs.github.io/docs/performance/Disable_Perfect_Draw.html).
 13. Try set `shape.listening(false)` where possible. For more info read [Listening false](http://konvajs.github.io/docs/performance/Listening_False.html).
 14. [Avoid Memory Leaks](http://konvajs.github.io/docs/performance/Avoid_Memory_Leaks.html).
