@@ -5,8 +5,8 @@ menu:
 
 doc_sidebar:
   Getting Started:
-    Overview: index.html
-    How it works: how_it_works.html
+    Intro: index.html
+    Overview: overview.html
     Support: support.html
     Tools : tools.html
   Shapes:
@@ -118,7 +118,7 @@ doc_sidebar:
     Drag and Drop Stress Test : sandbox/Drag_and_Drop_Stress_Test.html
     Animals on the Beach Game : sandbox/Animals_on_the_Beach_Game.html
     Animation Stress Test : sandbox/Animation_Stress_Test.html
-    10000 Shapes with Tooltips : sandbox/10000_Shapes_with_Tooltips.html
+    10000 Shapes with Tooltips : sandbox/10000_Shapes_with_Tooltip.html
     Modify Shape Color on Click : sandbox/Modify_Shape_Color_on_Click.html
     Physics Simulator : sandbox/Physics_Simulator.html
     Expand Images on Hover : sandbox/Expand_Images_on_Hover.html
