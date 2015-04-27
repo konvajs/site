@@ -16,16 +16,14 @@ pre, code
   font-family: font-mono
   color: highlight-foreground
   background: #eee
-  font-size: 13px
+  font-size: 0.95em
+
 code
-  border-radius: 2px
-  border: 1px solid color-border
   padding: 0 5px
+
 pre
   padding: 10px 15px
   line-height: 22px
-  border-radius: 4px
-  border: 1px solid color-border
   code
     border: none
     display: block
@@ -33,17 +31,20 @@ pre
 
 .highlight
   background: #eee
-  border: 1px solid color-border
-  border-radius: 4px
   padding: 10px 15px
   color: highlight-foreground
   overflow: auto
   margin: 0
+  table
+    margin: 0 !important
+    border: 0
+    th, td
+      padding: 0
   figcaption
     clearfix()
     margin: -5px 0 5px
     font-size: 0.9em
-    color: color-grey
+    color: color-gray
     a
       float: right
   pre

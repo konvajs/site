@@ -39,7 +39,7 @@ $ gulp server
 - [Hexo](http://hexo.io/)
 
 	``` bash
-  $ npm install hexo -g
+  $ npm install hexo-cli -g
   ```
 
 - [Gulp](http://gulpjs.com/)
