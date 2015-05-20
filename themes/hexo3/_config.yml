@@ -105,6 +105,7 @@ doc_sidebar:
     Avoid Memory Leaks : performance/Avoid_Memory_Leaks.html
     All tips : performance/All_Performance_Tips.html
   Sandbox:
+    Free Drawing : sandbox/Free_Drawing.html
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
     Wheel of Fortune : sandbox/Wheel_of_Fortune.html
     Quantum Squiggle : sandbox/Quantum_Squiggle.html
