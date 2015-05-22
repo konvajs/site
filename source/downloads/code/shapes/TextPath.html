@@ -16,11 +16,14 @@
 <body>
   <div id="container"></div>
   <script>
-    var stage = new Konva.Stage({
-      container: 'container',
-      width: 450,
-      height: 300
-    });
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  var stage = new Konva.Stage({
+    container: 'container',
+    width: width,
+    height: height
+  });
 
     var layer = new Konva.Layer();
 

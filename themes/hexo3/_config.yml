@@ -23,6 +23,8 @@ doc_sidebar:
     Text : shapes/Text.html
     TextPath : shapes/TextPath.html
     Star : shapes/Star.html
+    Ring : shapes/Ring.html
+    Arc : shapes/Arc.html
     Label : shapes/Label.html
     Path : shapes/Path.html
     RegularPolygon : shapes/RegularPolygon.html
