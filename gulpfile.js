@@ -17,7 +17,7 @@ gulp.task('clean-public', function(){
 });
 
 // 2
-gulp.task('generate-hexo', ['clean-public'], shell.task(['hexo generate']));
+gulp.task('generate-hexo', ['clean-public'], shell.task(['node ./node_modules/hexo/bin/hexo generate'], {cwd: './'}));
 
 
 // 3
