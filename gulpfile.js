@@ -67,7 +67,7 @@ gulp.task('generate', [
   'generate-hexo',
   'clean-public-downloads',
   'copy-source-download',
-  // 'docs'
+  'docs'
   ]);
 
 gulp.task('default', ['generate', 'server']);
