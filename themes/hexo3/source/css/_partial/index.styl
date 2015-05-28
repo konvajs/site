@@ -7,6 +7,7 @@ intro-quick-start-column = 2
 
 .center
   text-align center
+
 #banner
   @extend $banner-background
   padding-top: 20px
@@ -126,19 +127,23 @@ $banner-getting-started-font
   font-size: 30px
   padding-bottom: 5px
   line-height: 1em
+  text-align: center
   @media mq-normal
     margin: 40px
 
-.feature
+.features li
   margin: 5px 0
   position: relative
   font-weight: 200
   font-family: font-title
-  font-size: 15px
+  font-size: 20px
   padding-bottom: 2px
   line-height: 1em
   @media mq-normal
     margin: 4px
+
+.features
+  list-style: initial
 
 #intro-btn-wrap
   text-align: center

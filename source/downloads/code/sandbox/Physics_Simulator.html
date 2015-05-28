@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.min.js"></script>
+  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.5/konva.min.js"></script>
   <meta charset="utf-8">
   <title>Konva Physics Simulator Demo</title>
   <style>
@@ -287,7 +287,7 @@
         x: 190,
         y: 20,
         radius: radius,
-        fillBlue: 255,
+        fill: 'blue',
         draggable: true,
         opacity: 0.8
     });
@@ -324,9 +324,7 @@
 
     var tween = new Konva.Tween({
         node: ball,
-        fillRed: 255,
-        fillGreen: 0,
-        fillBlue: 0,
+        fill: 'red',
         duration: 0.3,
         easing: Konva.Easings.EaseOut
     });

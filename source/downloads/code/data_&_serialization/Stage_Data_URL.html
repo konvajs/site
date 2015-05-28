@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.min.js"></script>
+    <script src="https://cdn.rawgit.com/konvajs/konva/0.9.5/konva.min.js"></script>
     <meta charset="utf-8">
     <title>Konva Stage Data URL Demo</title>
     <style>
@@ -68,20 +68,8 @@
     stage.add(layer);
 
     document.getElementById('save').addEventListener('click', function() {
-        /*
-        * since the stage toDataURL() method is asynchronous, we need
-        * to provide a callback
-        */
-        stage.toDataURL({
-            callback: function(dataUrl) {
-                /*
-                 * here you can do anything you like with the data url.
-                 * In this tutorial we'll just open the url with the browser
-                 * so that you can see the result as an image
-                 */
-                window.open(dataUrl);
-            }
-        });
+        var dataURL = stage.toDataURL();
+        window.open(dataURL);
     }, false);
 </script>
 

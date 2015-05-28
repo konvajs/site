@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.min.js"></script>
+  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.5/konva.min.js"></script>
   <meta charset="utf-8">
   <title>Konva Custom Hit Function Demo</title>
   <style>
@@ -47,7 +47,7 @@
       fill: 'red',
       stroke: 'black',
       strokeWidth: 4,
-      drawHitFunc: function(context) {
+      hitFunc: function(context) {
         context.beginPath();
         context.arc(0, 0, this.getOuterRadius() + 10, 0, Math.PI * 2, true);
         context.closePath();

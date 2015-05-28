@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.min.js"></script>
+  <script src="https://cdn.rawgit.com/konvajs/konva/0.9.5/konva.min.js"></script>
   <meta charset="utf-8">
   <title>Konva Shape Tango Demo</title>
   <style>
@@ -34,7 +34,7 @@
 
     function tango(layer) {
         for(var n = 0; n < layer.getChildren().length; n++) {
-            var color = Konva.Util.getRGB(getRandomColor());
+            var color = getRandomColor();
             var shape = layer.getChildren()[n];
             var stage = shape.getStage();
             var radius = Math.random() * 100 + 20;
@@ -48,9 +48,7 @@
                 radius: radius,
                 opacity: (radius - 20) / 100,
                 easing: Konva.Easings.EaseInOut,
-                fillRed: color.r,
-                fillGreen: color.g,
-                fillBlue: color.b
+                fill: color
             }).play();
         }
     }
@@ -64,15 +62,13 @@
 
     for(var n = 0; n < 10; n++) {
         var radius = Math.random() * 100 + 20;
-        var color = Konva.Util.getRGB(getRandomColor());
+        var color = getRandomColor();
         var shape = new Konva.RegularPolygon({
             x: Math.random() * stage.getWidth(),
             y: Math.random() * stage.getHeight(),
             sides: Math.ceil(Math.random() * 5 + 3),
             radius: radius,
-            fillRed: color.r,
-            fillGreen: color.g,
-            fillBlue: color.b,
+            fill: color,
             opacity: (radius - 20) / 100,
             draggable: true
         });
