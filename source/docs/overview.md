@@ -90,7 +90,7 @@ Konva.js supports  shapes: [Rect](http://konvajs.github.io/docs/shapes/Rect.html
 
 ```
 var triangle = new Konva.Shape({
-      drawFunc: function(context) {
+      sceneFunc: function(context) {
         context.beginPath();
         context.moveTo(20, 50);
         context.lineTo(220, 80);
