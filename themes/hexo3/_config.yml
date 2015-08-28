@@ -1,6 +1,7 @@
 menu:
-  Docs: /docs/
-  API: /api/Konva.html
+  Tutorials: /docs/
+  Demos: /docs/sandbox
+  API docs: /api/Konva.html
   Support: /docs/support.html
 
 doc_sidebar:
@@ -107,7 +108,7 @@ doc_sidebar:
     Listening False : performance/Listening_False.html
     Avoid Memory Leaks : performance/Avoid_Memory_Leaks.html
     All tips : performance/All_Performance_Tips.html
-  Sandbox:
+  Demos:
     Free Drawing : sandbox/Free_Drawing.html
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
     Wheel of Fortune : sandbox/Wheel_of_Fortune.html

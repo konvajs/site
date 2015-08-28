@@ -42,7 +42,7 @@
         });
 
         box.on("dragstart", function() {
-            box.moveToTop();
+            this.moveToTop();
             layer.draw();
         });
 
@@ -54,7 +54,7 @@
            * and dbltap to remove box for mobile app
            */
         box.on("dblclick dbltap", function() {
-            box.destroy();
+            this.destroy();
             layer.draw();
         });
 
