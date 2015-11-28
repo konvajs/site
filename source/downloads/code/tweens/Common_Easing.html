@@ -74,6 +74,7 @@
     layer.add(redBox);
     stage.add(layer);
 
+    // the tween has to be created after the node has been added to the layer
     greenBox.tween = new Konva.Tween({
         node: greenBox,
         scaleX: 2,

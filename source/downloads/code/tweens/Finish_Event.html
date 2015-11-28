@@ -57,6 +57,7 @@
     layer.add(text);
     stage.add(layer);
 
+    // the tween has to be created after the node has been added to the layer
     var tween = new Konva.Tween({
         node: wheel,
         duration: 4,
