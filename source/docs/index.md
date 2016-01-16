@@ -29,4 +29,4 @@ $ bower install konva
 Or download from CDN:
 
 * [Full version konva.js](https://cdn.rawgit.com/konvajs/konva/0.9.0/konva.js)
-* [Min version konva.min.js](https://cdn.rawgit.com/konvajs/konva/0.10.0/konva.min.js)
+* [Min version konva.min.js](https://cdn.rawgit.com/konvajs/konva/0.11.0/konva.min.js)
