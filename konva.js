@@ -1,9 +1,9 @@
 
 /*
- * Konva JavaScript Framework v0.11.1
+ * Konva JavaScript Framework v0.12.2
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Sat Jan 16 2016
+ * Date: Thu Mar 31 2016
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2015 by Anton Lavrenov (Konva)
@@ -29,7 +29,7 @@
  */
 
 // runtime check for already included Konva
-(function(){
+(function(global){
     'use strict';
     /**
      * @namespace Konva
@@ -39,7 +39,7 @@
 
     var Konva = {
         // public
-        version: '0.11.1',
+        version: '0.12.2',
 
         // private
         stages: [],
@@ -200,29 +200,29 @@
         UA: undefined
     };
 
-    var global =
+    var glob =
         typeof window !== 'undefined' ? window :
         typeof global !== 'undefined' ? global :
         typeof WorkerGlobalScope !== 'undefined' ? self : {};
 
 
-    Konva.UA = Konva._parseUA((global.navigator && global.navigator.userAgent) || '');
+    Konva.UA = Konva._parseUA((glob.navigator && glob.navigator.userAgent) || '');
 
-    if (global.Konva) {
+    if (glob.Konva) {
         console.error(
             'Konva instance is already exist in current eviroment. ' +
             'Please use only one instance.'
         );
     }
-    global.Konva = Konva;
-    Konva.global = global;
+    glob.Konva = Konva;
+    Konva.global = glob;
 
 
     if( typeof exports === 'object') {
         // runtime-check for browserify and nw.js (node-webkit)
-        if(global.window && global.window.document) {
-            Konva.document = global.window.document;
-            Konva.window = global.window;
+        if(glob.window && glob.window.document) {
+            Konva.document = glob.window.document;
+            Konva.window = glob.window;
         } else {
             // Node. Does not work with strict CommonJS, but
             // only CommonJS-like enviroments that support module.exports,
@@ -246,7 +246,7 @@
     }
     Konva.document = document;
     Konva.window = window;
-})();
+})(typeof window !== 'undefined' ? window : global);
 
 /*eslint-disable  eqeqeq, no-cond-assign, no-empty*/
 (function() {
@@ -1847,10 +1847,6 @@
                         args = _simplifyArray(Array.prototype.slice.call(arguments, 0));
                         ret = origMethod.apply(that, arguments);
 
-                        if (methodName === 'clearRect') {
-                            args[2] = args[2] / that.canvas.getPixelRatio();
-                            args[3] = args[3] / that.canvas.getPixelRatio();
-                        }
                         that._trace({
                             method: methodName,
                             args: args
@@ -2530,10 +2526,10 @@
                 maxY = Math.max(maxY, transformed.y);
             });
             return {
-                x: Math.round(minX),
-                y: Math.round(minY),
-                width: Math.round(maxX - minX),
-                height: Math.round(maxY - minY)
+                x: minX,
+                y: minY,
+                width: maxX - minX,
+                height: maxY - minY
             };
         },
         _drawCachedSceneCanvas: function(context) {
@@ -2601,9 +2597,9 @@
         },
         /**
          * bind events to the node. KonvaJS supports mouseover, mousemove,
-         *  mouseout, mouseenter, mouseleave, mousedown, mouseup, mousewheel, click, dblclick, touchstart, touchmove,
+         *  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, click, dblclick, touchstart, touchmove,
          *  touchend, tap, dbltap, dragstart, dragmove, and dragend events. The Konva Stage supports
-         *  contentMouseover, contentMousemove, contentMouseout, contentMousedown, contentMouseup,
+         *  contentMouseover, contentMousemove, contentMouseout, contentMousedown, contentMouseup, contentWheel
          *  contentClick, contentDblclick, contentTouchstart, contentTouchmove, contentTouchend, contentTap,
          *  and contentDblTap.  Pass in a string of events delimmited by a space to bind multiple events at once
          *  such as 'mousedown mouseup mousemove'. Include a namespace to bind an
@@ -4022,7 +4018,7 @@
             var events = this.eventListeners[eventType],
                 i;
 
-            evt = Konva.Util.cloneObject(evt || {});
+            evt = evt || {};
             evt.currentTarget = this;
             evt.type = eventType;
 
@@ -7406,15 +7402,16 @@
                 drawFunc.call(this, bufferContext);
                 bufferContext.restore();
 
+                var ratio = bufferCanvas.pixelRatio;
                 if (hasShadow && !canvas.hitCanvas) {
                         context.save();
                         context._applyShadow(this);
                         context._applyOpacity(this);
-                        context.drawImage(bufferCanvas._canvas, 0, 0);
+                        context.drawImage(bufferCanvas._canvas, 0, 0, bufferCanvas.width / ratio, bufferCanvas.height / ratio);
                         context.restore();
                 } else {
                     context._applyOpacity(this);
-                    context.drawImage(bufferCanvas._canvas, 0, 0);
+                    context.drawImage(bufferCanvas._canvas, 0, 0, bufferCanvas.width / ratio, bufferCanvas.height / ratio);
                 }
             }
             // if buffer canvas is not needed
@@ -8578,6 +8575,7 @@
         CONTENT_DBL_TAP = 'contentDbltap',
         CONTENT_TAP = 'contentTap',
         CONTENT_TOUCHMOVE = 'contentTouchmove',
+        CONTENT_WHEEL = 'contentWheel',
 
         DIV = 'div',
         RELATIVE = 'relative',
@@ -8603,7 +8601,7 @@
      * @memberof Konva
      * @augments Konva.Container
      * @param {Object} config
-     * @param {String|Element} config.container Container id or DOM element
+     * @param {String|Element} config.container Container selector or DOM element
      * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -8628,7 +8626,7 @@
      * var stage = new Konva.Stage({
          *   width: 500,
          *   height: 800,
-         *   container: 'containerId'
+         *   container: 'containerId' // or "#containerId" or ".containerClass"
          * });
      */
     Konva.Stage = function(config) {
@@ -8657,10 +8655,20 @@
          * @memberof Konva.Stage.prototype
          * @param {DomElement} container can pass in a dom element or id string
          */
-        setContainer: function(container) {
-            if( typeof container === STRING) {
-                var id = container;
-                container = Konva.document.getElementById(container);
+        setContainer: function (container) {
+            if (typeof container === STRING) {
+                if (container.charAt(0) === '.') {
+                    var className = container.slice(1);
+                    container = Konva.document.getElementsByClassName(className)[0];
+                } else {
+                    var id;
+                    if (container.charAt(0) !== '#') {
+                        id = container;
+                    } else {
+                        id = container.slice(1);
+                    }
+                    container = Konva.document.getElementById(id);
+                }
                 if (!container) {
                     throw 'Can not find container in document with id ' + id;
                 }
@@ -9195,8 +9203,9 @@
             var shape = this.getIntersection(this.getPointerPosition());
 
             if (shape && shape.isListening()) {
-                shape._fireAndBubble(MOUSEWHEEL, {evt: evt});
+                shape._fireAndBubble(WHEEL, {evt: evt});
             }
+            this._fire(CONTENT_WHEEL, {evt: evt});
         },
         _wheel: function(evt) {
             this._mousewheel(evt);
@@ -9260,10 +9269,8 @@
             // the buffer canvas pixel ratio must be 1 because it is used as an
             // intermediate canvas before copying the result onto a scene canvas.
             // not setting it to 1 will result in an over compensation
-            this.bufferCanvas = new Konva.SceneCanvas({
-                pixelRatio: 1
-            });
-            this.bufferHitCanvas = new Konva.HitCanvas();
+            this.bufferCanvas = new Konva.SceneCanvas();
+            this.bufferHitCanvas = new Konva.HitCanvas({pixelRatio: 1});
 
             this._resizeDOM();
         },
@@ -10145,8 +10152,8 @@
                 len = animations.length,
                 n;
 
-            for(n = 0; n < len; n++) {
-                if(animations[n].id === this.id) {
+            for (n = 0; n < len; n++) {
+                if (animations[n].id === this.id) {
                     return true;
                 }
             }
@@ -14157,8 +14164,8 @@
             });
             var minX = points[0];
             var maxX = points[0];
-            var minY = points[0];
-            var maxY = points[0];
+            var minY = points[1];
+            var maxY = points[1];
             var x, y;
             for (var i = 0; i < points.length / 2; i++) {
                 x = points[i * 2]; y = points[i * 2 + 1];
@@ -16170,4 +16177,3 @@
     Konva.Collection.mapMethods(Konva.Arrow);
 
 })();
-
