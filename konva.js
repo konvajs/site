@@ -1,9 +1,9 @@
 
 /*
- * Konva JavaScript Framework v0.12.4
+ * Konva JavaScript Framework v0.13.0
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Tue Apr 19 2016
+ * Date: Sat May 14 2016
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2015 by Anton Lavrenov (Konva)
@@ -39,7 +39,7 @@
 
     var Konva = {
         // public
-        version: '0.12.4',
+        version: '0.13.0',
 
         // private
         stages: [],
@@ -173,6 +173,29 @@
         getAngle: function(angle) {
             return this.angleDeg ? angle * PI_OVER_180 : angle;
         },
+        _detectIE: function(ua) {
+            var msie = ua.indexOf('msie ');
+            if (msie > 0) {
+                // IE 10 or older => return version number
+                return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+            }
+
+            var trident = ua.indexOf('trident/');
+            if (trident > 0) {
+                // IE 11 => return version number
+                var rv = ua.indexOf('rv:');
+                return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+            }
+
+            var edge = ua.indexOf('edge/');
+            if (edge > 0) {
+                // Edge (IE 12+) => return version number
+                return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+            }
+
+            // other browser
+            return false;
+        },
         _parseUA: function(userAgent) {
             var ua = userAgent.toLowerCase(),
                 // jQuery UA regex
@@ -190,7 +213,7 @@
             return {
                 browser: match[ 1 ] || '',
                 version: match[ 2 ] || '0',
-
+                isIE: Konva._detectIE(ua),
                 // adding mobile flab
                 mobile: mobile,
                 ieMobile: ieMobile  // If this is true (i.e., WP8), then Konva touch events are executed instead of equivalent Konva mouse events
@@ -207,6 +230,7 @@
 
 
     Konva.UA = Konva._parseUA((glob.navigator && glob.navigator.userAgent) || '');
+
 
     if (glob.Konva) {
         console.error(
@@ -230,8 +254,8 @@
             var Canvas = require('canvas');
             var jsdom = require('jsdom').jsdom;
 
-            Konva.document = jsdom('<!DOCTYPE html><html><head></head><body></body></html>');
-            Konva.window = Konva.document.parentWindow;
+            Konva.window = jsdom('<!DOCTYPE html><html><head></head><body></body></html>').defaultView;
+            Konva.document = Konva.window.document;
             Konva.window.Image = Canvas.Image;
             Konva._nodeCanvas = Canvas;
         }
@@ -4045,7 +4069,7 @@
                 this._fire(eventType, evt);
 
                 // simulate event bubbling
-                var stopBubble = (eventType === MOUSEENTER || eventType === MOUSELEAVE) && ((compareShape && compareShape.isAncestorOf && compareShape.isAncestorOf(this)) || !!(compareShape && compareShape.isAncestorOf));
+                var stopBubble = (eventType === MOUSEENTER || eventType === MOUSELEAVE) && ((compareShape && compareShape.isAncestorOf && compareShape.isAncestorOf(this)));
                 if((evt && !evt.cancelBubble || !evt) && this.parent && this.parent.isListening() && (!stopBubble)) {
                     if(compareShape && compareShape.parent) {
                         this._fireAndBubble.call(this.parent, eventType, evt, compareShape.parent);
@@ -6618,9 +6642,6 @@
                 // reset parent to prevent many _setChildrenIndices calls
                 delete child.parent;
                 child.index = 0;
-                if (child.hasChildren()) {
-                    child.removeChildren();
-                }
                 child.remove();
             }
             children = null;
@@ -10307,8 +10328,8 @@
     Konva.Animation._animationLoop = function() {
         var Anim = Konva.Animation;
         if(Anim.animations.length) {
-            requestAnimFrame(Anim._animationLoop);
             Anim._runFrames();
+            requestAnimFrame(Anim._animationLoop);
         }
         else {
             Anim.animRunning = false;
@@ -10317,7 +10338,7 @@
     Konva.Animation._handleAnimation = function() {
         if(!this.animRunning) {
             this.animRunning = true;
-            this._animationLoop();
+            requestAnimFrame(this._animationLoop);
         }
     };
 
@@ -10535,9 +10556,15 @@
         this.node = node;
         this._id = idCounter++;
 
+        var layers = node.getLayer() || ((node instanceof Konva.Stage) ? node.getLayers() : null);
+        if (!layers) {
+            Konva.Util.error(
+                'Tween constructor have `node` that is not in a layer. Please add node into layer first.'
+            );
+        }
         this.anim = new Konva.Animation(function() {
             that.tween.onEnterFrame();
-        }, node.getLayer() || ((node instanceof Konva.Stage) ? node.getLayers() : null));
+        }, layers);
 
         this.tween = new Tween(key, function(i) {
             that._tweenFunc(i);
@@ -13027,7 +13054,17 @@
             };
         },
         _getContextFont: function() {
-            return this.getFontStyle() + SPACE + this.getFontVariant() + SPACE + this.getFontSize() + PX_SPACE + this.getFontFamily();
+            // IE don't want to work with usual font style
+            // bold was not working
+            // removing font variant will solve
+            // fix for: https://github.com/konvajs/konva/issues/94
+            if (Konva.UA.isIE) {
+                return this.getFontStyle() + SPACE + this.getFontSize() + PX_SPACE + this.getFontFamily();
+            }
+            return this.getFontStyle() + SPACE +
+                    this.getFontVariant() + SPACE +
+                    this.getFontSize() + PX_SPACE +
+                    this.getFontFamily();
         },
         _addTextLine: function (line, width) {
             return this.textArr.push({text: line, width: width});
@@ -14146,8 +14183,7 @@
             this.sceneFunc(this._sceneFunc);
         },
         _sceneFunc: function(context) {
-            var ca = this.dataArray,
-                closedPath = false;
+            var ca = this.dataArray;
 
             // context position
             context.beginPath();
@@ -14185,17 +14221,11 @@
                         break;
                     case 'z':
                         context.closePath();
-                        closedPath = true;
                         break;
                 }
             }
 
-            if (closedPath) {
-                context.fillStrokeShape(this);
-            }
-            else {
-                context.strokeShape(this);
-            }
+            context.fillStrokeShape(this);
         },
         getSelfRect: function() {
             var points = [];
