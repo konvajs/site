@@ -62,11 +62,13 @@ doc_sidebar:
     Simple Drag Bounds : drag_and_drop/Simple_Drag_Bounds.html
     Complex Drag and Drop : drag_and_drop/Complex_Drag_and_Drop.html
     Drop Events : drag_and_drop/Drop_Events.html
+  Clipping:
+    Simple Clip: clipping/Clipping_Regions.html
+    Complex Clip: clipping/Clipping_Function.html
   Groups and Layers:
     Groups : groups_and_layers/Groups.html
     Layering : groups_and_layers/Layering.html
     Change Containers : groups_and_layers/Change_Containers.html
-    Clipping Regions : groups_and_layers/Clipping_Regions.html
   Filters:
     RGBA : filters/RGBA.html
     Invert : filters/Invert.html

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.rawgit.com/konvajs/konva/0.14.0/konva.min.js"></script>
+  <script src="https://cdn.rawgit.com/konvajs/konva/0.15.0/konva.min.js"></script>
   <meta charset="utf-8">
-  <title>Konva Clipping Functions Demo</title>
+  <title>Konva Clipping Function Demo</title>
   <style>
     body {
       margin: 0;
@@ -18,7 +18,7 @@
   <script>
     var width = window.innerWidth;
     var height = window.innerHeight;
-    
+
     var stage = new Konva.Stage({
       container: 'container',
       width: width,
@@ -28,11 +28,9 @@
     var layer = new Konva.Layer();
 
     var group = new Konva.Group({
-        clip: {
-            x : 100,
-            y : 40,
-            width : 200,
-            height : 100
+        clipFunc: function(ctx) {
+          ctx.arc(250, 120, 50, 0, Math.PI * 2, false);
+          ctx.arc(150, 120, 60, 0, Math.PI * 2, false);
         },
         draggable: true
     });

@@ -84,7 +84,7 @@ Result:
 
 ## Basic shapes
 
-Konva.js supports  shapes: [Rect](http://konvajs.github.io/docs/shapes/Rect.html [Circle](http://konvajs.github.io/docs/shapes/Circle.html), [Ellipse](http://konvajs.github.io/docs/shapes/Ellipse.html), [Line](http://konvajs.github.io/docs/shapes/Line.html)
+Konva.js supports  shapes: [Rect](http://konvajs.github.io/docs/shapes/Rect.html), [Circle](http://konvajs.github.io/docs/shapes/Circle.html), [Ellipse](http://konvajs.github.io/docs/shapes/Ellipse.html), [Line](http://konvajs.github.io/docs/shapes/Line.html)
  [Image](http://konvajs.github.io/docs/shapes/Image.html), [Text](http://konvajs.github.io/docs/shapes/Text.html), [TextPath](http://konvajs.github.io/docs/shapes/TextPath.html), [Star](http://konvajs.github.io/docs/shapes/Star.html), [Label](http://konvajs.github.io/docs/shapes/Label.html), [SVG Path](http://konvajs.github.io/docs/shapes/Path.html), [RegularPolygon](http://konvajs.github.io/docs/shapes/RegularPolygon.html).
  Also you can create [custom shape](http://konvajs.github.io/docs/shapes/Custom.html):
 
