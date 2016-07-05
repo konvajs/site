@@ -1,6 +1,6 @@
 
 /*
- * Konva JavaScript Framework v1.0.0
+ * Konva JavaScript Framework v1.0.1
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
  * Date: Tue Jul 05 2016
@@ -39,7 +39,7 @@
 
     var Konva = {
         // public
-        version: '1.0.0',
+        version: '1.0.1',
 
         // private
         stages: [],
@@ -4029,14 +4029,16 @@
         },
         _setAttr: function(key, val) {
             var oldVal;
-            if(val !== undefined) {
-                oldVal = this.attrs[key];
-                if (oldVal === val) {
-                    return;
-                }
-                this.attrs[key] = val;
-                this._fireChangeEvent(key, oldVal, val);
+            oldVal = this.attrs[key];
+            if (oldVal === val) {
+                return;
             }
+            if (val === undefined || val === null) {
+              delete this.attrs[key];
+            } else {
+              this.attrs[key] = val;
+            }
+            this._fireChangeEvent(key, oldVal, val);
         },
         _setComponentAttr: function(key, component, val) {
             var oldVal;
