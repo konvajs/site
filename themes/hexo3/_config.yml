@@ -42,6 +42,7 @@ doc_sidebar:
     Binding Events : events/Binding_Events.html
     Image Events : events/Image_Events.html
     Mobile Events : events/Mobile_Events.html
+    Mobile Scrolling: events/Mobile_Scrolling.html
     Multi Event : events/Multi_Event.html
     Desktop and Mobile : events/Desktop_and_Mobile.html
     Remove Event : events/Remove_Event.html

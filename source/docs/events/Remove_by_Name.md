@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Remove Event Listener by Name with Konva
+title: HTML5 Canvas Remove Event Listener by Name with Konva
+---
 
 To remove an event listener by name with Konva,
 we can namespace the event type with the `on()` method so that we can later

@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Remove Event Listener with Konva
+title: HTML5 Canvas Remove Event Listener with Konva
+---
 
 To remove an event listener with Konva, we can use the `off()` method of
 a shape object which requires an event type such as click or mousedown.

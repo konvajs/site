@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Listen or Don’t Listen to Events with Konva
+title: Canvas Listen or Don’t Listen to Events with Konva
+---
 
 To listen or don't listen to events with Konva, we can set the listening
 property of the config object to true or false when a shape is instantiated,

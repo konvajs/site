@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Desktop and Mobile Events Support Tutorial
+title: Canvas Desktop and Mobile Events Support Tutorial
+---
 
 To add event handlers to shapes that work for both desktop and mobile applications with Konva, we can use the `on()` method and pass in paired events.
 For example, in order for the mousedown event to be triggered on desktop and mobile applications, we can use the "mousedown touchstart" event pair to cover both mediums.

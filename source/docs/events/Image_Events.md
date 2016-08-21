@@ -1,5 +1,7 @@
+title: Canvas Image Events with Konva
+---
 
-#HTML5 Canvas Image Events with Konva
+## HTML5 Canvas Image Events with Konva
 
 To only detect events for non transparent pixels in an image with Konva, we can use the `drawHitFromCache()` method to generate a more precise image hit region.
 By default, events can be triggered for any pixel inside of an image, even if it's transparent.  The `drawHitFromCache()` method also accepts an optional callback method to be executed whenever the image hit region has been created.

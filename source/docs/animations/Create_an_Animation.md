@@ -1,5 +1,6 @@
+title: HTML5 Canvas Konva Animation Tutorial
+---
 
-#HTML5 Canvas Konva Animation Tutorial
 
 To create custom animations with Konva, we can use the `Konva.Animation`
 constructor which takes two arguments, the required update function and

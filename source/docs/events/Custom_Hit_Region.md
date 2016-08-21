@@ -1,5 +1,5 @@
-
-#HTML5 Canvas Konva Custom Hit Function Tutorial
+title: Canvas Konva Custom Hit Function Tutorial
+---
 
 To create a custom hit draw function for a shape with Konva, we can set
 the `drawHitFunc` property.  A hit draw function is the function that Konva
