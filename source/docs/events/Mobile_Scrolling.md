@@ -6,8 +6,6 @@ That will prevent unexpected scrolling of a page when you are trying to drag&dro
 
 But in some cases you may want to keep default behaviour of browser events. In that case you may set `preventDefault` property of a shape to `false`.
 
-Note: `preventDefault` property is available only for `Konva.Shape` instances.
-
 Instructions: if you are on mobile device try to scroll a page by each rectangle.
 Green - should prevent default behaviour (no page scrolling).
 Red - will keep default behaviour (scrolling should work).
