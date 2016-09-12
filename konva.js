@@ -1,9 +1,9 @@
 
 /*
- * Konva JavaScript Framework v1.1.2
+ * Konva JavaScript Framework v1.1.3
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Sat Sep 10 2016
+ * Date: Mon Sep 12 2016
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2015 by Anton Lavrenov (Konva)
@@ -39,7 +39,7 @@
 
     var Konva = {
         // public
-        version: '1.1.2',
+        version: '1.1.3',
 
         // private
         stages: [],
@@ -2645,12 +2645,19 @@
                         // apply filters to filter context
                         for (n = 0; n < len; n++) {
                             filter = filters[n];
+                            if (typeof filter !== 'function') {
+                                Konva.Util.error(
+                                  'Filter should be type of function, but got ' +
+                                  (typeof filter) + ' insted. Please check correct filters'
+                                );
+                                continue;
+                            }
                             filter.call(this, imageData);
                             filterContext.putImageData(imageData, 0, 0);
                         }
                     }
                     catch(e) {
-                        Konva.Util.warn('Unable to apply filter. ' + e.message);
+                        Konva.Util.error('Unable to apply filter. ' + e.message);
                     }
 
                     this._filterUpToDate = true;
@@ -15006,12 +15013,14 @@
             this.dataArray = Konva.Path.parsePathData(this.attrs.data);
             this.on('dataChange.konva', function() {
                 that.dataArray = Konva.Path.parsePathData(this.attrs.data);
+                that._setTextData();
             });
 
             // update text data for certain attr changes
             this.on('textChange.konva textStroke.konva textStrokeWidth.konva', that._setTextData);
             that._setTextData();
             this.sceneFunc(this._sceneFunc);
+            this.hitFunc(this._hitFunc);
         },
         _sceneFunc: function(context) {
             context.setAttr('font', this._getContextFont());
@@ -15044,6 +15053,22 @@
                 // context.stroke();
             }
             context.restore();
+        },
+        _hitFunc: function(context) {
+          context.beginPath();
+
+          var glyphInfo = this.glyphInfo;
+          if (glyphInfo.length >= 1) {
+            var p0 = glyphInfo[0].p0;
+            context.moveTo(p0.x, p0.y);
+          }
+          for(var i = 0; i < glyphInfo.length; i++) {
+              var p1 = glyphInfo[i].p1;
+              context.lineTo(p1.x, p1.y);
+          }
+          context.setAttr('lineWidth', this.getFontSize());
+          context.setAttr('strokeStyle', this.colorKey);
+          context.stroke();
         },
         /**
          * get text width in pixels
@@ -15095,7 +15120,7 @@
 
             this.glyphInfo = [];
 
-            var charArr = this.attrs.text.split('');
+            var charArr = this.getText().split('');
 
             var p0, p1, pathCmd;
 
