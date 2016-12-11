@@ -1,4 +1,4 @@
-title: Wheel of Fortune
+title: Wheel of Fortune HTML5 Canvas Game
 ---
 
 Instructions: Spin the wheel and make a fortune!

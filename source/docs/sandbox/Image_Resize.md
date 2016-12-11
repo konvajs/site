@@ -1,4 +1,4 @@
-title: Drag, Drop, and Resize Images
+title: HTML5 Canvas Drag, Drop, and Resize Images Demo
 ---
 
 {% iframe /downloads/code/sandbox/Image_Resize.html %}
