@@ -6,7 +6,7 @@ To restart the animation, we can again call the `start()`.
 
 Instructions: Click on "Start" to start the animation and "Stop" to stop the animation.
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](http://konvajs.github.io/api/Konva.Animation.html).
+For a full list of attributes and methods, check out the [Konva.Animation documentation](https://konvajs.github.io/api/Konva.Animation.html).
 
 {% iframe /downloads/code/animations/Stop_Animation.html %}
 

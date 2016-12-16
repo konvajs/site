@@ -6,7 +6,7 @@ property to an easing function.  Other than `Konva.Easings.Linear`,
 the other most common easings are `Konva.Easings.EaseIn`,
 `Konva.Easings.EaseInOut`, and `Konva.Easings.EaseOut`.
 
-For all available easings go to [Easings Documentation](http://konvajs.github.io/api/Konva.Easing.html).
+For all available easings go to [Easings Documentation](https://konvajs.github.io/api/Konva.Easing.html).
 
 Instructions: Mouseover or touchstart the boxes to tween them with different easing functions
 

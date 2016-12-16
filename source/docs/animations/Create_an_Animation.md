@@ -16,7 +16,7 @@ The update function should only contain logic that updates Node properties,
 such as `position`, `rotation`, `scale`, `width`, `height`, `radius`, `colors`, etc.
 Once the animation has been created, we can start it at anytime with the `start()` method.
 
-For a full list of attributes and methods, check out the [Konva.Animation documentation](http://konvajs.github.io/api/Konva.Animation.html).
+For a full list of attributes and methods, check out the [Konva.Animation documentation](https://konvajs.github.io/api/Konva.Animation.html).
 
 ##HTML5 Canvas Konva Animation Template
 

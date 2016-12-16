@@ -3,7 +3,7 @@ title: Ellipse Tutorial
 
 To create a ellipse with `Konva`, we can instantiate a `Konva.Ellipse()` object.
 
-For a full list of attributes and methods, check out the [Konva.Ellipse documentation](http://konvajs.github.io/api/Konva.Ellipse.html).
+For a full list of attributes and methods, check out the [Konva.Ellipse documentation](https://konvajs.github.io/api/Konva.Ellipse.html).
 
 {% iframe /downloads/code/shapes/Ellipse.html %}
 

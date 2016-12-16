@@ -52,7 +52,7 @@ gulp.task('docs', ['generate-hexo'], function() {
       "highlightTutorialCode" : true,
       "analytics" : {
         "ua" : "UA-54202824-2",
-        "domain" : "http://konvajs.github.io"
+        "domain" : "https://konvajs.github.io"
       }
     }))
 });

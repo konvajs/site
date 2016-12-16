@@ -80,13 +80,13 @@ layer.add(circle);
 stage.add(layer);
 ```
 Result:
-![Minimal code demo](http://konvajs.github.io/assets/overview-circle.png)
+![Minimal code demo](https://konvajs.github.io/assets/overview-circle.png)
 
 ## Basic shapes
 
-Konva.js supports  shapes: [Rect](http://konvajs.github.io/docs/shapes/Rect.html), [Circle](http://konvajs.github.io/docs/shapes/Circle.html), [Ellipse](http://konvajs.github.io/docs/shapes/Ellipse.html), [Line](http://konvajs.github.io/docs/shapes/Line.html)
- [Image](http://konvajs.github.io/docs/shapes/Image.html), [Text](http://konvajs.github.io/docs/shapes/Text.html), [TextPath](http://konvajs.github.io/docs/shapes/TextPath.html), [Star](http://konvajs.github.io/docs/shapes/Star.html), [Label](http://konvajs.github.io/docs/shapes/Label.html), [SVG Path](http://konvajs.github.io/docs/shapes/Path.html), [RegularPolygon](http://konvajs.github.io/docs/shapes/RegularPolygon.html).
- Also you can create [custom shape](http://konvajs.github.io/docs/shapes/Custom.html):
+Konva.js supports  shapes: [Rect](https://konvajs.github.io/docs/shapes/Rect.html), [Circle](https://konvajs.github.io/docs/shapes/Circle.html), [Ellipse](https://konvajs.github.io/docs/shapes/Ellipse.html), [Line](https://konvajs.github.io/docs/shapes/Line.html)
+ [Image](https://konvajs.github.io/docs/shapes/Image.html), [Text](https://konvajs.github.io/docs/shapes/Text.html), [TextPath](https://konvajs.github.io/docs/shapes/TextPath.html), [Star](https://konvajs.github.io/docs/shapes/Star.html), [Label](https://konvajs.github.io/docs/shapes/Label.html), [SVG Path](https://konvajs.github.io/docs/shapes/Path.html), [RegularPolygon](https://konvajs.github.io/docs/shapes/RegularPolygon.html).
+ Also you can create [custom shape](https://konvajs.github.io/docs/shapes/Custom.html):
 
 ```
 var triangle = new Konva.Shape({
@@ -105,7 +105,7 @@ var triangle = new Konva.Shape({
       strokeWidth: 4
 });
 ```
-![Custom shape](http://konvajs.github.io/assets/overview-custom.png)
+![Custom shape](https://konvajs.github.io/assets/overview-custom.png)
 
 ## Styles
 
@@ -130,7 +130,7 @@ var pentagon = new Konva.RegularPolygon({
     opacity : 0.5
 });
 ```
-![Styles](http://konvajs.github.io/assets/overview-styles.png)
+![Styles](https://konvajs.github.io/assets/overview-styles.png)
 
 ## Events
 
@@ -150,12 +150,12 @@ circle.on('dragend', function() {
     console.log('drag stopped');
 });
 ```
-See [working example](http://konvajs.github.io/docs/events/Binding_Events.html).
+See [working example](https://konvajs.github.io/docs/events/Binding_Events.html).
 
 ## DRAG AND DROP
 
 `Konva` has builtin drag support. For the current moment there is no `drop` events (`drop`, `dragenter`, `dragleave`, `dragover`)
-but it is very easy to implement them [via framework](http://konvajs.github.io/docs/drag_and_drop/Drop_Events.html).
+but it is very easy to implement them [via framework](https://konvajs.github.io/docs/drag_and_drop/Drop_Events.html).
 
 To enable drag&drop just set property draggable = true.
 
@@ -163,20 +163,20 @@ To enable drag&drop just set property draggable = true.
 shape.draggable('true');
 ```
 
-Then you can subscribe to drag&drop events and setup [moving limits](http://konvajs.github.io/docs/drag_and_drop/Complex_Drag_and_Drop.html).
+Then you can subscribe to drag&drop events and setup [moving limits](https://konvajs.github.io/docs/drag_and_drop/Complex_Drag_and_Drop.html).
 
 ## Filters
 
-`Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](http://konvajs.github.io/api/Konva.Filters.html).
+`Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](https://konvajs.github.io/api/Konva.Filters.html).
 
 Example:
-![Filter](http://konvajs.github.io/assets/overview-filter.png)
+![Filter](https://konvajs.github.io/assets/overview-filter.png)
 
 ## Animation
 
 You can create animations in two ways:
 
-1. via `Konva.Animation` [Demo](http://konvajs.github.io/docs/animations/Moving.html):
+1. via `Konva.Animation` [Demo](https://konvajs.github.io/docs/animations/Moving.html):
 ```
 var anim = new Konva.Animation(function(frame) {
     var time = frame.time,
@@ -187,7 +187,7 @@ var anim = new Konva.Animation(function(frame) {
 anim.start();
 ```
 
-2. via `Konva.Tween` [Demo](http://konvajs.github.io/docs/tweens/Linear_Easing.html):
+2. via `Konva.Tween` [Demo](https://konvajs.github.io/docs/tweens/Linear_Easing.html):
 ```
 var tween = new Konva.Tween({
         node: rect,
@@ -252,11 +252,11 @@ var stage = Konva.Node.create(json, 'container');
 ```
 shape.cache();
 ```
-[Demo](http://konvajs.github.io/docs/performance/Shape_Caching.html)
+[Demo](https://konvajs.github.io/docs/performance/Shape_Caching.html)
 
 2. Layering. As framework supports several `<canvas>` elements you can put objects at your discretion.
 For example your application consists from complex background and several moving shapes. You can use one layer for background and another one for shapes.
-While updating shapes you don't need to update background canvas. [Demo](http://konvajs.github.io/docs/performance/Layer_Management.html)
+While updating shapes you don't need to update background canvas. [Demo](https://konvajs.github.io/docs/performance/Layer_Management.html)
 
 You can find all available performance tips here:
-[http://konvajs.github.io/docs/performance/All_Performance_Tips.html](http://konvajs.github.io/docs/performance/All_Performance_Tips.html)
+[https://konvajs.github.io/docs/performance/All_Performance_Tips.html](https://konvajs.github.io/docs/performance/All_Performance_Tips.html)
