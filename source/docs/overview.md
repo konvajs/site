@@ -80,7 +80,7 @@ layer.add(circle);
 stage.add(layer);
 ```
 Result:
-![Minimal code demo](https://konvajs.github.io/assets/overview-circle.png)
+![Minimal code demo](/assets/overview-circle.png)
 
 ## Basic shapes
 
@@ -105,7 +105,7 @@ var triangle = new Konva.Shape({
       strokeWidth: 4
 });
 ```
-![Custom shape](https://konvajs.github.io/assets/overview-custom.png)
+![Custom shape](/assets/overview-custom.png)
 
 ## Styles
 
@@ -130,7 +130,7 @@ var pentagon = new Konva.RegularPolygon({
     opacity : 0.5
 });
 ```
-![Styles](https://konvajs.github.io/assets/overview-styles.png)
+![Styles](/assets/overview-styles.png)
 
 ## Events
 
@@ -170,7 +170,7 @@ Then you can subscribe to drag&drop events and setup [moving limits](https://kon
 `Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](https://konvajs.github.io/api/Konva.Filters.html).
 
 Example:
-![Filter](https://konvajs.github.io/assets/overview-filter.png)
+![Filter](/assets/overview-filter.png)
 
 ## Animation
 
