@@ -1,4 +1,4 @@
-title: Animate Position
+title: HTML5 Canvas Animate Position Tutorial
 ---
 
 To animate a shape's position with Konva, we can create a new animation with `Konva.Animation`

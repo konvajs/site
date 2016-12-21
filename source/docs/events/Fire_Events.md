@@ -1,4 +1,4 @@
-title: Canvas Fire Event with Konva
+title: HTML5 Canvas Fire Event with Konva
 ---
 
 ## HTML5 Canvas Fire Event with Konva

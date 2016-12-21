@@ -1,4 +1,4 @@
-title: HTML5 Mobile Scrolling and Native Events with Konva
+title: HTML5 Canvas Mobile Scrolling and Native Events with Konva
 ---
 
 By default `Konva` will prevent default behaviour off all pointer interactions with a stage.

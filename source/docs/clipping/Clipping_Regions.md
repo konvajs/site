@@ -1,4 +1,4 @@
-title: Simple Clipping
+title: HTML5 Canvas Simple Clipping tutorial
 ---
 
 To draw things inside of clipping regions with Konva, we can set the `clip`

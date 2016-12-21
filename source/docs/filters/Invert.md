@@ -1,4 +1,4 @@
-title: Invert Image Tutorial
+title: HTML5 Canvas Invert Image Filter Tutorial
 ---
 
 To apply filter to an `Konva.Image`, we have to cache it first with `cache()` function. Then apply filter with `filter()` function.

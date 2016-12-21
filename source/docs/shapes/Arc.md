@@ -1,4 +1,4 @@
-title: Arc Tutorial
+title: HTML5 canvas Arc Tutorial
 ---
 
 To create a ring shape with `Konva`, we can instantiate a `Konva.Arc()` object.

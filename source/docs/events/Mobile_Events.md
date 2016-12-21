@@ -1,4 +1,4 @@
-title: Canvas Mobile Touch Events Tutorial
+title: HTML5 Canvas Mobile Touch Events Tutorial
 ---
 
 To bind event handlers to shapes on a mobile device with Konva, we can use the `on()` method.

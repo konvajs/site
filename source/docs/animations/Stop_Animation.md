@@ -1,4 +1,4 @@
-title: Stop Animation
+title: HTML5 Canvas Konva Stop Animation Tutorial
 ---
 
 To stop an animation with Konva, we can use the `stop()` method.

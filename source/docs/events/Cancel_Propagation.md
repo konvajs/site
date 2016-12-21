@@ -1,4 +1,4 @@
-title: Canvas Cancel Event Bubble Propagation with Konva
+title: HTML5 Canvas Cancel Event Bubble Propagation with Konva
 ---
 
 To cancel event bubble propagation with Konva, we can set the `cancelBubble`

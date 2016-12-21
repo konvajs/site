@@ -1,4 +1,4 @@
-title: Select Shape by Name Tutorial
+title: HTML5 Canvas Select Shape by Name Tutorial
 ---
 
 To select shapes by name with Konva, we can use the `find()` method using the `.` selector.

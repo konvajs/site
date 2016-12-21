@@ -1,4 +1,4 @@
-title: All Tween Controls Tutorial
+title: HTML5 Canvas All Tween Controls Tutorial
 ---
 
 To play, pause, reverse, reset, finish, and seek tweens with Konva,

@@ -1,4 +1,4 @@
-title:  Move Shape to Another Container
+title: HTML5 Canvas Move Shape to Another Container Tutorial
 ---
 
 To move a shape from one container into another with Konva, we can use the

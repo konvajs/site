@@ -1,4 +1,4 @@
-title: Shape Layering
+title: HTML5 Canvas Shape Layering
 ---
 
 To layer shapes with Konva, we can use one of the following layering methods:

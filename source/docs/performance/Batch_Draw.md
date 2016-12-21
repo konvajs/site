@@ -1,4 +1,4 @@
-title: Batch Draw Tip
+title: HTML5 Canvas Batch Draw Tip
 ---
 
 In some situations, we may want to update a Konva shape as fast as possible,

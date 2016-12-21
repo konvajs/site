@@ -1,4 +1,4 @@
-title: How to avoid Memory leaks Tip
+title: HTML5 Canvas How to avoid Memory leaks Tip
 ---
 
 ### Deleting shape

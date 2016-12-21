@@ -1,4 +1,4 @@
-title: Stage Data URL
+title: HTML5 Canvas Stage Data URL Tutorial
 ---
 
 To get the data URL of the stage with Konva, we can use the `toDataURL()`

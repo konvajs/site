@@ -1,4 +1,4 @@
-title: Brighten Image Tutorial
+title: HTML5 Canvas Brighten Image Filter Tutorial
 ---
 
 To apply filter to an `Konva.Image`, we have to cache it first with `cache()`

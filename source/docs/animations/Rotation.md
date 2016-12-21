@@ -1,4 +1,4 @@
-title: Rotation Animation
+title: HTML5 Canvas Konva Rotation Animation tutorial
 ---
 
 To animate a shape's rotation with Konva, we can create a new animation with

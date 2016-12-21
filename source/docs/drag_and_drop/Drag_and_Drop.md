@@ -1,4 +1,4 @@
-title: Drag and Drop Tutorial
+title: HTML5 Canvas Drag and Drop Tutorial
 ---
 
 To drag and drop shapes with Konva, we can set the `draggable` property

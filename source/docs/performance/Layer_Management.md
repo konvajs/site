@@ -1,4 +1,4 @@
-title: Layer Management Tip
+title: HTML5 Canvas Layer Management Performance Tip
 ---
 
 When creating Konva applications, the most important thing to consider,

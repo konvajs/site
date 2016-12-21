@@ -1,4 +1,4 @@
-title: Canvas Event Delegation with Konva
+title: HTML5 Canvas Event Delegation with Konva
 ---
 
 To get the event target with Konva, we can access the `target` property

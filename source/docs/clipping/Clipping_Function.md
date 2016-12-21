@@ -1,4 +1,4 @@
-title: Clipping Functions
+title: HTML5 Canvas Clipping Functions Tuturial
 ---
 
 To draw things inside of clipping regions with Konva, we can set the `clip`

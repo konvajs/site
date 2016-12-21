@@ -1,4 +1,4 @@
-title: Ring Tutorial
+title: HTML5 canvas Ring Tutorial
 ---
 
 To create a ring shape with `Konva`, we can instantiate a `Konva.Ring()` object.

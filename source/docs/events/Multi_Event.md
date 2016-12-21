@@ -1,4 +1,4 @@
-title: HTML5 Canvas Multi-Event Binding Tutorial
+title: HTML5 Canvas Canvas Multi-Event Binding Tutorial
 ---
 
 To bind multiple events to a single handler with Konva, we can use the `on()` method and pass in a space delimited string containing multiple event types.

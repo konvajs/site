@@ -1,4 +1,4 @@
-title: Label Tutorial
+title: HTML5 canvas Label Tutorial
 ---
 
 To create a text label with Konva, which can be used for creating text with backgrounds, simple tooltips, or tooltips with pointers, we can instantiate a `Konva.Label()` object.

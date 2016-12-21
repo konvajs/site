@@ -1,4 +1,4 @@
-title: Tween Finish Event Tutorial
+title: HTML5 Canvas Tween Finish Event Tutorial
 ---
 
 To trigger a user defined function when the tween finishes with Konva, we can set the `onFinish` property.

@@ -1,4 +1,4 @@
-title: Disable Perfect Drawing Tip
+title: HTML5 Canvas Disable Perfect Drawing Tip
 ---
 
 In some case drawing on canvas has unexpected result.

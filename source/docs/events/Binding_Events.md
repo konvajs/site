@@ -1,4 +1,4 @@
-title: Canvas Shape Events
+title: HTML5 Canvas Shape Events
 ---
 
 To detect shape events with Konva, we can use the `on()` method to bind event handlers to a node.

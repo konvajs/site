@@ -1,4 +1,4 @@
-title: RGBA filter Image Tutorial
+title: HTML5 Canvas RGBA filter Image Tutorial
 ---
 
 To apply filter to an `Konva.Image`, we have to cache it first with `cache()`

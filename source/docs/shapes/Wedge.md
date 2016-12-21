@@ -1,4 +1,4 @@
-title: Wedge Tutorial
+title: HTML5 canvas Wedge Tutorial
 ---
 
 To create a wedge with `Konva`, we can instantiate a `Konva.Wedge()` object.

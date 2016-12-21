@@ -1,4 +1,4 @@
-title: Simple Drag Bounds
+title: HTML5 Canvas Simple Drag Bounds Tutorial
 ---
 
 To restrict the movement of shapes being dragged and dropped with Konva,

@@ -1,4 +1,4 @@
-title: Canvas Image Events with Konva
+title: HTML5 Canvas Image Events with Konva
 ---
 
 ## HTML5 Canvas Image Events with Konva

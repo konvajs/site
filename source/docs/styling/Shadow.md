@@ -1,4 +1,4 @@
-title: Shadows Tutorial
+title: HTML5 Canvas Shadows Tutorial
 ---
 
 To apply shadows with Konva, we can set the `shadowColor`, `shadowOffset`, `shadowBlur`, and `shadowOpacity` properties when we instantiate a shape.

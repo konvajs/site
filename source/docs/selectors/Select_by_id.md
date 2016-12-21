@@ -1,4 +1,4 @@
-title: Select Shape by id Tutorial
+title: HTML5 Canvas Select Shape by id Tutorial
 ---
 
 To select a shape by id with Konva, we can use the `find()` method using the # selector.

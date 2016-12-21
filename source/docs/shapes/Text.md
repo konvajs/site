@@ -1,4 +1,4 @@
-title: Text Tutorial
+title: HTML5 canvas Text Tutorial
 ---
 
 To create text with `Konva`, we can instantiate a `Konva.Text()` object.

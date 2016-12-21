@@ -1,4 +1,4 @@
-title: TextPath Tutorial
+title: HTML5 canvas TextPath Tutorial
 ---
 
 To create a text path with `Konva`, we can instantiate a `Konva.TextPath()` object.

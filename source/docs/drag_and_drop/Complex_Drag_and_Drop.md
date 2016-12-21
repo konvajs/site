@@ -1,4 +1,4 @@
-title: Complex Drag and Drop Bounds
+title: HTML5 Canvas Complex Drag and Drop Bounds
 ---
 
 To bound the movement of nodes being dragged and dropped inside regions with

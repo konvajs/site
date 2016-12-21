@@ -1,4 +1,4 @@
-title: Canvas Konva Custom Hit Detection Function Tutorial
+title: HTML5 Canvas Custom Hit Detection Function Tutorial
 ---
 
 To create a custom hit draw function for a shape with Konva, we can set

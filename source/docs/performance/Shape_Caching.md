@@ -1,4 +1,4 @@
-title: Shape Caching Tip
+title: HTML5 Canvas Shape Caching Performance Tip
 ---
 
 One way to drastically improve drawing performance for complex Konva shapes is to cache them as images.

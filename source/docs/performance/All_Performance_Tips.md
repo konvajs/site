@@ -1,4 +1,4 @@
-title: All KonvaJS performance tips list
+title: HTML5 Canvas All Konva performance tips list
 ---
 
 1. [`batchDraw` method](https://konvajs.github.io/docs/performance/Batch_Draw.html)

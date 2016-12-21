@@ -1,4 +1,4 @@
-title: Arrow Tutorial
+title: HTML5 canvas Arrow Tutorial
 ---
 
 To create an arrow with `Konva`, we can instantiate a `Konva.Arrow()` object.

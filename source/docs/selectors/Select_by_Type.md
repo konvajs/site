@@ -1,4 +1,4 @@
-title: Select Shape by Type Tutorial
+title: HTML5 Canvas Select Shape by Type Tutorial
 ---
 
 To select shapes by type with Konva, we can use the `find()` method with the name of the type or class name.

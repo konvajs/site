@@ -1,4 +1,4 @@
-title: Image Tutorial
+title: HTML5 canvas Image Tutorial
 ---
 
 To create an image with `Konva`, we can instantiate a `Konva.Image()` object.

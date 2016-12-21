@@ -1,4 +1,4 @@
-title: Ellipse Tutorial
+title: HTML5 canvas Ellipse Tutorial
 ---
 
 To create a ellipse with `Konva`, we can instantiate a `Konva.Ellipse()` object.

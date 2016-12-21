@@ -1,4 +1,4 @@
-title: Scale Animation
+title: HTML5 Canvas Konva Scale Animation Tutorial
 ---
 
 To animate a shape's scale with Konva, we can create a new animation with

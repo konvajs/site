@@ -1,4 +1,4 @@
-title: Line Join Tutorial
+title: HTML5 Canvas Line Join Tutorial
 ---
 
 To set the line join for a shape with Konva, we can set the `lineJoin` property when we instantiate a shape, or we can use the `lineJoin()` method.

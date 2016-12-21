@@ -1,4 +1,4 @@
-title: Drag and Drop the Stage
+title: HTML5 Canvas Drag and Drop the Stage
 ---
 
 To drag and drop a stage with Konva, we can set the `draggable` property

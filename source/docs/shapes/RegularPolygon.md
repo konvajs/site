@@ -1,4 +1,4 @@
-title: Regular Polygon Tutorial
+title: HTML5 canvas Regular Polygon Tutorial
 ---
 
 To create a regular polygon with `Konva`, we can instantiate a `Konva.RegularPolygon()` object.

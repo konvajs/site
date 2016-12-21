@@ -1,4 +1,4 @@
-title: Drag and Drop an Image
+title: HTML5 Canvas Drag and Drop an Image
 ---
 
 To drag and drop an image with Konva, we can set the `draggable` property

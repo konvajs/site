@@ -1,4 +1,4 @@
-title: Tweening Tutorial
+title: HTML5 Canvas Tweening Tutorial
 ---
 
 To tween properties with Konva, we can instantiate a `Konva.Tween` object

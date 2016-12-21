@@ -1,4 +1,4 @@
-title: Drag and Drop Events
+title: HTML5 Canvas Drag and Drop Events
 ---
 
 To detect drag and drop events with Konva, we can use the `on()` method to

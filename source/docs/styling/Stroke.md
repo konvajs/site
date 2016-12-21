@@ -1,4 +1,4 @@
-title: Set Shape Stroke Color and Width Tutorial
+title: HTML5 Canvas Set Shape Stroke Color and Width Tutorial
 ---
 
 To set a shape stroke and stroke width with Konva, we can set the `stroke` and `strokeWidth` properties when we instantiate a shape, or we can use the `stroke()` and `strokeWidth()` methods.

@@ -1,4 +1,4 @@
-title: Multiple Filters Tutorial
+title: HTML5 Canvas Multiple Filters Tutorial
 ---
 
 To apply multiple filters to an `Konva.Image`, we have to cache it first with `cache()`

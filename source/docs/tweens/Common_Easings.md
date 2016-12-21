@@ -1,4 +1,4 @@
-title: Simple Easings Tutorial
+title: HTML5 Canvas Simple Easings Tutorial
 ---
 
 To create a non linear easing tween with Konva, we can set the `easing`

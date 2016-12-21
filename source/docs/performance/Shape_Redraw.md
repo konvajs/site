@@ -1,4 +1,4 @@
-title: Shape Redraw Tip
+title: HTML5 Canvas Shape Redraw Performance Tip
 ---
 
 Usually when you need to update your canvas you should call `layer.draw()`.

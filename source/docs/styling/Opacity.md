@@ -1,4 +1,4 @@
-title: Opacity Tutorial
+title: HTML5 Canvas Opacity Tutorial
 ---
 
 To set a shape opacity with Konva, we can set the `opacity` property when we instantiate the shape, or we can use the `opacity()` method.

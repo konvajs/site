@@ -1,4 +1,4 @@
-title: Load Complex Stage
+title: Load HTML5 Canvas Stage from JSON Tutorial
 ---
 
 To load a complex stage that originally contained images and event bindings using Konva,

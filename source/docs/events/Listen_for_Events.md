@@ -1,4 +1,4 @@
-title: Canvas Listen or Don’t Listen to Events with Konva
+title: HTML5 Canvas Listen or Don’t Listen to Events with Konva
 ---
 
 To listen or don't listen to events with Konva, we can set the listening

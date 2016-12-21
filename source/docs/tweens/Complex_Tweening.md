@@ -1,4 +1,4 @@
-title: Complex Tweening Tutorial
+title: HTML5 Canvas Complex Tweening Tutorial
 ---
 
 Also you can use [GreenSock Konva Plugin](https://github.com/konvajs/greensock-plugin) for tweens.

@@ -1,4 +1,4 @@
-title: Drop Events
+title: HTML5 Canvas Drop Events
 ---
 
 Konva does not support drop events. But you can write your own drop events detections.

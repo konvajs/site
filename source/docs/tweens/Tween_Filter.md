@@ -1,4 +1,4 @@
-title: Tween Blur Filter Tutorial
+title: HTML5 Canvas Tween Blur Filter Tutorial
 ---
 
 To tween a filter using Konva, we can simply tween the properties associated with the filter.

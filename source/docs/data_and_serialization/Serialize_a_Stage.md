@@ -1,4 +1,4 @@
-title: Save Stage as JSON String
+title: Save HTML5 Canvas Stage as JSON String
 ---
 
 To save the stage as a JSON string with Konva, we can use the `toJSON()`

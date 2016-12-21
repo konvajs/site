@@ -1,4 +1,4 @@
-title: Circle Tutorial
+title: HTML5 canvas Circle Tutorial
 ---
 
 To create  a circle with `Konva`, we can instantiate a `Konva.Circle()` object.

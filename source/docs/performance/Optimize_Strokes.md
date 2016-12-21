@@ -1,4 +1,4 @@
-title: Optimizing Strokes Tip
+title: HTML5 Canvas Optimizing Strokes Performance Tip
 ---
 
 ### Remove stroke from hit

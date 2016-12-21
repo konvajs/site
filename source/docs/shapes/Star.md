@@ -1,4 +1,4 @@
-title: Star Tutorial
+title: HTML5 canvas Star Tutorial
 ---
 
 To create a start with `Konva`, we can instantiate a `Konva.Star()` object.

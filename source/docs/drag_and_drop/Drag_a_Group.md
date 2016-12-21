@@ -1,4 +1,4 @@
-title: Drag and Drop a Group
+title: HTML5 Canvas Drag and Drop a Group Tutorial
 ---
 
 To drag and drop groups with Konva, we can set the `draggable` property

@@ -1,4 +1,4 @@
-title: Shape Groups
+title: HTML5 Canvas Shape Groups
 ---
 
 To group multiple shapes together with Konva, we can instantiate
