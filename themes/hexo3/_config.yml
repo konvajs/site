@@ -115,6 +115,7 @@ doc_sidebar:
   Demos:
     Free Drawing : sandbox/Free_Drawing.html
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
+    Relative Zoom: sandbox/Zooming_Relative_To_Pointer.html
     Wheel of Fortune : sandbox/Wheel_of_Fortune.html
     Quantum Squiggle : sandbox/Quantum_Squiggle.html
     20000 Nodes : sandbox/20000_Nodes.html

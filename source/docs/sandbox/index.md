@@ -22,6 +22,8 @@ title: Demos
 
 ### [Zoom Layer On hover](/docs/sandbox/Zoom_Layer_On_hover.html)
 
+### [Zoom Relative To Pointer](/docs/sandbox/Zooming_Relative_To_Pointer.html)
+
 ### [Quantum Squiggle](/docs/sandbox/Quantum_Squiggle.html)
 ### [20000 Nodes](/docs/sandbox/20000_Nodes.html)
 ### [Elastic Stars](/docs/sandbox/Elastic_Stars.html)
