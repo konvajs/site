@@ -50,6 +50,7 @@
 
         var scaleBy = 1.01;
         window.addEventListener('wheel', (e) => {
+            e.preventDefault();
             var oldScale = stage.scaleX();
 
             var mousePointTo = {

@@ -22,6 +22,8 @@ title: Demos
 
 ### [Zoom Layer On hover](/docs/sandbox/Zoom_Layer_On_hover.html)
 
+### [Responsive Canvas Stage](/docs/sandbox/Responsive_Canvas.html)
+
 ### [Zoom Relative To Pointer](/docs/sandbox/Zooming_Relative_To_Pointer.html)
 
 ### [Quantum Squiggle](/docs/sandbox/Quantum_Squiggle.html)

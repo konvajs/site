@@ -6,7 +6,8 @@
   },
   "private": true,
   "scripts": {
-    "start": "gulp generate"
+    "start": "gulp generate",
+    "server": "gulp"
   },
   "dependencies": {
     "hexo": "^3.0.1",
