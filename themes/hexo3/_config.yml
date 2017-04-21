@@ -38,6 +38,8 @@ doc_sidebar:
     Shadow : styling/Shadow.html
     Line Join : styling/Line_Join.html
     Hide and Show : styling/Hide_and_Show.html
+    Mouse Cursor Style: styling/Mouse_Cursor.html
+    Blend Mode: styling/Blend_Mode.html
   Events:
     Binding Events : events/Binding_Events.html
     Image Events : events/Image_Events.html
