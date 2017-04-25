@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v1.6.0
+ * Konva JavaScript Framework v1.6.1
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Fri Apr 21 2017
+ * Date: Tue Apr 25 2017
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2017 by Anton Lavrenov (Konva)
@@ -38,7 +38,7 @@
 
   var Konva = {
     // public
-    version: '1.6.0',
+    version: '1.6.1',
 
     // private
     stages: [],
@@ -2653,6 +2653,7 @@
     _drawCachedSceneCanvas: function(context) {
       context.save();
       context._applyOpacity(this);
+      context._applyGlobalCompositeOperation(this);
       context.translate(this._cache.canvas.x, this._cache.canvas.y);
 
       var cacheCanvas = this._getCachedSceneCanvas();
@@ -4376,6 +4377,26 @@
      * node.y(5);
      */
 
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'globalCompositeOperation',
+    'source-over'
+  );
+
+  /**
+     * get/set globalCompositeOperation of a shape
+     * @name globalCompositeOperation
+     * @method
+     * @memberof Konva.Node.prototype
+     * @param {Number} blur
+     * @returns {Number}
+     * @example
+     * // get shadow blur
+     * var globalCompositeOperation = shape.globalCompositeOperation();
+     *
+     * // set shadow blur
+     * shape.globalCompositeOperation('source-in');
+     */
   Konva.Factory.addGetterSetter(Konva.Node, 'opacity', 1);
 
   /**
@@ -8890,27 +8911,6 @@
     Konva.Validators.alphaComponent
   );
 
-  Konva.Factory.addGetterSetter(
-    Konva.Shape,
-    'globalCompositeOperation',
-    'source-over'
-  );
-
-  /**
-     * get/set globalCompositeOperation of a shape
-     * @name globalCompositeOperation
-     * @method
-     * @memberof Konva.Shape.prototype
-     * @param {Number} blur
-     * @returns {Number}
-     * @example
-     * // get shadow blur
-     * var globalCompositeOperation = shape.globalCompositeOperation();
-     *
-     * // set shadow blur
-     * shape.globalCompositeOperation('source-in');
-     */
-
   Konva.Factory.addGetterSetter(Konva.Shape, 'shadowBlur');
 
   /**
@@ -10436,7 +10436,7 @@
       this._mousewheel(evt);
     },
     _setPointerPosition: function(evt) {
-      var x = null, y = null;
+      var contentPosition = this._getContentPosition(), x = null, y = null;
       evt = evt ? evt : window.event;
 
       // touch events
@@ -10445,13 +10445,21 @@
         if (evt.touches.length > 0) {
           var touch = evt.touches[0];
           // get the information for finger #1
-          x = touch.offsetX;
-          y = touch.offsetY;
+          x = touch.offsetX !== undefined
+            ? touch.offsetX
+            : touch.clientX - contentPosition.left;
+          y = touch.offsetY !== undefined
+            ? touch.offsetY
+            : touch.clientY - contentPosition.top;
         }
       } else {
         // mouse events
-        x = evt.offsetX;
-        y = evt.offsetY;
+        x = evt.offsetX !== undefined
+          ? evt.offsetX
+          : evt.clientX - contentPosition.left;
+        y = evt.offsetY !== undefined
+          ? evt.offsetY
+          : evt.clientY - contentPosition.top;
       }
       if (x !== null && y !== null) {
         this.pointerPos = {
