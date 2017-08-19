@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v1.6.7
+ * Konva JavaScript Framework v1.6.8
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Fri Jul 28 2017
+ * Date: Sat Aug 19 2017
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2017 by Anton Lavrenov (Konva)
@@ -38,7 +38,7 @@
 
   var Konva = {
     // public
-    version: '1.6.7',
+    version: '1.6.8',
 
     // private
     stages: [],
@@ -248,14 +248,15 @@
       // only CommonJS-like enviroments that support module.exports,
       // like Node.
       var Canvas = require('canvas');
-      var jsdom = require('jsdom').jsdom;
+      var JSDOM = require('jsdom').JSDOM;
 
-      Konva.window = jsdom(
+      Konva.window = new JSDOM(
         '<!DOCTYPE html><html><head></head><body></body></html>'
-      ).defaultView;
+      ).window;
       Konva.document = Konva.window.document;
       Konva.window.Image = Canvas.Image;
       Konva._nodeCanvas = Canvas;
+      Konva.isNode = true;
     }
     module.exports = Konva;
     return;
@@ -815,7 +816,9 @@
       );
     },
     createCanvasElement: function() {
-      var canvas = Konva.document.createElement('canvas');
+      var canvas = Konva.isNode
+        ? new Konva._nodeCanvas()
+        : Konva.document.createElement('canvas');
       // on some environments canvas.style is readonly
       try {
         canvas.style = canvas.style || {};
@@ -2511,7 +2514,10 @@
         */
     cache: function(config) {
       var conf = config || {},
-        rect = this.getClientRect(true),
+        rect = this.getClientRect({
+          skipTransform: true,
+          relativeTo: this.getParent()
+        }),
         width = conf.width || rect.width,
         height = conf.height || rect.height,
         pixelRatio = conf.pixelRatio,
@@ -2598,7 +2604,9 @@
          * The rectangle position is relative to parent container.
          * @method
          * @memberof Konva.Node.prototype
-         * @param {Boolean} [skipTransform] flag should we skip transformation to rectangle
+         * @param {Object} config
+         * @param {Boolean} [config.skipTransform] should we apply transform to node for calculating rect?
+         * @param {Object} [config.relativeTo] calculate client rect relative to one of the parents
          * @returns {Object} rect with {x, y, width, height} properties
          * @example
          * var rect = new Konva.Rect({
@@ -2613,7 +2621,7 @@
          * });
          *
          * // get client rect without think off transformations (position, rotation, scale, offset, etc)
-         * rect.getClientRect(true);
+         * rect.getClientRect({ skipTransform: true});
          * // returns {
          * //     x : -2,   // two pixels for stroke / 2
          * //     y : -2,
@@ -2630,7 +2638,7 @@
       // redefine in Container and Shape
       throw new Error('abstract "getClientRect" method call');
     },
-    _transformedRect: function(rect) {
+    _transformedRect: function(rect, top) {
       var points = [
         { x: rect.x, y: rect.y },
         { x: rect.x + rect.width, y: rect.y },
@@ -2638,7 +2646,7 @@
         { x: rect.x, y: rect.y + rect.height }
       ];
       var minX, minY, maxX, maxY;
-      var trans = this.getTransform();
+      var trans = this.getAbsoluteTransform(top);
       points.forEach(function(point) {
         var transformed = trans.point(point);
         if (minX === undefined) {
@@ -7895,7 +7903,11 @@
           !layerUnderDrag)
       );
     },
-    getClientRect: function(skipTransform) {
+    getClientRect: function(attrs) {
+      attrs = attrs || {};
+      var skipTransform = attrs.skipTransform;
+      var relativeTo = attrs.relativeTo;
+
       var minX, minY, maxX, maxY;
       var selfRect = {
         x: 0,
@@ -7903,12 +7915,13 @@
         width: 0,
         height: 0
       };
+      var that = this;
       this.children.each(function(child) {
         // skip invisible children
         if (!child.isVisible()) {
           return;
         }
-        var rect = child.getClientRect();
+        var rect = child.getClientRect({ relativeTo: that });
 
         // skip invisible children (like empty groups)
         // or don't skip... hmmm...
@@ -7940,7 +7953,7 @@
       }
 
       if (!skipTransform) {
-        return this._transformedRect(selfRect);
+        return this._transformedRect(selfRect, relativeTo);
       }
       return selfRect;
     }
@@ -8376,7 +8389,11 @@
         height: size.height
       };
     },
-    getClientRect: function(skipTransform) {
+    getClientRect: function(attrs) {
+      attrs = attrs || {};
+      var skipTransform = attrs.skipTransform;
+      var relativeTo = attrs.relativeTo;
+
       var fillRect = this.getSelfRect();
 
       var strokeWidth = (this.hasStroke() && this.strokeWidth()) || 0;
@@ -8412,7 +8429,7 @@
           fillRect.y
       };
       if (!skipTransform) {
-        return this._transformedRect(rect);
+        return this._transformedRect(rect, relativeTo);
       }
       return rect;
     },
