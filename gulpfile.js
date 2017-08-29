@@ -33,7 +33,7 @@ gulp.task('copy-source-download', ['clean-public-downloads'], function() {
 
 // 4
 gulp.task('docs', ['generate-hexo'], function() {
-  return gulp.src('../konva/src/**/*.js').pipe(
+  return gulp.src('./konva.js').pipe(
     jsdoc('./public/api', {
       path: 'ink-docstrap',
       cleverLinks: false,
