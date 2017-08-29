@@ -10570,8 +10570,8 @@
 (function(Konva) {
   'use strict';
   /**
-     * BaseLayer constructor.
-     * @constructor
+     * BaseLayer constructor. Do NOT use it. It is just for better OOP.
+     * @constructor BaseLayer
      * @memberof Konva
      * @augments Konva.Container
      * @param {Object} config
