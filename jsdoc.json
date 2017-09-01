@@ -1,33 +1,35 @@
 {
-	"name" : "Konva",
-	"tags"      : {
-		"allowUnknownTags" : true
-	},
-	"plugins"   : ["plugins/markdown"],
-
-	"templates" : {
-		"path": "ink-docstrap",
-		"cleverLinks"           : false,
-		"monospaceLinks"        : false,
-		"dateFormat"            : "ddd MMM Do YYYY",
-		"outputSourceFiles"     : true,
-		"outputSourcePath"      : true,
-		"systemName"            : "Konva",
-		"footer"                : "",
-		"copyright"             : "Konva Copyright © 2015 The contributors to the Konva project.",
-		"navType"               : "vertical",
-		"theme"                 : "cosmo",
-		"linenums"              : true,
-		"collapseSymbols"       : false,
-		"inverseNav"            : true,
-		"highlightTutorialCode" : true,
-	  	"analytics" : {
-		  "ua" : "UA-54202824-2",
-		  "domain" : "https://konvajs.github.io"
-		},
-	},
-	"markdown"  : {
-		"parser"   : "gfm",
-		"hardwrap" : true
-	}
+  "name": "Konva",
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "destination": "./public/api"
+  },
+  "templates": {
+    "path": "ink-docstrap",
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "dateFormat": "ddd MMM Do YYYY",
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "systemName": "Konva",
+    "footer": "",
+    "copyright":
+      "Konva Copyright © 2015 The contributors to the Konva project.",
+    "navType": "vertical",
+    "linenums": true,
+    "collapseSymbols": false,
+    "inverseNav": false,
+    "highlightTutorialCode": true,
+    "analytics": {
+      "ua": "UA-54202824-2",
+      "domain": "https://konvajs.github.io"
+    }
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
 }

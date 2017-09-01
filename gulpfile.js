@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
   clean = require('gulp-clean'),
   shell = require('gulp-shell'),
-  jsdoc = require('gulp-jsdoc'),
+  jsdoc = require('gulp-jsdoc3'),
   webserver = require('gulp-webserver');
 
 // steps
@@ -32,31 +32,9 @@ gulp.task('copy-source-download', ['clean-public-downloads'], function() {
 });
 
 // 4
-gulp.task('docs', ['generate-hexo'], function() {
-  return gulp.src('./konva.js').pipe(
-    jsdoc('./public/api', {
-      path: 'ink-docstrap',
-      cleverLinks: false,
-      monospaceLinks: false,
-      dateFormat: 'ddd MMM Do YYYY',
-      outputSourceFiles: true,
-      outputSourcePath: true,
-      systemName: 'Konva',
-      footer: '',
-      copyright:
-        'Konva Copyright © 2015 The contributors to the Konva project.',
-      navType: 'vertical',
-      theme: 'cosmo',
-      linenums: true,
-      collapseSymbols: false,
-      inverseNav: true,
-      highlightTutorialCode: true,
-      analytics: {
-        ua: 'UA-54202824-2',
-        domain: 'https://konvajs.github.io'
-      }
-    })
-  );
+gulp.task('docs', function() {
+  var config = require('./jsdoc.json');
+  return gulp.src(['./konva.js', '../konva/README.md']).pipe(jsdoc(config));
 });
 
 gulp.task('server', function() {
