@@ -20,6 +20,8 @@ title: Demos
 
 [![Modify Curves with Anchor Points](/assets/demos/modify-line.png)](/docs/sandbox/Modify_Curves_with_Anchor_Points.html)
 
+### [Editable Text](/docs/sandbox/Editable_Text.html)
+
 ### [Zoom Layer On hover](/docs/sandbox/Zoom_Layer_On_hover.html)
 
 ### [Responsive Canvas Stage](/docs/sandbox/Responsive_Canvas.html)
