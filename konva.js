@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v1.7.2
+ * Konva JavaScript Framework v1.7.3
  * http://konvajs.github.io/
  * Licensed under the MIT or GPL Version 2 licenses.
- * Date: Wed Oct 11 2017
+ * Date: Thu Oct 19 2017
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - 2017 by Anton Lavrenov (Konva)
@@ -38,7 +38,7 @@
 
   var Konva = {
     // public
-    version: '1.7.2',
+    version: '1.7.3',
 
     // private
     stages: [],
@@ -244,9 +244,8 @@
   }
   glob.Konva = Konva;
   Konva.global = glob;
-
-  Konva.document = document;
-  Konva.window = window;
+  Konva.window = glob;
+  Konva.document = glob.document;
 
   if (typeof exports === 'object') {
     module.exports = Konva;
@@ -10201,7 +10200,7 @@
         for (n = 0; n < len; n++) {
           layer = layers[n];
           layer.setSize(width, height);
-          layer.batchDraw();
+          layer.draw();
         }
       }
     },
