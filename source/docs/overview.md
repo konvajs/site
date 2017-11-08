@@ -11,7 +11,7 @@ caching, event handling for desktop and mobile applications, and much more.
 
 ## How does it work?
 
-Every thing starts from `Konva.Stage` than contains several user's layers (`Konva.Layer`).
+Every thing starts from `Konva.Stage` that contains several user's layers (`Konva.Layer`).
 
 Each layer has two `<canvas>` renderers: a scene renderer and a hit graph renderer.
 The scene renderer is what you can see, and the hit graph renderer is a special hidden
