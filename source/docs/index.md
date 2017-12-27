@@ -1,5 +1,5 @@
-title: Documentation
----
+## title: Documentation
+
 Welcome to the Konva's documentation. This documentation will help you get started fast.
 If you get any problems when using Konva you can ask me on [GitHub](https://github.com/konvajs/konva/issues).
 
@@ -20,13 +20,22 @@ This project began as a GitHub fork of [KineticJS](https://github.com/ericdrowel
 ## Install Konva
 
 If you are using package managers:
-``` bash
+
+```bash
 $ npm install konva
 $ # or
 $ bower install konva
+```
+
+Or just use script tag:
+
+```html
+<script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
 ```
 
 Or download from CDN:
 
 * [Full version konva.js](https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.js)
 * [Min version konva.min.js](https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js)
+
+### [Read next: Overview](/docs/overview.html)
