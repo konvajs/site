@@ -1,4 +1,6 @@
-## title: Support
+title: Support
+
+## Support
 
 * Ask your question on [StackOverflow](https://stackoverflow.com/questions/tagged/konvajs)
 * Join [Gittip Chat](https://gitter.im/konvajs/konva)
