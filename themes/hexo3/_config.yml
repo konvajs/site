@@ -104,6 +104,7 @@ doc_sidebar:
     Complex Load : data_and_serialization/Complex_Load.html
     Stage Data URL : data_and_serialization/Stage_Data_URL.html
   Performance:
+    All tips : performance/All_Performance_Tips.html
     Layer Management : performance/Layer_Management.html
     Batch Draw : performance/Batch_Draw.html
     Shape Caching : performance/Shape_Caching.html
@@ -113,7 +114,6 @@ doc_sidebar:
     Disable Perfect Drawing : performance/Disable_Perfect_Draw.html
     Listening False : performance/Listening_False.html
     Avoid Memory Leaks : performance/Avoid_Memory_Leaks.html
-    All tips : performance/All_Performance_Tips.html
   Demos:
     Free Drawing : sandbox/Free_Drawing.html
     Editable Text: sandbox/Editable_Text.html
