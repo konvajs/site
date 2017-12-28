@@ -1,5 +1,7 @@
 title: Support
 
+---
+
 ## Support
 
 * Ask your question on [StackOverflow](https://stackoverflow.com/questions/tagged/konvajs)

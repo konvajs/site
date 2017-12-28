@@ -1,4 +1,8 @@
-## title: HTML5 Canvas All Konva performance tips list
+title: HTML5 Canvas All Konva performance tips list
+
+---
+
+## HTML5 Canvas All Konva performance tips list
 
 Stop worrying about the performance at all and let me help you boost your project.
 Just drop me a message to <mailto:anton@lavrton.com> (only for large projects).
