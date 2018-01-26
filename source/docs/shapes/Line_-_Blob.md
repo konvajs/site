@@ -10,4 +10,4 @@ For a full list of attributes and methods, check out the [Konva.Line documentati
 
 {% iframe /downloads/code/shapes/Line\_-_Blob.html %}
 
-{% include*code Konva Blob Demo shapes/Line*-\_Blob.html %}
+{% include_code Konva Blob Demo shapes/Line\_-_Blob.html %}

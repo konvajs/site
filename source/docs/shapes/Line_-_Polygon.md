@@ -10,4 +10,4 @@ For a full list of attributes and methods, check out the [Konva.Line documentati
 
 {% iframe /downloads/code/shapes/Line\_-_Polygon.html %}
 
-{% include*code Konva Polygon Demo shapes/Line*-\_Polygon.html %}
+{% include_code Konva Polygon Demo shapes/Line\_-_Polygon.html %}

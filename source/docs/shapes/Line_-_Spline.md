@@ -10,4 +10,4 @@ For a full list of attributes and methods, check out the [Konva.Line documentati
 
 {% iframe /downloads/code/shapes/Line\_-_Spline.html %}
 
-{% include*code Konva Spline Demo shapes/Line*-\_Spline.html %}
+{% include_code Konva Spline Demo shapes/Line\_-_Spline.html %}
