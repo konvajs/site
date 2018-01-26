@@ -8,6 +8,6 @@ Flat array of numbers should work faster and use less memory then array of objec
 
 For a full list of attributes and methods, check out the [Konva.Line documentation](https://konvajs.github.io/api/Konva.Line.html).
 
-{% iframe /downloads/code/shapes/Line\_-_Blob.html %}
+{% iframe /downloads/code/shapes/Line_-_Blob.html %}
 
-{% include_code Konva Blob Demo shapes/Line\_-_Blob.html %}
+{% include_code Konva Blob Demo shapes/Line_-_Blob.html %}
