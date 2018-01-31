@@ -1,4 +1,5 @@
-## title: HTML5 canvas Spline Tutorial
+title: HTML5 canvas Spline Tutorial
+---
 
 To create a spline with `Konva`, we can instantiate a `Konva.Line()` object with `tension` attribute.
 

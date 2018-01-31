@@ -65,6 +65,8 @@ doc_sidebar:
     Simple Drag Bounds : drag_and_drop/Simple_Drag_Bounds.html
     Complex Drag and Drop : drag_and_drop/Complex_Drag_and_Drop.html
     Drop Events : drag_and_drop/Drop_Events.html
+  Select and Transform:
+    Basic demo: select_and_transform/Basic_demo.html
   Clipping:
     Simple Clip: clipping/Clipping_Regions.html
     Complex Clip: clipping/Clipping_Function.html

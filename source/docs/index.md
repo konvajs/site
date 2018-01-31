@@ -1,4 +1,6 @@
-## title: Documentation
+title: Documentation
+
+---
 
 Welcome to the Konva's documentation. This documentation will help you get started fast.
 If you get any problems when using Konva you can ask me on [GitHub](https://github.com/konvajs/konva/issues).

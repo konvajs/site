@@ -1,4 +1,5 @@
-## title: HTML5 canvas Blob Tutorial
+title: HTML5 canvas Blob Tutorial
+---
 
 To create a blob with `Konva`, we can instantiate a `Konva.Line()` object with `closed = true` and `tension` attributes.
 

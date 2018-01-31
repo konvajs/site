@@ -1,4 +1,6 @@
-## title: HTML5 canvas Polygon Tutorial
+title: HTML5 canvas Polygon Tutorial
+
+---
 
 To create a polygon with `Konva`, we can instantiate a `Konva.Line()` object with `closed = true` attribute.
 
