@@ -31,6 +31,8 @@ doc_sidebar:
     RegularPolygon : shapes/RegularPolygon.html
     Arrow : shapes/Arrow.html
     Custom : shapes/Custom.html
+  Guides:
+    Position vs Offset: posts/Position_vs_Offset.html
   Styling:
     Fill : styling/Fill.html
     Stroke : styling/Stroke.html
