@@ -30,9 +30,6 @@
 
     var layer = new Konva.Layer();
 
-    var text = new Konva.Text();
-    layer.add(text);
-
     var rect = new Konva.Rect({
       x: 20,
       y: 20,
@@ -46,6 +43,9 @@
 
     // add the shape to the layer
     layer.add(rect);
+
+    var text = new Konva.Text();
+    layer.add(text);
 
     // add the layer to the stage
     stage.add(layer);
