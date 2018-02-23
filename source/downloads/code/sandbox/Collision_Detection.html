@@ -37,8 +37,8 @@
                 draggable: true
             });
             var shape = new Konva.Rect({
-                width: 50 + Math.random() * 50,
-                height: 50 + Math.random() * 50,
+                width: 30 + Math.random() * 30,
+                height: 30 + Math.random() * 30,
                 fill: 'green',
                 rotation: 360 * Math.random(),
                 name: 'fillShape'
@@ -52,7 +52,8 @@
                 y: boundingBox.y,
                 width: boundingBox.width,
                 height: boundingBox.height,
-                stroke: 'red'
+                stroke: 'red',
+                strokeWidth: 1
             });
             group.add(box);
             return group;
