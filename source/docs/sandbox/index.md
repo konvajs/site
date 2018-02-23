@@ -22,6 +22,8 @@ title: Demos
 
 ### [Editable Text](/docs/sandbox/Editable_Text.html)
 
+### [Collision Detection](/docs/sandbox/Collision_Detection.html)
+
 ### [Zoom Layer On hover](/docs/sandbox/Zoom_Layer_On_hover.html)
 
 ### [Responsive Canvas Stage](/docs/sandbox/Responsive_Canvas.html)

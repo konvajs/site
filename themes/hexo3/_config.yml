@@ -121,6 +121,7 @@ doc_sidebar:
   Demos:
     Free Drawing : sandbox/Free_Drawing.html
     Editable Text: sandbox/Editable_Text.html
+    Collision Detection : sandbox/Collision_Detection.html
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
     Responsive Canvas Stage: sandbox/Responsive_Canvas.html
     Relative Zoom: sandbox/Zooming_Relative_To_Pointer.html
@@ -146,6 +147,7 @@ doc_sidebar:
     Star Spinner : sandbox/Star_Spinner.html
     Drag and Drop Multiple Shapes : sandbox/Drag_and_Drop_Multiple_Shapes.html
     Image Border Highlighting : sandbox/Image_Border_Highlighting.html
+    
 
 google_analytics: UA-54202824-2
 fb_admins:
