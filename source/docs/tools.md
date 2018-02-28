@@ -1,7 +1,8 @@
 title: Konva.js Tools and Plugins
 ---
 
-* [Konva + Backbone](https://github.com/lavrton/backbone.konvaview)
 * [Konva + React](https://github.com/lavrton/react-konva/)
+* [Konva + Vue](https://github.com/rafaesc/vue-konva)
+* [Konva + Backbone](https://github.com/lavrton/backbone.konvaview)
 * [Konva + Knockout](https://github.com/mcintyre321/knockout-konva)
 * [Typescript definitions](https://github.com/konvajs/konva/blob/master/konva.d.ts)
