@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -11,13 +12,15 @@
       overflow: hidden;
       background-color: #F0F0F0;
     }
+
     #buttons {
-        position: absolute;
-        top: 5px;
-        left: 10px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <div id="buttons">
@@ -39,8 +42,8 @@
 
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -54,31 +57,32 @@
       strokeWidth: 4
     });
 
-    circle.on('click.event1', function() {
+    circle.on('click.event1', function () {
       alert('First Listener');
     });
-    circle.on('click.event2', function() {
+    circle.on('click.event2', function () {
       alert('Second Listener');
     });
 
     layer.add(circle);
     stage.add(layer);
 
-    document.getElementById('remove1').addEventListener('click', function() {
+    document.getElementById('remove1').addEventListener('click', function () {
       circle.off('click.event1');
       alert('First onclick removed');
     }, false);
 
-    document.getElementById('remove2').addEventListener('click', function() {
+    document.getElementById('remove2').addEventListener('click', function () {
       circle.off('click.event2');
       alert('Second onclick removed');
     }, false);
 
-    document.getElementById('removeAll').addEventListener('click', function() {
+    document.getElementById('removeAll').addEventListener('click', function () {
       circle.off('click');
       alert('All onclicks removed');
     }, false);
   </script>
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -13,6 +14,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <script>
@@ -23,8 +25,8 @@
 
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -53,7 +55,7 @@
     * mobile equivalents so they are often times
     * used together
     */
-    circle.on('mousedown touchstart', function() {
+    circle.on('mousedown touchstart', function () {
       writeMessage('Mousedown or touchstart');
     });
     /*
@@ -61,7 +63,7 @@
     * mobile equivalents so they are often times
     * used together
     */
-    circle.on('mouseup touchend', function() {
+    circle.on('mouseup touchend', function () {
       writeMessage('Mouseup or touchend');
     });
 
@@ -73,4 +75,5 @@
   </script>
 
 </body>
+
 </html>

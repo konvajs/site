@@ -4,7 +4,7 @@
 <head>
   <script src="https://rawgit.com/konvajs/konva/master/konva.js"></script>
   <meta charset="utf-8">
-  <title>Konva RGBA Image Demo</title>
+  <title>Konva RGB Image Demo</title>
   <style>
     body {
       margin: 0;
@@ -28,7 +28,6 @@
     <input id="red" type="range" min="0" max="256" step="1" value="150"> Green:
     <input id="green" type="range" min="0" max="256" step="1" value="150"> Blue:
     <input id="blue" type="range" min="0" max="256" step="1" value="150"> Alpha:
-    <input id="alpha" type="range" min="0" max="1" step="0.05" value="0.5">
   </div>
   <script>
     Konva.Image.fromURL('../../../assets/lion.png', function (lion) {
@@ -49,7 +48,7 @@
       layer.add(lion);
       stage.add(layer);
 
-      var sliders = ['red', 'green', 'blue', 'alpha'];
+      var sliders = ['red', 'green', 'blue'];
       sliders.forEach(function (attr) {
         var slider = document.getElementById(attr);
         function update() {

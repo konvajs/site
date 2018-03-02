@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -13,13 +14,14 @@
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <script>
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -35,16 +37,16 @@
       strokeWidth: 4
     });
 
-    circle.on('click', function(evt) {
+    circle.on('click', function (evt) {
       alert('You clicked the circle!');
       evt.cancelBubble = true;
     });
 
-    group.on('click', function() {
+    group.on('click', function () {
       alert('You clicked on the group!');
     });
 
-    layer.on('click', function() {
+    layer.on('click', function () {
       alert('You clicked on the layer!');
     });
 
@@ -56,4 +58,5 @@
   </script>
 
 </body>
+
 </html>

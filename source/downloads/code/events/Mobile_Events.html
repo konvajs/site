@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -13,6 +14,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <script>
@@ -23,8 +25,8 @@
 
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -58,17 +60,17 @@
       strokeWidth: 4
     });
 
-    triangle.on('touchmove', function() {
+    triangle.on('touchmove', function () {
       var touchPos = stage.getPointerPosition();
       var x = touchPos.x - 190;
       var y = touchPos.y - 40;
       writeMessage('x: ' + x + ', y: ' + y);
     });
 
-    circle.on('touchstart', function() {
+    circle.on('touchstart', function () {
       writeMessage('Touchstart circle');
     });
-    circle.on('touchend', function() {
+    circle.on('touchend', function () {
       writeMessage('Touchend circle');
     });
 
@@ -81,4 +83,5 @@
   </script>
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -13,6 +14,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <script>
@@ -23,8 +25,8 @@
 
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -47,7 +49,7 @@
       fill: 'red',
       stroke: 'black',
       strokeWidth: 4,
-      hitFunc: function(context) {
+      hitFunc: function (context) {
         context.beginPath();
         context.arc(0, 0, this.getOuterRadius() + 10, 0, Math.PI * 2, true);
         context.closePath();
@@ -55,16 +57,16 @@
       }
     });
 
-    star.on('mouseover', function() {
+    star.on('mouseover', function () {
       writeMessage('Mouseover star');
     });
-    star.on('mouseout', function() {
+    star.on('mouseout', function () {
       writeMessage('Mouseout star');
     });
-    star.on('mousedown', function() {
+    star.on('mousedown', function () {
       writeMessage('Mousedown star');
     });
-    star.on('mouseup', function() {
+    star.on('mouseup', function () {
       writeMessage('Mouseup star');
     });
 
@@ -76,4 +78,5 @@
   </script>
 
 </body>
+
 </html>

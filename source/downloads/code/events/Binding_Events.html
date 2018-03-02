@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -13,6 +14,7 @@
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <script>
@@ -23,8 +25,8 @@
 
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -48,11 +50,11 @@
       fill: 'black'
     });
 
-    triangle.on('mouseout', function() {
+    triangle.on('mouseout', function () {
       writeMessage('Mouseout triangle');
     });
 
-    triangle.on('mousemove', function() {
+    triangle.on('mousemove', function () {
       var mousePos = stage.getPointerPosition();
       var x = mousePos.x - 190;
       var y = mousePos.y - 40;
@@ -68,16 +70,16 @@
       strokeWidth: 4
     });
 
-    circle.on('mouseover', function() {
+    circle.on('mouseover', function () {
       writeMessage('Mouseover circle');
     });
-    circle.on('mouseout', function() {
+    circle.on('mouseout', function () {
       writeMessage('Mouseout circle');
     });
-    circle.on('mousedown', function() {
+    circle.on('mousedown', function () {
       writeMessage('Mousedown circle');
     });
-    circle.on('mouseup', function() {
+    circle.on('mouseup', function () {
       writeMessage('Mouseup circle');
     });
 
@@ -90,4 +92,5 @@
   </script>
 
 </body>
+
 </html>

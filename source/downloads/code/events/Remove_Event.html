@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
   <meta charset="utf-8">
@@ -11,13 +12,15 @@
       overflow: hidden;
       background-color: #F0F0F0;
     }
+
     #buttons {
-        position: absolute;
-        top: 5px;
-        left: 10px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
     }
   </style>
 </head>
+
 <body>
   <div id="container"></div>
   <div id="buttons">
@@ -33,8 +36,8 @@
 
     var stage = new Konva.Stage({
       container: 'container',
-      width: 300,
-      height: 300
+      width: window.innerWidth,
+      height: window.innerHeight
     });
 
     var layer = new Konva.Layer();
@@ -48,18 +51,19 @@
       strokeWidth: 4
     });
 
-    circle.on('click', function() {
+    circle.on('click', function () {
       alert('You clicked on the circle');
     });
 
     layer.add(circle);
     stage.add(layer);
 
-    document.getElementById('removeClick').addEventListener('click', function() {
+    document.getElementById('removeClick').addEventListener('click', function () {
       circle.off('click');
       alert('onclick removed');
     }, false);
   </script>
 
 </body>
+
 </html>
