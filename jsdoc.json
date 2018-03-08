@@ -26,7 +26,8 @@
     "analytics": {
       "ua": "UA-54202824-2",
       "domain": "https://konvajs.github.io"
-    }
+    },
+    "outputSourceFiles": false
   },
   "markdown": {
     "parser": "gfm",
