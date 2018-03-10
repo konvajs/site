@@ -8,7 +8,7 @@ the drag and drop movement in all kinds of ways, such as constraining the motion
 horizontally, vertically, diagonally, or radially, or even constrain the node
 to stay inside of a box, circle, or any other path.
 
-** Note: `dragBoundsFunc` is working with absolute position of a node. So it has a new absolute position as argument and you need to return a new absolute position. You can try to use `dragmove` event, if you want to operate with local position.**
+**Note: `dragBoundsFunc` is working with absolute position of a node. So it has a new absolute position as argument and you need to return a new absolute position. You can try to use `dragmove` event, if you want to operate with local position.**
 
 
 Instructions: Drag and drop the the horizontal text and observe that it can only
