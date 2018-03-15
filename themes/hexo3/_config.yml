@@ -78,12 +78,13 @@ doc_sidebar:
     Layering : groups_and_layers/Layering.html
     Change Containers : groups_and_layers/Change_Containers.html
   Filters:
+    Blur : filters/Blur.html
+    Brighten : filters/Brighten.html
+    Contrast : filters/Contrast.html
     RGB : filters/RGB.html
     Invert : filters/Invert.html
     Grayscale : filters/Grayscale.html
-    Brighten : filters/Brighten.html
     Kaleidoscope : filters/Kaleidoscope.html
-    Blur : filters/Blur.html
     Emboss : filters/Emboss.html
     Mask : filters/Mask.html
     Multiple Filters : filters/Multiple_Filters.html
