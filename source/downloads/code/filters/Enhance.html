@@ -25,56 +25,32 @@
   <div id="container"></div>
   <input id="slider" type="range" min="0" max="255" step="1" value="20">
   <script>
-    function loadImages(sources, callback) {
-      var images = {};
-      var loadedImages = 0;
-      var numImages = 0;
-      for (var src in sources) {
-        numImages++;
-      }
-      for (var src in sources) {
-        images[src] = new Image();
-        images[src].onload = function () {
-          if (++loadedImages >= numImages) {
-            callback(images);
-          }
-        };
-        images[src].src = sources[src];
-      }
-    }
-    function buildStage(images) {
-      var stage = new Konva.Stage({
-        container: 'container',
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
+    var stage = new Konva.Stage({
+      container: 'container',
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
 
-      var layer = new Konva.Layer();
+    var layer = new Konva.Layer();
+    stage.add(layer);
 
-      var lion = new Konva.Image({
-        image: images.lion,
+    Konva.Image.fromURL('/assets/lion.png', function (lion) {
+      lion.setAttrs({
         x: 80,
         y: 30,
         enhance: 20,
         draggable: true
       });
-
       lion.cache();
       lion.filters([Konva.Filters.Enhance]);
       layer.add(lion);
-      stage.add(layer);
+
       var slider = document.getElementById('slider');
       slider.oninput = function () {
-        lion.enhance(slider.value);
+        lion.enhance(parseInt(slider.value, 10));
         layer.batchDraw();
       };
-    }
-
-    var sources = {
-      lion: '/assets/lion.png'
-    };
-
-    loadImages(sources, buildStage);
+    });
   </script>
 
 </body>
