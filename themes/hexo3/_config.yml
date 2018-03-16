@@ -81,11 +81,12 @@ doc_sidebar:
     Blur : filters/Blur.html
     Brighten : filters/Brighten.html
     Contrast : filters/Contrast.html
+    Emboss : filters/Emboss.html
+    Enhance : filters/Enhance.html
     RGB : filters/RGB.html
     Invert : filters/Invert.html
     Grayscale : filters/Grayscale.html
     Kaleidoscope : filters/Kaleidoscope.html
-    Emboss : filters/Emboss.html
     Mask : filters/Mask.html
     Multiple Filters : filters/Multiple_Filters.html
   Tweens:
