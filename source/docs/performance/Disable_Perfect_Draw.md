@@ -20,7 +20,7 @@ But using buffer canvas might drop performace. So you can disable such fixing:
 shape.perfectDrawEnabled(false);
 ```
 
-See differens here:
+See difference here:
 
 {% iframe /downloads/code/performance/Disable_Perfect_Draw.html %}
 
