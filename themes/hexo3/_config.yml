@@ -83,11 +83,14 @@ doc_sidebar:
     Contrast : filters/Contrast.html
     Emboss : filters/Emboss.html
     Enhance : filters/Enhance.html
+    Grayscale : filters/Grayscale.html
+    HSL : filters/HSL.html
+    HSV : filters/HSV.html
     RGB : filters/RGB.html
     Invert : filters/Invert.html
-    Grayscale : filters/Grayscale.html
     Kaleidoscope : filters/Kaleidoscope.html
     Mask : filters/Mask.html
+    Noise : filters/Noise.html
     Multiple Filters : filters/Multiple_Filters.html
   Tweens:
     Linear Easing : tweens/Linear_Easing.html
