@@ -91,6 +91,7 @@ doc_sidebar:
     Kaleidoscope : filters/Kaleidoscope.html
     Mask : filters/Mask.html
     Noise : filters/Noise.html
+    Pixelate : filters/Pixelate.html
     Multiple Filters : filters/Multiple_Filters.html
   Tweens:
     Linear Easing : tweens/Linear_Easing.html
