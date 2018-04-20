@@ -1,0 +1,12 @@
+<aside id="sidebar">
+  <% _.each(theme.demo_sidebar, function(menu, title){ %>
+    <strong class="sidebar-title">
+      <%= title %>
+    </strong>
+    <% _.each(menu, function(link, text){ %>
+      <a href="<%- url_for('docs/' + link) %>" class="sidebar-link<% if (is_current('docs/' + link, true)){ %> current<% } %>">
+        <%= text %>
+      </a>
+      <% }) %>
+        <% }) %>
+</aside>

@@ -1,4 +1,5 @@
 title: Elastic Stars
+layout: demo_page
 ---
 
 Instructions: Drag and drop the stars and observe the elastic drop on dragend.  Refresh the page to randomize the stars again.

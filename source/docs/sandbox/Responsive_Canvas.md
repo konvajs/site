@@ -1,4 +1,5 @@
 title: Responsive Canvas Stage Demo
+layout: demo_page
 ---
 
 # Do you need responsive/adaptive canvas for you desktop and mobile applications?

@@ -1,4 +1,5 @@
 title: Modify Shape Color on Click
+layout: demo_page
 ---
 
 Instructions: Click on a shape to change its color

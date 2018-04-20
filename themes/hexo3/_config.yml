@@ -127,6 +127,7 @@ doc_sidebar:
     Disable Perfect Drawing : performance/Disable_Perfect_Draw.html
     Listening False : performance/Listening_False.html
     Avoid Memory Leaks : performance/Avoid_Memory_Leaks.html
+demo_sidebar:
   Demos:
     Free Drawing : sandbox/Free_Drawing.html
     Editable Text: sandbox/Editable_Text.html

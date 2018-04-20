@@ -142,6 +142,76 @@ $banner-getting-started-font
   @media mq-normal
     margin: 4px
 
+.grid-item
+  width: 100%
+  padding: 20px
+  box-sizing: border-box
+  display: inline-block
+  overflow: hidden
+  @media mq-normal
+    width: 50%
+
+.grid-item.small
+  @media mq-normal
+    width: 33%
+
+.grid-item a
+  overflow: hidden
+  box-sizing: border-box
+  display: block
+  width: 100%
+  position: relative
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2)
+  text-decoration: none
+  transition: all .2s ease-in-out
+  border-radius: .25rem
+
+.grid-item a:hover
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px 0 rgba(0,0,0,.15)
+
+.grid-item .preview
+  box-sizing: border-box
+  display: block
+  width: 100%
+  padding-top: 57.77777778%
+  background-size: cover
+  background-position: center center
+  background-color: #272d37
+  border-bottom: 1px solid #e6e6e6
+
+.grid-item.small .description
+  min-height: 50px !important
+
+.grid-item .description
+  box-sizing: border-box
+  display: block
+  padding: 20px
+  min-height: 110px
+
+.grid-item h4
+  box-sizing: border-box
+  font-size: 15px;
+
+.grid-item h5
+  box-sizing: border-box
+  font-size: 30px;
+
+.grid-item p
+  box-sizing: border-box
+
+.add-app
+  text-decoration: none;
+  font-size: 20px
+  color: #9E9E9E
+
+.demo-into
+  font-size: 20px
+  padding: 30px
+  @media mq-normal
+    padding-left: 20%
+    padding-right: 20%
+
 #intro-btn-wrap
   text-align: center
   margin-top 50px

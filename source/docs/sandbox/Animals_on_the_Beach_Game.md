@@ -1,4 +1,5 @@
 title: Animals on the Beach Game
+layout: demo_page
 ---
 
 {% iframe /downloads/code/sandbox/Animals_on_the_Beach_Game.html 578 530 %}

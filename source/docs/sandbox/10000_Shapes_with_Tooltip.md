@@ -1,4 +1,5 @@
 title: 10,000 Shapes with Tooltips Stress Test with Konva
+layout: demo_page
 ---
 
 {% iframe /downloads/code/sandbox/10000_Shapes_With_Tooltip.html %}

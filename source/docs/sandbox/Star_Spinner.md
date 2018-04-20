@@ -1,4 +1,5 @@
 title: Star Spinner
+layout: demo_page
 ---
 
 Instructions: Spin the star with your mouse.

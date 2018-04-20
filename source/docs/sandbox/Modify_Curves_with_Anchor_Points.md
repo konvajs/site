@@ -1,4 +1,5 @@
 title: Modify Curves with Anchor Points
+layout: demo_page
 ---
 
 Instructions: Use your mouse or finger and drag and drop the anchor points to

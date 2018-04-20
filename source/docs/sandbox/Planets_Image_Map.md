@@ -1,4 +1,5 @@
 title: Planets Image Map
+layout: demo_page
 ---
 
 Instructions: Mouse over the planets to see their names and use the check box to show and hide the map overlay.

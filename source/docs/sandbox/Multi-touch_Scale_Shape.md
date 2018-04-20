@@ -1,4 +1,5 @@
 title: Multi-touch Scale Shape
+layout: demo_page
 ---
 
 Note: This lab only works on devices that support multi-touch gestures such as iOS because it makes use of multiple touch events.

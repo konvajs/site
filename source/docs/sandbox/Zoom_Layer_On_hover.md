@@ -1,4 +1,5 @@
 title: Zoom Image on Hover
+layout: demo_page
 ---
 
 Instructions: Hover over an Image.

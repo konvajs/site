@@ -1,4 +1,5 @@
 title: Drag and Drop Multiple Shapes
+layout: demo_page
 ---
 
 Instructions: Drag and drop the shapes or remove them by double clicking or double tapping.

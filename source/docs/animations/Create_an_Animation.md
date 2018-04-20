@@ -18,7 +18,7 @@ Once the animation has been created, we can start it at anytime with the `start(
 
 For a full list of attributes and methods, check out the [Konva.Animation documentation](https://konvajs.github.io/api/Konva.Animation.html).
 
-##HTML5 Canvas Konva Animation Template
+## HTML5 Canvas Konva Animation Template
 
 ```
 <script>

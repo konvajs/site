@@ -1,4 +1,5 @@
 title: Text editing in HTML5 canvas with Konva
+layout: demo_page
 ---
 
 User can't directly edit `Konva.Text` content. In fact canvas API is not designed for such purpose.

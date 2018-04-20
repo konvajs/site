@@ -1,4 +1,5 @@
 title: Free Drawing Konva Demo
+layout: demo_page
 ---
 
 Instructions: Try on draw on stroked area

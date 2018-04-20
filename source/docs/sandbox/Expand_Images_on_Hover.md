@@ -1,4 +1,5 @@
 title: Expand Image on Hover
+layout: demo_page
 ---
 
 Instructions: Mouseover images.

@@ -1,6 +1,8 @@
 title: Shape Tooltips
+layout: demo_page
 ---
-#HTML5 Canvas Shape Tooltips with Konva
+
+# HTML5 Canvas Shape Tooltips with Konva
 
 Instructions: Mousemove over shape to see the tooltip.
 

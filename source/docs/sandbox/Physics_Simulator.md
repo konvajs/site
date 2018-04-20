@@ -1,4 +1,5 @@
 title: Physics Simulator with Curve Detection
+layout: demo_page
 ---
 
 Instructions: Throw the ball around with your cursor.

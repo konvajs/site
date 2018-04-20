@@ -1,4 +1,5 @@
 title: Interactive Building Map
+layout: demo_page
 ---
 
 Instructions: hover over sections of the building to see its description

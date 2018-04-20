@@ -1,4 +1,5 @@
 title: Drag and Drop Collision Detection Demo
+layout: demo_page
 ---
 
 In this demo we will use simple collision detection to highlight intersected objects.

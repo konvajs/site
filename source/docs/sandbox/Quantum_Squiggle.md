@@ -1,4 +1,5 @@
 title:  Oscillating Blobs
+layout: demo_page
 ---
 
 Instructions: Refresh the page to generate new blobs.  You can also drag and drop the blobs as they animate.

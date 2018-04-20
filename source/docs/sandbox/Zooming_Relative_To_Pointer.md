@@ -1,4 +1,5 @@
 title: Zooming stage relative to pointer position
+layout: demo_page
 ---
 
 Instructions: Mousewheel over canvas.
