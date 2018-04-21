@@ -1,14 +1,12 @@
 title: HTML5 Canvas Special Stage Events Konva
 ---
 
-All events are starts from Shapes. So if you click on empty space on canvas `click` event will no trigger on `Layer` and even no trigger on `Stage` objects. But if you really need to listen `click` (or any other similar event) on `Konva.Stage` on empty space you can:
-1. Create transparent rectange with the same size as Stage and add to to bottom of your shapes.
-2. Or listen special "content" events.
+All events are starts from Shapes. So if you click on empty space on canvas `click` event will no trigger on `Layer`  BUT it will trigger on `Stage` object.
+
+In some cases you may want to listen special "content" events. This events will be triggered for Stage container interactions (like mouse or touch events).
 
 Supported content events:
 contentMouseover, contentMousemove, contentMouseout, contentMousedown, contentMouseup, contentClick, contentDblclick, contentTouchstart, contentTouchmove, contentTouchend, contentTap, contentDblTap
-
-Instruction: click everywhere. see console.
 
 {% iframe /downloads/code/events/Stage_Events.html %}
 
