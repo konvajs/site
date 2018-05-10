@@ -3,7 +3,7 @@ title: HTML5 Canvas Keyboard events with Konva
 
 ## HTML5 Canvas Keyboard events with Konva
 
-There is not build-in keyboards events like `keydown` or `keyup` in Konva.
+There are no build-in keyboards events like `keydown` or `keyup` in Konva.
 
 ### But how to listen keydown or keyup events on canvas?
 
@@ -12,7 +12,7 @@ You can easily add them by two ways:
 1. Listen global events on `window` object
 2. Or make stage container focusable with `tabIndex` property and listen events on it.
 
-Instructions: move shape with arrows
+Instructions: click on stage to focus it, move a shape with arrows
 
 {% iframe /downloads/code/events/Keyboard_Events.html %}
 
