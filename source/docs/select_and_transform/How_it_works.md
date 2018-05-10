@@ -1,7 +1,5 @@
-title: HTML5 Canvas Shape select, resize and rotate
+title: How transformer works?
 ---
-
-## WARNING! This feature is experimental.
 
 `Transformer` is a special kind of `Konva.Group`. It allows you easily resize and rotate any shape.
 

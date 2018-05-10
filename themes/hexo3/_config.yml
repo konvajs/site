@@ -58,6 +58,7 @@ doc_sidebar:
     Event Delegation : events/Event_Delegation.html
     Fire Events : events/Fire_Events.html
     Stage Events : events/Stage_Events.html
+    Kyyboard Events : events/Keyboard_Events.html
   Drag and Drop:
     Drag and Drop : drag_and_drop/Drag_and_Drop.html
     Drag an Image : drag_and_drop/Drag_an_Image.html
