@@ -135,6 +135,7 @@ demo_sidebar:
     Collision Detection : sandbox/Collision_Detection.html
     Zoom Layer On hover : sandbox/Zoom_Layer_On_hover.html
     Responsive Canvas Stage: sandbox/Responsive_Canvas.html
+    Canvas Scrolling: sandbox/Canvas_Scrolling.html
     Relative Zoom: sandbox/Zooming_Relative_To_Pointer.html
     Wheel of Fortune : sandbox/Wheel_of_Fortune.html
     Quantum Squiggle : sandbox/Quantum_Squiggle.html
