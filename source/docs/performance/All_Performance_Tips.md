@@ -23,5 +23,5 @@ Here is list of useful performance tips:
 12. If a shape has fill, stroke and opacity you may set `shape.perfectDrawEnabled(false)`. See demo for more information [Disable Perfect Drawing](https://konvajs.github.io/docs/performance/Disable_Perfect_Draw.html).
 13. Try to set `shape.listening(false)` where possible. For more info read [Listening false](https://konvajs.github.io/docs/performance/Listening_False.html).
 14. [Avoid Memory Leaks](https://konvajs.github.io/docs/performance/Avoid_Memory_Leaks.html).
-15. Don't create large stages. Try to make canvases as small, as possible. 8000px wide canvas is blah 🤢.
+15. Don't create large stages. Try to make canvases as small, as possible. 8000px wide canvas is blah 🤢. [use this tip instead](https://konvajs.github.io/docs/sandbox/Canvas_Scrolling.html)
 16. Hide (or remove from layer) invisible objects (or objects that go out of the screen).

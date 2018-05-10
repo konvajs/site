@@ -1,11 +1,11 @@
-title: HTML5 Canvas Scrolling Demo
+title: HTML5 Large Canvas Scrolling Demo
 layout: demo_page
 ---
 
 Imagine we have this scenario. There are a very large stage 3000x3000 with many nodes inside.
 User wants to take a look into all nodes, but they are not visible at once.
 
-## How to scroll html5 canvas?
+## How to display and scroll a very big html5 canvas?
 
 Lets think you have a very large canvas and you want to add ability to navigate on it.
 
