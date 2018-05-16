@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- USE DEVELOPMENT VERSION -->
+  <script src="https://cdn.rawgit.com/konvajs/konva/2.1.0/konva.min.js"></script>
+  <meta charset="utf-8">
+  <title>Konva Transform Limits Demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #F0F0F0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+  <script>
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
+    var stage = new Konva.Stage({
+      container: 'container',
+      width: width,
+      height: height
+    });
+
+    var layer = new Konva.Layer();
+    stage.add(layer);
+
+    var rect = new Konva.Rect({
+      x: 160,
+      y: 60,
+      width: 100,
+      height: 90,
+      fill: 'red',
+      name: 'rect',
+      stroke: 'black',
+      draggable: true,
+      boundBoxFunc: function (oldBoundBox, newBoundBox) {
+        // "boundBox" is an object with
+        // x, y, width, height and rotation properties
+        // transformer tool will try to fit node into that box
+        // "width" property here is a visible width of the object
+        // so it equals to rect.width() * rect.scaleX()
+
+        // the login is simple, if new width is too big
+        // we will need to use oldBoundBox and prevent resize
+        if (newBoundBox.width > 200) {
+          return oldBoundBox;
+        }
+        return newBoundBox
+      }
+    });
+    layer.add(rect);
+
+    // create new transformer
+    var tr = new Konva.Transformer();
+    layer.add(tr);
+    tr.attachTo(rect);
+    layer.draw();
+  </script>
+
+</body>
+
+</html>

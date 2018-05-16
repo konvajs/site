@@ -71,6 +71,8 @@ doc_sidebar:
     Drop Events : drag_and_drop/Drop_Events.html
   Select and Transform:
     Basic demo: select_and_transform/Basic_demo.html
+    Transform Events: select_and_transform/Transform_Events.html
+    Resize Limits: select_and_transform/Resize_Limits.html
   Clipping:
     Simple Clip: clipping/Clipping_Regions.html
     Complex Clip: clipping/Clipping_Function.html

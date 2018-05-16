@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.0.3
+ * Konva JavaScript Framework v2.1.0
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Sat Apr 21 2018
+ * Date: Wed May 16 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.0.3',
+    version: '2.1.0',
 
     // private
     stages: [],
@@ -10636,6 +10636,7 @@
         } else if (!dd || !dd.justDragged) {
           // don't set inDblClickWindow after dragging
           Konva.inDblClickWindow = true;
+          clearTimeout(this.dblTimeout);
         } else if (dd) {
           dd.justDragged = false;
         }
@@ -10743,6 +10744,7 @@
         // Konva.inDblClickWindow = false;
       } else {
         Konva.inDblClickWindow = true;
+        clearTimeout(this.dblTimeout);
       }
 
       this.dblTimeout = setTimeout(function() {
@@ -14659,7 +14661,7 @@
       this.hitFunc(this._hitFunc);
     },
     _sceneFunc: function(context) {
-      var p = this.getPadding(),
+      var padding = this.getPadding(),
         textHeight = this.getTextHeight(),
         lineHeightPx = this.getLineHeight() * textHeight,
         textArr = this.textArr,
@@ -14676,12 +14678,11 @@
 
       context.setAttr('textBaseline', MIDDLE);
       context.setAttr('textAlign', LEFT);
-      context.save();
-      if (p) {
-        context.translate(p, 0);
-        context.translate(0, p + textHeight / 2);
+      if (padding) {
+        context.translate(padding, 0);
+        context.translate(0, padding + lineHeightPx / 2);
       } else {
-        context.translate(0, textHeight / 2);
+        context.translate(0, lineHeightPx / 2);
       }
 
       // draw text lines
@@ -14693,9 +14694,9 @@
         // horizontal alignment
         context.save();
         if (align === RIGHT) {
-          context.translate(totalWidth - width - p * 2, 0);
+          context.translate(totalWidth - width - padding * 2, 0);
         } else if (align === CENTER) {
-          context.translate((totalWidth - width - p * 2) / 2, 0);
+          context.translate((totalWidth - width - padding * 2) / 2, 0);
         }
 
         if (textDecoration.indexOf('underline') !== -1) {
@@ -14704,7 +14705,7 @@
           context.moveTo(0, Math.round(lineHeightPx / 2));
           context.lineTo(Math.round(width), Math.round(lineHeightPx / 2));
           // TODO: I have no idea what is real ratio
-          // just /20 looks good enough
+          // just /15 looks good enough
           context.lineWidth = fontSize / 15;
           context.strokeStyle = fill;
           context.stroke();
@@ -14745,9 +14746,10 @@
           context.fillStrokeShape(this);
         }
         context.restore();
-        context.translate(0, lineHeightPx);
+        if (textArrLen > 1) {
+          context.translate(0, lineHeightPx);
+        }
       }
-      context.restore();
     },
     _hitFunc: function(context) {
       var width = this.getWidth(),
@@ -14880,7 +14882,6 @@
         shouldAddEllipsis = this.getEllipsis() && !shouldWrap;
 
       this.textArr = [];
-      getDummyContext().save();
       getDummyContext().font = this._getContextFont();
       for (var i = 0, max = lines.length; i < max; ++i) {
         var line = lines[i];
@@ -14916,17 +14917,26 @@
               }
             }
             /*
-                         * 'low' is now the index of the substring end
-                         * 'match' is the substring
-                         * 'matchWidth' is the substring width in px
-                         */
+            * 'low' is now the index of the substring end
+            * 'match' is the substring
+            * 'matchWidth' is the substring width in px
+            */
             if (match) {
               // a fitting substring was found
               if (wrapAtWord) {
                 // try to find a space or dash where wrapping could be done
-                var wrapIndex =
-                  Math.max(match.lastIndexOf(SPACE), match.lastIndexOf(DASH)) +
-                  1;
+                var wrapIndex;
+                var nextChar = line[match.length];
+                var nextIsSpaceOrDash = nextChar === SPACE || nextChar === DASH;
+                if (nextIsSpaceOrDash && matchWidth <= maxWidth) {
+                  wrapIndex = match.length;
+                } else {
+                  wrapIndex =
+                    Math.max(
+                      match.lastIndexOf(SPACE),
+                      match.lastIndexOf(DASH)
+                    ) + 1;
+                }
                 if (wrapIndex > 0) {
                   // re-cut the substring found at the space/dash position
                   low = wrapIndex;
@@ -14975,7 +14985,6 @@
           break;
         }
       }
-      getDummyContext().restore();
       this.textHeight = fontSize;
       // var maxTextWidth = 0;
       // for(var j = 0; j < this.textArr.length; j++) {
@@ -18487,9 +18496,24 @@
       Konva.Line.prototype._sceneFunc.apply(this, arguments);
       var PI2 = Math.PI * 2;
       var points = this.points();
+
+      var tp = points;
+      var fromTension = this.getTension() !== 0 && points.length > 4;
+      if (fromTension) {
+        tp = this.getTensionPoints();
+      }
+
       var n = points.length;
-      var dx = points[n - 2] - points[n - 4];
-      var dy = points[n - 1] - points[n - 3];
+
+      var dx, dy;
+      if (fromTension) {
+        dx = points[n - 2] - tp[n - 2];
+        dy = points[n - 1] - tp[n - 1];
+      } else {
+        dx = points[n - 2] - points[n - 4];
+        dy = points[n - 1] - points[n - 3];
+      }
+
       var radians = (Math.atan2(dy, dx) + PI2) % PI2;
       var length = this.pointerLength();
       var width = this.pointerWidth();
@@ -18507,8 +18531,14 @@
       if (this.pointerAtBeginning()) {
         ctx.save();
         ctx.translate(points[0], points[1]);
-        dx = points[2] - points[0];
-        dy = points[3] - points[1];
+        if (fromTension) {
+          dx = tp[0] - points[0];
+          dy = tp[1] - points[1];
+        } else {
+          dx = points[2] - points[0];
+          dy = points[3] - points[1];
+        }
+
         ctx.rotate((Math.atan2(-dy, -dx) + PI2) % PI2);
         ctx.moveTo(0, 0);
         ctx.lineTo(-length, width / 2);
@@ -18617,11 +18647,23 @@
     'transformsEnabledChange.resizer'
   ].join(' ');
 
+  var ANGLES = {
+    'top-left': -45,
+    'top-center': 0,
+    'top-right': 45,
+    'middle-right': -90,
+    'middle-left': 90,
+    'bottom-left': -135,
+    'bottom-center': 180,
+    'bottom-right': 135
+  };
+
   function getCursor(anchorName, rad) {
     if (anchorName === 'rotater') {
       return 'crosshair';
     }
 
+    rad += Konva.Util._degToRad(ANGLES[anchorName] || 0);
     var angle = (Konva.Util._radToDeg(rad) % 360 + 360) % 360;
 
     if (
@@ -18666,7 +18708,6 @@
    * primitives and shapes.
    * @constructor
    * @memberof Konva
-   * @augments Konva.Container
    * @param {Object} config
    * @param {Boolean} [config.resizeEnabled] Default is true
    * @param {Boolean} [config.rotateEnabled] Default is true
@@ -18676,33 +18717,6 @@
    * @param {Number} [config.lineEnabled] Should we draw border? Default is true
    * @param {Boolean} [config.keepRatio] Should we keep ratio when we are moving edges? Default is true
    * @param {Array} [config.enabledHandlers] Array of names of enabled handles
-   * @param {Number} [config.x]
-     * @param {Number} [config.y]
-     * @param {Number} [config.width]
-     * @param {Number} [config.height]
-     * @param {Boolean} [config.visible]
-     * @param {Boolean} [config.listening] whether or not the node is listening for events
-     * @param {String} [config.id] unique id
-     * @param {String} [config.name] non-unique name
-     * @param {Number} [config.opacity] determines node opacity.  Can be any number between 0 and 1
-     * @param {Object} [config.scale] set scale
-     * @param {Number} [config.scaleX] set scale x
-     * @param {Number} [config.scaleY] set scale y
-     * @param {Number} [config.rotation] rotation in degrees
-     * @param {Object} [config.offset] offset from center point and rotation point
-     * @param {Number} [config.offsetX] set offset x
-     * @param {Number} [config.offsetY] set offset y
-     * @param {Boolean} [config.draggable] makes the node draggable.  When stages are draggable, you can drag and drop
-     *  the entire stage by dragging any portion of the stage
-     * @param {Number} [config.dragDistance]
-     * @param {Function} [config.dragBoundFunc]
-   * * @param {Object} [config.clip] set clip
-     * @param {Number} [config.clipX] set clip x
-     * @param {Number} [config.clipY] set clip y
-     * @param {Number} [config.clipWidth] set clip width
-     * @param {Number} [config.clipHeight] set clip height
-     * @param {Function} [config.clipFunc] set clip func
-
    * @example
    * var transformer = new Konva.Transformer({
    *   node: rectangle,
@@ -18761,6 +18775,14 @@
       this.setNode(node);
     },
 
+    /**
+     * attach transformer to a Konva.Node. Transformer will adapt it its size and listed events
+     * @method
+     * @memberof Konva.Transformer.prototype
+     * @returns {Konva.Transformer}
+     * @example
+     * transformer.attachTo(shape);
+     */
     setNode: function(node) {
       if (this._node) {
         this.detach();
@@ -18776,19 +18798,27 @@
           this._clearSelfAndDescendantCache('absoluteTransform');
         }.bind(this)
       );
-      // node.on(TRANSFORM_CHANGE_STR, this.requestUpdate.bind(this));
-      // node.on('dragmove.resizer', this.requestUpdate.bind(this));
 
+      // TODO: why do we need this?
       var elementsCreated = !!this.findOne('.top-left');
       if (elementsCreated) {
         this.update();
       }
+      return this;
     },
 
     getNode: function() {
       return this._node;
     },
 
+    /**
+     * detach transformer from a attached node
+     * @method
+     * @memberof Konva.Transformer.prototype
+     * @returns {Konva.Transformer}
+     * @example
+     * transformer.detach();
+     */
     detach: function() {
       if (this.getNode()) {
         this.getNode().off('.resizer');
@@ -18871,7 +18901,6 @@
         height: 10,
         offsetX: 5,
         offsetY: 5,
-        draggable: true,
         dragDistance: 0
       });
       var self = this;
@@ -18888,23 +18917,23 @@
         // the basic idea is to find "angle" of handler
         var rad = Konva.getAngle(tr.rotation());
 
-        var cdx = tr.getWidth() / 2;
-        var cdy = tr.getHeight() / 2;
+        // var cdx = tr.getWidth() / 2;
+        // var cdy = tr.getHeight() / 2;
 
-        var parentPos = tr.getAbsolutePosition(tr.getParent());
-        var center = {
-          x: parentPos.x + (cdx * Math.cos(rad) + cdy * Math.sin(-rad)),
-          y: parentPos.y + (cdy * Math.cos(rad) + cdx * Math.sin(rad))
-        };
+        // var parentPos = tr.getAbsolutePosition(tr.getParent());
+        // var center = {
+        //   x: parentPos.x + (cdx * Math.cos(rad) + cdy * Math.sin(-rad)),
+        //   y: parentPos.y + (cdy * Math.cos(rad) + cdx * Math.sin(rad))
+        // };
 
-        var pos = this.getAbsolutePosition(tr.getParent());
+        // var pos = this.getAbsolutePosition(tr.getParent());
 
-        var dx = -pos.x + center.x;
-        var dy = -pos.y + center.y;
+        // var dx = -pos.x + center.x;
+        // var dy = -pos.y + center.y;
 
-        var angle = -Math.atan2(-dy, dx) - Math.PI / 2;
+        // var angle = -Math.atan2(-dy, dx) - Math.PI / 2;
 
-        var cursor = getCursor(name, angle);
+        var cursor = getCursor(name, rad);
         anchor.getStage().content.style.cursor = cursor;
         layer.batchDraw();
       });
@@ -19205,21 +19234,9 @@
       this.update();
       this.getLayer().batchDraw();
     },
-
-    requestUpdate: function() {
-      if (this.timeout) {
-        return;
-      }
-      this.timeout = setTimeout(
-        function() {
-          this.timeout = null;
-          this.update();
-        }.bind(this)
-      );
-    },
-
     /**
-     * force update of Transformer
+     * force update of Konva.Transformer.
+     * Use it when you updated attached Konva.Group and now you need to reset transformer size
      * @method
      * @memberof Konva.Transformer.prototype
      */
@@ -19289,9 +19306,21 @@
         visible: this.lineEnabled()
       });
     },
+    /**
+     * determine if transformer is in active transform
+     * @method
+     * @memberof Konva.Transformer.prototype
+     * @returns {Boolean}
+     */
     isTransforming: function() {
       return this._transforming;
     },
+    /**
+     * Stop active transform action
+     * @method
+     * @memberof Konva.Transformer.prototype
+     * @returns {Boolean}
+     */
     stopTransform: function() {
       if (this._transforming) {
         this._removeEvents();
