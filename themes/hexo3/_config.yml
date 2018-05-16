@@ -73,6 +73,7 @@ doc_sidebar:
     Basic demo: select_and_transform/Basic_demo.html
     Transform Events: select_and_transform/Transform_Events.html
     Resize Limits: select_and_transform/Resize_Limits.html
+    Stop Transform: select_and_transform/Stop_Transform.html
   Clipping:
     Simple Clip: clipping/Clipping_Regions.html
     Complex Clip: clipping/Clipping_Function.html
