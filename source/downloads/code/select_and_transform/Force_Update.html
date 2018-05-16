@@ -5,7 +5,7 @@
   <!-- USE DEVELOPMENT VERSION -->
   <script src="https://cdn.rawgit.com/konvajs/konva/2.1.2/konva.min.js"></script>
   <meta charset="utf-8">
-  <title>Konva Stop Transform Demo</title>
+  <title>Konva Transform Events Demo</title>
   <style>
     body {
       margin: 0;
@@ -13,11 +13,19 @@
       overflow: hidden;
       background-color: #F0F0F0;
     }
+
+    #button {
+      position: absolute;
+      top: 5px;
+      left: 10px;
+    }
   </style>
 </head>
 
 <body>
+
   <div id="container"></div>
+  <input type="button" id="button" value="Add random shape">
   <script>
     var width = window.innerWidth;
     var height = window.innerHeight;
@@ -31,35 +39,41 @@
     var layer = new Konva.Layer();
     stage.add(layer);
 
-    var rect = new Konva.Rect({
-      x: 160,
-      y: 60,
-      width: 100,
-      height: 90,
-      fill: 'red',
-      name: 'rect',
-      stroke: 'black',
+
+    var group = new Konva.Group({
+      x: 50,
+      y: 50,
       draggable: true
     });
-    layer.add(rect);
+    layer.add(group)
+
+
+
 
     // create new transformer
     var tr = new Konva.Transformer();
     layer.add(tr);
-    tr.attachTo(rect);
+    tr.attachTo(group);
     layer.draw();
 
+    document.getElementById('button').addEventListener('click', addShape);
+    addShape();
 
-    tr.on('transform', function () {
-      var width = rect.width() * rect.scaleX();
-      if (width > 200) {
-        tr.stopTransform();
-        // reset visible width to 200
-        // so future transform is possible
-        var scaleX = 200 / rect.width();
-        rect.scaleX(scaleX);
-      }
-    })
+
+    function addShape() {
+      group.add(new Konva.Circle({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        radius: Math.random() * 100,
+        fill: Konva.Util.getRandomColor(),
+        stroke: 'black',
+        strokeWidth: Math.random() * 10
+      }));
+      // force update manually
+      tr.forceUpdate();
+      layer.draw();
+    }
+
   </script>
 
 </body>

@@ -74,6 +74,7 @@ doc_sidebar:
     Transform Events: select_and_transform/Transform_Events.html
     Resize Limits: select_and_transform/Resize_Limits.html
     Stop Transform: select_and_transform/Stop_Transform.html
+    Force Update: select_and_transform/Force_Update.html
   Clipping:
     Simple Clip: clipping/Clipping_Regions.html
     Complex Clip: clipping/Clipping_Function.html
