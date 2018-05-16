@@ -40,6 +40,11 @@
       name: 'rect',
       stroke: 'black',
       draggable: true,
+    });
+    layer.add(rect);
+
+    // create new transformer
+    var tr = new Konva.Transformer({
       boundBoxFunc: function (oldBoundBox, newBoundBox) {
         // "boundBox" is an object with
         // x, y, width, height and rotation properties
@@ -47,18 +52,14 @@
         // "width" property here is a visible width of the object
         // so it equals to rect.width() * rect.scaleX()
 
-        // the login is simple, if new width is too big
-        // we will need to use oldBoundBox and prevent resize
+        // the logic is simple, if new width is too big
+        // we will need to use oldBoundBox to prevent resize
         if (newBoundBox.width > 200) {
           return oldBoundBox;
         }
         return newBoundBox
       }
     });
-    layer.add(rect);
-
-    // create new transformer
-    var tr = new Konva.Transformer();
     layer.add(tr);
     tr.attachTo(rect);
     layer.draw();
