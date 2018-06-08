@@ -1,26 +1,19 @@
-import React, { Component } from "react";
-import Konva from "konva";
-import { render } from "react-dom";
-import { Stage, Layer, Rect, Text } from "react-konva";
+import React, { Component } from 'react';
+import Konva from 'konva';
+import { render } from 'react-dom';
+import { Stage, Layer, Rect, Text } from 'react-konva';
 
-import { Spring, Trail, Globals, animated } from "react-spring/dist/universal";
+import { Trail, animated, Globals } from 'react-spring/dist/konva';
 
 Globals.injectFrame(
   x => requestAnimationFrame(x),
   x => cancelAnimationFrame(x)
 );
-Globals.injectApplyAnimatedValues((instance, props) => {
-  if (instance.nodeType) {
-    instance._applyProps(instance, props);
-  } else return false;
-}, style => style);
-
-const AnimatedRect = animated(Rect);
 
 class App extends Component {
   state = {
     toggle: true,
-    items: ["item1", "item2", "item3", "item4", "item5"]
+    items: ['item1', 'item2', 'item3', 'item4', 'item5']
   };
   toggle = () => this.setState(state => ({ toggle: !state.toggle }));
 
@@ -36,7 +29,7 @@ class App extends Component {
             keys={items}
           >
             {items.map((item, i) => ({ x, opacity }) => (
-              <AnimatedRect
+              <animated.Rect
                 x={x}
                 y={50 * i}
                 width={50}
@@ -53,4 +46,4 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'));
