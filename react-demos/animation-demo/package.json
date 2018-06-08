@@ -11,7 +11,8 @@
     "konva": "1.7.6",
     "react": "16.0.0",
     "react-dom": "16.0.0",
-    "react-konva": "1.6.4"
+    "react-konva": "1.6.4",
+    "react-spring": "5.3.11"
   },
   "devDependencies": {
     "react-scripts": "1.0.0"

@@ -1,45 +1,52 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 import { render } from 'react-dom';
-import { Stage, Layer, Rect, Text } from 'react-konva';
-
-import { Trail, animated, Globals } from 'react-spring/dist/konva';
-
-Globals.injectFrame(
-  x => requestAnimationFrame(x),
-  x => cancelAnimationFrame(x)
-);
+import { Stage, Layer, Star, Text } from 'react-konva';
 
 class App extends Component {
-  state = {
-    toggle: true,
-    items: ['item1', 'item2', 'item3', 'item4', 'item5']
+  handleDragStart = e => {
+    e.target.setAttrs({
+      shadowOffset: {
+        x: 15,
+        y: 15
+      },
+      scaleX: 1.1,
+      scaleY: 1.1
+    });
   };
-  toggle = () => this.setState(state => ({ toggle: !state.toggle }));
-
+  handleDragEnd = e => {
+    e.target.to({
+      duration: 0.5,
+      easing: Konva.Easings.ElasticEaseOut,
+      scaleX: 1,
+      scaleY: 1,
+      shadowOffsetX: 5,
+      shadowOffsetY: 5
+    });
+  };
   render() {
-    const { toggle, items } = this.state;
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Trail
-            native
-            from={{ opacity: 0, x: -100 }}
-            to={{ opacity: toggle ? 1 : 0.25, x: toggle ? 0 : 100 }}
-            keys={items}
-          >
-            {items.map((item, i) => ({ x, opacity }) => (
-              <animated.Rect
-                x={x}
-                y={50 * i}
-                width={50}
-                height={50}
-                fill="red"
-                opacity={opacity}
-                onClick={this.toggle}
-              />
-            ))}
-          </Trail>
+          <Text text="Try to drag a star" />
+          {[...Array(10)].map(() => (
+            <Star
+              x={Math.random() * window.innerWidth}
+              y={Math.random() * window.innerHeight}
+              numPoints={5}
+              innerRadius={20}
+              outerRadius={40}
+              fill="#89b717"
+              opacity={0.8}
+              draggable
+              rotation={Math.random() * 180}
+              shadowColor="black"
+              shadowBlur={10}
+              shadowOpacity={0.6}
+              onDragStart={this.handleDragStart}
+              onDragEnd={this.handleDragEnd}
+            />
+          ))}
         </Layer>
       </Stage>
     );
