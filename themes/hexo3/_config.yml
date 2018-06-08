@@ -1,6 +1,7 @@
 menu:
   Tutorials: /docs/
   Demos: /docs/sandbox
+  React: /docs/react
   API docs: /api/Konva.html
   Support: /docs/support.html
   Consulting: https://lavrton.com
@@ -163,6 +164,11 @@ demo_sidebar:
     Star Spinner : sandbox/Star_Spinner.html
     Drag and Drop Multiple Shapes : sandbox/Drag_and_Drop_Multiple_Shapes.html
     Image Border Highlighting : sandbox/Image_Border_Highlighting.html
+
+react_sidebar:
+  Getting Started:
+    Intro: react/index.html
+
     
 
 google_analytics: UA-54202824-2
