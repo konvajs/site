@@ -1,4 +1,4 @@
-title: React canvas shapes with Konva
+title: Drawing canvas shapes with React
 layout: react_page
 ---
 

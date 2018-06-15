@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Text text="Some text" />
+          <Text text="Some text on canvas" fontSize={15} />
           <Rect
             x={20}
             y={50}

@@ -24,20 +24,18 @@ This project began as a GitHub fork of [KineticJS](https://github.com/ericdrowel
 If you are using package managers:
 
 ```bash
-$ npm install konva
-$ # or
-$ bower install konva
+npm install konva
 ```
 
 Or just use script tag:
 
 ```html
-<script src="https://cdn.rawgit.com/konvajs/konva/2.1.4/konva.min.js"></script>
+<script src="https://cdn.rawgit.com/konvajs/konva/2.1.5/konva.min.js"></script>
 ```
 
 Or download from CDN:
 
-* [Full version konva.js](https://cdn.rawgit.com/konvajs/konva/2.1.4/konva.js)
-* [Min version konva.min.js](https://cdn.rawgit.com/konvajs/konva/2.1.4/konva.min.js)
+* [Full version konva.js](https://cdn.rawgit.com/konvajs/konva/2.1.5/konva.js)
+* [Min version konva.min.js](https://cdn.rawgit.com/konvajs/konva/2.1.5/konva.min.js)
 
 ### [Read next: Overview](/docs/overview.html)
