@@ -31,15 +31,15 @@
     * drawing function which draws a triangle
     */
     var triangle = new Konva.Shape({
-      sceneFunc: function (context) {
+      sceneFunc: function (context, shape) {
         context.beginPath();
         context.moveTo(20, 50);
         context.lineTo(220, 80);
         context.quadraticCurveTo(150, 100, 260, 170);
         context.closePath();
 
-        // Konva specific method
-        context.fillStrokeShape(this);
+        // (!) Konva specific method, it is very important
+        context.fillStrokeShape(shape);
       },
       fill: '#00D2FF',
       stroke: 'black',

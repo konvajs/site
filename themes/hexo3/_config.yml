@@ -168,8 +168,8 @@ demo_sidebar:
 react_sidebar:
   Getting Started:
     Intro: react/index.html
-    Shapes: react/shapes.html
-    Images: react/images.html
+    Shapes: react/Shapes.html
+    Images: react/Images.html
 
     
 
