@@ -78,6 +78,9 @@ layer.add(circle);
 
 // add the layer to the stage
 stage.add(layer);
+
+// draw the image
+layer.draw();
 ```
 Result:
 ![Minimal code demo](/assets/overview-circle.png)
