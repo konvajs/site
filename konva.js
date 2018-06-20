@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.1.5
+ * Konva JavaScript Framework v2.1.6
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Fri Jun 15 2018
+ * Date: Wed Jun 20 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.1.5',
+    version: '2.1.6',
 
     // private
     stages: [],
