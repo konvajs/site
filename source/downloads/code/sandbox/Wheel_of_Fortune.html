@@ -150,25 +150,6 @@
 
             wedge.add(text);
             text.cache();
-            // wedge.cache();
-
-            // // cache text as an image to improve performance
-            // text.toImage({
-            //     width: text.getWidth(),
-            //     height: text.getHeight(),
-            //     callback: function (img) {
-            //         var cachedText = new Konva.Image({
-            //             image: img,
-            //             listening: false,
-            //             rotation: (Math.PI + angle) / 2,
-            //             x: 380,
-            //             y: 30
-            //         });
-
-            //         wedge.add(cachedText);
-            //         layer.draw();
-            //     }
-            // });
 
             wedge.startRotation = wedge.getRotation();
 
