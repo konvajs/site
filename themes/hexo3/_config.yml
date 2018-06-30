@@ -173,6 +173,8 @@ react_sidebar:
     Images: react/Images.html
     Filters: react/Filters.html
     Drag and Drop: react/Drag_And_Drop.html
+    Simple Animations: react/Simple_Animations.html
+    Complex Animations: react/Complex_Animations.html
 
     
 
