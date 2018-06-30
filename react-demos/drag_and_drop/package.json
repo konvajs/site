@@ -1,0 +1,25 @@
+{
+  "name": "react-konva-animation",
+  "description": "React Konva sandbox",
+  "version": "0.0.9",
+  "keywords": [
+    "canvas",
+    "react",
+    "konva"
+  ],
+  "dependencies": {
+    "konva": "2.1.5",
+    "react": "16.0.0",
+    "react-dom": "16.0.0",
+    "react-konva": "1.6.4"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

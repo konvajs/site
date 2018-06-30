@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 rm ./db.json
-npm start
+npm run build
 
 echo "commit site changes"
 git add .
