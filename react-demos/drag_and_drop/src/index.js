@@ -7,9 +7,9 @@ class App extends Component {
   state = {
     text1: 'black',
     text2: 'black',
-    text2: 'black',
+    text3: 'black',
     text3x: 10,
-    text3y: 80
+    text3y: 60
   };
   handleDragEnd = e => {
     const name = e.target.name();
@@ -42,18 +42,18 @@ class App extends Component {
             text="Badly controlled text"
             name="text2"
             fill={this.state.text2}
-            y={40}
             x={10}
+            y={30}
             draggable
             onDragEnd={this.handleDragEnd}
           />
 
           <Text
-            text="Badly controlled text"
+            text="Correctly controlled text"
             name="text3"
             fill={this.state.text3}
-            y={this.state.text3y}
             x={this.state.text3x}
+            y={this.state.text3y}
             draggable
             onDragEnd={this.handleThirdDragEnd}
           />
