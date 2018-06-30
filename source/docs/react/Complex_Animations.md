@@ -1,4 +1,4 @@
-title: How to apply canvas canvas animations with react and konva?
+title: How to apply canvas animations with react and konva?
 layout: react_page
 ---
 
