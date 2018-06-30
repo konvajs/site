@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Konva from 'konva';
 import { render } from 'react-dom';
 import { Stage, Layer, Rect } from 'react-konva';
 
@@ -14,19 +13,17 @@ class MyRect extends React.Component {
   };
   render() {
     return (
-      <Group>
-        <Rect
-          ref={node => {
-            this.rect = node;
-          }}
-          width={50}
-          height={50}
-          fill="green"
-          draggable
-          onDragEnd={this.changeSize}
-          onDragStart={this.changeSize}
-        />
-      </Group>
+      <Rect
+        ref={node => {
+          this.rect = node;
+        }}
+        width={50}
+        height={50}
+        fill="green"
+        draggable
+        onDragEnd={this.changeSize}
+        onDragStart={this.changeSize}
+      />
     );
   }
 }
