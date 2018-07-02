@@ -30,7 +30,7 @@ gulp.task('copy-source-download', ['clean-public-downloads'], function() {
 });
 
 // 4 generate api docs to /public
-gulp.task('docs', function() {
+gulp.task('docs', ['clean-public'], function() {
   var config = require('./jsdoc.json');
   return gulp.src(['./konva.js', '../konva/README.md']).pipe(jsdoc(config));
 });

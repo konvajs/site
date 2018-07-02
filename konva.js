@@ -2997,8 +2997,7 @@
       return this;
     },
     /**
-     * remove and destroy self. Kill it forever! You can't reuse node later after destroy().
-     * I mean you can, but it will be buggy.
+     * remove and destroy a node. Kill it forever! You should not reuse node after destroy().
      * @method
      * @memberof Konva.Node.prototype
      * @example
