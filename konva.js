@@ -2,7 +2,7 @@
  * Konva JavaScript Framework v2.1.6
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Wed Jun 20 2018
+ * Date: Mon Jul 02 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -2970,7 +2970,7 @@
       });
     },
     /**
-     * remove self from parent, but don't destroy
+     * remove self from parent, but don't destroy. You can reuse node later.
      * @method
      * @memberof Konva.Node.prototype
      * @returns {Konva.Node}
@@ -2997,7 +2997,8 @@
       return this;
     },
     /**
-     * remove and destroy self
+     * remove and destroy self. Kill it forever! You can't reuse node later after destroy().
+     * I mean you can, but it will be buggy.
      * @method
      * @memberof Konva.Node.prototype
      * @example
