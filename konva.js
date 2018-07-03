@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.1.6
+ * Konva JavaScript Framework v2.1.7
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Mon Jul 02 2018
+ * Date: Tue Jul 03 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.1.6',
+    version: '2.1.7',
 
     // private
     stages: [],
@@ -10632,9 +10632,12 @@
 
       // always call preventDefault for desktop events because some browsers
       // try to drag and drop the canvas element
-      if (evt.cancelable) {
-        evt.preventDefault();
-      }
+      // TODO: if we preventDefault() it will cancel event detection outside of window
+      // but we need it for better drag&drop
+      // can we disable native drag&drop somehow differently?
+      // if (evt.cancelable) {
+      //   evt.preventDefault();
+      // }
     },
     _mouseup: function(evt) {
       // workaround for mobile IE to force touch event when unhandled pointer event elevates into a mouse event
@@ -13038,15 +13041,14 @@
    */
 
   if (Konva.isBrowser) {
-    var html = Konva.document.documentElement;
-    html.addEventListener('mouseup', Konva.DD._endDragBefore, true);
-    html.addEventListener('touchend', Konva.DD._endDragBefore, true);
+    window.addEventListener('mouseup', Konva.DD._endDragBefore, true);
+    window.addEventListener('touchend', Konva.DD._endDragBefore, true);
 
-    html.addEventListener('mousemove', Konva.DD._drag);
-    html.addEventListener('touchmove', Konva.DD._drag);
+    window.addEventListener('mousemove', Konva.DD._drag);
+    window.addEventListener('touchmove', Konva.DD._drag);
 
-    html.addEventListener('mouseup', Konva.DD._endDragAfter, false);
-    html.addEventListener('touchend', Konva.DD._endDragAfter, false);
+    window.addEventListener('mouseup', Konva.DD._endDragAfter, false);
+    window.addEventListener('touchend', Konva.DD._endDragAfter, false);
   }
 })();
 
