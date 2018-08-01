@@ -21,7 +21,7 @@ Currently you can use all `Konva` nodes and shapes as React components and all `
 npm install react-konva konva --save
 ```
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/basic-demo?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/basic_demo?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 
 ## Comparisons

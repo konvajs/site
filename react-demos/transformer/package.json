@@ -1,6 +1,6 @@
 {
-  "name": "react-konva-animation",
-  "description": "React Konva sandbox",
+  "name": "react-konva-transformer",
+  "description": "React Konva demo for Transformer",
   "version": "0.0.9",
   "keywords": [
     "canvas",
