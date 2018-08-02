@@ -1,4 +1,4 @@
-title: How to apply resize and rotate canvas shapes with react and konva?
+title: How to resize and rotate canvas shapes with react and konva?
 layout: react_page
 ---
 
