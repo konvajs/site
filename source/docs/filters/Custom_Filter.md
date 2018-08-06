@@ -1,8 +1,8 @@
-title: HTML5 Canvas Custom Filter Tutorial - Border for Image with Transparent parts
+title: HTML5 Canvas Custom Filter Tutorial - Border for Image around Non Transparent parts
 ---
 
 
-# How do draw border for image with alpha channel
+# How do draw border around image with alpha channel?
 
 This demo demonstrate how to use custom filters with Konva framework.
 
