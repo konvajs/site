@@ -1,11 +1,11 @@
 menu:
   Tutorials: /docs/
   Demos: /docs/sandbox
+  API docs: /api/Konva.html
   React: /docs/react
   Vue: /docs/vue
-  API docs: /api/Konva.html
   Support: /docs/support.html
-  Consulting: https://lavrton.com
+  # Consulting: https://lavrton.com
 
 doc_sidebar:
   Getting Started:
