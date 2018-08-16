@@ -2,6 +2,7 @@ menu:
   Tutorials: /docs/
   Demos: /docs/sandbox
   React: /docs/react
+  Vue: /docs/vue
   API docs: /api/Konva.html
   Support: /docs/support.html
   Consulting: https://lavrton.com
@@ -180,6 +181,18 @@ react_sidebar:
     Transformer: react/Transformer.html
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html
+
+vue_sidebar:
+  Getting Started:
+    Intro: vue/index.html
+    # Basic shapes: vue/Shapes.html
+    # Custom shape: vue/Custom_Shape.html
+    # Images: vue/Images.html
+    # Filters: vue/Filters.html
+    # Drag and Drop: vue/Drag_And_Drop.html
+    # Transformer: vue/Transformer.html
+    # Simple Animations: vue/Simple_Animations.html
+    # Complex Animations: vue/Complex_Animations.html
 
 google_analytics: UA-54202824-2
 ? fb_admins
