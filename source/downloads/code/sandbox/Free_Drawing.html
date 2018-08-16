@@ -74,13 +74,14 @@
 
     });
 
-    // move and stop event we will listen on the window.
-    window.addEventListener('mouseup touchend', function () {
+    // will it be better to listen move/end events on the window?
+
+    stage.addEventListener('mouseup touchend', function () {
       isPaint = false;
     });
 
     // and core function - drawing
-    window.addEventListener('mousemove touchmove', function () {
+    stage.addEventListener('mousemove touchmove', function () {
       if (!isPaint) {
         return;
       }
