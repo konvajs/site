@@ -8,14 +8,14 @@
     "konva"
   ],
   "dependencies": {
-    "konva": "2.1.7",
-    "react": "16.4.1",
-    "react-dom": "16.4.1",
-    "react-konva": "1.7.9",
+    "konva": "2.2.2",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "react-konva": "1.7.14",
     "react-spring": "5.3.11"
   },
   "devDependencies": {
-    "react-scripts": "1.0.0"
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
