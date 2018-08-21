@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.2.1
+ * Konva JavaScript Framework v2.2.2
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Fri Aug 10 2018
+ * Date: Tue Aug 21 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.2.1',
+    version: '2.2.2',
 
     // private
     stages: [],
@@ -38,6 +38,10 @@
       ({}.toString.call(window) === '[object Window]' ||
         // electron case
         {}.toString.call(window) === '[object global]'),
+
+    isUnminified: /comment/.test(function() {
+      /* comment */
+    }),
 
     // configurations
     enableTrace: false,
@@ -122,9 +126,18 @@
       return false;
     },
     _addId: function(node, id) {
-      if (id !== undefined) {
-        this.ids[id] = node;
+      if (!id) {
+        return;
       }
+      // do we need this warning?
+      // if (this.ids[id]) {
+      //   Konva.Util.warn(
+      //     'Duplicate id "' +
+      //       id +
+      //       '". Please don not use same id several times. It may break find() method look up.'
+      //   );
+      // }
+      this.ids[id] = node;
     },
     _removeId: function(id) {
       if (id !== undefined) {
@@ -550,6 +563,7 @@
     OBJECT_ARRAY = '[object Array]',
     OBJECT_NUMBER = '[object Number]',
     OBJECT_STRING = '[object String]',
+    OBJECT_BOOLEAN = '[object Boolean]',
     PI_OVER_DEG180 = Math.PI / 180,
     DEG180_OVER_PI = 180 / Math.PI,
     HASH = '#',
@@ -732,10 +746,17 @@
       return Object.prototype.toString.call(obj) === OBJECT_ARRAY;
     },
     _isNumber: function(obj) {
-      return Object.prototype.toString.call(obj) === OBJECT_NUMBER;
+      return (
+        Object.prototype.toString.call(obj) === OBJECT_NUMBER &&
+        !isNaN(obj) &&
+        isFinite(obj)
+      );
     },
     _isString: function(obj) {
       return Object.prototype.toString.call(obj) === OBJECT_STRING;
+    },
+    _isBoolean: function(obj) {
+      return Object.prototype.toString.call(obj) === OBJECT_BOOLEAN;
     },
     // arrays are objects too
     isObject: function(val) {
@@ -2206,11 +2227,14 @@
       };
     },
     addSetter: function(constructor, attr, validator, after) {
+      // if (!validator && validator !== null) {
+      //   console.error(constructor, attr, 'has no validator.');
+      // }
       var method = SET + Konva.Util._capitalize(attr);
 
       constructor.prototype[method] = function(val) {
-        if (validator) {
-          val = validator.call(this, val);
+        if (validator && val !== undefined && val !== null) {
+          val = validator.call(this, val, attr);
         }
 
         this._setAttr(attr, val);
@@ -2356,6 +2380,124 @@
       }
 
       return val;
+    },
+    _formatValue: function(val) {
+      if (Konva.Util._isString(val)) {
+        return '"' + val + '"';
+      }
+      if (Object.prototype.toString.call(val) === '[object Number]') {
+        return val;
+      }
+      if (Konva.Util._isBoolean(val)) {
+        return val;
+      }
+      return Object.prototype.toString.call(val);
+    },
+    getNumberValidator: function() {
+      if (Konva.isUnminified) {
+        return function(val, attr) {
+          if (!Konva.Util._isNumber(val)) {
+            Konva.Util.warn(
+              Konva.Validators._formatValue(val) +
+                ' is a not valid value for "' +
+                attr +
+                '" attribute. The value should be a number.'
+            );
+          }
+          return val;
+        };
+      }
+    },
+    getNumberOrAutoValidator: function() {
+      if (Konva.isUnminified) {
+        return function(val, attr) {
+          var isNumber = Konva.Util._isNumber(val);
+          var isAuto = val === 'auto';
+
+          if (!(isNumber || isAuto)) {
+            Konva.Util.warn(
+              Konva.Validators._formatValue(val) +
+                ' is a not valid value for "' +
+                attr +
+                '" attribute. The value should be a number or "auto".'
+            );
+          }
+          return val;
+        };
+      }
+    },
+    getStringValidator: function() {
+      if (Konva.isUnminified) {
+        return function(val, attr) {
+          if (!Konva.Util._isString(val)) {
+            Konva.Util.warn(
+              Konva.Validators._formatValue(val) +
+                ' is a not valid value for "' +
+                attr +
+                '" attribute. The value should be a string.'
+            );
+          }
+          return val;
+        };
+      }
+    },
+    getFunctionValidator: function() {
+      if (Konva.isUnminified) {
+        return function(val, attr) {
+          if (!Konva.Util._isFunction(val)) {
+            Konva.Util.warn(
+              Konva.Validators._formatValue(val) +
+                ' is a not valid value for "' +
+                attr +
+                '" attribute. The value should be a function.'
+            );
+          }
+          return val;
+        };
+      }
+    },
+    getNumberArrayValidator: function() {
+      if (Konva.isUnminified) {
+        return function(val, attr) {
+          if (!Konva.Util._isArray(val)) {
+            Konva.Util.warn(
+              Konva.Validators._formatValue(val) +
+                ' is a not valid value for "' +
+                attr +
+                '" attribute. The value should be a array of numbers.'
+            );
+          } else {
+            val.forEach(function(item) {
+              if (!Konva.Util._isNumber(item)) {
+                Konva.Util.warn(
+                  '"' +
+                    attr +
+                    '" attribute has non numeric element ' +
+                    item +
+                    '. Make sure that all elements are numbers.'
+                );
+              }
+            });
+          }
+          return val;
+        };
+      }
+    },
+    getBooleanValidator: function() {
+      if (Konva.isUnminified) {
+        return function(val, attr) {
+          var isBool = val === true || val === false;
+          if (!isBool) {
+            Konva.Util.warn(
+              Konva.Validators._formatValue(val) +
+                ' is a not valid value for "' +
+                attr +
+                '" attribute. The value should be a boolean.'
+            );
+          }
+          return val;
+        };
+      }
     }
   };
 })();
@@ -2561,12 +2703,9 @@
         drawBorder = conf.drawBorder || false;
 
       if (!width || !height) {
-        // make throw async, because we don't need to stop funcion
-        setTimeout(function() {
-          Konva.Util.throw(
-            'Width or height of caching configuration equals 0. Caching is ignored.'
-          );
-        });
+        Konva.Util.error(
+          'Can not cache the node. Width or height of the node equals 0. Caching is skipped.'
+        );
         return;
       }
 
@@ -3966,8 +4105,8 @@
       var box = this.getClientRect();
 
       var stage = this.getStage(),
-        x = config.x || box.x,
-        y = config.y || box.y,
+        x = config.x !== undefined ? config.x : box.x,
+        y = config.y !== undefined ? config.y : box.y,
         pixelRatio = config.pixelRatio || 1,
         canvas = new Konva.SceneCanvas({
           width: config.width || box.width || (stage ? stage.getWidth() : 0),
@@ -4028,7 +4167,11 @@
       config = config || {};
       var mimeType = config.mimeType || null,
         quality = config.quality || null;
-      return this._toKonvaCanvas(config).toDataURL(mimeType, quality);
+      var url = this._toKonvaCanvas(config).toDataURL(mimeType, quality);
+      if (config.callback) {
+        config.callback(url);
+      }
+      return url;
     },
     /**
      * converts node into an image.  Since the toImage
@@ -4059,8 +4202,10 @@
       if (!config || !config.callback) {
         throw 'callback required for toImage method config argument';
       }
+      var callback = config.callback;
+      delete config.callback;
       Konva.Util._getImage(this.toDataURL(config), function(img) {
-        config.callback(img);
+        callback(img);
       });
     },
     setSize: function(size) {
@@ -4427,7 +4572,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'x', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'x',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set x position
@@ -4444,7 +4594,12 @@
    * node.x(5);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'y', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'y',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set y position
@@ -4464,7 +4619,8 @@
   Konva.Factory.addGetterSetter(
     Konva.Node,
     'globalCompositeOperation',
-    'source-over'
+    'source-over',
+    Konva.Validators.getStringValidator()
   );
 
   /**
@@ -4481,7 +4637,12 @@
    * // set globalCompositeOperation
    * shape.globalCompositeOperation('source-in');
    */
-  Konva.Factory.addGetterSetter(Konva.Node, 'opacity', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'opacity',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set opacity.  Opacity values range from 0 to 1.
@@ -4539,7 +4700,12 @@
    * node.id('foo');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'rotation', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'rotation',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set rotation in degrees
@@ -4578,7 +4744,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'scaleX', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'scaleX',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set scale x
@@ -4595,7 +4766,12 @@
    * node.scaleX(2);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'scaleY', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'scaleY',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set scale y
@@ -4634,7 +4810,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'skewX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'skewX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set skew x
@@ -4651,7 +4832,12 @@
    * node.skewX(3);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'skewY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'skewY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set skew y
@@ -4689,7 +4875,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'offsetX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'offsetX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set offset x
@@ -4706,7 +4897,12 @@
    * node.offsetX(3);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'offsetY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'offsetY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set offset y
@@ -4723,7 +4919,11 @@
    * node.offsetY(3);
    */
 
-  Konva.Factory.addSetter(Konva.Node, 'dragDistance');
+  Konva.Factory.addSetter(
+    Konva.Node,
+    'dragDistance',
+    Konva.Validators.getNumberValidator()
+  );
   Konva.Factory.addOverloadedGetterSetter(Konva.Node, 'dragDistance');
 
   /**
@@ -4744,7 +4944,11 @@
    * Konva.dragDistance = 3;
    */
 
-  Konva.Factory.addSetter(Konva.Node, 'width', 0);
+  Konva.Factory.addSetter(
+    Konva.Node,
+    'width',
+    Konva.Validators.getNumberValidator()
+  );
   Konva.Factory.addOverloadedGetterSetter(Konva.Node, 'width');
   /**
    * get/set width
@@ -4761,7 +4965,11 @@
    * node.width(100);
    */
 
-  Konva.Factory.addSetter(Konva.Node, 'height', 0);
+  Konva.Factory.addSetter(
+    Konva.Node,
+    'height',
+    Konva.Validators.getNumberValidator()
+  );
   Konva.Factory.addOverloadedGetterSetter(Konva.Node, 'height');
   /**
    * get/set height
@@ -4778,7 +4986,18 @@
    * node.height(100);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'listening', 'inherit');
+  Konva.Factory.addGetterSetter(Konva.Node, 'listening', 'inherit', function(
+    val
+  ) {
+    var isValid = val === true || val === false || val === 'inherit';
+    if (!isValid) {
+      Konva.Util.warn(
+        val +
+          ' is a not valid value for "listening" attribute. The value may be true, false or "inherit".'
+      );
+    }
+    return val;
+  });
   /**
    * get/set listenig attr.  If you need to determine if a node is listening or not
    *   by taking into account its parents, use the isListening() method
@@ -4821,11 +5040,14 @@
    * shape.preventDefault(false);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'preventDefault', true);
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'preventDefault',
+    true,
+    Konva.Validators.getBooleanValidator()
+  );
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'filters', undefined, function(
-    val
-  ) {
+  Konva.Factory.addGetterSetter(Konva.Node, 'filters', null, function(val) {
     this._filterUpToDate = false;
     return val;
   });
@@ -4853,7 +5075,18 @@
    * ]);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'visible', 'inherit');
+  Konva.Factory.addGetterSetter(Konva.Node, 'visible', 'inherit', function(
+    val
+  ) {
+    var isValid = val === true || val === false || val === 'inherit';
+    if (!isValid) {
+      Konva.Util.warn(
+        val +
+          ' is a not valid value for "visible" attribute. The value may be true, false or "inherit".'
+      );
+    }
+    return val;
+  });
   /**
    * get/set visible attr.  Can be "inherit", true, or false.  The default is "inherit".
    *   If you need to determine if a node is visible or not
@@ -4877,7 +5110,12 @@
    * node.visible('inherit');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Node, 'transformsEnabled', 'all');
+  Konva.Factory.addGetterSetter(
+    Konva.Node,
+    'transformsEnabled',
+    'all',
+    Konva.Validators.getStringValidator()
+  );
 
   /**
    * get/set transforms that are enabled.  Can be "all", "none", or "position".  The default
@@ -4988,7 +5226,7 @@
     Konva.Node,
     'brightness',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -5870,7 +6108,7 @@
     Konva.Node,
     'blurRadius',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 
@@ -6101,7 +6339,7 @@
     Konva.Node,
     'threshold',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 })();
@@ -6370,7 +6608,7 @@
     Konva.Node,
     'hue',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6386,7 +6624,7 @@
     Konva.Node,
     'saturation',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6402,7 +6640,7 @@
     Konva.Node,
     'value',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6421,7 +6659,7 @@
     Konva.Node,
     'hue',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6437,7 +6675,7 @@
     Konva.Node,
     'saturation',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6453,7 +6691,7 @@
     Konva.Node,
     'luminance',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6670,7 +6908,7 @@
     Konva.Node,
     'embossStrength',
     0.5,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6686,7 +6924,7 @@
     Konva.Node,
     'embossWhiteLevel',
     0.5,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -6880,7 +7118,7 @@
     Konva.Node,
     'enhance',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 })();
@@ -6919,7 +7157,7 @@
     Konva.Node,
     'levels',
     0.5,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 
@@ -6965,7 +7203,7 @@
     Konva.Node,
     'noise',
     0.2,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -7086,7 +7324,7 @@
     Konva.Node,
     'pixelSize',
     8,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -7131,7 +7369,7 @@
     Konva.Node,
     'threshold',
     0.5,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
   /**
@@ -7523,7 +7761,7 @@
     Konva.Node,
     'kaleidoscopePower',
     2,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 
@@ -7539,7 +7777,7 @@
     Konva.Node,
     'kaleidoscopeAngle',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 })();
@@ -7616,7 +7854,7 @@
     Konva.Node,
     'contrast',
     0,
-    null,
+    Konva.Validators.getNumberValidator(),
     Konva.Factory.afterSetFilter
   );
 })(Konva);
@@ -7881,15 +8119,13 @@
       for (n = 0; n < len; n++) {
         sel = selectorArr[n];
         if (!Konva.Util.isValidSelector(sel)) {
-          Konva.Util.warn(
+          var message =
             'Selector "' +
-              sel +
-              '" is invalid. Allowed selectors examples are "#foo", ".bar" or "Group".'
-          );
-          Konva.Util.warn(
-            'If you have a custom shape with such className, please change it to start with upper letter like "Triangle".'
-          );
-          Konva.Util.warn('Konva is awesome, right?');
+            sel +
+            '" is invalid. Allowed selectors examples are "#foo", ".bar" or "Group".\n' +
+            'If you have a custom shape with such className, please change it to start with upper letter like "Triangle".\n' +
+            'Konva is awesome, right?';
+          Konva.Util.warn(message);
         }
         // id selector
         if (sel.charAt(0) === '#') {
@@ -8247,7 +8483,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Container, 'clipX');
+  Konva.Factory.addGetterSetter(
+    Konva.Container,
+    'clipX',
+    undefined,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set clip x
    * @name clipX
@@ -8263,7 +8504,12 @@
    * container.clipX(10);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Container, 'clipY');
+  Konva.Factory.addGetterSetter(
+    Konva.Container,
+    'clipY',
+    undefined,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set clip y
    * @name clipY
@@ -8279,7 +8525,12 @@
    * container.clipY(10);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Container, 'clipWidth');
+  Konva.Factory.addGetterSetter(
+    Konva.Container,
+    'clipWidth',
+    undefined,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set clip width
    * @name clipWidth
@@ -8295,7 +8546,12 @@
    * container.clipWidth(100);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Container, 'clipHeight');
+  Konva.Factory.addGetterSetter(
+    Konva.Container,
+    'clipHeight',
+    undefined,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set clip height
    * @name clipHeight
@@ -8922,7 +9178,12 @@
   Konva.Util.extend(Konva.Shape, Konva.Node);
 
   // add getters and setters
-  Konva.Factory.addGetterSetter(Konva.Shape, 'stroke');
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'stroke',
+    undefined,
+    Konva.Validators.getStringValidator()
+  );
 
   /**
    * get/set stroke color
@@ -8948,7 +9209,12 @@
    * shape.stroke('rgba(0,255,0,0.5');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'strokeWidth', 2);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'strokeWidth',
+    2,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set stroke width
@@ -8965,7 +9231,12 @@
    * shape.strokeWidth();
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'strokeHitEnabled', true);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'strokeHitEnabled',
+    true,
+    Konva.Validators.getBooleanValidator()
+  );
 
   /**
    * get/set strokeHitEnabled property. Useful for performance optimization.
@@ -8986,7 +9257,12 @@
    * shape.strokeHitEnabled();
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'perfectDrawEnabled', true);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'perfectDrawEnabled',
+    true,
+    Konva.Validators.getBooleanValidator()
+  );
 
   /**
    * get/set perfectDrawEnabled. If a shape has fill, stroke and opacity you may set `perfectDrawEnabled` to false to improve performance.
@@ -9005,7 +9281,12 @@
    * shape.perfectDrawEnabled();
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'shadowForStrokeEnabled', true);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'shadowForStrokeEnabled',
+    true,
+    Konva.Validators.getBooleanValidator()
+  );
 
   /**
    * get/set shadowForStrokeEnabled. Useful for performance optimization.
@@ -9122,7 +9403,12 @@
    *  line.dash([10, 20, 0.001, 20]);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'dashOffset', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'dashOffset',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set dash offset for stroke.
@@ -9137,7 +9423,12 @@
    *  line.dashOffset(5);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'shadowColor');
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'shadowColor',
+    undefined,
+    Konva.Validators.getStringValidator()
+  );
 
   /**
    * get/set shadow color
@@ -9163,7 +9454,12 @@
    * shape.shadowColor('rgba(0,255,0,0.5');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'shadowBlur');
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'shadowBlur',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set shadow blur
@@ -9180,7 +9476,12 @@
    * shape.shadowBlur(10);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'shadowOpacity');
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'shadowOpacity',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set shadow opacity.  must be a value between 0 and 1
@@ -9222,7 +9523,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'shadowOffsetX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'shadowOffsetX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set shadow offset x
@@ -9239,7 +9545,12 @@
    * shape.shadowOffsetX(5);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'shadowOffsetY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'shadowOffsetY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set shadow offset y
@@ -9277,7 +9588,12 @@
    * imageObj.src = 'path/to/image/jpg';
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fill');
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fill',
+    undefined,
+    Konva.Validators.getStringValidator()
+  );
 
   /**
    * get/set fill color
@@ -9306,7 +9622,12 @@
    * shape.fill(null);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fillPatternX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fillPatternX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set fill pattern x
@@ -9322,7 +9643,12 @@
    * shape.fillPatternX(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fillPatternY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fillPatternY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set fill pattern y
@@ -9593,7 +9919,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fillPatternOffsetX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fillPatternOffsetX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set fill pattern offset x
@@ -9610,7 +9941,12 @@
    * shape.fillPatternOffsetX(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fillPatternOffsetY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fillPatternOffsetY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set fill pattern offset y
@@ -9652,7 +9988,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fillPatternScaleX', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fillPatternScaleX',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set fill pattern scale x
@@ -9669,7 +10010,12 @@
    * shape.fillPatternScaleX(2);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Shape, 'fillPatternScaleY', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Shape,
+    'fillPatternScaleY',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set fill pattern scale y
@@ -10356,12 +10702,10 @@
     getContent: function() {
       return this.content;
     },
-    toDataURL: function(config) {
+    _toKonvaCanvas: function(config) {
       config = config || {};
 
-      var mimeType = config.mimeType || null,
-        quality = config.quality || null,
-        x = config.x || 0,
+      var x = config.x || 0,
         y = config.y || 0,
         canvas = new Konva.SceneCanvas({
           width: config.width || this.getWidth(),
@@ -10379,24 +10723,16 @@
         if (!layer.isVisible()) {
           return;
         }
-        var width = layer.getCanvas().getWidth();
-        var height = layer.getCanvas().getHeight();
-        var ratio = layer.getCanvas().getPixelRatio();
+        var layerCanvas = layer._toKonvaCanvas(config);
         _context.drawImage(
-          layer.getCanvas()._canvas,
-          0,
-          0,
-          width / ratio,
-          height / ratio
+          layerCanvas._canvas,
+          x,
+          y,
+          layerCanvas.getWidth() / layerCanvas.getPixelRatio(),
+          layerCanvas.getHeight() / layerCanvas.getPixelRatio()
         );
       });
-      var src = canvas.toDataURL(mimeType, quality);
-
-      if (config.callback) {
-        config.callback(src);
-      }
-
-      return src;
+      return canvas;
     },
     /**
      * converts stage into an image.
@@ -11174,6 +11510,15 @@
     setSize: function(width, height) {
       this.canvas.setSize(width, height);
       return this;
+    },
+    _toKonvaCanvas: function(config) {
+      config = config || {};
+      config.width = config.width || this.getWidth();
+      config.height = config.height || this.getHeight();
+      config.x = config.x !== undefined ? config.x : this.getX();
+      config.y = config.y !== undefined ? config.y : this.getY();
+
+      return Konva.Node.prototype._toKonvaCanvas.call(this, config);
     },
     /**
      * get/set width of layer.getter return width of stage. setter doing nothing.
@@ -12165,7 +12510,7 @@
       key;
 
     if (typeof config.duration === 'undefined') {
-      duration = 1;
+      duration = 0.3;
     } else if (config.duration === 0) {
       // zero is bad value for duration
       duration = 0.001;
@@ -13219,7 +13564,12 @@
 
   Konva.Util.extend(Konva.Rect, Konva.Shape);
 
-  Konva.Factory.addGetterSetter(Konva.Rect, 'cornerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Rect,
+    'cornerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set corner radius
    * @name cornerRadius
@@ -13375,7 +13725,12 @@
   Konva.Util.extend(Konva.Circle, Konva.Shape);
 
   // add getters setters
-  Konva.Factory.addGetterSetter(Konva.Circle, 'radius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Circle,
+    'radius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   Konva.Factory.addOverloadedGetterSetter(Konva.Circle, 'radius');
 
   /**
@@ -13562,7 +13917,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Ellipse, 'radiusX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Ellipse,
+    'radiusX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set radius x
    * @name radiusX
@@ -13578,7 +13938,12 @@
    * ellipse.radiusX(200);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Ellipse, 'radiusY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Ellipse,
+    'radiusY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set radius y
    * @name radiusY
@@ -13740,7 +14105,12 @@
   Konva.Util.extend(Konva.Ring, Konva.Shape);
 
   // add getters setters
-  Konva.Factory.addGetterSetter(Konva.Ring, 'innerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Ring,
+    'innerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set innerRadius
@@ -13756,7 +14126,12 @@
    * // set inner radius
    * ring.innerRadius(20);
    */
-  Konva.Factory.addGetter(Konva.Ring, 'outerRadius', 0);
+  Konva.Factory.addGetter(
+    Konva.Ring,
+    'outerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   Konva.Factory.addOverloadedGetterSetter(Konva.Ring, 'outerRadius');
 
   /**
@@ -13921,7 +14296,12 @@
   Konva.Util.extend(Konva.Wedge, Konva.Shape);
 
   // add getters setters
-  Konva.Factory.addGetterSetter(Konva.Wedge, 'radius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Wedge,
+    'radius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set radius
@@ -13938,7 +14318,12 @@
    * wedge.radius(10);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Wedge, 'angle', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Wedge,
+    'angle',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set angle in degrees
@@ -14126,7 +14511,12 @@
   Konva.Util.extend(Konva.Arc, Konva.Shape);
 
   // add getters setters
-  Konva.Factory.addGetterSetter(Konva.Arc, 'innerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Arc,
+    'innerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set innerRadius
@@ -14143,7 +14533,12 @@
    * arc.innerRadius(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Arc, 'outerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Arc,
+    'outerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set outerRadius
@@ -14160,7 +14555,12 @@
    * arc.outerRadius(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Arc, 'angle', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Arc,
+    'angle',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set angle in degrees
@@ -14424,7 +14824,12 @@
    * });
    */
 
-  Konva.Factory.addGetterSetter(Konva.Image, 'cropX', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Image,
+    'cropX',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set crop x
    * @method
@@ -14440,7 +14845,12 @@
    * image.cropX(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Image, 'cropY', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Image,
+    'cropY',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set crop y
    * @name cropY
@@ -14456,7 +14866,12 @@
    * image.cropY(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Image, 'cropWidth', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Image,
+    'cropWidth',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set crop width
    * @name cropWidth
@@ -14472,7 +14887,12 @@
    * image.cropWidth(20);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Image, 'cropHeight', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Image,
+    'cropHeight',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set crop height
    * @name cropHeight
@@ -15061,6 +15481,18 @@
   };
   Konva.Util.extend(Konva.Text, Konva.Shape);
 
+  Konva.Factory.addSetter(
+    Konva.Node,
+    'width',
+    Konva.Validators.getNumberOrAutoValidator()
+  );
+
+  Konva.Factory.addSetter(
+    Konva.Node,
+    'height',
+    Konva.Validators.getNumberOrAutoValidator()
+  );
+
   // add getters setters
   Konva.Factory.addGetterSetter(Konva.Text, 'fontFamily', 'Arial');
 
@@ -15079,7 +15511,12 @@
    * text.fontFamily('Arial');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Text, 'fontSize', 12);
+  Konva.Factory.addGetterSetter(
+    Konva.Text,
+    'fontSize',
+    12,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set font size in pixels
@@ -15130,7 +15567,12 @@
    * text.fontVariant('small-caps');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Text, 'padding', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Text,
+    'padding',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set padding
@@ -15167,7 +15609,12 @@
    * text.align('right');
    */
 
-  Konva.Factory.addGetterSetter(Konva.Text, 'lineHeight', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Text,
+    'lineHeight',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set line height.  The default is 1.
@@ -15219,7 +15666,12 @@
    * text.ellipsis(true);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Text, 'letterSpacing', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Text,
+    'letterSpacing',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set letter spacing property. Default value is 0.
@@ -15588,7 +16040,12 @@
    * line.bezier(true);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Line, 'tension', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Line,
+    'tension',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set tension
@@ -15606,7 +16063,12 @@
    * line.tension(3);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Line, 'points', []);
+  Konva.Factory.addGetterSetter(
+    Konva.Line,
+    'points',
+    [],
+    Konva.Validators.getNumberArrayValidator()
+  );
   /**
    * get/set points array
    * @name points
@@ -16013,7 +16475,12 @@
    * sprite.image(imageObj);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Sprite, 'frameIndex', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Sprite,
+    'frameIndex',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set/set animation frame index
@@ -16030,7 +16497,12 @@
    * sprite.frameIndex(3);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Sprite, 'frameRate', 17);
+  Konva.Factory.addGetterSetter(
+    Konva.Sprite,
+    'frameRate',
+    17,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set frame rate in frames per second.  Increase this number to make the sprite
@@ -17561,7 +18033,12 @@
    * @memberof Konva.TextPath.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.TextPath, 'fontSize', 12);
+  Konva.Factory.addGetterSetter(
+    Konva.TextPath,
+    'fontSize',
+    12,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set font size
@@ -17607,7 +18084,12 @@
    * text.align('right');
    */
 
-  Konva.Factory.addGetterSetter(Konva.TextPath, 'letterSpacing', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.TextPath,
+    'letterSpacing',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set letter spacing property. Default value is 0.
@@ -17828,7 +18310,12 @@
   Konva.Util.extend(Konva.RegularPolygon, Konva.Shape);
 
   // add getters setters
-  Konva.Factory.addGetterSetter(Konva.RegularPolygon, 'radius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.RegularPolygon,
+    'radius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set radius
@@ -17845,7 +18332,12 @@
    * @memberof Konva.RegularPolygon.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.RegularPolygon, 'sides', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.RegularPolygon,
+    'sides',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set number of sides
@@ -18015,7 +18507,12 @@
   Konva.Util.extend(Konva.Star, Konva.Shape);
 
   // add getters setters
-  Konva.Factory.addGetterSetter(Konva.Star, 'numPoints', 5);
+  Konva.Factory.addGetterSetter(
+    Konva.Star,
+    'numPoints',
+    5,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set number of points
@@ -18032,7 +18529,12 @@
    * @memberof Konva.Star.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.Star, 'innerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Star,
+    'innerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set inner radius
@@ -18049,7 +18551,12 @@
    * @memberof Konva.Star.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.Star, 'outerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Star,
+    'outerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set outer radius
@@ -18427,7 +18934,12 @@
    * @memberof Konva.Tag.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.Tag, 'pointerWidth', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Tag,
+    'pointerWidth',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set pointer width
@@ -18444,7 +18956,12 @@
    * @memberof Konva.Tag.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.Tag, 'pointerHeight', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Tag,
+    'pointerHeight',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set pointer height
@@ -18461,7 +18978,12 @@
    * @memberof Konva.Tag.prototype
    */
 
-  Konva.Factory.addGetterSetter(Konva.Tag, 'cornerRadius', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Tag,
+    'cornerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * set corner radius
@@ -18677,7 +19199,12 @@
    * line.pointerLength(15);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Arrow, 'pointerLength', 10);
+  Konva.Factory.addGetterSetter(
+    Konva.Arrow,
+    'pointerLength',
+    10,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set pointerWidth
    * @name pointerWidth
@@ -18694,7 +19221,12 @@
    * line.pointerWidth(15);
    */
 
-  Konva.Factory.addGetterSetter(Konva.Arrow, 'pointerWidth', 10);
+  Konva.Factory.addGetterSetter(
+    Konva.Arrow,
+    'pointerWidth',
+    10,
+    Konva.Validators.getNumberValidator()
+  );
   /**
    * get/set pointerAtBeginning
    * @name pointerAtBeginning
@@ -19588,7 +20120,12 @@
    * // set
    * transformer.anchorSize(20)
    */
-  Konva.Factory.addGetterSetter(Konva.Transformer, 'anchorSize', 10);
+  Konva.Factory.addGetterSetter(
+    Konva.Transformer,
+    'anchorSize',
+    10,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set ability to rotate.
@@ -19636,7 +20173,12 @@
    * // set
    * transformer.rotateAnchorOffset(100);
    */
-  Konva.Factory.addGetterSetter(Konva.Transformer, 'rotateAnchorOffset', 50);
+  Konva.Factory.addGetterSetter(
+    Konva.Transformer,
+    'rotateAnchorOffset',
+    50,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set visibility of border
@@ -19688,7 +20230,12 @@
    * // set
    * transformer.anchorStrokeWidth(3);
    */
-  Konva.Factory.addGetterSetter(Konva.Transformer, 'anchorStrokeWidth', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Transformer,
+    'anchorStrokeWidth',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set anchor fill color
@@ -19740,7 +20287,12 @@
    * // set
    * transformer.borderStrokeWidth(3);
    */
-  Konva.Factory.addGetterSetter(Konva.Transformer, 'borderStrokeWidth', 1);
+  Konva.Factory.addGetterSetter(
+    Konva.Transformer,
+    'borderStrokeWidth',
+    1,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set border dash array
@@ -19788,7 +20340,12 @@
    * // set
    * transformer.padding(10);
    */
-  Konva.Factory.addGetterSetter(Konva.Transformer, 'padding', 0);
+  Konva.Factory.addGetterSetter(
+    Konva.Transformer,
+    'padding',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   Konva.Factory.addOverloadedGetterSetter(Konva.Transformer, 'node');
 
