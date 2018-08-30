@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.2.2
+ * Konva JavaScript Framework v2.3.0
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Tue Aug 21 2018
+ * Date: Thu Aug 30 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.2.2',
+    version: '2.3.0',
 
     // private
     stages: [],
@@ -14952,6 +14952,8 @@
     LEFT = 'left',
     TEXT = 'text',
     TEXT_UPPER = 'Text',
+    TOP = 'top',
+    BOTTOM = 'bottom',
     MIDDLE = 'middle',
     NORMAL = 'normal',
     PX_SPACE = 'px ',
@@ -14968,6 +14970,7 @@
       'fontVariant',
       'padding',
       'align',
+      'verticalAlign',
       'lineHeight',
       'text',
       'width',
@@ -14999,6 +15002,7 @@
    * @param {String} [config.fontVariant] can be normal or small-caps.  Default is normal
    * @param {String} config.text
    * @param {String} [config.align] can be left, center, or right
+   * @param {String} [config.verticalAlign] can be top, middle or bottom
    * @param {Number} [config.padding]
    * @param {Number} [config.lineHeight] default is 1
    * @param {String} [config.wrap] can be word, char, or none. Default is word
@@ -15135,6 +15139,8 @@
         lineHeightPx = this.getLineHeight() * textHeight,
         textArr = this.textArr,
         textArrLen = textArr.length,
+        verticalAlign = this.getVerticalAlign(),
+        alignY = 0,
         align = this.getAlign(),
         totalWidth = this.getWidth(),
         letterSpacing = this.getLetterSpacing(),
@@ -15147,11 +15153,20 @@
 
       context.setAttr('textBaseline', MIDDLE);
       context.setAttr('textAlign', LEFT);
+
+      // handle vertical alignment
+      if (verticalAlign === MIDDLE) {
+        alignY =
+          (this.getHeight() - textArrLen * lineHeightPx - padding * 2) / 2;
+      } else if (verticalAlign === BOTTOM) {
+        alignY = this.getHeight() - textArrLen * lineHeightPx - padding * 2;
+      }
+
       if (padding) {
         context.translate(padding, 0);
-        context.translate(0, padding + lineHeightPx / 2);
+        context.translate(0, alignY + padding + lineHeightPx / 2);
       } else {
-        context.translate(0, lineHeightPx / 2);
+        context.translate(0, alignY + lineHeightPx / 2);
       }
 
       // draw text lines
@@ -15287,7 +15302,7 @@
       return this.textWidth;
     },
     /**
-     * get text height
+     * get height of one line text
      * @method
      * @memberof Konva.Text.prototype
      * @returns {Number}
@@ -15607,6 +15622,23 @@
    *
    * // align text to right
    * text.align('right');
+   */
+
+  Konva.Factory.addGetterSetter(Konva.Text, 'verticalAlign', TOP);
+
+  /**
+   * get/set vertical align of text.  Can be 'top', 'middle', 'bottom'.
+   * @name verticalAlign
+   * @method
+   * @memberof Konva.Text.prototype
+   * @param {String} verticalAlign
+   * @returns {String}
+   * @example
+   * // get text vertical align
+   * var verticalAlign = text.verticalAlign();
+   *
+   * // center text
+   * text.verticalAlign('center');
    */
 
   Konva.Factory.addGetterSetter(
@@ -16635,8 +16667,16 @@
       this.className = 'Path';
 
       this.dataArray = Konva.Path.parsePathData(this.getData());
+      this.pathLength = 0;
+      for (var i = 0; i < this.dataArray.length; ++i) {
+        this.pathLength += this.dataArray[i].pathLength;
+      }
       this.on('dataChange.konva', function() {
         that.dataArray = Konva.Path.parsePathData(this.getData());
+        this.pathLength = 0;
+        for (var i = 0; i < this.dataArray.length; ++i) {
+          this.pathLength += this.dataArray[i].pathLength;
+        }
       });
 
       this.sceneFunc(this._sceneFunc);
@@ -16717,6 +16757,103 @@
         width: Math.round(maxX - minX),
         height: Math.round(maxY - minY)
       };
+    },
+    /**
+     * Return length of the path.
+     * @method
+     * @memberof Konva.Path.prototype
+     * @returns {Number} length
+     * @example
+     * var length = path.getLength();
+     */
+    getLength: function() {
+      return this.pathLength;
+    },
+    /**
+     * Get point on path at specific length of the path
+     * @method
+     * @memberof Konva.Path.prototype
+     * @param {Number} length length
+     * @returns {Object} point {x,y} point
+     * @example
+     * var point = path.getPointAtLength(10);
+     */
+    getPointAtLength: function(length) {
+      var point,
+        i = 0,
+        ii = this.dataArray.length;
+
+      if (!ii) {
+        return null;
+      }
+
+      while (i < ii && length > this.dataArray[i].pathLength) {
+        length -= this.dataArray[i].pathLength;
+        ++i;
+      }
+
+      if (i === ii) {
+        point = this.dataArray[i - 1].points.slice(-2);
+        return {
+          x: point[0],
+          y: point[1]
+        };
+      }
+
+      if (length < 0.01) {
+        point = this.dataArray[i].points.slice(0, 2);
+        return {
+          x: point[0],
+          y: point[1]
+        };
+      }
+
+      var cp = this.dataArray[i];
+      var p = cp.points;
+      switch (cp.command) {
+        case 'L':
+          return Konva.Path.getPointOnLine(
+            length,
+            cp.start.x,
+            cp.start.y,
+            p[0],
+            p[1]
+          );
+        case 'C':
+          return Konva.Path.getPointOnCubicBezier(
+            length / cp.pathLength,
+            cp.start.x,
+            cp.start.y,
+            p[0],
+            p[1],
+            p[2],
+            p[3],
+            p[4],
+            p[5]
+          );
+        case 'Q':
+          return Konva.Path.getPointOnQuadraticBezier(
+            length / cp.pathLength,
+            cp.start.x,
+            cp.start.y,
+            p[0],
+            p[1],
+            p[2],
+            p[3]
+          );
+        case 'A':
+          var cx = p[0],
+            cy = p[1],
+            rx = p[2],
+            ry = p[3],
+            theta = p[4],
+            dTheta = p[5],
+            psi = p[6];
+          theta += dTheta * length / cp.pathLength;
+          return Konva.Path.getPointOnEllipticalArc(cx, cy, rx, ry, theta, psi);
+      }
+
+      return null;
     }
   };
   Konva.Util.extend(Konva.Path, Konva.Shape);
