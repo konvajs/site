@@ -1,5 +1,5 @@
 {
-  "name": "react-konva-animation",
+  "name": "react-konva-basic-demo",
   "description": "React Konva sandbox",
   "version": "0.0.9",
   "keywords": [
@@ -8,13 +8,13 @@
     "konva"
   ],
   "dependencies": {
-    "konva": "2.2.2",
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-konva": "1.7.14"
+    "konva": "2.3.0",
+    "react": "16.5.0",
+    "react-dom": "16.5.0",
+    "react-konva": "1.7.15"
   },
   "devDependencies": {
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
