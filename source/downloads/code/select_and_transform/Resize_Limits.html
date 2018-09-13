@@ -43,6 +43,7 @@
     });
     layer.add(rect);
 
+    var MAX_WIDTH = 200;
     // create new transformer
     var tr = new Konva.Transformer({
       boundBoxFunc: function (oldBoundBox, newBoundBox) {
@@ -54,7 +55,14 @@
 
         // the logic is simple, if new width is too big
         // we will limit it
-        newBoundBox.width = Math.min(newBoundBox.width, 200);
+        if (newBoundBox.width > MAX_WIDTH) {
+          newBoundBox.width = MAX_WIDTH;
+        }
+
+        // if width is negative, the shape will have negative scaleX, so it will be reverted
+        if (newBoundBox.width < -MAX_WIDTH) {
+          newBoundBox.width = -MAX_WIDTH;
+        }
         return newBoundBox
       }
     });
