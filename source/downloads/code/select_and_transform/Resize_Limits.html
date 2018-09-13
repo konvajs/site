@@ -53,10 +53,8 @@
         // so it equals to rect.width() * rect.scaleX()
 
         // the logic is simple, if new width is too big
-        // we will need to use oldBoundBox to prevent resize
-        if (newBoundBox.width > 200) {
-          return oldBoundBox;
-        }
+        // we will limit it
+        newBoundBox.width = Math.min(newBoundBox.width, 200);
         return newBoundBox
       }
     });
