@@ -54,7 +54,7 @@
     layer.add(rect2);
     layer.draw();
 
-    stage.on('click', function (e) {
+    stage.on('click tap', function (e) {
       // if click on empty area - remove all transformers
       if (e.target === stage) {
         stage.find('Transformer').destroy();
