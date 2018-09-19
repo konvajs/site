@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.3.0
+ * Konva JavaScript Framework v2.4.0
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Thu Aug 30 2018
+ * Date: Wed Sep 19 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.3.0',
+    version: '2.4.0',
 
     // private
     stages: [],
@@ -10978,11 +10978,11 @@
 
       // always call preventDefault for desktop events because some browsers
       // try to drag and drop the canvas element
-      // TODO: if we preventDefault() it will cancel event detection outside of window
+      // TODO: if we preventDefault() it will cancel event detection outside of window inside iframe
       // but we need it for better drag&drop
       // can we disable native drag&drop somehow differently?
       // if (evt.cancelable) {
-      //   evt.preventDefault();
+      // evt.preventDefault();
       // }
     },
     _mouseup: function(evt) {
@@ -11263,7 +11263,9 @@
       // content
       this.content = Konva.document.createElement(DIV);
       this.content.style.position = RELATIVE;
+      this.content.style.userSelect = 'none';
       this.content.className = KONVA_CONTENT;
+
       this.content.setAttribute('role', 'presentation');
 
       container.appendChild(this.content);
@@ -12586,7 +12588,8 @@
         n,
         len,
         trueEnd,
-        trueStart;
+        trueStart,
+        endRGBA;
 
       // remove conflict from tween map if it exists
       tweenId = Konva.Tween.tweens[nodeId][key];
@@ -12617,12 +12620,30 @@
           }
         }
 
-        for (n = 0; n < len; n++) {
-          diff.push(end[n] - start[n]);
+        if (key.indexOf('fill') === 0) {
+          for (n = 0; n < len; n++) {
+            if (n % 2 === 0) {
+              diff.push(end[n] - start[n]);
+            } else {
+              var startRGBA = Konva.Util.colorToRGBA(start[n]);
+              endRGBA = Konva.Util.colorToRGBA(end[n]);
+              start[n] = startRGBA;
+              diff.push({
+                r: endRGBA.r - startRGBA.r,
+                g: endRGBA.g - startRGBA.g,
+                b: endRGBA.b - startRGBA.b,
+                a: endRGBA.a - startRGBA.a
+              });
+            }
+          }
+        } else {
+          for (n = 0; n < len; n++) {
+            diff.push(end[n] - start[n]);
+          }
         }
       } else if (colorAttrs.indexOf(key) !== -1) {
         start = Konva.Util.colorToRGBA(start);
-        var endRGBA = Konva.Util.colorToRGBA(end);
+        endRGBA = Konva.Util.colorToRGBA(end);
         diff = {
           r: endRGBA.r - start.r,
           g: endRGBA.g - start.g,
@@ -12663,8 +12684,28 @@
         if (Konva.Util._isArray(start)) {
           newVal = [];
           len = Math.max(start.length, end.length);
-          for (n = 0; n < len; n++) {
-            newVal.push((start[n] || 0) + diff[n] * i);
+          if (key.indexOf('fill') === 0) {
+            for (n = 0; n < len; n++) {
+              if (n % 2 === 0) {
+                newVal.push((start[n] || 0) + diff[n] * i);
+              } else {
+                newVal.push(
+                  'rgba(' +
+                    Math.round(start[n].r + diff[n].r * i) +
+                    ',' +
+                    Math.round(start[n].g + diff[n].g * i) +
+                    ',' +
+                    Math.round(start[n].b + diff[n].b * i) +
+                    ',' +
+                    (start[n].a + diff[n].a * i) +
+                    ')'
+                );
+              }
+            }
+          } else {
+            for (n = 0; n < len; n++) {
+              newVal.push((start[n] || 0) + diff[n] * i);
+            }
           }
         } else if (colorAttrs.indexOf(key) !== -1) {
           newVal =
@@ -15638,7 +15679,7 @@
    * var verticalAlign = text.verticalAlign();
    *
    * // center text
-   * text.verticalAlign('center');
+   * text.verticalAlign('middle');
    */
 
   Konva.Factory.addGetterSetter(
@@ -19502,7 +19543,7 @@
    * @param {Array} [config.rotationSnaps] Array of angles for rotation snaps. Default is []
    * @param {Number} [config.rotateAnchorOffset] Default is 50
    * @param {Number} [config.padding] Default is 0
-   * @param {Number} [config.borderEnabled] Should we draw border? Default is true
+   * @param {Boolean} [config.borderEnabled] Should we draw border? Default is true
    * @param {String} [config.borderStroke] Border stroke color
    * @param {Number} [config.borderStrokeWidth] Border stroke size
    * @param {Array} [config.borderDash] Array for border dash.
@@ -19511,6 +19552,7 @@
    * @param {Number} [config.anchorStrokeWidth] Anchor stroke size
    * @param {Number} [config.anchorSize] Default is 10
    * @param {Boolean} [config.keepRatio] Should we keep ratio when we are moving edges? Default is true
+   * @param {Boolean} [config.centeredScaling] Should we resize relative to node's center? Default is false
    * @param {Array} [config.enabledAnchors] Array of names of enabled handles
    * @param {Function} [config.boundBoxFunc] Bounding box function
    * @example
@@ -19526,7 +19568,7 @@
     this.____init(config);
   };
 
-  var RESIZERS_NAMES = [
+  var ANCHORS_NAMES = [
     'top-left',
     'top-center',
     'top-right',
@@ -19682,7 +19724,7 @@
     _createElements: function() {
       this._createBack();
 
-      RESIZERS_NAMES.forEach(
+      ANCHORS_NAMES.forEach(
         function(name) {
           this._createAnchor(name);
         }.bind(this)
@@ -19719,25 +19761,8 @@
         var layer = this.getLayer();
         var tr = this.getParent();
 
-        // TODO: I guess there are some ways to simplify that calculations
-        // the basic idea is to find "angle" of handler
         var rad = Konva.getAngle(tr.rotation());
 
-        // var cdx = tr.getWidth() / 2;
-        // var cdy = tr.getHeight() / 2;
-
-        // var parentPos = tr.getAbsolutePosition(tr.getParent());
-        // var center = {
-        //   x: parentPos.x + (cdx * Math.cos(rad) + cdy * Math.sin(-rad)),
-        //   y: parentPos.y + (cdy * Math.cos(rad) + cdx * Math.sin(rad))
-        // };
-
-        // var pos = this.getAbsolutePosition(tr.getParent());
-
-        // var dx = -pos.x + center.x;
-        // var dy = -pos.y + center.y;
-
-        // var angle = -Math.atan2(-dy, dx) - Math.PI / 2;
         var scale = tr.getNode().getAbsoluteScale();
         // If scale.y < 0 xor scale.x < 0 we need to flip (not rotate).
         var isMirrored = scale.y * scale.x < 0;
@@ -19804,8 +19829,8 @@
 
       this._transforming = true;
 
-      this.fire('transformstart');
-      this.getNode().fire('transformstart');
+      this._fire('transformstart', { evt: e });
+      this.getNode()._fire('transformstart', { evt: e });
     },
 
     _handleMouseMove: function(e) {
@@ -19937,27 +19962,30 @@
         var dx = padding;
         var dy = padding;
 
-        this._fitNodeInto({
-          rotation: Konva.angleDeg
-            ? newRotation
-            : Konva.Util._degToRad(newRotation),
-          x:
-            attrs.x +
-            (attrs.width / 2 + padding) *
-              (Math.cos(alpha) - Math.cos(newAlpha)) +
-            (attrs.height / 2 + padding) *
-              (Math.sin(-alpha) - Math.sin(-newAlpha)) -
-            (dx * Math.cos(rot) + dy * Math.sin(-rot)),
-          y:
-            attrs.y +
-            (attrs.height / 2 + padding) *
-              (Math.cos(alpha) - Math.cos(newAlpha)) +
-            (attrs.width / 2 + padding) *
-              (Math.sin(alpha) - Math.sin(newAlpha)) -
-            (dy * Math.cos(rot) + dx * Math.sin(rot)),
-          width: attrs.width + padding * 2,
-          height: attrs.height + padding * 2
-        });
+        this._fitNodeInto(
+          {
+            rotation: Konva.angleDeg
+              ? newRotation
+              : Konva.Util._degToRad(newRotation),
+            x:
+              attrs.x +
+              (attrs.width / 2 + padding) *
+                (Math.cos(alpha) - Math.cos(newAlpha)) +
+              (attrs.height / 2 + padding) *
+                (Math.sin(-alpha) - Math.sin(-newAlpha)) -
+              (dx * Math.cos(rot) + dy * Math.sin(-rot)),
+            y:
+              attrs.y +
+              (attrs.height / 2 + padding) *
+                (Math.cos(alpha) - Math.cos(newAlpha)) +
+              (attrs.width / 2 + padding) *
+                (Math.sin(alpha) - Math.sin(newAlpha)) -
+              (dy * Math.cos(rot) + dx * Math.sin(rot)),
+            width: attrs.width + padding * 2,
+            height: attrs.height + padding * 2
+          },
+          e
+        );
       } else {
         console.error(
           new Error(
@@ -19975,6 +20003,29 @@
         this.getParent()
       );
 
+      var centeredScaling = this.getCenteredScaling() || e.altKey;
+      if (centeredScaling) {
+        var topLeft = this.findOne('.top-left');
+        var bottomRight = this.findOne('.bottom-right');
+        var topOffsetX = topLeft.x();
+        var topOffsetY = topLeft.y();
+
+        var bottomOffsetX = this.getWidth() - bottomRight.x();
+        var bottomOffsetY = this.getHeight() - bottomRight.y();
+
+        bottomRight.move({
+          x: -topOffsetX,
+          y: -topOffsetY
+        });
+
+        topLeft.move({
+          x: bottomOffsetX,
+          y: bottomOffsetY
+        });
+
+        absPos = topLeft.getAbsolutePosition(this.getParent());
+      }
+
       x = absPos.x;
       y = absPos.y;
       var width =
@@ -19983,34 +20034,37 @@
       var height =
         this.findOne('.bottom-right').y() - this.findOne('.top-left').y();
 
-      this._fitNodeInto({
-        x: x + this.offsetX(),
-        y: y + this.offsetY(),
-        width: width,
-        height: height
-      });
+      this._fitNodeInto(
+        {
+          x: x + this.offsetX(),
+          y: y + this.offsetY(),
+          width: width,
+          height: height
+        },
+        e
+      );
     },
 
-    _handleMouseUp: function() {
-      this._removeEvents();
+    _handleMouseUp: function(e) {
+      this._removeEvents(e);
     },
 
-    _removeEvents: function() {
+    _removeEvents: function(e) {
       if (this._transforming) {
         this._transforming = false;
         window.removeEventListener('mousemove', this._handleMouseMove);
         window.removeEventListener('touchmove', this._handleMouseMove);
         window.removeEventListener('mouseup', this._handleMouseUp, true);
         window.removeEventListener('touchend', this._handleMouseUp, true);
-        this.fire('transformend');
+        this._fire('transformend', { evt: e });
         var node = this.getNode();
         if (node) {
-          node.fire('transformend');
+          node.fire('transformend', { evt: e });
         }
       }
     },
 
-    _fitNodeInto: function(newAttrs) {
+    _fitNodeInto: function(newAttrs, evt) {
       // waring! in this attrs padding may be included
       var boundBoxFunc = this.getBoundBoxFunc();
       if (boundBoxFunc) {
@@ -20039,8 +20093,8 @@
       });
       this._settings = false;
 
-      this.fire('transform');
-      this.getNode().fire('transform');
+      this._fire('transform', { evt: evt });
+      this.getNode()._fire('transform', { evt: evt });
       this.update();
       this.getLayer().batchDraw();
     },
@@ -20194,12 +20248,12 @@
     }
     if (val instanceof Array) {
       val.forEach(function(name) {
-        if (RESIZERS_NAMES.indexOf(name) === -1) {
+        if (ANCHORS_NAMES.indexOf(name) === -1) {
           Konva.Util.warn(
-            'Unknown resizer name: ' +
+            'Unknown anchor name: ' +
               name +
               '. Available names are: ' +
-              RESIZERS_NAMES.join(', ')
+              ANCHORS_NAMES.join(', ')
           );
         }
       });
@@ -20224,7 +20278,7 @@
   Konva.Factory.addGetterSetter(
     Konva.Transformer,
     'enabledAnchors',
-    RESIZERS_NAMES,
+    ANCHORS_NAMES,
     validateResizers
   );
 
@@ -20448,7 +20502,7 @@
   Konva.Factory.addGetterSetter(Konva.Transformer, 'borderDash');
 
   /**
-   * get/set should we keep ration of resize?
+   * get/set should we keep ratio while resize anchors at corners
    * @name keepRatio
    * @method
    * @memberof Konva.Transformer.prototype
@@ -20462,6 +20516,22 @@
    * transformer.keepRatio(false);
    */
   Konva.Factory.addGetterSetter(Konva.Transformer, 'keepRatio', true);
+
+  /**
+   * get/set should we resize relative to node's center?
+   * @name centeredScaling
+   * @method
+   * @memberof Konva.Transformer.prototype
+   * @param {Boolean} centeredScaling
+   * @returns {Boolean}
+   * @example
+   * // get
+   * var centeredScaling = transformer.centeredScaling();
+   *
+   * // set
+   * transformer.centeredScaling(true);
+   */
+  Konva.Factory.addGetterSetter(Konva.Transformer, 'centeredScaling', false);
 
   /**
    * get/set padding
