@@ -73,6 +73,8 @@ doc_sidebar:
     Drop Events: drag_and_drop/Drop_Events.html
   Select and Transform:
     Basic demo: select_and_transform/Basic_demo.html
+    Centered Scaling: select_and_transform/Centered_Scaling.html
+    Keep Ratio: select_and_transform/Keep_Ratio.html
     Styling: select_and_transform/Transformer_Styling.html
     Transform Events: select_and_transform/Transform_Events.html
     Resize Limits: select_and_transform/Resize_Limits.html
