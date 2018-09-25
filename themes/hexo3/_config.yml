@@ -187,6 +187,7 @@ react_sidebar:
 vue_sidebar:
   Getting Started:
     Intro: vue/index.html
+    Save/Load: vue/Save-Load.html
     # Basic shapes: vue/Shapes.html
     # Custom shape: vue/Custom_Shape.html
     # Images: vue/Images.html
