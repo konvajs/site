@@ -1,7 +1,7 @@
 <template>
   <div>
     Click on canvas to create a cirlce.
-    Reload the page. Circles should stay here.
+    <a href=".">Reload the page</a>. Circles should stay here.
     <v-stage ref="stage"
       :config="stageSize"
       @click="handleClick"
