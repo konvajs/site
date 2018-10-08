@@ -8,16 +8,16 @@
       <nav id="main-nav">
         <ul id="main-nav-list">
           <% _.each(theme.menu, function(menu, title){ %>
-            <li class="main-nav-item">
-              <a href="<%= url_for(menu) %>" class="main-nav-link">
-                <%= title %>
-              </a>
+          <li class="main-nav-item">
+            <a href="<%= url_for(menu) %>" class="main-nav-link">
+              <%= title %>
+            </a>
 
-            </li>
-            <% }); %>
-              <li class="main-nav-item">
-                <a href="https://lavrton.com" title="Consulting" target="_blank" class="main-nav-link" style="color: #0bad42;">Consulting</a>
-              </li>
+          </li>
+          <% }); %>
+          <li class="main-nav-item">
+            <a href="https://lavrton.com" title="Consulting" target="_blank" class="main-nav-link" style="color: white;background: #0bad42;padding: 10px;border-radius: 10px;">Consulting</a>
+          </li>
         </ul>
 
         <a href="https://github.com/<%- theme.github %>" id="github-btn" title="GitHub" target="_blank"></a>
