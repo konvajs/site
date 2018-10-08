@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.4.0
+ * Konva JavaScript Framework v2.4.1
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Wed Sep 19 2018
+ * Date: Mon Oct 08 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.4.0',
+    version: '2.4.1',
 
     // private
     stages: [],
@@ -3304,15 +3304,20 @@
     isVisible: function() {
       return this._getCache(VISIBLE, this._isVisible);
     },
-    _isVisible: function() {
+    _isVisible: function(relativeTo) {
       var visible = this.getVisible(),
         parent = this.getParent();
 
+      if (relativeTo === parent && visible === 'inherit') {
+        return true;
+      } else if (relativeTo === parent) {
+        return visible;
+      }
       // the following conditions are a simplification of the truth table above.
       // please modify carefully
       if (visible === 'inherit') {
         if (parent) {
-          return parent.isVisible();
+          return parent._isVisible(relativeTo);
         } else {
           return true;
         }
@@ -8395,10 +8400,9 @@
         var rect = child.getClientRect({ relativeTo: that });
 
         // skip invisible children (like empty groups)
-        // or don't skip... hmmm...
-        // if (rect.width === 0 && rect.height === 0) {
-        //     return;
-        // }
+        if (rect.width === 0 && rect.height === 0) {
+          return;
+        }
 
         if (minX === undefined) {
           // initial value for first child
@@ -8419,7 +8423,7 @@
       var hasVisible = false;
       for (var i = 0; i < shapes.length; i++) {
         var shape = shapes[i];
-        if (shape.getVisible()) {
+        if (shape._isVisible(this)) {
           hasVisible = true;
           break;
         }
@@ -11036,7 +11040,10 @@
           }
         } else {
           this._fire(MOUSEUP, { evt: evt, target: this, currentTarget: this });
-          this._fire(CLICK, { evt: evt, target: this, currentTarget: this });
+          if (Konva.listenClickTap) {
+            this._fire(CLICK, { evt: evt, target: this, currentTarget: this });
+          }
+
           if (fireDblClick) {
             this._fire(DBL_CLICK, {
               evt: evt,
@@ -11141,7 +11148,9 @@
         }
       } else {
         this._fire(TOUCHEND, { evt: evt, target: this, currentTarget: this });
-        this._fire(TAP, { evt: evt, target: this, currentTarget: this });
+        if (Konva.listenClickTap) {
+          this._fire(TAP, { evt: evt, target: this, currentTarget: this });
+        }
         if (fireDblClick) {
           this._fire(DBL_TAP, {
             evt: evt,
@@ -15419,6 +15428,7 @@
         maxHeightPx = height - padding * 2,
         currentHeightPx = 0,
         wrap = this.getWrap(),
+        // align = this.getAlign(),
         shouldWrap = wrap !== NONE,
         wrapAtWord = wrap !== CHAR && shouldWrap,
         shouldAddEllipsis = this.getEllipsis() && !shouldWrap;
@@ -15486,6 +15496,9 @@
                   matchWidth = this._getTextWidth(match);
                 }
               }
+              // if (align === 'right') {
+              match = match.trimRight();
+              // }
               this._addTextLine(match);
               textWidth = Math.max(textWidth, matchWidth);
               currentHeightPx += lineHeightPx;
@@ -15500,6 +15513,7 @@
                 break;
               }
               line = line.slice(low);
+              line = line.trimLeft();
               if (line.length > 0) {
                 // Check if the remaining text would fit on one line
                 lineWidth = this._getTextWidth(line);
@@ -16395,6 +16409,9 @@
      * @memberof Konva.Sprite.prototype
      */
     start: function() {
+      if (this.isRunning()) {
+        return;
+      }
       var layer = this.getLayer();
 
       /*
@@ -16787,10 +16804,17 @@
       for (var i = 0; i < points.length / 2; i++) {
         x = points[i * 2];
         y = points[i * 2 + 1];
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, y);
+
+        // skip bad values
+        // TODO: prevent them from parsing function
+        if (!isNaN(x)) {
+          minX = Math.min(minX, x);
+          maxX = Math.max(maxX, x);
+        }
+        if (!isNaN(y)) {
+          minY = Math.min(minY, y);
+          maxY = Math.max(maxY, y);
+        }
       }
       return {
         x: Math.round(minX),
@@ -17121,6 +17145,8 @@
         var parsed = parseFloat(coords[j]);
         if (!isNaN(parsed)) {
           p.push(parsed);
+        } else {
+          p.push(0);
         }
       }
 
@@ -19431,6 +19457,7 @@
   var ATTR_CHANGE_LIST = [
     'resizeEnabledChange',
     'rotateAnchorOffsetChange',
+    'rotateEnabledChange',
     'enabledAnchorsChange',
     'anchorSizeChange',
     'borderEnabledChange',
@@ -19758,7 +19785,6 @@
 
       // add hover styling
       anchor.on('mouseenter', function() {
-        var layer = this.getLayer();
         var tr = this.getParent();
 
         var rad = Konva.getAngle(tr.rotation());
@@ -19768,15 +19794,14 @@
         var isMirrored = scale.y * scale.x < 0;
         var cursor = getCursor(name, rad, isMirrored);
         anchor.getStage().content.style.cursor = cursor;
-        layer.batchDraw();
+        tr._cursorChange = true;
       });
       anchor.on('mouseout', function() {
-        var layer = this.getLayer();
-        if (!layer) {
+        if (!anchor.getStage() || !this.getParent()) {
           return;
         }
         anchor.getStage().content.style.cursor = '';
-        layer.batchDraw();
+        this.getParent()._cursorChange = false;
       });
       this.add(anchor);
     },
@@ -19855,6 +19880,8 @@
       resizerNode.setAbsolutePosition(newAbsPos);
 
       var keepProportion = this.keepRatio() || e.shiftKey;
+
+      // console.log(keepProportion);
 
       if (this.movingResizer === 'top-left') {
         if (keepProportion) {
@@ -20013,6 +20040,8 @@
         var bottomOffsetX = this.getWidth() - bottomRight.x();
         var bottomOffsetY = this.getHeight() - bottomRight.y();
 
+        console.log(topOffsetX, topOffsetY, bottomOffsetX, bottomOffsetY);
+
         bottomRight.move({
           x: -topOffsetX,
           y: -topOffsetY
@@ -20033,6 +20062,8 @@
 
       var height =
         this.findOne('.bottom-right').y() - this.findOne('.top-left').y();
+
+      // console.log(x, y, width, height);
 
       this._fitNodeInto(
         {
@@ -20230,6 +20261,10 @@
       }
     },
     destroy: function() {
+      // console.log(this.isTransforming() && this.getStage());
+      if (this.getStage() && this._cursorChange) {
+        this.getStage().content.style.cursor = '';
+      }
       Konva.Group.prototype.destroy.call(this);
       this.detach();
       this._removeEvents();
