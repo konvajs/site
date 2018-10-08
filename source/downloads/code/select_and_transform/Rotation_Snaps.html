@@ -36,14 +36,15 @@
       y: 70,
       fontSize: 30,
       text: 'Rotate me',
-      draggable: true,
-      rotationSnaps: [0, 90, 180, 270]
+      draggable: true
     });
     layer.add(text);
 
     var tr1 = new Konva.Transformer({
       node: text,
-      centeredScaling: true
+      centeredScaling: true,
+      rotationSnaps: [0, 90, 180, 270],
+      resizeEnabled: false
     });
     layer.add(tr1);
 
