@@ -78,6 +78,7 @@ doc_sidebar:
     Styling: select_and_transform/Transformer_Styling.html
     Transform Events: select_and_transform/Transform_Events.html
     Resize Limits: select_and_transform/Resize_Limits.html
+    Rotation Snaps: select_and_transform/Rotation_Snaps.html
     Stop Transform: select_and_transform/Stop_Transform.html
     Force Update: select_and_transform/Force_Update.html
   Clipping:
