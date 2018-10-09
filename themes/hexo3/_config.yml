@@ -184,6 +184,7 @@ react_sidebar:
     Transformer: react/Transformer.html
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html
+    DOM Portals: react/DOM_Portal.html
 
 vue_sidebar:
   Getting Started:
