@@ -8,9 +8,14 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Portal isOpened={true}>
+          <Portal>
             <input
-              style={{ position: 'absolute', top: 0, left: 0, width: '200px' }}
+              style={{
+                position: 'absolute',
+                top: 10,
+                left: 10,
+                width: '200px'
+              }}
               placeholder="DOM input from Konva nodes"
             />
           </Portal>
