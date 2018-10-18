@@ -87,8 +87,8 @@ Result:
 
 ## Basic shapes
 
-Konva.js supports  shapes: [Rect](https://konvajs.github.io/docs/shapes/Rect.html), [Circle](https://konvajs.github.io/docs/shapes/Circle.html), [Ellipse](https://konvajs.github.io/docs/shapes/Ellipse.html), [Line](https://konvajs.github.io/docs/shapes/Line_-_Simple_Line.html), [Image](https://konvajs.github.io/docs/shapes/Image.html), [Text](https://konvajs.github.io/docs/shapes/Text.html), [TextPath](https://konvajs.github.io/docs/shapes/TextPath.html), [Star](https://konvajs.github.io/docs/shapes/Star.html), [Label](https://konvajs.github.io/docs/shapes/Label.html), [SVG Path](https://konvajs.github.io/docs/shapes/Path.html), [RegularPolygon](https://konvajs.github.io/docs/shapes/RegularPolygon.html).
- Also you can create [custom shape](https://konvajs.github.io/docs/shapes/Custom.html):
+Konva.js supports  shapes: [Rect](/docs/shapes/Rect.html), [Circle](/docs/shapes/Circle.html), [Ellipse](/docs/shapes/Ellipse.html), [Line](/docs/shapes/Line_-_Simple_Line.html), [Polygon](/docs/shapes/Line_-_Polygon.html), [Spline](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [Image](/docs/shapes/Image.html), [Text](/docs/shapes/Text.html), [TextPath](/docs/shapes/TextPath.html), [Star](/docs/shapes/Star.html), [Label](/docs/shapes/Label.html), [SVG Path](/docs/shapes/Path.html), [RegularPolygon](/docs/shapes/RegularPolygon.html).
+ Also you can create [custom shape](/docs/shapes/Custom.html):
 
 ```
 var triangle = new Konva.Shape({
