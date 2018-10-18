@@ -1,0 +1,19 @@
+{
+  "name": "Konva",
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "destination": "./public/api",
+    "template": "./jsdoc-template"
+  },
+  "templates": {
+    "referenceTitle": "Konva API Documentation",
+    "disableSort": false
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
+}
