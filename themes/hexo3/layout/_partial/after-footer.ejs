@@ -34,7 +34,11 @@
     apiKey: '031987a5aa012671236e1d4992009b4f',
     indexName: 'konvajs',
     inputSelector: '#search',
-    debug: false // Set debug to true if you want to inspect the dropdown 
+    algoliaOptions: {
+      hitsPerPage: 10,
+      // See https://www.algolia.com/doc/api-reference/api-parameters/
+    },
+    debug: false // Set debug to true if you want to inspect the dropdown
   }); 
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
