@@ -172,6 +172,7 @@ demo_sidebar:
     Star Spinner: sandbox/Star_Spinner.html
     Drag and Drop Multiple Shapes: sandbox/Drag_and_Drop_Multiple_Shapes.html
     Image Border Highlighting: sandbox/Image_Border_Highlighting.html
+    GIF Animation: sandbox/GIF_On_Canvas.html
 
 react_sidebar:
   Getting Started:
