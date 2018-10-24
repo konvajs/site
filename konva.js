@@ -1,8 +1,8 @@
 /*
- * Konva JavaScript Framework v2.4.2
+ * Konva JavaScript Framework v2.5.0
  * http://konvajs.github.io/
  * Licensed under the MIT
- * Date: Fri Oct 12 2018
+ * Date: Wed Oct 24 2018
  *
  * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
  * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -21,7 +21,7 @@
 
   var Konva = {
     // public
-    version: '2.4.2',
+    version: '2.5.0',
 
     // private
     stages: [],
@@ -2689,16 +2689,27 @@
      * });
      */
     cache: function(config) {
-      var conf = config || {},
+      var conf = config || {};
+      var rect = {};
+
+      // don't call getClientRect if we have all attributes
+      // it means call it only if have one undefined
+      if (
+        conf.x === undefined ||
+        conf.y === undefined ||
+        conf.width === undefined ||
+        conf.height === undefined
+      ) {
         rect = this.getClientRect({
           skipTransform: true,
           relativeTo: this.getParent()
-        }),
-        width = conf.width || rect.width,
+        });
+      }
+      var width = conf.width || rect.width,
         height = conf.height || rect.height,
         pixelRatio = conf.pixelRatio,
-        x = conf.x || rect.x,
-        y = conf.y || rect.y,
+        x = conf.x === undefined ? rect.x : conf.x,
+        y = conf.y === undefined ? rect.y : conf.y,
         offset = conf.offset || 0,
         drawBorder = conf.drawBorder || false;
 
@@ -2785,6 +2796,7 @@
      * @memberof Konva.Node.prototype
      * @param {Object} config
      * @param {Boolean} [config.skipTransform] should we apply transform to node for calculating rect?
+     * @param {Boolean} [config.skipShadow] should we apply shadow to the node for calculating bound box?
      * @param {Object} [config.relativeTo] calculate client rect relative to one of the parents
      * @returns {Object} rect with {x, y, width, height} properties
      * @example
@@ -8398,7 +8410,10 @@
           return;
         }
 
-        var rect = child.getClientRect({ relativeTo: that });
+        var rect = child.getClientRect({
+          relativeTo: that,
+          skipShadow: attrs.skipShadow
+        });
 
         // skip invisible children (like empty groups)
         if (rect.width === 0 && rect.height === 0) {
@@ -8918,6 +8933,7 @@
     getClientRect: function(attrs) {
       attrs = attrs || {};
       var skipTransform = attrs.skipTransform;
+
       var relativeTo = attrs.relativeTo;
 
       var fillRect = this.getSelfRect();
@@ -8926,13 +8942,14 @@
       var fillAndStrokeWidth = fillRect.width + strokeWidth;
       var fillAndStrokeHeight = fillRect.height + strokeWidth;
 
-      var shadowOffsetX = this.hasShadow() ? this.shadowOffsetX() : 0;
-      var shadowOffsetY = this.hasShadow() ? this.shadowOffsetY() : 0;
+      var applyShadow = !attrs.skipShadow && this.hasShadow();
+      var shadowOffsetX = applyShadow ? this.shadowOffsetX() : 0;
+      var shadowOffsetY = applyShadow ? this.shadowOffsetY() : 0;
 
       var preWidth = fillAndStrokeWidth + Math.abs(shadowOffsetX);
       var preHeight = fillAndStrokeHeight + Math.abs(shadowOffsetY);
 
-      var blurRadius = (this.hasShadow() && this.shadowBlur()) || 0;
+      var blurRadius = (applyShadow && this.shadowBlur()) || 0;
 
       var width = preWidth + blurRadius * 2;
       var height = preHeight + blurRadius * 2;
@@ -13169,7 +13186,6 @@
         }
 
         node.getStage()._setPointerPosition(evt);
-        node._setDragPosition(evt);
         if (!dd.isDragging) {
           dd.isDragging = true;
           node.fire(
@@ -13181,7 +13197,12 @@
             },
             true
           );
+          // a user can stop dragging inside `dragstart`
+          if (!node.isDragging()) {
+            return;
+          }
         }
+        node._setDragPosition(evt);
 
         // execute ondragmove if defined
         node.fire(
@@ -19466,7 +19487,8 @@
     'borderStrokeWidthChange',
     'anchorStrokeChange',
     'anchorStrokeWidthChange',
-    'anchorFillChange'
+    'anchorFillChange',
+    'anchorCornerRadiusChange'
   ].join(' ');
 
   var NODE_RECT = 'nodeRect';
@@ -19577,6 +19599,7 @@
    * @param {Array} [config.borderDash] Array for border dash.
    * @param {String} [config.anchorFill] Anchor fill color
    * @param {String} [config.anchorStroke] Anchor stroke color
+   * @param {String} [config.anchorCornerRadius] Anchor corner radius
    * @param {Number} [config.anchorStrokeWidth] Anchor stroke size
    * @param {Number} [config.anchorSize] Default is 10
    * @param {Boolean} [config.keepRatio] Should we keep ratio when we are moving edges? Default is true
@@ -19714,7 +19737,7 @@
           rotation: 0
         };
       }
-      var rect = node.getClientRect({ skipTransform: true });
+      var rect = node.getClientRect({ skipTransform: true, skipShadow: true });
       var rotation = Konva.getAngle(node.rotation());
 
       var dx = rect.x * node.scaleX() - node.offsetX() * node.scaleX();
@@ -20041,7 +20064,7 @@
         var bottomOffsetX = this.getWidth() - bottomRight.x();
         var bottomOffsetY = this.getHeight() - bottomRight.y();
 
-        console.log(topOffsetX, topOffsetY, bottomOffsetX, bottomOffsetY);
+        // console.log(topOffsetX, topOffsetY, bottomOffsetX, bottomOffsetY);
 
         bottomRight.move({
           x: -topOffsetX,
@@ -20108,7 +20131,7 @@
       if (newAttrs.rotation !== undefined) {
         this.getNode().rotation(newAttrs.rotation);
       }
-      var pure = node.getClientRect({ skipTransform: true });
+      var pure = node.getClientRect({ skipTransform: true, skipShadow: true });
       var padding = this.getPadding();
       var scaleX = (newAttrs.width - padding * 2) / pure.width;
       var scaleY = (newAttrs.height - padding * 2) / pure.height;
@@ -20166,7 +20189,8 @@
         offsetY: anchorSize / 2,
         stroke: this.getAnchorStroke(),
         strokeWidth: this.getAnchorStrokeWidth(),
-        fill: this.getAnchorFill()
+        fill: this.getAnchorFill(),
+        cornerRadius: this.getAnchorCornerRadius()
       });
 
       this.findOne('.top-left').setAttrs({
@@ -20479,6 +20503,27 @@
    * transformer.anchorFill('red');
    */
   Konva.Factory.addGetterSetter(Konva.Transformer, 'anchorFill', 'white');
+
+  /**
+   * get/set anchor corner radius
+   * @name anchorCornerRadius
+   * @method
+   * @memberof Konva.Transformer.prototype
+   * @param {Number} enabled
+   * @returns {Number}
+   * @example
+   * // get
+   * var anchorCornerRadius = transformer.anchorCornerRadius();
+   *
+   * // set
+   * transformer.anchorCornerRadius(3);
+   */
+  Konva.Factory.addGetterSetter(
+    Konva.Transformer,
+    'anchorCornerRadius',
+    0,
+    Konva.Validators.getNumberValidator()
+  );
 
   /**
    * get/set border stroke color
