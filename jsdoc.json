@@ -5,10 +5,10 @@
   },
   "plugins": ["plugins/markdown"],
   "opts": {
-    "destination": "./public/api"
+    "destination": "./public/api",
+    "template": "./ink-docstrap/template"
   },
   "templates": {
-    "path": "ink-docstrap",
     "cleverLinks": false,
     "monospaceLinks": false,
     "dateFormat": "ddd MMM Do YYYY",
@@ -21,6 +21,9 @@
     "linenums": true,
     "collapseSymbols": false,
     "inverseNav": false,
+    "navOptions": {
+      "search": false
+    },
     "highlightTutorialCode": true,
     "analytics": {
       "ua": "UA-54202824-2",
