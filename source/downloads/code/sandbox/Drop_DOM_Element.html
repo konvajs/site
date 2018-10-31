@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
+    <meta charset="utf-8">
+    <title>Konva Drop DOM element Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #F0F0F0;
+        }
+
+        #container {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        Drag&drop yoda into the grey area.
+    </p>
+    <img src="http://konvajs.github.io/assets/yoda.jpg" id="yoda" draggable="true" />
+    <div id="container"></div>
+    <script>
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height
+        });
+        var layer = new Konva.Layer();
+        stage.add(layer);
+
+
+        var yoda = document.getElementById('yoda');
+
+
+        var con = stage.getContainer();
+        con.addEventListener('dragover', function (e) {
+            e.preventDefault(); // !important
+        });
+
+        stage.getContainer().addEventListener('drop', function (e) {
+            e.preventDefault();
+            // now we need to find pointer position
+            // we can't use stage.getPointerPosition() here, because that event
+            // is not registered by Konva.Stage
+            // we can register it manually (with private method):
+            stage._setPointerPosition(e);
+
+            // or we can calculate in manually from event properties
+
+            Konva.Image.fromURL("http://konvajs.github.io/assets/yoda.jpg", function (image) {
+                layer.add(image);
+                image.position(stage.getPointerPosition())
+                layer.draw();
+            });
+        })
+
+    </script>
+
+</body>
+
+</html>
