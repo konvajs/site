@@ -35,8 +35,19 @@
     indexName: 'konvajs',
     inputSelector: '#search',
     algoliaOptions: {
-      hitsPerPage: 10,
+      hitsPerPage: 90,
       // See https://www.algolia.com/doc/api-reference/api-parameters/
+    },
+    transformData: function (suggestions) {
+      // Transform the list of suggestions, and the return the updated list
+      suggestions.sort(function (a, b) {
+        if (a.url.indexOf('/api/') >= 0) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+      return suggestions.slice(0, 10);
     },
     debug: false // Set debug to true if you want to inspect the dropdown
   }); 
