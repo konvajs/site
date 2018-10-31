@@ -31,7 +31,7 @@
     <p>
         Drag&drop yoda into the grey area.
     </p>
-    <img src="http://konvajs.github.io/assets/yoda.jpg" id="yoda" draggable="true" />
+    <img src="/assets/yoda.jpg" id="yoda" draggable="true" />
     <div id="container"></div>
     <script>
         var width = window.innerWidth;
@@ -65,7 +65,7 @@
 
             // or we can calculate in manually from event properties
 
-            Konva.Image.fromURL("http://konvajs.github.io/assets/yoda.jpg", function (image) {
+            Konva.Image.fromURL("/assets/yoda.jpg", function (image) {
                 layer.add(image);
 
                 image.position(stage.getPointerPosition())
