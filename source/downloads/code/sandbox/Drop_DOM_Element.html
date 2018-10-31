@@ -67,7 +67,10 @@
 
             Konva.Image.fromURL("http://konvajs.github.io/assets/yoda.jpg", function (image) {
                 layer.add(image);
+
                 image.position(stage.getPointerPosition())
+                image.draggable(true);
+
                 layer.draw();
             });
         })
