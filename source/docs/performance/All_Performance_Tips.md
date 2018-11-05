@@ -4,14 +4,14 @@ title: HTML5 Canvas All Konva performance tips list
  
 ## HTML5 Canvas All Konva performance tips list
 
-Stop worrying about the performance at all and let me help you boost your project.
-Just drop me a message to <mailto:anton@lavrton.com> (only for large projects).
+Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/).
 
-Here is list of useful performance tips:
 
-1. [`batchDraw` method](https://konvajs.github.io/docs/performance/Batch_Draw.html)
+There is a full list of useful performance tips:
+
+1. [Shape Caching](https://konvajs.github.io/docs/performance/Shape_Caching.html)
 2. [Layer Management](https://konvajs.github.io/docs/performance/Layer_Management.html)
-3. [Shape Caching](https://konvajs.github.io/docs/performance/Shape_Caching.html)
+3. [`batchDraw` method](https://konvajs.github.io/docs/performance/Batch_Draw.html)
 4. [Optimize Animation](https://konvajs.github.io/docs/performance/Optimize_Animation.html)
 5. [Shape Redraw](https://konvajs.github.io/docs/performance/Shape_Redraw.html)
 6. If your shape has only position transformation (`x` and `y`, no `scale`, `rotation`) set `transformsEnabled = 'position'`
