@@ -202,7 +202,7 @@ vue_sidebar:
     Filters: vue/Filters.html
     Save/Load: vue/Save-Load.html
     Drag and Drop: vue/Drag_And_Drop.html
-    # Transformer: vue/Transformer.html
+    Transformer: vue/Transformer.html
     # Simple Animations: vue/Simple_Animations.html
     # Complex Animations: vue/Complex_Animations.html
 
