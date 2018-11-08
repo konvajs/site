@@ -1,4 +1,4 @@
-title: React canvas shapes with Konva
+title: How to draw image on canvas with React?
 layout: react_page
 ---
 
