@@ -30,7 +30,7 @@ export default {
         width: width,
         height: height
       },
-      color: green,
+      color: 'green',
       filters: [Konva.Filters.Noise]
     };
   },
