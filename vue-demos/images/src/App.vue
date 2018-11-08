@@ -24,15 +24,13 @@ export default {
       image: null
     };
   },
-  methods: {
-    created() {
-      const image = new window.Image();
-      image.src = 'http://konvajs.github.io/assets/yoda.jpg';
-      image.onload = () => {
-        // set image only when it is loaded
-        this.image = image;
-      };
-    }
+  created() {
+    const image = new window.Image();
+    image.src = 'https://konvajs.github.io/assets/yoda.jpg';
+    image.onload = () => {
+      // set image only when it is loaded
+      this.image = image;
+    };
   }
 };
 </script>

@@ -1,0 +1,18 @@
+{
+  "name": "vue-konva-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "private": true,
+  "dependencies": {
+    "konva": "2.1.5",
+    "vue": "^2.5.2",
+    "vue-konva": "1.0.6"
+  },
+  "keywords": [
+    "vue",
+    "canvas",
+    "vue-konva",
+    "konva"
+  ]
+}

@@ -13,7 +13,7 @@ class YodaImage extends React.Component {
   };
   componentDidMount() {
     const image = new window.Image();
-    image.src = 'http://konvajs.github.io/assets/yoda.jpg';
+    image.src = 'https://konvajs.github.io/assets/yoda.jpg';
     image.onload = () => {
       // setState will redraw layer
       // because "image" property is changed
@@ -34,7 +34,7 @@ class VaderImage extends React.Component {
     image: new window.Image()
   };
   componentDidMount() {
-    this.state.image.src = 'http://konvajs.github.io/assets/darth-vader.jpg';
+    this.state.image.src = 'https://konvajs.github.io/assets/darth-vader.jpg';
     this.state.image.onload = () => {
       // calling set state here will do nothing
       // because properties of Konva.Image are not changed

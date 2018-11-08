@@ -198,6 +198,7 @@ vue_sidebar:
     Custom shape: vue/Custom_Shape.html
   Vue demos:
     Events: vue/Events.html
+    Images: vue/Images.html
     Save/Load: vue/Save-Load.html
     # Images: vue/Images.html
     # Filters: vue/Filters.html

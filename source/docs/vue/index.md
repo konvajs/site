@@ -8,14 +8,14 @@ layout: vue_page
 
 Vue Konva is a JavaScript library for drawing complex canvas graphics using Vue.
 
-It provides declarative and reactive bindings to the [Konva Framework](http://konvajs.github.io/).
+It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.github.io/).
 
 All `vue-konva` components correspond to `Konva` components of the same name with the prefix 'v-'. All the parameters available for `Konva` objects can add as `config` in the prop for corresponding `vue-konva` components.
 
 Core shapes are: v-rect, v-circle, v-ellipse, v-line, v-image, v-text, v-text-path, v-star, v-label, SVG Path, v-regular-polygon.
 Also you can create custom shape.
 
-To get more info about `Konva` you can read [Konva Overview](http://konvajs.github.io/docs/overview.html).
+To get more info about `Konva` you can read [Konva Overview](https://konvajs.github.io/docs/overview.html).
 
 
 ## Quick Start

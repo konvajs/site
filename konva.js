@@ -9294,7 +9294,7 @@
 
   /**
    * get/set perfectDrawEnabled. If a shape has fill, stroke and opacity you may set `perfectDrawEnabled` to false to improve performance.
-   * See http://konvajs.github.io/docs/performance/Disable_Perfect_Draw.html for more information.
+   * See https://konvajs.github.io/docs/performance/Disable_Perfect_Draw.html for more information.
    * Default value is true
    * @name perfectDrawEnabled
    * @method
