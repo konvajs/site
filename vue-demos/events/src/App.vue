@@ -44,10 +44,10 @@ export default {
     writeMessage(message) {
       this.text = message;
     },
-    handleMouseOut(vueComponent, event) {
+    handleMouseOut(event) {
       this.writeMessage('Mouseout triangle');
     },
-    handleMouseMove(vueComponent, event) {
+    handleMouseMove(event) {
       const mousePos = this.$refs.stage.getStage().getPointerPosition();
       const x = mousePos.x - 190;
       const y = mousePos.y - 40;

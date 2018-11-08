@@ -42,7 +42,7 @@ export default {
     };
   },
   methods: {
-    handleStageMouseDown(vm, e) {
+    handleStageMouseDown(e) {
       // clicked on stage - cler selection
       if (e.target === e.target.getStage()) {
         this.selectedShapeName = '';
