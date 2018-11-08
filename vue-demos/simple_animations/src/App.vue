@@ -39,7 +39,7 @@ export default {
     };
   },
   methods: {
-    changeSize(vm, e) {
+    changeSize(e) {
       // to() is a method of `Konva.Node` instances
       e.target.to({
         scaleX: Math.random() + 0.8,
