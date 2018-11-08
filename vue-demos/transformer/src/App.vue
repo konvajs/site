@@ -1,7 +1,7 @@
 <template>
-  <v-stage ref="stage" :config="stageSize">
+  <v-stage ref="stage" :config="stageSize" @mousedown="handleStageMouseDown">
     <v-layer ref="layer">
-      <v-rect v-for="item in list" :key="item.id" :config="item" />
+      <v-rect v-for="item in rectangles" :key="item.id" :config="item" />
       <v-transformer ref="transformer" />
     </v-layer>
   </v-stage>
@@ -25,7 +25,8 @@ export default {
           width: 100,
           height: 100,
           fill: 'red',
-          name: 'rect1'
+          name: 'rect1',
+          draggable: true
         },
         {
           x: 150,
@@ -33,19 +34,22 @@ export default {
           width: 100,
           height: 100,
           fill: 'green',
-          name: 'rect2'
+          name: 'rect2',
+          draggable: true
         }
       ],
       selectedShapeName: ''
     };
   },
   methods: {
-    handleStageMouseDown() {
+    handleStageMouseDown(vm, e) {
       // clicked on stage - cler selection
       if (e.target === e.target.getStage()) {
         this.selectedShapeName = '';
+        this.updateTransformer();
         return;
       }
+
       // clicked on transformer - do nothing
       const clickedOnTransformer =
         e.target.getParent().className === 'Transformer';
@@ -61,28 +65,29 @@ export default {
       } else {
         this.selectedShapeName = '';
       }
-    }
-  },
-  updated() {
-    // here we need to manually attach or detach Transformer node
-    const transformerNode = this.$refs.transformer.getStage();
-    const stage = transformerNode.getStage();
-    const { selectedShapeName } = this;
+      this.updateTransformer();
+    },
+    updateTransformer() {
+      // here we need to manually attach or detach Transformer node
+      const transformerNode = this.$refs.transformer.getStage();
+      const stage = transformerNode.getStage();
+      const { selectedShapeName } = this;
 
-    const selectedNode = stage.findOne('.' + selectedShapeName);
-    // do nothing if selected node is already attached
-    if (selectedNode === transformerNode.node()) {
-      return;
-    }
+      const selectedNode = stage.findOne('.' + selectedShapeName);
+      // do nothing if selected node is already attached
+      if (selectedNode === transformerNode.node()) {
+        return;
+      }
 
-    if (selectedNode) {
-      // attach to another node
-      transformerNode.attachTo(selectedNode);
-    } else {
-      // remove transformer
-      transformerNode.detach();
+      if (selectedNode) {
+        // attach to another node
+        transformerNode.attachTo(selectedNode);
+      } else {
+        // remove transformer
+        transformerNode.detach();
+      }
+      transformerNode.getLayer().batchDraw();
     }
-    transformerNode.getLayer().batchDraw();
   }
 };
 </script>
