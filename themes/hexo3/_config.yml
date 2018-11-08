@@ -177,9 +177,11 @@ demo_sidebar:
     Drop_DOM_Element: sandbox/Drop_DOM_Element.html
 
 react_sidebar:
-  Getting Started:
+  Getting Started With React:
     Intro: react/index.html
     Basic shapes: react/Shapes.html
+  React demos:
+    Events: react/Events.html
     Custom shape: react/Custom_Shape.html
     Images: react/Images.html
     Filters: react/Filters.html
@@ -203,7 +205,7 @@ vue_sidebar:
     # Complex Animations: vue/Complex_Animations.html
 
 google_analytics: UA-54202824-2
-? fb_admins
+fb_admins:
 swiftype_key: rRaQRFqx1DcWDDysdpg_
 twitter: lavrton
 github: konvajs/konva
