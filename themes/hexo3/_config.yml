@@ -177,7 +177,7 @@ demo_sidebar:
     Drop_DOM_Element: sandbox/Drop_DOM_Element.html
 
 react_sidebar:
-  Getting Started With React:
+  Getting Started with React:
     Intro: react/index.html
     Basic shapes: react/Shapes.html
   React demos:
@@ -192,10 +192,11 @@ react_sidebar:
     DOM Portals: react/DOM_Portal.html
 
 vue_sidebar:
-  Getting Started:
+  Getting Started with Vue:
     Intro: vue/index.html
+    Basic shapes: vue/Shapes.html
+  Vue demos:
     Save/Load: vue/Save-Load.html
-    # Basic shapes: vue/Shapes.html
     # Custom shape: vue/Custom_Shape.html
     # Images: vue/Images.html
     # Filters: vue/Filters.html
