@@ -180,9 +180,9 @@ react_sidebar:
   Getting Started with React:
     Intro: react/index.html
     Basic shapes: react/Shapes.html
+    Custom shape: react/Custom_Shape.html
   React demos:
     Events: react/Events.html
-    Custom shape: react/Custom_Shape.html
     Images: react/Images.html
     Filters: react/Filters.html
     Drag and Drop: react/Drag_And_Drop.html
@@ -195,9 +195,10 @@ vue_sidebar:
   Getting Started with Vue:
     Intro: vue/index.html
     Basic shapes: vue/Shapes.html
+    Custom shape: vue/Custom_Shape.html
   Vue demos:
+    Events: vue/Events.html
     Save/Load: vue/Save-Load.html
-    # Custom shape: vue/Custom_Shape.html
     # Images: vue/Images.html
     # Filters: vue/Filters.html
     # Drag and Drop: vue/Drag_And_Drop.html
