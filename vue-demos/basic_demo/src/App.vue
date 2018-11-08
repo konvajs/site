@@ -40,8 +40,8 @@ export default {
       shape.setAttrs({
         shadowOffsetX: 15,
         shadowOffsetY: 15,
-        scaleX: shape.getAttt('startScale') * 1.2,
-        scaley: shape.getAttt('startScale') * 1.2
+        scaleX: shape.getAttr('startScale') * 1.2,
+        scaley: shape.getAttr('startScale') * 1.2
       });
     },
     handleDragend(e) {
