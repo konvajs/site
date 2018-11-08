@@ -5,7 +5,7 @@
           ref="rect"
           @mousemove="handleClick"
           :config="{
-            filters: [Konva.Filters.Noise],
+            filters: filters,
             noise: 1,
             x: 10,
             y: 10,
@@ -30,7 +30,8 @@ export default {
         width: width,
         height: height
       },
-      color: green
+      color: green,
+      filters: [Konva.Filters.Noise]
     };
   },
   methods: {

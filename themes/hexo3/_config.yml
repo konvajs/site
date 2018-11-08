@@ -199,6 +199,7 @@ vue_sidebar:
   Vue demos:
     Events: vue/Events.html
     Images: vue/Images.html
+    Filters: vue/Filters.html
     Save/Load: vue/Save-Load.html
     # Images: vue/Images.html
     # Filters: vue/Filters.html
