@@ -7,7 +7,7 @@
   "dependencies": {
     "konva": "2.1.5",
     "vue": "^2.5.2",
-    "vue-konva": "2.0.0-2"
+    "vue-konva": "2.0.0-3"
   },
   "keywords": [
     "vue",
