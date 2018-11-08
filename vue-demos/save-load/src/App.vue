@@ -34,7 +34,7 @@ export default {
     };
   },
   methods: {
-    handleClick(component, evt) {
+    handleClick(evt) {
       const stage = evt.target.getStage();
       const pos = stage.getPointerPosition();
       this.list.push(pos);

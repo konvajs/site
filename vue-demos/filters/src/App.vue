@@ -3,7 +3,7 @@
       <v-layer ref="layer">
         <v-rect
           ref="rect"
-          @mousemove="handleClick"
+          @mousemove="handleMouseMove"
           :config="{
             filters: filters,
             noise: 1,
@@ -35,7 +35,7 @@ export default {
     };
   },
   methods: {
-    handleClick() {
+    handleMouseMove() {
       this.color = Konva.Util.getRandomColor();
     }
   },
