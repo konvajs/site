@@ -15,47 +15,67 @@
 </script>
 <% } %>
 <!-- Swiftype -->
-<!-- <script>
-  var Swiftype = window.Swiftype || {};
-  (function () {
-    Swiftype.key = '<%- theme.swiftype_key %>';
+<!--
+  <script>
+    var Swiftype = window.Swiftype || {};
+    (function () {
+      Swiftype.key = '<%- theme.swiftype_key %>';
 
-    /** DO NOT EDIT BELOW THIS LINE **/
-    var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-    script.src = "//s.swiftypecdn.com/embed.js";
-    var entry = document.getElementsByTagName('script')[0];
-    document.getElementsByTagName('script')[0].parentNode.insertBefore(script, entry);
-  }());
-</script> -->
+      /** DO NOT EDIT BELOW THIS LINE **/
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = "//s.swiftypecdn.com/embed.js";
+      var entry = document.getElementsByTagName('script')[0];
+      document.getElementsByTagName('script')[0].parentNode.insertBefore(script, entry);
+    }());
+  </script>
+-->
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script type="text/javascript"> docsearch({
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
+/>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"
+></script>
+<script type="text/javascript">
+  docsearch({
     apiKey: '031987a5aa012671236e1d4992009b4f',
     indexName: 'konvajs',
     inputSelector: '#search',
     algoliaOptions: {
-      hitsPerPage: 90,
+      hitsPerPage: 10
       // See https://www.algolia.com/doc/api-reference/api-parameters/
     },
-    transformData: function (suggestions) {
-      // Transform the list of suggestions, and the return the updated list
-      suggestions.sort(function (a, b) {
-        if (a.url.indexOf('/api/') >= 0) {
-          return 1;
-        } else {
-          return -1;
-        }
-      });
-      return suggestions.slice(0, 10);
-    },
-    debug: false // Set debug to true if you want to inspect the dropdown
-  }); 
+    // transformData: function (suggestions) {
+    //   // Transform the list of suggestions, and the return the updated list
+    //   suggestions.sort(function (a, b) {
+    //     if (a.url.indexOf('/api/') >= 0) {
+    //       return 1;
+    //     } else {
+    //       return -1;
+    //     }
+    //   });
+    //   return suggestions.slice(0, 10);
+    // },
+    debug: true // Set debug to true if you want to inspect the dropdown
+  });
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<%- js('js/retina.min') %>
-<%- js('js/script') %>
+<%- js('js/retina.min') %> <%- js('js/script') %>
 <!-- Google+ -->
 <script type="text/javascript" src="//apis.google.com/js/plusone.js"></script>
 <!-- Twitter -->
-<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+<script>
+  !(function(d, s, id) {
+    var js,
+      fjs = d.getElementsByTagName(s)[0],
+      p = /^http:/.test(d.location) ? 'http' : 'https';
+    if (!d.getElementById(id)) {
+      js = d.createElement(s);
+      js.id = id;
+      js.src = p + '://platform.twitter.com/widgets.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }
+  })(document, 'script', 'twitter-wjs');
+</script>
