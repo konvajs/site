@@ -18,9 +18,9 @@ When you are changing the offset property it may looks like you are changing pos
 
 What is it origin? You may think of it as “point from where we start drawing of a shape” or “center of the shape” or “the point around which we rotating a shape”.
 
-Just a small note, long time ago offset property was called “center” in Konva codebase. But later it was refactored to “offset". 
+Just a small note, long time ago offset property was called “center” in Konva codebase (when it was KineticJS project). But later it was refactored to “offset". 
 
-Take a look into this animation tutorial. All rectangles here have the same `y` position, but a different `offset` property.
+Take a look into this [animation tutorial](). All rectangles here have the same `y` position, but a different `offset` property.
 
 {% iframe /downloads/code/animations/Rotation.html %}
 
