@@ -20,16 +20,16 @@ What is it origin? You may think of it as “point from where we start drawing o
 
 Just a small note, long time ago offset property was called “center” in Konva codebase (when it was KineticJS project). But later it was refactored to “offset". 
 
-Take a look into this [animation tutorial](). All rectangles here have the same `y` position, but a different `offset` property.
+Take a look into this [animation tutorial](/docs/animations/Rotation.html). All rectangles here have the same `y` position, but a different `offset` property.
 
 {% iframe /downloads/code/animations/Rotation.html %}
 
 And you should understand that Konva has two main methods to define origin of the shape.
 So “circle-like” shapes have origin at actual center of the shape (Circle, Ellipse, Wedge, Star, Ring ,etc).
-When you set {x, y} of a circle you are defying “where will be the center of the circle”.
+When you set {x, y} of a circle you are defining “where will be the center of the circle”.
 
 And “rectangle-like” shapes has origin at TOP LEFT (Rectangle, Sprite, Text, Image, etc)
-When you set {x, y} of a rectangle you are defying “where will be the top-left point of the rect”.
+When you set {x, y} of a rectangle you are defining “where will be the top-left point of the rect”.
 
 So a shape will be rotated around its origin point (around its “center”). So if you set rotation 45 deg of a star it will be rotated around its actual center.
 
