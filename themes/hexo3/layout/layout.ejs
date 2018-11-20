@@ -1,9 +1,10 @@
-<%- partial('_partial/head') %>
-
-<body>
-  <%- partial('_partial/header') %>
-  <%- body %>
-  <%- partial('_partial/footer') %>
-  <%- partial('_partial/after-footer') %>
-</body>
+<!DOCTYPE html>
+<html>
+  <head prefix="og: http://ogp.me/ns#">
+    <%- partial('_partial/head') %>
+  </head>
+  <body>
+    <%- partial('_partial/header') %> <%- body %> <%- partial('_partial/footer')
+    %> <%- partial('_partial/after-footer') %>
+  </body>
 </html>
