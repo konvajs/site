@@ -2,7 +2,7 @@ title: HTML5 Canvas Simple Window Designer
 layout: demo_page
 ---
 
-# HTML5 Canvas Simple Window Designer
+## HTML5 Canvas Simple Window Designer
 
 That is a very simple demo that draw window frame.
 

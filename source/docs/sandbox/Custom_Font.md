@@ -2,7 +2,7 @@ title: How to use custom font for HTML5 canvas?
 layout: demo_page
 ---
 
-# How to draw external font on html5 canvas?
+## How to draw external font on html5 canvas?
 
 If you want to use custom font for `Konva.Text` you just need to:
 1. Add font style to your page

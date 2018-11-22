@@ -1,7 +1,7 @@
 title: HTML5 Canvas Shape Resize With Ratio Preserved
 ---
 
-# How to resize shape with savings its proportion?
+## How to resize shape with savings its proportion?
 
 By default when you resize with corner anchors (`top-left`, `top-right`, `bottom-left` or `bottom-right`) Transformer will save ratio of a node.
 

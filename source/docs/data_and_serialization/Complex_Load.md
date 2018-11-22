@@ -1,7 +1,7 @@
 title: Load HTML5 Canvas Stage from JSON Tutorial
 ---
 
-# How to import canvas from JSON?
+## How to import canvas from JSON?
 
 To load a complex stage that originally contained images and event bindings using Konva,
 we need to create a stage node using `Konva.Node.create()`, and then set the

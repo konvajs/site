@@ -1,7 +1,7 @@
 title: Save HTML5 Canvas Stage as JSON String
 ---
 
-# How to export canvas to JSON?
+## How to export canvas to JSON?
 
 To save the stage as a JSON string with Konva, we can use the `toJSON()`
 method which serializes the Konva Node tree into text which can be saved

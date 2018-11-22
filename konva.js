@@ -2798,6 +2798,7 @@
     /**
      * Return client rectangle {x, y, width, height} of node. This rectangle also include all styling (strokes, shadows, etc).
      * The rectangle position is relative to parent container.
+     * The purpose of the method is similar to getBoundingClientRect API of the DOM.
      * @method
      * @memberof Konva.Node.prototype
      * @param {Object} config
@@ -4169,7 +4170,7 @@
       return this._toKonvaCanvas(config)._canvas;
     },
     /**
-     * Creates a composite data URL. If MIME type is not
+     * Creates a composite data URL (base64 string). If MIME type is not
      * specified, then "image/png" will result. For "image/jpeg", specify a quality
      * level as quality (range 0.0 - 1.0)
      * @method
@@ -16445,11 +16446,11 @@
       var layer = this.getLayer();
 
       /*
-             * animation object has no executable function because
-             *  the updates are done with a fixed FPS with the setInterval
-             *  below.  The anim object only needs the layer reference for
-             *  redraw
-             */
+       * animation object has no executable function because
+       *  the updates are done with a fixed FPS with the setInterval
+       *  below.  The anim object only needs the layer reference for
+       *  redraw
+       */
       this.anim.setLayers(layer);
       this._setInterval();
       this.anim.start();
@@ -16466,7 +16467,7 @@
     /**
      * determine if animation of sprite is running or not.  returns true or false
      * @method
-     * @memberof Konva.Animation.prototype
+     * @memberof Konva.Sprite.prototype
      * @returns {Boolean}
      */
     isRunning: function() {

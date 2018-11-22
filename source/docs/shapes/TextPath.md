@@ -1,7 +1,7 @@
 title: HTML5 canvas TextPath Tutorial. Text follows path
 ---
 
-# How to draw a Text along path with HTML 5 Canvas?
+## How to draw a Text along path with HTML 5 Canvas?
 
 To create a text path with `Konva`, we can instantiate a `Konva.TextPath()` object.
 

@@ -2,7 +2,7 @@ title: HTML5 Canvas Shape Tango with Konva
 layout: demo_page
 ---
 
-# HTML5 Canvas Shape Tango with Konva
+## HTML5 Canvas Shape Tango with Konva
 
 Instructions: drag and drop the shapes and press the "Tango" button to make the shapes move.  refresh the page to generate new random shapes.
 

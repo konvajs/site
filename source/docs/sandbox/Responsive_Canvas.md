@@ -2,7 +2,7 @@ title: Responsive Canvas Stage Demo
 layout: demo_page
 ---
 
-# Do you need responsive/adaptive canvas for you desktop and mobile applications?
+## Do you need responsive/adaptive canvas for you desktop and mobile applications?
 
 So first of all, there are many way to make your canvas stage "responsive".
 And you may need a different behavior for different applications.

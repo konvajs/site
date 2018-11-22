@@ -2,7 +2,7 @@ title: HTML5 Canvas Window Frame Designer
 layout: demo_page
 ---
 
-# HTML5 Canvas Window Frame Designer
+## HTML5 Canvas Window Frame Designer
 
 That is a demo of window frame constructor. It was made as a prototype of a large CAD system.
 

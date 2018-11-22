@@ -1,7 +1,7 @@
 title: HTML5 Canvas Shape Resize Relative to Center
 ---
 
-# How to resize shape in both sides simultaneously?
+## How to resize shape in both sides simultaneously?
 
 To resize a node into both sides at the same time you can set `centeredScaling` to true or hold `ALT` key while moving an anchor (even if `centeredScaling` is false).
 
