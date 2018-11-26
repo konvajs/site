@@ -174,7 +174,9 @@ demo_sidebar:
     Image Border Highlighting: sandbox/Image_Border_Highlighting.html
     GIF Animation: sandbox/GIF_On_Canvas.html
     Relative Pointer Position: sandbox/Relative_Pointer_Position.html
-    Drop_DOM_Element: sandbox/Drop_DOM_Element.html
+    Drop DOM Element: sandbox/Drop_DOM_Element.html
+    Custom Font: sandbox/Custom_Font.html
+    Video On Canvas: sandbox/Video_On_Canvas.html
 
 react_sidebar:
   Getting Started with React:
