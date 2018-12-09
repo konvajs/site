@@ -4,7 +4,7 @@ title: HTML5 Canvas All Konva performance tips list
  
 ## HTML5 Canvas All Konva performance tips list
 
-Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/).
+Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/consulting).
 
 
 There is a full list of useful performance tips:

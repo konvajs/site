@@ -8,7 +8,7 @@ That is a demo of window frame constructor. It was made as a prototype of a larg
 
 The demo is made with react, konva, and react-konva.
 
-If you are interested in similar product for your company - [get in touch](https://lavrton.com/).
+If you are interested in similar product for your company - [get in touch](https://lavrton.com/consulting).
 
 Instructions: You can select section and split it into several child sections. Also you can set sash type of a section.
 

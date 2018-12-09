@@ -12,18 +12,32 @@
             <a href="<%= url_for(menu) %>" class="main-nav-link">
               <%= title %>
             </a>
-
           </li>
           <% }); %>
-          <li class="main-nav-item"><input id="search" placeholder="Search the docs" /></li>
           <li class="main-nav-item">
-            <a href="https://lavrton.com" title="Consulting" target="_blank" class="main-nav-link" style="color: white;background: #0bad42;padding: 10px;border-radius: 10px;">Consulting</a>
+            <input id="search" placeholder="Search the docs" />
+          </li>
+          <li class="main-nav-item">
+            <a
+              href="https://lavrton.com/consulting"
+              title="Consulting"
+              target="_blank"
+              class="main-nav-link"
+              style="color: white;background: #0bad42;padding: 10px;border-radius: 10px;"
+              >Consulting</a
+            >
           </li>
         </ul>
 
-        <a href="https://github.com/<%- theme.github %>" id="github-btn" title="GitHub" target="_blank"></a>
-        <!-- <a id="search-btn" class="st-search-launcher" title="Search"></a> -->
-
+        <a
+          href="https://github.com/<%- theme.github %>"
+          id="github-btn"
+          title="GitHub"
+          target="_blank"
+        ></a>
+        <!--
+          <a id="search-btn" class="st-search-launcher" title="Search"></a>
+        -->
       </nav>
     </div>
   </div>
