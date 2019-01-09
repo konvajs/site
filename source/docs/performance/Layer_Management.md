@@ -12,6 +12,8 @@ canvas element per layer.
 This tutorial has two layers, one layer that's animated, and another static layer
 that contains text.  Since there's no reason to continually redraw the text, it's placed in its own layer.
 
+**Note: Do not create too many layers. Usually 3-5 is max.**
+
 {% iframe /downloads/code/performance/Layer_Management.html %}
 
 {% include_code Konva Layer Management Demo performance/Layer_Management.html %}

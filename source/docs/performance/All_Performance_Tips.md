@@ -24,4 +24,6 @@ There is a full list of useful performance tips:
 13. Try to set `shape.listening(false)` where possible. For more info read [Listening false](https://konvajs.github.io/docs/performance/Listening_False.html).
 14. [Avoid Memory Leaks](https://konvajs.github.io/docs/performance/Avoid_Memory_Leaks.html).
 15. Don't create large stages. Try to make canvases as small, as possible. 8000px wide canvas is blah 🤢. [use this tip instead](https://konvajs.github.io/docs/sandbox/Canvas_Scrolling.html)
-16. Hide (or remove from layer) invisible objects (or objects that go out of the screen).
+16. Do not create too many layers. Usually 3-5 is max.
+17. Hide (or remove from layer) invisible objects (or objects that go out of the screen).
+
