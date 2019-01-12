@@ -41,7 +41,7 @@ export default {
         shadowOffsetX: 15,
         shadowOffsetY: 15,
         scaleX: shape.getAttr('startScale') * 1.2,
-        scaley: shape.getAttr('startScale') * 1.2
+        scaleY: shape.getAttr('startScale') * 1.2
       });
     },
     handleDragend(e) {
