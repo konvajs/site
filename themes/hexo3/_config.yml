@@ -84,10 +84,11 @@ doc_sidebar:
   Clipping:
     Simple Clip: clipping/Clipping_Regions.html
     Complex Clip: clipping/Clipping_Function.html
-  Groups and Layers:
+  Groups, Layers and Ordering:
     Groups: groups_and_layers/Groups.html
     Layering: groups_and_layers/Layering.html
     Change Containers: groups_and_layers/Change_Containers.html
+    zIndex: groups_and_layers/zIndex.html
   Filters:
     Blur: filters/Blur.html
     Brighten: filters/Brighten.html
