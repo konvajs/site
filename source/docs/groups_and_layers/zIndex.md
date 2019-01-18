@@ -53,7 +53,7 @@ Let make a demo. I will create a layer with two groups. The first group has two 
 What is `zIndex` of red circle. It is `1` (second element in array of children of the first group).
 What is `zIndex` of green rect? It is `0`.
 
-Why we see green rect above red circle? As mentioned above Konva is drawing in strict order of the tree.
+Red circle has higher `zIndex` than green rect. But why we see green rect above red circle? As mentioned above Konva is drawing in strict order of the tree.
 So at first it will draw all children of the first group. Then above that picture it will draw all children of the second group (and so on if we have more elements in the layer).
 
 How to draw red circle above green rect? You can move it into the second group. Or you can move it into the layer and make sure it has larger zIndex than previous groups.
