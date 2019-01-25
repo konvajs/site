@@ -1,6 +1,6 @@
 {
-  "name": "react-konva-animation",
-  "description": "React Konva sandbox",
+  "name": "react-konva-spring-animation",
+  "description": "Complex animation with React, Konva and react-spring",
   "version": "0.0.9",
   "keywords": [
     "canvas",
@@ -12,7 +12,7 @@
     "react": "16.6.1",
     "react-dom": "16.6.1",
     "react-konva": "16.6.1-1",
-    "react-spring": "5.3.11"
+    "react-spring": "7.2.10"
   },
   "devDependencies": {
     "react-scripts": "2.0.4"
