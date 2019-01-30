@@ -22,6 +22,6 @@ In that case a stage with the size `500x500` will be exported into `1000x1000` i
 **Usage: try to save stage as image. You will see that it have large resolution.**
 
 
-{% iframe /downloads/code/data_and_serialization/Hight-Quality-Export.html %}
+{% iframe /downloads/code/data_and_serialization/High-Quality-Export.html %}
 
-{% include_code Konva Pixel Ratio Demo data_and_serialization/Hight-Quality-Export.html %}
+{% include_code Konva Pixel Ratio Demo data_and_serialization/High-Quality-Export.html %}
