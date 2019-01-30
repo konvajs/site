@@ -129,7 +129,7 @@ doc_sidebar:
     Simple Load: data_and_serialization/Simple_Load.html
     Complex Load: data_and_serialization/Complex_Load.html
     Stage Data URL: data_and_serialization/Stage_Data_URL.html
-    Export to HD Image: data_and_serialization/Stage_Data_URL.html
+    Export to HD Image: data_and_serialization/High-Quality-Export.html
   Performance:
     All tips: performance/All_Performance_Tips.html
     Layer Management: performance/Layer_Management.html
