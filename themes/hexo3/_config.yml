@@ -124,11 +124,12 @@ doc_sidebar:
     Select by id: selectors/Select_by_id.html
     Select by Type: selectors/Select_by_Type.html
     Select by Name: selectors/Select_by_Name.html
-  Data & Serialization:
+  Data & Serialization & Export:
     Serialize a Stage: data_and_serialization/Serialize_a_Stage.html
     Simple Load: data_and_serialization/Simple_Load.html
     Complex Load: data_and_serialization/Complex_Load.html
     Stage Data URL: data_and_serialization/Stage_Data_URL.html
+    Export to HD Image: data_and_serialization/Stage_Data_URL.html
   Performance:
     All tips: performance/All_Performance_Tips.html
     Layer Management: performance/Layer_Management.html
