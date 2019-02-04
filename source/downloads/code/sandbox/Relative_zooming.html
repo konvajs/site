@@ -50,7 +50,7 @@
 
       var scaleBy = 1.01;
       stage.on('wheel', e => {
-        e.preventDefault();
+        e.evt.preventDefault();
         var oldScale = stage.scaleX();
 
         var mousePointTo = {
@@ -58,7 +58,8 @@
           y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale
         };
 
-        var newScale = e.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+        var newScale =
+          e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
         stage.scale({ x: newScale, y: newScale });
 
         var newPos = {
