@@ -1,57 +1,54 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Batch Draw Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
 
-<head>
-  <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
-  <meta charset="utf-8">
-  <title>Konva Batch Draw Demo</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #F0F0F0;
-    }
-  </style>
-</head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
 
-<body>
-  <div id="container"></div>
-  <script>
-    var stage = new Konva.Stage({
-      container: 'container',
-      width: window.innerWidth,
-      height: window.innerHeight
-    });
+      var layer = new Konva.Layer();
 
-    var layer = new Konva.Layer();
+      var rect = new Konva.Rect({
+        x: 110,
+        y: 100,
+        width: 200,
+        height: 20,
+        offset: {
+          x: 100,
+          y: 10
+        },
+        fill: 'green',
+        stroke: 'black',
+        strokeWidth: 4
+      });
 
-    var rect = new Konva.Rect({
-      x: 110,
-      y: 100,
-      width: 200,
-      height: 20,
-      offset: {
-        x: 100,
-        y: 10
-      },
-      fill: 'green',
-      stroke: 'black',
-      strokeWidth: 4
-    });
+      // add the shape to the layer
+      layer.add(rect);
 
-    // add the shape to the layer
-    layer.add(rect);
+      // add the layer to the stage
+      stage.add(layer);
 
-    // add the layer to the stage
-    stage.add(layer);
-
-    stage.on('contentMousemove', function () {
-      rect.rotate(5);
-      layer.batchDraw();
-    });
-  </script>
-
-</body>
-
+      stage.on('mousemove', function() {
+        rect.rotate(5);
+        layer.batchDraw();
+      });
+    </script>
+  </body>
 </html>
