@@ -1,53 +1,57 @@
 import React, { Component } from 'react';
-import Konva from 'konva';
 import { render } from 'react-dom';
 import { Stage, Layer, Image } from 'react-konva';
+import useImage from 'use-image';
 
-// VERY IMPORTANT NOTES
+// the first very simple and recomended way:
+const LionImage = () => {
+  const [image] = useImage('https://konvajs.github.io/assets/lion.png');
+  return <Image image={image} />;
+};
+
+// custom component that will handle loading image from url
+// you may add more logic here to handle "loading" state
+// or if loading is failed
+// VERY IMPORTANT NOTES:
 // at first we will set image state to null
-// and then we will set it to native image instanse
-// only when image is loaded
-class YodaImage extends React.Component {
+// and then we will set it to native image instance when it is loaded
+class URLImage extends React.Component {
   state = {
     image: null
   };
   componentDidMount() {
-    const image = new window.Image();
-    image.src = 'https://konvajs.github.io/assets/yoda.jpg';
-    image.onload = () => {
-      // setState will redraw layer
-      // because "image" property is changed
-      this.setState({
-        image: image
-      });
-    };
+    this.loadImage();
   }
-
-  render() {
-    return <Image image={this.state.image} />;
+  componentDidUpdate(oldProps) {
+    if (oldProps.src !== this.props.src) {
+      this.loadImage();
+    }
   }
-}
-
-// here is another way to update the image
-class VaderImage extends React.Component {
-  state = {
-    image: new window.Image()
+  componentWillUnmount() {
+    this.image.removeEventListener('load', this.handleLoad);
+  }
+  loadImage() {
+    // save to "this" to remove "load" handler on unmount
+    this.image = new window.Image();
+    this.image.src = this.props.src;
+    this.image.addEventListener('load', this.handleLoad);
+  }
+  handleLoad = () => {
+    // after setState react-konva will update canvas and redraw the layer
+    // because "image" property is changed
+    this.setState({
+      image: this.image
+    });
+    // if you keep same image object during source updates
+    // you will have to update layer manually:
+    // this.imageNode.getLayer().batchDraw();
   };
-  componentDidMount() {
-    this.state.image.src = 'https://konvajs.github.io/assets/darth-vader.jpg';
-    this.state.image.onload = () => {
-      // calling set state here will do nothing
-      // because properties of Konva.Image are not changed
-      // so we need to update layer manually
-      this.imageNode.getLayer().batchDraw();
-    };
-  }
-
   render() {
     return (
       <Image
+        x={this.props.x}
+        y={this.props.y}
         image={this.state.image}
-        y={250}
         ref={node => {
           this.imageNode = node;
         }}
@@ -61,8 +65,8 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <YodaImage />
-          <VaderImage />
+          <URLImage src="https://konvajs.github.io/assets/yoda.jpg" x={150} />
+          <LionImage />
         </Layer>
       </Stage>
     );

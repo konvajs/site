@@ -9,9 +9,10 @@
   ],
   "dependencies": {
     "konva": "2.5.1",
-    "react": "16.6.1",
-    "react-dom": "16.6.1",
-    "react-konva": "16.6.1-1"
+    "react": "16.8.0",
+    "react-dom": "16.8.0",
+    "react-konva": "16.8.0",
+    "use-image": "1.0.2"
   },
   "devDependencies": {
     "react-scripts": "2.0.4"
