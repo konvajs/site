@@ -66,12 +66,15 @@
 
       // create function will destroy previous drawing
       // then it will created required nodes and attach all events
-      function create(state) {
+      function create() {
         layer.destroyChildren();
         state.forEach((item, index) => {
           var node = new Konva.Image({
             draggable: true,
-            name: 'item-' + index
+            name: 'item-' + index,
+            // make it smaller
+            scaleX: 0.5,
+            scaleY: 0.5
           });
           layer.add(node);
           node.on('dragend', () => {
@@ -90,7 +93,7 @@
 
           node.on('click', () => {
             // find new filter
-            var oldFilterIndex = possibleFilters.indexOf(item.filter);
+            var oldFilterIndex = possibleFilters.indexOf(state[index].filter);
             var nextIndex = (oldFilterIndex + 1) % possibleFilters.length;
             var filter = possibleFilters[nextIndex];
 
@@ -116,7 +119,7 @@
         update(state);
       }
 
-      function update(state) {
+      function update() {
         state.forEach(function(item, index) {
           var node = stage.findOne('.item-' + index);
           node.setAttrs({
