@@ -51,7 +51,7 @@
             e.preventDefault(); // !important
         });
 
-        stage.getContainer().addEventListener('drop', function (e) {
+        con.addEventListener('drop', function (e) {
             e.preventDefault();
             // now we need to find pointer position
             // we can't use stage.getPointerPosition() here, because that event
