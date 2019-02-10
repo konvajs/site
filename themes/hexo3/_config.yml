@@ -128,6 +128,7 @@ doc_sidebar:
     Serialize a Stage: data_and_serialization/Serialize_a_Stage.html
     Simple Load: data_and_serialization/Simple_Load.html
     Complex Load: data_and_serialization/Complex_Load.html
+    JSON Best Practices: data_and_serialization/Best_Practices.html
     Stage Data URL: data_and_serialization/Stage_Data_URL.html
     Export to HD Image: data_and_serialization/High-Quality-Export.html
   Performance:
@@ -141,6 +142,7 @@ doc_sidebar:
     Disable Perfect Drawing: performance/Disable_Perfect_Draw.html
     Listening False: performance/Listening_False.html
     Avoid Memory Leaks: performance/Avoid_Memory_Leaks.html
+
 demo_sidebar:
   Demos:
     Free Drawing: sandbox/Free_Drawing.html
@@ -194,6 +196,7 @@ react_sidebar:
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html
     DOM Portals: react/DOM_Portal.html
+    Undo/Redo: react/Undo-Redo.html
 
 vue_sidebar:
   Getting Started with Vue:

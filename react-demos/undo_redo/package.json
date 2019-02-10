@@ -1,6 +1,6 @@
 {
-  "name": "React Konva Animation",
-  "description": "React Konva sandbox",
+  "name": "React Konva Undo/Redo",
+  "description": "React Konva demo",
   "version": "0.0.9",
   "keywords": [
     "canvas",
@@ -11,8 +11,7 @@
     "konva": "2.5.1",
     "react": "16.6.1",
     "react-dom": "16.6.1",
-    "react-konva": "16.6.1-1",
-    "react-spring": "5.3.11"
+    "react-konva": "16.6.1-1"
   },
   "devDependencies": {
     "react-scripts": "2.0.4"
