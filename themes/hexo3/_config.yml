@@ -4,14 +4,16 @@ menu:
   API docs: /api/Konva.html
   React: /docs/react
   Vue: /docs/vue
-  Support: /docs/support.html
+  Support Konva: /docs/donate.html
+  Need help?: /docs/support.html
   # Consulting: https://lavrton.com
 
 doc_sidebar:
   Getting Started:
     Intro: index.html
     Overview: overview.html
-    Support: support.html
+    Need help?: support.html
+    Support Konva: donate.html
     Tools: tools.html
   Shapes:
     Rect: shapes/Rect.html

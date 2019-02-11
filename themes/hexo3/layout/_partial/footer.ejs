@@ -2,12 +2,83 @@
   <div class="outer">
     <div class="inner">
       <div id="footer-copyright">
-        &copy; <%= new Date().getFullYear() %> KonvaJS<br>
+        &copy; <%= new Date().getFullYear() %> KonvaJS<br />
       </div>
       <div id="footer-links">
-        <a href="https://twitter.com/<%= theme.twitter %>" id="footer-link-twitter" class="footer-link" target="_blank"><span>Twitter</span></a>
-        <a href="https://github.com/<%- theme.github %>" id="footer-link-github" class="footer-link" target="_blank"><span>GitHub</span></a>
+        <a
+          href="https://twitter.com/<%= theme.twitter %>"
+          id="footer-link-twitter"
+          class="footer-link"
+          target="_blank"
+          ><span>Twitter</span></a
+        >
+        <a
+          href="https://github.com/<%- theme.github %>"
+          id="footer-link-github"
+          class="footer-link"
+          target="_blank"
+          ><span>GitHub</span></a
+        >
       </div>
+    </div>
+    <div class="inner">
+      <div class="footer-resources">
+        <h3>Docs</h3>
+        <ul>
+          <li><a href="/docs">Tutorials</a></li>
+          <li><a href="/docs/overview.html">General Overview</a></li>
+          <li><a href="/api/Konva.html">API doc</a></li>
+
+          <li><a href="/docs/sandbox/">Demos</a></li>
+          <li><a href="/docs/react/">Usage with React</a></li>
+          <li><a href="/docs/vue/">Usage with Vue</a></li>
+          <li>
+            <a href="https://github.com/konvajs/konva/blob/master/CHANGELOG.md"
+              >Changelog</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>CHANNELS</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/<%- theme.github %>" target="_blank"
+              >GitHub</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://stackoverflow.com/questions/tagged/konvajs"
+              target="_blank"
+              >StackOverflow</a
+            >
+          </li>
+          <li><a href="https://gitter.im/konvajs/konva" target="_blank">GitTip chat</a></li>
+          <li>
+            <a href="https://github.com/konvajs/konva/blob/master/CHANGELOG.md" target="_blank"
+              >Changelog</a
+            >
+          </li>
+        </ul>
+        
+      </div>
+      <div class="footer-resources">
+          <h3>More</h3>
+          <ul>
+            <li>
+              <a href="/docs/support.html"
+                >Need help?</a
+              >
+            </li>
+            <li>
+              <a
+                href="/docs/donate.html"
+                target="_blank"
+                >Donate</a
+              >
+            </li>
+          </ul>
     </div>
   </div>
   <script>
@@ -15,5 +86,9 @@
       room: 'konvajs/konva'
     };
   </script>
-  <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+  <script
+    src="https://sidecar.gitter.im/dist/sidecar.v1.js"
+    async
+    defer
+  ></script>
 </footer>
