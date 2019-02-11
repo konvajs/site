@@ -12,4 +12,4 @@ I am spending a large amount of time to support Konva users and develop new vers
 
 If you are making money, by using Konva in your project, it makes sense to support Konva development. By doing this you will make sure that you have a good quality and maintained framework.
 
-Even if you are not making money from your project but Konva saved you a lot of money, it will be very kind to support it.
+Even if you are not making money from your project but Konva saved you a lot of time, it will be very kind to support it.
