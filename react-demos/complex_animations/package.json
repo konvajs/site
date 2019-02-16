@@ -9,9 +9,9 @@
   ],
   "dependencies": {
     "konva": "2.5.1",
-    "react": "16.8.0",
-    "react-dom": "16.8.0",
-    "react-konva": "16.8.0",
+    "react": "16.8.2",
+    "react-dom": "16.8.2",
+    "react-konva": "16.8.2-0",
     "react-spring": "7.2.10"
   },
   "devDependencies": {
