@@ -33,10 +33,33 @@
         text: 'Some text here',
         x: 50,
         y: 50,
-        fontSize: 20
+        fontSize: 20,
+        draggable: true
       });
 
       layer.add(textNode);
+
+      var tr = new Konva.Transformer({
+        node: textNode,
+        rotateEnabled: false,
+        enabledAnchors: ['middle-left', 'middle-right'],
+        // set minimum width of text
+        boundBoxFunc: function(oldBox, newBox) {
+          newBox.width = Math.max(30, newBox.width);
+          return newBox;
+        }
+      });
+
+      textNode.on('transform', function() {
+        // reset scale, so only with is changing by transformer
+        textNode.setAttrs({
+          width: textNode.width() * textNode.scaleX(),
+          scaleX: 1
+        });
+      });
+
+      layer.add(tr);
+
       layer.draw();
 
       textNode.on('dblclick', () => {
@@ -61,11 +84,19 @@
         var textarea = document.createElement('textarea');
         document.body.appendChild(textarea);
 
+        // apply many styles to match text on canvas as close as possible
         textarea.value = textNode.text();
         textarea.style.position = 'absolute';
         textarea.style.top = areaPosition.y + 'px';
         textarea.style.left = areaPosition.x + 'px';
-        textarea.style.width = textNode.width();
+        textarea.style.width = textNode.width() - textNode.padding() * 2 + 'px';
+        textarea.style.height =
+          textNode.height() - textNode.padding() * 2 + 5 + 'px';
+        textarea.style.fontSize = textNode.fontSize() + 'px';
+        textarea.style.border = 'none';
+        textarea.style.backgroundColor = 'transparent';
+        textarea.style.padding = '0px';
+        textarea.style.overflow = 'hidden';
 
         textarea.focus();
 
@@ -76,6 +107,16 @@
             layer.draw();
             document.body.removeChild(textarea);
           }
+        });
+
+        function handleOutsideClick(e) {
+          if (e.target !== textarea) {
+            textarea.parentNode.removeChild(textarea);
+            window.removeEventListener('click', handleOutsideClick);
+          }
+        }
+        setTimeout(() => {
+          window.addEventListener('click', handleOutsideClick);
         });
       });
     </script>
