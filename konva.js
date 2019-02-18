@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v3.0.0
+   * Konva JavaScript Framework v3.0.0-0
    * http://konvajs.github.io/
    * Licensed under the MIT
-   * Date: Tue Jan 22 2019
+   * Date: Mon Feb 18 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -19,9 +19,7 @@
   /**
    * @namespace Konva
    */
-  var version = '3.0.0';
-  // private
-  var ids = {};
+  var version = '3.0.0-0';
   var names = {};
   var shapes = {};
   var isBrowser = typeof window !== 'undefined' &&
@@ -61,31 +59,6 @@
           return !!dd.node;
       }
       return false;
-  };
-  var _addId = function (node, id) {
-      if (!id) {
-          return;
-      }
-      // do we need this warning?
-      // if (ids[id]) {
-      //   console.warn(
-      //     'Duplicate id "' +
-      //       id +
-      //       '". Please don not use same id several times. It may break find() method look up.'
-      //   );
-      // }
-      ids[id] = node;
-  };
-  var _removeId = function (id, node) {
-      // node has no id
-      if (!id) {
-          return;
-      }
-      // another node is registered (possible for duplicate ids)
-      if (ids[id] !== node) {
-          return;
-      }
-      delete ids[id];
   };
   var _addName = function (node, name) {
       if (name) {
@@ -652,6 +625,19 @@
               return -1;
           }
       },
+      animQueue: [],
+      requestAnimFrame: function (callback) {
+          Util.animQueue.push(callback);
+          if (Util.animQueue.length === 1) {
+              requestAnimationFrame(function () {
+                  var queue = Util.animQueue;
+                  Util.animQueue = [];
+                  queue.forEach(function (cb) {
+                      cb();
+                  });
+              });
+          }
+      },
       createCanvasElement: function () {
           var canvas = isBrowser
               ? document.createElement('canvas')
@@ -691,7 +677,6 @@
       /*
        * arg can be an image object or image data
        */
-      // TODO: use it only for data url
       _urlToImage: function (url, callback) {
           var imageObj;
           // if arg is a string, then it's a data url
@@ -849,20 +834,6 @@
                   a: 1
               };
           }
-      },
-      // TODO: remove it
-      // o1 takes precedence over o2
-      _merge: function (o1, o2) {
-          var retObj = this._clone(o2);
-          for (var key in o1) {
-              if (this._isPlainObject(o1[key])) {
-                  retObj[key] = this._merge(o1[key], retObj[key]);
-              }
-              else {
-                  retObj[key] = o1[key];
-              }
-          }
-          return retObj;
       },
       /**
        * check intersection of two client rectangles
@@ -1107,11 +1078,15 @@
               }
               return ret;
           };
+          var basicValidator = Validators.getComponentValidator(components);
           // setter
           constructor.prototype[setter] = function (val) {
               var oldVal = this.attrs[attr], key;
               if (validator) {
                   val = validator.call(this, val);
+              }
+              if (basicValidator) {
+                  basicValidator.call(this, val, attr);
               }
               for (key in val) {
                   if (!val.hasOwnProperty(key)) {
@@ -1302,6 +1277,20 @@
                   return val;
               };
           }
+      },
+      getComponentValidator: function (components) {
+          if (isUnminified) {
+              return function (val, attr) {
+                  if (!Util.isObject(val)) {
+                      Util.warn(Validators._formatValue(val) +
+                          ' is a not valid value for "' +
+                          attr +
+                          '" attribute. The value should be an object with properties ' +
+                          components);
+                  }
+                  return val;
+              };
+          }
       }
   };
 
@@ -1456,8 +1445,7 @@
        * @param {Konva.Shape} shape
        */
       Context.prototype.fillStrokeShape = function (shape) {
-          var fillEnabled = shape.getFillEnabled();
-          if (fillEnabled) {
+          if (shape.getFillEnabled()) {
               this._fill(shape);
           }
           if (shape.getStrokeEnabled()) {
@@ -1756,44 +1744,35 @@
           shape._fillFunc(this);
       };
       SceneContext.prototype._fillPattern = function (shape) {
-          var fillPatternX = shape.getFillPatternX(), fillPatternY = shape.getFillPatternY(), fillPatternScale = shape.getFillPatternScale(), fillPatternRotation = getAngle(shape.getFillPatternRotation()), fillPatternOffset = shape.getFillPatternOffset();
+          var fillPatternX = shape.getFillPatternX(), fillPatternY = shape.getFillPatternY(), fillPatternScaleX = shape.getFillPatternScaleX(), fillPatternScaleY = shape.getFillPatternScaleY(), fillPatternRotation = getAngle(shape.getFillPatternRotation()), fillPatternOffsetX = shape.getFillPatternOffsetX(), fillPatternOffsetY = shape.getFillPatternOffsetY();
           if (fillPatternX || fillPatternY) {
               this.translate(fillPatternX || 0, fillPatternY || 0);
           }
           if (fillPatternRotation) {
               this.rotate(fillPatternRotation);
           }
-          // TODO: optimize to fillPatternScaleX and fillPatternScaleY
-          // otherwise it is object (always true)
-          // do the same for offset
-          if (fillPatternScale) {
-              this.scale(fillPatternScale.x, fillPatternScale.y);
+          if (fillPatternScaleX || fillPatternScaleY) {
+              this.scale(fillPatternScaleX, fillPatternScaleY);
           }
-          if (fillPatternOffset) {
-              this.translate(-1 * fillPatternOffset.x, -1 * fillPatternOffset.y);
+          if (fillPatternOffsetX || fillPatternOffsetY) {
+              this.translate(-1 * fillPatternOffsetX, -1 * fillPatternOffsetY);
           }
-          this.setAttr('fillStyle', this.createPattern(shape.getFillPatternImage(), shape.getFillPatternRepeat() || 'repeat'));
+          this.setAttr('fillStyle', shape._getFillPattern());
           shape._fillFunc(this);
       };
       SceneContext.prototype._fillLinearGradient = function (shape) {
-          var start = shape.getFillLinearGradientStartPoint(), end = shape.getFillLinearGradientEndPoint(), colorStops = shape.getFillLinearGradientColorStops(), grd = this.createLinearGradient(start.x, start.y, end.x, end.y);
-          if (colorStops) {
-              // build color stops
-              for (var n = 0; n < colorStops.length; n += 2) {
-                  grd.addColorStop(colorStops[n], colorStops[n + 1]);
-              }
+          var grd = shape._getLinearGradient();
+          if (grd) {
               this.setAttr('fillStyle', grd);
               shape._fillFunc(this);
           }
       };
       SceneContext.prototype._fillRadialGradient = function (shape) {
-          var start = shape.getFillRadialGradientStartPoint(), end = shape.getFillRadialGradientEndPoint(), startRadius = shape.getFillRadialGradientStartRadius(), endRadius = shape.getFillRadialGradientEndRadius(), colorStops = shape.getFillRadialGradientColorStops(), grd = this.createRadialGradient(start.x, start.y, startRadius, end.x, end.y, endRadius);
-          // build color stops
-          for (var n = 0; n < colorStops.length; n += 2) {
-              grd.addColorStop(colorStops[n], colorStops[n + 1]);
+          var grd = shape._getRadialGradient();
+          if (grd) {
+              this.setAttr('fillStyle', grd);
+              shape._fillFunc(this);
           }
-          this.setAttr('fillStyle', grd);
-          shape._fillFunc(this);
       };
       SceneContext.prototype._fill = function (shape) {
           var hasColor = shape.fill(), fillPriority = shape.getFillPriority();
@@ -2033,7 +2012,7 @@
                   return this._canvas.toDataURL();
               }
               catch (err) {
-                  Util.warn('Unable to get data URL. ' + err.message);
+                  Util.error('Unable to get data URL. ' + err.message);
                   return '';
               }
           }
@@ -2086,6 +2065,349 @@
       return HitCanvas;
   }(Canvas));
 
+  var now = (function () {
+      if (glob.performance && glob.performance.now) {
+          return function () {
+              return glob.performance.now();
+          };
+      }
+      return function () {
+          return new Date().getTime();
+      };
+  })();
+  /**
+   * Animation constructor.  A stage is used to contain multiple layers and handle
+   * @constructor
+   * @memberof Konva
+   * @param {Function} func function executed on each animation frame.  The function is passed a frame object, which contains
+   *  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed
+   *  since the last animation frame.  The lastTime property is time in milliseconds that elapsed from the moment the animation started
+   *  to the last animation frame.  The time property is the time in milliseconds that ellapsed from the moment the animation started
+   *  to the current animation frame.  The frameRate property is the current frame rate in frames / second. Return false from function,
+   *  if you don't need to redraw layer/layers on some frames.
+   * @param {Konva.Layer|Array} [layers] layer(s) to be redrawn on each animation frame. Can be a layer, an array of layers, or null.
+   *  Not specifying a node will result in no redraw.
+   * @example
+   * // move a node to the right at 50 pixels / second
+   * var velocity = 50;
+   *
+   * var anim = new Konva.Animation(function(frame) {
+   *   var dist = velocity * (frame.timeDiff / 1000);
+   *   node.move(dist, 0);
+   * }, layer);
+   *
+   * anim.start();
+   */
+  var Animation = /** @class */ (function () {
+      function Animation(func, layers) {
+          this.id = Animation.animIdCounter++;
+          this.frame = {
+              time: 0,
+              timeDiff: 0,
+              lastTime: now(),
+              frameRate: 0
+          };
+          this.func = func;
+          this.setLayers(layers);
+      }
+      /**
+       * set layers to be redrawn on each animation frame
+       * @method
+       * @name Konva.Animation#setLayers
+       * @param {Konva.Layer|Array} [layers] layer(s) to be redrawn. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw.
+       * @return {Konva.Animation} this
+       */
+      Animation.prototype.setLayers = function (layers) {
+          var lays = [];
+          // if passing in no layers
+          if (!layers) {
+              lays = [];
+          }
+          else if (layers.length > 0) {
+              // if passing in an array of Layers
+              // NOTE: layers could be an array or Konva.Collection.  for simplicity, I'm just inspecting
+              // the length property to check for both cases
+              lays = layers;
+          }
+          else {
+              // if passing in a Layer
+              lays = [layers];
+          }
+          this.layers = lays;
+          return this;
+      };
+      /**
+       * get layers
+       * @method
+       * @name Konva.Animation#getLayers
+       * @return {Array} Array of Konva.Layer
+       */
+      Animation.prototype.getLayers = function () {
+          return this.layers;
+      };
+      /**
+       * add layer.  Returns true if the layer was added, and false if it was not
+       * @method
+       * @name Konva.Animation#addLayer
+       * @param {Konva.Layer} layer to add
+       * @return {Bool} true if layer is added to animation, otherwise false
+       */
+      Animation.prototype.addLayer = function (layer) {
+          var layers = this.layers, len = layers.length, n;
+          // don't add the layer if it already exists
+          for (n = 0; n < len; n++) {
+              if (layers[n]._id === layer._id) {
+                  return false;
+              }
+          }
+          this.layers.push(layer);
+          return true;
+      };
+      /**
+       * determine if animation is running or not.  returns true or false
+       * @method
+       * @name Konva.Animation#isRunning
+       * @return {Bool} is animation running?
+       */
+      Animation.prototype.isRunning = function () {
+          var a = Animation, animations = a.animations, len = animations.length, n;
+          for (n = 0; n < len; n++) {
+              if (animations[n].id === this.id) {
+                  return true;
+              }
+          }
+          return false;
+      };
+      /**
+       * start animation
+       * @method
+       * @name Konva.Animation#start
+       * @return {Konva.Animation} this
+       */
+      Animation.prototype.start = function () {
+          this.stop();
+          this.frame.timeDiff = 0;
+          this.frame.lastTime = now();
+          Animation._addAnimation(this);
+          return this;
+      };
+      /**
+       * stop animation
+       * @method
+       * @name Konva.Animation#stop
+       * @return {Konva.Animation} this
+       */
+      Animation.prototype.stop = function () {
+          Animation._removeAnimation(this);
+          return this;
+      };
+      Animation.prototype._updateFrameObject = function (time) {
+          this.frame.timeDiff = time - this.frame.lastTime;
+          this.frame.lastTime = time;
+          this.frame.time += this.frame.timeDiff;
+          this.frame.frameRate = 1000 / this.frame.timeDiff;
+      };
+      Animation._addAnimation = function (anim) {
+          this.animations.push(anim);
+          this._handleAnimation();
+      };
+      Animation._removeAnimation = function (anim) {
+          var id = anim.id, animations = this.animations, len = animations.length, n;
+          for (n = 0; n < len; n++) {
+              if (animations[n].id === id) {
+                  this.animations.splice(n, 1);
+                  break;
+              }
+          }
+      };
+      Animation._runFrames = function () {
+          var layerHash = {}, animations = this.animations, anim, layers, func, n, i, layersLen, layer, key, needRedraw;
+          /*
+           * loop through all animations and execute animation
+           *  function.  if the animation object has specified node,
+           *  we can add the node to the nodes hash to eliminate
+           *  drawing the same node multiple times.  The node property
+           *  can be the stage itself or a layer
+           */
+          /*
+           * WARNING: don't cache animations.length because it could change while
+           * the for loop is running, causing a JS error
+           */
+          for (n = 0; n < animations.length; n++) {
+              anim = animations[n];
+              layers = anim.layers;
+              func = anim.func;
+              anim._updateFrameObject(now());
+              layersLen = layers.length;
+              // if animation object has a function, execute it
+              if (func) {
+                  // allow anim bypassing drawing
+                  needRedraw = func.call(anim, anim.frame) !== false;
+              }
+              else {
+                  needRedraw = true;
+              }
+              if (!needRedraw) {
+                  continue;
+              }
+              for (i = 0; i < layersLen; i++) {
+                  layer = layers[i];
+                  if (layer._id !== undefined) {
+                      layerHash[layer._id] = layer;
+                  }
+              }
+          }
+          for (key in layerHash) {
+              if (!layerHash.hasOwnProperty(key)) {
+                  continue;
+              }
+              layerHash[key].draw();
+          }
+      };
+      Animation._animationLoop = function () {
+          var Anim = Animation;
+          if (Anim.animations.length) {
+              Anim._runFrames();
+              requestAnimationFrame(Anim._animationLoop);
+          }
+          else {
+              Anim.animRunning = false;
+          }
+      };
+      Animation._handleAnimation = function () {
+          if (!this.animRunning) {
+              this.animRunning = true;
+              requestAnimationFrame(this._animationLoop);
+          }
+      };
+      Animation.animations = [];
+      Animation.animIdCounter = 0;
+      Animation.animRunning = false;
+      return Animation;
+  }());
+
+  var DD = {
+      startPointerPos: {
+          x: 0,
+          y: 0
+      },
+      // properties
+      anim: new Animation(function () {
+          var b = this.dirty;
+          this.dirty = false;
+          return b;
+      }),
+      isDragging: false,
+      justDragged: false,
+      offset: {
+          x: 0,
+          y: 0
+      },
+      node: null,
+      // methods
+      _drag: function (evt) {
+          var node = DD.node;
+          if (node) {
+              if (!DD.isDragging) {
+                  var pos = node.getStage().getPointerPosition();
+                  // it is possible that pos is undefined
+                  // reattach it
+                  if (!pos) {
+                      node.getStage()._setPointerPosition(evt);
+                      pos = node.getStage().getPointerPosition();
+                  }
+                  var dragDistance = node.dragDistance();
+                  var distance = Math.max(Math.abs(pos.x - DD.startPointerPos.x), Math.abs(pos.y - DD.startPointerPos.y));
+                  if (distance < dragDistance) {
+                      return;
+                  }
+              }
+              node.getStage()._setPointerPosition(evt);
+              if (!DD.isDragging) {
+                  DD.isDragging = true;
+                  node.fire('dragstart', {
+                      type: 'dragstart',
+                      target: node,
+                      evt: evt
+                  }, true);
+                  // a user can stop dragging inside `dragstart`
+                  if (!node.isDragging()) {
+                      return;
+                  }
+              }
+              node._setDragPosition(evt);
+              // execute ondragmove if defined
+              node.fire('dragmove', {
+                  type: 'dragmove',
+                  target: node,
+                  evt: evt
+              }, true);
+          }
+      },
+      _endDragBefore: function (evt) {
+          var node = DD.node, layer;
+          if (node) {
+              layer = node.getLayer();
+              DD.anim.stop();
+              // only fire dragend event if the drag and drop
+              // operation actually started.
+              if (DD.isDragging) {
+                  DD.isDragging = false;
+                  DD.justDragged = true;
+                  getGlobalKonva().listenClickTap = false;
+                  if (evt) {
+                      evt.dragEndNode = node;
+                  }
+              }
+              DD.node = null;
+              if (layer || node instanceof getGlobalKonva().Stage) {
+                  (layer || node).draw();
+              }
+          }
+      },
+      _endDragAfter: function (evt) {
+          evt = evt || {};
+          var dragEndNode = evt.dragEndNode;
+          if (evt && dragEndNode) {
+              dragEndNode.fire('dragend', {
+                  type: 'dragend',
+                  target: dragEndNode,
+                  evt: evt
+              }, true);
+          }
+      }
+  };
+  if (isBrowser) {
+      window.addEventListener('mouseup', DD._endDragBefore, true);
+      window.addEventListener('touchend', DD._endDragBefore, true);
+      window.addEventListener('mousemove', DD._drag);
+      window.addEventListener('touchmove', DD._drag);
+      window.addEventListener('mouseup', DD._endDragAfter, false);
+      window.addEventListener('touchend', DD._endDragAfter, false);
+  }
+
+  var ids = {};
+  var ID_WARNING = "Duplicate id \"{id}\".\nPlease do not use same id several times, it will break find() method look up.\nIf you have duplicates it is better to use \"name\" property instead.\n";
+  var _addId = function (node, id) {
+      if (!id) {
+          return;
+      }
+      if (ids[id]) {
+          Util.warn(ID_WARNING.replace('{id}', id));
+      }
+      ids[id] = node;
+  };
+  var _removeId = function (id, node) {
+      // node has no id
+      if (!id) {
+          return;
+      }
+      // another node is registered (possible for duplicate ids)
+      if (ids[id] !== node) {
+          return;
+      }
+      delete ids[id];
+  };
   // CONSTANTS
   var ABSOLUTE_OPACITY = 'absoluteOpacity', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER = 'mouseenter', MOUSELEAVE = 'mouseleave', NAME = 'name', SET$1 = 'set', SHAPE = 'Shape', SPACE = ' ', STAGE = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', CLONE_BLACK_LIST = ['id'], TRANSFORM_CHANGE_STR = [
       'xChange.konva',
@@ -2136,6 +2458,7 @@
           this.index = 0;
           this.parent = null;
           this._cache = {};
+          this._lastPos = null;
           this._filterUpToDate = false;
           this._isUnderCache = false;
           this.children = emptyChildren;
@@ -2187,7 +2510,7 @@
        */
       Node.prototype._clearSelfAndDescendantCache = function (attr) {
           this._clearCache(attr);
-          // skip clearing of node is cached with canvas
+          // skip clearing if node is cached with canvas
           if (this._cache.canvas) {
               return;
           }
@@ -2447,10 +2770,8 @@
       /**
        * bind events to the node. KonvaJS supports mouseover, mousemove,
        *  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,
-       *  touchend, tap, dbltap, dragstart, dragmove, and dragend events. The Konva Stage supports
-       *  contentMouseover, contentMousemove, contentMouseout, contentMousedown, contentMouseup, contentWheel, contentContextmenu
-       *  contentClick, contentDblclick, contentTouchstart, contentTouchmove, contentTouchend, contentTap,
-       *  and contentDblTap.  Pass in a string of events delimited by a space to bind multiple events at once
+       *  touchend, tap, dbltap, dragstart, dragmove, and dragend events.
+       *  Pass in a string of events delimited by a space to bind multiple events at once
        *  such as 'mousedown mouseup mousemove'. Include a namespace to bind an
        *  event by name such as 'click.foobar'.
        * @method
@@ -2622,11 +2943,18 @@
        * node.remove();
        */
       Node.prototype.remove = function () {
+          if (DD.node && DD.node === this) {
+              this.stopDrag();
+          }
+          this._remove();
+          return this;
+      };
+      Node.prototype._remove = function () {
           var parent = this.getParent();
           if (parent && parent.children) {
               parent.children.splice(this.index, 1);
               parent._setChildrenIndices();
-              delete this.parent;
+              this.parent = null;
           }
           // every cached attr that is calculated via node tree
           // traversal must be cleared when removing a node
@@ -2635,7 +2963,6 @@
           this._clearSelfAndDescendantCache(VISIBLE);
           this._clearSelfAndDescendantCache(LISTENING);
           this._clearSelfAndDescendantCache(ABSOLUTE_OPACITY);
-          return this;
       };
       /**
        * remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy().
@@ -3104,6 +3431,13 @@
               Util.warn('Node has no parent. zIndex parameter is ignored.');
               return false;
           }
+          if (zIndex < 0 || zIndex >= this.parent.children.length) {
+              Util.warn('Unexpected value ' +
+                  zIndex +
+                  ' for zIndex property. zIndex is just index of a node in children of its parent. Expected value is from 0 to ' +
+                  (this.parent.children.length - 1) +
+                  '.');
+          }
           var index = this.index;
           this.parent.children.splice(index, 1);
           this.parent.children.splice(zIndex, 0, this);
@@ -3140,9 +3474,7 @@
       Node.prototype.moveTo = function (newContainer) {
           // do nothing if new container is already parent
           if (this.getParent() !== newContainer) {
-              // this.remove my be overrided by drag and drop
-              // buy we need original
-              (this['__originalRemove'] || this.remove).call(this);
+              this._remove();
               newContainer.add(this);
           }
           return this;
@@ -3159,8 +3491,9 @@
           for (key in attrs) {
               val = attrs[key];
               // if value is object and object is not plain
-              // like class instance, we should skip it and to not inclide
-              nonPlainObject = Util.isObject(val) && !Util._isPlainObject(val);
+              // like class instance, we should skip it and to not include
+              nonPlainObject =
+                  Util.isObject(val) && !Util._isPlainObject(val) && !Util._isArray(val);
               if (nonPlainObject) {
                   continue;
               }
@@ -3513,7 +3846,10 @@
        * @param {Number} [config.y] y position of canvas section
        * @param {Number} [config.width] width of canvas section
        * @param {Number} [config.height] height of canvas section
-       * @paremt {Number} [config.pixelRatio] pixelRatio of ouput image.  Default is 1.
+       * @param {Number} [config.pixelRatio] pixelRatio of output canvas. Default is 1.
+       * You can use that property to increase quality of the image, for example for super hight quality exports
+       * or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image.
+       * If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
        * @example
        * var canvas = node.toCanvas();
        */
@@ -3536,7 +3872,10 @@
        * @param {Number} [config.quality] jpeg quality.  If using an "image/jpeg" mimeType,
        *  you can specify the quality from 0 to 1, where 0 is very poor quality and 1
        *  is very high quality
-       * @param {Number} [config.pixelRatio] pixelRatio of output image url. Default is 1
+       * @param {Number} [config.pixelRatio] pixelRatio of output image url. Default is 1.
+       * You can use that property to increase quality of the image, for example for super hight quality exports
+       * or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image.
+       * If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
        * @returns {String}
        */
       Node.prototype.toDataURL = function (config) {
@@ -3565,7 +3904,10 @@
        * @param {Number} [config.quality] jpeg quality.  If using an "image/jpeg" mimeType,
        *  you can specify the quality from 0 to 1, where 0 is very poor quality and 1
        *  is very high quality
-       * @paremt {Number} [config.pixelRatio] pixelRatio of ouput image.  Default is 1.
+       * @param {Number} [config.pixelRatio] pixelRatio of output image. Default is 1.
+       * You can use that property to increase quality of the image, for example for super hight quality exports
+       * or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image.
+       * If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
        * @example
        * var image = node.toImage({
        *   callback(img) {
@@ -3847,6 +4189,104 @@
           this.drawHit();
           return this;
       };
+      // drag & drop
+      /**
+       * initiate drag and drop
+       * @method
+       * @name Konva.Node#startDrag
+       */
+      Node.prototype.startDrag = function () {
+          var stage = this.getStage(), layer = this.getLayer(), pos = stage.getPointerPosition(), ap = this.getAbsolutePosition();
+          if (pos) {
+              if (DD.node) {
+                  DD.node.stopDrag();
+              }
+              DD.node = this;
+              DD.startPointerPos = pos;
+              DD.offset.x = pos.x - ap.x;
+              DD.offset.y = pos.y - ap.y;
+              DD.anim.setLayers(layer || this['getLayers']());
+              DD.anim.start();
+              this._setDragPosition();
+          }
+      };
+      Node.prototype._setDragPosition = function (evt) {
+          var pos = this.getStage().getPointerPosition(), dbf = this.dragBoundFunc();
+          if (!pos) {
+              return;
+          }
+          var newNodePos = {
+              x: pos.x - DD.offset.x,
+              y: pos.y - DD.offset.y
+          };
+          if (dbf !== undefined) {
+              newNodePos = dbf.call(this, newNodePos, evt);
+          }
+          this.setAbsolutePosition(newNodePos);
+          if (!this._lastPos ||
+              this._lastPos.x !== newNodePos.x ||
+              this._lastPos.y !== newNodePos.y) {
+              DD.anim['dirty'] = true;
+          }
+          this._lastPos = newNodePos;
+      };
+      /**
+       * stop drag and drop
+       * @method
+       * @name Konva.Node#stopDrag
+       */
+      Node.prototype.stopDrag = function () {
+          var evt = {};
+          DD._endDragBefore(evt);
+          DD._endDragAfter(evt);
+      };
+      Node.prototype.setDraggable = function (draggable) {
+          this._setAttr('draggable', draggable);
+          this._dragChange();
+      };
+      /**
+       * determine if node is currently in drag and drop mode
+       * @method
+       * @name Konva.Node#isDragging
+       */
+      Node.prototype.isDragging = function () {
+          return !!(DD.node && DD.node === this && DD.isDragging);
+      };
+      Node.prototype._listenDrag = function () {
+          this._dragCleanup();
+          this.on('mousedown.konva touchstart.konva', function (evt) {
+              var canDrag = getGlobalKonva().dragButtons.indexOf(evt.evt.button) >= 0;
+              if (!canDrag) {
+                  return;
+              }
+              if (!DD.node) {
+                  this.startDrag();
+              }
+          });
+      };
+      Node.prototype._dragChange = function () {
+          if (this.attrs.draggable) {
+              this._listenDrag();
+          }
+          else {
+              // remove event listeners
+              this._dragCleanup();
+              /*
+               * force drag and drop to end
+               * if this node is currently in
+               * drag and drop mode
+               */
+              var stage = this.getStage();
+              var dd = DD;
+              if (stage && dd.node && dd.node._id === this._id) {
+                  dd.node.stopDrag();
+              }
+          }
+      };
+      Node.prototype._dragCleanup = function () {
+          this.off('mousedown.konva');
+          this.off('touchstart.konva');
+      };
       /**
        * create node with JSON string or an Object.  De-serializtion does not generate custom
        *  shape drawing functions, images, or event handlers (this would make the
@@ -3872,7 +4312,12 @@
           if (container) {
               obj.attrs.container = container;
           }
-          // TODO: check is such className doesn't exist
+          if (!getGlobalKonva()[className]) {
+              Util.warn('Can not find a node with class name "' +
+                  className +
+                  '". Fallback to "Shape".');
+              className = 'Shape';
+          }
           var Class = getGlobalKonva()[className];
           no = new Class(obj.attrs);
           if (children) {
@@ -3997,8 +4442,7 @@
    * // set opacity
    * node.opacity(0.5);
    */
-  // TODO: should default name be empty string?
-  Factory.addGetterSetter(Node, 'name', undefined, Validators.getStringValidator());
+  Factory.addGetterSetter(Node, 'name', '', Validators.getStringValidator());
   /**
    * get/set name
    * @name Konva.Node#name
@@ -4015,7 +4459,7 @@
    * // also node may have multiple names (as css classes)
    * node.name('foo bar');
    */
-  Factory.addGetterSetter(Node, 'id');
+  Factory.addGetterSetter(Node, 'id', '', Validators.getStringValidator());
   /**
    * get/set id. Id is global for whole page.
    * @name Konva.Node#id
@@ -4366,6 +4810,45 @@
    * });
    */
   Factory.addGetterSetter(Node, 'size');
+  /**
+   * get/set drag bound function.  This is used to override the default
+   *  drag and drop position.
+   * @name Konva.Node#dragBoundFunc
+   * @method
+   * @param {Function} dragBoundFunc
+   * @returns {Function}
+   * @example
+   * // get drag bound function
+   * var dragBoundFunc = node.dragBoundFunc();
+   *
+   * // create vertical drag and drop
+   * node.dragBoundFunc(function(pos){
+   *   // important pos - is absolute position of the node
+   *   // you should return absolute position too
+   *   return {
+   *     x: this.absolutePosition().x,
+   *     y: pos.y
+   *   };
+   * });
+   */
+  Factory.addGetterSetter(Node, 'dragBoundFunc');
+  /**
+   * get/set draggable flag
+   * @name Konva.Node#draggable
+   * @method
+   * @param {Boolean} draggable
+   * @returns {Boolean}
+   * @example
+   * // get draggable flag
+   * var draggable = node.draggable();
+   *
+   * // enable drag and drop
+   * node.draggable(true);
+   *
+   * // disable drag and drop
+   * node.draggable(false);
+   */
+  Factory.addGetterSetter(Node, 'draggable', false, Validators.getBooleanValidator());
   Factory.backCompat(Node, {
       rotateDeg: 'rotate',
       setRotationDeg: 'setRotation',
@@ -4462,7 +4945,7 @@
           for (var i = 0; i < children.length; i++) {
               child = children[i];
               // reset parent to prevent many _setChildrenIndices calls
-              delete child.parent;
+              child.parent = null;
               child.index = 0;
               child.remove();
           }
@@ -4481,7 +4964,7 @@
           for (var i = 0; i < children.length; i++) {
               child = children[i];
               // reset parent to prevent many _setChildrenIndices calls
-              delete child.parent;
+              child.parent = null;
               child.index = 0;
               child.destroy();
           }
@@ -5012,10 +5495,8 @@
    */
   Collection.mapMethods(Container);
 
-  // TODO: add a warning if stage has too many layers
-  // TODO: remove "content" events from docs
   // CONSTANTS
-  var STAGE$1 = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE$1 = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER$1 = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', CONTEXTMENU = 'contextmenu', CLICK = 'click', DBL_CLICK = 'dblclick', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TAP = 'tap', DBL_TAP = 'dbltap', TOUCHMOVE = 'touchmove', WHEEL = 'wheel', CONTENT_MOUSEOUT = 'contentMouseout', CONTENT_MOUSEOVER = 'contentMouseover', CONTENT_MOUSEMOVE = 'contentMousemove', CONTENT_MOUSEDOWN = 'contentMousedown', CONTENT_MOUSEUP = 'contentMouseup', CONTENT_CONTEXTMENU = 'contentContextmenu', CONTENT_CLICK = 'contentClick', CONTENT_DBL_CLICK = 'contentDblclick', CONTENT_TOUCHSTART = 'contentTouchstart', CONTENT_TOUCHEND = 'contentTouchend', CONTENT_DBL_TAP = 'contentDbltap', CONTENT_TAP = 'contentTap', CONTENT_TOUCHMOVE = 'contentTouchmove', CONTENT_WHEEL = 'contentWheel', DIV = 'div', RELATIVE = 'relative', KONVA_CONTENT = 'konvajs-content', SPACE$1 = ' ', UNDERSCORE = '_', CONTAINER = 'container', EMPTY_STRING$1 = '', EVENTS = [
+  var STAGE$1 = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE$1 = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER$1 = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', CONTEXTMENU = 'contextmenu', CLICK = 'click', DBL_CLICK = 'dblclick', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TAP = 'tap', DBL_TAP = 'dbltap', TOUCHMOVE = 'touchmove', WHEEL = 'wheel', CONTENT_MOUSEOUT = 'contentMouseout', CONTENT_MOUSEOVER = 'contentMouseover', CONTENT_MOUSEMOVE = 'contentMousemove', CONTENT_MOUSEDOWN = 'contentMousedown', CONTENT_MOUSEUP = 'contentMouseup', CONTENT_CONTEXTMENU = 'contentContextmenu', CONTENT_CLICK = 'contentClick', CONTENT_DBL_CLICK = 'contentDblclick', CONTENT_TOUCHSTART = 'contentTouchstart', CONTENT_TOUCHEND = 'contentTouchend', CONTENT_DBL_TAP = 'contentDbltap', CONTENT_TAP = 'contentTap', CONTENT_TOUCHMOVE = 'contentTouchmove', CONTENT_WHEEL = 'contentWheel', DIV = 'div', RELATIVE = 'relative', KONVA_CONTENT = 'konvajs-content', SPACE$1 = ' ', UNDERSCORE = '_', CONTAINER = 'container', MAX_LAYERS_NUMBER = 5, EMPTY_STRING$1 = '', EVENTS = [
       MOUSEDOWN,
       MOUSEMOVE,
       MOUSEUP,
@@ -5073,7 +5554,6 @@
       __extends(Stage, _super);
       function Stage(config) {
           var _this = _super.call(this, config) || this;
-          _this.nodeType = STAGE$1;
           _this._buildDOM();
           _this._bindContentEvents();
           stages.push(_this);
@@ -5233,6 +5713,12 @@
               return this;
           }
           _super.prototype.add.call(this, layer);
+          var length = this.children.length;
+          if (length > MAX_LAYERS_NUMBER) {
+              Util.warn('The stage has ' +
+                  length +
+                  ' layers. Recommended maximin number of layers is 3-5. Adding more layers into the stage may drop the performance. Rethink your tree structure, you can use Konva.Group.');
+          }
           layer._setCanvasSize(this.width(), this.height());
           // draw layer and append canvas to container
           layer.draw();
@@ -5267,6 +5753,7 @@
       Stage.prototype._mouseover = function (evt) {
           this._setPointerPosition(evt);
           this._fire(CONTENT_MOUSEOVER, { evt: evt });
+          this._fire(MOUSEOVER, { evt: evt, target: this, currentTarget: this });
       };
       Stage.prototype._mouseout = function (evt) {
           this._setPointerPosition(evt);
@@ -5289,8 +5776,8 @@
           if (!getGlobalKonva().isDragging()) {
               shape = this.getIntersection(this.getPointerPosition());
               if (shape && shape.isListening()) {
-                  if (!getGlobalKonva().isDragging() &&
-                      (!this.targetShape || this.targetShape._id !== shape._id)) {
+                  var differentTarget = !this.targetShape || this.targetShape !== shape;
+                  if (!getGlobalKonva().isDragging() && differentTarget) {
                       if (this.targetShape) {
                           this.targetShape._fireAndBubble(MOUSEOUT, { evt: evt }, shape);
                           this.targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt }, shape);
@@ -5311,6 +5798,11 @@
                   if (this.targetShape && !getGlobalKonva().isDragging()) {
                       this.targetShape._fireAndBubble(MOUSEOUT, { evt: evt });
                       this.targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt });
+                      this._fire(MOUSEOVER, {
+                          evt: evt,
+                          target: this,
+                          currentTarget: this
+                      });
                       this.targetShape = null;
                   }
                   this._fire(MOUSEMOVE, {
@@ -5623,7 +6115,6 @@
           }
       };
       // currently cache function is now working for stage, because stage has no its own canvas element
-      // TODO: may be it is better to cache all children layers?
       Stage.prototype.cache = function () {
           Util.warn('Cache function is not allowed for stage. You may use cache only for layers, groups and shapes.');
           return this;
@@ -5631,8 +6122,21 @@
       Stage.prototype.clearCache = function () {
           return this;
       };
+      /**
+       * batch draw
+       * @method
+       * @name Konva.BaseLayer#batchDraw
+       * @return {Konva.Stage} this
+       */
+      Stage.prototype.batchDraw = function () {
+          this.children.each(function (layer) {
+              layer.batchDraw();
+          });
+          return this;
+      };
       return Stage;
   }(Container));
+  Stage.prototype.nodeType = STAGE$1;
   // TODO: test for replacing container
   Factory.addGetterSetter(Stage, 'container');
   /**
@@ -5689,8 +6193,8 @@
       __extends(BaseLayer, _super);
       function BaseLayer(config) {
           var _this = _super.call(this, config) || this;
-          _this.nodeType = 'Layer';
           _this.canvas = new SceneCanvas();
+          _this._waitingForDraw = false;
           _this.on('visibleChange', _this._checkVisibility);
           _this._checkVisibility();
           return _this;
@@ -5725,7 +6229,8 @@
           return this.getCanvas().getContext();
       };
       /**
-       * clear scene and hit canvas contexts tied to the layer
+       * clear scene and hit canvas contexts tied to the layer.
+       * This function doesn't remove any nodes. It just clear canvas element.
        * @method
        * @name Konva.BaseLayer#clear
        * @param {Object} [bounds]
@@ -5887,6 +6392,24 @@
       BaseLayer.prototype.getIntersection = function (pos, selector) {
           return null;
       };
+      /**
+       * batch draw. this function will not do immediate draw
+       * but it will schedule drawing to next tick (requestAnimFrame)
+       * @method
+       * @name Konva.BaseLayer#batchDraw
+       * @return {Konva.Layer} this
+       */
+      BaseLayer.prototype.batchDraw = function () {
+          var _this = this;
+          if (!this._waitingForDraw) {
+              this._waitingForDraw = true;
+              Util.requestAnimFrame(function () {
+                  _this.draw();
+                  _this._waitingForDraw = false;
+              });
+          }
+          return this;
+      };
       // the apply transform method is handled by the Layer and FastLayer class
       // because it is up to the layer to decide if an absolute or relative transform
       // should be used
@@ -5896,6 +6419,7 @@
       };
       return BaseLayer;
   }(Container));
+  BaseLayer.prototype.nodeType = 'Layer';
   /**
    * get/set clearBeforeDraw flag which determines if the layer is cleared or not
    *  before drawing
@@ -5975,9 +6499,8 @@
    */
   var Layer = /** @class */ (function (_super) {
       __extends(Layer, _super);
-      function Layer(config) {
-          var _this = _super.call(this, config) || this;
-          _this.nodeType = 'Layer';
+      function Layer() {
+          var _this = _super !== null && _super.apply(this, arguments) || this;
           _this.hitCanvas = new HitCanvas({
               pixelRatio: 1
           });
@@ -6156,7 +6679,6 @@
    */
   Collection.mapMethods(Layer);
 
-  // TODO: deprecate it
   /**
    * FastLayer constructor. Layers are tied to their own canvas element and are used
    * to contain shapes only.  If you don't need node nesting, mouse and touch interactions,
@@ -6253,10 +6775,8 @@
    */
   var Group = /** @class */ (function (_super) {
       __extends(Group, _super);
-      function Group(config) {
-          var _this = _super.call(this, config) || this;
-          _this.nodeType = 'Group';
-          return _this;
+      function Group() {
+          return _super !== null && _super.apply(this, arguments) || this;
       }
       Group.prototype._validateAdd = function (child) {
           var type = child.getType();
@@ -6266,544 +6786,27 @@
       };
       return Group;
   }(Container));
+  Group.prototype.nodeType = 'Group';
   Collection.mapMethods(Group);
-
-  var now = (function () {
-      if (glob.performance && glob.performance.now) {
-          return function () {
-              return glob.performance.now();
-          };
-      }
-      return function () {
-          return new Date().getTime();
-      };
-  })();
-  function FRAF(callback) {
-      setTimeout(callback, 1000 / 60);
-  }
-  var RAF = (function () {
-      return (glob.requestAnimationFrame ||
-          glob.webkitRequestAnimationFrame ||
-          glob.mozRequestAnimationFrame ||
-          glob.oRequestAnimationFrame ||
-          glob.msRequestAnimationFrame ||
-          FRAF);
-  })();
-  function requestAnimFrame(func) {
-      return RAF.call(glob, func);
-  }
-  /**
-   * Animation constructor.  A stage is used to contain multiple layers and handle
-   * @constructor
-   * @memberof Konva
-   * @param {Function} func function executed on each animation frame.  The function is passed a frame object, which contains
-   *  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed
-   *  since the last animation frame.  The lastTime property is time in milliseconds that elapsed from the moment the animation started
-   *  to the last animation frame.  The time property is the time in milliseconds that ellapsed from the moment the animation started
-   *  to the current animation frame.  The frameRate property is the current frame rate in frames / second. Return false from function,
-   *  if you don't need to redraw layer/layers on some frames.
-   * @param {Konva.Layer|Array} [layers] layer(s) to be redrawn on each animation frame. Can be a layer, an array of layers, or null.
-   *  Not specifying a node will result in no redraw.
-   * @example
-   * // move a node to the right at 50 pixels / second
-   * var velocity = 50;
-   *
-   * var anim = new Konva.Animation(function(frame) {
-   *   var dist = velocity * (frame.timeDiff / 1000);
-   *   node.move(dist, 0);
-   * }, layer);
-   *
-   * anim.start();
-   */
-  var Animation = /** @class */ (function () {
-      function Animation(func, layers) {
-          this.id = Animation.animIdCounter++;
-          this.frame = {
-              time: 0,
-              timeDiff: 0,
-              lastTime: now(),
-              frameRate: 0
-          };
-          this.func = func;
-          this.setLayers(layers);
-      }
-      /**
-       * set layers to be redrawn on each animation frame
-       * @method
-       * @name Konva.Animation#setLayers
-       * @param {Konva.Layer|Array} [layers] layer(s) to be redrawn. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw.
-       * @return {Konva.Animation} this
-       */
-      Animation.prototype.setLayers = function (layers) {
-          var lays = [];
-          // if passing in no layers
-          if (!layers) {
-              lays = [];
-          }
-          else if (layers.length > 0) {
-              // if passing in an array of Layers
-              // NOTE: layers could be an array or Konva.Collection.  for simplicity, I'm just inspecting
-              // the length property to check for both cases
-              lays = layers;
-          }
-          else {
-              // if passing in a Layer
-              lays = [layers];
-          }
-          this.layers = lays;
-          return this;
-      };
-      /**
-       * get layers
-       * @method
-       * @name Konva.Animation#getLayers
-       * @return {Array} Array of Konva.Layer
-       */
-      Animation.prototype.getLayers = function () {
-          return this.layers;
-      };
-      /**
-       * add layer.  Returns true if the layer was added, and false if it was not
-       * @method
-       * @name Konva.Animation#addLayer
-       * @param {Konva.Layer} layer to add
-       * @return {Bool} true if layer is added to animation, otherwise false
-       */
-      Animation.prototype.addLayer = function (layer) {
-          var layers = this.layers, len = layers.length, n;
-          // don't add the layer if it already exists
-          for (n = 0; n < len; n++) {
-              if (layers[n]._id === layer._id) {
-                  return false;
-              }
-          }
-          this.layers.push(layer);
-          return true;
-      };
-      /**
-       * determine if animation is running or not.  returns true or false
-       * @method
-       * @name Konva.Animation#isRunning
-       * @return {Bool} is animation running?
-       */
-      Animation.prototype.isRunning = function () {
-          var a = Animation, animations = a.animations, len = animations.length, n;
-          for (n = 0; n < len; n++) {
-              if (animations[n].id === this.id) {
-                  return true;
-              }
-          }
-          return false;
-      };
-      /**
-       * start animation
-       * @method
-       * @name Konva.Animation#start
-       * @return {Konva.Animation} this
-       */
-      Animation.prototype.start = function () {
-          this.stop();
-          this.frame.timeDiff = 0;
-          this.frame.lastTime = now();
-          Animation._addAnimation(this);
-          return this;
-      };
-      /**
-       * stop animation
-       * @method
-       * @name Konva.Animation#stop
-       * @return {Konva.Animation} this
-       */
-      Animation.prototype.stop = function () {
-          Animation._removeAnimation(this);
-          return this;
-      };
-      Animation.prototype._updateFrameObject = function (time) {
-          this.frame.timeDiff = time - this.frame.lastTime;
-          this.frame.lastTime = time;
-          this.frame.time += this.frame.timeDiff;
-          this.frame.frameRate = 1000 / this.frame.timeDiff;
-      };
-      Animation._addAnimation = function (anim) {
-          this.animations.push(anim);
-          this._handleAnimation();
-      };
-      Animation._removeAnimation = function (anim) {
-          var id = anim.id, animations = this.animations, len = animations.length, n;
-          for (n = 0; n < len; n++) {
-              if (animations[n].id === id) {
-                  this.animations.splice(n, 1);
-                  break;
-              }
-          }
-      };
-      Animation._runFrames = function () {
-          var layerHash = {}, animations = this.animations, anim, layers, func, n, i, layersLen, layer, key, needRedraw;
-          /*
-           * loop through all animations and execute animation
-           *  function.  if the animation object has specified node,
-           *  we can add the node to the nodes hash to eliminate
-           *  drawing the same node multiple times.  The node property
-           *  can be the stage itself or a layer
-           */
-          /*
-           * WARNING: don't cache animations.length because it could change while
-           * the for loop is running, causing a JS error
-           */
-          for (n = 0; n < animations.length; n++) {
-              anim = animations[n];
-              layers = anim.layers;
-              func = anim.func;
-              anim._updateFrameObject(now());
-              layersLen = layers.length;
-              // if animation object has a function, execute it
-              if (func) {
-                  // allow anim bypassing drawing
-                  needRedraw = func.call(anim, anim.frame) !== false;
-              }
-              else {
-                  needRedraw = true;
-              }
-              if (!needRedraw) {
-                  continue;
-              }
-              for (i = 0; i < layersLen; i++) {
-                  layer = layers[i];
-                  if (layer._id !== undefined) {
-                      layerHash[layer._id] = layer;
-                  }
-              }
-          }
-          for (key in layerHash) {
-              if (!layerHash.hasOwnProperty(key)) {
-                  continue;
-              }
-              layerHash[key].draw();
-          }
-      };
-      Animation._animationLoop = function () {
-          var Anim = Animation;
-          if (Anim.animations.length) {
-              Anim._runFrames();
-              requestAnimFrame(Anim._animationLoop);
-          }
-          else {
-              Anim.animRunning = false;
-          }
-      };
-      Animation._handleAnimation = function () {
-          if (!this.animRunning) {
-              this.animRunning = true;
-              requestAnimFrame(this._animationLoop);
-          }
-      };
-      Animation.animations = [];
-      Animation.animIdCounter = 0;
-      Animation.animRunning = false;
-      return Animation;
-  }());
-  /**
-   * batch draw. this function will not do immediate draw
-   * but it will schedule drawing to next tick (requestAnimFrame)
-   * @method
-   * @name Konva.BaseLayer#batchDraw
-   * @return {Konva.Layer} this
-   */
-  // TODO: don't use animation and make sure they all run at the same time
-  BaseLayer.prototype.batchDraw = function () {
-      var that = this, Anim = Animation;
-      if (!this.batchAnim) {
-          this.batchAnim = new Anim(function () {
-              // stop animation after first tick
-              that.batchAnim.stop();
-          }, this);
-      }
-      if (!this.batchAnim.isRunning()) {
-          this.batchAnim.start();
-      }
-      return this;
-  };
-  /**
-   * batch draw
-   * @method
-   * @name Konva.BaseLayer#batchDraw
-   * @return {Konva.Stage} this
-   */
-  Stage.prototype.batchDraw = function () {
-      this.getChildren().each(function (layer) {
-          layer.batchDraw();
-      });
-      return this;
-  };
-
-  // TODO: move it to core, move all node methods to Node class
-  var DD = {
-      startPointerPos: {
-          x: 0,
-          y: 0
-      },
-      // properties
-      anim: new Animation(function () {
-          var b = this.dirty;
-          this.dirty = false;
-          return b;
-      }),
-      isDragging: false,
-      justDragged: false,
-      offset: {
-          x: 0,
-          y: 0
-      },
-      node: null,
-      // methods
-      _drag: function (evt) {
-          var dd = DD, node = dd.node;
-          if (node) {
-              if (!dd.isDragging) {
-                  var pos = node.getStage().getPointerPosition();
-                  // it is possible that pos is undefined
-                  // reattach it
-                  if (!pos) {
-                      node.getStage()._setPointerPosition(evt);
-                      pos = node.getStage().getPointerPosition();
-                  }
-                  var dragDistance = node.dragDistance();
-                  var distance = Math.max(Math.abs(pos.x - dd.startPointerPos.x), Math.abs(pos.y - dd.startPointerPos.y));
-                  if (distance < dragDistance) {
-                      return;
-                  }
-              }
-              node.getStage()._setPointerPosition(evt);
-              if (!dd.isDragging) {
-                  dd.isDragging = true;
-                  node.fire('dragstart', {
-                      type: 'dragstart',
-                      target: node,
-                      evt: evt
-                  }, true);
-                  // a user can stop dragging inside `dragstart`
-                  if (!node.isDragging()) {
-                      return;
-                  }
-              }
-              node._setDragPosition(evt);
-              // execute ondragmove if defined
-              node.fire('dragmove', {
-                  type: 'dragmove',
-                  target: node,
-                  evt: evt
-              }, true);
-          }
-      },
-      _endDragBefore: function (evt) {
-          var dd = DD, node = dd.node, layer;
-          if (node) {
-              layer = node.getLayer();
-              dd.anim.stop();
-              // only fire dragend event if the drag and drop
-              // operation actually started.
-              if (dd.isDragging) {
-                  dd.isDragging = false;
-                  dd.justDragged = true;
-                  getGlobalKonva().listenClickTap = false;
-                  if (evt) {
-                      evt.dragEndNode = node;
-                  }
-              }
-              delete dd.node;
-              if (layer || node instanceof getGlobalKonva().Stage) {
-                  (layer || node).draw();
-              }
-          }
-      },
-      _endDragAfter: function (evt) {
-          evt = evt || {};
-          var dragEndNode = evt.dragEndNode;
-          if (evt && dragEndNode) {
-              dragEndNode.fire('dragend', {
-                  type: 'dragend',
-                  target: dragEndNode,
-                  evt: evt
-              }, true);
-          }
-      }
-  };
-  // Node extenders
-  /**
-   * initiate drag and drop
-   * @method
-   * @name Konva.Node#startDrag
-   */
-  Node.prototype.startDrag = function () {
-      var dd = DD, stage = this.getStage(), layer = this.getLayer(), pos = stage.getPointerPosition(), ap = this.getAbsolutePosition();
-      if (pos) {
-          if (dd.node) {
-              dd.node.stopDrag();
-          }
-          dd.node = this;
-          dd.startPointerPos = pos;
-          dd.offset.x = pos.x - ap.x;
-          dd.offset.y = pos.y - ap.y;
-          dd.anim.setLayers(layer || this.getLayers());
-          dd.anim.start();
-          this._setDragPosition();
-      }
-  };
-  Node.prototype._setDragPosition = function (evt) {
-      var dd = DD, pos = this.getStage().getPointerPosition(), dbf = this.getDragBoundFunc();
-      if (!pos) {
-          return;
-      }
-      var newNodePos = {
-          x: pos.x - dd.offset.x,
-          y: pos.y - dd.offset.y
-      };
-      if (dbf !== undefined) {
-          newNodePos = dbf.call(this, newNodePos, evt);
-      }
-      this.setAbsolutePosition(newNodePos);
-      if (!this._lastPos ||
-          this._lastPos.x !== newNodePos.x ||
-          this._lastPos.y !== newNodePos.y) {
-          dd.anim['dirty'] = true;
-      }
-      this._lastPos = newNodePos;
-  };
-  /**
-   * stop drag and drop
-   * @method
-   * @name Konva.Node#stopDrag
-   */
-  Node.prototype.stopDrag = function () {
-      var dd = DD, evt = {};
-      dd._endDragBefore(evt);
-      dd._endDragAfter(evt);
-  };
-  Node.prototype.setDraggable = function (draggable) {
-      this._setAttr('draggable', draggable);
-      this._dragChange();
-  };
-  var origRemove = Node.prototype.remove;
-  Node.prototype['__originalRemove'] = origRemove;
-  Node.prototype.remove = function () {
-      var dd = DD;
-      // stop DD
-      if (dd.node && dd.node._id === this._id) {
-          this.stopDrag();
-      }
-      return origRemove.call(this);
-  };
-  /**
-   * determine if node is currently in drag and drop mode
-   * @method
-   * @name Konva.Node#isDragging
-   */
-  Node.prototype.isDragging = function () {
-      var dd = DD;
-      return !!(dd.node && dd.node._id === this._id && dd.isDragging);
-  };
-  Node.prototype._listenDrag = function () {
-      var that = this;
-      this._dragCleanup();
-      if (this.getClassName() === 'Stage') {
-          this.on('contentMousedown.konva contentTouchstart.konva', function (evt) {
-              if (!DD.node) {
-                  that.startDrag(evt);
-              }
-          });
-      }
-      else {
-          this.on('mousedown.konva touchstart.konva', function (evt) {
-              // ignore right and middle buttons
-              if (evt.evt.button === 1 || evt.evt.button === 2) {
-                  return;
-              }
-              if (!DD.node) {
-                  that.startDrag(evt);
-              }
-          });
-      }
-  };
-  Node.prototype._dragChange = function () {
-      if (this.attrs.draggable) {
-          this._listenDrag();
-      }
-      else {
-          // remove event listeners
-          this._dragCleanup();
-          /*
-           * force drag and drop to end
-           * if this node is currently in
-           * drag and drop mode
-           */
-          var stage = this.getStage();
-          var dd = DD;
-          if (stage && dd.node && dd.node._id === this._id) {
-              dd.node.stopDrag();
-          }
-      }
-  };
-  Node.prototype._dragCleanup = function () {
-      if (this.getClassName() === 'Stage') {
-          this.off('contentMousedown.konva');
-          this.off('contentTouchstart.konva');
-      }
-      else {
-          this.off('mousedown.konva');
-          this.off('touchstart.konva');
-      }
-  };
-  Factory.addGetterSetter(Node, 'dragBoundFunc');
-  /**
-   * get/set drag bound function.  This is used to override the default
-   *  drag and drop position.
-   * @name Konva.Node#dragBoundFunc
-   * @method
-   * @param {Function} dragBoundFunc
-   * @returns {Function}
-   * @example
-   * // get drag bound function
-   * var dragBoundFunc = node.dragBoundFunc();
-   *
-   * // create vertical drag and drop
-   * node.dragBoundFunc(function(pos){
-   *   // important pos - is absolute position of the node
-   *   // you should return absolute position too
-   *   return {
-   *     x: this.getAbsolutePosition().x,
-   *     y: pos.y
-   *   };
-   * });
-   */
-  Factory.addGetterSetter(Node, 'draggable', false, Validators.getBooleanValidator());
-  /**
-   * get/set draggable flag
-   * @name Konva.Node#draggable
-   * @method
-   * @param {Boolean} draggable
-   * @returns {Boolean}
-   * @example
-   * // get draggable flag
-   * var draggable = node.draggable();
-   *
-   * // enable drag and drop
-   * node.draggable(true);
-   *
-   * // disable drag and drop
-   * node.draggable(false);
-   */
-  if (isBrowser) {
-      window.addEventListener('mouseup', DD._endDragBefore, true);
-      window.addEventListener('touchend', DD._endDragBefore, true);
-      window.addEventListener('mousemove', DD._drag);
-      window.addEventListener('touchmove', DD._drag);
-      window.addEventListener('mouseup', DD._endDragAfter, false);
-      window.addEventListener('touchend', DD._endDragAfter, false);
-  }
 
   var HAS_SHADOW = 'hasShadow';
   var SHADOW_RGBA = 'shadowRGBA';
-  // TODO: cache gradient from context
+  var patternImage = 'patternImage';
+  var linearGradient = 'linearGradient';
+  var radialGradient = 'radialGradient';
+  var dummyContext;
+  function getDummyContext() {
+      if (dummyContext) {
+          return dummyContext;
+      }
+      dummyContext = Util.createCanvasElement().getContext('2d');
+      return dummyContext;
+  }
+  // TODO: idea - use only "remove" (or destroy method)
+  // how? on add, check that every inner shape has reference in konva store with color
+  // on remove - clear that reference
+  // the approach is good. But what if we want to cache the shape before we add it into the stage
+  // what color to use for hit test?
   function _fillFunc(context) {
       context.fill();
   }
@@ -6821,6 +6824,15 @@
   }
   function _clearGetShadowRGBACache() {
       this._clearCache(SHADOW_RGBA);
+  }
+  function _clearFillPatternCache() {
+      this._clearCache(patternImage);
+  }
+  function _clearLinearGradientCache() {
+      this._clearCache(linearGradient);
+  }
+  function _clearRadialGradientCache() {
+      this._clearCache(radialGradient);
   }
   /**
    * Shape constructor.  Shapes are primitive objects such as rectangles,
@@ -6933,6 +6945,9 @@
           shapes[key] = _this;
           _this.on('shadowColorChange.konva shadowBlurChange.konva shadowOffsetChange.konva shadowOpacityChange.konva shadowEnabledChange.konva', _clearHasShadowCache);
           _this.on('shadowColorChange.konva shadowOpacityChange.konva shadowEnabledChange.konva', _clearGetShadowRGBACache);
+          _this.on('fillPriorityChange.konva fillPatternImageChange.konva fillPatternRepeatChange.konva', _clearFillPatternCache);
+          _this.on('fillPriorityChange.konva fillLinearGradientColorStopsChange.konva fillLinearGradientStartPointXChange.konva fillLinearGradientStartPointYChange.konva fillLinearGradientEndPointXChange.konva fillLinearGradientEndPointYChange.konva', _clearLinearGradientCache);
+          _this.on('fillPriorityChange.konva fillRadialGradientColorStopsChange.konva fillRadialGradientStartPointXChange.konva fillRadialGradientStartPointYChange.konva fillRadialGradientEndPointXChange.konva fillRadialGradientEndPointYChange.konva fillRadialGradientStartRadiusChange.konva fillRadialGradientEndRadiusChange.konva', _clearRadialGradientCache);
           return _this;
       }
       /**
@@ -6973,6 +6988,49 @@
                       this.shadowOffsetX() ||
                       this.shadowOffsetY())));
       };
+      Shape.prototype._getFillPattern = function () {
+          return this._getCache(patternImage, this.__getFillPattern);
+      };
+      Shape.prototype.__getFillPattern = function () {
+          if (this.fillPatternImage()) {
+              var ctx = getDummyContext();
+              return ctx.createPattern(this.fillPatternImage(), this.fillPatternRepeat() || 'repeat');
+          }
+      };
+      Shape.prototype._getLinearGradient = function () {
+          return this._getCache(linearGradient, this.__getLinearGradient);
+      };
+      Shape.prototype.__getLinearGradient = function () {
+          var colorStops = this.fillLinearGradientColorStops();
+          if (colorStops) {
+              var ctx = getDummyContext();
+              var start = this.fillLinearGradientStartPoint();
+              var end = this.fillLinearGradientEndPoint();
+              var grd = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
+              // build color stops
+              for (var n = 0; n < colorStops.length; n += 2) {
+                  grd.addColorStop(colorStops[n], colorStops[n + 1]);
+              }
+              return grd;
+          }
+      };
+      Shape.prototype._getRadialGradient = function () {
+          return this._getCache(radialGradient, this.__getRadialGradient);
+      };
+      Shape.prototype.__getRadialGradient = function () {
+          var colorStops = this.fillRadialGradientColorStops();
+          if (colorStops) {
+              var ctx = getDummyContext();
+              var start = this.fillRadialGradientStartPoint();
+              var end = this.fillRadialGradientEndPoint();
+              var grd = ctx.createRadialGradient(start.x, start.y, this.fillRadialGradientStartRadius(), end.x, end.y, this.fillRadialGradientEndRadius());
+              // build color stops
+              for (var n = 0; n < colorStops.length; n += 2) {
+                  grd.addColorStop(colorStops[n], colorStops[n + 1]);
+              }
+              return grd;
+          }
+      };
       Shape.prototype.getShadowRGBA = function () {
           return this._getCache(SHADOW_RGBA, this._getShadowRGBA);
       };
@@ -7011,7 +7069,6 @@
       Shape.prototype.hasStroke = function () {
           return (this.strokeEnabled() &&
               !!(this.stroke() || this.strokeLinearGradientColorStops())
-          // TODO: do we need radial gradient
           // this.getStrokeRadialGradientColorStops()
           );
       };
@@ -7037,10 +7094,13 @@
       Shape.prototype.destroy = function () {
           Node.prototype.destroy.call(this);
           delete shapes[this.colorKey];
+          delete this.colorKey;
           return this;
       };
-      // TODO: write why do we need it,
-      // try to use it without stage (use global buffer canvas)
+      // why do we need buffer canvas?
+      // it give better result when a shape has
+      // stroke with fill and with some opacity
+      // TODO: try to use it without stage (use global buffer canvas)
       Shape.prototype._useBufferCanvas = function (caching) {
           return ((!caching || this.hasShadow()) &&
               this.perfectDrawEnabled() &&
@@ -7062,7 +7122,7 @@
        *
        */
       Shape.prototype.getSelfRect = function () {
-          var size = this.getSize();
+          var size = this.size();
           return {
               x: this._centroid ? Math.round(-size.width / 2) : 0,
               y: this._centroid ? Math.round(-size.height / 2) : 0,
@@ -7213,6 +7273,10 @@
       };
       Shape.prototype.drawHit = function (can, top, caching) {
           var layer = this.getLayer(), canvas = can || layer.hitCanvas, context = canvas.getContext(), drawFunc = this.hitFunc() || this.sceneFunc(), cachedCanvas = this._cache.canvas, cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
+          if (!this.colorKey) {
+              console.log(this);
+              Util.warn('Looks like your canvas has a destroyed shape in it. Do not reuse shape after you destroyed it. See the shape in logs above. If you want to reuse shape you should call remove() instead of destroy()');
+          }
           if (!this.shouldDrawHit() && !caching) {
               return this;
           }
@@ -7410,7 +7474,8 @@
    */
   Factory.addGetterSetter(Shape, 'sceneFunc');
   /**
-   * get/set scene draw function
+   * get/set scene draw function. That function is used to draw the shape on a canvas.
+   * Also that function will be used to draw hit area of the shape, in case if hitFunc is not defined.
    * @name Konva.Shape#sceneFunc
    * @method
    * @param {Function} drawFunc drawing function
@@ -7425,12 +7490,13 @@
    *   context.rect(0, 0, shape.width(), shape.height());
    *   context.closePath();
    *   // important Konva method that fill and stroke shape from its properties
+   *   // like stroke and fill
    *   context.fillStrokeShape(shape);
    * });
    */
   Factory.addGetterSetter(Shape, 'hitFunc');
   /**
-   * get/set hit draw function
+   * get/set hit draw function. That function is used to draw custom hit area of a shape.
    * @name Konva.Shape#hitFunc
    * @method
    * @param {Function} drawFunc drawing function
@@ -8691,8 +8757,11 @@
    * @example
    *
    * circle.to({
-   *  x : 50,
-   *  duration : 0.5
+   *   x : 50,
+   *   duration : 0.5,
+   *   onFinish: () => {
+   *      console.log('finished');
+   *   }
    * });
    */
   Node.prototype.to = function (params) {
@@ -9764,6 +9833,7 @@
   /**
    * Ellipse constructor
    * @constructor
+   * @memberof Konva
    * @augments Konva.Shape
    * @param {Object} config
    * @param {Object} config.radius defines x and y radius
@@ -11572,6 +11642,7 @@
    * Ring constructor
    * @constructor
    * @augments Konva.Shape
+   * @memberof Konva
    * @param {Object} config
    * @param {Number} config.innerRadius
    * @param {Number} config.outerRadius
@@ -12264,7 +12335,7 @@
   // constants
   var AUTO = 'auto', 
   //CANVAS = 'canvas',
-  CENTER = 'center', JUSTIFY = 'justify', CHANGE_KONVA$1 = 'Change.konva', CONTEXT_2D$1 = '2d', DASH = '-', LEFT$1 = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL = 'normal', PX_SPACE = 'px ', SPACE$2 = ' ', RIGHT$1 = 'right', WORD = 'word', CHAR = 'char', NONE$1 = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
+  CENTER = 'center', JUSTIFY = 'justify', CHANGE_KONVA$1 = 'Change.konva', CONTEXT_2D = '2d', DASH = '-', LEFT$1 = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL = 'normal', PX_SPACE = 'px ', SPACE$2 = ' ', RIGHT$1 = 'right', WORD = 'word', CHAR = 'char', NONE$1 = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
       'fontFamily',
       'fontSize',
       'fontStyle',
@@ -12282,13 +12353,13 @@
   ], 
   // cached variables
   attrChangeListLen$1 = ATTR_CHANGE_LIST$1.length;
-  var dummyContext;
-  function getDummyContext() {
-      if (dummyContext) {
-          return dummyContext;
+  var dummyContext$1;
+  function getDummyContext$1() {
+      if (dummyContext$1) {
+          return dummyContext$1;
       }
-      dummyContext = Util.createCanvasElement().getContext(CONTEXT_2D$1);
-      return dummyContext;
+      dummyContext$1 = Util.createCanvasElement().getContext(CONTEXT_2D);
+      return dummyContext$1;
   }
   function _fillFunc$1(context) {
       context.fillText(this.partialText, 0, 0);
@@ -12448,15 +12519,15 @@
               if (shouldUnderline) {
                   context.save();
                   context.beginPath();
-                  context.moveTo(0, Math.round(lineHeightPx / 2));
+                  context.moveTo(0, Math.round(fontSize / 2));
                   spacesNumber = text.split(' ').length - 1;
                   oneWord = spacesNumber === 0;
                   lineWidth =
                       align === JUSTIFY && lastLine && !oneWord
                           ? totalWidth - padding * 2
                           : width;
-                  context.lineTo(Math.round(lineWidth), Math.round(lineHeightPx / 2));
-                  // TODO: I have no idea what is real ratio
+                  context.lineTo(Math.round(lineWidth), Math.round(fontSize / 2));
+                  // I have no idea what is real ratio
                   // just /15 looks good enough
                   context.lineWidth = fontSize / 15;
                   context.strokeStyle = fill;
@@ -12490,7 +12561,7 @@
                       }
                       this.partialText = letter;
                       context.fillStrokeShape(this);
-                      context.translate(Math.round(this._getTextSize(letter).width) + letterSpacing, 0);
+                      context.translate(Math.round(this.measureSize(letter).width) + letterSpacing, 0);
                   }
               }
               else {
@@ -12535,6 +12606,7 @@
       Text.prototype.getTextWidth = function () {
           return this.textWidth;
       };
+      // TODO: deprecate and remove the method
       /**
        * get height of one line of text
        * @method
@@ -12544,8 +12616,16 @@
       Text.prototype.getTextHeight = function () {
           return this.textHeight;
       };
-      Text.prototype._getTextSize = function (text) {
-          var _context = getDummyContext(), fontSize = this.fontSize(), metrics;
+      /**
+       * measure string with the font of current text shape.
+       * That method can't handle multiline text.
+       * @method
+       * @name Konva.Text#measureSize
+       * @param {Number} [text] text to measure
+       * @returns {Object} { width , height} of measured text
+       */
+      Text.prototype.measureSize = function (text) {
+          var _context = getDummyContext$1(), fontSize = this.fontSize(), metrics;
           _context.save();
           _context.font = this._getContextFont();
           metrics = _context.measureText(text);
@@ -12585,7 +12665,7 @@
       Text.prototype._getTextWidth = function (text) {
           var letterSpacing = this.letterSpacing();
           var length = text.length;
-          return (getDummyContext().measureText(text).width +
+          return (getDummyContext$1().measureText(text).width +
               (length ? letterSpacing * (length - 1) : 0));
       };
       Text.prototype._setTextData = function () {
@@ -12593,7 +12673,7 @@
           // align = this.align(),
           shouldWrap = wrap !== NONE$1, wrapAtWord = wrap !== CHAR && shouldWrap, shouldAddEllipsis = this.ellipsis() && !shouldWrap;
           this.textArr = [];
-          getDummyContext().font = this._getContextFont();
+          getDummyContext$1().font = this._getContextFont();
           var additionalWidth = shouldAddEllipsis ? this._getTextWidth(ELLIPSIS) : 0;
           for (var i = 0, max = lines.length; i < max; ++i) {
               var line = lines[i];
@@ -13326,7 +13406,7 @@
               }
           };
           // fake search for offset, this is very bad approach
-          // TODO: find other way to add offset from start (for align)
+          // find other way to add offset from start (for align)
           var testChar = 'C';
           var glyphWidth = that._getTextSize(testChar).width + letterSpacing;
           for (var k = 0; k < offset / glyphWidth; k++) {
@@ -13668,7 +13748,6 @@
       }
       else {
           // how can we can there?
-          // TODO: throw error
           Util.error('Transformer has unknown angle for cursor detection: ' + angle);
           return 'pointer';
       }
@@ -13762,13 +13841,15 @@
                   this.update();
               }
           }.bind(this));
-          // TODO: why do we need this?
+          // we may need it if we set not in initial props
+          // so elements are not defined yet
           var elementsCreated = !!this.findOne('.top-left');
           if (elementsCreated) {
               this.update();
           }
           return this;
       };
+      // TODO: add docs, use overloaded setter/getter
       Transformer.prototype.getNode = function () {
           return this._node;
       };
@@ -14591,6 +14672,7 @@
   /**
    * Wedge constructor
    * @constructor
+   * @memberof Konva
    * @augments Konva.Shape
    * @param {Object} config
    * @param {Number} config.angle in degrees
@@ -16871,6 +16953,17 @@
    */
   var showWarnings = true;
   /**
+   * Configure what mouse buttons can be used for drag and drop.
+   * Default value is [0] - only left mouse button.
+   * @property dragButtons
+   * @default true
+   * @memberof Konva
+   * @example
+   * // enable left and right mouse buttons
+   * Konva.dragButtons = [0, 2];
+   */
+  var dragButtons = [0, 1];
+  /**
    * @namespace Filters
    * @memberof Konva
    */
@@ -16905,10 +16998,12 @@
     dragDistance: dragDistance,
     angleDeg: angleDeg,
     showWarnings: showWarnings,
+    dragButtons: dragButtons,
     Filters: Filters,
     Collection: Collection,
     Util: Util,
     Node: Node,
+    ids: ids,
     Container: Container,
     Stage: Stage,
     stages: stages,
@@ -16939,7 +17034,6 @@
     Transformer: Transformer,
     Wedge: Wedge,
     version: version,
-    ids: ids,
     names: names,
     shapes: shapes,
     isBrowser: isBrowser,
@@ -16947,8 +17041,6 @@
     dblClickWindow: dblClickWindow,
     isDragging: isDragging,
     isDragReady: isDragReady,
-    _addId: _addId,
-    _removeId: _removeId,
     _addName: _addName,
     _removeName: _removeName,
     getAngle: getAngle,
