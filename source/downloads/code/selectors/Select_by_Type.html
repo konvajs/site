@@ -41,8 +41,8 @@
     var layer = new Konva.Layer();
     for(var n = 0; n < 10; n++) {
       var circle = new Konva.Circle({
-        x: Math.random() * stage.getWidth(),
-        y: Math.random() * stage.getHeight(),
+        x: Math.random() * stage.width(),
+        y: Math.random() * stage.height(),
         radius: Math.random() * 50 + 25,
         fill: 'red',
         strokeWidth: 3,

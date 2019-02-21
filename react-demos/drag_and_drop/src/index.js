@@ -4,7 +4,9 @@ import { Stage, Layer, Text } from 'react-konva';
 
 class App extends Component {
   state = {
-    isDragging: false
+    isDragging: false,
+    x: 50,
+    y: 50
   };
 
   render() {
@@ -13,8 +15,8 @@ class App extends Component {
         <Layer>
           <Text
             text="Draggable Text"
-            x={50}
-            y={50}
+            x={this.state.x}
+            y={this.state.y}
             draggable
             fill={this.state.isDragging ? 'green' : 'black'}
             onDragStart={() => {
@@ -22,9 +24,11 @@ class App extends Component {
                 isDragging: true
               });
             }}
-            onDragEnd={() => {
+            onDragEnd={e => {
               this.setState({
-                isDragging: false
+                isDragging: false,
+                x: e.target.x(),
+                y: e.target.y()
               });
             }}
           />

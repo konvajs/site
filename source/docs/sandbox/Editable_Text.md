@@ -8,7 +8,7 @@ Konva has not support for such case. We recommend to edit the user input outside
 
 It may be textarea somewhere in your page.
 
-
+Here we will create two demos. Basic demo for basic understanding of the technic. And the more complex one, used in real-word app that cover more edge cases.
 
 Instructions: Double click on text to edit it. Type something. Press Enter.
 
@@ -18,3 +18,15 @@ Simple demo:
 
 {% include_code Konva 20000 Nodes Demo sandbox/Editable_Text.html %}
 
+Complex demo:
+
+I was using that code in real production app. The code is a bit complex and have many extra fixes.
+But it was working good.
+
+{% iframe /downloads/code/sandbox/Complex_Editable_Text.html %}
+
+<details><summary>Show source code!</summary>
+<p>
+{% include_code Canvas Scrolling Drag /downloads/code/sandbox/Complex_Editable_Text.html %}
+</p>
+</details>

@@ -31,12 +31,12 @@
 
         if (star.controlled) {
           star.angularVelocity =
-            ((star.getRotation() - star.lastRotation) * 1000) / frame.timeDiff;
+            ((star.rotation() - star.lastRotation) * 1000) / frame.timeDiff;
         } else {
           star.rotate((frame.timeDiff * star.angularVelocity) / 1000);
         }
 
-        star.lastRotation = star.getRotation();
+        star.lastRotation = star.rotation();
       }
 
       var stage = new Konva.Stage({
@@ -48,8 +48,8 @@
       var animatedLayer = new Konva.Layer();
 
       var star = new Konva.Star({
-        x: stage.getWidth() / 2,
-        y: stage.getHeight() / 2,
+        x: stage.width() / 2,
+        y: stage.height() / 2,
         outerRadius: 80,
         innerRadius: 40,
         stroke: '#005500',
@@ -77,8 +77,8 @@
       animatedLayer.add(star);
 
       var center = new Konva.Circle({
-        x: stage.getWidth() / 2,
-        y: stage.getHeight() / 2,
+        x: stage.width() / 2,
+        y: stage.height() / 2,
         radius: 3,
         fill: '#555'
       });
@@ -95,9 +95,9 @@
           var mousePos = stage.getPointerPosition();
           var x = star.getX() - mousePos.x;
           var y = star.getY() - mousePos.y;
-          star.setRotation(0.5 * Math.PI + Math.atan(y / x));
+          star.rotation(0.5 * Math.PI + Math.atan(y / x));
 
-          if (mousePos.x <= stage.getWidth() / 2) {
+          if (mousePos.x <= stage.width() / 2) {
             star.rotate(Math.PI);
           }
         }

@@ -1,72 +1,87 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
-  <meta charset="utf-8">
-  <title>Konva Modify Curves with Anchor Points Demo</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #F0F0F0;
-    }
-  </style>
-</head>
-<body>
-  <div id="container"></div>
-  <script>
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+  <head>
+    <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Modify Curves with Anchor Points Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-    // globals
-    var curveLayer, lineLayer, anchorLayer, quad, bezier;
+      // globals
+      var curveLayer, lineLayer, anchorLayer, quad, bezier;
 
-    function updateDottedLines() {
+      function updateDottedLines() {
         var q = quad;
         var b = bezier;
 
-        var quadLine = lineLayer.get('#quadLine')[0];
-        var bezierLine = lineLayer.get('#bezierLine')[0];
+        var quadLine = lineLayer.findOne('#quadLine');
+        var bezierLine = lineLayer.findOne('#bezierLine');
 
-        quadLine.setPoints([q.start.attrs.x, q.start.attrs.y, q.control.attrs.x, q.control.attrs.y, q.end.attrs.x, q.end.attrs.y]);
+        quadLine.points([
+          q.start.attrs.x,
+          q.start.attrs.y,
+          q.control.attrs.x,
+          q.control.attrs.y,
+          q.end.attrs.x,
+          q.end.attrs.y
+        ]);
 
-        bezierLine.setPoints([b.start.attrs.x, b.start.attrs.y, b.control1.attrs.x, b.control1.attrs.y, b.control2.attrs.x, b.control2.attrs.y, b.end.attrs.x, b.end.attrs.y]);
+        bezierLine.points([
+          b.start.attrs.x,
+          b.start.attrs.y,
+          b.control1.attrs.x,
+          b.control1.attrs.y,
+          b.control2.attrs.x,
+          b.control2.attrs.y,
+          b.end.attrs.x,
+          b.end.attrs.y
+        ]);
         lineLayer.draw();
-    }
-    function buildAnchor(x, y) {
+      }
+      function buildAnchor(x, y) {
         var anchor = new Konva.Circle({
-            x: x,
-            y: y,
-            radius: 20,
-            stroke: '#666',
-            fill: '#ddd',
-            strokeWidth: 2,
-            draggable: true
+          x: x,
+          y: y,
+          radius: 20,
+          stroke: '#666',
+          fill: '#ddd',
+          strokeWidth: 2,
+          draggable: true
         });
 
         // add hover styling
         anchor.on('mouseover', function() {
-            document.body.style.cursor = 'pointer';
-            this.setStrokeWidth(4);
-            anchorLayer.draw();
+          document.body.style.cursor = 'pointer';
+          this.strokeWidth(4);
+          anchorLayer.draw();
         });
         anchor.on('mouseout', function() {
-            document.body.style.cursor = 'default';
-            this.setStrokeWidth(2);
-            anchorLayer.draw();
-
+          document.body.style.cursor = 'default';
+          this.strokeWidth(2);
+          anchorLayer.draw();
         });
 
         anchor.on('dragend', function() {
-            drawCurves();
-            updateDottedLines();
+          drawCurves();
+          updateDottedLines();
         });
 
         anchorLayer.add(anchor);
         return anchor;
-    }
-    function drawCurves() {
+      }
+      function drawCurves() {
         var context = curveLayer.getContext();
 
         context.clear();
@@ -74,7 +89,12 @@
         // draw quad
         context.beginPath();
         context.moveTo(quad.start.attrs.x, quad.start.attrs.y);
-        context.quadraticCurveTo(quad.control.attrs.x, quad.control.attrs.y, quad.end.attrs.x, quad.end.attrs.y);
+        context.quadraticCurveTo(
+          quad.control.attrs.x,
+          quad.control.attrs.y,
+          quad.end.attrs.x,
+          quad.end.attrs.y
+        );
         context.setAttr('strokeStyle', 'red');
         context.setAttr('lineWidth', 4);
         context.stroke();
@@ -82,26 +102,33 @@
         // draw bezier
         context.beginPath();
         context.moveTo(bezier.start.attrs.x, bezier.start.attrs.y);
-        context.bezierCurveTo(bezier.control1.attrs.x, bezier.control1.attrs.y, bezier.control2.attrs.x, bezier.control2.attrs.y, bezier.end.attrs.x, bezier.end.attrs.y);
+        context.bezierCurveTo(
+          bezier.control1.attrs.x,
+          bezier.control1.attrs.y,
+          bezier.control2.attrs.x,
+          bezier.control2.attrs.y,
+          bezier.end.attrs.x,
+          bezier.end.attrs.y
+        );
         context.setAttr('strokeStyle', 'blue');
         context.setAttr('lineWidth', 4);
         context.stroke();
-    }
+      }
 
-    var stage = new Konva.Stage({
+      var stage = new Konva.Stage({
         container: 'container',
         width: width,
         height: height
-    });
+      });
 
-    anchorLayer = new Konva.Layer();
-    lineLayer = new Konva.Layer();
+      anchorLayer = new Konva.Layer();
+      lineLayer = new Konva.Layer();
 
-    // curveLayer just contains a canvas which is drawn
-    // onto with the existing canvas API
-    curveLayer = new Konva.Layer();
+      // curveLayer just contains a canvas which is drawn
+      // onto with the existing canvas API
+      curveLayer = new Konva.Layer();
 
-    var quadLine = new Konva.Line({
+      var quadLine = new Konva.Line({
         dash: [10, 10, 0, 10],
         strokeWidth: 3,
         stroke: 'black',
@@ -109,9 +136,9 @@
         id: 'quadLine',
         opacity: 0.3,
         points: [0, 0]
-    });
+      });
 
-    var bezierLine = new Konva.Line({
+      var bezierLine = new Konva.Line({
         dash: [10, 10, 0, 10],
         strokeWidth: 3,
         stroke: 'black',
@@ -119,40 +146,37 @@
         id: 'bezierLine',
         opacity: 0.3,
         points: [0, 0]
-    });
+      });
 
-    // add dotted line connectors
-    lineLayer.add(quadLine);
-    lineLayer.add(bezierLine);
+      // add dotted line connectors
+      lineLayer.add(quadLine);
+      lineLayer.add(bezierLine);
 
-    quad = {
+      quad = {
         start: buildAnchor(60, 30),
         control: buildAnchor(240, 110),
         end: buildAnchor(80, 160)
-    };
+      };
 
-    bezier = {
+      bezier = {
         start: buildAnchor(280, 20),
         control1: buildAnchor(530, 40),
         control2: buildAnchor(480, 150),
         end: buildAnchor(300, 150)
-    };
+      };
 
-    // keep curves insync with the lines
-    anchorLayer.on('beforeDraw', function() {
+      // keep curves insync with the lines
+      anchorLayer.on('beforeDraw', function() {
         drawCurves();
         updateDottedLines();
-    });
+      });
 
+      stage.add(curveLayer);
+      stage.add(lineLayer);
+      stage.add(anchorLayer);
 
-
-    stage.add(curveLayer);
-    stage.add(lineLayer);
-    stage.add(anchorLayer);
-
-    drawCurves();
-    updateDottedLines();
-  </script>
-
-</body>
+      drawCurves();
+      updateDottedLines();
+    </script>
+  </body>
 </html>

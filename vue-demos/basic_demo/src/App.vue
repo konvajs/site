@@ -1,14 +1,13 @@
 <template>
   <div>
-    <v-stage ref="stage"
+    <v-stage
+      ref="stage"
       :config="configKonva"
       @dragstart="handleDragstart"
-      @dragend="handleDragend">
+      @dragend="handleDragend"
+    >
       <v-layer ref="layer">
-        <v-star
-          v-for="item in list"
-          :key="item.id"
-          :config="item"></v-star>
+        <v-star v-for="item in list" :key="item.id" :config="item"></v-star>
       </v-layer>
       <v-layer ref="dragLayer"></v-layer>
     </v-stage>
@@ -40,8 +39,8 @@ export default {
       shape.setAttrs({
         shadowOffsetX: 15,
         shadowOffsetY: 15,
-        scaleX: shape.getAttr('startScale') * 1.2,
-        scaleY: shape.getAttr('startScale') * 1.2
+        scaleX: shape.getAttr("startScale") * 1.2,
+        scaleY: shape.getAttr("startScale") * 1.2
       });
     },
     handleDragend(e) {
@@ -53,8 +52,8 @@ export default {
       shape.to({
         duration: 0.5,
         easing: Konva.Easings.ElasticEaseOut,
-        scaleX: shape.getAttr('startScale'),
-        scaleY: shape.getAttr('startScale'),
+        scaleX: shape.getAttr("startScale"),
+        scaleY: shape.getAttr("startScale"),
         shadowOffsetX: 5,
         shadowOffsetY: 5
       });
@@ -66,18 +65,18 @@ export default {
       const scale = Math.random();
       const stage = vm.$refs.stage.getStage();
       vm.list.push({
-        x: Math.random() * stage.getWidth(),
-        y: Math.random() * stage.getHeight(),
+        x: Math.random() * stage.width(),
+        y: Math.random() * stage.height(),
         rotation: Math.random() * 180,
         numPoints: 5,
         innerRadius: 30,
         outerRadius: 50,
-        fill: '#89b717',
+        fill: "#89b717",
         opacity: 0.8,
         draggable: true,
         scaleX: scale,
         scaleY: scale,
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowBlur: 10,
         shadowOffsetX: 5,
         shadowOffsetY: 5,

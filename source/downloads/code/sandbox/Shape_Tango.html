@@ -64,8 +64,8 @@
         var radius = Math.random() * 100 + 20;
         var color = getRandomColor();
         var shape = new Konva.RegularPolygon({
-            x: Math.random() * stage.getWidth(),
-            y: Math.random() * stage.getHeight(),
+            x: Math.random() * stage.width(),
+            y: Math.random() * stage.height(),
             sides: Math.ceil(Math.random() * 5 + 3),
             radius: radius,
             fill: color,

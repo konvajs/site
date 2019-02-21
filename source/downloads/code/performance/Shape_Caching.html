@@ -50,8 +50,8 @@
     var clone;
     for(var n = 0; n < 10; n++) {
       clone = star.clone({
-        x: Math.random() * stage.getWidth(),
-        y: Math.random() * stage.getHeight()
+        x: Math.random() * stage.width(),
+        y: Math.random() * stage.height()
       });
       clone.cache();
       layer.add(clone);

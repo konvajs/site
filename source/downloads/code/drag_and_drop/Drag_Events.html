@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <script src="https://unpkg.com/konva@2.4.2/konva.min.js"></script>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Konva Drag Events Demo</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #F0F0F0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
     </style>
-</head>
-<body>
-<div id="container"></div>
-<script>
-    function writeMessage(message) {
-        text.setText(message);
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      function writeMessage(message) {
+        text.text(message);
         layer.draw();
-    }
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+      }
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-    var stage = new Konva.Stage({
+      var stage = new Konva.Stage({
         container: 'container',
         width: width,
         height: height
-    });
+      });
 
-    var layer = new Konva.Layer();
+      var layer = new Konva.Layer();
 
-    var text = new Konva.Text({
+      var text = new Konva.Text({
         x: 10,
         y: 10,
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
         fill: 'black'
-    });
+      });
 
-    var box = new Konva.Rect({
+      var box = new Konva.Rect({
         x: 20,
         y: 100,
         offset: [50, 25],
@@ -50,22 +50,21 @@
         stroke: 'black',
         strokeWidth: 4,
         draggable: true
-    });
+      });
 
-    // write out drag and drop events
-    box.on('dragstart', function() {
+      // write out drag and drop events
+      box.on('dragstart', function() {
         writeMessage('dragstart');
-    });
-    box.on('dragend', function() {
+      });
+      box.on('dragend', function() {
         writeMessage('dragend');
-    });
+      });
 
-    layer.add(text);
-    layer.add(box);
+      layer.add(text);
+      layer.add(box);
 
-    // add the layer to the stage
-    stage.add(layer);
-</script>
-
-</body>
+      // add the layer to the stage
+      stage.add(layer);
+    </script>
+  </body>
 </html>

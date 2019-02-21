@@ -124,7 +124,7 @@
 
         // activate / deactivate wedges based on point intersection
         var shape = stage.getIntersection({
-          x: stage.getWidth() / 2,
+          x: stage.width() / 2,
           y: 100
         });
 
@@ -156,7 +156,7 @@
 
         if (shape) {
           if (shape && (!activeWedge || shape._id !== activeWedge._id)) {
-            pointer.setY(20);
+            pointer.y(20);
 
             new Konva.Tween({
               node: pointer,
@@ -166,9 +166,9 @@
             }).play();
 
             if (activeWedge) {
-              activeWedge.setFillPriority('radial-gradient');
+              activeWedge.fillPriority('radial-gradient');
             }
-            shape.setFillPriority('fill');
+            shape.fillPriority('fill');
             activeWedge = shape;
           }
         }
@@ -181,7 +181,7 @@
         });
         layer = new Konva.Layer();
         wheel = new Konva.Group({
-          x: stage.getWidth() / 2,
+          x: stage.width() / 2,
           y: 410
         });
 
@@ -199,7 +199,7 @@
           lineJoin: 'round',
           angle: 1,
           radius: 30,
-          x: stage.getWidth() / 2,
+          x: stage.width() / 2,
           y: 33,
           rotation: -90,
           shadowColor: 'black',
@@ -249,8 +249,8 @@
               var rotation = x >= 0 ? atan : atan + Math.PI;
               var targetGroup = target.getParent();
 
-              wheel.setRotation(
-                rotation - targetGroup.startRotation - target.getAngle() / 2
+              wheel.rotation(
+                rotation - targetGroup.startRotation - target.angle() / 2
               );
             }
           },

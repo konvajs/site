@@ -65,8 +65,8 @@ var layer = new Konva.Layer();
 
 // create our shape
 var circle = new Konva.Circle({
-  x: stage.getWidth() / 2,
-  y: stage.getHeight() / 2,
+  x: stage.width() / 2,
+  y: stage.height() / 2,
   radius: 70,
   fill: 'red',
   stroke: 'black',
@@ -119,8 +119,8 @@ Each shape supports the following style properties:
 
 ```
 var pentagon = new Konva.RegularPolygon({
-    x: stage.getWidth() / 2,
-    y: stage.getHeight() / 2,
+    x: stage.width() / 2,
+    y: stage.height() / 2,
     sides: 5,
     radius: 70,
     fill: 'red',

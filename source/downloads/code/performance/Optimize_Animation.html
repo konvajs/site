@@ -28,8 +28,8 @@
     var layer = new Konva.Layer();
 
     var hexagon = new Konva.RegularPolygon({
-        x: stage.getWidth() / 2,
-        y: stage.getHeight() / 2,
+        x: stage.width() / 2,
+        y: stage.height() / 2,
         sides: 6,
         radius: 20,
         fill: 'red',
@@ -43,7 +43,7 @@
     var amplitude = 100;
     var period = 2000;
     // in ms
-    var centerX = stage.getWidth() / 2;
+    var centerX = stage.width() / 2;
 
     // we have animation that do nothing in some cases
     var anim = new Konva.Animation(function(frame) {
