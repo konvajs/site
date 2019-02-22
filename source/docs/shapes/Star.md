@@ -3,7 +3,7 @@ title: HTML5 canvas Star Tutorial
 
 To create a start with `Konva`, we can instantiate a `Konva.Star()` object.
 
-For a full list of attributes and methods, check out the [Konva.Star documentation](https://konvajs.github.io/api/Konva.Star.html).
+For a full list of attributes and methods, check out the [Konva.Star documentation](/api/Konva.Star.html).
 
 {% iframe /downloads/code/shapes/Star.html %}
 

@@ -5,7 +5,7 @@ title: HTML5 canvas TextPath Tutorial. Text follows path
 
 To create a text path with `Konva`, we can instantiate a `Konva.TextPath()` object.
 
-For a full list of attributes and methods, check out the [Konva.TextPath documentation](https://konvajs.github.io/api/Konva.TextPath.html).
+For a full list of attributes and methods, check out the [Konva.TextPath documentation](/api/Konva.TextPath.html).
 
 {% iframe /downloads/code/shapes/TextPath.html %}
 

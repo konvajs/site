@@ -1,13 +1,11 @@
 <template>
-<v-stage ref="stage" :config="stageSize">
-      <v-layer ref="layer">
-        <v-image
-          :config="{
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-image :config="{
             image: image
-          }"
-        />
-      </v-layer>
-    </v-stage>
+          }"/>
+    </v-layer>
+  </v-stage>
 </template>
 
 <script>
@@ -26,7 +24,7 @@ export default {
   },
   created() {
     const image = new window.Image();
-    image.src = 'https://konvajs.github.io/assets/yoda.jpg';
+    image.src = "https://konvajs.org/assets/yoda.jpg";
     image.onload = () => {
       // set image only when it is loaded
       this.image = image;

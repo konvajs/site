@@ -6,7 +6,7 @@ To apply filter to an `Konva.Image`, we have to cache it first with `cache()` fu
 To mark the colors of an image with Konva, we can use the
 `Konva.Filters.Mask` filter.
 
-For all available filters go to [Filters Documentation](https://konvajs.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/Mask.html %}
 

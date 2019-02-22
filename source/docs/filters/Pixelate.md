@@ -8,7 +8,7 @@ To change pixelate effect of an image with Konva, we can use the `Konva.Filters.
 
 Instructions: Slide the control to change pixel size value.
 
-For all available filters go to [Filters Documentation](https://konvajs.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/Pixelate.html %}
 

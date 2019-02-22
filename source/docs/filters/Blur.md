@@ -9,7 +9,7 @@ and set the blur amount with the `blurRadius` property.
 
 Instructions: Slide the control to adjust the blur radius.
 
-For all available filters go to [Filters Documentation](https://konvajs.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/Blur.html %}
 

@@ -3,7 +3,7 @@ title: HTML5 canvas Label Tutorial
 
 To create a text label with Konva, which can be used for creating text with backgrounds, simple tooltips, or tooltips with pointers, we can instantiate a `Konva.Label()` object.
 
-For a full list of attributes and methods, check out the [Konva.Label documentation](https://konvajs.github.io/api/Konva.Label.html).
+For a full list of attributes and methods, check out the [Konva.Label documentation](/api/Konva.Label.html).
 
 {% iframe /downloads/code/shapes/Label.html %}
 

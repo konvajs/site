@@ -6,7 +6,7 @@ function. Then apply filter with `filter()` function.
 
 Instructions: Slide the controls to change emboss values.
 
-For all available filters go to [Filters Documentation](https://konvajs.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/Emboss.html %}
 

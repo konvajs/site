@@ -7,7 +7,7 @@ To define the path of the line you should use `points` property. If you have thr
 
 Flat array of numbers should work faster and use less memory than array of objects.
 
-For a full list of attributes and methods, check out the [Konva.Line documentation](https://konvajs.github.io/api/Konva.Line.html).
+For a full list of attributes and methods, check out the [Konva.Line documentation](/api/Konva.Line.html).
 
 {% iframe /downloads/code/shapes/Line_-_Simple_line.html %}
 

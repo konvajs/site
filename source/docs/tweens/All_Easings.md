@@ -4,7 +4,7 @@ title: More Easing Functions Tutorial
 This tutorial demonstrates all of the easing function sets provided by Konva,
 including `Linear`, `Ease`, `Back`, `Elastic`, `Bounce`, and `Strong`.
 
-For all available easings go to [Easings Documentation](https://konvajs.github.io/api/Konva.Easing.html).
+For all available easings go to [Easings Documentation](/api/Konva.Easing.html).
 
 Instructions: Press "Play" to transition all of the text nodes.
 

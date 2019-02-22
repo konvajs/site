@@ -7,7 +7,7 @@ To change hue, saturation and luminance components of an image with Konva, we ca
 
 Instructions: Slide the controls to change hsl values.
 
-For all available filters go to [Filters Documentation](https://konvajs.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/HSL.html %}
 

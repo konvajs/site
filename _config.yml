@@ -9,7 +9,7 @@ language: en
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://konvajs.github.io
+url: https://konvajs.org
 root: /
 permalink: news/:year/:month/:day/:title/
 tag_dir: tags
@@ -78,7 +78,7 @@ disqus_shortname: konvajs
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
 theme: hexo3
 exclude_generator:
-- home
+  - home
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html

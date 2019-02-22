@@ -7,7 +7,7 @@ To change hue, saturation and value components of an image with Konva, we can us
 
 Instructions: Slide the controls to change hsv values.
 
-For all available filters go to [Filters Documentation](https://konvajs.github.io/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
 {% iframe /downloads/code/filters/HSV.html %}
 

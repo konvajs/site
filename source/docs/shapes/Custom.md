@@ -47,7 +47,7 @@ There are two properties that can be used for drawing custom shapes: `sceneFunc`
 
 
 
-For a full list of attributes and methods, check out the [Konva.Shape documentation](https://konvajs.github.io/api/Konva.Shape.html)
+For a full list of attributes and methods, check out the [Konva.Shape documentation](/api/Konva.Shape.html)
 
 {% iframe /downloads/code/shapes/Custom.html %}
 

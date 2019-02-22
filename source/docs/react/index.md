@@ -4,7 +4,7 @@ layout: react_page
 
 ![ReactKonva Logo](https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png)
 
-React Konva is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.github.io/).
+React Konva is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
 
 [Github Repo](https://github.com/lavrton/react-konva)
 
@@ -13,7 +13,7 @@ An attempt to make [React](http://facebook.github.io/react/) work with the HTML5
 
 Currently you can use all `Konva` nodes and shapes as React components and all `Konva` events are supported on them in same way as normal browser events are supported.
 
-**Note: you can find a lot of demos and examples of using Konva there: https://konvajs.github.io/. Really, just go there and take a look what Konva can do for you. You will be able to do the same with react-konva too. You don't need to learn `react-konva`, just learn Konva.**
+**Note: you can find a lot of demos and examples of using Konva there: [https://konvajs.org/](https://konvajs.org/). Really, just go there and take a look what Konva can do for you. You will be able to do the same with react-konva too. You don't need to learn `react-konva`, just learn Konva.**
 
 ## Installation
 

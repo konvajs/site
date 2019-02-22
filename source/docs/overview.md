@@ -152,12 +152,12 @@ circle.on('dragend', function() {
     console.log('drag stopped');
 });
 ```
-See [working example](https://konvajs.github.io/docs/events/Binding_Events.html).
+See [working example](/docs/events/Binding_Events.html).
 
 ## DRAG AND DROP
 
 `Konva` has builtin drag support. For the current moment there is no `drop` events (`drop`, `dragenter`, `dragleave`, `dragover`)
-but it is very easy to implement them [via framework](https://konvajs.github.io/docs/drag_and_drop/Drop_Events.html).
+but it is very easy to implement them [via framework](/docs/drag_and_drop/Drop_Events.html).
 
 To enable drag&drop just set property draggable = true.
 
@@ -165,11 +165,11 @@ To enable drag&drop just set property draggable = true.
 shape.draggable('true');
 ```
 
-Then you can subscribe to drag&drop events and setup [moving limits](https://konvajs.github.io/docs/drag_and_drop/Complex_Drag_and_Drop.html).
+Then you can subscribe to drag&drop events and setup [moving limits](/docs/drag_and_drop/Complex_Drag_and_Drop.html).
 
 ## Filters
 
-`Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](https://konvajs.github.io/api/Konva.Filters.html).
+`Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](/api/Konva.Filters.html).
 
 Example:
 ![Filter](/assets/overview-filter.png)
@@ -178,7 +178,7 @@ Example:
 
 You can create animations in two ways:
 
-1. via `Konva.Animation` [Demo](https://konvajs.github.io/docs/animations/Moving.html):
+1. via `Konva.Animation` [Demo](/docs/animations/Moving.html):
 ```
 var anim = new Konva.Animation(function(frame) {
     var time = frame.time,
@@ -189,7 +189,7 @@ var anim = new Konva.Animation(function(frame) {
 anim.start();
 ```
 
-2. via `Konva.Tween` [Demo](https://konvajs.github.io/docs/tweens/Linear_Easing.html):
+2. via `Konva.Tween` [Demo](/docs/tweens/Linear_Easing.html):
 ```
 var tween = new Konva.Tween({
         node: rect,
@@ -254,11 +254,11 @@ var stage = Konva.Node.create(json, 'container');
 ```
 shape.cache();
 ```
-[Demo](https://konvajs.github.io/docs/performance/Shape_Caching.html)
+[Demo](/docs/performance/Shape_Caching.html)
 
 2. Layering. As framework supports several `<canvas>` elements you can put objects at your discretion.
 For example your application consists from complex background and several moving shapes. You can use one layer for background and another one for shapes.
-While updating shapes you don't need to update background canvas. [Demo](https://konvajs.github.io/docs/performance/Layer_Management.html)
+While updating shapes you don't need to update background canvas. [Demo](/docs/performance/Layer_Management.html)
 
 You can find all available performance tips here:
-[https://konvajs.github.io/docs/performance/All_Performance_Tips.html](https://konvajs.github.io/docs/performance/All_Performance_Tips.html)
+[https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)

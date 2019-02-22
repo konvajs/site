@@ -8,7 +8,7 @@ For `image` property you can use:
 2. canvas element
 3. video element
 
-For a full list of attributes and methods, check out the [Konva.Image documentation](https://konvajs.github.io/api/Konva.Image.html).
+For a full list of attributes and methods, check out the [Konva.Image documentation](/api/Konva.Image.html).
 
 {% iframe /downloads/code/shapes/Image.html %}
 

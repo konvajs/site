@@ -3,9 +3,9 @@ import { render } from 'react-dom';
 import { Stage, Layer, Image } from 'react-konva';
 import useImage from 'use-image';
 
-// the first very simple and recomended way:
+// the first very simple and recommended way:
 const LionImage = () => {
-  const [image] = useImage('https://konvajs.github.io/assets/lion.png');
+  const [image] = useImage('https://konvajs.org/assets/lion.png');
   return <Image image={image} />;
 };
 
@@ -65,7 +65,7 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <URLImage src="https://konvajs.github.io/assets/yoda.jpg" x={150} />
+          <URLImage src="https://konvajs.org/assets/yoda.jpg" x={150} />
           <LionImage />
         </Layer>
       </Stage>
