@@ -49,7 +49,7 @@
         var textPosition = textNode.getAbsolutePosition();
 
         // then lets find position of stage container on the page:
-        var stageBox = stage.getContainer().getBoundingClientRect();
+        var stageBox = stage.container().getBoundingClientRect();
 
         // so position of textarea will be the sum of positions above:
         var areaPosition = {

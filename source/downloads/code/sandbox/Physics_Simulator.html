@@ -123,8 +123,8 @@
       }
       function handleCurveCollision(ball, curve) {
         var curveLayer = curve.getLayer();
-        var x = ball.getX();
-        var y = ball.getY();
+        var x = ball.x();
+        var y = ball.y();
 
         var curveDamper = 0.05;
         // 5% energy loss

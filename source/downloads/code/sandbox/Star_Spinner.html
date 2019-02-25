@@ -93,8 +93,8 @@
       stage.on('mousemove touchmove', function() {
         if (star.controlled) {
           var mousePos = stage.getPointerPosition();
-          var x = star.getX() - mousePos.x;
-          var y = star.getY() - mousePos.y;
+          var x = star.x() - mousePos.x;
+          var y = star.y() - mousePos.y;
           star.rotation(0.5 * Math.PI + Math.atan(y / x));
 
           if (mousePos.x <= stage.width() / 2) {

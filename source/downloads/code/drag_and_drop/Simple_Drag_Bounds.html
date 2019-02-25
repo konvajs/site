@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <script src="https://unpkg.com/konva@3.0.0/konva.min.js"></script>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Konva Simple Drag Bounds Demo</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #F0F0F0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
     </style>
-</head>
-<body>
-<div id="container"></div>
-<script>
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-    var stage = new Konva.Stage({
+      var stage = new Konva.Stage({
         container: 'container',
         width: width,
         height: height
-    });
+      });
 
-    var layer = new Konva.Layer();
+      var layer = new Konva.Layer();
 
-    var rectHeight = 50;
-    var rectWidth = 100;
-    var rectY = (stage.height() - rectHeight) / 2;
+      var rectHeight = 50;
+      var rectWidth = 100;
+      var rectY = (stage.height() - rectHeight) / 2;
 
-    var hbox = new Konva.Text({
+      var hbox = new Konva.Text({
         x: 20,
         y: 70,
         fontSize: 24,
@@ -41,14 +41,14 @@
         padding: 15,
         draggable: true,
         dragBoundFunc: function(pos) {
-            return {
-                x: pos.x,
-                y: this.getAbsolutePosition().y
-            }
+          return {
+            x: pos.x,
+            y: this.absolutePosition().y
+          };
         }
-    });
+      });
 
-    var vbox = new Konva.Text({
+      var vbox = new Konva.Text({
         x: 150,
         y: 70,
         draggable: true,
@@ -58,18 +58,17 @@
         fill: 'black',
         padding: 15,
         dragBoundFunc: function(pos) {
-            return {
-                x: this.getAbsolutePosition().x,
-                y: pos.y
-            }
+          return {
+            x: this.absolutePosition().x,
+            y: pos.y
+          };
         }
-    });
+      });
 
-    layer.add(hbox);
-    layer.add(vbox);
-    // add the layer to the stage
-    stage.add(layer);
-</script>
-
-</body>
+      layer.add(hbox);
+      layer.add(vbox);
+      // add the layer to the stage
+      stage.add(layer);
+    </script>
+  </body>
 </html>

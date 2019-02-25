@@ -112,7 +112,7 @@
         wedge.add(text);
         text.cache();
 
-        wedge.startRotation = wedge.getRotation();
+        wedge.startRotation = wedge.rotation();
 
         wheel.add(wedge);
       }
@@ -134,7 +134,7 @@
           }
 
           angularVelocities.push(
-            ((wheel.getRotation() - lastRotation) * 1000) / frame.timeDiff
+            ((wheel.rotation() - lastRotation) * 1000) / frame.timeDiff
           );
         } else {
           var diff = (frame.timeDiff * angularVelocity) / 1000;
@@ -152,7 +152,7 @@
             finished = true;
           }
         }
-        lastRotation = wheel.getRotation();
+        lastRotation = wheel.rotation();
 
         if (shape) {
           if (shape && (!activeWedge || shape._id !== activeWedge._id)) {
