@@ -90,7 +90,7 @@ export default {
     </div>
     <!--1. Link Vue Javascript & Konva-->
     <script src='https://unpkg.com/vue/dist/vue.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/konva/1.7.6/konva.js'></script>
+    <script src='https://unpkg.com/konva@3.1.0/konva.min.js'></script>
     <!--2. Link VueKonva Javascript (Plugin automatically installed)-->
     <script src='./lib/vue-konva.min.js'></script>
     <script>
