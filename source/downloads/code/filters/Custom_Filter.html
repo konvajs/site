@@ -67,8 +67,7 @@
     function Border(imageData) {
       var nPixels = imageData.data.length;
 
-      var ratio = this._cache.canvas.scene.pixelRatio;
-      var size = (this.getAttr('borderSize') || 0) * ratio;
+      var size = (this.getAttr('borderSize') || 0);
 
       // - first set correct dimensions for canvases
       canvas.width = imageData.width;
