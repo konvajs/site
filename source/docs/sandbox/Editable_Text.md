@@ -14,10 +14,21 @@ Simple demo:
 
 {% iframe /downloads/code/sandbox/Editable_Text.html %}
 
+<details><summary>Show source code of simple demo!</summary>
+<p>
 {% include_code Konva 20000 Nodes Demo sandbox/Editable_Text.html %}
+</p>
+</details>
 
 Complex demo:
 
 {% iframe /downloads/code/sandbox/Complex_Editable_Text.html %}
 
+<details><summary>Show source code of complex demo!</summary>
+<p>
 {% include_code Canvas Scrolling Drag sandbox/Complex_Editable_Text.html %}
+</p>
+</details>
+
+
+That!
