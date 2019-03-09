@@ -20,8 +20,4 @@ Complex demo:
 
 {% iframe /downloads/code/sandbox/Complex_Editable_Text.html %}
 
-<details><summary>Show source code!</summary>
-<p>
-{% include_code Canvas Scrolling Drag /downloads/code/sandbox/Complex_Editable_Text.html %}
-</p>
-</details>
+{% include_code Canvas Scrolling Drag sandbox/Complex_Editable_Text.html %}
