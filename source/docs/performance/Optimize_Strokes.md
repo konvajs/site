@@ -3,8 +3,8 @@ title: HTML5 Canvas Optimizing Strokes Performance Tip
 
 ### Remove stroke from hit
 
-If you have a shape with fill and very small stroke you can set `shape.strokeHitEnabled(false)` to remove stroke from hit graph.
-Don't use this property if your stroke is critical for hit detection.
+If you have a shape with fill and very small stroke you can set `shape.hitStrokeWidth(0)` to remove stroke from hit graph.
+Don't use this property if your stroke is critical for hit detection (like non closed lines).
 
 ### Disable shadow for stroke
 

@@ -74,6 +74,10 @@
           : typeof WorkerGlobalScope !== 'undefined'
               ? self
               : {};
+  var Konva2;
+  (function (Konva2) {
+      Konva2.version = '@@version';
+  })(Konva2 || (Konva2 = {}));
   var Konva = {
       version: '@@version',
       isBrowser: detectBrowser(),
@@ -1060,6 +1064,13 @@
           }
           delete obj.visitedByCircularReferenceRemoval;
           return obj;
+      },
+      // very simplified version of Object.assign
+      _assign: function (target, source) {
+          for (var key in source) {
+              target[key] = source[key];
+          }
+          return target;
       }
   };
 
@@ -1885,7 +1896,7 @@
           this.restore();
       };
       HitContext.prototype._stroke = function (shape) {
-          if (shape.hasStroke() && shape.strokeHitEnabled()) {
+          if (shape.hasStroke() && shape.hitStrokeWidth()) {
               // ignore strokeScaleEnabled for Text
               var strokeScaleEnabled = shape.getStrokeScaleEnabled();
               if (!strokeScaleEnabled) {
@@ -1894,7 +1905,9 @@
                   this.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
               }
               this._applyLineCap(shape);
-              this.setAttr('lineWidth', shape.strokeWidth());
+              var hitStrokeWidth = shape.hitStrokeWidth();
+              var strokeWidth = hitStrokeWidth === 'auto' ? shape.strokeWidth() : hitStrokeWidth;
+              this.setAttr('lineWidth', strokeWidth);
               this.setAttr('strokeStyle', shape.colorKey);
               shape._strokeFuncHit(this);
               if (!strokeScaleEnabled) {
@@ -2061,7 +2074,6 @@
           _this.hitCanvas = true;
           _this.context = new HitContext(_this);
           _this.setSize(config.width, config.height);
-          _this.hitCanvas = true;
           return _this;
       }
       return HitCanvas;
@@ -6670,6 +6682,22 @@
               this.hasStroke() &&
               this.getStage());
       };
+      Shape.prototype.setStrokeHitEnabled = function (val) {
+          if (val) {
+              this.hitStrokeWidth('auto');
+          }
+          else {
+              this.hitStrokeWidth(0);
+          }
+      };
+      Shape.prototype.getStrokeHitEnabled = function () {
+          if (this.hitStrokeWidth() === 0) {
+              return false;
+          }
+          else {
+              return true;
+          }
+      };
       /**
        * return self rectangle (x, y, width, height) of shape.
        * This method are not taken into account transformation and styles.
@@ -6951,15 +6979,32 @@
    * var strokeWidth = shape.strokeWidth();
    *
    * // set stroke width
-   * shape.strokeWidth();
+   * shape.strokeWidth(10);
    */
+  Factory.addGetterSetter(Shape, 'hitStrokeWidth', 'auto', getNumberOrAutoValidator());
+  /**
+   * get/set stroke width for hit detection. Default value is "auto", it means it will be equals to strokeWidth
+   * @name Konva.Shape#hitStrokeWidth
+   * @method
+   * @param {Number} hitStrokeWidth
+   * @returns {Number}
+   * @example
+   * // get stroke width
+   * var hitStrokeWidth = shape.hitStrokeWidth();
+   *
+   * // set hit stroke width
+   * shape.hitStrokeWidth(20);
+   * // set hit stroke width always equals to scene stroke width
+   * shape.hitStrokeWidth('auto');
+   */
+  // TODO: probably we should deprecate it
   Factory.addGetterSetter(Shape, 'strokeHitEnabled', true, getBooleanValidator());
   /**
    * get/set strokeHitEnabled property. Useful for performance optimization.
    * You may set `shape.strokeHitEnabled(false)`. In this case stroke will be no draw on hit canvas, so hit area
    * of shape will be decreased (by lineWidth / 2). Remember that non closed line with `strokeHitEnabled = false`
    * will be not drawn on hit canvas, that is mean line will no trigger pointer events (like mouseover)
-   * Default value is true
+   * Default value is true.
    * @name Konva.Shape#strokeHitEnabled
    * @method
    * @param {Boolean} strokeHitEnabled
@@ -8889,7 +8934,7 @@
   };
 
   // what is core parts of Konva?
-  var Konva$1 = Object.assign(Konva, {
+  var Konva$1 = Util._assign(Konva, {
       Collection: Collection,
       Util: Util,
       Node: Node,
@@ -8906,7 +8951,9 @@
       shapes: shapes,
       Animation: Animation,
       Tween: Tween,
-      Easings: Easings
+      Easings: Easings,
+      Context: Context,
+      Canvas: Canvas
   });
 
   /**
@@ -12067,9 +12114,9 @@
           });
           // update text data for certain attr changes
           _this.on('textChange.konva alignChange.konva letterSpacingChange.konva kerningFuncChange.konva', _this._setTextData);
-          if (config && config.getKerning) {
+          if (config && config['getKerning']) {
               Util.warn('getKerning TextPath API is deprecated. Please use "kerningFunc" instead.');
-              _this.kerningFunc(config.getKerning);
+              _this.kerningFunc(config['getKerning']);
           }
           _this._setTextData();
           return _this;
@@ -15731,7 +15778,7 @@
    */
 
   // we need to import core of the Konva and then extend it with all additional objects
-  var Konva$2 = Object.assign(Konva$1, {
+  var Konva$2 = Konva$1.Util._assign(Konva$1, {
       Arc: Arc,
       Arrow: Arrow,
       Circle: Circle,
