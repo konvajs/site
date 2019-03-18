@@ -2404,13 +2404,9 @@
 
   var ids = {};
   var names = {};
-  var ID_WARNING = "Duplicate id \"{id}\".\nPlease do not use same id several times, it will break find() method look up.\nIf you have duplicates it is better to use \"name\" property instead.\n";
   var _addId = function (node, id) {
       if (!id) {
           return;
-      }
-      if (ids[id]) {
-          Util.warn(ID_WARNING.replace('{id}', id));
       }
       ids[id] = node;
   };
@@ -3610,6 +3606,9 @@
           if (!selector) {
               return false;
           }
+          if (typeof selector === 'function') {
+              return selector(this);
+          }
           var selectorArr = selector.replace(/ /g, '').split(','), len = selectorArr.length, n, sel;
           for (n = 0; n < len; n++) {
               sel = selectorArr[n];
@@ -3632,7 +3631,7 @@
                       return true;
                   }
               }
-              else if (this._get(sel).length !== 0) {
+              else if (this.className === selector || this.nodeType === selector) {
                   return true;
               }
           }
@@ -3995,11 +3994,6 @@
           else {
               return Konva.dragDistance;
           }
-      };
-      Node.prototype._get = function (selector) {
-          return this.className === selector || this.nodeType === selector
-              ? [this]
-              : [];
       };
       Node.prototype._off = function (type, name, callback) {
           var evtListeners = this.eventListeners[type], i, evtName, handler;
@@ -5082,88 +5076,35 @@
       };
       Container.prototype._generalFind = function (selector, findOne) {
           var retArr = [];
-          if (typeof selector === 'string') {
-              retArr = this._findByString(selector);
-          }
-          else if (typeof selector === 'function') {
-              retArr = this._findByFunction(selector, findOne);
-          }
+          this._descendants(function (node) {
+              var valid = node._isMatch(selector);
+              if (valid) {
+                  retArr.push(node);
+              }
+              if (valid && findOne) {
+                  return true;
+              }
+              return false;
+          });
           return Collection.toCollection(retArr);
       };
-      Container.prototype._findByString = function (selector) {
-          var retArr = [], selectorArr = selector.replace(/ /g, '').split(','), len = selectorArr.length, n, i, sel, arr, node, children, clen;
-          for (n = 0; n < len; n++) {
-              sel = selectorArr[n];
-              if (!Util.isValidSelector(sel)) {
-                  var message = 'Selector "' +
-                      sel +
-                      '" is invalid. Allowed selectors examples are "#foo", ".bar" or "Group".\n' +
-                      'If you have a custom shape with such className, please change it to start with upper letter like "Triangle".\n' +
-                      'Konva is awesome, right?';
-                  Util.warn(message);
+      Container.prototype._descendants = function (fn) {
+          var shouldStop = false;
+          for (var i = 0; i < this.children.length; i++) {
+              var child = this.children[i];
+              shouldStop = fn(child);
+              if (shouldStop) {
+                  return true;
               }
-              // id selector
-              if (sel.charAt(0) === '#') {
-                  node = this._getNodeById(sel.slice(1));
-                  if (node) {
-                      retArr.push(node);
-                  }
+              if (!child.hasChildren()) {
+                  continue;
               }
-              else if (sel.charAt(0) === '.') {
-                  // name selector
-                  arr = this._getNodesByName(sel.slice(1));
-                  retArr = retArr.concat(arr);
-              }
-              else {
-                  // unrecognized selector, pass to children
-                  children = this.getChildren();
-                  clen = children.length;
-                  for (i = 0; i < clen; i++) {
-                      retArr = retArr.concat(children[i]._get(sel));
-                  }
+              shouldStop = child._descendants(fn);
+              if (shouldStop) {
+                  return true;
               }
           }
-          return retArr;
-      };
-      // (fn: ((Node) => boolean, findOne?: boolean)
-      Container.prototype._findByFunction = function (fn, findOne) {
-          var retArr = [];
-          var addItems = function (el) {
-              // escape function if we've already found one.
-              if (findOne && retArr.length > 0) {
-                  return;
-              }
-              var children = el.getChildren();
-              var clen = children.length;
-              if (fn(el)) {
-                  retArr = retArr.concat(el);
-              }
-              for (var i = 0; i < clen; i++) {
-                  addItems(children[i]);
-              }
-          };
-          addItems(this);
-          return retArr;
-      };
-      Container.prototype._getNodeById = function (key) {
-          var node = ids[key];
-          if (node !== undefined && this.isAncestorOf(node)) {
-              return node;
-          }
-          return null;
-      };
-      Container.prototype._getNodesByName = function (key) {
-          var arr = names[key] || [];
-          return this._getDescendants(arr);
-      };
-      Container.prototype._get = function (selector) {
-          var retArr = Node.prototype._get.call(this, selector);
-          var children = this.getChildren();
-          var len = children.length;
-          for (var n = 0; n < len; n++) {
-              retArr = retArr.concat(children[n]._get(selector));
-          }
-          return retArr;
+          return false;
       };
       // extenders
       Container.prototype.toObject = function () {
