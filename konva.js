@@ -4079,9 +4079,18 @@
        * node.name('red');
        * node.hasName('red');   // return true
        * node.hasName('selected'); // return false
+       * node.hasName(''); // return false
        */
       Node.prototype.hasName = function (name) {
-          var names = (this.name() || '').split(/\s/g);
+          if (!name) {
+              return false;
+          }
+          var fullName = this.name();
+          if (!fullName) {
+              return false;
+          }
+          // if name is '' the "names" will be [''], so I added extra check above
+          var names = (fullName || '').split(/\s/g);
           return names.indexOf(name) !== -1;
       };
       /**
