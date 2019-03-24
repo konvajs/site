@@ -3,7 +3,7 @@ title: Save and Load HTML5 Canvas Stage Best Practices
 
 ## What is the best way to save/load full stage content and how to implement undo/redo?
 
-If you want to save/load simple canvas content you can built-in `Konva` methods: `node.toJSON()` and `Node.create(json)`.
+If you want to save/load simple canvas content you can use the built-in `Konva` methods: `node.toJSON()` and `Node.create(json)`.
 See [simple](/docs/data_and_serialization/Simple_Load.html) and [complex](/docs/data_and_serialization/Complex_Load.html) demos.
 
 But those methods are useful only in very small apps. In bigger apps it is VERY hard to use those methods. Why? Because the tree structure is usually very complex in larger apps, you may have a lot of event listeners, images, filters, etc. That data is not serializable into JSON (or it is very hard to do that).
