@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <!-- USE DEVELOPMENT VERSION -->
+    <script src="https://unpkg.com/konva@3.2.4/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Select and Transform Styling Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
 
-<head>
-  <!-- USE DEVELOPMENT VERSION -->
-  <script src="https://unpkg.com/konva@3.2.3/konva.min.js"></script>
-  <meta charset="utf-8">
-  <title>Konva Select and Transform Styling Demo</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #F0F0F0;
-    }
-  </style>
-</head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-<body>
-  <div id="container"></div>
-  <script>
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
 
-    var stage = new Konva.Stage({
-      container: 'container',
-      width: width,
-      height: height
-    });
+      var layer = new Konva.Layer();
+      stage.add(layer);
 
-    var layer = new Konva.Layer();
-    stage.add(layer);
+      var circle = new Konva.Circle({
+        x: 150,
+        y: 150,
+        radius: 70,
+        fill: 'red',
+        draggable: true
+      });
+      layer.add(circle);
 
-    var circle = new Konva.Circle({
-      x: 150,
-      y: 150,
-      radius: 70,
-      fill: 'red',
-      draggable: true,
-    });
-    layer.add(circle)
-
-
-
-
-    // create new transformer
-    var tr = new Konva.Transformer({
-      anchorStroke: 'red',
-      anchorFill: 'yellow',
-      anchorSize: 20,
-      borderStroke: 'green',
-      borderDash: [3, 3],
-    });
-    layer.add(tr);
-    tr.attachTo(circle);
-    layer.draw();
-  </script>
-
-</body>
-
+      // create new transformer
+      var tr = new Konva.Transformer({
+        anchorStroke: 'red',
+        anchorFill: 'yellow',
+        anchorSize: 20,
+        borderStroke: 'green',
+        borderDash: [3, 3]
+      });
+      layer.add(tr);
+      tr.attachTo(circle);
+      layer.draw();
+    </script>
+  </body>
 </html>

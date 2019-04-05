@@ -1,98 +1,97 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <script src="https://unpkg.com/konva@3.2.3/konva.min.js"></script>
-    <meta charset="utf-8">
+  <head>
+    <script src="https://unpkg.com/konva@3.2.4/konva.min.js"></script>
+    <meta charset="utf-8" />
     <title>Konva Custom font loading Demo</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #F0F0F0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
     </style>
 
     <!-- CUSTOM FONT STYLES -->
-    <link href="https://fonts.googleapis.com/css?family=Kavivanar" rel="stylesheet">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Kavivanar"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
     <div id="container"></div>
     <script>
-        // FONT LOADING DETECTION CODE:
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
-        ctx.font = 'normal 20px Kavivanar';
+      // FONT LOADING DETECTION CODE:
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.font = 'normal 20px Kavivanar';
 
-        var isFontLoaded = false;
-        var TEXT_TEXT = 'Some test text;';
-        var initialMeasure = ctx.measureText(TEXT_TEXT);
-        var initialWidth = initialMeasure.width;
+      var isFontLoaded = false;
+      var TEXT_TEXT = 'Some test text;';
+      var initialMeasure = ctx.measureText(TEXT_TEXT);
+      var initialWidth = initialMeasure.width;
 
-        // here is how the function works
-        // different fontFamily may have different width of symbols
-        // when font is not loaded a browser will use startard font as a fallback
-        // probably Arial
-        // when font is loaded measureText will return another width
-        function whenFontIsLoaded(callback, attemptCount) {
-            if (attemptCount === undefined) {
-                attemptCount = 0;
-            }
-            if (attemptCount >= 20) {
-                callback();
-                return;
-            }
-            if (isFontLoaded) {
-                callback();
-                return;
-            }
-            const metrics = ctx.measureText(TEXT_TEXT);
-            const width = metrics.width;
-            if (width !== initialWidth) {
-                isFontLoaded = true;
-                callback();
-            } else {
-                setTimeout(function () {
-                    whenFontIsLoaded(callback, attemptCount + 1);
-                }, 1000);
-            }
+      // here is how the function works
+      // different fontFamily may have different width of symbols
+      // when font is not loaded a browser will use startard font as a fallback
+      // probably Arial
+      // when font is loaded measureText will return another width
+      function whenFontIsLoaded(callback, attemptCount) {
+        if (attemptCount === undefined) {
+          attemptCount = 0;
         }
+        if (attemptCount >= 20) {
+          callback();
+          return;
+        }
+        if (isFontLoaded) {
+          callback();
+          return;
+        }
+        const metrics = ctx.measureText(TEXT_TEXT);
+        const width = metrics.width;
+        if (width !== initialWidth) {
+          isFontLoaded = true;
+          callback();
+        } else {
+          setTimeout(function() {
+            whenFontIsLoaded(callback, attemptCount + 1);
+          }, 1000);
+        }
+      }
 
-        // NOW build our stage
+      // NOW build our stage
 
-        var width = window.innerWidth;
-        var height = window.innerHeight;
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
-        var stage = new Konva.Stage({
-            container: 'container',
-            width: width,
-            height: height
-        });
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
 
-        var layer = new Konva.Layer();
-        stage.add(layer);
-        var text = new Konva.Text({
-            x: 50,
-            y: 50,
-            fontSize: 40,
-            text: 'A text with custom font.',
-            width: 250
-        });
+      var layer = new Konva.Layer();
+      stage.add(layer);
+      var text = new Konva.Text({
+        x: 50,
+        y: 50,
+        fontSize: 40,
+        text: 'A text with custom font.',
+        width: 250
+      });
 
-        layer.add(text);
+      layer.add(text);
+      layer.draw();
+
+      whenFontIsLoaded(function() {
+        // set font style when font is loaded
+        // so Konva will recalculate text wrapping if it has limited width
+        text.fontFamily('Kavivanar');
         layer.draw();
-
-        whenFontIsLoaded(function () {
-            // set font style when font is loaded
-            // so Konva will recalculate text wrapping if it has limited width
-            text.fontFamily('Kavivanar');
-            layer.draw();
-        })
-
+      });
     </script>
-
-</body>
-
+  </body>
 </html>

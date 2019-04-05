@@ -1,76 +1,73 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <!-- USE DEVELOPMENT VERSION -->
-  <script src="https://unpkg.com/konva@3.2.3/konva.min.js"></script>
-  <meta charset="utf-8">
-  <title>Konva Transform Limits Demo</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #F0F0F0;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="container"></div>
-  <script>
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-
-    var stage = new Konva.Stage({
-      container: 'container',
-      width: width,
-      height: height
-    });
-
-    var layer = new Konva.Layer();
-    stage.add(layer);
-
-    var rect = new Konva.Rect({
-      x: 160,
-      y: 60,
-      width: 100,
-      height: 90,
-      fill: 'red',
-      name: 'rect',
-      stroke: 'black',
-      draggable: true,
-    });
-    layer.add(rect);
-
-    var MAX_WIDTH = 200;
-    // create new transformer
-    var tr = new Konva.Transformer({
-      boundBoxFunc: function (oldBoundBox, newBoundBox) {
-        // "boundBox" is an object with
-        // x, y, width, height and rotation properties
-        // transformer tool will try to fit node into that box
-        // "width" property here is a visible width of the object
-        // so it equals to rect.width() * rect.scaleX()
-
-        // the logic is simple, if new width is too big
-        // we will limit it
-        if (newBoundBox.width > MAX_WIDTH) {
-          newBoundBox.width = MAX_WIDTH;
-        }
-
-        // if width is negative, the shape will have negative scaleX, so it will be reverted
-        if (newBoundBox.width < -MAX_WIDTH) {
-          newBoundBox.width = -MAX_WIDTH;
-        }
-        return newBoundBox
+  <head>
+    <!-- USE DEVELOPMENT VERSION -->
+    <script src="https://unpkg.com/konva@3.2.4/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Transform Limits Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
       }
-    });
-    layer.add(tr);
-    tr.attachTo(rect);
-    layer.draw();
-  </script>
+    </style>
+  </head>
 
-</body>
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
 
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var rect = new Konva.Rect({
+        x: 160,
+        y: 60,
+        width: 100,
+        height: 90,
+        fill: 'red',
+        name: 'rect',
+        stroke: 'black',
+        draggable: true
+      });
+      layer.add(rect);
+
+      var MAX_WIDTH = 200;
+      // create new transformer
+      var tr = new Konva.Transformer({
+        boundBoxFunc: function(oldBoundBox, newBoundBox) {
+          // "boundBox" is an object with
+          // x, y, width, height and rotation properties
+          // transformer tool will try to fit node into that box
+          // "width" property here is a visible width of the object
+          // so it equals to rect.width() * rect.scaleX()
+
+          // the logic is simple, if new width is too big
+          // we will limit it
+          if (newBoundBox.width > MAX_WIDTH) {
+            newBoundBox.width = MAX_WIDTH;
+          }
+
+          // if width is negative, the shape will have negative scaleX, so it will be reverted
+          if (newBoundBox.width < -MAX_WIDTH) {
+            newBoundBox.width = -MAX_WIDTH;
+          }
+          return newBoundBox;
+        }
+      });
+      layer.add(tr);
+      tr.attachTo(rect);
+      layer.draw();
+    </script>
+  </body>
 </html>

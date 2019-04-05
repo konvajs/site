@@ -74,16 +74,10 @@
           : typeof WorkerGlobalScope !== 'undefined'
               ? self
               : {};
-  var Konva2;
-  (function (Konva2) {
-      Konva2.version = '@@version';
-  })(Konva2 || (Konva2 = {}));
   var Konva = {
       version: '@@version',
       isBrowser: detectBrowser(),
-      isUnminified: /comment/.test(function () {
-          /* comment */
-      }.toString()),
+      isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
       getAngle: function (angle) {
           return Konva.angleDeg ? angle * PI_OVER_180 : angle;
@@ -671,9 +665,7 @@
           }
       },
       createCanvasElement: function () {
-          var canvas = Konva.isBrowser
-              ? document.createElement('canvas')
-              : new (Konva['_nodeCanvas']())();
+          var canvas = document.createElement('canvas');
           // on some environments canvas.style is readonly
           try {
               canvas.style = canvas.style || {};
@@ -3331,7 +3323,7 @@
        * // move node in x direction by 1px and y direction by 2px
        * node.move({
        *   x: 1,
-       *   y: 2)
+       *   y: 2
        * });
        */
       Node.prototype.move = function (change) {
@@ -4165,9 +4157,10 @@
               evt.target = this;
           }
           var shouldStop = (eventType === MOUSEENTER || eventType === MOUSELEAVE) &&
-              compareShape &&
-              (this._id === compareShape._id ||
-                  (this.isAncestorOf && this.isAncestorOf(compareShape)));
+              ((compareShape &&
+                  (this === compareShape ||
+                      (this.isAncestorOf && this.isAncestorOf(compareShape)))) ||
+                  (this.nodeType === 'Stage' && !compareShape));
           if (!shouldStop) {
               this._fire(eventType, evt);
               // simulate event bubbling
@@ -4384,7 +4377,7 @@
    *
    * // set position
    * node.absolutePosition({
-   *   x: 5
+   *   x: 5,
    *   y: 10
    * });
    */
@@ -4404,7 +4397,7 @@
    *
    * // set position
    * node.position({
-   *   x: 5
+   *   x: 5,
    *   y: 10
    * });
    */
@@ -4526,7 +4519,7 @@
    *
    * // set scale
    * shape.scale({
-   *   x: 2
+   *   x: 2,
    *   y: 3
    * });
    */
@@ -4573,7 +4566,7 @@
    *
    * // set skew
    * node.skew({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -4619,7 +4612,7 @@
    *
    * // set offset
    * node.offset({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -5448,6 +5441,7 @@
 
   // CONSTANTS
   var STAGE$1 = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE$1 = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER$1 = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', CONTEXTMENU = 'contextmenu', CLICK = 'click', DBL_CLICK = 'dblclick', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TAP = 'tap', DBL_TAP = 'dbltap', TOUCHMOVE = 'touchmove', WHEEL = 'wheel', CONTENT_MOUSEOUT = 'contentMouseout', CONTENT_MOUSEOVER = 'contentMouseover', CONTENT_MOUSEMOVE = 'contentMousemove', CONTENT_MOUSEDOWN = 'contentMousedown', CONTENT_MOUSEUP = 'contentMouseup', CONTENT_CONTEXTMENU = 'contentContextmenu', CONTENT_CLICK = 'contentClick', CONTENT_DBL_CLICK = 'contentDblclick', CONTENT_TOUCHSTART = 'contentTouchstart', CONTENT_TOUCHEND = 'contentTouchend', CONTENT_DBL_TAP = 'contentDbltap', CONTENT_TAP = 'contentTap', CONTENT_TOUCHMOVE = 'contentTouchmove', CONTENT_WHEEL = 'contentWheel', RELATIVE = 'relative', KONVA_CONTENT = 'konvajs-content', UNDERSCORE = '_', CONTAINER = 'container', MAX_LAYERS_NUMBER = 5, EMPTY_STRING$1 = '', EVENTS = [
+      MOUSEENTER$1,
       MOUSEDOWN,
       MOUSEMOVE,
       MOUSEUP,
@@ -5707,6 +5701,10 @@
               addEvent(this, EVENTS[n]);
           }
       };
+      Stage.prototype._mouseenter = function (evt) {
+          this.setPointersPositions(evt);
+          this._fire(MOUSEENTER$1, { evt: evt, target: this, currentTarget: this });
+      };
       Stage.prototype._mouseover = function (evt) {
           this.setPointersPositions(evt);
           this._fire(CONTENT_MOUSEOVER, { evt: evt });
@@ -5719,6 +5717,18 @@
               targetShape._fireAndBubble(MOUSEOUT, { evt: evt });
               targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt });
               this.targetShape = null;
+          }
+          else if (!DD.isDragging) {
+              this._fire(MOUSELEAVE$1, {
+                  evt: evt,
+                  target: this,
+                  currentTarget: this
+              });
+              this._fire(MOUSEOUT, {
+                  evt: evt,
+                  target: this,
+                  currentTarget: this
+              });
           }
           this.pointerPos = undefined;
           this._fire(CONTENT_MOUSEOUT, { evt: evt });
@@ -7163,7 +7173,7 @@
    *
    * // set shadow offset
    * shape.shadowOffset({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7470,7 +7480,7 @@
    *
    * // set fill pattern offset
    * shape.fillPatternOffset({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7517,7 +7527,7 @@
    *
    * // set fill pattern scale
    * shape.fillPatternScale({
-   *   x: 2
+   *   x: 2,
    *   y: 2
    * });
    */
@@ -7567,7 +7577,7 @@
    *
    * // set fill linear gradient start point
    * shape.fillLinearGradientStartPoint({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7589,7 +7599,7 @@
    *
    * // set stroke linear gradient start point
    * shape.strokeLinearGradientStartPoint({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7667,7 +7677,7 @@
    *
    * // set fill linear gradient end point
    * shape.fillLinearGradientEndPoint({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7689,7 +7699,7 @@
    *
    * // set stroke linear gradient end point
    * shape.strokeLinearGradientEndPoint({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7767,7 +7777,7 @@
    *
    * // set fill radial gradient start point
    * shape.fillRadialGradientStartPoint({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -7817,7 +7827,7 @@
    *
    * // set fill radial gradient end point
    * shape.fillRadialGradientEndPoint({
-   *   x: 20
+   *   x: 20,
    *   y: 10
    * });
    */
@@ -9389,7 +9399,7 @@
    * var circle = new Konva.Circle({
    *   radius: 40,
    *   fill: 'red',
-   *   stroke: 'black'
+   *   stroke: 'black',
    *   strokeWidth: 5
    * });
    */
@@ -9456,7 +9466,8 @@
    *   radius : {
    *     x : 50,
    *     y : 50
-   *   } *   fill: 'red'
+   *   },
+   *   fill: 'red'
    * });
    */
   var Ellipse = /** @class */ (function (_super) {
@@ -11010,7 +11021,8 @@
    *         229, 109, 60, 98,
    *         287, 109, 41, 98
    *       ]
-   *     } *     frameRate: 7,
+   *     },
+   *     frameRate: 7,
    *     frameIndex: 0
    *   });
    * };
@@ -11374,7 +11386,7 @@
   // constants
   var AUTO = 'auto', 
   //CANVAS = 'canvas',
-  CENTER = 'center', JUSTIFY = 'justify', CHANGE_KONVA$1 = 'Change.konva', CONTEXT_2D = '2d', DASH = '-', LEFT$1 = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL = 'normal', PX_SPACE = 'px ', SPACE$2 = ' ', RIGHT$1 = 'right', WORD = 'word', CHAR = 'char', NONE$1 = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
+  CENTER = 'center', JUSTIFY = 'justify', CHANGE_KONVA$1 = 'Change.konva', CONTEXT_2D = '2d', DASH = '-', LEFT$1 = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL = 'normal', PX_SPACE = 'px ', SPACE$1 = ' ', RIGHT$1 = 'right', WORD = 'word', CHAR = 'char', NONE$1 = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
       'fontFamily',
       'fontSize',
       'fontStyle',
@@ -11618,15 +11630,15 @@
           // fix for: https://github.com/konvajs/konva/issues/94
           if (Konva.UA.isIE) {
               return (this.fontStyle() +
-                  SPACE$2 +
+                  SPACE$1 +
                   this.fontSize() +
                   PX_SPACE +
                   this.fontFamily());
           }
           return (this.fontStyle() +
-              SPACE$2 +
+              SPACE$1 +
               this.fontVariant() +
-              SPACE$2 +
+              SPACE$1 +
               this.fontSize() +
               PX_SPACE +
               this.fontFamily());
@@ -11687,13 +11699,13 @@
                               // try to find a space or dash where wrapping could be done
                               var wrapIndex;
                               var nextChar = line[match.length];
-                              var nextIsSpaceOrDash = nextChar === SPACE$2 || nextChar === DASH;
+                              var nextIsSpaceOrDash = nextChar === SPACE$1 || nextChar === DASH;
                               if (nextIsSpaceOrDash && matchWidth <= maxWidth) {
                                   wrapIndex = match.length;
                               }
                               else {
                                   wrapIndex =
-                                      Math.max(match.lastIndexOf(SPACE$2), match.lastIndexOf(DASH)) +
+                                      Math.max(match.lastIndexOf(SPACE$1), match.lastIndexOf(DASH)) +
                                           1;
                               }
                               if (wrapIndex > 0) {
@@ -12028,12 +12040,13 @@
    *   'A': {
    *     ' ': -0.05517578125,
    *     'T': -0.07421875,
-   *     'V': -0.07421875,
-   *   } *   'V': {
+   *     'V': -0.07421875
+   *   }
+   *   'V': {
    *     ',': -0.091796875,
    *     ":": -0.037109375,
    *     ";": -0.037109375,
-   *     "A": -0.07421875,
+   *     "A": -0.07421875
    *   }
    * }
    * var textpath = new Konva.TextPath({
