@@ -116,7 +116,8 @@
         var node = new Konva.Circle({
           id: target.id,
           fill: Konva.Util.getRandomColor(),
-          radius: 20 + Math.random() * 50,
+          radius: 20 + Math.random() * 20,
+          shadowBlur: 10,
           draggable: true
         });
         layer.add(node);
