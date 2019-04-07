@@ -4,7 +4,7 @@ layout: vue_page
 
 All `vue-konva` components correspond to Konva components of the same name with the prefix 'v-'. All the parameters available for Konva objects can add as config in the prop for corresponding `vue-konva` components.
 
-Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-svgpath`, `v-regular-polygon`. Also you can create [custom shape]().
+Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`. Also you can create [custom shape](/docs/vue/Custom_Shape.html).
 
 To get more info about Konva you can read [Konva Overview](/docs/overview.html).
 
