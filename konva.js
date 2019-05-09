@@ -3447,7 +3447,7 @@
       Node.prototype.setZIndex = function (zIndex) {
           if (!this.parent) {
               Util.warn('Node has no parent. zIndex parameter is ignored.');
-              return false;
+              return this;
           }
           if (zIndex < 0 || zIndex >= this.parent.children.length) {
               Util.warn('Unexpected value ' +
@@ -3969,7 +3969,7 @@
       /**
        * get the node type, which may return Stage, Layer, Group, or Shape
        * @method
-       * @name Konva.Node#getTranslation
+       * @name Konva.Node#getType
        * @returns {String}
        */
       Node.prototype.getType = function () {
@@ -5277,7 +5277,7 @@
           var that = this;
           this.children.each(function (child) {
               // skip invisible children
-              if (!child.getVisible()) {
+              if (!child.visible()) {
                   return;
               }
               var rect = child.getClientRect({
@@ -12804,6 +12804,9 @@
                   height: 0,
                   rotation: 0
               };
+          }
+          if (node.parent && this.parent && node.parent !== this.parent) {
+              Util.warn('Transformer and attached node have different parents. Konva does not support such case right now. Please move Transformer to the parent of attaching node.');
           }
           var rect = node.getClientRect({
               skipTransform: true,
