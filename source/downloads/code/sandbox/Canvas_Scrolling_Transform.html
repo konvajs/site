@@ -71,10 +71,10 @@
 
       var scrollContainer = document.getElementById('scroll-container');
       function repositionStage() {
-        var dx = scrollContainer.scrollLeft;
-        var dy = scrollContainer.scrollTop;
+        var dx = scrollContainer.scrollLeft - PADDING;
+        var dy = scrollContainer.scrollTop - PADDING;
         stage.container().style.transform =
-          'translate(' + (dx - PADDING) + 'px, ' + (dy - PADDING) + 'px)';
+          'translate(' + dx + 'px, ' + dy + 'px)';
         stage.x(-dx);
         stage.y(-dy);
         stage.batchDraw();
