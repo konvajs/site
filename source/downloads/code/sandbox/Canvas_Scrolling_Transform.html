@@ -41,10 +41,14 @@
       var HEIGHT = 3000;
       var NUMBER = 200;
 
+      // padding will increase the size of stage
+      // so scrolling will look smoother
+      var PADDING = 500;
+
       var stage = new Konva.Stage({
         container: 'container',
-        width: window.innerWidth,
-        height: window.innerHeight
+        width: window.innerWidth + PADDING * 2,
+        height: window.innerHeight + PADDING * 2
       });
 
       var layer = new Konva.Layer();
@@ -66,15 +70,17 @@
       layer.draw();
 
       var scrollContainer = document.getElementById('scroll-container');
-      scrollContainer.addEventListener('scroll', function() {
+      function repositionStage() {
         var dx = scrollContainer.scrollLeft;
         var dy = scrollContainer.scrollTop;
         stage.container().style.transform =
-          'translate(' + dx + 'px, ' + dy + 'px)';
+          'translate(' + (dx - PADDING) + 'px, ' + (dy - PADDING) + 'px)';
         stage.x(-dx);
         stage.y(-dy);
         stage.batchDraw();
-      });
+      }
+      scrollContainer.addEventListener('scroll', repositionStage);
+      repositionStage();
     </script>
   </body>
 </html>
