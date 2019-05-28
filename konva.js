@@ -83,6 +83,7 @@
           return Konva.angleDeg ? angle * PI_OVER_180 : angle;
       },
       enableTrace: false,
+      _pointerEventsEnabled: false,
       // TODO: move that to stage?
       listenClickTap: false,
       inDblClickWindow: false,
@@ -1346,6 +1347,7 @@
       'createPattern',
       'createRadialGradient',
       'drawImage',
+      'ellipse',
       'fill',
       'fillText',
       'getImageData',
@@ -1610,6 +1612,9 @@
           else if (a.length === 9) {
               _context.drawImage(a0, a1, a2, a3, a4, a5, a6, a7, a8);
           }
+      };
+      Context.prototype.ellipse = function (a0, a1, a2, a3, a4, a5, a6, a7) {
+          this._context.ellipse(a0, a1, a2, a3, a4, a5, a6, a7);
       };
       Context.prototype.isPointInPath = function (x, y) {
           return this._context.isPointInPath(x, y);
@@ -2464,11 +2469,12 @@
    */
   var Node = /** @class */ (function () {
       function Node(config) {
+          var _this = this;
           this._id = idCounter++;
           this.eventListeners = {};
           this.attrs = {};
           this.index = 0;
-          this.parent = null;
+          this.parent = undefined;
           this._cache = new Map();
           this._lastPos = null;
           this._filterUpToDate = false;
@@ -2477,20 +2483,20 @@
           this.setAttrs(config);
           // event bindings for cache handling
           this.on(TRANSFORM_CHANGE_STR, function () {
-              this._clearCache(TRANSFORM);
-              this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
+              _this._clearCache(TRANSFORM);
+              _this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
           });
           this.on(SCALE_CHANGE_STR, function () {
-              this._clearSelfAndDescendantCache(ABSOLUTE_SCALE);
+              _this._clearSelfAndDescendantCache(ABSOLUTE_SCALE);
           });
           this.on('visibleChange.konva', function () {
-              this._clearSelfAndDescendantCache(VISIBLE);
+              _this._clearSelfAndDescendantCache(VISIBLE);
           });
           this.on('listeningChange.konva', function () {
-              this._clearSelfAndDescendantCache(LISTENING);
+              _this._clearSelfAndDescendantCache(LISTENING);
           });
           this.on('opacityChange.konva', function () {
-              this._clearSelfAndDescendantCache(ABSOLUTE_OPACITY);
+              _this._clearSelfAndDescendantCache(ABSOLUTE_OPACITY);
           });
       }
       Node.prototype.hasChildren = function () {
@@ -2785,67 +2791,6 @@
           }
           return sceneCanvas;
       };
-      /**
-       * bind events to the node. KonvaJS supports mouseover, mousemove,
-       *  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,
-       *  touchend, tap, dbltap, dragstart, dragmove, and dragend events.
-       *  Pass in a string of events delimited by a space to bind multiple events at once
-       *  such as 'mousedown mouseup mousemove'. Include a namespace to bind an
-       *  event by name such as 'click.foobar'.
-       * @method
-       * @name Konva.Node#on
-       * @param {String} evtStr e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo'
-       * @param {Function} handler The handler function is passed an event object
-       * @returns {Konva.Node}
-       * @example
-       * // add click listener
-       * node.on('click', function() {
-       *   console.log('you clicked me!');
-       * });
-       *
-       * // get the target node
-       * node.on('click', function(evt) {
-       *   console.log(evt.target);
-       * });
-       *
-       * // stop event propagation
-       * node.on('click', function(evt) {
-       *   evt.cancelBubble = true;
-       * });
-       *
-       * // bind multiple listeners
-       * node.on('click touchstart', function() {
-       *   console.log('you clicked/touched me!');
-       * });
-       *
-       * // namespace listener
-       * node.on('click.foo', function() {
-       *   console.log('you clicked/touched me!');
-       * });
-       *
-       * // get the event type
-       * node.on('click tap', function(evt) {
-       *   var eventType = evt.type;
-       * });
-       *
-       * // get native event object
-       * node.on('click tap', function(evt) {
-       *   var nativeEvent = evt.evt;
-       * });
-       *
-       * // for change events, get the old and new val
-       * node.on('xChange', function(evt) {
-       *   var oldVal = evt.oldVal;
-       *   var newVal = evt.newVal;
-       * });
-       *
-       * // get event targets
-       * // with event delegations
-       * layer.on('click', 'Group', function(evt) {
-       *   var shape = evt.target;
-       *   var group = evt.currentTarget;
-       * });
-       */
       Node.prototype.on = function (evtStr, handler) {
           if (arguments.length === 3) {
               return this._delegate.apply(this, arguments);
@@ -3475,7 +3420,7 @@
           var absOpacity = this.opacity();
           var parent = this.getParent();
           if (parent && !parent._isUnderCache) {
-              absOpacity *= this.getParent().getAbsoluteOpacity();
+              absOpacity *= parent.getAbsoluteOpacity();
           }
           return absOpacity;
       };
@@ -4270,8 +4215,8 @@
       Node.prototype._listenDrag = function () {
           this._dragCleanup();
           this.on('mousedown.konva touchstart.konva', function (evt) {
-              var shouldCheckButton = evt.evt.button !== undefined;
-              var canDrag = !shouldCheckButton || Konva.dragButtons.indexOf(evt.evt.button) >= 0;
+              var shouldCheckButton = evt.evt['button'] !== undefined;
+              var canDrag = !shouldCheckButton || Konva.dragButtons.indexOf(evt.evt['button']) >= 0;
               if (!canDrag) {
                   return;
               }
@@ -5439,8 +5384,40 @@
    */
   Collection.mapMethods(Container);
 
+  var Captures = new Map();
+  function getCapturedShape(pointerId) {
+      return Captures.get(pointerId);
+  }
+  function createEvent(evt) {
+      return {
+          evt: evt,
+          pointerId: evt.pointerId
+      };
+  }
+  function hasPointerCapture(pointerId, shape) {
+      return Captures.get(pointerId) === shape;
+  }
+  function setPointerCapture(pointerId, shape) {
+      releaseCapture(pointerId);
+      var content = shape.getStage().content;
+      content.setPointerCapture(pointerId);
+      Captures.set(pointerId, shape);
+      shape._fire('gotpointercapture', createEvent(new PointerEvent('gotpointercapture')));
+  }
+  function releaseCapture(pointerId, target) {
+      var shape = Captures.get(pointerId);
+      if (!shape)
+          return;
+      var content = shape.getStage().content;
+      content.releasePointerCapture(pointerId);
+      Captures.delete(pointerId);
+      shape._fire('lostpointercapture', createEvent(new PointerEvent('lostpointercapture')));
+  }
+
   // CONSTANTS
-  var STAGE$1 = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE$1 = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER$1 = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', CONTEXTMENU = 'contextmenu', CLICK = 'click', DBL_CLICK = 'dblclick', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TAP = 'tap', DBL_TAP = 'dbltap', TOUCHMOVE = 'touchmove', WHEEL = 'wheel', CONTENT_MOUSEOUT = 'contentMouseout', CONTENT_MOUSEOVER = 'contentMouseover', CONTENT_MOUSEMOVE = 'contentMousemove', CONTENT_MOUSEDOWN = 'contentMousedown', CONTENT_MOUSEUP = 'contentMouseup', CONTENT_CONTEXTMENU = 'contentContextmenu', CONTENT_CLICK = 'contentClick', CONTENT_DBL_CLICK = 'contentDblclick', CONTENT_TOUCHSTART = 'contentTouchstart', CONTENT_TOUCHEND = 'contentTouchend', CONTENT_DBL_TAP = 'contentDbltap', CONTENT_TAP = 'contentTap', CONTENT_TOUCHMOVE = 'contentTouchmove', CONTENT_WHEEL = 'contentWheel', RELATIVE = 'relative', KONVA_CONTENT = 'konvajs-content', UNDERSCORE = '_', CONTAINER = 'container', MAX_LAYERS_NUMBER = 5, EMPTY_STRING$1 = '', EVENTS = [
+  var STAGE$1 = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE$1 = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER$1 = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', 
+  // TODO: add them into "on" method docs and into site docs
+  POINTERMOVE = 'pointermove', POINTERDOWN = 'pointerdown', POINTERUP = 'pointerup', POINTERCANCEL = 'pointercancel', LOSTPOINTERCAPTURE = 'lostpointercapture', CONTEXTMENU = 'contextmenu', CLICK = 'click', DBL_CLICK = 'dblclick', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TAP = 'tap', DBL_TAP = 'dbltap', TOUCHMOVE = 'touchmove', WHEEL = 'wheel', CONTENT_MOUSEOUT = 'contentMouseout', CONTENT_MOUSEOVER = 'contentMouseover', CONTENT_MOUSEMOVE = 'contentMousemove', CONTENT_MOUSEDOWN = 'contentMousedown', CONTENT_MOUSEUP = 'contentMouseup', CONTENT_CONTEXTMENU = 'contentContextmenu', CONTENT_CLICK = 'contentClick', CONTENT_DBL_CLICK = 'contentDblclick', CONTENT_TOUCHSTART = 'contentTouchstart', CONTENT_TOUCHEND = 'contentTouchend', CONTENT_DBL_TAP = 'contentDbltap', CONTENT_TAP = 'contentTap', CONTENT_TOUCHMOVE = 'contentTouchmove', CONTENT_WHEEL = 'contentWheel', RELATIVE = 'relative', KONVA_CONTENT = 'konvajs-content', UNDERSCORE = '_', CONTAINER = 'container', MAX_LAYERS_NUMBER = 5, EMPTY_STRING$1 = '', EVENTS = [
       MOUSEENTER$1,
       MOUSEDOWN,
       MOUSEMOVE,
@@ -5451,7 +5428,12 @@
       TOUCHEND,
       MOUSEOVER,
       WHEEL,
-      CONTEXTMENU
+      CONTEXTMENU,
+      POINTERDOWN,
+      POINTERMOVE,
+      POINTERUP,
+      POINTERCANCEL,
+      LOSTPOINTERCAPTURE
   ], 
   // cached variables
   eventsLength = EVENTS.length;
@@ -6009,6 +5991,55 @@
               });
           }
           this._fire(CONTENT_WHEEL, { evt: evt });
+      };
+      Stage.prototype._pointerdown = function (evt) {
+          if (!Konva._pointerEventsEnabled) {
+              return;
+          }
+          this.setPointersPositions(evt);
+          var shape = getCapturedShape(evt.pointerId) ||
+              this.getIntersection(this.getPointerPosition());
+          if (shape) {
+              shape._fireAndBubble(POINTERDOWN, createEvent(evt));
+          }
+      };
+      Stage.prototype._pointermove = function (evt) {
+          if (!Konva._pointerEventsEnabled) {
+              return;
+          }
+          this.setPointersPositions(evt);
+          var shape = getCapturedShape(evt.pointerId) ||
+              this.getIntersection(this.getPointerPosition());
+          if (shape) {
+              shape._fireAndBubble(POINTERMOVE, createEvent(evt));
+          }
+      };
+      Stage.prototype._pointerup = function (evt) {
+          if (!Konva._pointerEventsEnabled) {
+              return;
+          }
+          this.setPointersPositions(evt);
+          var shape = getCapturedShape(evt.pointerId) ||
+              this.getIntersection(this.getPointerPosition());
+          if (shape) {
+              shape._fireAndBubble(POINTERUP, createEvent(evt));
+          }
+          releaseCapture(evt.pointerId);
+      };
+      Stage.prototype._pointercancel = function (evt) {
+          if (!Konva._pointerEventsEnabled) {
+              return;
+          }
+          this.setPointersPositions(evt);
+          var shape = getCapturedShape(evt.pointerId) ||
+              this.getIntersection(this.getPointerPosition());
+          if (shape) {
+              shape._fireAndBubble(POINTERUP, createEvent(evt));
+          }
+          releaseCapture(evt.pointerId);
+      };
+      Stage.prototype._lostpointercapture = function (evt) {
+          releaseCapture(evt.pointerId);
       };
       /**
        * manually register pointers positions (mouse/touch) in the stage.
@@ -6635,7 +6666,7 @@
       // it give better result when a shape has
       // stroke with fill and with some opacity
       Shape.prototype._useBufferCanvas = function (caching) {
-          return ((!caching || this.hasShadow()) &&
+          return !!((!caching || this.hasShadow()) &&
               this.perfectDrawEnabled() &&
               this.getAbsoluteOpacity() !== 1 &&
               this.hasFill() &&
@@ -6866,7 +6897,8 @@
        * shape.drawHitFromCache();
        */
       Shape.prototype.drawHitFromCache = function (alphaThreshold) {
-          var threshold = alphaThreshold || 0, cachedCanvas = this._getCanvasCache(), sceneCanvas = this._getCachedSceneCanvas(), hitCanvas = cachedCanvas.hit, hitContext = hitCanvas.getContext(), hitWidth = hitCanvas.getWidth(), hitHeight = hitCanvas.getHeight(), hitImageData, hitData, len, rgbColorKey, i, alpha;
+          if (alphaThreshold === void 0) { alphaThreshold = 0; }
+          var cachedCanvas = this._getCanvasCache(), sceneCanvas = this._getCachedSceneCanvas(), hitCanvas = cachedCanvas.hit, hitContext = hitCanvas.getContext(), hitWidth = hitCanvas.getWidth(), hitHeight = hitCanvas.getHeight(), hitImageData, hitData, len, rgbColorKey, i, alpha;
           hitContext.clear();
           hitContext.drawImage(sceneCanvas._canvas, 0, 0, hitWidth, hitHeight);
           try {
@@ -6877,7 +6909,7 @@
               // replace non transparent pixels with color key
               for (i = 0; i < len; i += 4) {
                   alpha = hitData[i + 3];
-                  if (alpha > threshold) {
+                  if (alpha > alphaThreshold) {
                       hitData[i] = rgbColorKey.r;
                       hitData[i + 1] = rgbColorKey.g;
                       hitData[i + 2] = rgbColorKey.b;
@@ -6893,6 +6925,15 @@
               Util.error('Unable to draw hit graph from cached scene canvas. ' + e.message);
           }
           return this;
+      };
+      Shape.prototype.hasPointerCapture = function (pointerId) {
+          return hasPointerCapture(pointerId, this);
+      };
+      Shape.prototype.setPointerCapture = function (pointerId) {
+          setPointerCapture(pointerId, this);
+      };
+      Shape.prototype.releaseCapture = function (pointerId) {
+          releaseCapture(pointerId, this);
       };
       return Shape;
   }(Node));
@@ -9584,7 +9625,7 @@
           return _super !== null && _super.apply(this, arguments) || this;
       }
       Image.prototype._useBufferCanvas = function () {
-          return ((this.hasShadow() || this.getAbsoluteOpacity() !== 1) &&
+          return !!((this.hasShadow() || this.getAbsoluteOpacity() !== 1) &&
               this.hasStroke() &&
               this.getStage());
       };
@@ -10075,7 +10116,7 @@
               _this.pathLength += _this.dataArray[i].pathLength;
           }
           _this.on('dataChange.konva', function () {
-              this.dataArray = Path.parsePathData(this.getData());
+              this.dataArray = Path.parsePathData(this.data());
               this.pathLength = 0;
               for (var i = 0; i < this.dataArray.length; ++i) {
                   this.pathLength += this.dataArray[i].pathLength;
@@ -12847,6 +12888,7 @@
           this._createAnchor('rotater');
       };
       Transformer.prototype._createAnchor = function (name) {
+          var _this = this;
           var anchor = new Rect({
               stroke: 'rgb(0, 161, 255)',
               fill: 'white',
@@ -12870,21 +12912,20 @@
           });
           // add hover styling
           anchor.on('mouseenter', function () {
-              var tr = this.getParent();
-              var rad = Konva.getAngle(tr.rotation());
-              var scale = tr.getNode().getAbsoluteScale();
+              var rad = Konva.getAngle(_this.rotation());
+              var scale = _this.getNode().getAbsoluteScale();
               // If scale.y < 0 xor scale.x < 0 we need to flip (not rotate).
               var isMirrored = scale.y * scale.x < 0;
               var cursor = getCursor(name, rad, isMirrored);
               anchor.getStage().content.style.cursor = cursor;
-              tr._cursorChange = true;
+              _this._cursorChange = true;
           });
           anchor.on('mouseout', function () {
-              if (!anchor.getStage() || !this.getParent()) {
+              if (!anchor.getStage() || !anchor.getParent()) {
                   return;
               }
               anchor.getStage().content.style.cursor = '';
-              this.getParent()._cursorChange = false;
+              _this._cursorChange = false;
           });
           this.add(anchor);
       };
@@ -12915,8 +12956,8 @@
           var width = attrs.width;
           var height = attrs.height;
           var hypotenuse = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
-          this.sin = height / hypotenuse;
-          this.cos = width / hypotenuse;
+          this.sin = Math.abs(height / hypotenuse);
+          this.cos = Math.abs(width / hypotenuse);
           window.addEventListener('mousemove', this._handleMouseMove);
           window.addEventListener('touchmove', this._handleMouseMove);
           window.addEventListener('mouseup', this._handleMouseUp, true);
@@ -12949,8 +12990,11 @@
               if (keepProportion) {
                   newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - resizerNode.x(), 2) +
                       Math.pow(this.findOne('.bottom-right').y() - resizerNode.y(), 2));
-                  x = newHypotenuse * this.cos;
-                  y = newHypotenuse * this.sin;
+                  var reverse = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverse;
+                  y = newHypotenuse * this.sin * reverse;
                   this.findOne('.top-left').x(this.findOne('.bottom-right').x() - x);
                   this.findOne('.top-left').y(this.findOne('.bottom-right').y() - y);
               }
@@ -12962,8 +13006,11 @@
               if (keepProportion) {
                   newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-left').x() - resizerNode.x(), 2) +
                       Math.pow(this.findOne('.bottom-left').y() - resizerNode.y(), 2));
-                  x = newHypotenuse * this.cos;
-                  y = newHypotenuse * this.sin;
+                  var reverse = this.findOne('.top-right').x() < this.findOne('.top-left').x()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverse;
+                  y = newHypotenuse * this.sin * reverse;
                   this.findOne('.top-right').x(x);
                   this.findOne('.top-right').y(this.findOne('.bottom-left').y() - y);
               }
@@ -12981,8 +13028,11 @@
               if (keepProportion) {
                   newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - resizerNode.x(), 2) +
                       Math.pow(this.findOne('.top-right').y() - resizerNode.y(), 2));
-                  x = newHypotenuse * this.cos;
-                  y = newHypotenuse * this.sin;
+                  var reverse = this.findOne('.top-right').x() < this.findOne('.bottom-left').x()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverse;
+                  y = newHypotenuse * this.sin * reverse;
                   this.findOne('.bottom-left').x(this.findOne('.top-right').x() - x);
                   this.findOne('.bottom-left').y(y);
               }
@@ -12997,8 +13047,11 @@
               if (keepProportion) {
                   newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x(), 2) +
                       Math.pow(this.findOne('.bottom-right').y(), 2));
-                  x = newHypotenuse * this.cos;
-                  y = newHypotenuse * this.sin;
+                  var reverse = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverse;
+                  y = newHypotenuse * this.sin * reverse;
                   this.findOne('.bottom-right').x(x);
                   this.findOne('.bottom-right').y(y);
               }
