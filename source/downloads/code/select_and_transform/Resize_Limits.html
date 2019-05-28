@@ -53,15 +53,11 @@
           // so it equals to rect.width() * rect.scaleX()
 
           // the logic is simple, if new width is too big
-          // we will limit it
-          if (newBoundBox.width > MAX_WIDTH) {
-            newBoundBox.width = MAX_WIDTH;
+          // we will return previous state
+          if (Math.abs(newBoundBox.width) > MAX_WIDTH) {
+            return oldBoundBox;
           }
 
-          // if width is negative, the shape will have negative scaleX, so it will be reverted
-          if (newBoundBox.width < -MAX_WIDTH) {
-            newBoundBox.width = -MAX_WIDTH;
-          }
           return newBoundBox;
         }
       });
