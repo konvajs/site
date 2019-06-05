@@ -1384,7 +1384,8 @@
       'textAlign',
       'textBaseline',
       'globalAlpha',
-      'globalCompositeOperation'
+      'globalCompositeOperation',
+      'imageSmoothingEnabled'
   ];
   // TODO: document all context methods
   var traceArrMax = 100;
@@ -2087,7 +2088,7 @@
       };
   })();
   /**
-   * Animation constructor.  A stage is used to contain multiple layers and handle
+   * Animation constructor.
    * @constructor
    * @memberof Konva
    * @param {Function} func function executed on each animation frame.  The function is passed a frame object, which contains
@@ -2104,7 +2105,7 @@
    *
    * var anim = new Konva.Animation(function(frame) {
    *   var dist = velocity * (frame.timeDiff / 1000);
-   *   node.move(dist, 0);
+   *   node.move({x: dist, y: 0});
    * }, layer);
    *
    * anim.start();
@@ -2457,6 +2458,7 @@
       'offsetYChange.konva',
       'transformsEnabledChange.konva'
   ].join(SPACE), SCALE_CHANGE_STR = ['scaleXChange.konva', 'scaleYChange.konva'].join(SPACE);
+  // TODO: can we remove children from node?
   var emptyChildren = new Collection();
   var idCounter = 1;
   /**
@@ -2474,7 +2476,7 @@
           this.eventListeners = {};
           this.attrs = {};
           this.index = 0;
-          this.parent = undefined;
+          this.parent = null;
           this._cache = new Map();
           this._lastPos = null;
           this._filterUpToDate = false;
@@ -2571,6 +2573,7 @@
        * @param {Boolean} [config.drawBorder] when set to true, a red border will be drawn around the cached
        *  region for debugging purposes
        * @param {Number} [config.pixelRatio] change quality (or pixel ratio) of cached image. pixelRatio = 2 will produce 2x sized cache.
+       * @param {Boolean} [config.imageSmoothingEnabled] control imageSmoothingEnabled property of created canvas for cache
        * @returns {Konva.Node}
        * @example
        * // cache a shape with the x,y position of the bounding box at the center and
@@ -2636,6 +2639,11 @@
           cachedHitCanvas.isCache = true;
           this._cache.delete('canvas');
           this._filterUpToDate = false;
+          if (conf.imageSmoothingEnabled === false) {
+              cachedSceneCanvas.getContext()._context.imageSmoothingEnabled = false;
+              cachedFilterCanvas.getContext()._context.imageSmoothingEnabled = false;
+              cachedHitCanvas.getContext()._context.imageSmoothingEnabled = false;
+          }
           sceneContext.save();
           hitContext.save();
           sceneContext.translate(-x, -y);
@@ -2791,6 +2799,67 @@
           }
           return sceneCanvas;
       };
+      /**
+       * bind events to the node. KonvaJS supports mouseover, mousemove,
+       *  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,
+       *  touchend, tap, dbltap, dragstart, dragmove, and dragend events.
+       *  Pass in a string of events delimited by a space to bind multiple events at once
+       *  such as 'mousedown mouseup mousemove'. Include a namespace to bind an
+       *  event by name such as 'click.foobar'.
+       * @method
+       * @name Konva.Node#on
+       * @param {String} evtStr e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo'
+       * @param {Function} handler The handler function is passed an event object
+       * @returns {Konva.Node}
+       * @example
+       * // add click listener
+       * node.on('click', function() {
+       *   console.log('you clicked me!');
+       * });
+       *
+       * // get the target node
+       * node.on('click', function(evt) {
+       *   console.log(evt.target);
+       * });
+       *
+       * // stop event propagation
+       * node.on('click', function(evt) {
+       *   evt.cancelBubble = true;
+       * });
+       *
+       * // bind multiple listeners
+       * node.on('click touchstart', function() {
+       *   console.log('you clicked/touched me!');
+       * });
+       *
+       * // namespace listener
+       * node.on('click.foo', function() {
+       *   console.log('you clicked/touched me!');
+       * });
+       *
+       * // get the event type
+       * node.on('click tap', function(evt) {
+       *   var eventType = evt.type;
+       * });
+       *
+       * // get native event object
+       * node.on('click tap', function(evt) {
+       *   var nativeEvent = evt.evt;
+       * });
+       *
+       * // for change events, get the old and new val
+       * node.on('xChange', function(evt) {
+       *   var oldVal = evt.oldVal;
+       *   var newVal = evt.newVal;
+       * });
+       *
+       * // get event targets
+       * // with event delegations
+       * layer.on('click', 'Group', function(evt) {
+       *   var shape = evt.target;
+       *   var group = evt.currentTarget;
+       * });
+       */
       Node.prototype.on = function (evtStr, handler) {
           if (arguments.length === 3) {
               return this._delegate.apply(this, arguments);
@@ -5399,8 +5468,9 @@
   }
   function setPointerCapture(pointerId, shape) {
       releaseCapture(pointerId);
-      var content = shape.getStage().content;
-      content.setPointerCapture(pointerId);
+      var stage = shape.getStage();
+      if (!stage)
+          return;
       Captures.set(pointerId, shape);
       shape._fire('gotpointercapture', createEvent(new PointerEvent('gotpointercapture')));
   }
@@ -5408,8 +5478,10 @@
       var shape = Captures.get(pointerId);
       if (!shape)
           return;
-      var content = shape.getStage().content;
-      content.releasePointerCapture(pointerId);
+      var stage = shape.getStage();
+      if (stage && stage.content) {
+          stage.content.releasePointerCapture(pointerId);
+      }
       Captures.delete(pointerId);
       shape._fire('lostpointercapture', createEvent(new PointerEvent('lostpointercapture')));
   }
@@ -5666,6 +5738,15 @@
       };
       Stage.prototype.getLayer = function () {
           return null;
+      };
+      Stage.prototype.hasPointerCapture = function (pointerId) {
+          return hasPointerCapture(pointerId, this);
+      };
+      Stage.prototype.setPointerCapture = function (pointerId) {
+          setPointerCapture(pointerId, this);
+      };
+      Stage.prototype.releaseCapture = function (pointerId) {
+          releaseCapture(pointerId, this);
       };
       /**
        * returns a {@link Konva.Collection} of layers
@@ -6175,6 +6256,8 @@
           _this._waitingForDraw = false;
           _this.on('visibleChange', _this._checkVisibility);
           _this._checkVisibility();
+          _this.on('imageSmoothingEnabledChange', _this._checkSmooth);
+          _this._checkSmooth();
           return _this;
       }
       // for nodejs?
@@ -6333,6 +6416,9 @@
               this.canvas._canvas.style.display = 'none';
           }
       };
+      BaseLayer.prototype._checkSmooth = function () {
+          this.getContext()._context.imageSmoothingEnabled = this.imageSmoothingEnabled();
+      };
       /**
        * get/set width of layer.getter return width of stage. setter doing nothing.
        * if you want change width use `stage.width(value);`
@@ -6398,6 +6484,24 @@
       return BaseLayer;
   }(Container));
   BaseLayer.prototype.nodeType = 'BaseLayer';
+  /**
+   * get/set imageSmoothingEnabled flag
+   * For more info see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled
+   * @name Konva.BaseLayer#imageSmoothingEnabled
+   * @method
+   * @param {Boolean} imageSmoothingEnabled
+   * @returns {Boolean}
+   * @example
+   * // get imageSmoothingEnabled flag
+   * var imageSmoothingEnabled = layer.imageSmoothingEnabled();
+   *
+   * // disable clear before draw
+   * layer.imageSmoothingEnabled(false);
+   *
+   * // enable clear before draw
+   * layer.imageSmoothingEnabled(true);
+   */
+  Factory.addGetterSetter(BaseLayer, 'imageSmoothingEnabled', true);
   /**
    * get/set clearBeforeDraw flag which determines if the layer is cleared or not
    *  before drawing
@@ -7971,6 +8075,7 @@
       Layer.prototype._setCanvasSize = function (width, height) {
           this.canvas.setSize(width, height);
           this.hitCanvas.setSize(width, height);
+          this._checkSmooth();
       };
       Layer.prototype._validateAdd = function (child) {
           var type = child.getType();
@@ -8192,6 +8297,7 @@
       };
       FastLayer.prototype._setCanvasSize = function (width, height) {
           this.canvas.setSize(width, height);
+          this._checkSmooth();
       };
       FastLayer.prototype.hitGraphEnabled = function () {
           return false;
