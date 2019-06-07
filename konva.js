@@ -75,6 +75,7 @@
               ? self
               : {};
   var Konva = {
+      _global: glob,
       version: '@@version',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
@@ -1925,7 +1926,7 @@
       var canvas = Util.createCanvasElement();
       var context = canvas.getContext('2d');
       _pixelRatio = (function () {
-          var devicePixelRatio = glob.window.devicePixelRatio || 1, backingStoreRatio = context.webkitBackingStorePixelRatio ||
+          var devicePixelRatio = Konva._global.devicePixelRatio || 1, backingStoreRatio = context.webkitBackingStorePixelRatio ||
               context.mozBackingStorePixelRatio ||
               context.msBackingStorePixelRatio ||
               context.oBackingStorePixelRatio ||
