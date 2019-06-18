@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@3.3.3/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Snapping of shapes Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      // first generate random rectangles
+      for (var i = 0; i < 10; i++) {
+        layer.add(
+          new Konva.Rect({
+            x: Math.random() * stage.width(),
+            y: Math.random() * stage.height(),
+            width: 50 + Math.random() * 100,
+            height: 50 + Math.random() * 100,
+            fill: Konva.Util.getRandomColor(),
+            rotation: Math.random() * 360,
+            draggable: true,
+            shadowBlur: 5
+          })
+        );
+      }
+
+      layer.on('dragmove', function(e) {
+        var rect = e.target;
+        const GUIDELINE_OFFSET = 5 / this.props.zoom;
+        const getLineGuideStops = () => {
+          const vertical = [0, stage.width() / 2, stage.width()];
+          const horizontal = [0, stage.height() / 2, stage.height()];
+          stage.find('Rect').forEach(guideItem => {
+            if (guideItem.getClassName() === 'Group') {
+              return;
+            }
+            const parent = guideItem.getLayer().findOne('.shapes-group');
+            const box = guideItem.getClientRect({ relativeTo: parent });
+            // const pos = guideItem.getAbsolutePosition(guideItem.getLayer());
+            vertical.push([box.x, box.x + box.width, box.x + box.width / 2]);
+            horizontal.push([
+              box.y,
+              box.y + box.height,
+              box.y + box.height / 2
+            ]);
+          });
+          return {
+            vertical: _.flatten(vertical),
+            horizontal: _.flatten(horizontal)
+          };
+        };
+
+        const lineGuideStops = getLineGuideStops();
+
+        const getGuides = () => {
+          const resultV = [];
+          const resultH = [];
+          // stroke effect bounding rect, so we will disable it for better calculations
+          const box = e.target.getClientRect();
+
+          const itemBounds = {
+            vertical: [
+              {
+                guide: Math.round(e.target.x()),
+                offset: 0,
+                snap: 'start'
+              }
+            ],
+            horizontal: [
+              {
+                guide: e.target.y(),
+                offset: 0,
+                snap: 'start'
+              }
+            ]
+          };
+
+          lineGuideStops.vertical.forEach(lineGuide => {
+            itemBounds.vertical.forEach(itemBound => {
+              const diff = Math.abs(lineGuide - itemBound.guide);
+              if (diff < GUIDELINE_OFFSET) {
+                resultV.push({
+                  lineGuide,
+                  diff,
+                  snap: itemBound.snap,
+                  offset: itemBound.offset
+                });
+              }
+            });
+          });
+
+          lineGuideStops.horizontal.forEach(lineGuide => {
+            itemBounds.horizontal.forEach(itemBound => {
+              const diff = Math.abs(lineGuide - itemBound.guide);
+              if (diff < GUIDELINE_OFFSET) {
+                resultH.push({
+                  lineGuide,
+                  diff,
+                  snap: itemBound.snap,
+                  offset: itemBound.offset
+                });
+              }
+            });
+          });
+
+          const guides = [];
+          const minV = _.head(_.sortBy(resultV, r => r.diff));
+          const minH = _.head(_.sortBy(resultH, r => r.diff));
+          if (minV) {
+            const otherV = _.uniqBy(
+              _.filter(resultV, r => Math.abs(r.diff - minV.diff) < 3),
+              item => item.snap
+            );
+            otherV.forEach(g => {
+              guides.push({
+                lineGuide: g.lineGuide,
+                offset: g.offset,
+                orientation: 'V',
+                snap: g.snap
+              });
+            });
+          }
+          if (minH) {
+            // guides.push({
+            //   lineGuide: minH.lineGuide,
+            //   orientation: 'H',
+            //   snap: minH.snap,
+            // });
+            const otherH = _.uniqBy(
+              _.filter(resultH, r => Math.abs(r.diff - minH.diff) < 3),
+              item => item.snap
+            );
+
+            otherH.forEach(g => {
+              guides.push({
+                lineGuide: g.lineGuide,
+                offset: g.offset,
+                orientation: 'H',
+                snap: g.snap
+              });
+            });
+          }
+          return guides;
+        };
+
+        this.resetLineGuides();
+        const guides = getGuides();
+        const guideLayer = stage.findOne('.manual-layer');
+
+        if (!guides.length) {
+          return;
+        }
+
+        guides.forEach(lg => {
+          if (lg.orientation === 'H') {
+            const line = new Konva.Line({
+              points: [-6000, lg.lineGuide, 6000, lg.lineGuide],
+              stroke: 'rgb(0, 161, 255)',
+              strokeWidth: 1 / this.props.zoom || 1,
+              name: 'guid-line',
+              dash: [4, 6]
+            });
+            guideLayer.findOne('.selection-group').add(line);
+            guideLayer.batchDraw();
+          } else if (lg.orientation === 'V') {
+            const line = new Konva.Line({
+              points: [lg.lineGuide, -6000, lg.lineGuide, 6000],
+              stroke: 'rgb(0, 161, 255)',
+              strokeWidth: 1 / this.props.zoom || 1,
+              name: 'guid-line',
+              dash: [4, 6]
+            });
+            guideLayer.findOne('.selection-group').add(line);
+            guideLayer.batchDraw();
+          }
+          switch (lg.snap) {
+            case 'start': {
+              switch (lg.orientation) {
+                case 'V': {
+                  if (e.target === this.group) {
+                    e.target.x(lg.lineGuide + lg.offset);
+                  } else if (e.target.getAttr('data-position')) {
+                    const parent = e.target
+                      .getLayer()
+                      .findOne('.selection-box');
+                    e.target.setAbsolutePosition({
+                      x:
+                        lg.lineGuide * parent.scaleX() + parent.x() + stage.x(),
+                      y: e.target.getAbsolutePosition().y
+                    });
+                  }
+
+                  break;
+                }
+                case 'H': {
+                  if (e.target === this.group) {
+                    e.target.y(lg.lineGuide + lg.offset);
+                  } else if (e.target.getAttr('data-position')) {
+                    const parent = e.target
+                      .getLayer()
+                      .findOne('.selection-box');
+                    e.target.setAbsolutePosition({
+                      x: e.target.getAbsolutePosition().x,
+                      y: lg.lineGuide * parent.scaleY() + parent.y() + stage.y()
+                    });
+                  }
+                  break;
+                }
+              }
+              break;
+            }
+            case 'center': {
+              switch (lg.orientation) {
+                case 'V': {
+                  e.target.x(lg.lineGuide + lg.offset);
+                  break;
+                }
+                case 'H': {
+                  e.target.y(lg.lineGuide + lg.offset);
+                  break;
+                }
+              }
+              break;
+            }
+            case 'end': {
+              switch (lg.orientation) {
+                case 'V': {
+                  e.target.x(lg.lineGuide + lg.offset);
+                  break;
+                }
+                case 'H': {
+                  e.target.y(lg.lineGuide + lg.offset);
+                  break;
+                }
+              }
+              break;
+            }
+          }
+        });
+      });
+
+      layer.draw();
+    </script>
+  </body>
+</html>
