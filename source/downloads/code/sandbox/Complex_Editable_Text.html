@@ -123,7 +123,7 @@
         var isFirefox =
           navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
         if (isFirefox) {
-          px += 2 + Math.round(fontSize / 20);
+          px += 2 + Math.round(textNode.fontSize() / 20);
         }
         transform += 'translateY(-' + px + 'px)';
 
