@@ -145,28 +145,24 @@
         });
 
         var guides = [];
+
+        // find closest snap
         var minV = resultV.sort((a, b) => a.diff - b.diff)[0];
         var minH = resultH.sort((a, b) => a.diff - b.diff)[0];
         if (minV) {
-          var otherV = resultV.filter(r => Math.abs(r.diff - minV.diff) < 3);
-          otherV.forEach(g => {
-            guides.push({
-              lineGuide: g.lineGuide,
-              offset: g.offset,
-              orientation: 'V',
-              snap: g.snap
-            });
+          guides.push({
+            lineGuide: minV.lineGuide,
+            offset: minV.offset,
+            orientation: 'V',
+            snap: minV.snap
           });
         }
         if (minH) {
-          var otherH = resultH.filter(r => Math.abs(r.diff - minH.diff) < 3);
-          otherH.forEach(g => {
-            guides.push({
-              lineGuide: g.lineGuide,
-              offset: g.offset,
-              orientation: 'H',
-              snap: g.snap
-            });
+          guides.push({
+            lineGuide: minH.lineGuide,
+            offset: minH.offset,
+            orientation: 'H',
+            snap: minH.snap
           });
         }
         return guides;
@@ -261,6 +257,12 @@
             }
           }
         });
+      });
+
+      layer.on('dragend', function(e) {
+        // clear all previous lines on the screen
+        layer.find('.guid-line').destroy();
+        layer.batchDraw();
       });
 
       layer.draw();
