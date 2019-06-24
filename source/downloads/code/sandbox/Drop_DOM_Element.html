@@ -49,9 +49,11 @@
 
       // what is url of dragging element?
       var itemURL = '';
-      document.getElementById('drag-items').addEventListener(function(e) {
-        itemURL = e.target.src;
-      });
+      document
+        .getElementById('drag-items')
+        .addEventListener('dragstart', function(e) {
+          itemURL = e.target.src;
+        });
 
       var con = stage.container();
       con.addEventListener('dragover', function(e) {
