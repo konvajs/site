@@ -28,6 +28,7 @@
       var layer = new Konva.Layer();
       stage.add(layer);
 
+      // create first group with two shapes
       var group1 = new Konva.Group();
       layer.add(group1);
 
@@ -48,6 +49,7 @@
       });
       group1.add(redCircle);
 
+      // crete second group with one shape
       var group2 = new Konva.Group();
       layer.add(group2);
 
@@ -59,6 +61,7 @@
         fill: 'green'
       });
       group2.add(greenRect);
+
       layer.draw();
     </script>
   </body>

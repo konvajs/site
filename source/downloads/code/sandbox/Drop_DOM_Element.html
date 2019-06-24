@@ -30,7 +30,10 @@
     <p>
       Drag&drop yoda into the grey area.
     </p>
-    <img src="/assets/yoda.jpg" id="yoda" draggable="true" />
+    <div id="drag-items">
+      <img src="/assets/yoda.jpg" draggable="true" />
+      <img src="/assets/darth-vader.jpg" draggable="true" />
+    </div>
     <div id="container"></div>
     <script>
       var width = window.innerWidth;
@@ -43,6 +46,12 @@
       });
       var layer = new Konva.Layer();
       stage.add(layer);
+
+      // what is url of dragging element?
+      var itemURL = '';
+      document.getElementById('drag-items').addEventListener(function(e) {
+        itemURL = e.target.src;
+      });
 
       var con = stage.container();
       con.addEventListener('dragover', function(e) {
@@ -57,7 +66,7 @@
         // we can register it manually:
         stage.setPointersPositions(e);
 
-        Konva.Image.fromURL('/assets/yoda.jpg', function(image) {
+        Konva.Image.fromURL(itemURL, function(image) {
           layer.add(image);
 
           image.position(stage.getPointerPosition());

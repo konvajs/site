@@ -46,7 +46,7 @@ Let make a demo. I will create a layer with two groups. The first group has two 
 
 <details><summary>Show source code!</summary>
 <p>
-{% include_code Canvas Scrolling Large sandbox/Canvas_Scrolling_Large.html %}
+{% include_code Konva ZIndex demo groups_and_layers/zIndex.html %}
 </p>
 </details>
 
