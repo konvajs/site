@@ -25,6 +25,8 @@ That way works ok for many cases. But it is not fully cross capable. At the time
 
 We can use [canvg](https://github.com/canvg/canvg) to parse SVG and draw it into `<canvas>`.
 
+I was using that method in a large production app to have a predictable SVG result on the canvas.
+
 Here is the demo that shows drawing natively and with a library.
 
 {% iframe /downloads/code/sandbox/SVG_On_Canvas.html %}
