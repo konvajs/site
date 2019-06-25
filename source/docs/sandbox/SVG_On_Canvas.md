@@ -1,16 +1,16 @@
-title: How do draw SVG image on canvas with Konva
+title: How to draw SVG image on canvas with Konva
 layout: demo_page
 ---
 
-## How do show SVG image on canvas?
+## How to show SVG image on canvas?
 
 Long time ago browsers were not able to draw `*.svg` images on canvas. But right now the situations is better.
 
-So if you want to show a vector image with Konva you have several ways for that:
+So if you want to show a vector image with `Konva` you have several ways for that:
 
-1. Use [Konva.Path](/docs/shapes/Path.html). That way is good for simple PATH shapes. If you have large svg with many paths you can split it manually into several `Konva.Path` shapes.
+1. Use [Konva.Path](/docs/shapes/Path.html). That way is good for simple path shapes. If you have large svg with many paths you can split it manually into several `Konva.Path` shapes.
 
-2. Use [Konva.Image] shape with svg
+2. Use [Konva.Image](/docs/shapes/Image.html) shape with svg image
 
 ```
 Konva.Image.fromURL('/image.svg', (image) => {
@@ -19,13 +19,14 @@ Konva.Image.fromURL('/image.svg', (image) => {
 })
 ```
 
-That way works ok for many cases. But it is not fully cross capibale
+That way works ok for many cases. But it is not fully cross capable. At the time of writing this post some SVG are not visible in the Firefox browser ([the is a workaround for that case](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)).
 
-You can't directly insert GIF image into the canvas. But we can use external library to parse the gif and then we can draw it into the layer as `Konva.Image` shape.
+3. Use external library to draw svg into `<canvas>` element. And then use that canvas for [Konva.Image](/docs/shapes/Image.html).
 
-In this demo I will use [gifler](http://themadcreator.github.io/gifler/) to parse and draw the gif. You can use any other library.
+We can use [canvg](https://github.com/canvg/canvg) to parse SVG and draw it into `<canvas>`.
 
+Here is the demo that shows drawing natively and with a library.
 
-{% iframe /downloads/code/sandbox/GIF_On_Canvas.html %}
+{% iframe /downloads/code/sandbox/SVG_On_Canvas.html %}
 
-{% include_code Konva GIF demo sandbox/GIF_On_Canvas.html %}
+{% include_code Konva GIF demo sandbox/SVG_On_Canvas.html %}

@@ -26,6 +26,9 @@
       });
 
       var layer = new Konva.Layer();
+      stage.add(layer);
+
+      // main API:
       var imageObj = new Image();
       imageObj.onload = function() {
         var yoda = new Konva.Image({
@@ -38,11 +41,21 @@
 
         // add the shape to the layer
         layer.add(yoda);
-
-        // add the layer to the stage
-        stage.add(layer);
+        layer.batchDraw();
       };
       imageObj.src = '/assets/yoda.jpg';
+
+      // alternative API:
+      Konva.Image.fromURL('/assets/darth-vader.jpg', function(darthNode) {
+        darthNode.setAttrs({
+          x: 200,
+          y: 50,
+          scaleX: 0.5,
+          scaleY: 0.5
+        });
+        layer.add(darthNode);
+        layer.batchDraw();
+      });
     </script>
   </body>
 </html>

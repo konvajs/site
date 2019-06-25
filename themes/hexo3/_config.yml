@@ -186,6 +186,7 @@ demo_sidebar:
     Custom Font: sandbox/Custom_Font.html
     Video On Canvas: sandbox/Video_On_Canvas.html
     Native Context Access: sandbox/Native_Context_Access.html
+    SVG On Canvas: sandbox/SVG_On_Canvas.html
 
 react_sidebar:
   Getting Started with React:
