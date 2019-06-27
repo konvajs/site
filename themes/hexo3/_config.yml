@@ -203,6 +203,7 @@ react_sidebar:
     Complex Animations: react/Complex_Animations.html
     DOM Portals: react/DOM_Portal.html
     Undo/Redo: react/Undo-Redo.html
+    Changing zIndex: react/zIndex.html
 
 vue_sidebar:
   Getting Started with Vue:

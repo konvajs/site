@@ -43,7 +43,12 @@
 
       // make manual drawings
       ctx.fillStyle = 'blue';
-      ctx.fillRect(5, 5, canvas.width - 10, canvas.height - 10);
+      ctx.fillRect(5, 5, canvas.width - 10, canvas.height / 2);
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+      ctx.fill();
+
       // such as canvas is updated we need to redraw the layer
 
       layer.batchDraw();
