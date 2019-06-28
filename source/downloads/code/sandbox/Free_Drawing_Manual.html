@@ -37,16 +37,14 @@
 
       // then we are going to draw into special canvas element
       var canvas = document.createElement('canvas');
-      canvas.width = stage.width() / 2;
-      canvas.height = stage.height() / 2;
+      canvas.width = stage.width();
+      canvas.height = stage.height();
 
       // created canvas we can add to layer as "Konva.Image" element
       var image = new Konva.Image({
         image: canvas,
-        x: stage.width() / 4,
-        y: stage.height() / 4,
-        stroke: 'green',
-        shadowBlur: 5
+        x: 0,
+        y: 0
       });
       layer.add(image);
       stage.draw();
@@ -71,12 +69,12 @@
 
       // will it be better to listen move/end events on the window?
 
-      stage.addEventListener('mouseup touchend', function() {
+      stage.on('mouseup touchend', function() {
         isPaint = false;
       });
 
       // and core function - drawing
-      stage.addEventListener('mousemove touchmove', function() {
+      stage.on('mousemove touchmove', function() {
         if (!isPaint) {
           return;
         }
