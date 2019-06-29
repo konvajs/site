@@ -11,11 +11,19 @@
         overflow: hidden;
         background-color: #f0f0f0;
       }
+
+      #counter {
+        position: absolute;
+        top: 50px;
+        background-color: white;
+        font-size: 12px;
+      }
     </style>
   </head>
 
   <body>
     <div id="container"></div>
+    <div id="counter"></div>
     <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
     <script defer="defer">
       var lastTime = 0;
@@ -26,9 +34,9 @@
       var bunnys = [];
       var GRAVITY = 0.75;
 
-      var maxX = width - 10;
+      var maxX = width;
       var minX = 0;
-      var maxY = height - 10;
+      var maxY = height;
       var minY = 0;
 
       var startBunnyCount = 10;
@@ -38,8 +46,8 @@
 
       var stage = new Konva.Stage({
         container: 'container',
-        width: width - 10,
-        height: height - 10
+        width: width,
+        height: height
       });
       var layer = new Konva.FastLayer();
       stage.add(layer);
@@ -57,12 +65,7 @@
 
       window.requestAnimationFrame(update);
 
-      var counter = document.createElement('div');
-      counter.className = 'counter';
-      counter.style.position = 'absolute';
-      counter.style.top = '50px';
-
-      document.body.appendChild(counter);
+      var counter = document.getElementById('counter');
 
       count = startBunnyCount;
       counter.innerHTML = startBunnyCount + ' BUNNIES';
@@ -83,7 +86,6 @@
           var bunny = new Konva.Image({
             image: wabbitTexture,
             transformsEnabled: 'position',
-            hitGraphEnabled: false,
             x: 10,
             y: 10
           });
