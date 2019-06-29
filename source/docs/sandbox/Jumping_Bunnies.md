@@ -6,7 +6,7 @@ That is adopted [demo](https://www.goodboydigital.com/pixijs/bunnymark/) from th
 
 You will notice that `Konva` version is much slower than `PixiJS` version.
 
-So first of all I am hiding that other frameworks may work better in some situations. PixiJS is very optimized for such types of graphics and animations (it uses WebGL for rendering).
+So first of all I am not hiding that other frameworks may work better in some situations. PixiJS is very optimized for such types of graphics and animations (it uses WebGL for rendering).
 
 There is a work in progress for optimizing some `Konva` internals to make it work faster for that demo too.
 
