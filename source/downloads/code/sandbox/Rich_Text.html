@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@3.3.3/konva.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+    />
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Rich text on Canvas Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+
+      #editor-container {
+        height: 150px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="editor-container">
+      That is <u>some</u> <span style="color: red"> styled text</span> on
+      <strong>canvas</strong>!
+      <h2>What do you think about it?</h2>
+    </div>
+    <div id="container"></div>
+    <script>
+      var quill = new Quill('#editor-container', {
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block']
+          ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow' // or 'bubble'
+      });
+
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+
+      const layer = new Konva.Layer();
+      stage.add(layer);
+
+      const shape = new Konva.Image({
+        x: 10,
+        y: 10,
+        draggable: true,
+        stroke: 'red',
+        scaleX: 1 / window.devicePixelRatio,
+        scaleY: 1 / window.devicePixelRatio
+      });
+      layer.add(shape);
+
+      layer.draw();
+
+      function renderText() {
+        // convert DOM into image
+        html2canvas(document.querySelector('.ql-editor'), {
+          backgroundColor: 'rgba(0,0,0,0)'
+        }).then(canvas => {
+          // show it inside Konva.Image
+          shape.image(canvas);
+          layer.batchDraw();
+        });
+      }
+
+      // batch updates, so we don't render text too frequently
+      var timeout = null;
+      function requestTextUpdate() {
+        if (timeout) {
+          return;
+        }
+        timeout = setTimeout(function() {
+          timeout = null;
+          renderText();
+        }, 500);
+      }
+
+      // render text on all changes
+      quill.on('text-change', requestTextUpdate);
+      // make initial rendering
+      renderText();
+    </script>
+  </body>
+</html>

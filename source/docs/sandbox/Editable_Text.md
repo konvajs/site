@@ -8,6 +8,8 @@ Konva has not support for such case. We recommend to edit the user input outside
 
 Here we will create two demos. Basic demo for general understanding of the technic. And the more complex one, used in real-word app that cover more edge cases.
 
+If you want to enable full rich text editing features see [Rich Text Demo](/docs/sandbox/Rich_Text.html).
+
 Instructions: Double click on text to edit it. Type something. Press Enter.
 
 Simple demo:
@@ -16,7 +18,7 @@ Simple demo:
 
 <details><summary>Show source code of simple demo!</summary>
 <p>
-{% include_code Konva 20000 Nodes Demo sandbox/Editable_Text.html %}
+{% include_code Konva Editable text Demo sandbox/Editable_Text.html %}
 </p>
 </details>
 
@@ -26,9 +28,6 @@ Complex demo:
 
 <details><summary>Show source code of complex demo!</summary>
 <p>
-{% include_code Canvas Scrolling Drag sandbox/Complex_Editable_Text.html %}
+{% include_code Canvas Complex Text Demo sandbox/Complex_Editable_Text.html %}
 </p>
 </details>
-
-
-That!

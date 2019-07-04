@@ -149,6 +149,7 @@ demo_sidebar:
   Demos:
     Free Drawing: sandbox/Free_Drawing.html
     Editable Text: sandbox/Editable_Text.html
+    Rich Text: sandbox/Rich_Text.html
     Simple Window Frame: sandbox/Simple_Window_Frame.html
     Window Frame Designer: sandbox/Window_Frame_Designer.html
     Collision Detection: sandbox/Collision_Detection.html
