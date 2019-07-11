@@ -12,6 +12,7 @@ If you want show complex styles on canvas we can do a hacky workaround. The idea
 2. Convert DOM element into image with [html2canvas](https://html2canvas.hertzen.com/).
 3. Use that image for `Konva.Image`.
 
+
 Instructions: try to type a text into the editor
 
 {% iframe /downloads/code/sandbox/Rich_Text.html %}
