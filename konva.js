@@ -5912,7 +5912,7 @@
                   clickStartShape &&
                   clickStartShape._id === shape._id) {
                   shape._fireAndBubble(CLICK, { evt: evt });
-                  if (fireDblClick && clickEndShape && clickEndShape._id === shape._id) {
+                  if (fireDblClick && clickEndShape && clickEndShape === shape) {
                       shape._fireAndBubble(DBL_CLICK, { evt: evt });
                   }
               }
@@ -5984,7 +5984,7 @@
       };
       Stage.prototype._touchend = function (evt) {
           this.setPointersPositions(evt);
-          var shape = this.getIntersection(this.getPointerPosition()), fireDblClick = false;
+          var shape = this.getIntersection(this.getPointerPosition()), clickEndShape = this.clickEndShape, fireDblClick = false;
           if (Konva.inDblClickWindow) {
               fireDblClick = true;
               clearTimeout(this.dblTimeout);
@@ -5998,13 +5998,14 @@
               Konva.inDblClickWindow = false;
           }, Konva.dblClickWindow);
           if (shape && shape.isListening()) {
+              this.clickEndShape = shape;
               shape._fireAndBubble(TOUCHEND, { evt: evt });
               // detect if tap or double tap occurred
               if (Konva.listenClickTap &&
                   this.tapStartShape &&
                   shape._id === this.tapStartShape._id) {
                   shape._fireAndBubble(TAP, { evt: evt });
-                  if (fireDblClick) {
+                  if (fireDblClick && clickEndShape && clickEndShape === shape) {
                       shape._fireAndBubble(DBL_TAP, { evt: evt });
                   }
               }
