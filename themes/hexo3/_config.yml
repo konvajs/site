@@ -189,6 +189,7 @@ demo_sidebar:
     Video On Canvas: sandbox/Video_On_Canvas.html
     Native Context Access: sandbox/Native_Context_Access.html
     SVG On Canvas: sandbox/SVG_On_Canvas.html
+    Seats Reservation: sandbox/Seats_Reservation.html
 
 react_sidebar:
   Getting Started with React:
