@@ -29,7 +29,7 @@ class App extends Component {
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Text text="Try to drag a star" />
-          {[...Array(10)].map(i => (
+          {[...Array(10)].map((_, i) => (
             <Star
               key={i}
               x={Math.random() * window.innerWidth}
