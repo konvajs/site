@@ -5,12 +5,16 @@
         <h1 id="page-title" itemprop="name">
           <%= page.title %>
         </h1>
-        <a href="https://github.com/konvajs/site/blob/master/source/<%- page.path.replace(/\.html$/, '.md') %>" title="Improve this doc"
-          id="page-edit-link"></a>
+        <a
+          href="https://github.com/konvajs/site/blob/master/source/<%- page.path.replace(/\.html$/, '.md') %>"
+          title="Improve this doc"
+          id="page-edit-link"
+        ></a>
       </div>
     </div>
   </header>
   <div class="outer">
+    <%- partial('_partial/subscribe') %>
     <div id="mobile-menu-wrap"></div>
     <div class="page-content">
       <!--<div class="toc-wrap">-->
@@ -21,8 +25,11 @@
         <%- page.content %>
       </div>
       <footer id="page-footer">
-        <time id="page-footer-updated" datetime="<%= date_xml(page.updated) %>" itemprop="dateModified">Last updated:
-          <%= date(page.updated) %>
+        <time
+          id="page-footer-updated"
+          datetime="<%= date_xml(page.updated) %>"
+          itemprop="dateModified"
+          >Last updated: <%= date(page.updated) %>
         </time>
         <%- page_nav() %>
       </footer>

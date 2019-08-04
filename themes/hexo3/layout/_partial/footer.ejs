@@ -1,26 +1,8 @@
 <footer id="footer">
   <div class="outer">
-    <div class="inner">
-      <div id="footer-copyright">
-        &copy; <%= new Date().getFullYear() %> KonvaJS<br />
-      </div>
-      <div id="footer-links">
-        <a
-          href="https://twitter.com/<%= theme.twitter %>"
-          id="footer-link-twitter"
-          class="footer-link"
-          target="_blank"
-          ><span>Twitter</span></a
-        >
-        <a
-          href="https://github.com/<%- theme.github %>"
-          id="footer-link-github"
-          class="footer-link"
-          target="_blank"
-          ><span>GitHub</span></a
-        >
-      </div>
-    </div>
+      <div class="inner">
+          <%- partial('_partial/subscribe') %>
+        </div>
     <div class="inner">
       <div class="footer-resources">
         <h3>Docs</h3>
@@ -80,7 +62,30 @@
             </li>
           </ul>
     </div>
+    <div class="inner">
+        <div id="footer-copyright">
+            &copy; <%= new Date().getFullYear() %> KonvaJS<br />
+          </div>
+      <div id="footer-links">
+        <a
+          href="https://twitter.com/<%= theme.twitter %>"
+          id="footer-link-twitter"
+          class="footer-link"
+          target="_blank"
+          ><span>Twitter</span></a
+        >
+        <a
+          href="https://github.com/<%- theme.github %>"
+          id="footer-link-github"
+          class="footer-link"
+          target="_blank"
+          ><span>GitHub</span></a
+        >
+      </div>
+    </div>
+  
   </div>
+  
   <script>
     ((window.gitter = {}).chat = {}).options = {
       room: 'konvajs/konva'
