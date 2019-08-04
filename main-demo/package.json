@@ -1,7 +1,7 @@
 {
-  "name": "parcel-sandbox",
+  "name": "Konva demo",
   "version": "1.0.0",
-  "description": "Simple Parcel Sandbox",
+  "description": "Basic sandbox for Konva framework",
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
