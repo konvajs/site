@@ -8,7 +8,7 @@ const URL = './lion.png';
 
 // example of functional component
 const FilterImage = () => {
-  const [image] = useImage(URL);
+  const [image] = useImage(URL, 'Anonimus');
   const imageRef = React.useRef();
 
   // when image is loaded we need to cache the shape
@@ -29,7 +29,7 @@ const FilterImage = () => {
       y={10}
       image={image}
       filters={[Konva.Filters.Blur]}
-      blurRadius={5}
+      blurRadius={10}
     />
   );
 };
