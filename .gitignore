@@ -2,7 +2,7 @@
 .idea
 npm-debug.log
 node_modules
-public
+/public
 .deploy
 db.json
 debug.log
