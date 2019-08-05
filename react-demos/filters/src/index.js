@@ -1,14 +1,47 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
 import { render } from 'react-dom';
-import { Stage, Layer, Rect } from 'react-konva';
+import { Stage, Layer, Rect, Image } from 'react-konva';
+import useImage from 'use-image';
 
-class MyRect extends React.Component {
+const URL = './lion.png';
+
+// example of functional component
+const FilterImage = () => {
+  const [image] = useImage(URL);
+  const imageRef = React.useRef();
+
+  // when image is loaded we need to cache the shape
+  React.useEffect(() => {
+    if (image) {
+      // you many need to reapply cache on some props changes like shadow, stroke, etc.
+      imageRef.current.cache();
+      // since this update is not handled by "react-konva" and we are using Konva methods directly
+      // we have to redraw layer manually
+      imageRef.current.getLayer().batchDraw();
+    }
+  }, [image]);
+
+  return (
+    <Image
+      ref={imageRef}
+      x={10}
+      y={10}
+      image={image}
+      filters={[Konva.Filters.Blur]}
+      blurRadius={5}
+    />
+  );
+};
+
+// example of good old classes
+// try to click on rect to see color updates
+class FilterRect extends React.Component {
   state = {
     color: 'green'
   };
   componentDidMount() {
-    this.rect.cache();
+    this.applyCache();
   }
   handleClick = () => {
     this.setState(
@@ -16,18 +49,21 @@ class MyRect extends React.Component {
         color: Konva.Util.getRandomColor()
       },
       () => {
-        // IMPORTANT
-        // recache on update
-        this.rect.cache();
+        // recache shape when we updated it
+        this.applyCache();
       }
     );
   };
+  applyCache() {
+    this.rect.cache();
+    this.rect.getLayer().batchDraw();
+  }
   render() {
     return (
       <Rect
         filters={[Konva.Filters.Noise]}
         noise={1}
-        x={10}
+        x={200}
         y={10}
         width={50}
         height={50}
@@ -47,7 +83,8 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <MyRect />
+          <FilterImage />
+          <FilterRect />
         </Layer>
       </Stage>
     );

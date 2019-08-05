@@ -3,7 +3,7 @@ layout: react_page
 ---
 
 To apply filters you need to cache `Konva.Node` manually. You can do it `componentDidMount`.
-Probably you will need to recache nodes every time you update their styles in `componentDidUpdate`.
+Probably you will need to recache nodes every time you update their styles in `componentDidUpdate` or `React.useEffect`.
 
 Instructions: click on the rectangle to see changes
 
