@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@4.0.0/konva.min.js"></script>
+    <!-- 3-rd party library for gesture events -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
+    <!-- emulate touches on desktop -->
+    <script src="https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Touch Gestures Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      TouchEmulator();
+      Konva.hitOnDragEnabled = true;
+      Konva.captureTouchEventsEnabled = true;
+
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var originalAttrs = {
+        x: stage.width() / 2,
+        y: stage.height() / 2,
+        scaleX: 1,
+        scaleY: 1,
+        draggable: true,
+        rotation: 0
+      };
+
+      var group = new Konva.Group(originalAttrs);
+      layer.add(group);
+
+      var size = 300;
+
+      var rect = new Konva.Rect({
+        width: size,
+        height: size,
+        fill: 'yellow',
+        offsetX: size / 2,
+        offsetY: size / 2,
+        cornerRadius: 5,
+        shadowBlur: 10,
+        shadowColor: 'grey'
+      });
+      group.add(rect);
+
+      var defaultText = 'Try something';
+      var text = new Konva.Text({
+        text: defaultText,
+        x: -size / 2,
+        width: size,
+        align: 'center'
+      });
+      group.add(text);
+      layer.draw();
+
+      var hammertime = new Hammer(group, { domEvents: true });
+      hammertime.get('rotate').set({ enable: true });
+
+      group.on('swipe', function(ev) {
+        text.text('swiping');
+        group.to({
+          x: group.x() + ev.evt.gesture.deltaX,
+          y: group.y() + ev.evt.gesture.deltaY,
+
+          onFinish: function() {
+            group.to(Object.assign({}, originalAttrs));
+            text.text(defaultText);
+          }
+        });
+      });
+
+      group.on('press', function(ev) {
+        text.text('Under press');
+        rect.to({
+          fill: 'green'
+        });
+      });
+
+      group.on('touchend', function(ev) {
+        // text.text(defaultText)
+        rect.to({
+          fill: 'yellow'
+        });
+      });
+
+      var startRotation = 0;
+      var startScale = 0;
+      hammertime.on('rotatestart', function(ev) {
+        startRotation = ev.rotation;
+        startScale = rect.scaleX();
+        group.stopDrag();
+        group.draggable(false);
+        text.text('rotating...');
+      });
+
+      hammertime.on('rotate', function(ev) {
+        var delta = startRotation - ev.rotation;
+        group.rotate(-delta);
+        startRotation = ev.rotation;
+        group.scaleX(startScale * ev.scale);
+        group.scaleY(startScale * ev.scale);
+        layer.batchDraw();
+      });
+
+      hammertime.on('rotateend rotatecancel', function(ev) {
+        group.to(Object.assign({}, originalAttrs));
+        text.text(defaultText);
+        group.draggable(true);
+        layer.batchDraw();
+      });
+    </script>
+  </body>
+</html>
