@@ -1172,7 +1172,7 @@
    */
 
   var DEDUP_TIMEOUT = 2500;
-  var DEDUP_DISTANCE = 25;
+  var DED_DISTANCE = 25;
 
   function TouchMouseInput() {
     Input.apply(this, arguments);
@@ -1256,7 +1256,7 @@
       var t = this.lastTouches[i];
       var dx = Math.abs(x - t.x),
         dy = Math.abs(y - t.y);
-      if (dx <= DEDUP_DISTANCE && dy <= DEDUP_DISTANCE) {
+      if ((dx > DED_DISTANCE) | (dy > DED_DISTANCE)) {
         return true;
       }
     }
