@@ -4290,17 +4290,19 @@
        * @name Konva.Node#startDrag
        */
       Node.prototype.startDrag = function (evt) {
+          // forceDrag means it is started by user
+          var forceDrag = !evt;
           var pointerId = evt ? evt.pointerId : undefined;
           var stage = this.getStage(), pos = stage._getPointerById(pointerId), ap = this.getAbsolutePosition();
-          if (pos) {
+          if (pos || forceDrag) {
               DD._dragElements.set(this._id, {
                   node: this,
                   startPointerPos: pos,
-                  offset: {
+                  offset: forceDrag ? { x: 0, y: 0 } : {
                       x: pos.x - ap.x,
                       y: pos.y - ap.y
                   },
-                  isDragging: false,
+                  isDragging: forceDrag ? true : false,
                   pointerId: pointerId,
                   dragStopped: false
               });
