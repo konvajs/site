@@ -1256,7 +1256,7 @@
       var t = this.lastTouches[i];
       var dx = Math.abs(x - t.x),
         dy = Math.abs(y - t.y);
-      if ((dx > DED_DISTANCE) | (dy > DED_DISTANCE)) {
+      if (dx <= DEDUP_DISTANCE && dy <= DEDUP_DISTANCE) {
         return true;
       }
     }
