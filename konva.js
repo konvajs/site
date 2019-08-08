@@ -184,7 +184,7 @@
       // user agent
       UA: _parseUA((glob.navigator && glob.navigator.userAgent) || ''),
       document: glob.document,
-      // insert Konva into global namaspace (window)
+      // insert Konva into global namespace (window)
       // it is required for npm packages
       _injectGlobal: function (Konva) {
           glob.Konva = Konva;
@@ -5537,6 +5537,9 @@
   Collection.mapMethods(Container);
 
   var Captures = new Map();
+  // we may use this module for capturing touch events too
+  // so make sure we don't do something super specific to pointer
+  var SUPPORT_POINTER_EVENTS = Konva._global['PointerEvent'] !== undefined;
   function getCapturedShape(pointerId) {
       return Captures.get(pointerId);
   }
@@ -5555,7 +5558,9 @@
       if (!stage)
           return;
       Captures.set(pointerId, shape);
-      shape._fire('gotpointercapture', createEvent(new PointerEvent('gotpointercapture')));
+      if (SUPPORT_POINTER_EVENTS) {
+          shape._fire('gotpointercapture', createEvent(new PointerEvent('gotpointercapture')));
+      }
   }
   function releaseCapture(pointerId, target) {
       var shape = Captures.get(pointerId);
@@ -5564,7 +5569,9 @@
       var stage = shape.getStage();
       if (stage && stage.content) ;
       Captures.delete(pointerId);
-      shape._fire('lostpointercapture', createEvent(new PointerEvent('lostpointercapture')));
+      if (SUPPORT_POINTER_EVENTS) {
+          shape._fire('lostpointercapture', createEvent(new PointerEvent('lostpointercapture')));
+      }
   }
 
   // CONSTANTS
@@ -5871,12 +5878,13 @@
       Stage.prototype._mouseout = function (evt) {
           this.setPointersPositions(evt);
           var targetShape = this.targetShape;
-          if (targetShape && !DD.isDragging) {
+          var eventsEnabled = !DD.isDragging || Konva.hitOnDragEnabled;
+          if (targetShape && eventsEnabled) {
               targetShape._fireAndBubble(MOUSEOUT, { evt: evt });
               targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt });
               this.targetShape = null;
           }
-          else if (!DD.isDragging) {
+          else if (eventsEnabled) {
               this._fire(MOUSELEAVE$1, {
                   evt: evt,
                   target: this,
@@ -5900,17 +5908,19 @@
           this.setPointersPositions(evt);
           var pointerId = Util._getFirstPointerId(evt);
           var shape;
-          if (!DD.isDragging) {
+          var eventsEnabled = !DD.isDragging || Konva.hitOnDragEnabled;
+          if (eventsEnabled) {
               shape = this.getIntersection(this.getPointerPosition());
               if (shape && shape.isListening()) {
                   var differentTarget = !this.targetShape || this.targetShape !== shape;
-                  if (!DD.isDragging && differentTarget) {
+                  if (eventsEnabled && differentTarget) {
                       if (this.targetShape) {
                           this.targetShape._fireAndBubble(MOUSEOUT, { evt: evt, pointerId: pointerId }, shape);
                           this.targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt, pointerId: pointerId }, shape);
                       }
                       shape._fireAndBubble(MOUSEOVER, { evt: evt, pointerId: pointerId }, this.targetShape);
                       shape._fireAndBubble(MOUSEENTER$1, { evt: evt, pointerId: pointerId }, this.targetShape);
+                      shape._fireAndBubble(MOUSEMOVE, { evt: evt, pointerId: pointerId });
                       this.targetShape = shape;
                   }
                   else {
@@ -5922,7 +5932,7 @@
                    * if no shape was detected, clear target shape and try
                    * to run mouseout from previous target shape
                    */
-                  if (this.targetShape && !DD.isDragging) {
+                  if (this.targetShape && eventsEnabled) {
                       this.targetShape._fireAndBubble(MOUSEOUT, { evt: evt, pointerId: pointerId });
                       this.targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt, pointerId: pointerId });
                       this._fire(MOUSEOVER, {
@@ -6106,7 +6116,8 @@
       Stage.prototype._touchmove = function (evt) {
           var _this = this;
           this.setPointersPositions(evt);
-          if (!DD.isDragging || Konva.hitOnDragEnabled) {
+          var eventsEnabled = !DD.isDragging || Konva.hitOnDragEnabled;
+          if (eventsEnabled) {
               var triggeredOnShape = false;
               var processedShapesIds = {};
               this._changedPointerPositions.forEach(function (pos) {
