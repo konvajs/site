@@ -190,6 +190,7 @@ demo_sidebar:
     Native Context Access: sandbox/Native_Context_Access.html
     SVG On Canvas: sandbox/SVG_On_Canvas.html
     Seats Reservation: sandbox/Seats_Reservation.html
+    Touch Gestures: sandbox/Gestures.html
 
 react_sidebar:
   Getting Started with React:

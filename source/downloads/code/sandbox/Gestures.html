@@ -2,10 +2,11 @@
 <html>
   <head>
     <script src="https://unpkg.com/konva@4.0.2/konva.min.js"></script>
-    <!-- 3-rd party library for gesture events -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
     <!-- emulate touches on desktop -->
     <script src="https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js"></script>
+    <!-- 3-rd party library for gesture events -->
+    <script src="/hammer-konva.js"></script>
+
     <meta charset="utf-8" />
     <title>Konva Touch Gestures Demo</title>
     <style>
@@ -62,7 +63,7 @@
       });
       group.add(rect);
 
-      var defaultText = 'Try something';
+      var defaultText = 'Try\ndrag, swipe, pinch zoom, rotate, press...';
       var text = new Konva.Text({
         text: defaultText,
         x: -size / 2,
@@ -72,9 +73,15 @@
       group.add(text);
       layer.draw();
 
+      // attach modified version of Hammer.js
+      // "domEvents" property will allow triggering events on group
+      // instead of "hammertime" instance
       var hammertime = new Hammer(group, { domEvents: true });
+
+      // add rotate gesture
       hammertime.get('rotate').set({ enable: true });
 
+      // now attach all possible events
       group.on('swipe', function(ev) {
         text.text('swiping');
         group.to({
@@ -96,32 +103,40 @@
       });
 
       group.on('touchend', function(ev) {
-        // text.text(defaultText)
         rect.to({
           fill: 'yellow'
         });
+
+        setTimeout(() => {
+          text.text(defaultText);
+          layer.batchDraw();
+        }, 300);
       });
 
-      var startRotation = 0;
+      group.on('dragend', () => {
+        group.to(Object.assign({}, originalAttrs));
+      });
+
+      var oldRotation = 0;
       var startScale = 0;
-      hammertime.on('rotatestart', function(ev) {
-        startRotation = ev.rotation;
+      group.on('rotatestart', function(ev) {
+        oldRotation = ev.evt.gesture.rotation;
         startScale = rect.scaleX();
         group.stopDrag();
         group.draggable(false);
         text.text('rotating...');
       });
 
-      hammertime.on('rotate', function(ev) {
-        var delta = startRotation - ev.rotation;
+      group.on('rotate', function(ev) {
+        var delta = oldRotation - ev.evt.gesture.rotation;
         group.rotate(-delta);
-        startRotation = ev.rotation;
-        group.scaleX(startScale * ev.scale);
-        group.scaleY(startScale * ev.scale);
+        oldRotation = ev.evt.gesture.rotation;
+        group.scaleX(startScale * ev.evt.gesture.scale);
+        group.scaleY(startScale * ev.evt.gesture.scale);
         layer.batchDraw();
       });
 
-      hammertime.on('rotateend rotatecancel', function(ev) {
+      group.on('rotateend rotatecancel', function(ev) {
         group.to(Object.assign({}, originalAttrs));
         text.text(defaultText);
         group.draggable(true);
