@@ -1,4 +1,7 @@
-/*! Hammer.JS - v2.0.7 - 2016-04-22
+/*! This is slightly modified version of hammer library to make it work with Konva framework
+ * Modified by Anton Lavrenov.
+ * Original code:
+ * Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
  * that version is slightly modified by Anton Lavrenov
  * to make it work with Konva framework
