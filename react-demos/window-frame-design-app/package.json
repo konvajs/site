@@ -1,22 +1,19 @@
 {
-  "name": "React Konva Filters demo",
-  "description": "React Konva sandbox",
-  "version": "0.0.9",
-  "keywords": [
-    "canvas",
-    "react",
-    "konva"
-  ],
+  "name": "window-frame-design-app",
+  "version": "1.0.0",
+  "description": "Making and editing window frame",
+  "keywords": [],
+  "main": "src/index.js",
   "dependencies": {
     "konva": "4.0.3",
+    "mobx": "4.3.1",
+    "mobx-react": "5.2.3",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-konva": "16.9.0-0",
-    "use-image": "^1.0.4"
+    "react-scripts": "1.1.4"
   },
-  "devDependencies": {
-    "react-scripts": "2.0.4"
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

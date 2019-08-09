@@ -1,26 +1,29 @@
 {
-  "name": "React Konva Filters demo",
-  "description": "React Konva sandbox",
-  "version": "0.0.9",
-  "keywords": [
-    "canvas",
-    "react",
-    "konva"
-  ],
+  "name": "seats-reservation-prototype-v1",
+  "version": "1.0.0",
+  "description": "React component for booking seats.",
+  "keywords": [],
+  "main": "src/index.js",
   "dependencies": {
     "konva": "4.0.3",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-konva": "16.9.0-0",
-    "use-image": "^1.0.4"
+    "react-scripts": "3.0.1"
   },
   "devDependencies": {
-    "react-scripts": "2.0.4"
+    "typescript": "3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

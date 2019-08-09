@@ -10,4 +10,4 @@ The widget is made with `React`, `Konva` and `react-konva` libraries.
 
 It is not required to use `React` for such widgets. But it was used here because the main application (where the widget was used) is made with `React`.
 
-<iframe src="https://codesandbox.io/embed/github/lavrton/lavrton.github.io/tree/source/demos/seats-reservation?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/seats-reservation?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

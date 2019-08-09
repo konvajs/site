@@ -13,4 +13,4 @@ If you are interested in similar product for your company - [get in touch](https
 Instructions: You can select section and split it into several child sections. Also you can set sash type of a section.
 
 
-<iframe src="https://codesandbox.io/embed/0xj7zml2zl?autoresize=1&hidenavigation=1" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/window-frame-design-app?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
