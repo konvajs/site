@@ -406,8 +406,9 @@
   // var SUPPORT_POINTER_EVENTS = prefixed(window, 'PointerEvent') !== undefined;
   var SUPPORT_POINTER_EVENTS = false;
 
-  var SUPPORT_ONLY_TOUCH =
-    SUPPORT_TOUCH && MOBILE_REGEX.test(navigator.userAgent);
+  // var SUPPORT_ONLY_TOUCH =
+  //   SUPPORT_TOUCH && MOBILE_REGEX.test(navigator.userAgent);
+  var SUPPORT_ONLY_TOUCH = true;
 
   var INPUT_TYPE_TOUCH = 'touch';
   var INPUT_TYPE_PEN = 'pen';
