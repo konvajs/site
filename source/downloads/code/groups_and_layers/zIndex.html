@@ -49,6 +49,16 @@
       });
       group1.add(redCircle);
 
+      // now the red circle on on top of black rectangle
+      // we can change its zIndex with:
+      redCircle.zIndex(0);
+
+      // if we what to move it back to the top we can change its zIndex again
+      // or we can change zIndex of black rectangle:
+      blackRect.zIndex(0);
+      // after that zIndex of red circle will be changed back to 1:
+      console.log('red circle index: ' + redCircle.zIndex());
+
       // crete second group with one shape
       var group2 = new Konva.Group();
       layer.add(group2);
