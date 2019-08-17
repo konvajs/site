@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.4
+   * Konva JavaScript Framework v4.0.5
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Aug 12 2019
+   * Date: Sat Aug 17 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.4',
+      version: '4.0.5',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -915,7 +915,7 @@
               var t1 = 2 * l - t2;
               var rgb = [0, 0, 0];
               for (var i = 0; i < 3; i++) {
-                  t3 = h + 1 / 3 * -(i - 1);
+                  t3 = h + (1 / 3) * -(i - 1);
                   if (t3 < 0) {
                       t3++;
                   }
@@ -2354,7 +2354,7 @@
       get isDragging() {
           var flag = false;
           DD._dragElements.forEach(function (elem) {
-              if (elem.isDragging) {
+              if (elem.dragStatus === 'dragging') {
                   flag = true;
               }
           });
@@ -2387,18 +2387,13 @@
               if (!pos) {
                   return;
               }
-              if (!elem.isDragging) {
+              if (elem.dragStatus !== 'dragging') {
                   var dragDistance = node.dragDistance();
                   var distance = Math.max(Math.abs(pos.x - elem.startPointerPos.x), Math.abs(pos.y - elem.startPointerPos.y));
                   if (distance < dragDistance) {
                       return;
                   }
-                  elem.isDragging = true;
-                  node.fire('dragstart', {
-                      type: 'dragstart',
-                      target: node,
-                      evt: evt
-                  }, true);
+                  node.startDrag(evt);
                   // a user can stop dragging inside `dragstart`
                   if (!node.isDragging()) {
                       return;
@@ -2426,12 +2421,11 @@
               if (!pos) {
                   return;
               }
-              if (elem.isDragging) {
+              if (elem.dragStatus === 'dragging') {
                   DD.justDragged = true;
                   Konva.listenClickTap = false;
               }
-              elem.dragStopped = true;
-              elem.isDragging = false;
+              elem.dragStatus = 'stopped';
               var drawNode = elem.node.getLayer() ||
                   (elem.node instanceof Konva['Stage'] && elem.node);
               if (drawNode) {
@@ -2441,7 +2435,7 @@
       },
       _endDragAfter: function (evt) {
           DD._dragElements.forEach(function (elem, key) {
-              if (elem.dragStopped) {
+              if (elem.dragStatus === 'stopped') {
                   elem.node.fire('dragend', {
                       type: 'dragend',
                       target: elem.node,
@@ -4312,29 +4306,40 @@
           return this;
       };
       // drag & drop
+      Node.prototype._createDragElement = function (evt) {
+          var pointerId = evt ? evt.pointerId : undefined;
+          var stage = this.getStage();
+          var ap = this.getAbsolutePosition();
+          var pos = stage._getPointerById(pointerId) ||
+              stage._changedPointerPositions[0] ||
+              ap;
+          DD._dragElements.set(this._id, {
+              node: this,
+              startPointerPos: pos,
+              offset: {
+                  x: pos.x - ap.x,
+                  y: pos.y - ap.y
+              },
+              dragStatus: 'ready',
+              pointerId: pointerId
+          });
+      };
       /**
-       * initiate drag and drop
+       * initiate drag and drop.
        * @method
        * @name Konva.Node#startDrag
        */
       Node.prototype.startDrag = function (evt) {
-          // forceDrag means it is started by user
-          var forceDrag = !evt;
-          var pointerId = evt ? evt.pointerId : undefined;
-          var stage = this.getStage(), pos = stage._getPointerById(pointerId), ap = this.getAbsolutePosition();
-          if (pos || forceDrag) {
-              DD._dragElements.set(this._id, {
-                  node: this,
-                  startPointerPos: pos,
-                  offset: forceDrag ? { x: 0, y: 0 } : {
-                      x: pos.x - ap.x,
-                      y: pos.y - ap.y
-                  },
-                  isDragging: forceDrag ? true : false,
-                  pointerId: pointerId,
-                  dragStopped: false
-              });
+          if (!DD._dragElements.has(this._id)) {
+              this._createDragElement(evt);
           }
+          var elem = DD._dragElements.get(this._id);
+          elem.dragStatus = 'dragging';
+          this.fire('dragstart', {
+              type: 'dragstart',
+              target: this,
+              evt: evt && evt.evt
+          }, true);
       };
       Node.prototype._setDragPosition = function (evt, elem) {
           // const pointers = this.getStage().getPointersPositions();
@@ -4373,7 +4378,7 @@
           var evt = {};
           var elem = DD._dragElements.get(this._id);
           if (elem) {
-              elem.dragStopped = true;
+              elem.dragStatus = 'stopped';
           }
           DD._endDragBefore(evt);
           DD._endDragAfter(evt);
@@ -4389,7 +4394,7 @@
        */
       Node.prototype.isDragging = function () {
           var elem = DD._dragElements.get(this._id);
-          return elem ? elem.isDragging : false;
+          return elem ? elem.dragStatus === 'dragging' : false;
       };
       Node.prototype._listenDrag = function () {
           this._dragCleanup();
@@ -4409,8 +4414,10 @@
                       hasDraggingChild = true;
                   }
               });
+              // nested drag can be started
+              // in that case we don't need to start new drag
               if (!hasDraggingChild) {
-                  this.startDrag(evt);
+                  this._createDragElement(evt);
               }
           });
       };
@@ -5418,7 +5425,7 @@
           var layer = this.getLayer();
           var layerUnderDrag = false;
           DD._dragElements.forEach(function (elem) {
-              if (elem.isDragging && elem.node.getLayer() === layer) {
+              if (elem.dragStatus === 'dragging' && elem.node.getLayer() === layer) {
                   layerUnderDrag = true;
               }
           });
@@ -6253,6 +6260,8 @@
           }, Konva.dblClickWindow);
           var triggeredOnShape = false;
           var processedShapesIds = {};
+          var tapTriggered = false;
+          var dblTapTriggered = false;
           this._changedPointerPositions.forEach(function (pos) {
               var shape = getCapturedShape(pos.id) ||
                   _this.getIntersection(pos);
@@ -6271,11 +6280,11 @@
               shape._fireAndBubble(TOUCHEND, { evt: evt, pointerId: pos.id });
               triggeredOnShape = true;
               // detect if tap or double tap occurred
-              if (Konva.listenClickTap &&
-                  _this.tapStartShape &&
-                  shape._id === _this.tapStartShape._id) {
+              if (Konva.listenClickTap && shape === _this.tapStartShape) {
+                  tapTriggered = true;
                   shape._fireAndBubble(TAP, { evt: evt, pointerId: pos.id });
                   if (fireDblClick && clickEndShape && clickEndShape === shape) {
+                      dblTapTriggered = true;
                       shape._fireAndBubble(DBL_TAP, { evt: evt, pointerId: pos.id });
                   }
               }
@@ -6292,7 +6301,7 @@
                   pointerId: this._changedPointerPositions[0].id
               });
           }
-          if (Konva.listenClickTap) {
+          if (Konva.listenClickTap && !tapTriggered) {
               this._fire(TAP, {
                   evt: evt,
                   target: this,
@@ -6300,7 +6309,7 @@
                   pointerId: this._changedPointerPositions[0].id
               });
           }
-          if (fireDblClick) {
+          if (fireDblClick && !dblTapTriggered) {
               this._fire(DBL_TAP, {
                   evt: evt,
                   target: this,
