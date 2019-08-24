@@ -33,8 +33,19 @@
 
       var layer = new Konva.Layer();
       var animations = {
-        idle: [2, 2, 70, 119, 71, 2, 74, 119, 146, 2, 81, 119, 226, 2, 76, 119],
-        punch: [2, 138, 74, 122, 76, 138, 84, 122, 346, 138, 120, 122]
+        idle: [
+          // x, y, width, height (4 frames)
+          2, 2, 70, 119,
+          71, 2, 74, 119,
+          146, 2, 81, 119,
+          226, 2, 76, 119
+        ],
+        punch: [
+            // x, y, width, height (4 frames)
+            2, 138, 74, 122,
+            76, 138, 84, 122,
+            346, 138, 120, 122
+        ]
       };
 
       var imageObj = new Image();
