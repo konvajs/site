@@ -191,6 +191,7 @@
 
         function handleOutsideClick(e) {
           if (e.target !== textarea) {
+            textNode.text(textarea.value);
             removeTextarea();
           }
         }
