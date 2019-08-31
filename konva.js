@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.5
+   * Konva JavaScript Framework v4.0.6
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sat Aug 17 2019
+   * Date: Sat Aug 31 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.5',
+      version: '4.0.6',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2035,15 +2035,12 @@
           shape._fillFunc(this);
       };
       SceneContext.prototype._fillPattern = function (shape) {
-          var fillPatternX = shape.getFillPatternX(), fillPatternY = shape.getFillPatternY(), fillPatternScaleX = shape.getFillPatternScaleX(), fillPatternScaleY = shape.getFillPatternScaleY(), fillPatternRotation = Konva.getAngle(shape.getFillPatternRotation()), fillPatternOffsetX = shape.getFillPatternOffsetX(), fillPatternOffsetY = shape.getFillPatternOffsetY();
+          var fillPatternX = shape.getFillPatternX(), fillPatternY = shape.getFillPatternY(), fillPatternRotation = Konva.getAngle(shape.getFillPatternRotation()), fillPatternOffsetX = shape.getFillPatternOffsetX(), fillPatternOffsetY = shape.getFillPatternOffsetY();
           if (fillPatternX || fillPatternY) {
               this.translate(fillPatternX || 0, fillPatternY || 0);
           }
           if (fillPatternRotation) {
               this.rotate(fillPatternRotation);
-          }
-          if (fillPatternScaleX || fillPatternScaleY) {
-              this.scale(fillPatternScaleX, fillPatternScaleY);
           }
           if (fillPatternOffsetX || fillPatternOffsetY) {
               this.translate(-1 * fillPatternOffsetX, -1 * fillPatternOffsetY);
@@ -5819,12 +5816,13 @@
        * get pointer position which can be a touch position or mouse position
        * @method
        * @name Konva.Stage#getPointerPosition
-       * @returns {Object}
+       * @returns {Vector2d|null}
        */
       Stage.prototype.getPointerPosition = function () {
           var pos = this._pointerPositions[0];
           if (!pos) {
               Util.warn(NO_POINTERS_MESSAGE);
+              return null;
           }
           return {
               x: pos.x,
@@ -5878,6 +5876,9 @@
        * var group = stage.getIntersection({x: 50, y: 50}, 'Group');
        */
       Stage.prototype.getIntersection = function (pos, selector) {
+          if (!pos) {
+              return null;
+          }
           var layers = this.children, len = layers.length, end = len - 1, n, shape;
           for (n = end; n >= 0; n--) {
               shape = layers[n].getIntersection(pos, selector);
@@ -6998,7 +6999,7 @@
           shapes[key] = _this;
           _this.on('shadowColorChange.konva shadowBlurChange.konva shadowOffsetChange.konva shadowOpacityChange.konva shadowEnabledChange.konva', _clearHasShadowCache);
           _this.on('shadowColorChange.konva shadowOpacityChange.konva shadowEnabledChange.konva', _clearGetShadowRGBACache);
-          _this.on('fillPriorityChange.konva fillPatternImageChange.konva fillPatternRepeatChange.konva', _clearFillPatternCache);
+          _this.on('fillPriorityChange.konva fillPatternImageChange.konva fillPatternRepeatChange.konva fillPatternScaleXChange.konva fillPatternScaleYChange.konva', _clearFillPatternCache);
           _this.on('fillPriorityChange.konva fillLinearGradientColorStopsChange.konva fillLinearGradientStartPointXChange.konva fillLinearGradientStartPointYChange.konva fillLinearGradientEndPointXChange.konva fillLinearGradientEndPointYChange.konva', _clearLinearGradientCache);
           _this.on('fillPriorityChange.konva fillRadialGradientColorStopsChange.konva fillRadialGradientStartPointXChange.konva fillRadialGradientStartPointYChange.konva fillRadialGradientEndPointXChange.konva fillRadialGradientEndPointYChange.konva fillRadialGradientStartRadiusChange.konva fillRadialGradientEndRadiusChange.konva', _clearRadialGradientCache);
           return _this;
@@ -7050,7 +7051,17 @@
       Shape.prototype.__getFillPattern = function () {
           if (this.fillPatternImage()) {
               var ctx = getDummyContext();
-              return ctx.createPattern(this.fillPatternImage(), this.fillPatternRepeat() || 'repeat');
+              var pattern = ctx.createPattern(this.fillPatternImage(), this.fillPatternRepeat() || 'repeat');
+              pattern.setTransform({
+                  a: this.fillPatternScaleX(),
+                  b: 0,
+                  c: 0,
+                  d: this.fillPatternScaleY(),
+                  e: 0,
+                  f: 0 // Vertical translation (moving).
+              });
+              // pattern.setTransform
+              return pattern;
           }
       };
       Shape.prototype._getLinearGradient = function () {
