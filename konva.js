@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.6
+   * Konva JavaScript Framework v4.0.7
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sat Aug 31 2019
+   * Date: Tue Sep 03 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.6',
+      version: '4.0.7',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2390,7 +2390,7 @@
                   if (distance < dragDistance) {
                       return;
                   }
-                  node.startDrag(evt);
+                  node.startDrag({ evt: evt });
                   // a user can stop dragging inside `dragstart`
                   if (!node.isDragging()) {
                       return;
@@ -6252,7 +6252,7 @@
               clearTimeout(this.dblTimeout);
               // Konva.inDblClickWindow = false;
           }
-          else {
+          else if (!DD.justDragged) {
               Konva.inDblClickWindow = true;
               clearTimeout(this.dblTimeout);
           }
