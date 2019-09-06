@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.8
+   * Konva JavaScript Framework v4.0.9
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Sep 05 2019
+   * Date: Fri Sep 06 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.8',
+      version: '4.0.9',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -5824,7 +5824,7 @@
        * @returns {Vector2d|null}
        */
       Stage.prototype.getPointerPosition = function () {
-          var pos = this._pointerPositions[0];
+          var pos = this._pointerPositions[0] || this._changedPointerPositions[0];
           if (!pos) {
               Util.warn(NO_POINTERS_MESSAGE);
               return null;
@@ -14759,7 +14759,7 @@
           this.add(back);
       };
       Transformer.prototype._handleMouseDown = function (e) {
-          this.movingResizer = e.target.name().split(' ')[0];
+          this._movingAnchorName = e.target.name().split(' ')[0];
           // var node = this.getNode();
           var attrs = this._getNodeRect();
           var width = attrs.width;
@@ -14777,8 +14777,8 @@
       };
       Transformer.prototype._handleMouseMove = function (e) {
           var x, y, newHypotenuse;
-          var resizerNode = this.findOne('.' + this.movingResizer);
-          var stage = resizerNode.getStage();
+          var anchorNode = this.findOne('.' + this._movingAnchorName);
+          var stage = anchorNode.getStage();
           var box = stage.getContent().getBoundingClientRect();
           var zeroPoint = {
               x: box.left,
@@ -14792,84 +14792,96 @@
               x: pointerPos.left - zeroPoint.x,
               y: pointerPos.top - zeroPoint.y
           };
-          resizerNode.setAbsolutePosition(newAbsPos);
+          anchorNode.setAbsolutePosition(newAbsPos);
           var keepProportion = this.keepRatio() || e.shiftKey;
           // console.log(keepProportion);
-          if (this.movingResizer === 'top-left') {
+          if (this._movingAnchorName === 'top-left') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - resizerNode.x(), 2) +
-                      Math.pow(this.findOne('.bottom-right').y() - resizerNode.y(), 2));
-                  var reverse = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
+                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - anchorNode.x(), 2) +
+                      Math.pow(this.findOne('.bottom-right').y() - anchorNode.y(), 2));
+                  var reverseX = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
                       ? -1
                       : 1;
-                  x = newHypotenuse * this.cos * reverse;
-                  y = newHypotenuse * this.sin * reverse;
+                  var reverseY = this.findOne('.top-left').y() > this.findOne('.bottom-right').y()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverseX;
+                  y = newHypotenuse * this.sin * reverseY;
                   this.findOne('.top-left').x(this.findOne('.bottom-right').x() - x);
                   this.findOne('.top-left').y(this.findOne('.bottom-right').y() - y);
               }
           }
-          else if (this.movingResizer === 'top-center') {
-              this.findOne('.top-left').y(resizerNode.y());
+          else if (this._movingAnchorName === 'top-center') {
+              this.findOne('.top-left').y(anchorNode.y());
           }
-          else if (this.movingResizer === 'top-right') {
+          else if (this._movingAnchorName === 'top-right') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-left').x() - resizerNode.x(), 2) +
-                      Math.pow(this.findOne('.bottom-left').y() - resizerNode.y(), 2));
-                  var reverse = this.findOne('.top-right').x() < this.findOne('.top-left').x()
+                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-left').x() - anchorNode.x(), 2) +
+                      Math.pow(this.findOne('.bottom-left').y() - anchorNode.y(), 2));
+                  var reverseX = this.findOne('.top-right').x() < this.findOne('.top-left').x()
                       ? -1
                       : 1;
-                  x = newHypotenuse * this.cos * reverse;
-                  y = newHypotenuse * this.sin * reverse;
+                  var reverseY = this.findOne('.top-right').y() > this.findOne('.bottom-left').y()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverseX;
+                  y = newHypotenuse * this.sin * reverseY;
                   this.findOne('.top-right').x(x);
                   this.findOne('.top-right').y(this.findOne('.bottom-left').y() - y);
               }
-              var pos = resizerNode.position();
+              var pos = anchorNode.position();
               this.findOne('.top-left').y(pos.y);
               this.findOne('.bottom-right').x(pos.x);
           }
-          else if (this.movingResizer === 'middle-left') {
-              this.findOne('.top-left').x(resizerNode.x());
+          else if (this._movingAnchorName === 'middle-left') {
+              this.findOne('.top-left').x(anchorNode.x());
           }
-          else if (this.movingResizer === 'middle-right') {
-              this.findOne('.bottom-right').x(resizerNode.x());
+          else if (this._movingAnchorName === 'middle-right') {
+              this.findOne('.bottom-right').x(anchorNode.x());
           }
-          else if (this.movingResizer === 'bottom-left') {
+          else if (this._movingAnchorName === 'bottom-left') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - resizerNode.x(), 2) +
-                      Math.pow(this.findOne('.top-right').y() - resizerNode.y(), 2));
-                  var reverse = this.findOne('.top-right').x() < this.findOne('.bottom-left').x()
+                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - anchorNode.x(), 2) +
+                      Math.pow(this.findOne('.top-right').y() - anchorNode.y(), 2));
+                  var reverseX = this.findOne('.top-right').x() < this.findOne('.bottom-left').x()
                       ? -1
                       : 1;
-                  x = newHypotenuse * this.cos * reverse;
-                  y = newHypotenuse * this.sin * reverse;
+                  var reverseY = this.findOne('.bottom-right').y() < this.findOne('.top-left').y()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverseX;
+                  y = newHypotenuse * this.sin * reverseY;
                   this.findOne('.bottom-left').x(this.findOne('.top-right').x() - x);
                   this.findOne('.bottom-left').y(y);
               }
-              pos = resizerNode.position();
+              pos = anchorNode.position();
               this.findOne('.top-left').x(pos.x);
               this.findOne('.bottom-right').y(pos.y);
           }
-          else if (this.movingResizer === 'bottom-center') {
-              this.findOne('.bottom-right').y(resizerNode.y());
+          else if (this._movingAnchorName === 'bottom-center') {
+              this.findOne('.bottom-right').y(anchorNode.y());
           }
-          else if (this.movingResizer === 'bottom-right') {
+          else if (this._movingAnchorName === 'bottom-right') {
               if (keepProportion) {
                   newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x(), 2) +
                       Math.pow(this.findOne('.bottom-right').y(), 2));
-                  var reverse = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
+                  var reverseX = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
                       ? -1
                       : 1;
-                  x = newHypotenuse * this.cos * reverse;
-                  y = newHypotenuse * this.sin * reverse;
+                  var reverseY = this.findOne('.top-left').y() > this.findOne('.bottom-right').y()
+                      ? -1
+                      : 1;
+                  x = newHypotenuse * this.cos * reverseX;
+                  y = newHypotenuse * this.sin * reverseY;
                   this.findOne('.bottom-right').x(x);
                   this.findOne('.bottom-right').y(y);
               }
           }
-          else if (this.movingResizer === 'rotater') {
+          else if (this._movingAnchorName === 'rotater') {
               var padding = this.padding();
               var attrs = this._getNodeRect();
-              x = resizerNode.x() - attrs.width / 2;
-              y = -resizerNode.y() + attrs.height / 2;
+              x = anchorNode.x() - attrs.width / 2;
+              y = -anchorNode.y() + attrs.height / 2;
               var dAlpha = Math.atan2(-y, x) + Math.PI / 2;
               if (attrs.height < 0) {
                   dAlpha -= Math.PI;
@@ -14909,9 +14921,10 @@
               }, e);
           }
           else {
-              console.error(new Error('Wrong position argument of selection resizer: ' + this.movingResizer));
+              console.error(new Error('Wrong position argument of selection resizer: ' +
+                  this._movingAnchorName));
           }
-          if (this.movingResizer === 'rotater') {
+          if (this._movingAnchorName === 'rotater') {
               return;
           }
           var absPos = this.findOne('.top-left').getAbsolutePosition(this.getParent());
@@ -15119,9 +15132,9 @@
       Transformer.prototype.stopTransform = function () {
           if (this._transforming) {
               this._removeEvents();
-              var resizerNode = this.findOne('.' + this.movingResizer);
-              if (resizerNode) {
-                  resizerNode.stopDrag();
+              var anchorNode = this.findOne('.' + this._movingAnchorName);
+              if (anchorNode) {
+                  anchorNode.stopDrag();
               }
           }
       };
