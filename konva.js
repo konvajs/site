@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.9
+   * Konva JavaScript Framework v4.0.10
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Sep 06 2019
+   * Date: Tue Sep 10 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.9',
+      version: '4.0.10',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1669,8 +1669,8 @@
        * @method
        * @name Konva.Context#arcTo
        */
-      Context.prototype.arcTo = function (a0, a1, a2, a3, a4, a5) {
-          this._context.arc(a0, a1, a2, a3, a4, a5);
+      Context.prototype.arcTo = function (a0, a1, a2, a3, a4) {
+          this._context.arcTo(a0, a1, a2, a3, a4);
       };
       /**
        * beginPath function.
@@ -2415,7 +2415,9 @@
               var node = elem.node;
               // we need to find pointer relative to that node
               var stage = node.getStage();
-              stage.setPointersPositions(evt);
+              if (evt) {
+                  stage.setPointersPositions(evt);
+              }
               var pos = stage._changedPointerPositions.find(function (pos) { return pos.id === elem.pointerId; });
               // that pointer is not related
               if (!pos) {
@@ -3726,7 +3728,7 @@
                       return true;
                   }
               }
-              else if (this.className === selector || this.nodeType === selector) {
+              else if (this.className === sel || this.nodeType === sel) {
                   return true;
               }
           }
@@ -4376,8 +4378,7 @@
        * @method
        * @name Konva.Node#stopDrag
        */
-      Node.prototype.stopDrag = function () {
-          var evt = {};
+      Node.prototype.stopDrag = function (evt) {
           var elem = DD._dragElements.get(this._id);
           if (elem) {
               elem.dragStatus = 'stopped';
