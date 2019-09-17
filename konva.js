@@ -5,7 +5,7 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.11
+   * Konva JavaScript Framework v4.0.12
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Tue Sep 17 2019
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.11',
+      version: '4.0.12',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14848,7 +14848,6 @@
               if (keepProportion) {
                   newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - anchorNode.x() - padding * 2, 2) +
                       Math.pow(anchorNode.y() - this.findOne('.top-right').y() - padding * 2, 2));
-                  console.error(newHypotenuse);
                   var reverseX = this.findOne('.top-right').x() < this.findOne('.bottom-left').x()
                       ? -1
                       : 1;
