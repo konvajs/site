@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.10
+   * Konva JavaScript Framework v4.0.11
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Sep 10 2019
+   * Date: Tue Sep 17 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.10',
+      version: '4.0.11',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3655,7 +3655,7 @@
        * get all ancestors (parent then parent of the parent, etc) of the node
        * @method
        * @name Konva.Node#findAncestors
-       * @param {String} [selector] selector for search
+       * @param {String} selector selector for search
        * @param {Boolean} [includeSelf] show we think that node is ancestro itself?
        * @param {Konva.Node} [stopNode] optional node where we need to stop searching (one of ancestors)
        * @returns {Array} [ancestors]
@@ -3687,7 +3687,7 @@
        * get ancestor (parent or parent of the parent, etc) of the node that match passed selector
        * @method
        * @name Konva.Node#findAncestor
-       * @param {String} [selector] selector for search
+       * @param {String} selector selector for search
        * @param {Boolean} [includeSelf] show we think that node is ancestro itself?
        * @param {Konva.Node} [stopNode] optional node where we need to stop searching (one of ancestors)
        * @returns {Konva.Node} ancestor
@@ -3835,7 +3835,10 @@
        *  account its ancestor scales
        * @method
        * @name Konva.Node#getAbsoluteScale
-       * @returns {Konva.Transform}
+       * @returns {Object}
+       * @example
+       * // get absolute scale x
+       * var scaleX = node.getAbsoluteScale().x;
        */
       Node.prototype.getAbsoluteScale = function (top) {
           // if using an argument, we can't cache the result.
@@ -14752,7 +14755,7 @@
                   ctx.rect(-padding, -padding, this.width() + padding * 2, this.height() + padding * 2);
                   ctx.moveTo(this.width() / 2, -padding);
                   if (tr.rotateEnabled()) {
-                      ctx.lineTo(this.width() / 2, -tr.rotateAnchorOffset() * Util._sign(this.height()));
+                      ctx.lineTo(this.width() / 2, -tr.rotateAnchorOffset() * Util._sign(this.height()) - padding);
                   }
                   ctx.fillStrokeShape(this);
               }
@@ -14795,11 +14798,12 @@
           };
           anchorNode.setAbsolutePosition(newAbsPos);
           var keepProportion = this.keepRatio() || e.shiftKey;
+          var padding = this.padding();
           // console.log(keepProportion);
           if (this._movingAnchorName === 'top-left') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - anchorNode.x(), 2) +
-                      Math.pow(this.findOne('.bottom-right').y() - anchorNode.y(), 2));
+                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - anchorNode.x() - padding * 2, 2) +
+                      Math.pow(this.findOne('.bottom-right').y() - anchorNode.y() - padding * 2, 2));
                   var reverseX = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
                       ? -1
                       : 1;
@@ -14808,8 +14812,8 @@
                       : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.top-left').x(this.findOne('.bottom-right').x() - x);
-                  this.findOne('.top-left').y(this.findOne('.bottom-right').y() - y);
+                  this.findOne('.top-left').x(this.findOne('.bottom-right').x() - x - padding * 2);
+                  this.findOne('.top-left').y(this.findOne('.bottom-right').y() - y - padding * 2);
               }
           }
           else if (this._movingAnchorName === 'top-center') {
@@ -14817,8 +14821,8 @@
           }
           else if (this._movingAnchorName === 'top-right') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-left').x() - anchorNode.x(), 2) +
-                      Math.pow(this.findOne('.bottom-left').y() - anchorNode.y(), 2));
+                  newHypotenuse = Math.sqrt(Math.pow(anchorNode.x() - this.findOne('.bottom-left').x() - padding * 2, 2) +
+                      Math.pow(this.findOne('.bottom-left').y() - anchorNode.y() - padding * 2, 2));
                   var reverseX = this.findOne('.top-right').x() < this.findOne('.top-left').x()
                       ? -1
                       : 1;
@@ -14827,8 +14831,8 @@
                       : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.top-right').x(x);
-                  this.findOne('.top-right').y(this.findOne('.bottom-left').y() - y);
+                  this.findOne('.top-right').x(x + padding);
+                  this.findOne('.top-right').y(this.findOne('.bottom-left').y() - y - padding * 2);
               }
               var pos = anchorNode.position();
               this.findOne('.top-left').y(pos.y);
@@ -14842,8 +14846,9 @@
           }
           else if (this._movingAnchorName === 'bottom-left') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - anchorNode.x(), 2) +
-                      Math.pow(this.findOne('.top-right').y() - anchorNode.y(), 2));
+                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - anchorNode.x() - padding * 2, 2) +
+                      Math.pow(anchorNode.y() - this.findOne('.top-right').y() - padding * 2, 2));
+                  console.error(newHypotenuse);
                   var reverseX = this.findOne('.top-right').x() < this.findOne('.bottom-left').x()
                       ? -1
                       : 1;
@@ -14852,8 +14857,8 @@
                       : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.bottom-left').x(this.findOne('.top-right').x() - x);
-                  this.findOne('.bottom-left').y(y);
+                  this.findOne('.bottom-left').x(this.findOne('.top-right').x() - x - padding * 2);
+                  this.findOne('.bottom-left').y(y + padding);
               }
               pos = anchorNode.position();
               this.findOne('.top-left').x(pos.x);
@@ -14864,8 +14869,8 @@
           }
           else if (this._movingAnchorName === 'bottom-right') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x(), 2) +
-                      Math.pow(this.findOne('.bottom-right').y(), 2));
+                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - padding, 2) +
+                      Math.pow(this.findOne('.bottom-right').y() - padding, 2));
                   var reverseX = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
                       ? -1
                       : 1;
@@ -14874,12 +14879,11 @@
                       : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.bottom-right').x(x);
-                  this.findOne('.bottom-right').y(y);
+                  this.findOne('.bottom-right').x(x + padding);
+                  this.findOne('.bottom-right').y(y + padding);
               }
           }
           else if (this._movingAnchorName === 'rotater') {
-              var padding = this.padding();
               var attrs = this._getNodeRect();
               x = anchorNode.x() - attrs.width / 2;
               y = -anchorNode.y() + attrs.height / 2;
@@ -14928,16 +14932,14 @@
           if (this._movingAnchorName === 'rotater') {
               return;
           }
-          var absPos = this.findOne('.top-left').getAbsolutePosition(this.getParent());
           var centeredScaling = this.centeredScaling() || e.altKey;
           if (centeredScaling) {
               var topLeft = this.findOne('.top-left');
               var bottomRight = this.findOne('.bottom-right');
-              var topOffsetX = topLeft.x();
-              var topOffsetY = topLeft.y();
-              var bottomOffsetX = this.getWidth() - bottomRight.x();
-              var bottomOffsetY = this.getHeight() - bottomRight.y();
-              // console.log(topOffsetX, topOffsetY, bottomOffsetX, bottomOffsetY);
+              var topOffsetX = topLeft.x() + padding;
+              var topOffsetY = topLeft.y() + padding;
+              var bottomOffsetX = this.getWidth() - bottomRight.x() + padding;
+              var bottomOffsetY = this.getHeight() - bottomRight.y() + padding;
               bottomRight.move({
                   x: -topOffsetX,
                   y: -topOffsetY
@@ -14946,13 +14948,12 @@
                   x: bottomOffsetX,
                   y: bottomOffsetY
               });
-              absPos = topLeft.getAbsolutePosition(this.getParent());
           }
+          var absPos = this.findOne('.top-left').getAbsolutePosition(this.getParent());
           x = absPos.x;
           y = absPos.y;
           var width = this.findOne('.bottom-right').x() - this.findOne('.top-left').x();
           var height = this.findOne('.bottom-right').y() - this.findOne('.top-left').y();
-          // console.log(x, y, width, height);
           this._fitNodeInto({
               x: x + this.offsetX(),
               y: y + this.offsetY(),
@@ -14978,7 +14979,7 @@
           }
       };
       Transformer.prototype._fitNodeInto = function (newAttrs, evt) {
-          // waring! in this attrs padding may be included
+          // waring! in this attrs padding is included
           var boundBoxFunc = this.boundBoxFunc();
           if (boundBoxFunc) {
               var oldAttrs = this._getNodeRect();
@@ -15101,7 +15102,7 @@
           var scaledRotateAnchorOffset = -this.rotateAnchorOffset() * Math.abs(invertedScale.y);
           this.findOne('.rotater').setAttrs({
               x: width / 2,
-              y: scaledRotateAnchorOffset * Util._sign(height),
+              y: scaledRotateAnchorOffset * Util._sign(height) - padding,
               scale: invertedScale,
               visible: this.rotateEnabled()
           });
