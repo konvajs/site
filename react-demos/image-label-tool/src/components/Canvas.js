@@ -1,11 +1,11 @@
-import React from "react";
-import Konva from "konva";
-import { Stage } from "react-konva";
+import React from 'react';
+import Konva from 'konva';
+import { Stage } from 'react-konva';
 
-import Regions from "./Regions";
-import BaseImage from "./BaseImage";
+import Regions from './Regions';
+import BaseImage from './BaseImage';
 
-import useStore from "../store";
+import useStore from '../store';
 
 let id = 1;
 
@@ -54,7 +54,7 @@ function zoomStage(stage, scaleBy) {
 }
 
 function limitAttributes(stage, newAttrs) {
-  const box = stage.findOne("Image").getClientRect();
+  const box = stage.findOne('Image').getClientRect();
   const minX = -box.width + stage.width() / 2;
   const maxX = stage.width() / 2;
 
@@ -87,11 +87,16 @@ export default () => {
   const selectRegion = useStore(s => s.selectRegion);
 
   React.useEffect(() => {
-    const contaienr = document.querySelector(".right-panel");
-    setSize({
-      width: contaienr.offsetWidth,
-      height
-    });
+    function checkSize() {
+      const container = document.querySelector('.right-panel');
+      setSize({
+        width: container.offsetWidth,
+        height
+      });
+    }
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
   }, []);
   return (
     <React.Fragment>
@@ -103,7 +108,7 @@ export default () => {
         scaleY={scale}
         className="canvas"
         onClick={e => {
-          const clickedNotOnRegion = e.target.name() !== "region";
+          const clickedNotOnRegion = e.target.name() !== 'region';
           if (clickedNotOnRegion) {
             selectRegion(null);
           }
