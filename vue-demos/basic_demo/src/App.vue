@@ -50,7 +50,13 @@ export default {
   },
   methods: {
     handleDragstart(e) {
+      // save drag element:
       this.dragItemId = e.target.id();
+      // move current element to the top:
+      const item = this.items.find((i = i.id === this.dragItemId));
+      const index = this.items.indexOf(item);
+      this.items.splice(index, 1);
+      this.items.push(item);
     },
     handleDragend(e) {
       this.dragItemId = null;
