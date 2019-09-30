@@ -8,9 +8,9 @@
     "konva": "4.0.12",
     "mobx": "4.3.1",
     "mobx-react": "5.2.3",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "react-konva": "16.9.0-0",
+    "react": "16.10.1",
+    "react-dom": "16.10.1",
+    "react-konva": "16.10.1-0",
     "react-scripts": "1.1.4"
   },
   "devDependencies": {},

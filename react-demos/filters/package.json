@@ -9,9 +9,9 @@
   ],
   "dependencies": {
     "konva": "4.0.12",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "react-konva": "16.9.0-0",
+    "react": "16.10.1",
+    "react-dom": "16.10.1",
+    "react-konva": "16.10.1-0",
     "use-image": "^1.0.4"
   },
   "devDependencies": {
