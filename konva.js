@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.13
+   * Konva JavaScript Framework v4.0.14
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Oct 02 2019
+   * Date: Fri Oct 11 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.13',
+      version: '4.0.14',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1425,6 +1425,14 @@
       d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   }
 
+  function __spreadArrays() {
+      for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+      for (var r = Array(s), k = 0, i = 0; i < il; i++)
+          for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+              r[k] = a[j];
+      return r;
+  }
+
   var COMMA = ',', OPEN_PAREN = '(', CLOSE_PAREN = ')', OPEN_PAREN_BRACKET = '([', CLOSE_BRACKET_PAREN = '])', SEMICOLON = ';', DOUBLE_PAREN = '()', 
   // EMPTY_STRING = '',
   EQUALS = '=', 
@@ -2614,7 +2622,8 @@
       Node.prototype._clearSelfAndDescendantCache = function (attr) {
           this._clearCache(attr);
           // skip clearing if node is cached with canvas
-          if (this._getCanvasCache()) {
+          // for performance reasons !!!
+          if (this.isCached()) {
               return;
           }
           if (this.children) {
@@ -2849,7 +2858,6 @@
       Node.prototype._drawCachedHitCanvas = function (context) {
           var canvasCache = this._getCanvasCache(), hitCanvas = canvasCache.hit;
           context.save();
-          context._applyGlobalCompositeOperation(this);
           context.translate(canvasCache.x, canvasCache.y);
           context.drawImage(hitCanvas._canvas, 0, 0);
           context.restore();
@@ -3357,6 +3365,20 @@
           };
       };
       Node.prototype.getAbsolutePosition = function (top) {
+          var haveCachedParent = false;
+          var parent = this.parent;
+          while (parent) {
+              if (parent.isCached()) {
+                  haveCachedParent = true;
+                  break;
+              }
+              parent = parent.parent;
+          }
+          if (haveCachedParent && !top) {
+              // make fake top element
+              // "true" is not a node, but it will just allow skip all caching
+              top = true;
+          }
           var absoluteMatrix = this.getAbsoluteTransform(top).getMatrix(), absoluteTransform = new Transform(), offset = this.offset();
           // clone the matrix array
           absoluteTransform.m = absoluteMatrix.slice();
@@ -5409,7 +5431,9 @@
                   .getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
           }
-          var hasComposition = this.globalCompositeOperation() !== 'source-over' && !skipComposition;
+          var hasComposition = this.globalCompositeOperation() !== 'source-over' &&
+              !skipComposition &&
+              drawMethod === 'drawScene';
           if (hasComposition && layer) {
               context.save();
               context._applyGlobalCompositeOperation(this);
@@ -5949,7 +5973,7 @@
           setPointerCapture(pointerId, this);
       };
       Stage.prototype.releaseCapture = function (pointerId) {
-          releaseCapture(pointerId, this);
+          releaseCapture(pointerId);
       };
       /**
        * returns a {@link Konva.Collection} of layers
@@ -7446,7 +7470,7 @@
           setPointerCapture(pointerId, this);
       };
       Shape.prototype.releaseCapture = function (pointerId) {
-          releaseCapture(pointerId, this);
+          releaseCapture(pointerId);
       };
       return Shape;
   }(Node));
@@ -8827,7 +8851,7 @@
    * Animation constructor.
    * @constructor
    * @memberof Konva
-   * @param {Function} func function executed on each animation frame.  The function is passed a frame object, which contains
+   * @param {AnimationFn} func function executed on each animation frame.  The function is passed a frame object, which contains
    *  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed
    *  since the last animation frame.  The lastTime property is time in milliseconds that elapsed from the moment the animation started
    *  to the last animation frame.  The time property is the time in milliseconds that elapsed from the moment the animation started
@@ -10129,10 +10153,10 @@
               };
           }
           if (this.tension() !== 0) {
-              points = [
+              points = __spreadArrays([
                   points[0],
                   points[1]
-              ].concat(this._getTensionPoints(), [
+              ], this._getTensionPoints(), [
                   points[points.length - 2],
                   points[points.length - 2]
               ]);
