@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.14
+   * Konva JavaScript Framework v4.0.15
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Oct 11 2019
+   * Date: Tue Oct 15 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.14',
+      version: '4.0.15',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14214,11 +14214,13 @@
                   }
               }
           };
-          // fake search for offset, this is very bad approach
-          // find other way to add offset from start (for align)
+          // fake search for offset, this is the best approach
           var testChar = 'C';
           var glyphWidth = that._getTextSize(testChar).width + letterSpacing;
-          for (var k = 0; k < offset / glyphWidth; k++) {
+          var lettersInOffset = offset / glyphWidth - 1;
+          // the idea is simple
+          // try to draw testChar until we fill offset
+          for (var k = 0; k < lettersInOffset; k++) {
               findSegmentToFitCharacter(testChar);
               if (p0 === undefined || p1 === undefined) {
                   break;
@@ -14259,6 +14261,14 @@
           }
       };
       TextPath.prototype.getSelfRect = function () {
+          if (!this.glyphInfo.length) {
+              return {
+                  x: 0,
+                  y: 0,
+                  width: 0,
+                  height: 0
+              };
+          }
           var points = [];
           this.glyphInfo.forEach(function (info) {
               points.push(info.p0.x);
@@ -14266,10 +14276,10 @@
               points.push(info.p1.x);
               points.push(info.p1.y);
           });
-          var minX = points[0];
-          var maxX = points[0];
-          var minY = points[0];
-          var maxY = points[0];
+          var minX = points[0] || 0;
+          var maxX = points[0] || 0;
+          var minY = points[1] || 0;
+          var maxY = points[1] || 0;
           var x, y;
           for (var i = 0; i < points.length / 2; i++) {
               x = points[i * 2];
