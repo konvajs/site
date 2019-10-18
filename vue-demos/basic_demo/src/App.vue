@@ -53,7 +53,7 @@ export default {
       // save drag element:
       this.dragItemId = e.target.id();
       // move current element to the top:
-      const item = this.list.find((i = i.id === this.dragItemId));
+      const item = this.list.find(i => i.id === this.dragItemId);
       const index = this.list.indexOf(item);
       this.list.splice(index, 1);
       this.list.push(item);
