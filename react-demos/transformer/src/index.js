@@ -1,6 +1,6 @@
-import React from "react";
-import { render } from "react-dom";
-import { Stage, Layer, Rect, Transformer } from "react-konva";
+import React from 'react';
+import { render } from 'react-dom';
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
 
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const shapeRef = React.useRef();
@@ -29,7 +29,10 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
           });
         }}
         onTransformEnd={e => {
-          // transformer is changing scale
+          // transformer is changing scale of the node
+          // and NOT its width or height
+          // but in the store we have only width and height
+          // to match the data better we will reset scale on transform end
           const node = shapeRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
@@ -41,8 +44,9 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
             ...shapeProps,
             x: node.x(),
             y: node.y(),
-            width: node.width() * scaleX,
-            height: node.height() * scaleY
+            // set minimal value
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(node.height() * scaleY)
           });
         }}
       />
@@ -57,16 +61,16 @@ const initialRectangles = [
     y: 10,
     width: 100,
     height: 100,
-    fill: "red",
-    id: "rect1"
+    fill: 'red',
+    id: 'rect1'
   },
   {
     x: 150,
     y: 150,
     width: 100,
     height: 100,
-    fill: "green",
-    id: "rect2"
+    fill: 'green',
+    id: 'rect2'
   }
 ];
 
@@ -109,4 +113,4 @@ const App = () => {
   );
 };
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'));
