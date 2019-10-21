@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.15
+   * Konva JavaScript Framework v4.0.16
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Oct 15 2019
+   * Date: Mon Oct 21 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.15',
+      version: '4.0.16',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3264,6 +3264,9 @@
                   return true;
               }
           }
+          else if (relativeTo && relativeTo !== parent) {
+              return visible && parent._isVisible(relativeTo);
+          }
           else {
               return visible;
           }
@@ -4374,7 +4377,6 @@
           // const pointers = this.getStage().getPointersPositions();
           // const pos = pointers.find(p => p.id === this._dragEventId);
           var pos = this.getStage()._getPointerById(elem.pointerId);
-          var dbf = this.dragBoundFunc();
           if (!pos) {
               return;
           }
@@ -4382,8 +4384,15 @@
               x: pos.x - elem.offset.x,
               y: pos.y - elem.offset.y
           };
+          var dbf = this.dragBoundFunc();
           if (dbf !== undefined) {
-              newNodePos = dbf.call(this, newNodePos, evt);
+              var bounded = dbf.call(this, newNodePos, evt);
+              if (!bounded) {
+                  Util.warn('dragBoundFunc did not return any value. That is unexpected behavior. You must return new absolute position from dragBoundFunc.');
+              }
+              else {
+                  newNodePos = bounded;
+              }
           }
           if (!this._lastPos ||
               this._lastPos.x !== newNodePos.x ||
@@ -15042,8 +15051,10 @@
               skipStroke: this.ignoreStroke()
           });
           var padding = this.padding();
-          var scaleX = (newAttrs.width - padding * 2) / pure.width;
-          var scaleY = (newAttrs.height - padding * 2) / pure.height;
+          var scaleX = pure.width ? (newAttrs.width - padding * 2) / pure.width : 1;
+          var scaleY = pure.height
+              ? (newAttrs.height - padding * 2) / pure.height
+              : 1;
           var rotation = Konva.getAngle(node.rotation());
           var dx = pure.x * scaleX - padding - node.offsetX() * scaleX;
           var dy = pure.y * scaleY - padding - node.offsetY() * scaleY;
