@@ -148,6 +148,7 @@ doc_sidebar:
 demo_sidebar:
   Demos:
     Free Drawing: sandbox/Free_Drawing.html
+    Stage Preview: sandbox/Stage_Preview.html
     Editable Text: sandbox/Editable_Text.html
     Rich Text: sandbox/Rich_Text.html
     Simple Window Frame: sandbox/Simple_Window_Frame.html
