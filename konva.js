@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.16
+   * Konva JavaScript Framework v4.0.17
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Oct 21 2019
+   * Date: Fri Nov 08 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.16',
+      version: '4.0.17',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2175,7 +2175,7 @@
           this.restore();
       };
       HitContext.prototype._stroke = function (shape) {
-          if (shape.hasStroke() && shape.hitStrokeWidth()) {
+          if (shape.hasHitStroke()) {
               // ignore strokeScaleEnabled for Text
               var strokeScaleEnabled = shape.getStrokeScaleEnabled();
               if (!strokeScaleEnabled) {
@@ -5521,7 +5521,7 @@
                   break;
               }
           }
-          if (hasVisible) {
+          if (hasVisible && minX !== undefined) {
               selfRect = {
                   x: minX,
                   y: minY,
@@ -5855,7 +5855,9 @@
           return this;
       };
       /**
-       * get pointer position which can be a touch position or mouse position
+       * returns absolute pointer position which can be a touch position or mouse position
+       * pointer position doesn't include any transforms (such as scale) of the stage
+       * it is just a plain position of pointer relative to top-left corner of the stage container
        * @method
        * @name Konva.Stage#getPointerPosition
        * @returns {Vector2d|null}
@@ -7181,6 +7183,13 @@
               !!(this.stroke() || this.strokeLinearGradientColorStops())
           // this.getStrokeRadialGradientColorStops()
           );
+      };
+      Shape.prototype.hasHitStroke = function () {
+          var width = this.hitStrokeWidth();
+          // we should enable hit stroke we stroke is enabled
+          // and we have some value from width
+          return (this.strokeEnabled() &&
+              (width || this.strokeWidth() && width === 'auto'));
       };
       /**
        * determines if point is in the shape, regardless if other shapes are on top of it.  Note: because
@@ -13182,6 +13191,10 @@
       }
       return config;
   }
+  // polyfill for IE11
+  var trimRight = String.prototype.trimRight || function polyfill() {
+      return this.replace(/[\s\xa0]+$/, '');
+  };
   /**
    * Text constructor
    * @constructor
@@ -13540,7 +13553,7 @@
                               }
                           }
                           // if (align === 'right') {
-                          match = match.trimRight();
+                          match = trimRight.call(match);
                           // }
                           this._addTextLine(match);
                           textWidth = Math.max(textWidth, matchWidth);
