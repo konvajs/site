@@ -3,8 +3,8 @@
     <strong class="sidebar-title">
       <%= title %>
     </strong>
-    <% _.each(menu, function(link, text){ %>
-      <a href="<%- url_for('docs/' + link) %>" class="sidebar-link<% if (is_current('docs/' + link, true)){ %> current<% } %>">
+    <% _.each(menu, function(data, text){ %>
+      <a href="<%- url_for('docs/' + data[1]) %>" class="sidebar-link<% if (is_current('docs/' + data[1], true)){ %> current<% } %>">
         <%= text %>
       </a>
       <% }) %>
