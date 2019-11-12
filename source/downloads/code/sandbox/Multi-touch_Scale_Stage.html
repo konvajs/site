@@ -60,46 +60,39 @@
         strokeWidth: 4
       });
 
-      stage.getContent().addEventListener(
-        'touchmove',
-        function(evt) {
-          var touch1 = evt.touches[0];
-          var touch2 = evt.touches[1];
+      stage.on('touchmove', function(e) {
+        e.evt.preventDefault();
+        var touch1 = e.evt.touches[0];
+        var touch2 = e.evt.touches[1];
 
-          if (touch1 && touch2) {
-            var dist = getDistance(
-              {
-                x: touch1.clientX,
-                y: touch1.clientY
-              },
-              {
-                x: touch2.clientX,
-                y: touch2.clientY
-              }
-            );
-
-            if (!lastDist) {
-              lastDist = dist;
+        if (touch1 && touch2) {
+          var dist = getDistance(
+            {
+              x: touch1.clientX,
+              y: touch1.clientY
+            },
+            {
+              x: touch2.clientX,
+              y: touch2.clientY
             }
+          );
 
-            var scale = (stage.scaleX() * dist) / lastDist;
-
-            stage.scaleX(scale);
-            stage.scaleY(scale);
-            stage.draw();
+          if (!lastDist) {
             lastDist = dist;
           }
-        },
-        false
-      );
 
-      stage.getContent().addEventListener(
-        'touchend',
-        function() {
-          lastDist = 0;
-        },
-        false
-      );
+          var scale = (stage.scaleX() * dist) / lastDist;
+
+          stage.scaleX(scale);
+          stage.scaleY(scale);
+          stage.batchDraw();
+          lastDist = dist;
+        }
+      });
+
+      stage.on('touchend', function() {
+        lastDist = 0;
+      });
 
       layer.add(triangle);
       layer.add(circle);
