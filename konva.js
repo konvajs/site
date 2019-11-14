@@ -5,10 +5,10 @@
 }(this, function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.17
+   * Konva JavaScript Framework v4.0.18
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Nov 08 2019
+   * Date: Thu Nov 14 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.17',
+      version: '4.0.18',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2431,7 +2431,8 @@
               if (!pos) {
                   return;
               }
-              if (elem.dragStatus === 'dragging') {
+              if (elem.dragStatus === 'dragging' || elem.dragStatus === 'stopped') {
+                  // if a node is stopped manully we still need to reset events:
                   DD.justDragged = true;
                   Konva.listenClickTap = false;
                   elem.dragStatus = 'stopped';
@@ -6103,6 +6104,7 @@
           this.setPointersPositions(evt);
           var pointerId = Util._getFirstPointerId(evt);
           var shape = this.getIntersection(this.getPointerPosition());
+          DD.justDragged = false;
           Konva.listenClickTap = true;
           if (shape && shape.isListening()) {
               this.clickStartShape = shape;
@@ -6142,9 +6144,6 @@
               // don't set inDblClickWindow after dragging
               Konva.inDblClickWindow = true;
               clearTimeout(this.dblTimeout);
-          }
-          else if (DD) {
-              DD.justDragged = false;
           }
           this.dblTimeout = setTimeout(function () {
               Konva.inDblClickWindow = false;
@@ -6223,6 +6222,7 @@
           this._changedPointerPositions.forEach(function (pos) {
               var shape = _this.getIntersection(pos);
               Konva.listenClickTap = true;
+              DD.justDragged = false;
               var hasShape = shape && shape.isListening();
               if (!hasShape) {
                   return;
@@ -11524,7 +11524,17 @@
       Path.prototype.getSelfRect = function () {
           var points = [];
           this.dataArray.forEach(function (data) {
-              points = points.concat(data.points);
+              if (data.command === 'A') {
+                  points = points.concat([
+                      data.points[0] - data.points[2],
+                      data.points[1] - data.points[3],
+                      data.points[0] + data.points[2],
+                      data.points[1] + data.points[3]
+                  ]);
+              }
+              else {
+                  points = points.concat(data.points);
+              }
           });
           var minX = points[0];
           var maxX = points[0];
@@ -13191,10 +13201,6 @@
       }
       return config;
   }
-  // polyfill for IE11
-  var trimRight = String.prototype.trimRight || function polyfill() {
-      return this.replace(/[\s\xa0]+$/, '');
-  };
   /**
    * Text constructor
    * @constructor
@@ -13553,7 +13559,7 @@
                               }
                           }
                           // if (align === 'right') {
-                          match = trimRight.call(match);
+                          match = match.trimRight();
                           // }
                           this._addTextLine(match);
                           textWidth = Math.max(textWidth, matchWidth);
