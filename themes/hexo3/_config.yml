@@ -220,8 +220,8 @@ demo_sidebar:
       - drag_stress-min.png
       - sandbox/Drag_and_Drop_Stress_Test.html
     Animation Stress Test:
-      - animation_stress-min.p
-      - sandbox/Animation_Stress_Test.htmlng
+      - animation_stress-min.png
+      - sandbox/Animation_Stress_Test.html
     Bunnies Stress Test:
       - bunnies.jpg
       - sandbox/Jumping_Bunnies.html
