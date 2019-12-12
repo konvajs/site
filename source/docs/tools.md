@@ -5,4 +5,4 @@ title: Konva.js Tools and Plugins
 * [Konva + Vue](https://github.com/rafaesc/vue-konva)
 * [Konva + Backbone](https://github.com/lavrton/backbone.konvaview)
 * [Konva + Knockout](https://github.com/mcintyre321/knockout-konva)
-* [Typescript definitions](https://github.com/konvajs/konva/blob/master/konva.d.ts)
+* [Typescript definitions](https://github.com/konvajs/konva/blob/master/src/index-types.d.ts)
