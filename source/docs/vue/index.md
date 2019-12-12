@@ -4,7 +4,7 @@ layout: vue_page
 
 # How to use canvas with Vue?
 
-![VueKonva Logo](https://github.com/rafaesc/vue-konva/raw/master/vue-konva.png)
+![VueKonva Logo](https://raw.githubusercontent.com/konvajs/vue-konva/master/vue-konva.png)
 
 Vue Konva is a JavaScript library for drawing complex canvas graphics using Vue.
 

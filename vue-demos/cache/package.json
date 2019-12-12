@@ -1,0 +1,18 @@
+{
+  "name": "vue-konva-cache-nodes",
+  "version": "1.0.0",
+  "description": "Caching vue-konva nodes",
+  "main": "src/main.js",
+  "private": true,
+  "dependencies": {
+    "konva": "4.0.18",
+    "vue": "^2.5.2",
+    "vue-konva": "2.1.1"
+  },
+  "keywords": [
+    "vue",
+    "canvas",
+    "vue-konva",
+    "konva"
+  ]
+}
