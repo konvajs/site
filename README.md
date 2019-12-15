@@ -1,3 +1,5 @@
+### 当前同步到官网2019-12-12版本
+
 # Konva Website
 
 The website for Konva. Created with Hexo framework.
