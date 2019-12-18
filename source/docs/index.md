@@ -1,41 +1,33 @@
-title: Documentation
+title: 文档
 
 ---
 
-Welcome to the Konva's documentation. This documentation will help you get started fast.
-If you get any problems when using Konva you can ask me on [GitHub](https://github.com/konvajs/konva/issues).
+欢迎你的访问，阅读本文档将帮助你快速入门Konva。如果在 Konva 使用过程中遇到任何问题，可以在 [GitHub](https://github.com/konvajs/konva/issues) 里咨询我。
 
-## What's Konva?
+## Konva 是什么?
 
-Konva is an HTML5 Canvas JavaScript framework that extends the 2d context
-by enabling canvas interactivity for desktop and mobile applications.
+Konva 是一个HTML5 Canvas JavaScript 框架，它通过对 2d context 的扩展实现了在桌面端和移动端的可交互性。Konva 提供了高性能的动画，补间，节点嵌套，布局，滤镜，缓存，事件绑定（桌面/移动端）等等功能。你可以使用 Konva 在舞台上绘制图形，给图形添加事件，移动、缩放和旋转图形并且支持高性能的动画即使包含数千个图形。
 
-Konva enables high performance animations, transitions, node nesting, layering, filtering,
-caching, event handling for desktop and mobile applications, and much more.
 
-You can draw things onto the stage, add event listeners to them, move them,
-scale them, and rotate them independently from other shapes to support high performance
-animations, even if your application uses thousands of shapes.
+这个项目起源于 [KineticJS](https://github.com/ericdrowell/KineticJS) (fork of it)。
 
-This project began as a GitHub fork of [KineticJS](https://github.com/ericdrowell/KineticJS).
+## 安装 Konva
 
-## Install Konva
-
-If you are using package managers:
+使用包管理器:
 
 ```bash
 npm install konva
 ```
 
-Or just use script tag:
+使用 \<script> 标签:
 
 ```html
 <script src="https://unpkg.com/konva@4.0.0/konva.min.js"></script>
 ```
 
-Or download from CDN:
+从CDN下载:
 
 * [Full version konva.js](https://unpkg.com/konva@4.0.0/konva.js)
 * [Min version konva.min.js](https://unpkg.com/konva@4.0.0/konva.min.js)
 
-### [Read next: Overview](/docs/overview.html)
+### [下一节: 基础](/docs/overview.html)

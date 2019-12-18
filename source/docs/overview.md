@@ -1,26 +1,19 @@
-title: Overview
+title: 基础
 ---
 
-## What's Konva?
+## Konva 是什么?
 
-Konva is an HTML5 Canvas JavaScript framework that extends the 2d context
-by enabling canvas interactivity for desktop and mobile applications.
+`Konva` 是一个HTML5 Canvas JavaScript 框架，它通过对 2d context 的扩展实现了在桌面端和移动端的可交互性。Konva 提供了高性能的动画，补间，节点嵌套，布局，滤镜，缓存，事件绑定（桌面/移动端）等等功能。你可以使用 Konva 在舞台上绘制图形，给图形添加事件，移动、缩放和旋转图形并且支持高性能的动画即使包含数千个图形。
 
-Konva enables high performance animations, transitions, node nesting, layering, filtering,
-caching, event handling for desktop and mobile applications, and much more.
+## 工作原理?
 
-## How does it work?
+Konva 的对象是以一颗树的形式保存的，`Konva.Stage` 是树的根节点，`Stage` 子节点是用户创建的图层 （`Konva.Layer`）。
 
-Every thing starts from `Konva.Stage` that contains several user's layers (`Konva.Layer`).
+每一个 layer 有两个 `<canvas>` 渲染器： 场景渲染器 和 图像命中检测渲染器。场景渲染器输出你所看见的内容，图像命中渲染器在隐藏的 canvas 里用于高性能的检测事件。
 
-Each layer has two `<canvas>` renderers: a scene renderer and a hit graph renderer.
-The scene renderer is what you can see, and the hit graph renderer is a special hidden
-canvas that's used for high performance event detection.
+图层可以包含图形、嵌套图形的组、嵌套组的组。`Stage`（舞台），`layers`（图层），`groups`（组），和 `shapes`（图形） 都是虚拟节点，类似于 HTML 的 DOM 节点。
 
-Each layer can contain shapes, groups of shapes, or groups of other groups.
-The stage, layers, groups, and shapes are virtual nodes, similar to DOM nodes in an HTML page.
-
-Here's an example Node hierarchy:
+节点结构图:
 
 ```
                    Stage
@@ -42,15 +35,12 @@ Here's an example Node hierarchy:
               Shape
 ```
 
-All nodes can be styled and transformed.  Although `Konva` has prebuilt shapes available,
-such as rectangles, circles, images, sprites, text, lines, polygons, regular polygons, paths, stars, etc.,
-you can also create custom shapes by instantiating the Shape class and creating a draw function.
+你可以对所有节点修改样式和变换。`Konva` 内建了很多图形，例如：rectangles, circles, images, sprites, text, lines, polygons, regular polygons, paths, stars等等，也可以通过实例化 Shape class 和自定义 draw function 创建自定义图形。
 
-Once you have a stage set up with layers and shapes,
-you can bind event listeners, transform nodes, run animations,
-apply filters, and much more.
+创建好了stage、layers 和 shapes 后，你就能进行绑定事件，变换节点，运行动画，添加滤镜等等操作了。
 
-Minimal code example:
+
+简单的例子:
 
 ```
 // first we need to create a stage
@@ -85,10 +75,10 @@ layer.draw();
 Result:
 ![Minimal code demo](/assets/overview-circle.png)
 
-## Basic shapes
+## 基本图形
 
-Konva.js supports  shapes: [Rect](/docs/shapes/Rect.html), [Circle](/docs/shapes/Circle.html), [Ellipse](/docs/shapes/Ellipse.html), [Line](/docs/shapes/Line_-_Simple_Line.html), [Polygon](/docs/shapes/Line_-_Polygon.html), [Spline](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [Image](/docs/shapes/Image.html), [Text](/docs/shapes/Text.html), [TextPath](/docs/shapes/TextPath.html), [Star](/docs/shapes/Star.html), [Label](/docs/shapes/Label.html), [SVG Path](/docs/shapes/Path.html), [RegularPolygon](/docs/shapes/RegularPolygon.html).
- Also you can create [custom shape](/docs/shapes/Custom.html):
+`Konva` 支持的图形: [Rect](/docs/shapes/Rect.html), [Circle](/docs/shapes/Circle.html), [Ellipse](/docs/shapes/Ellipse.html), [Line](/docs/shapes/Line_-_Simple_Line.html), [Polygon](/docs/shapes/Line_-_Polygon.html), [Spline](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [Image](/docs/shapes/Image.html), [Text](/docs/shapes/Text.html), [TextPath](/docs/shapes/TextPath.html), [Star](/docs/shapes/Star.html), [Label](/docs/shapes/Label.html), [SVG Path](/docs/shapes/Path.html), [RegularPolygon](/docs/shapes/RegularPolygon.html).
+ 自定义图形 [custom shape](/docs/shapes/Custom.html):
 
 ```
 var triangle = new Konva.Shape({
@@ -109,9 +99,9 @@ var triangle = new Konva.Shape({
 ```
 ![Custom shape](/assets/overview-custom.png)
 
-## Styles
+## 样式
 
-Each shape supports the following style properties:
+图形支持的样式属性:
 * Fill. Solid color, gradients or images
 * Stroke (color, width)
 * Shadow (color, offset, opacity, blur)
@@ -134,10 +124,9 @@ var pentagon = new Konva.RegularPolygon({
 ```
 ![Styles](/assets/overview-styles.png)
 
-## Events
+## 事件
 
-With `Konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart` etc),
-attributes change events (`scaleXChange`, `fillChange`) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+你可以轻松的监听输入事件 （`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart` 等等），attributes 变化事件 (`scaleXChange`, `fillChange` 等等) 和 拖放事件（`dragstart`, `dragmove`）。
 
 ```
 circle.on('mouseout touchend', function() {
@@ -154,31 +143,31 @@ circle.on('dragend', function() {
 ```
 See [working example](/docs/events/Binding_Events.html).
 
-## DRAG AND DROP
+## 拖放
 
-`Konva` has builtin drag support. For the current moment there is no `drop` events (`drop`, `dragenter`, `dragleave`, `dragover`)
-but it is very easy to implement them [via framework](/docs/drag_and_drop/Drop_Events.html).
+`Konva` 内置对 drag 的支持，但没有对 `drop` 事件支持 （`drop`, `dragenter`, `dragleave`, `dragover`），但是你可以轻松的实现它们 [via framework](/docs/drag_and_drop/Drop_Events.html)。
 
-To enable drag&drop just set property draggable = true.
+设置 draggable = true 启用拖放。
 
 ```
 shape.draggable('true');
 ```
 
-Then you can subscribe to drag&drop events and setup [moving limits](/docs/drag_and_drop/Complex_Drag_and_Drop.html).
+接下来你就可以订阅 drag&drop 事件和设置[移动限制](/docs/drag_and_drop/Complex_Drag_and_Drop.html)
 
-## Filters
 
-`Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](/api/Konva.Filters.html).
+## 滤镜
 
-Example:
+`Konva` 提供了多种滤镜：blur, invert, noise 等等。 详细请查看 [滤镜API](/api/Konva.Filters.html)
+
+示例:
 ![Filter](/assets/overview-filter.png)
 
-## Animation
+## 动画
 
-You can create animations in two ways:
+你可以通过两种方式创建动画:
 
-1. via `Konva.Animation` [Demo](/docs/animations/Moving.html):
+1. 通过 `Konva.Animation` [Demo](/docs/animations/Moving.html):
 ```
 var anim = new Konva.Animation(function(frame) {
     var time = frame.time,
@@ -189,7 +178,7 @@ var anim = new Konva.Animation(function(frame) {
 anim.start();
 ```
 
-2. via `Konva.Tween` [Demo](/docs/tweens/Linear_Easing.html):
+2. 通过 `Konva.Tween` [Demo](/docs/tweens/Linear_Easing.html):
 ```
 var tween = new Konva.Tween({
         node: rect,
@@ -208,10 +197,9 @@ circle.to({
 });
 ```
 
-## Selectors
+## 选择器
 
-It is very useful to use searching in elements when you are building large application.
-`Konva` helps you to find an element with selectors. You can use `find()` method (returns collection) or `findOne()` method (return first element of collection).
+当你的开发大型应用时，选择器可以帮助你快速查找元素。你可以使用 `find()` 和 `findOne`（返回找到的第一个）方法。
 ```
 var circle = new Konva.Circle({
         radius: 10,
@@ -233,32 +221,34 @@ layer.findOne('#face');
 layer.find('.red')
 ```
 
-## Serialisation and Deserialization
+## 序列化&nbsp;&nbsp;反序列化
 
-All created objects you can save as JSON. You may save it to server or local storage.
+所有创建的对象都能保存为 JSON 格式。你可以将它保存在服务端或者 LocalStorage。
 ```
 var json = stage.toJSON();
 ```
-Also you can restore objects from JSON:
+你也可以通过 JSON 创建对象:
 ```
 var json = '{"attrs":{"width":578,"height":200},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4},"className":"RegularPolygon"}]}]}';
 
 var stage = Konva.Node.create(json, 'container');
 ```
 
-## Performance
+## 性能
 
-`Konva` has a lot of tools to improve speed of your app. Most important methods:
+`Konva` 提供了一些提升性能的工具。
 
-1. Caching allows you to draw an element into buffer canvas. Then draw element from the canvas. It may improve performance a lot for complex nodes such as text or shapes with shadow and strokes.
+主要的方法有：
+
+1. 缓存
+`Caching` 允许你在 buffer canvas 里绘制元素，然后再通过 buffer canvas 绘制到场景，它能提升绘制复杂节点例如：文本、包含阴影或者描边的图形。
+
 ```
 shape.cache();
 ```
 [Demo](/docs/performance/Shape_Caching.html)
 
-2. Layering. As framework supports several `<canvas>` elements you can put objects at your discretion.
-For example your application consists from complex background and several moving shapes. You can use one layer for background and another one for shapes.
-While updating shapes you don't need to update background canvas. [Demo](/docs/performance/Layer_Management.html)
+2. 图层
+框架支持创建任意数量的 `<canvas>` 。如果你的应用包含复杂的背景和许多可以移动的图形，你可以使用一个图层显示背景另外要给图层显示图形，从而只更新图形而不更新背景。[Demo](/docs/performance/Layer_Management.html)
 
-You can find all available performance tips here:
-[https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)
+查看所有提升性能的技巧 [https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)
