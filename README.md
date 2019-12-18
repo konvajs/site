@@ -1,5 +1,7 @@
 ### 当前同步到官网2019-12-12版本
 
+### 页面地址 [https://bluehymn.github.io/cn.konvajs](https://bluehymn.github.io/cn.konvajs/)
+
 # Konva Website
 
 The website for Konva. Created with Hexo framework.
