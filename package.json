@@ -10,10 +10,10 @@
     "build": "gulp generate"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-jsdoc3": "^2.0.0",
-    "gulp-shell": "^0.6.5",
+    "gulp-shell": "^0.7.1",
     "gulp-util": "^3.0.8",
     "hexo": "^3.9.0",
     "hexo-generator-archive": "^0.1.5",
@@ -24,6 +24,7 @@
     "hexo-renderer-jade": "^0.4.1",
     "hexo-renderer-marked": "^1.0.1",
     "hexo-renderer-stylus": "^0.3.3",
-    "hexo-server": "^0.3.3"
+    "hexo-server": "^0.3.3",
+    "jsdoc": "^3.6.3"
   }
 }

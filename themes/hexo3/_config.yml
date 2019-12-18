@@ -1,149 +1,149 @@
 menu:
-  Tutorials: /docs/
-  Demos: /docs/sandbox
-  API docs: /api/Konva.html
+  教程: /docs/
+  示例: /docs/sandbox
+  API: /api/Konva.html
   React: /docs/react
   Vue: /docs/vue
-  Support Konva: /docs/donate.html
-  Need help?: /docs/support.html
+  支持 Konva: /docs/donate.html
+  帮助: /docs/support.html
   # Consulting: https://lavrton.com
 
 doc_sidebar:
-  Getting Started:
-    Intro: index.html
-    Overview: overview.html
-    Need help?: support.html
-    Support Konva: donate.html
-    Tools: tools.html
-  Shapes:
-    Rect: shapes/Rect.html
-    Circle: shapes/Circle.html
-    Ellipse: shapes/Ellipse.html
-    Wedge: shapes/Wedge.html
-    Line - Simple Line: shapes/Line_-_Simple_Line.html
-    Line - Polygon: shapes/Line_-_Polygon.html
-    Line - Spline: shapes/Line_-_Spline.html
-    Line - Blob: shapes/Line_-_Blob.html
-    Sprite: shapes/Sprite.html
-    Image: shapes/Image.html
-    Text: shapes/Text.html
-    TextPath: shapes/TextPath.html
-    Star: shapes/Star.html
-    Ring: shapes/Ring.html
-    Arc: shapes/Arc.html
-    Label: shapes/Label.html
-    Path: shapes/Path.html
-    RegularPolygon: shapes/RegularPolygon.html
-    Arrow: shapes/Arrow.html
-    Custom: shapes/Custom.html
-  Guides:
-    Position vs Offset: posts/Position_vs_Offset.html
-  Styling:
-    Fill: styling/Fill.html
-    Stroke: styling/Stroke.html
-    Opacity: styling/Opacity.html
-    Shadow: styling/Shadow.html
-    Line Join: styling/Line_Join.html
-    Hide and Show: styling/Hide_and_Show.html
-    Mouse Cursor Style: styling/Mouse_Cursor.html
-    Blend Mode: styling/Blend_Mode.html
-  Events:
-    Binding Events: events/Binding_Events.html
-    Image Events: events/Image_Events.html
-    Mobile Events: events/Mobile_Events.html
-    Mobile Scrolling: events/Mobile_Scrolling.html
-    Multi Event: events/Multi_Event.html
-    Desktop and Mobile: events/Desktop_and_Mobile.html
-    Remove Event: events/Remove_Event.html
-    Remove by Name: events/Remove_by_Name.html
-    Custom Hit Region: events/Custom_Hit_Region.html
-    Listen for Events: events/Listen_for_Events.html
-    Cancel Propagation: events/Cancel_Propagation.html
-    Event Delegation: events/Event_Delegation.html
-    Fire Events: events/Fire_Events.html
-    Stage Events: events/Stage_Events.html
-    Keyboard Events: events/Keyboard_Events.html
-  Drag and Drop:
-    Drag and Drop: drag_and_drop/Drag_and_Drop.html
-    Drag an Image: drag_and_drop/Drag_an_Image.html
-    Drag a Group: drag_and_drop/Drag_a_Group.html
-    Drag a Line: drag_and_drop/Drag_a_Line.html
-    Drag a Stage: drag_and_drop/Drag_a_Stage.html
-    Drag Events: drag_and_drop/Drag_Events.html
-    Simple Drag Bounds: drag_and_drop/Simple_Drag_Bounds.html
-    Complex Drag and Drop: drag_and_drop/Complex_Drag_and_Drop.html
-    Drop Events: drag_and_drop/Drop_Events.html
-  Select and Transform:
-    Basic demo: select_and_transform/Basic_demo.html
-    Centered Scaling: select_and_transform/Centered_Scaling.html
-    Keep Ratio: select_and_transform/Keep_Ratio.html
-    Styling: select_and_transform/Transformer_Styling.html
-    Transform Events: select_and_transform/Transform_Events.html
-    Resize Limits: select_and_transform/Resize_Limits.html
-    Rotation Snaps: select_and_transform/Rotation_Snaps.html
-    Stop Transform: select_and_transform/Stop_Transform.html
-    Force Update: select_and_transform/Force_Update.html
-  Clipping:
-    Simple Clip: clipping/Clipping_Regions.html
-    Complex Clip: clipping/Clipping_Function.html
-  Groups, Layers and Ordering:
-    Groups: groups_and_layers/Groups.html
-    Layering: groups_and_layers/Layering.html
-    Change Containers: groups_and_layers/Change_Containers.html
+  快速上手:
+    简介: index.html
+    基础: overview.html
+    帮助: support.html
+    支持 Konva: donate.html
+    工具: tools.html
+  图形:
+    Rect 矩形: shapes/Rect.html
+    Circle 圆形: shapes/Circle.html
+    Ellipse 椭圆: shapes/Ellipse.html
+    Wedge 扇形: shapes/Wedge.html
+    Line - 简单线条: shapes/Line_-_Simple_Line.html
+    Line - 多边形: shapes/Line_-_Polygon.html
+    Line - 样条曲线: shapes/Line_-_Spline.html
+    Line - 不规则图形: shapes/Line_-_Blob.html
+    Sprite 精灵图: shapes/Sprite.html
+    Image 图片: shapes/Image.html
+    Text 文字: shapes/Text.html
+    TextPath 路径文字: shapes/TextPath.html
+    Star 星形: shapes/Star.html
+    Ring 环形: shapes/Ring.html
+    Arc 弧形: shapes/Arc.html
+    Label 标签: shapes/Label.html
+    Path 路径: shapes/Path.html
+    RegularPolygon 等边多边形: shapes/RegularPolygon.html
+    Arrow 箭头: shapes/Arrow.html
+    Custom 自定义图形: shapes/Custom.html
+  指南:
+    定位 vs 偏移: posts/Position_vs_Offset.html
+  样式:
+    填充: styling/Fill.html
+    笔画: styling/Stroke.html
+    透明度: styling/Opacity.html
+    阴影: styling/Shadow.html
+    边角: styling/Line_Join.html
+    显示和隐藏图形: styling/Hide_and_Show.html
+    鼠标样式: styling/Mouse_Cursor.html
+    混合模式: styling/Blend_Mode.html
+  事件:
+    事件绑定: events/Binding_Events.html
+    图片事件: events/Image_Events.html
+    移动端事件: events/Mobile_Events.html
+    移动端滚动: events/Mobile_Scrolling.html
+    多重事件: events/Multi_Event.html
+    桌面端和移动端: events/Desktop_and_Mobile.html
+    移除: events/Remove_Event.html
+    通过名称移除: events/Remove_by_Name.html
+    自定义响应区域: events/Custom_Hit_Region.html
+    监听事件: events/Listen_for_Events.html
+    停止传播: events/Cancel_Propagation.html
+    事件委托: events/Event_Delegation.html
+    触发事件: events/Fire_Events.html
+    舞台事件: events/Stage_Events.html
+    键盘事件: events/Keyboard_Events.html
+  拖放:
+    拖放: drag_and_drop/Drag_and_Drop.html
+    拖动图片: drag_and_drop/Drag_an_Image.html
+    拖动组: drag_and_drop/Drag_a_Group.html
+    拖动线条: drag_and_drop/Drag_a_Line.html
+    拖动舞台: drag_and_drop/Drag_a_Stage.html
+    拖动事件: drag_and_drop/Drag_Events.html
+    限制拖动区域: drag_and_drop/Simple_Drag_Bounds.html
+    复杂拖放: drag_and_drop/Complex_Drag_and_Drop.html
+    释放事件: drag_and_drop/Drop_Events.html
+  选择和变换图形:
+    基础示例: select_and_transform/Basic_demo.html
+    基于中心缩放: select_and_transform/Centered_Scaling.html
+    保持宽高比: select_and_transform/Keep_Ratio.html
+    修改样式: select_and_transform/Transformer_Styling.html
+    图形变换事件: select_and_transform/Transform_Events.html
+    缩放限制: select_and_transform/Resize_Limits.html
+    旋转吸附: select_and_transform/Rotation_Snaps.html
+    停止变换: select_and_transform/Stop_Transform.html
+    强制更新: select_and_transform/Force_Update.html
+  裁剪:
+    简单裁剪: clipping/Clipping_Regions.html
+    复杂裁剪: clipping/Clipping_Function.html
+  组、图层和层级:
+    组: groups_and_layers/Groups.html
+    布局: groups_and_layers/Layering.html
+    更换容器: groups_and_layers/Change_Containers.html
     zIndex: groups_and_layers/zIndex.html
-  Filters:
-    Blur: filters/Blur.html
-    Brighten: filters/Brighten.html
-    Contrast: filters/Contrast.html
-    Emboss: filters/Emboss.html
-    Enhance: filters/Enhance.html
-    Grayscale: filters/Grayscale.html
+  滤镜:
+    Blur 模糊: filters/Blur.html
+    Brighten 亮度: filters/Brighten.html
+    Contrast 对比度: filters/Contrast.html
+    Emboss 浮雕: filters/Emboss.html
+    Enhance 增强反差: filters/Enhance.html
+    Grayscale 灰度: filters/Grayscale.html
     HSL: filters/HSL.html
     HSV: filters/HSV.html
     RGB: filters/RGB.html
-    Invert: filters/Invert.html
-    Kaleidoscope: filters/Kaleidoscope.html
-    Mask: filters/Mask.html
-    Noise: filters/Noise.html
-    Pixelate: filters/Pixelate.html
-    Custom Filter: filters/Custom_Filter.html
-    Multiple Filters: filters/Multiple_Filters.html
-  Tweens:
-    Linear Easing: tweens/Linear_Easing.html
-    Common Easings: tweens/Common_Easings.html
-    All Easings: tweens/All_Easings.html
-    Finish Event: tweens/Finish_Event.html
-    All Controls: tweens/All_Controls.html
-    Tween Filter: tweens/Tween_Filter.html
-    Complex Tweening: tweens/Complex_Tweening.html
-  Animations:
-    Create an Animation: animations/Create_an_Animation.html
-    Moving: animations/Moving.html
-    Rotation: animations/Rotation.html
-    Scaling: animations/Scaling.html
-    Stop Animation: animations/Stop_Animation.html
-  Selectors:
-    Select by id: selectors/Select_by_id.html
-    Select by Type: selectors/Select_by_Type.html
-    Select by Name: selectors/Select_by_Name.html
-  Data & Serialization & Export:
-    Serialize a Stage: data_and_serialization/Serialize_a_Stage.html
-    Simple Load: data_and_serialization/Simple_Load.html
-    Complex Load: data_and_serialization/Complex_Load.html
-    JSON Best Practices: data_and_serialization/Best_Practices.html
-    Stage Data URL: data_and_serialization/Stage_Data_URL.html
-    Export to HD Image: data_and_serialization/High-Quality-Export.html
-  Performance:
-    All tips: performance/All_Performance_Tips.html
-    Layer Management: performance/Layer_Management.html
-    Batch Draw: performance/Batch_Draw.html
-    Shape Caching: performance/Shape_Caching.html
-    Optimize Animation: performance/Optimize_Animation.html
-    Optimize Strokes: performance/Optimize_Strokes.html
-    Shape Redraw: performance/Shape_Redraw.html
-    Disable Perfect Drawing: performance/Disable_Perfect_Draw.html
-    Listening False: performance/Listening_False.html
-    Avoid Memory Leaks: performance/Avoid_Memory_Leaks.html
+    Invert 反向: filters/Invert.html
+    Kaleidoscope 万花筒: filters/Kaleidoscope.html
+    Mask 遮罩: filters/Mask.html
+    Noise 噪声: filters/Noise.html
+    Pixelate 像素化: filters/Pixelate.html
+    自定义滤镜: filters/Custom_Filter.html
+    多重滤镜: filters/Multiple_Filters.html
+  补间动画:
+    线性 Easing: tweens/Linear_Easing.html
+    自定义 Easings: tweens/Common_Easings.html
+    全部 Easings: tweens/All_Easings.html
+    动画完成事件: tweens/Finish_Event.html
+    控制器: tweens/All_Controls.html
+    补间滤镜: tweens/Tween_Filter.html
+    复杂补间: tweens/Complex_Tweening.html
+  动画:
+    创建动画: animations/Create_an_Animation.html
+    移动: animations/Moving.html
+    旋转: animations/Rotation.html
+    缩放: animations/Scaling.html
+    停止动画: animations/Stop_Animation.html
+  选择器:
+    通过  id: selectors/Select_by_id.html
+    通过 type: selectors/Select_by_Type.html
+    通过 name: selectors/Select_by_Name.html
+  数据 & 序列化 & 导出:
+    序列化舞台数据: data_and_serialization/Serialize_a_Stage.html
+    简单导入: data_and_serialization/Simple_Load.html
+    复杂导入: data_and_serialization/Complex_Load.html
+    JSON最佳实践: data_and_serialization/Best_Practices.html
+    舞台 Data URL: data_and_serialization/Stage_Data_URL.html
+    到处高分辨率图片: data_and_serialization/High-Quality-Export.html
+  性能优化:
+    技巧: performance/All_Performance_Tips.html
+    图层管理: performance/Layer_Management.html
+    批量绘制: performance/Batch_Draw.html
+    图形缓存: performance/Shape_Caching.html
+    动画优化: performance/Optimize_Animation.html
+    笔画优化: performance/Optimize_Strokes.html
+    图形重绘: performance/Shape_Redraw.html
+    关闭 Perfect Drawing: performance/Disable_Perfect_Draw.html
+    禁用事件监听: performance/Listening_False.html
+    防止内存溢出: performance/Avoid_Memory_Leaks.html
 
 demo_sidebar:
   Games and Apps:
