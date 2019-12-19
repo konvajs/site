@@ -1,13 +1,13 @@
-title: HTML5 canvas Blob Tutorial
+title: Blob 图形
 ---
 
-To create a blob with `Konva`, we can instantiate a `Konva.Line()` object with `closed = true` and `tension` attributes.
+我们可以通过实例化一个 `Konva.Line()` 对象创建 Blob，并且同时设置属性 `closed = true` 和`tension` 值。
 
-To define the path of the line you should use `points` property. If you have three points with `x` and `y` coordinates you should define `points` property as: `[x1, y1, x2, y2, x3, y3]`.
+我们使用 `points` 属性创建线的路径，如果线包含三个点（坐标：`x`, `y`），你需要这样定义 `points` 属性: `[x1, y1, x2, y2, x3, y3]`。
 
-Flat array of numbers should work faster and use less memory than array of objects.
+之所以使用简单的一维数字数组，因为相对于对象（例如： [{x: 0, y: 0}, {x: 0, y: 0}]）运行起来更快而且需要的内存也更少。
 
-For a full list of attributes and methods, check out the [Konva.Line documentation](/cn.konvajs/api/Konva.Line.html).
+点击 [Konva.Line documentation](/cn.konvajs/api/Konva.Line.html) 查看详细属性和方法说明。d
 
 {% iframe /cn.konvajs/downloads/code/shapes/Line_-_Blob.html %}
 

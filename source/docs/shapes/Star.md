@@ -1,9 +1,9 @@
-title: HTML5 canvas Star Tutorial
+title: Star 星形
 ---
 
-To create a star with `Konva`, we can instantiate a `Konva.Star()` object.
+我们可以通过实例化一个 `Konva.Star()` 对象创建星形。
 
-For a full list of attributes and methods, check out the [Konva.Star documentation](/cn.konvajs/api/Konva.Star.html).
+点击 [Konva.Star documentation](/cn.konvajs/api/Konva.Star.html) 查看详细属性和方法说明。
 
 {% iframe /cn.konvajs/downloads/code/shapes/Star.html %}
 

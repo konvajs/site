@@ -1,9 +1,9 @@
-title: HTML5 canvas Label Tutorial
+title: Label 标签
 ---
 
-To create a text label with Konva, which can be used for creating text with backgrounds, simple tooltips, or tooltips with pointers, we can instantiate a `Konva.Label()` object.
+我们可以通过实例化一个 `Konva.Label()` 对象创建路径文字，标签可以用于创建带背景的文字、简单的tooltips、带指向箭头的tooltips。
 
-For a full list of attributes and methods, check out the [Konva.Label documentation](/cn.konvajs/api/Konva.Label.html).
+点击 [Konva.Label documentation](/cn.konvajs/api/Konva.Label.html) 查看详细属性和方法说明。
 
 {% iframe /cn.konvajs/downloads/code/shapes/Label.html %}
 

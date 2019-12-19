@@ -1,4 +1,4 @@
-title: 扇形
+title: Wedge 扇形
 ---
 
 我们可以通过实例化一个 `Konva.Wedge()` 对象创建扇形。

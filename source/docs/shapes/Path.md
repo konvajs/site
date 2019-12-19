@@ -1,13 +1,13 @@
-title: HTML5 canvas SVG Path Tutorial
+title: SVG Path 路径
 ---
 
-To create an SVG path with Konva, we can instantiate a `Konva.Path()` object.
+我们可以通过实例化一个 `Konva.Path()` 对象创建矩形。
 
-Paths are most commonly used when we want to export an SVG Path into an HTML5 Canvas path, or if we want to manifest complex drawings as a data string rather than creating a custom shape.
+我们经常会用到路径，比方说导入 SVG Path 到 canvas，使用字符串数据绘制复杂的图形而不需要创建一个自定义图形。
 
-For a full list of attributes and methods, check out the [Konva.Path documentation](/cn.konvajs/api/Konva.Path.html).
+点击 [Konva.Path documentation](/cn.konvajs/api/Konva.Path.html) 查看详细属性和方法说明。
 
-If you want to draw full SVG image into the canvas take a look into [How to draw SVG image](/cn.konvajs/docs/sandbox/Animals_on_the_Beach_Game.html) post.
+如果你想在 `canvas` 里面绘制 SVG 图片，请查看[How to draw SVG image](/cn.konvajs/docs/sandbox/Animals_on_the_Beach_Game.html) post.
 
 {% iframe /cn.konvajs/downloads/code/shapes/Path.html %}
 

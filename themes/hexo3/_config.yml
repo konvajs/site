@@ -23,7 +23,7 @@ doc_sidebar:
     Line - 简单线条: shapes/Line_-_Simple_Line.html
     Line - 多边形: shapes/Line_-_Polygon.html
     Line - 样条曲线: shapes/Line_-_Spline.html
-    Line - 不规则图形: shapes/Line_-_Blob.html
+    Line - Blob图形: shapes/Line_-_Blob.html
     Sprite 精灵图: shapes/Sprite.html
     Image 图片: shapes/Image.html
     Text 文字: shapes/Text.html

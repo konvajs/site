@@ -1,4 +1,4 @@
-title: 圆形
+title: Circle 圆形
 ---
 
 我们可以通过实例化一个 `Konva.Circle()` 对象创建圆形。

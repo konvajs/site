@@ -1,4 +1,4 @@
-title: 椭圆
+title: Ellipse 椭圆
 ---
 
 我们可以通过实例化一个 `Konva.Ellipse()` 对象创建椭圆。

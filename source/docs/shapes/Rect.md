@@ -1,4 +1,4 @@
-title: 矩形
+title: Rect 矩形
 ---
 
 我们可以通过实例化一个 `Konva.Rect()` 对象创建矩形。
