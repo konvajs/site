@@ -1,15 +1,16 @@
-title: Need help?
+title: 遇到问题？
 
 ---
 
-## Looking for a help with Konva framework?
+## 寻求帮助
 
-Here is what you should do:
+你可以尝试以下途径:
 
-1. First try to find solutions online. Try to search your question. You can use google, or built-in search on top of that page.
-2. The best place to ask questions is [StackOverflow](https://stackoverflow.com/questions/tagged/konvajs). You will have more chances to have a good answer if you create hight quality question with online demo, code samples, correct tags, etc.
-3. If you found a bug or you want to request a feature go to [Issues Page](https://github.com/konvajs/konva/issues).
-4. If you just want to discuss Konva you can join [Gittip Chat](https://gitter.im/konvajs/konva)
-5. If you have something interesting to share use Twitter `#konvajs` hashtag
-6. Visit [Changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) to see what is changing.
-7. Do you have really complicated issue or do you need help with implementing a huge project? You can hire me. Just drop me a message to <mailto:anton@lavrton.com>.
+
+1. 你可以使用google或者本站顶部的搜索功能查找问题。
+2. 推荐去 [StackOverflow](https://stackoverflow.com/questions/tagged/konvajs) 提问，问题里面最好带上在线 demo、代码示例、正确的问题标签等等，这样会提高得到满意回答的机率。
+3. 如果你发现了 bug 或者想反馈一个新特性，请前往[Issues Page](https://github.com/konvajs/konva/issues)。
+4. 你可以在 [Gittip Chat](https://gitter.im/konvajs/konva) 讨论 Konva 相关话题。
+5. 如果你想在 Twitter 分享一些关于 Konva 的有趣内容, 可以加上 `#konvajs` 标签。
+6. 在 [Changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) 里查看变更记录。
+7. 如果你遇到了很复杂的问题或者需要我帮助完成大型项目，You can hire me. Just drop me a message to <mailto:anton@lavrton.com>。
