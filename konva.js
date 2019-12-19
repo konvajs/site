@@ -1493,7 +1493,7 @@
   /**
    * Konva wrapper around native 2d canvas context. It has almost the same API of 2d context with some additional functions.
    * With core Konva shapes you don't need to use this object. But you will use it if you want to create
-   * a [custom shape](/docs/react/Custom_Shape.html) or a [custom hit regions](/docs/events/Custom_Hit_Region.html).
+   * a [custom shape](/cn.konvajs/docs/react/Custom_Shape.html) or a [custom hit regions](/cn.konvajs/docs/events/Custom_Hit_Region.html).
    * For full information about each 2d context API use [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
    * @constructor
    * @memberof Konva

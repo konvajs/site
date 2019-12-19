@@ -6,7 +6,7 @@ property of a group or a layer.
 Clipping regions are defined by an `x`, `y`, `width`, and `height`.  In this tutorial,
 we'll draw blobs inside of a rectangular clipping region applied to a group.
 
-For more complex cases take a look into clipping function. [Clipping Function](/docs/clipping/Clipping_Function.html)
+For more complex cases take a look into clipping function. [Clipping Function](/cn.konvajs/docs/clipping/Clipping_Function.html)
 
 {% iframe /cn.konvajs/downloads/code/clipping/Clipping_Regions.html %}
 

@@ -73,12 +73,12 @@ stage.add(layer);
 layer.draw();
 ```
 Result:
-![Minimal code demo](/assets/overview-circle.png)
+![Minimal code demo](/cn.konvajs/assets/overview-circle.png)
 
 ## 基本图形
 
-`Konva` 支持的图形: [Rect](/docs/shapes/Rect.html), [Circle](/docs/shapes/Circle.html), [Ellipse](/docs/shapes/Ellipse.html), [Line](/docs/shapes/Line_-_Simple_Line.html), [Polygon](/docs/shapes/Line_-_Polygon.html), [Spline](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [Image](/docs/shapes/Image.html), [Text](/docs/shapes/Text.html), [TextPath](/docs/shapes/TextPath.html), [Star](/docs/shapes/Star.html), [Label](/docs/shapes/Label.html), [SVG Path](/docs/shapes/Path.html), [RegularPolygon](/docs/shapes/RegularPolygon.html).
- 自定义图形 [custom shape](/docs/shapes/Custom.html):
+`Konva` 支持的图形: [Rect](/cn.konvajs/docs/shapes/Rect.html), [Circle](/cn.konvajs/docs/shapes/Circle.html), [Ellipse](/cn.konvajs/docs/shapes/Ellipse.html), [Line](/cn.konvajs/docs/shapes/Line_-_Simple_Line.html), [Polygon](/cn.konvajs/docs/shapes/Line_-_Polygon.html), [Spline](/cn.konvajs/docs/shapes/Line_-_Spline.html), [Blob](/cn.konvajs/docs/shapes/Line_-_Blob.html), [Image](/cn.konvajs/docs/shapes/Image.html), [Text](/cn.konvajs/docs/shapes/Text.html), [TextPath](/cn.konvajs/docs/shapes/TextPath.html), [Star](/cn.konvajs/docs/shapes/Star.html), [Label](/cn.konvajs/docs/shapes/Label.html), [SVG Path](/cn.konvajs/docs/shapes/Path.html), [RegularPolygon](/cn.konvajs/docs/shapes/RegularPolygon.html).
+ 自定义图形 [custom shape](/cn.konvajs/docs/shapes/Custom.html):
 
 ```
 var triangle = new Konva.Shape({
@@ -97,7 +97,7 @@ var triangle = new Konva.Shape({
       strokeWidth: 4
 });
 ```
-![Custom shape](/assets/overview-custom.png)
+![Custom shape](/cn.konvajs/assets/overview-custom.png)
 
 ## 样式
 
@@ -122,7 +122,7 @@ var pentagon = new Konva.RegularPolygon({
     opacity : 0.5
 });
 ```
-![Styles](/assets/overview-styles.png)
+![Styles](/cn.konvajs/assets/overview-styles.png)
 
 ## 事件
 
@@ -141,11 +141,11 @@ circle.on('dragend', function() {
     console.log('drag stopped');
 });
 ```
-See [working example](/docs/events/Binding_Events.html).
+See [working example](/cn.konvajs/docs/events/Binding_Events.html).
 
 ## 拖放
 
-`Konva` 内置对 drag 的支持，但没有对 `drop` 事件支持 （`drop`, `dragenter`, `dragleave`, `dragover`），但是你可以轻松的实现它们 [via framework](/docs/drag_and_drop/Drop_Events.html)。
+`Konva` 内置对 drag 的支持，但没有对 `drop` 事件支持 （`drop`, `dragenter`, `dragleave`, `dragover`），但是你可以轻松的实现它们 [via framework](/cn.konvajs/docs/drag_and_drop/Drop_Events.html)。
 
 设置 draggable = true 启用拖放。
 
@@ -153,7 +153,7 @@ See [working example](/docs/events/Binding_Events.html).
 shape.draggable('true');
 ```
 
-接下来你就可以订阅 drag&drop 事件和设置[移动限制](/docs/drag_and_drop/Complex_Drag_and_Drop.html)
+接下来你就可以订阅 drag&drop 事件和设置[移动限制](/cn.konvajs/docs/drag_and_drop/Complex_Drag_and_Drop.html)
 
 
 ## 滤镜
@@ -161,13 +161,13 @@ shape.draggable('true');
 `Konva` 提供了多种滤镜：blur, invert, noise 等等。 详细请查看 [滤镜API](/cn.konvajs/api/Konva.Filters.html)
 
 示例:
-![Filter](/assets/overview-filter.png)
+![Filter](/cn.konvajs/assets/overview-filter.png)
 
 ## 动画
 
 你可以通过两种方式创建动画:
 
-1. 通过 `Konva.Animation` [Demo](/docs/animations/Moving.html):
+1. 通过 `Konva.Animation` [Demo](/cn.konvajs/docs/animations/Moving.html):
 ```
 var anim = new Konva.Animation(function(frame) {
     var time = frame.time,
@@ -178,7 +178,7 @@ var anim = new Konva.Animation(function(frame) {
 anim.start();
 ```
 
-2. 通过 `Konva.Tween` [Demo](/docs/tweens/Linear_Easing.html):
+2. 通过 `Konva.Tween` [Demo](/cn.konvajs/docs/tweens/Linear_Easing.html):
 ```
 var tween = new Konva.Tween({
         node: rect,
@@ -246,9 +246,9 @@ var stage = Konva.Node.create(json, 'container');
 ```
 shape.cache();
 ```
-[Demo](/docs/performance/Shape_Caching.html)
+[Demo](/cn.konvajs/docs/performance/Shape_Caching.html)
 
 2. 图层
-框架支持创建任意数量的 `<canvas>` 。如果你的应用包含复杂的背景和许多可以移动的图形，你可以使用一个图层显示背景另外要给图层显示图形，从而只更新图形而不更新背景。[Demo](/docs/performance/Layer_Management.html)
+框架支持创建任意数量的 `<canvas>` 。如果你的应用包含复杂的背景和许多可以移动的图形，你可以使用一个图层显示背景另外要给图层显示图形，从而只更新图形而不更新背景。[Demo](/cn.konvajs/docs/performance/Layer_Management.html)
 
-查看所有提升性能的技巧 [https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)
+查看所有提升性能的技巧 [https://konvajs.org/docs/performance/All_Performance_Tips.html](/cn.konvajs/docs/performance/All_Performance_Tips.html)

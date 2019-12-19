@@ -8,7 +8,7 @@ Konva has not support for such case. We recommend to edit the user input outside
 
 Here we will create two demos. Basic demo for general understanding of the technic. And the more complex one, used in real-word app that cover more edge cases.
 
-If you want to enable full rich text editing features see [Rich Text Demo](/docs/sandbox/Rich_Text.html).
+If you want to enable full rich text editing features see [Rich Text Demo](/cn.konvajs/docs/sandbox/Rich_Text.html).
 
 Instructions: Double click on text to edit it. Type something. Press Enter.
 

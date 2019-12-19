@@ -20,7 +20,7 @@ What is it origin? You may think of it as “point from where we start drawing o
 
 Just a small note, long time ago offset property was called “center” in Konva codebase (when it was KineticJS project). But later it was refactored to “offset". 
 
-Take a look into this [animation tutorial](/docs/animations/Rotation.html). All rectangles here have the same `y` position, but a different `offset` property.
+Take a look into this [animation tutorial](/cn.konvajs/docs/animations/Rotation.html). All rectangles here have the same `y` position, but a different `offset` property.
 
 {% iframe /cn.konvajs/downloads/code/animations/Rotation.html %}
 

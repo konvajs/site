@@ -10,7 +10,7 @@ For `image` property you can use:
 
 For a full list of attributes and methods, check out the [Konva.Image documentation](/cn.konvajs/api/Konva.Image.html).
 
-If you want to draw SVG image into the canvas take a look into [How to draw SVG image](/docs/sandbox/Animals_on_the_Beach_Game.html) post.
+If you want to draw SVG image into the canvas take a look into [How to draw SVG image](/cn.konvajs/docs/sandbox/Animals_on_the_Beach_Game.html) post.
 
 {% iframe /cn.konvajs/downloads/code/shapes/Image.html %}
 
