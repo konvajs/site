@@ -19,6 +19,6 @@ For desktop browsers you can hold `Shift` key to emulate touch events.
 **Note: this demo is experimental.**
 
 
-{% iframe /downloads/code/sandbox/Gestures.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Gestures.html %}
 
 {% include_code Konva Touch Gestures Demo sandbox/Gestures.html %}

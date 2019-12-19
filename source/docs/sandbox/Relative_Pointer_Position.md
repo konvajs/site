@@ -10,6 +10,6 @@ We can't use `stage.getPointerPosition()` directly because that is position rela
 
 The idea is simple. We just need to use inverted absolute transform.
 
-{% iframe /downloads/code/sandbox/Relative_Pointer_Position.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Relative_Pointer_Position.html %}
 
 {% include_code Relative Pointer Position Demo sandbox/Relative_Pointer_Position.html %}

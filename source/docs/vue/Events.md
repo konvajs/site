@@ -4,7 +4,7 @@ layout: vue_page
 
 With `vue-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
 
-For the full list of events take a look into [on() method documentation](/api/Konva.Node.html#on).
+For the full list of events take a look into [on() method documentation](/cn.konvajs/api/Konva.Node.html#on).
 
 
 

@@ -10,6 +10,6 @@ Images and event handlers must be manually set because they aren't serializable.
 
 **That methods works for small apps. For more complex cases take a look into [Best Practices](/docs/data_and_serialization/Best_Practices.html)**
 
-{% iframe /downloads/code/data_and_serialization/Complex_Load.html %}
+{% iframe /cn.konvajs/downloads/code/data_and_serialization/Complex_Load.html %}
 
 {% include_code Konva Load Complex Stage Demo data_and_serialization/Complex_Load.html %}

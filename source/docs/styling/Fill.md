@@ -7,6 +7,6 @@ Konva supports colors, patterns, linear gradients, and radial gradients.
 
 Instructions: Mouseover each pentagon to change its fill.  You can also drag and drop the shapes.
 
-{% iframe /downloads/code/styling/Fill.html %}
+{% iframe /cn.konvajs/downloads/code/styling/Fill.html %}
 
 {% include_code Konva Fill Demo styling/Fill.html %}

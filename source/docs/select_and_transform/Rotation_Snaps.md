@@ -9,6 +9,6 @@ For instance, if you have snap point at 45 deg, a user will be not able to set r
 
 Instructions: Try to rotate a shape. See snapping at 0, 90, 180 and 270 deg.
 
-{% iframe /downloads/code/select_and_transform/Rotation_Snaps.html %}
+{% iframe /cn.konvajs/downloads/code/select_and_transform/Rotation_Snaps.html %}
 
 {% include_code Konva Shape transform and selection Demo select_and_transform/Rotation_Snaps.html %}

@@ -14,6 +14,6 @@ to stay inside of a box, circle, or any other path.
 Instructions: Drag and drop the the horizontal text and observe that it can only
 move horizontally. Drag and drop the vertical text and observe that it can only move vertically.
 
-{% iframe /downloads/code/drag_and_drop/Simple_Drag_Bounds.html %}
+{% iframe /cn.konvajs/downloads/code/drag_and_drop/Simple_Drag_Bounds.html %}
 
 {% include_code Konva Simple Drag Bounds Demo drag_and_drop/Simple_Drag_Bounds.html %}

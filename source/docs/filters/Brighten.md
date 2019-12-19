@@ -11,8 +11,8 @@ Negative values darken the image, and positive values brighten the image.
 
 Instructions: Slide the control to adjust the brightness
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/cn.konvajs/api/Konva.Filters.html).
 
-{% iframe /downloads/code/filters/Brighten.html %}
+{% iframe /cn.konvajs/downloads/code/filters/Brighten.html %}
 
 {% include_code Konva Brighten Image Demo filters/Brighten.html %}

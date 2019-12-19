@@ -14,6 +14,6 @@ If this condition is not met, a SECURITY_ERR exception is thrown.*
 
 Instructions: Drag and drop the rectangle and then click on the save button to get the composite data url and open the resulting image in a new window
 
-{% iframe /downloads/code/data_and_serialization/Stage_Data_URL.html %}
+{% iframe /cn.konvajs/downloads/code/data_and_serialization/Stage_Data_URL.html %}
 
 {% include_code Konva Stage Data URL Demo data_and_serialization/Stage_Data_URL.html %}

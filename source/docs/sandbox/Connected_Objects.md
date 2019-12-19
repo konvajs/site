@@ -26,6 +26,6 @@ But in that demo I will create a more complex case with the state of the app and
 
 **Instructions: try to drag a circle**.
 
-{% iframe /downloads/code/sandbox/Connected_Objects.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Connected_Objects.html %}
 
 {% include_code Konva 20000 Nodes Demo sandbox/Connected_Objects.html %}

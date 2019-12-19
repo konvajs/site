@@ -3,7 +3,7 @@ title: HTML5 canvas Custom Shape Tutorial
 
 To create a custom shape with Konva, we can instantiate a `Konva.Shape()` object.
 
-When creating a custom shape, we need to define a drawing function that is passed a [Konva.Context](/api/Konva.Context.html) renderer and a shape instance:
+When creating a custom shape, we need to define a drawing function that is passed a [Konva.Context](/cn.konvajs/api/Konva.Context.html) renderer and a shape instance:
 
 ```javascript
 var rect = new Konva.Shape({
@@ -47,8 +47,8 @@ There are two properties that can be used for drawing custom shapes: `sceneFunc`
 
 
 
-For a full list of attributes and methods, check out the [Konva.Shape documentation](/api/Konva.Shape.html)
+For a full list of attributes and methods, check out the [Konva.Shape documentation](/cn.konvajs/api/Konva.Shape.html)
 
-{% iframe /downloads/code/shapes/Custom.html %}
+{% iframe /cn.konvajs/downloads/code/shapes/Custom.html %}
 
 {% include_code Konva Custom Demo shapes/Custom.html %}

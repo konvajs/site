@@ -1,10 +1,10 @@
-title: HTML5 canvas Circle Tutorial
+title: 圆形
 ---
 
-To create  a circle with `Konva`, we can instantiate a `Konva.Circle()` object.
+我们可以通过实例化一个 `Konva.Circle()` 对象创建圆形。
 
-For a full list of attributes and methods, check out the [Konva.Circle documentation](/api/Konva.Circle.html).
+点击 [Konva.Circle documentation](/cn.konvajs/api/Konva.Circle.html) 查看详细属性和方法说明。
 
-{% iframe /downloads/code/shapes/Circle.html %}
+{% iframe /cn.konvajs/downloads/code/shapes/Circle.html %}
 
 {% include_code Konva Circle Demo shapes/Circle.html %}

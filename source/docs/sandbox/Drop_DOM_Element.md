@@ -10,6 +10,6 @@ You will need some extra step if you need to enable drag&drop for DOM element on
 
 Instructions: drag&drop yoda into the canvas.
 
-{% iframe /downloads/code/sandbox/Drop_DOM_Element.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Drop_DOM_Element.html %}
 
 {% include_code Konva Elastic Stars Demo sandbox/Drop_DOM_Element.html %}

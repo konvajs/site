@@ -8,10 +8,10 @@ For `image` property you can use:
 2. canvas element
 3. video element
 
-For a full list of attributes and methods, check out the [Konva.Image documentation](/api/Konva.Image.html).
+For a full list of attributes and methods, check out the [Konva.Image documentation](/cn.konvajs/api/Konva.Image.html).
 
 If you want to draw SVG image into the canvas take a look into [How to draw SVG image](/docs/sandbox/Animals_on_the_Beach_Game.html) post.
 
-{% iframe /downloads/code/shapes/Image.html %}
+{% iframe /cn.konvajs/downloads/code/shapes/Image.html %}
 
 {% include_code Konva Image Demo shapes/Image.html %}

@@ -12,6 +12,6 @@ To show a context menu we have to:
 
 **Instructions: double click on the stage to create a circle. Try right click (context menu) on shapes for a menu.**
 
-{% iframe /downloads/code/sandbox/Canvas_Context_Menu.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Canvas_Context_Menu.html %}
 
 {% include_code sandbox/Canvas_Context_Menu.html %}

@@ -8,6 +8,6 @@ But is some cases `Konva.Transformer` can't do this. Currently `Konva.Transforme
 
 Instructions: Click the button. See how transformer is changed.
 
-{% iframe /downloads/code/select_and_transform/Force_Update.html %}
+{% iframe /cn.konvajs/downloads/code/select_and_transform/Force_Update.html %}
 
 {% include_code Transformer Force Update Demo select_and_transform/Force_Update.html %}

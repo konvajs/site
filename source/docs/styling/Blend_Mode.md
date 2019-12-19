@@ -7,6 +7,6 @@ With Konva framework you can set globalCompositeOperation or blending mode opera
 
 Instructions: drag red rectangle over text and see how they will be drawing together.
 
-{% iframe /downloads/code/styling/Blend_Mode.html %}
+{% iframe /cn.konvajs/downloads/code/styling/Blend_Mode.html %}
 
 {% include_code Konva Blend_Mode Demo styling/Blend_Mode.html %}

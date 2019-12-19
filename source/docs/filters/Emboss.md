@@ -6,8 +6,8 @@ function. Then apply filter with `filter()` function.
 
 Instructions: Slide the controls to change emboss values.
 
-For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/cn.konvajs/api/Konva.Filters.html).
 
-{% iframe /downloads/code/filters/Emboss.html %}
+{% iframe /cn.konvajs/downloads/code/filters/Emboss.html %}
 
 {% include_code Konva Emboss Image Demo filters/Emboss.html %}

@@ -13,6 +13,6 @@ Also I found another related demos on the internet that may be useful:
 *Instruction:* try to drag and object. See how it snaps to other objects.
 
 
-{% iframe /downloads/code/sandbox/Objects_Snapping.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Objects_Snapping.html %}
 
 {% include_code Konva Custom Font sandbox/Objects_Snapping.html %}

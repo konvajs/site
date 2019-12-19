@@ -15,6 +15,6 @@ If you want show complex styles on canvas we can do a hacky workaround. The idea
 
 Instructions: try to type a text into the editor
 
-{% iframe /downloads/code/sandbox/Rich_Text.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Rich_Text.html %}
 
 {% include_code Konva Rich Text Demo sandbox/Rich_Text.html %}

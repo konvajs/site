@@ -5,6 +5,6 @@ To change mouse cursor with Konva framework you just need to listen events, wher
 
 Instructions: Mouseover each pentagon and see how cursor is changing
 
-{% iframe /downloads/code/styling/Mouse_Cursor.html %}
+{% iframe /cn.konvajs/downloads/code/styling/Mouse_Cursor.html %}
 
 {% include_code Konva Mouse Cursor Demo styling/Mouse_Cursor.html %}

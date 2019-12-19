@@ -27,6 +27,6 @@ This method has been tested in at least one large production app, with proven re
 ### Demo
 Below is a demo that shows drawing natively and with a library.
 
-{% iframe /downloads/code/sandbox/SVG_On_Canvas.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/SVG_On_Canvas.html %}
 
 {% include_code Konva GIF demo sandbox/SVG_On_Canvas.html %}

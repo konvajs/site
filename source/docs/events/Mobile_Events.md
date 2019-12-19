@@ -11,6 +11,6 @@ For more complex gestures like `rotate` take a look into [Gestures Demo](/docs/s
 
 Instructions: move your finger across the triangle to see touch coordinates and touch start and touch end the circle.
 
-{% iframe /downloads/code/events/Mobile_Events.html %}
+{% iframe /cn.konvajs/downloads/code/events/Mobile_Events.html %}
 
 {% include_code Konva Mobile_Events Demo events/Mobile_Events.html %}

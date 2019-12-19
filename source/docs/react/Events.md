@@ -6,7 +6,7 @@ With `react-konva` you can attach any events to canvas nodes that `Konva` suppor
 
 To do that you can use `onEventName` property, like `onMouseDown` for `mousedown`, `onDragEnd` for `dragend`, etc.
 
-For the full list of events take a look into [on() method documentation](/api/Konva.Node.html#on).
+For the full list of events take a look into [on() method documentation](/cn.konvajs/api/Konva.Node.html#on).
 
 In this demo you see how we are using `dragstart` and `dragend` events.
 

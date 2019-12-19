@@ -8,6 +8,6 @@ we'll draw blobs inside of a rectangular clipping region applied to a group.
 
 For more complex cases take a look into clipping function. [Clipping Function](/docs/clipping/Clipping_Function.html)
 
-{% iframe /downloads/code/clipping/Clipping_Regions.html %}
+{% iframe /cn.konvajs/downloads/code/clipping/Clipping_Regions.html %}
 
 {% include_code Konva Simple Clipping Demo clipping/Clipping_Regions.html %}

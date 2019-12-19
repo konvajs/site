@@ -16,6 +16,6 @@ per second that the browser can handle at any given point in time.
 
 Instructions: Move your mouse over the stage to spin the rectangle
 
-{% iframe /downloads/code/performance/BatchDraw.html %}
+{% iframe /cn.konvajs/downloads/code/performance/BatchDraw.html %}
 
 {% include_code Konva Batch Draw Demo performance/BatchDraw.html %}

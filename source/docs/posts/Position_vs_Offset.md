@@ -9,7 +9,7 @@ So x and y properties define position of Node on canvas. If you set `draggable =
 
 Position of a rectangle shape defines its top-left point. Position of circle defines its center.
 
-{% iframe /downloads/code/posts/Position_vs_Offset_Basic_x_y.html %}
+{% iframe /cn.konvajs/downloads/code/posts/Position_vs_Offset_Basic_x_y.html %}
 
 
 ## Why do we need an `offset` property?
@@ -22,7 +22,7 @@ Just a small note, long time ago offset property was called “center” in Konv
 
 Take a look into this [animation tutorial](/docs/animations/Rotation.html). All rectangles here have the same `y` position, but a different `offset` property.
 
-{% iframe /downloads/code/animations/Rotation.html %}
+{% iframe /cn.konvajs/downloads/code/animations/Rotation.html %}
 
 And you should understand that Konva has two main methods to define origin of the shape.
 So “circle-like” shapes have origin at actual center of the shape (Circle, Ellipse, Wedge, Star, Ring ,etc).

@@ -14,7 +14,7 @@ Instructions: Double click on text to edit it. Type something. Press Enter.
 
 Simple demo:
 
-{% iframe /downloads/code/sandbox/Editable_Text.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Editable_Text.html %}
 
 <details><summary>Show source code of simple demo!</summary>
 <p>
@@ -24,7 +24,7 @@ Simple demo:
 
 Complex demo:
 
-{% iframe /downloads/code/sandbox/Complex_Editable_Text.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Complex_Editable_Text.html %}
 
 <details><summary>Show source code of complex demo!</summary>
 <p>

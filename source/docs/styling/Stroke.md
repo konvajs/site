@@ -5,6 +5,6 @@ To set a shape stroke and stroke width with Konva, we can set the `stroke` and `
 
 Instructions: Mouseover the pentagon to change its stroke color and width.
 
-{% iframe /downloads/code/styling/Stroke.html %}
+{% iframe /cn.konvajs/downloads/code/styling/Stroke.html %}
 
 {% include_code Konva Stroke Demo styling/Stroke.html %}

@@ -17,7 +17,7 @@ Also it will make sense to simplify shapes on the preview. Like hide texts, remo
 
 **Instructions: try to drag a circle. See how the preview is updating. Double click to add a new shape.**
 
-{% iframe /downloads/code/sandbox/Stage_Preview_Clone.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Stage_Preview_Clone.html %}
 
 {% include_code sandbox/Stage_Preview_Clone.html %}
 
@@ -28,6 +28,6 @@ Or we can export the stage to an image and use it as a preview.
 
 For performance reasons we are not updating the preview on every `dragmove` events.
 
-{% iframe /downloads/code/sandbox/Stage_Preview_Image.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Stage_Preview_Image.html %}
 
 {% include_code sandbox/Stage_Preview_Image.html %}

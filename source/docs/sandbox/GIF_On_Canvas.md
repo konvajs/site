@@ -7,6 +7,6 @@ You can't directly insert GIF image into the canvas. But we can use external lib
 In this demo I will use [gifler](http://themadcreator.github.io/gifler/) to parse and draw the gif. You can use any other library.
 
 
-{% iframe /downloads/code/sandbox/GIF_On_Canvas.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/GIF_On_Canvas.html %}
 
 {% include_code Konva GIF demo sandbox/GIF_On_Canvas.html %}

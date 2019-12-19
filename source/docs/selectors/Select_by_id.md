@@ -8,6 +8,6 @@ The `find()` method works for any node, including the stage, layers, groups, and
 
 Instructions: press the "Activate Rectangle" button to select the rectangle by id and perform a transition.  You can also drag and drop the rectangle.
 
-{% iframe /downloads/code/selectors/Select_by_id.html %}
+{% iframe /cn.konvajs/downloads/code/selectors/Select_by_id.html %}
 
 {% include_code Konva Select Shape by id Demo selectors/Select_by_id.html %}

@@ -39,6 +39,6 @@ A bit smarter implementation is to create two functions `create(state)` and `upd
 Instructions: In that demo we will have a bunch of images with filters, and you can add more, move them, apply a new filter by clicking on images and use undo/redo.
 
 
-{% iframe /downloads/code/data_and_serialization/Best_Practices.html %}
+{% iframe /cn.konvajs/downloads/code/data_and_serialization/Best_Practices.html %}
 
 {% include_code Konva Load Complex Stage Demo data_and_serialization/Best_Practices.html %}

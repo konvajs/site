@@ -158,7 +158,7 @@ shape.draggable('true');
 
 ## 滤镜
 
-`Konva` 提供了多种滤镜：blur, invert, noise 等等。 详细请查看 [滤镜API](/api/Konva.Filters.html)
+`Konva` 提供了多种滤镜：blur, invert, noise 等等。 详细请查看 [滤镜API](/cn.konvajs/api/Konva.Filters.html)
 
 示例:
 ![Filter](/assets/overview-filter.png)

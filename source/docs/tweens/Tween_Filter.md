@@ -6,6 +6,6 @@ In this tutorial, we'll tween the `blurRadius` property, which controls the amou
 
 Instructions: mouseover the image to focus it.
 
-{% iframe /downloads/code/tweens/Tween_Filter.html %}
+{% iframe /cn.konvajs/downloads/code/tweens/Tween_Filter.html %}
 
 {% include_code Konva Tween Blur Filter Demo tweens/Tween_Filter.html %}

@@ -16,6 +16,6 @@ But for the demo I will use simpler font loading detection. It work ok for many 
 
 Is even simpler solution you can redraw after delay with `setTimeout`, but it doesn't guarantee that font is loaded.
 
-{% iframe /downloads/code/sandbox/Custom_Font.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Custom_Font.html %}
 
 {% include_code Konva Custom Font sandbox/Custom_Font.html %}

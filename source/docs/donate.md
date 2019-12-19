@@ -1,7 +1,6 @@
-title: How to support and donate to Konva project?
+title: 支持和捐赠 Konva
 
 ---
-
 
 Hello, my name is Anton. I am core maintainer of Konva framework.
 
@@ -13,3 +12,4 @@ I am spending a large amount of time to support Konva users and develop new vers
 If you are making money, by using Konva in your project, it makes sense to support Konva development. By doing this you will make sure that you have a good quality and maintained framework.
 
 Even if you are not making money from your project but Konva saved you a lot of time, it will be very kind to support it.
+

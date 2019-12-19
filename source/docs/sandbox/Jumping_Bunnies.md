@@ -14,6 +14,6 @@ But remember that the demo doesn't represent the performance of typical applicat
 
 So choose wisely the tool for your applications.
 
-{% iframe /downloads/code/sandbox/Jumping_Bunnies.html %}
+{% iframe /cn.konvajs/downloads/code/sandbox/Jumping_Bunnies.html %}
 
 {% include_code Konva 20000 Nodes Demo sandbox/Jumping_Bunnies.html %}

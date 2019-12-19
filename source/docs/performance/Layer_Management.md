@@ -14,6 +14,6 @@ that contains text.  Since there's no reason to continually redraw the text, it'
 
 **Note: Do not create too many layers. Usually 3-5 is max.**
 
-{% iframe /downloads/code/performance/Layer_Management.html %}
+{% iframe /cn.konvajs/downloads/code/performance/Layer_Management.html %}
 
 {% include_code Konva Layer Management Demo performance/Layer_Management.html %}

@@ -1,12 +1,12 @@
-title: HTML5 canvas Rect Tutorial
+title: 矩形
 ---
 
-To create a rectangle with `Konva`, we can instantiate a `Konva.Rect()` object.
+我们可以通过实例化一个 `Konva.Rect()` 对象创建矩形。
 
-For a full list of attributes and methods, check out the [Konva.Rect documentation](/api/Konva.Rect.html).
+点击 [Konva.Rect documentation](/cn.konvajs/api/Konva.Rect.html) 查看详细属性和方法说明。
 
-You can define corner radius for `Konva.Rect`. It can be simple number or array of numbers `[topLeft, topRight, bottomRight, bottomLeft]`.
+你可以定义数字或者数字数组 `[topLeft, topRight, bottomRight, bottomLeft]`，给矩形添加圆角。
 
-{% iframe /downloads/code/shapes/rect.html %}
+{% iframe /cn.konvajs/downloads/code/shapes/rect.html %}
 
 {% include_code Konva Rect Demo shapes/rect.html %}

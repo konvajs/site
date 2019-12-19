@@ -9,6 +9,6 @@ So it is not possible to use this tip if your node should be placed under other 
 
 Instructions: mouseover boxes to hightlight.
 
-{% iframe /downloads/code/performance/Shape_Redraw.html %}
+{% iframe /cn.konvajs/downloads/code/performance/Shape_Redraw.html %}
 
 {% include_code Konva Shape Redraw Demo performance/Shape_Redraw.html %}

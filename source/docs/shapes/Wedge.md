@@ -1,10 +1,10 @@
-title: HTML5 canvas Wedge Tutorial
+title: 扇形
 ---
 
-To create a wedge with `Konva`, we can instantiate a `Konva.Wedge()` object.
+我们可以通过实例化一个 `Konva.Wedge()` 对象创建扇形。
 
-For a full list of attributes and methods, check out the [Konva.Wedge documentation](/api/Konva.Wedge.html).
+点击 [Konva.Wedge documentation](/cn.konvajs/api/Konva.Wedge.html) 查看详细属性和方法说明。
 
-{% iframe /downloads/code/shapes/Wedge.html %}
+{% iframe /cn.konvajs/downloads/code/shapes/Wedge.html %}
 
 {% include_code Konva Wedge Demo shapes/Wedge.html %}
