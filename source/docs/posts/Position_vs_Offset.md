@@ -1,49 +1,41 @@
-title: What is the difference between position and offset in Konva
+title: 定位 (Position)  和 偏移 (Offset) 的区别
 ---
 
-There are several properties in Konva that looks similar and may lead some confusion but have a different effect and purpose. 
+定位和偏移有许多相似的属性，看起来容易混淆，但是它们对图形有不同的影响和作用。
 
-In the post I will explain the difference between position (x and y coordinates) and offset (offsetX and offsetY).
+本文将来解释定位 (x and y coordinates) 和 偏移 (offsetX and offsetY) 的区别。
 
-So x and y properties define position of Node on canvas. If you set `draggable = true` property and start dragging, Konva will change x and y properties of the node. That logic will be applied for all nodes (even Konva.Line).
+属性 x 和 y 定义了节点在画布的位置，如果你设置了 `draggable = true` 并且开始拖拽，Konva 将修改节点的 x 和 y 属性，这个逻辑适用于所有节点（包括 Konva.Line）。
 
-Position of a rectangle shape defines its top-left point. Position of circle defines its center.
+矩形的定位原点定义在它的左上角，圆形的定位远点在它的圆心。
 
 {% iframe /cn.konvajs/downloads/code/posts/Position_vs_Offset_Basic_x_y.html %}
 
 
-## Why do we need an `offset` property?
+## 为什么我们还需要偏移这个属性？
 
-When you are changing the offset property it may looks like you are changing position of the node. But actually not. You are changing ORIGIN of the shape. 
+当你修改偏移属性时看起来和修改位置效果时一样的，但是实际上你在修改图形的原点。
 
-What is it origin? You may think of it as “point from where we start drawing of a shape” or “center of the shape” or “the point around which we rotating a shape”.
+什么时原点呢，你可以把它当作“绘制图形的起始点”或者“图形的中心”或者“旋转图形时的轴点”。
 
-Just a small note, long time ago offset property was called “center” in Konva codebase (when it was KineticJS project). But later it was refactored to “offset". 
+Konva 曾经把偏移 (offset) 叫做中心 (center), 这个 center 源于 KineticJS 项目。后来重构以后就改成偏移了。
 
-Take a look into this [animation tutorial](/cn.konvajs/docs/animations/Rotation.html). All rectangles here have the same `y` position, but a different `offset` property.
+请看这个例子 [animation tutorial](/cn.konvajs/docs/animations/Rotation.html)，所有矩形的位置 `y` 都是相同的，但是偏移都不一样。
 
 {% iframe /cn.konvajs/downloads/code/animations/Rotation.html %}
 
-And you should understand that Konva has two main methods to define origin of the shape.
-So “circle-like” shapes have origin at actual center of the shape (Circle, Ellipse, Wedge, Star, Ring ,etc).
-When you set {x, y} of a circle you are defining “where will be the center of the circle”.
+Konva 有两种主要的方法定义图形的原点，类似圆形的图形 (Circle, Ellipse, Wedge, Star, Ring 等等) 的原点在它们的中心，当你设置圆形的 {x, y} 时实际上就是设置的它们中心的位置。
+类似矩形的图形 (Rectangle, Sprite, Text, Image 等等)，当你设置图形的 {x, y} 时实际上时设置的它们左上角的位置。
 
-And “rectangle-like” shapes has origin at TOP LEFT (Rectangle, Sprite, Text, Image, etc)
-When you set {x, y} of a rectangle you are defining “where will be the top-left point of the rect”.
+一个图形将围绕它的原点旋转，因此你设置星形旋转45度，它将绕着它的中心旋转。
 
-So a shape will be rotated around its origin point (around its “center”). So if you set rotation 45 deg of a star it will be rotated around its actual center.
+如果你让一个矩形旋转45度，它将绕着左上角旋转。但是有些需求实现起来就不太方便了，比方说你想绕着它的中心旋转，这时你就可以设置 `offset` 属性，它将告诉 Konva 将这个位置作为图形新的原点。
 
-But if you set rotation 45 deg of rectangle, it will be rotated around top-left. But in some cases it is not convenient. Sometimes you may want to rotate the shape around its center.
+## 怎么去设置图形的旋转点
 
-In this case you can set `offset` property. By using it we will tell konva: “Hey, use this point as the new origin of the shape”.
+现在假设你绘制了一个 100x100 的矩形，位置坐标 `x = 0, y = 0`，然后你想让它绕着中心旋转。如果你没有使用偏移，你得先重新计算它的位置 （需要用到你在学校学过的三角函数）。
 
-## How to set rotation point of a shape?
-
-Now let's think you are placed a 100x100 rectangle in `x = 0, y = 0`, and now you want to rotate it around its center.
-
-If you are not using offset you have to recalculate position of it't top left edge (recall you trigonometry lessons from the school).
-
-You can do this by using something like this:
+你可能要这样计算:
 
 ```javascript
 const rotatePoint = ({ x, y }, rad) => {
@@ -70,7 +62,6 @@ function rotateAroundCenter(node, rotation) {
 rotateAroundCenter(rect, 180);
 ```
 
-Or you can set `offsetX = width / 2` and `offsetY = height / 2`. But the rectangle will be moved on the canvas (since you change its origin). So you will need to adjust the position.
-
+或者你只需设置 `offsetX = width / 2` and `offsetY = height / 2`，但是矩形得位置会发生偏移（因为原点发生了变换），所以你要重新校准位置。
 
 Still have a question? Ask in comments.

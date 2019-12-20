@@ -9,7 +9,7 @@ language: en
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://konvajs.org
+url: https://bluehymn.github.io/cn.konvajs
 root: /cn.konvajs
 permalink: news/:year/:month/:day/:title/
 tag_dir: tags
