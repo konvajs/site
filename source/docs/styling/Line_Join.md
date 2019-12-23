@@ -1,11 +1,11 @@
-title: HTML5 Canvas Line Join Tutorial
+title: 边角
 ---
 
-To set the line join for a shape with Konva, we can set the `lineJoin` property when we instantiate a shape, or we can use the `lineJoin()` method.
+在创建图形时我们可以通过 `lineJoin` 设置边角，或者创建后通过 `lineJoin()` 方法修改。
 
-The `lineJoin` property can be set to `miter`, `bevel`, or `round`.  Unless otherwise specified, the default line join is `miter`.
+`lineJoin` 可选值为：`miter`（默认）, `bevel`, 和 `round`。
 
-Instructions: Mouseover the triangle to change the line join style.
+说明：试试鼠标滑过三角形来改变它的边角样式。
 
 {% iframe /cn.konvajs/downloads/code/styling/Line_Join.html %}
 

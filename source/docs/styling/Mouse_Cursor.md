@@ -1,9 +1,9 @@
-title: HTML5 Canvas Change Mouse Cursor Style
+title: 鼠标指针样式
 ---
 
-To change mouse cursor with Konva framework you just need to listen events, where do you need to change the cursor, and apply new styles manually for Stage container.
+我们可以通过监听事件然后给 Stage container 设置样式来改变鼠标指针的样式。
 
-Instructions: Mouseover each pentagon and see how cursor is changing
+说明：试试鼠标滑过每个五角星，看看指针的变化。
 
 {% iframe /cn.konvajs/downloads/code/styling/Mouse_Cursor.html %}
 

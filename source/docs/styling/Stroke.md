@@ -1,9 +1,9 @@
-title: HTML5 Canvas Set Shape Stroke Color and Width Tutorial
+title: 笔画
 ---
 
-To set a shape stroke and stroke width with Konva, we can set the `stroke` and `strokeWidth` properties when we instantiate a shape, or we can use the `stroke()` and `strokeWidth()` methods.
+我们可以在创建图形时设置 `stroke` 和 `strokeWidth` 属性设置图形的笔画颜色和笔画宽度，图形创建后也可以使用 `stroke()` 和 `strokeWidth()` 方法来修改。
 
-Instructions: Mouseover the pentagon to change its stroke color and width.
+说明：试试鼠标滑过每个五角星来改变它们的笔画颜色和宽度。
 
 {% iframe /cn.konvajs/downloads/code/styling/Stroke.html %}
 

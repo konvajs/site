@@ -1,11 +1,11 @@
-title: HTML5 Canvas Opacity Tutorial
+title: 透明度
 ---
 
-To set a shape opacity with Konva, we can set the `opacity` property when we instantiate the shape, or we can use the `opacity()` method.
+我们可以在创建图形时设置 `opacity` 属性设置图形的透明度，图形创建后也可以使用 `opacity()` 方法来修改。
 
-Shapes can have an opacity value between 0 and 1, where 0 is fully transparent, and 1 is fully opaque.  Unless otherwise specified, all shapes are defaulted with an opacity value of 1.
+图形透明度的范围为0 ~ 1，0 的时候为完全透明，1的时候则是不透明。所有图形透明度默认值为1。
 
-Instructions: Mouseover the pentagon to change its opacity.
+说明：试试鼠标滑过每个五角星来改变它们的透明度。
 
 {% iframe /cn.konvajs/downloads/code/styling/Opacity.html %}
 

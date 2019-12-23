@@ -1,9 +1,9 @@
-title: HTML5 Canvas Hide and Show Shape Tutorial
+title: 隐藏/显示图形
 ---
 
-To hide and show a shape with Konva, we can set the visible property when we instantiate a shape, or we can use the `hide()` and `show()` methods.
+在创建图形时我们可以使用 visible 属性设置图形的显示或隐藏，创建后可以使用 `hide()` 和 `show()` 方法修改。
 
-Instructions: Click on the buttons to show and hide the shape.
+说明：点击按钮隐藏或显示图形。
 
 {% iframe /cn.konvajs/downloads/code/styling/Hide_and_Show.html %}
 

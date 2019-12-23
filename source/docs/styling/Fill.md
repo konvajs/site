@@ -1,11 +1,11 @@
-title: HTML5 Canvas Set Fill Tutorial
+title: 填充
 ---
 
-To fill a shape with Konva, we can set the fill property when we instantiate a shape, or we can use the `fill()` method.
+我们可以在创建图形时设置 fill 属性填充一个图形或者在创建后使用 `fill()` 方法修改。
 
-Konva supports colors, patterns, linear gradients, and radial gradients.
+Konva 支持的填充类型有：颜色、纹理、线性渐变和径向渐变。
 
-Instructions: Mouseover each pentagon to change its fill.  You can also drag and drop the shapes.
+说明：试试鼠标滑过每个五角星来改变它们的填充，同时也可以拖放图形。
 
 {% iframe /cn.konvajs/downloads/code/styling/Fill.html %}
 
