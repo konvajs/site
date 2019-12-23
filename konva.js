@@ -2,13 +2,13 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Konva = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.0.18
+   * Konva JavaScript Framework v4.1.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Nov 14 2019
+   * Date: Mon Dec 23 2019
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.0.18',
+      version: '4.1.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2703,7 +2703,7 @@
                   relativeTo: this.getParent()
               });
           }
-          var width = conf.width || rect.width, height = conf.height || rect.height, pixelRatio = conf.pixelRatio, x = conf.x === undefined ? rect.x : conf.x, y = conf.y === undefined ? rect.y : conf.y, offset = conf.offset || 0, drawBorder = conf.drawBorder || false;
+          var width = Math.ceil(conf.width || rect.width), height = Math.ceil(conf.height || rect.height), pixelRatio = conf.pixelRatio, x = conf.x === undefined ? rect.x : conf.x, y = conf.y === undefined ? rect.y : conf.y, offset = conf.offset || 0, drawBorder = conf.drawBorder || false;
           if (!width || !height) {
               Util.error('Can not cache the node. Width or height of the node equals 0. Caching is skipped.');
               return;
@@ -3843,18 +3843,40 @@
           }
       };
       Node.prototype._getAbsoluteTransform = function (top) {
-          var at = new Transform();
-          // start with stage and traverse downwards to self
-          this._eachAncestorReverse(function (node) {
-              var transformsEnabled = node.getTransformsEnabled();
+          var at;
+          // we we need position relative to an ancestor, we will iterate for all
+          if (top) {
+              at = new Transform();
+              // start with stage and traverse downwards to self
+              this._eachAncestorReverse(function (node) {
+                  var transformsEnabled = node.transformsEnabled();
+                  if (transformsEnabled === 'all') {
+                      at.multiply(node.getTransform());
+                  }
+                  else if (transformsEnabled === 'position') {
+                      at.translate(node.x() - node.offsetX(), node.y() - node.offsetY());
+                  }
+              }, top);
+              return at;
+          }
+          else {
+              // try to use a cached value
+              if (this.parent) {
+                  // transform will be cached
+                  at = this.parent.getAbsoluteTransform().copy();
+              }
+              else {
+                  at = new Transform();
+              }
+              var transformsEnabled = this.transformsEnabled();
               if (transformsEnabled === 'all') {
-                  at.multiply(node.getTransform());
+                  at.multiply(this.getTransform());
               }
               else if (transformsEnabled === 'position') {
-                  at.translate(node.getX() - node.getOffsetX(), node.getY() - node.getOffsetY());
+                  at.translate(this.x() - this.offsetX(), this.y() - this.offsetY());
               }
-          }, top);
-          return at;
+              return at;
+          }
       };
       /**
        * get absolute scale of the node which takes into
@@ -5175,22 +5197,27 @@
        * // remember to redraw layer if you changed something
        * layer.draw();
        */
-      Container.prototype.add = function (child) {
+      Container.prototype.add = function () {
+          var children = [];
+          for (var _i = 0; _i < arguments.length; _i++) {
+              children[_i] = arguments[_i];
+          }
           if (arguments.length > 1) {
               for (var i = 0; i < arguments.length; i++) {
                   this.add(arguments[i]);
               }
               return this;
           }
+          var child = arguments[0];
           if (child.getParent()) {
               child.moveTo(this);
               return this;
           }
-          var children = this.children;
+          var _children = this.children;
           this._validateAdd(child);
-          child.index = children.length;
+          child.index = _children.length;
           child.parent = this;
-          children.push(child);
+          _children.push(child);
           this._fire('add', {
               child: child
           });
@@ -5961,7 +5988,7 @@
           if (length > MAX_LAYERS_NUMBER) {
               Util.warn('The stage has ' +
                   length +
-                  ' layers. Recommended maximin number of layers is 3-5. Adding more layers into the stage may drop the performance. Rethink your tree structure, you can use Konva.Group.');
+                  ' layers. Recommended maximum number of layers is 3-5. Adding more layers into the stage may drop the performance. Rethink your tree structure, you can use Konva.Group.');
           }
           layer._setCanvasSize(this.width(), this.height());
           // draw layer and append canvas to container
@@ -6019,6 +6046,7 @@
           if (targetShape && eventsEnabled) {
               targetShape._fireAndBubble(MOUSEOUT, { evt: evt });
               targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt });
+              this._fire(MOUSELEAVE$1, { evt: evt, target: this, currentTarget: this });
               this.targetShape = null;
           }
           else if (eventsEnabled) {
@@ -6463,29 +6491,22 @@
               Collection.prototype.each.call(evt.touches, function (touch) {
                   _this._pointerPositions.push({
                       id: touch.identifier,
-                      x: touch.clientX - contentPosition.left,
-                      y: touch.clientY - contentPosition.top
+                      x: (touch.clientX - contentPosition.left) / contentPosition.scaleX,
+                      y: (touch.clientY - contentPosition.top) / contentPosition.scaleY
                   });
               });
               Collection.prototype.each.call(evt.changedTouches || evt.touches, function (touch) {
                   _this._changedPointerPositions.push({
                       id: touch.identifier,
-                      x: touch.clientX - contentPosition.left,
-                      y: touch.clientY - contentPosition.top
+                      x: (touch.clientX - contentPosition.left) / contentPosition.scaleX,
+                      y: (touch.clientY - contentPosition.top) / contentPosition.scaleY
                   });
               });
-              // currently, only handle one finger
-              if (evt.touches.length > 0) {
-                  var touch = evt.touches[0];
-                  // get the information for finger #1
-                  x = touch.clientX - contentPosition.left;
-                  y = touch.clientY - contentPosition.top;
-              }
           }
           else {
               // mouse events
-              x = evt.clientX - contentPosition.left;
-              y = evt.clientY - contentPosition.top;
+              x = (evt.clientX - contentPosition.left) / contentPosition.scaleX;
+              y = (evt.clientY - contentPosition.top) / contentPosition.scaleY;
               this.pointerPos = {
                   x: x,
                   y: y
@@ -6503,10 +6524,12 @@
       Stage.prototype._getContentPosition = function () {
           var rect = this.content.getBoundingClientRect
               ? this.content.getBoundingClientRect()
-              : { top: 0, left: 0 };
+              : { top: 0, left: 0, width: 1000, height: 1000 };
           return {
               top: rect.top,
-              left: rect.left
+              left: rect.left,
+              scaleX: rect.width / this.content.clientWidth,
+              scaleY: rect.height / this.content.clientHeight,
           };
       };
       Stage.prototype._buildDOM = function () {
@@ -11533,6 +11556,7 @@
                   ]);
               }
               else {
+                  // TODO: how can we calculate bezier curves better?
                   points = points.concat(data.points);
               }
           });
@@ -13419,7 +13443,7 @@
           context.fillStrokeShape(this);
       };
       Text.prototype.setText = function (text) {
-          var str = Util._isString(text) ? text : (text || '').toString();
+          var str = Util._isString(text) ? text : (text === null || text === undefined) ? '' : text + '';
           this._setAttr(TEXT, str);
           return this;
       };
@@ -14543,6 +14567,7 @@
       'bottom-center': 180,
       'bottom-right': 135
   };
+  var TOUCH_DEVICE = 'ontouchstart' in Konva._global;
   function getCursor(anchorName, rad, isMirrored) {
       if (anchorName === 'rotater') {
           return 'crosshair';
@@ -14784,7 +14809,8 @@
               strokeWidth: 1,
               name: name + ' _anchor',
               dragDistance: 0,
-              draggable: true
+              draggable: true,
+              hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto'
           });
           var self = this;
           anchor.on('mousedown touchstart', function (e) {
@@ -17817,4 +17843,4 @@
 
   return Konva$2;
 
-}));
+})));
