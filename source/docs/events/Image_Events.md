@@ -1,14 +1,13 @@
-title: HTML5 Canvas Image Events with Konva
+title: 图片事件
 ---
 
-## HTML5 Canvas Image Events with Konva
+## 图片事件
 
-To only detect events for non transparent pixels in an image with Konva, we can use the `drawHitFromCache()` method to generate a more precise image hit region.
-By default, events can be triggered for any pixel inside of an image, even if it's transparent.  The `drawHitFromCache()` method also accepts an optional callback method to be executed whenever the image hit region has been created.
+如果只需要检测图片非透明像素区域触发的事件，我们可以使用 `drawHitFromCache()` 方法生成一个精确的事件检测区域。默认情况下图片的任何像素都会促发事件，也包括透明的像素。`drawHitFromCache()` 方法可以传入一个回调函数，当检测区域被创建后会执行这个函数。
 
-*Note: The `drawHitFromCache()` method requires that the image is hosted on a web server with the same domain as the code executing it.*
+*注意：`drawHitFromCache()` 方法需要图片和当前执行的代码在同一个域下。
 
-Instructions: Mouse over the monkey and the lion and observe the mouseover event bindings.  Notice that the event is triggered for the monkey if you mouseover any portion of the image, including transparent pixels.  Since we created an image hit region for the lion, transparent pixels are ignored, which enables more precise event detection.
+说明：鼠标滑过猴子和狮子图片，观察 mouseover 事件的绑定。你可以发现在猴子图片上，所有区域包括透明像素都触发了事件。而狮子图片我们创建了一个事件检测区域，忽略了透明像素，因此事件检测可以精确到非透明像素。
 
 {% iframe /downloads/code/events/Image_Events.html %}
 

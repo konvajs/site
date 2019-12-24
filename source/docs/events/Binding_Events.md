@@ -1,12 +1,11 @@
-title: HTML5 Canvas Shape Events
+title: 事件
 ---
 
-To detect shape events with Konva, we can use the `on()` method to bind event handlers to a node.
+我们可以用 `on()` 给节点绑定事件。`on()` 方法需要传入两个参数：事件类型、事件发生时执行的函数。
 
-The `on()` method requires an event type and a function to be executed when the event occurs.
-Konva supports `mouseover`, `mouseout`, `mouseenter`, `mouseleave`, `mousemove`, `mousedown`, `mouseup`, `wheel`, `click`, `dblclick`, `dragstart`, `dragmove`, and `dragend` desktop events.
+Konva 支持的事件类型有 `mouseover`, `mouseout`, `mouseenter`, `mouseleave`, `mousemove`, `mousedown`, `mouseup`, `wheel`, `click`, `dblclick`, `dragstart`, `dragmove`,`dragend`。
 
-Instructions: Mouseover and mouseout of the triangle, and mouseover, mouseout, mousedown, and mouseup over the circle.
+说明：尝试鼠标滑过下面的三角形和圆形看看。
 
 {% iframe /downloads/code/events/Binding_Events.html %}
 
