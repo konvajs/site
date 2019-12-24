@@ -40,12 +40,12 @@ export default {
     }
   },
   created() {
-    const rectNode = this.refs.rect.getStage();
+    const rectNode = this.refs.rect.getNode();
     rectNode.cache();
   },
   updated() {
     // recache
-    const rectNode = this.refs.rect.getStage();
+    const rectNode = this.refs.rect.getNode();
     rectNode.cache();
   }
 };

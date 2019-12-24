@@ -69,7 +69,7 @@ export default {
     },
     updateTransformer() {
       // here we need to manually attach or detach Transformer node
-      const transformerNode = this.$refs.transformer.getStage();
+      const transformerNode = this.$refs.transformer.getNode();
       const stage = transformerNode.getStage();
       const { selectedShapeName } = this;
 

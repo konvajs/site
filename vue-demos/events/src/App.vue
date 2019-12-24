@@ -48,7 +48,7 @@ export default {
       this.writeMessage('Mouseout triangle');
     },
     handleMouseMove(event) {
-      const mousePos = this.$refs.stage.getStage().getPointerPosition();
+      const mousePos = this.$refs.stage.getNode().getPointerPosition();
       const x = mousePos.x - 190;
       const y = mousePos.y - 40;
       this.writeMessage('x: ' + x + ', y: ' + y);
