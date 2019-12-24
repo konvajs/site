@@ -7,6 +7,6 @@ Konva 支持的填充类型有：颜色、纹理、线性渐变和径向渐变�
 
 说明：试试鼠标滑过每个五角星来改变它们的填充，同时也可以拖放图形。
 
-{% iframe /cn.konvajs/downloads/code/styling/Fill.html %}
+{% iframe /downloads/code/styling/Fill.html %}
 
 {% include_code Konva Fill Demo styling/Fill.html %}

@@ -22,7 +22,7 @@ Pros:
 Cons:
 * Slow
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Canvas_Scrolling_Large.html %}
+{% iframe /downloads/code/sandbox/Canvas_Scrolling_Large.html %}
 
 <details><summary>Show source code!</summary>
 <p>
@@ -42,7 +42,7 @@ Pros:
 Cons
 * Sometimes drag&drop navigation is not the best UX
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Canvas_Scrolling_Drag.html %}
+{% iframe /downloads/code/sandbox/Canvas_Scrolling_Drag.html %}
 
 <details><summary>Show source code!</summary>
 <p>
@@ -65,7 +65,7 @@ Pros:
 Cons
 - Scrollbars are not native, so you have to implement many things manually (like scroll with keyboard)
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Canvas_Scrolling_Manual.html %}
+{% iframe /downloads/code/sandbox/Canvas_Scrolling_Manual.html %}
 
 <details><summary>Show source code!</summary>
 <p>
@@ -91,7 +91,7 @@ Cons:
 
 Instruction: try to scroll with native bars.
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Canvas_Scrolling_Transform.html %}
+{% iframe /downloads/code/sandbox/Canvas_Scrolling_Transform.html %}
 
 <details><summary>Show source code!</summary>
 <p>

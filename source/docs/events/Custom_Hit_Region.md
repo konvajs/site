@@ -13,9 +13,9 @@ so that it's easier for users to interact with a shape, making some portions
 of a shape detectable and others not, or simplifying the hit draw function
 in order to improve rendering performance.
 
-Also take a look into some [best practices](/cn.konvajs/docs/shapes/Custom.html) of writing custom `sceneFunc` that can be used for `hitFunc` too.
+Also take a look into some [best practices](/docs/shapes/Custom.html) of writing custom `sceneFunc` that can be used for `hitFunc` too.
 
-`hitFunc` is a function with two arguments: [Konva.Context](/cn.konvajs/api/Konva.Context.html) renderer and a shape instance.
+`hitFunc` is a function with two arguments: [Konva.Context](/api/Konva.Context.html) renderer and a shape instance.
 
 With `hitFunc` you have full control over drawing.
 
@@ -30,6 +30,6 @@ Also you can toggle hit canvas too see how it looks. It may be useful for debugg
 
 
 
-{% iframe /cn.konvajs/downloads/code/events/Custom_Hit_Region.html %}
+{% iframe /downloads/code/events/Custom_Hit_Region.html %}
 
 {% include_code Konva Custom_Hit_Region Demo events/Custom_Hit_Region.html %}

@@ -9,8 +9,8 @@ and set the enhance amount with the `enhance` property.
 
 Instructions: Slide the control to adjust the enhance value.
 
-For all available filters go to [Filters Documentation](/cn.konvajs/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
-{% iframe /cn.konvajs/downloads/code/filters/Enhance.html %}
+{% iframe /downloads/code/filters/Enhance.html %}
 
 {% include_code Konva Enhance Image Demo filters/Enhance.html %}

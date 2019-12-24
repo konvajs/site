@@ -7,6 +7,6 @@ GreenSock tweens are more powerfull than Konva's tween.
 
 Also demo demonstrate tweening `fillLinearGradientColorStops` property with usual GreenSock usage.
 
-{% iframe /cn.konvajs/downloads/code/tweens/Complex_Tweening.html %}
+{% iframe /downloads/code/tweens/Complex_Tweening.html %}
 
 {% include_code Konva Complex Tweening Demo tweens/Complex_Tweening.html %}

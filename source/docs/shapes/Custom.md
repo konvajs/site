@@ -3,7 +3,7 @@ title: 自定义图形
 
 我们可以通过实例化一个 `Konva.Shape()` 对象创建自定义图形。
 
-当创建自定义图形时，我们需要定义一个绘图方法，绘图函数包含两个入参 [Konva.Context](/cn.konvajs/api/Konva.Context.html) 和 shape 实例：
+当创建自定义图形时，我们需要定义一个绘图方法，绘图函数包含两个入参 [Konva.Context](/api/Konva.Context.html) 和 shape 实例：
 
 ```javascript
 var rect = new Konva.Shape({
@@ -27,7 +27,7 @@ var rect = new Konva.Shape({
 
 我们可以通过 `Konva.Context` 使用 HTML5 Canvas context，还可以使用一些特殊的方法，例如：使用 `context.fillStrokeShape(shape)` 自动填充、描边、添加阴影。这里提供了两个方法来绘制自定义图形：`sceneFunc` 和 `hitFunc`。
 
-`sceneFunc` 用来定义图形可视的外观，`Konva` 使用 `sceneFunc` 绘制用于图形事件检测的图像。因此通常你只需要定义 `sceneFunc`。如果你想自己定义事件检测，请查看 [Custom Hit Region demo](/cn.konvajs/docs/events/Custom_Hit_Region.html)。
+`sceneFunc` 用来定义图形可视的外观，`Konva` 使用 `sceneFunc` 绘制用于图形事件检测的图像。因此通常你只需要定义 `sceneFunc`。如果你想自己定义事件检测，请查看 [Custom Hit Region demo](/docs/events/Custom_Hit_Region.html)。
 
 ### 关于 `sceneFunc` 和 `hitFunc` 的最佳实践:
 
@@ -43,8 +43,8 @@ var rect = new Konva.Shape({
 
 6. 更多示例请查看 [Konva core shapes implementations](https://github.com/konvajs/konva/tree/master/src/shapes)。
 
-点击 [Konva.Shape documentation](/cn.konvajs/api/Konva.Shape.html) 查看详细属性和方法说明。
+点击 [Konva.Shape documentation](/api/Konva.Shape.html) 查看详细属性和方法说明。
 
-{% iframe /cn.konvajs/downloads/code/shapes/Custom.html %}
+{% iframe /downloads/code/shapes/Custom.html %}
 
 {% include_code Konva Custom Demo shapes/Custom.html %}

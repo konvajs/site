@@ -7,6 +7,6 @@ title: 透明度
 
 说明：试试鼠标滑过每个五角星来改变它们的透明度。
 
-{% iframe /cn.konvajs/downloads/code/styling/Opacity.html %}
+{% iframe /downloads/code/styling/Opacity.html %}
 
 {% include_code Konva Opacity Demo styling/Opacity.html %}

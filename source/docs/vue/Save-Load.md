@@ -5,7 +5,7 @@ layout: vue_page
 ## How to serialize and deserialize Konva stage with Vue?
 
 Pure `Konva` has special mechanizm to save/load full canvas stage with `node.toJSON()` and `Node.create(json)` functions.
-[See demo](/cn.konvajs/docs/data_and_serialization/Simple_Load.html).
+[See demo](/docs/data_and_serialization/Simple_Load.html).
 
 But we don't recommend to use these methods if you are using `vue-konva`. In `vue-konva` you should have a state of the app defined in your vue components. That state maps into nodes with templates. To save/load full stage you just need to save/load state of the app and you **don't need to save Konva internals and nodes**.
 

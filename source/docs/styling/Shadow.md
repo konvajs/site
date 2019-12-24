@@ -5,6 +5,6 @@ title: 阴影
 
 我们可以在图形创建后使用 `shadowColor()`, `shadowOffset()`, `shadowBlur()`, 和 `shadowOpacity()` 方法修改阴影。
 
-{% iframe /cn.konvajs/downloads/code/styling/Shadow.html %}
+{% iframe /downloads/code/styling/Shadow.html %}
 
 {% include_code Konva Shadows Demo styling/Shadow.html %}

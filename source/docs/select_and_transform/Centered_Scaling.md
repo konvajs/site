@@ -7,6 +7,6 @@ To resize a node into both sides at the same time you can set `centeredScaling` 
 
 Instructions: Try to resize texts. 
 
-{% iframe /cn.konvajs/downloads/code/select_and_transform/Centered_Scaling.html %}
+{% iframe /downloads/code/select_and_transform/Centered_Scaling.html %}
 
 {% include_code Konva Shape transform and selection Demo select_and_transform/Centered_Scaling.html %}

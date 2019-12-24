@@ -42,7 +42,7 @@ Konva is drawing nodes in the strict order as they defined in nodes tree.
 
 Let make a demo. I will create a layer with two groups. The first group has two shapes (black rect and red circle). The second group has one shape (green rect).
 
-{% iframe /cn.konvajs/downloads/code/groups_and_layers/zIndex.html %}
+{% iframe /downloads/code/groups_and_layers/zIndex.html %}
 
 <details><summary>Show source code!</summary>
 <p>

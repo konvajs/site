@@ -5,6 +5,6 @@ title: 鼠标指针样式
 
 说明：试试鼠标滑过每个五角星，看看指针的变化。
 
-{% iframe /cn.konvajs/downloads/code/styling/Mouse_Cursor.html %}
+{% iframe /downloads/code/styling/Mouse_Cursor.html %}
 
 {% include_code Konva Mouse Cursor Demo styling/Mouse_Cursor.html %}

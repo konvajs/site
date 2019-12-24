@@ -6,6 +6,6 @@ layout: demo_page
 
 Instructions: Mousemove over shape to see the tooltip.
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Shape_Tooltips.html %}
+{% iframe /downloads/code/sandbox/Shape_Tooltips.html %}
 
 {% include_code Konva Shape Tooltips sandbox/Shape_Tooltips.html %}

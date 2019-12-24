@@ -8,8 +8,8 @@ To change contrast of an image with Konva, we can use the `Konva.Filters.Contras
 
 Instructions: Slide the control to change contrast value.
 
-For all available filters go to [Filters Documentation](/cn.konvajs/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
-{% iframe /cn.konvajs/downloads/code/filters/Contrast.html %}
+{% iframe /downloads/code/filters/Contrast.html %}
 
 {% include_code Konva Contrast Image Demo filters/Contrast.html %}

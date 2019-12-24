@@ -5,6 +5,6 @@ title: 笔画
 
 说明：试试鼠标滑过每个五角星来改变它们的笔画颜色和宽度。
 
-{% iframe /cn.konvajs/downloads/code/styling/Stroke.html %}
+{% iframe /downloads/code/styling/Stroke.html %}
 
 {% include_code Konva Stroke Demo styling/Stroke.html %}

@@ -9,7 +9,7 @@ title: 定位 (Position)  和 偏移 (Offset) 的区别
 
 矩形的定位原点定义在它的左上角，圆形的定位远点在它的圆心。
 
-{% iframe /cn.konvajs/downloads/code/posts/Position_vs_Offset_Basic_x_y.html %}
+{% iframe /downloads/code/posts/Position_vs_Offset_Basic_x_y.html %}
 
 
 ## 为什么我们还需要偏移这个属性？
@@ -20,9 +20,9 @@ title: 定位 (Position)  和 偏移 (Offset) 的区别
 
 Konva 曾经把偏移 (offset) 叫做中心 (center), 这个 center 源于 KineticJS 项目。后来重构以后就改成偏移了。
 
-请看这个例子 [animation tutorial](/cn.konvajs/docs/animations/Rotation.html)，所有矩形的位置 `y` 都是相同的，但是偏移都不一样。
+请看这个例子 [animation tutorial](/docs/animations/Rotation.html)，所有矩形的位置 `y` 都是相同的，但是偏移都不一样。
 
-{% iframe /cn.konvajs/downloads/code/animations/Rotation.html %}
+{% iframe /downloads/code/animations/Rotation.html %}
 
 Konva 有两种主要的方法定义图形的原点，类似圆形的图形 (Circle, Ellipse, Wedge, Star, Ring 等等) 的原点在它们的中心，当你设置圆形的 {x, y} 时实际上就是设置的它们中心的位置。
 类似矩形的图形 (Rectangle, Sprite, Text, Image 等等)，当你设置图形的 {x, y} 时实际上时设置的它们左上角的位置。

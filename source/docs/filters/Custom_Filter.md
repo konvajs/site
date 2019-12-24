@@ -19,8 +19,8 @@ In this demo we will create custom filter that will draw solid border around ima
 Since following contour is a complex thing we will use a hack. So we will use blurred shadow as a border foundation.
 We will replace transparent/blurred pixels with our solid color that we want for border.
 
-For all available filters go to [Filters Documentation](/cn.konvajs/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
-{% iframe /cn.konvajs/downloads/code/filters/Custom_Filter.html %}
+{% iframe /downloads/code/filters/Custom_Filter.html %}
 
 {% include_code Konva Custom Filter Image Demo filters/Custom_Filter.html %}

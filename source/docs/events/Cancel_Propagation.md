@@ -8,6 +8,6 @@ Instructions: Click on the circle to observe that only the circle event binding
 is handled because the event propagation was canceled when the circle event was triggered,
 therefore preventing the event object from bubbling upwards.
 
-{% iframe /cn.konvajs/downloads/code/events/Cancel_Propagation.html %}
+{% iframe /downloads/code/events/Cancel_Propagation.html %}
 
 {% include_code Konva Cancel_Propagation Demo events/Cancel_Propagation.html %}

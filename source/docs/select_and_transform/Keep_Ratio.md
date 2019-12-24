@@ -11,6 +11,6 @@ Event if you set `keepRatio` to `false` you can hold `SHIFT` to still keep ratio
 
 Instructions: Try to resize texts.
 
-{% iframe /cn.konvajs/downloads/code/select_and_transform/Keep_Ratio.html %}
+{% iframe /downloads/code/select_and_transform/Keep_Ratio.html %}
 
 {% include_code Konva Shape transform and selection Demo select_and_transform/Keep_Ratio.html %}

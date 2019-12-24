@@ -5,6 +5,6 @@ If you animation have frames without any updates (no nodes are changed) you may 
 
 In this case Konva wouldn't update layers.
 
-{% iframe /cn.konvajs/downloads/code/performance/Optimize_Animation.html %}
+{% iframe /downloads/code/performance/Optimize_Animation.html %}
 
 {% include_code Konva Optimize Animation Demo performance/Optimize_Animation.html %}

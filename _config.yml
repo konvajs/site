@@ -9,8 +9,8 @@ language: en
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://bluehymn.github.io/cn.konvajs
-root: /cn.konvajs
+url: https://bluehymn.github.io
+root: /
 permalink: news/:year/:month/:day/:title/
 tag_dir: tags
 archive_dir: news

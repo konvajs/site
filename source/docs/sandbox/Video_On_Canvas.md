@@ -6,6 +6,6 @@ To draw a video on a canvas we can use `<video>` DOM element similar to `<img>` 
 
 Instructions: click "play" button. You can drag&drop the image.
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Video_On_Canvas.html %}
+{% iframe /downloads/code/sandbox/Video_On_Canvas.html %}
 
 {% include_code Konva Video Demo sandbox/Video_On_Canvas.html %}

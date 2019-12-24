@@ -6,6 +6,6 @@ The `find()` method returns an array of nodes that match the selector string.
 The return array is a `Konva.Collection` array, which is basically a typical JavaScript array with a special `each()` method.
 The `each()` method enables us to quickly iterate through every node in the array.
 
-{% iframe /cn.konvajs/downloads/code/selectors/Select_by_Name.html %}
+{% iframe /downloads/code/selectors/Select_by_Name.html %}
 
 {% include_code Konva Select Shape by Name Demo selectors/Select_by_Name.html %}

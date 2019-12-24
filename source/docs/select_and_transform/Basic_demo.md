@@ -16,6 +16,6 @@ To enable it you need to:
 
 Instructions: select a rectangle. Try to resize and rotate it.
 
-{% iframe /cn.konvajs/downloads/code/select_and_transform/Basic_demo.html %}
+{% iframe /downloads/code/select_and_transform/Basic_demo.html %}
 
 {% include_code Konva Shape transform and selection Demo select_and_transform/Basic_demo.html %}

@@ -8,8 +8,8 @@ title: Polygon 多边形
 
 之所以使用简单的一维数字数组，因为相对于对象（例如： [{x: 0, y: 0}, {x: 0, y: 0}]）运行起来更快而且需要的内存也更少。
 
-点击 [Konva.Line documentation](/cn.konvajs/api/Konva.Line.html) 查看详细属性和方法说明。
+点击 [Konva.Line documentation](/api/Konva.Line.html) 查看详细属性和方法说明。
 
-{% iframe /cn.konvajs/downloads/code/shapes/Line_-_Polygon.html %}d
+{% iframe /downloads/code/shapes/Line_-_Polygon.html %}d
 
 {% include_code Konva Polygon Demo shapes/Line_-_Polygon.html %}

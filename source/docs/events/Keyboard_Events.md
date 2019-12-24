@@ -14,6 +14,6 @@ You can easily add them by two ways:
 
 Instructions: click on stage to focus it, move a shape with arrows
 
-{% iframe /cn.konvajs/downloads/code/events/Keyboard_Events.html %}
+{% iframe /downloads/code/events/Keyboard_Events.html %}
 
 {% include_code HTML5 Canvas Keyboard events events/Keyboard_Events.html %}

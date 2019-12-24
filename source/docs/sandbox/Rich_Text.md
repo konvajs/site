@@ -4,7 +4,7 @@ layout: demo_page
 
 # How to show complex styles (like bold) and enable rich text editing features?
 
-Canvas's text API is very limited. [Konva.Text](/cn.konvajs/docs/shapes/Text.html) allows you to add many different styles, support multiline text, etc. But at the current moment it has limitations. You can't use different styles for different parts of `Konva.Text`. For that case you have to use several `Konva.Text` instances.
+Canvas's text API is very limited. [Konva.Text](/docs/shapes/Text.html) allows you to add many different styles, support multiline text, etc. But at the current moment it has limitations. You can't use different styles for different parts of `Konva.Text`. For that case you have to use several `Konva.Text` instances.
 
 If you want show complex styles on canvas we can do a hacky workaround. The idea is simple:
 
@@ -15,6 +15,6 @@ If you want show complex styles on canvas we can do a hacky workaround. The idea
 
 Instructions: try to type a text into the editor
 
-{% iframe /cn.konvajs/downloads/code/sandbox/Rich_Text.html %}
+{% iframe /downloads/code/sandbox/Rich_Text.html %}
 
 {% include_code Konva Rich Text Demo sandbox/Rich_Text.html %}

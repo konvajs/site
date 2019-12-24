@@ -7,6 +7,6 @@ These events also will be triggered on attached node.
 
 Instructions: Open console, try to transform, see logs
 
-{% iframe /cn.konvajs/downloads/code/select_and_transform/Transform_Events.html %}
+{% iframe /downloads/code/select_and_transform/Transform_Events.html %}
 
 {% include_code Transform Events Demo select_and_transform/Transform_Events.html %}

@@ -4,7 +4,7 @@ title: Save and Load HTML5 Canvas Stage Best Practices
 ## What is the best way to save/load full stage content and how to implement undo/redo?
 
 If you want to save/load simple canvas content you can use the built-in `Konva` methods: `node.toJSON()` and `Node.create(json)`.
-See [simple](/cn.konvajs/docs/data_and_serialization/Simple_Load.html) and [complex](/cn.konvajs/docs/data_and_serialization/Complex_Load.html) demos.
+See [simple](/docs/data_and_serialization/Simple_Load.html) and [complex](/docs/data_and_serialization/Complex_Load.html) demos.
 
 But those methods are useful only in very small apps. In bigger apps it is VERY hard to use those methods. Why? Because the tree structure is usually very complex in larger apps, you may have a lot of event listeners, images, filters, etc. That data is not serializable into JSON (or it is very hard to do that).
 
@@ -24,10 +24,10 @@ In that case you don't need to care about image loading, filters, event listener
 You should better understand what I am talking about if you know how many modern frameworks work (like `Rect`, `Vue`, `Angular` and many other).
 
 Also take a look into these demos to have a better idea:
-1. [Undo/redo with react](/cn.konvajs/docs/react/Undo-Redo.html)
-1. [Save/load with Vue](/cn.konvajs/docs/vue/Save-Load.html)
+1. [Undo/redo with react](/docs/react/Undo-Redo.html)
+1. [Save/load with Vue](/docs/vue/Save-Load.html)
 
-How to implement that `create` and `update` functions? It depends. From my point of view it will be easier to use frameworks that can do that job for you, like [react-konva](/cn.konvajs/docs/react/).
+How to implement that `create` and `update` functions? It depends. From my point of view it will be easier to use frameworks that can do that job for you, like [react-konva](/docs/react/).
 
 If you don't want to use such frameworks you need to think in terms of your own app. Here I will try to make a small demo to give you an idea.
 
@@ -39,6 +39,6 @@ A bit smarter implementation is to create two functions `create(state)` and `upd
 Instructions: In that demo we will have a bunch of images with filters, and you can add more, move them, apply a new filter by clicking on images and use undo/redo.
 
 
-{% iframe /cn.konvajs/downloads/code/data_and_serialization/Best_Practices.html %}
+{% iframe /downloads/code/data_and_serialization/Best_Practices.html %}
 
 {% include_code Konva Load Complex Stage Demo data_and_serialization/Best_Practices.html %}

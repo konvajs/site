@@ -10,6 +10,6 @@ Instructions: if you are on mobile device try to scroll a page by each rectangle
 Green - should prevent default behaviour (no page scrolling).
 Red - will keep default behaviour (scrolling should work).
 
-{% iframe /cn.konvajs/downloads/code/events/Mobile_Scrolling.html %}
+{% iframe /downloads/code/events/Mobile_Scrolling.html %}
 
 {% include_code Konva Mobile Scrolling Demo events/Mobile_Scrolling.html %}

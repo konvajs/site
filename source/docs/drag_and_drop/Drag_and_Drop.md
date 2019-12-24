@@ -10,6 +10,6 @@ To detect drag and drop events with Konva, we can use the `on()` method to
 bind `dragstart`, `dragmove`, or `dragend` events to a node.
 The `on()` method requires an event type and a function to be executed when the event occurs.
 
-{% iframe /cn.konvajs/downloads/code/drag_and_drop/Drag_and_Drop.html %}
+{% iframe /downloads/code/drag_and_drop/Drag_and_Drop.html %}
 
 {% include_code Konva Drag and Drop Demo drag_and_drop/Drag_and_Drop.html %}

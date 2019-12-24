@@ -22,6 +22,6 @@ shape.perfectDrawEnabled(false);
 
 See difference here:
 
-{% iframe /cn.konvajs/downloads/code/performance/Disable_Perfect_Draw.html %}
+{% iframe /downloads/code/performance/Disable_Perfect_Draw.html %}
 
 {% include_code Konva Disable Perfect Drawing Demo performance/Disable_Perfect_Draw.html %}

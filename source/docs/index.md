@@ -30,4 +30,4 @@ npm install konva
 * [Full version konva.js](https://unpkg.com/konva@4.0.0/konva.js)
 * [Min version konva.min.js](https://unpkg.com/konva@4.0.0/konva.min.js)
 
-### [下一节: 基础](/cn.konvajs/docs/overview.html)
+### [下一节: 基础](/docs/overview.html)

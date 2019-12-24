@@ -7,6 +7,6 @@ title: 边角
 
 说明：试试鼠标滑过三角形来改变它的边角样式。
 
-{% iframe /cn.konvajs/downloads/code/styling/Line_Join.html %}
+{% iframe /downloads/code/styling/Line_Join.html %}
 
 {% include_code Konva Line Join Demo styling/Line_Join.html %}

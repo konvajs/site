@@ -14,6 +14,6 @@ In same cases `cache()` function can not automatically detect size of node.
 So you should be careful for groups and shapes with shadows and strokes.
 If you see unexpected result pass bound properties to `cache()` function with `x`, `y`, `width` and `height` properties.
 
-{% iframe /cn.konvajs/downloads/code/performance/Shape_Caching.html %}
+{% iframe /downloads/code/performance/Shape_Caching.html %}
 
 {% include_code Konva Shape Caching Demo performance/Shape_Caching.html %}

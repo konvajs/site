@@ -10,6 +10,6 @@ to redraw the hit graph for each affected layer with the `drawHit()` method.
 Instructions: Mouseover the oval to observe that the event handler is not executed.
 Click on "Listen" to start listening for events and observe that the event handler is now executed.
 
-{% iframe /cn.konvajs/downloads/code/events/Listen_for_Events.html %}
+{% iframe /downloads/code/events/Listen_for_Events.html %}
 
 {% include_code Konva Listen_for_Events Demo events/Listen_for_Events.html %}

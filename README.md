@@ -1,6 +1,6 @@
 ### 当前同步到官网2019-12-12版本
 
-### 页面地址 [https://bluehymn.github.io/cn.konvajs](https://bluehymn.github.io/cn.konvajs/)
+### 页面地址 [https://bluehymn.github.io](https://bluehymn.github.io/)
 
 # Konva Website
 

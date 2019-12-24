@@ -6,8 +6,8 @@ title: Spline 样条曲线
 
 之所以使用简单的一维数字数组，因为相对于对象（例如： [{x: 0, y: 0}, {x: 0, y: 0}]）运行起来更快而且需要的内存也更少。
 
-点击 [Konva.Line documentation](/cn.konvajs/api/Konva.Line.html) 查看详细属性和方法说明。
+点击 [Konva.Line documentation](/api/Konva.Line.html) 查看详细属性和方法说明。
 
-{% iframe /cn.konvajs/downloads/code/shapes/Line_-_Spline.html %}
+{% iframe /downloads/code/shapes/Line_-_Spline.html %}
 
 {% include_code Konva Spline Demo shapes/Line_-_Spline.html %}

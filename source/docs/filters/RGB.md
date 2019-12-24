@@ -8,8 +8,8 @@ To change rgb components of an image with Konva, we can use the `Konva.Filters.R
 
 Instructions: Slide the controls to change rgb values.
 
-For all available filters go to [Filters Documentation](/cn.konvajs/api/Konva.Filters.html).
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
-{% iframe /cn.konvajs/downloads/code/filters/RGB.html %}
+{% iframe /downloads/code/filters/RGB.html %}
 
 {% include_code Konva RGB Image Demo filters/RGB.html %}

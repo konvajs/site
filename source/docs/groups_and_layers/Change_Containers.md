@@ -10,6 +10,6 @@ Instructions: Drag and drop the groups and observe that the red rectangle is
 bound to either the yellow group or the blue group.
 Use the buttons on the left to move the box from one group into another.
 
-{% iframe /cn.konvajs/downloads/code/groups_and_layers/Change_Containers.html %}
+{% iframe /downloads/code/groups_and_layers/Change_Containers.html %}
 
 {% include_code Konva Move Shape to Another Container Demo groups_and_layers/Change_Containers.html %}

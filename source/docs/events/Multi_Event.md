@@ -5,6 +5,6 @@ To bind multiple events to a single handler with Konva, we can use the `on()` me
 
 Instructions: Mouseover, mousedown, and mouseup over the circle to observe that the function bound to the circle is executed for each event.
 
-{% iframe /cn.konvajs/downloads/code/events/Multi_Event.html %}
+{% iframe /downloads/code/events/Multi_Event.html %}
 
 {% include_code Konva Multi_Event Demo events/Multi_Event.html %}
