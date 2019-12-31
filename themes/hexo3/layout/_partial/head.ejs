@@ -61,6 +61,15 @@
   rel="stylesheet"
   type="text/css"
 />
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?01c61841a1e37d9447fca013e22f8f67";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
 <%- feed_tag('atom.xml') %> <%- open_graph({ fb_admins: theme.fb_admins,
 twitter_site: '@' + theme.twitter, image: url_for('logo.png') }) %> <%-
 partial('google-analytics') %>
