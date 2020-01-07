@@ -50,7 +50,18 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
           });
         }}
       />
-      {isSelected && <Transformer ref={trRef} />}
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
     </React.Fragment>
   );
 };

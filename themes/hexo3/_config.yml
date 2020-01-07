@@ -352,6 +352,7 @@ react_sidebar:
     DOM Portals: react/DOM_Portal.html
     Undo/Redo: react/Undo-Redo.html
     Changing zIndex: react/zIndex.html
+    Drop Image Into Canvas: react/Drop_Image.html
 
 vue_sidebar:
   Getting Started with Vue:

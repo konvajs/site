@@ -53,9 +53,9 @@ export default {
     const amplitude = 100;
     const period = 5000;
     // in ms
-    const centerX = vm.$refs.stage.getStage().getWidth() / 2;
+    const centerX = vm.$refs.stage.getNode().getWidth() / 2;
 
-    const hexagon = this.$refs.hexagon.getStage();
+    const hexagon = this.$refs.hexagon.getNode();
 
     // example of Konva.Animation
     const anim = new Konva.Animation(function(frame) {
