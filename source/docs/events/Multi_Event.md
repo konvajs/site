@@ -1,9 +1,9 @@
-title: HTML5 Canvas Canvas Multi-Event Binding Tutorial
+title: 多重事件
 ---
 
-To bind multiple events to a single handler with Konva, we can use the `on()` method and pass in a space delimited string containing multiple event types.
+我们可以使用 `on()` 绑定多重事件，事件类型用空格分隔。
 
-Instructions: Mouseover, mousedown, and mouseup over the circle to observe that the function bound to the circle is executed for each event.
+说明：鼠标滑过圆形观察 Mouseover、mousedown、 mouseup 事件的执行。
 
 {% iframe /downloads/code/events/Multi_Event.html %}
 

@@ -1,12 +1,9 @@
-title: HTML5 Canvas Remove Event Listener with Konva
+title: 移除事件
 ---
 
-To remove an event listener with Konva, we can use the `off()` method of
-a shape object which requires an event type such as click or mousedown.
+我们可以使用 `off()` 方法从图形移除事件，方法需要传入一个事件类型例如：click、mousedown。
 
-Instructions: Click on the circle to see an alert triggered from the onclick
-event binding.  Remove the event listener by clicking on the button and again
-click on the circle to observe that the event binding has been removed.
+说明：点击圆形将会看见事件绑定的提示框弹出，移除事件后再次点击，提示框不再弹出，表示事件已被移除。
 
 {% iframe /downloads/code/events/Remove_Event.html %}
 
