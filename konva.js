@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.1.0
+   * Konva JavaScript Framework v4.1.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Dec 23 2019
+   * Date: Tue Jan 07 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.1.0',
+      version: '4.1.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -8894,10 +8894,9 @@
    * @memberof Konva
    * @param {AnimationFn} func function executed on each animation frame.  The function is passed a frame object, which contains
    *  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed
-   *  since the last animation frame.  The lastTime property is time in milliseconds that elapsed from the moment the animation started
-   *  to the last animation frame.  The time property is the time in milliseconds that elapsed from the moment the animation started
-   *  to the current animation frame.  The frameRate property is the current frame rate in frames / second. Return false from function,
-   *  if you don't need to redraw layer/layers on some frames.
+   *  since the last animation frame. The time property is the time in milliseconds that elapsed from the moment the animation started
+   *  to the current animation frame. The lastTime property is a `time` value from the previous frame.  The frameRate property is the current frame rate in frames / second.
+   *  Return false from function, if you don't need to redraw layer/layers on some frames.
    * @param {Konva.Layer|Array} [layers] layer(s) to be redrawn on each animation frame. Can be a layer, an array of layers, or null.
    *  Not specifying a node will result in no redraw.
    * @example
@@ -9795,6 +9794,7 @@
   var Konva$1 = Util._assign(Konva, {
       Collection: Collection,
       Util: Util,
+      Transform: Transform,
       Node: Node,
       ids: ids,
       names: names,
@@ -10458,6 +10458,16 @@
               this.attrs.dashEnabled = true;
           }
       };
+      Arrow.prototype.getSelfRect = function () {
+          var lineRect = _super.prototype.getSelfRect.call(this);
+          var offset = this.pointerWidth() / 2;
+          return {
+              x: lineRect.x - offset,
+              y: lineRect.y - offset,
+              width: lineRect.width + offset * 2,
+              height: lineRect.height + offset * 2,
+          };
+      };
       return Arrow;
   }(Line));
   Arrow.prototype.className = 'Arrow';
@@ -10960,12 +10970,14 @@
           context.fillStrokeShape(this);
       };
       Image.prototype.getWidth = function () {
+          var _a;
           var image = this.image();
-          return this.attrs.width || (image ? image.width : 0);
+          return _a = this.attrs.width, (_a !== null && _a !== void 0 ? _a : (image ? image.width : 0));
       };
       Image.prototype.getHeight = function () {
+          var _a;
           var image = this.image();
-          return this.attrs.height || (image ? image.height : 0);
+          return _a = this.attrs.height, (_a !== null && _a !== void 0 ? _a : (image ? image.height : 0));
       };
       /**
        * load image from given url and create `Konva.Image` instance
