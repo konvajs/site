@@ -730,11 +730,11 @@
             "seats_by_rows": {
               "1": [
                 {
-                  "name": "Bronze-B4.1.2",
+                  "name": "Bronze-B4.1.3",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4-1-2",
+                  "name": "Bronze-B4.1.3",
                   "status": "booked"
                 },
                 {
@@ -766,23 +766,23 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.20",
+                  "name": "Bronze-B4.1.30",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.21",
+                  "name": "Bronze-B4.1.31",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.22",
+                  "name": "Bronze-B4.1.32",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.23",
+                  "name": "Bronze-B4.1.33",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.24",
+                  "name": "Bronze-B4.1.34",
                   "status": "booked"
                 }
               ],
@@ -1693,11 +1693,11 @@
             "seats_by_rows": {
               "1": [
                 {
-                  "name": "Silver-S4.1.2",
+                  "name": "Silver-S4.1.3",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4-1-2",
+                  "name": "Silver-S4.1.3",
                   "status": "booked"
                 },
                 {
@@ -1729,23 +1729,23 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.20",
+                  "name": "Silver-S4.1.30",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.21",
+                  "name": "Silver-S4.1.31",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.22",
+                  "name": "Silver-S4.1.32",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.23",
+                  "name": "Silver-S4.1.33",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.24",
+                  "name": "Silver-S4.1.34",
                   "status": "booked"
                 }
               ],
@@ -2656,11 +2656,11 @@
             "seats_by_rows": {
               "1": [
                 {
-                  "name": "Gold-G4.1.2",
+                  "name": "Gold-G4.1.3",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4-1-2",
+                  "name": "Gold-G4.1.3",
                   "status": "booked"
                 },
                 {
@@ -2692,23 +2692,23 @@
                   "status": "free"
                 },
                 {
-                  "name": "Gold-G4.1.20",
+                  "name": "Gold-G4.1.30",
                   "status": "free"
                 },
                 {
-                  "name": "Gold-G4.1.21",
+                  "name": "Gold-G4.1.31",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4.1.22",
+                  "name": "Gold-G4.1.32",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4.1.23",
+                  "name": "Gold-G4.1.33",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4.1.24",
+                  "name": "Gold-G4.1.34",
                   "status": "booked"
                 }
               ],
@@ -3523,11 +3523,11 @@
             "seats_by_rows": {
               "1": [
                 {
-                  "name": "Platinum-P4.1.2",
+                  "name": "Platinum-P4.1.3",
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4-1-2",
+                  "name": "Platinum-P4.1.3",
                   "status": "booked"
                 },
                 {
@@ -3559,15 +3559,15 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4.1.20",
+                  "name": "Platinum-P4.1.30",
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4.1.21",
+                  "name": "Platinum-P4.1.31",
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4.1.22",
+                  "name": "Platinum-P4.1.32",
                   "status": "booked"
                 }
               ],
