@@ -1,5 +1,5 @@
 <template>
-  <v-stage ref="stage" :config="stageSize" @mousedown="handleStageMouseDown">
+  <v-stage ref="stage" :config="stageSize" @mousedown="handleStageMouseDown" @touchstart="handleStageMouseDown">
     <v-layer ref="layer">
       <v-rect v-for="item in rectangles" :key="item.id" :config="item" @transformend="handleTransformEnd"/>
       <v-transformer ref="transformer" />
@@ -64,7 +64,7 @@ export default {
       rect.fill = Konva.Util.getRandomColor();
     },
     handleStageMouseDown(e) {
-      // clicked on stage - cler selection
+      // clicked on stage - clear selection
       if (e.target === e.target.getStage()) {
         this.selectedShapeName = '';
         this.updateTransformer();
