@@ -1,9 +1,9 @@
 menu:
-  Tutorials: /docs/
-  Demos: /docs/sandbox
+  Tutorials: /docs/index.html
+  Demos: /docs/sandbox/index.html
   API docs: /api/Konva.html
-  React: /docs/react
-  Vue: /docs/vue
+  React: /docs/react/index.html
+  Vue: /docs/vue/index.html
   Support Konva: /docs/donate.html
   Need help?: /docs/support.html
   # Consulting: https://lavrton.com
