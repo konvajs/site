@@ -7,7 +7,7 @@ Paths are most commonly used when we want to export an SVG Path into an HTML5 Ca
 
 For a full list of attributes and methods, check out the [Konva.Path documentation](/api/Konva.Path.html).
 
-If you want to draw full SVG image into the canvas take a look into [How to draw SVG image](/docs/sandbox/Animals_on_the_Beach_Game.html) post.
+If you want to draw full SVG image into the canvas take a look into [How to draw SVG image](/docs/sandbox/SVG_On_Canvas.html) post.
 
 {% iframe /downloads/code/shapes/Path.html %}
 

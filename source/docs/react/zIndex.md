@@ -2,7 +2,7 @@ title: How to change zIndex of nodes with React?
 layout: react_page
 ---
 
-# How to change zIndex and reorder components in `react-konva`?
+## How to change zIndex and reorder components in `react-konva`?
 
 When you are working with `Konva` directly you have many methods to change order of nodes line `node.zIndex(5)`, `node.moveToTop()`, etc. [Tutorial](/docs/groups_and_layers/Layering.html).
 

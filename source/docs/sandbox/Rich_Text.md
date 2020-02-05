@@ -2,7 +2,7 @@ title: How to show rich html on canvas with Konva
 layout: demo_page
 ---
 
-# How to show complex styles (like bold) and enable rich text editing features?
+## How to show complex styles (like bold) and enable rich text editing features?
 
 Canvas's text API is very limited. [Konva.Text](/docs/shapes/Text.html) allows you to add many different styles, support multiline text, etc. But at the current moment it has limitations. You can't use different styles for different parts of `Konva.Text`. For that case you have to use several `Konva.Text` instances.
 

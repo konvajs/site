@@ -2,7 +2,7 @@ title: Render DOM elements inside canvas stage
 layout: react_page
 ---
 
-# How to draw DOM elements (like inputs or divs) inside of Konva stage?
+## How to draw DOM elements (like inputs or divs) inside of Konva stage?
 
 Currently `react-konva` doesn't support `React.createPortal` API. If you want to have some DOM nodes as part of your canvas tree you can create your own custom `Portal` component that will draw DOM nodes outside of `Konva.Stage`.
 

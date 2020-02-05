@@ -2,7 +2,7 @@ title: How to access native 2d context
 layout: demo_page
 ---
 
-# How to access native 2d canvas context from Konva
+## How to access native 2d canvas context from Konva
 
 Konva gives you object model for drawing shapes on canvas. Your app is starting from a stage (div wrapper) and then the stage have one or many layers (canvas DOM elements) inside.
 

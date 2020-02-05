@@ -2,7 +2,7 @@ title: Getting started with vue and canvas via Konva
 layout: vue_page
 ---
 
-# How to use canvas with Vue?
+## How to use canvas with Vue?
 
 ![VueKonva Logo](https://raw.githubusercontent.com/konvajs/vue-konva/master/vue-konva.png)
 
