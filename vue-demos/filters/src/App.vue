@@ -22,6 +22,7 @@
 <script>
 const width = window.innerWidth;
 const height = window.innerHeight;
+import Konva from 'konva';
 
 export default {
   data() {
@@ -42,10 +43,13 @@ export default {
   mounted() {
     const rectNode = this.$refs.rect.getNode();
     rectNode.cache();
+    // may need to redraw layer manually
+    rectNode.getLayer().batchDraw();
   },
   updated() {
     // recache
     const rectNode = this.$refs.rect.getNode();
+    // may need to redraw layer manually
     rectNode.cache();
   }
 };
