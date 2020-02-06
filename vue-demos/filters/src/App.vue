@@ -39,13 +39,13 @@ export default {
       this.color = Konva.Util.getRandomColor();
     }
   },
-  created() {
-    const rectNode = this.refs.rect.getNode();
+  mounted() {
+    const rectNode = this.$refs.rect.getNode();
     rectNode.cache();
   },
   updated() {
     // recache
-    const rectNode = this.refs.rect.getNode();
+    const rectNode = this.$refs.rect.getNode();
     rectNode.cache();
   }
 };

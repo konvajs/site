@@ -1,7 +1,7 @@
 {
-  "name": "vue-konva-template",
+  "name": "vue-konva-filter-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "How to use filter with vue-konva",
   "main": "src/main.js",
   "private": true,
   "dependencies": {
