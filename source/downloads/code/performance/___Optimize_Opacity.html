@@ -62,6 +62,13 @@
       var layer = new Konva.FastLayer();
       stage.add(layer);
 
+      Konva.Image.fromURL('https://i.imgur.com/ktWThtZ.png', img => {
+        img.setAttrs({ width: stage.width(), height: stage.height() });
+        layer.add(img);
+        img.moveToBottom();
+        layer.draw();
+      });
+
       var stats = new Stats();
       document.body.appendChild(stats.domElement);
       stats.domElement.style.position = 'absolute';
