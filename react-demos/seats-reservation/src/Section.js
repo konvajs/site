@@ -1,12 +1,12 @@
-import React from "react";
-import { Rect, Group, Text } from "./react-konva";
-import SubSection from "./SubSection";
+import React from 'react';
+import { Rect, Group, Text } from './react-konva';
+import SubSection from './SubSection';
 
 import {
   SECTION_TOP_PADDING,
   getSectionWidth,
   getSubsectionWidth
-} from "./layout";
+} from './layout';
 
 export default ({
   section,
@@ -22,7 +22,7 @@ export default ({
   React.useEffect(() => {
     containerRef.current.cache();
     containerRef.current.getLayer().batchDraw();
-  });
+  }, [section, selectedSeatsIds]);
   const width = getSectionWidth(section);
   let lastSubsectionX = 0;
   return (

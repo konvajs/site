@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@4.1.4/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Jumping SHAPES Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+
+      #counter {
+        position: absolute;
+        top: 50px;
+        background-color: white;
+        font-size: 12px;
+      }
+
+      #checkbox {
+        position: absolute;
+        right: 5px;
+        z-index: 1;
+        background-color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="checkbox">
+      <input type="checkbox" id="optimize" /> optimize opacity
+    </div>
+    <div id="container"></div>
+    <div id="counter"></div>
+    <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
+    <script defer="defer">
+      var lastTime = 0;
+
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var rects = [];
+      var GRAVITY = 0.75;
+
+      var maxX = width;
+      var minX = 0;
+      var maxY = height;
+      var minY = 0;
+
+      var objectsCount = 10;
+      var isAdding = false;
+      var count = 0;
+      var amount = 10;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+      var layer = new Konva.FastLayer();
+      stage.add(layer);
+
+      var stats = new Stats();
+      document.body.appendChild(stats.domElement);
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.top = '0px';
+
+      window.requestAnimationFrame(update);
+
+      var counter = document.getElementById('counter');
+
+      count = objectsCount;
+      counter.innerHTML = objectsCount + ' SHAPES';
+
+      stage.on('mousedown', function() {
+        isAdding = true;
+      });
+
+      stage.on('mouseup', function() {
+        isAdding = false;
+      });
+
+      document.addEventListener('touchstart', onTouchStart, true);
+      document.addEventListener('touchend', onTouchEnd, true);
+
+      var checkbox = document.querySelector('#optimize');
+      function getFill() {
+        return checkbox.checked ? 'rgba(255, 0, 0, 0.5)' : 'red';
+      }
+      function getOpacity() {
+        return checkbox.checked ? 1 : 0.5;
+      }
+      checkbox.onchange = function() {
+        stage.find('Rect').fill(getFill());
+        stage.find('Rect').opacity(getOpacity());
+      };
+
+      for (var i = 0; i < objectsCount; i++) {
+        var rect = new Konva.Rect({
+          transformsEnabled: 'position',
+          x: 10,
+          y: 10,
+          width: 50,
+          height: 50,
+          fill: getFill(),
+          opacity: getOpacity()
+        });
+
+        rect.speedX = Math.random() * 10;
+        rect.speedY = Math.random() * 10 - 5;
+
+        rects.push(rect);
+        layer.add(rect);
+      }
+      layer.batchDraw();
+
+      function onTouchStart(event) {
+        isAdding = true;
+      }
+
+      function onTouchEnd(event) {
+        isAdding = false;
+      }
+
+      function update() {
+        stats.begin();
+        if (isAdding) {
+          for (var i = 0; i < amount; i++) {
+            var rect = new Konva.Rect({
+              transformsEnabled: 'position',
+              x: 0,
+              y: 0,
+              width: 50,
+              height: 50,
+              fill: 'red',
+              fill: getFill(),
+              opacity: getOpacity()
+            });
+            rect.speedX = Math.random() * 10;
+            rect.speedY = Math.random() * 10 - 5;
+            rects.push(rect);
+            layer.add(rect);
+
+            count++;
+          }
+          counter.innerHTML = count + ' SHAPES';
+        }
+
+        for (var i = 0; i < rects.length; i++) {
+          var rect = rects[i];
+          rect.setX(rect.getX() + rect.speedX);
+          rect.setY(rect.getY() + rect.speedY);
+          rect.speedY += GRAVITY;
+          if (rect.getX() > maxX - rect.width()) {
+            rect.speedX *= -1;
+            rect.setX(maxX - rect.width());
+          } else if (rect.getX() < minX) {
+            rect.speedX *= -1;
+            rect.setX(minX);
+          }
+
+          if (rect.getY() > maxY - rect.height()) {
+            rect.speedY *= -0.85;
+            rect.setY(maxY - rect.height());
+            if (Math.random() > 0.5) {
+              rect.speedY -= Math.random() * 6;
+            }
+          } else if (rect.getY() < minY) {
+            rect.speedY = 0;
+            rect.setY(minY);
+          }
+        }
+        layer.draw();
+        requestAnimationFrame(update);
+        stats.end();
+      }
+    </script>
+  </body>
+</html>
