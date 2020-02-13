@@ -5,25 +5,6 @@ import SeatPopup from "./SeatPopup";
 
 import * as layout from "./layout";
 
-function findSeat(seatId, seats) {
-  if (!seatId) {
-    return null;
-  }
-  for (let secI = 0; secI < seats.sections.length; secI++) {
-    let section = seats.sections[secI];
-    for (let subsecI = 0; subsecI < section.subsections.length; subsecI++) {
-      let subsection = section.subsections[subsecI];
-      for (let seatI = 0; seatI < subsection.seats.length; seatI++) {
-        let seat = subsection.seats[seatI];
-        if (seat.name === seatId) {
-          return seat;
-        }
-      }
-    }
-  }
-  return null;
-}
-
 const useFetch = url => {
   const [data, setData] = React.useState(null);
   React.useEffect(() => {
@@ -88,6 +69,30 @@ const MainStage = props => {
 
   let lastSectionPosition = 0;
 
+  const handleHover = React.useCallback((seat, pos) => {
+    setPopup({
+      seat: seat,
+      position: pos
+    });
+  }, []);
+
+  const handleSelect = React.useCallback(
+    seatId => {
+      const newIds = selectedSeatsIds.concat([seatId]);
+      setSelectedSeatsIds(newIds);
+    },
+    [selectedSeatsIds]
+  );
+
+  const handleDeselect = React.useCallback(
+    seatId => {
+      const ids = selectedSeatsIds.slice();
+      ids.splice(ids.indexOf(seatId), 1);
+      setSelectedSeatsIds(ids);
+    },
+    [selectedSeatsIds]
+  );
+
   if (jsonData === null) {
     return <div ref={containerRef}>Loading...</div>;
   }
@@ -141,21 +146,9 @@ const MainStage = props => {
                 key={index}
                 section={section}
                 selectedSeatsIds={selectedSeatsIds}
-                onHoverSeat={(seat, pos) => {
-                  setPopup({
-                    seat: seat,
-                    position: pos
-                  });
-                }}
-                onSelectSeat={seatId => {
-                  const newIds = selectedSeatsIds.concat([seatId]);
-                  setSelectedSeatsIds(newIds);
-                }}
-                onDeselectSeat={seatId => {
-                  const ids = selectedSeatsIds.slice();
-                  ids.splice(ids.indexOf(seatId), 1);
-                  setSelectedSeatsIds(ids);
-                }}
+                onHoverSeat={handleHover}
+                onSelectSeat={handleSelect}
+                onDeselectSeat={handleDeselect}
               />
             );
           })}
