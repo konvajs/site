@@ -742,7 +742,7 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4-1-4",
+                  "name": "Bronze-B4.1.5",
                   "status": "booked"
                 },
                 {
@@ -766,23 +766,23 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.40",
+                  "name": "Bronze-B4.1.50",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.41",
+                  "name": "Bronze-B4.1.51",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.42",
+                  "name": "Bronze-B4.1.52",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.43",
+                  "name": "Bronze-B4.1.53",
                   "status": "booked"
                 },
                 {
-                  "name": "Bronze-B4.1.44",
+                  "name": "Bronze-B4.1.54",
                   "status": "booked"
                 }
               ],
@@ -1705,7 +1705,7 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4-1-4",
+                  "name": "Silver-S4.1.5",
                   "status": "booked"
                 },
                 {
@@ -1729,23 +1729,23 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.40",
+                  "name": "Silver-S4.1.50",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.41",
+                  "name": "Silver-S4.1.51",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.42",
+                  "name": "Silver-S4.1.52",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.43",
+                  "name": "Silver-S4.1.53",
                   "status": "booked"
                 },
                 {
-                  "name": "Silver-S4.1.44",
+                  "name": "Silver-S4.1.54",
                   "status": "booked"
                 }
               ],
@@ -2668,7 +2668,7 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4-1-4",
+                  "name": "Gold-G4.1.5",
                   "status": "booked"
                 },
                 {
@@ -2692,23 +2692,23 @@
                   "status": "free"
                 },
                 {
-                  "name": "Gold-G4.1.40",
+                  "name": "Gold-G4.1.50",
                   "status": "free"
                 },
                 {
-                  "name": "Gold-G4.1.41",
+                  "name": "Gold-G4.1.51",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4.1.42",
+                  "name": "Gold-G4.1.52",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4.1.43",
+                  "name": "Gold-G4.1.53",
                   "status": "booked"
                 },
                 {
-                  "name": "Gold-G4.1.44",
+                  "name": "Gold-G4.1.54",
                   "status": "booked"
                 }
               ],
@@ -3535,7 +3535,7 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4-1-4",
+                  "name": "Platinum-P4.1.5",
                   "status": "booked"
                 },
                 {
@@ -3559,15 +3559,15 @@
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4.1.40",
+                  "name": "Platinum-P4.1.50",
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4.1.41",
+                  "name": "Platinum-P4.1.51",
                   "status": "booked"
                 },
                 {
-                  "name": "Platinum-P4.1.42",
+                  "name": "Platinum-P4.1.52",
                   "status": "booked"
                 }
               ],
