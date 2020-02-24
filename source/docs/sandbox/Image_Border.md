@@ -14,6 +14,6 @@ We will replace transparent/blurred pixels with our solid color that we want for
 
 For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
 
-{% iframe /downloads/code/filters/Image_Border.html %}
+{% iframe /downloads/code/sandbox/Image_Border.html %}
 
-{% include_code Konva Custom Filter Image Demo filters/Image_Border.html %}
+{% include_code Konva Custom Filter Image Demo sandbox/Image_Border.html %}

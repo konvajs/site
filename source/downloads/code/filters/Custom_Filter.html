@@ -29,6 +29,7 @@
       // lets define a custom filter:
       var OpacityFilter = function(imageData) {
         // make all pixels opaque 100%
+        var nPixels = imageData.data.length;
         for (var i = 3; i < nPixels; i += 4) {
           imageData.data[i] = 255;
         }
