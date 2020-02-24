@@ -250,6 +250,9 @@ demo_sidebar:
     Modify Curves with Anchor Points:
       - modify-line-min.png
       - sandbox/Modify_Curves_with_Anchor_Points.html
+    Image Border:
+      - border.jpg
+      - sandbox/Image_Border.html
     Collision Detection:
       - collision-min.png
       - sandbox/Collision_Detection.html
