@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.1.5
+   * Konva JavaScript Framework v4.1.6
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sun Feb 16 2020
+   * Date: Tue Feb 25 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.1.5',
+      version: '4.1.6',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2307,7 +2307,9 @@
                   return this._canvas.toDataURL();
               }
               catch (err) {
-                  Util.error('Unable to get data URL. ' + err.message);
+                  Util.error('Unable to get data URL. ' +
+                      err.message +
+                      '. For more info read https://konvajs.org/docs/posts/Tainted_Canvas.html.');
                   return '';
               }
           }
@@ -2515,7 +2517,7 @@
       }
   };
   // CONSTANTS
-  var ABSOLUTE_OPACITY = 'absoluteOpacity', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CANVAS = 'canvas', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER = 'mouseenter', MOUSELEAVE = 'mouseleave', NAME = 'name', SET$1 = 'set', SHAPE = 'Shape', SPACE = ' ', STAGE = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', CLONE_BLACK_LIST = ['id'], TRANSFORM_CHANGE_STR = [
+  var ABSOLUTE_OPACITY = 'absoluteOpacity', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CANVAS = 'canvas', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER = 'mouseenter', MOUSELEAVE = 'mouseleave', NAME = 'name', SET$1 = 'set', SHAPE = 'Shape', SPACE = ' ', STAGE = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', TRANSFORM_CHANGE_STR = [
       'xChange.konva',
       'yChange.konva',
       'scaleXChange.konva',
@@ -2881,7 +2883,7 @@
                           if (typeof filter !== 'function') {
                               Util.error('Filter should be type of function, but got ' +
                                   typeof filter +
-                                  ' insted. Please check correct filters');
+                                  ' instead. Please check correct filters');
                               continue;
                           }
                           filter.call(this, imageData);
@@ -2889,7 +2891,9 @@
                       }
                   }
                   catch (e) {
-                      Util.error('Unable to apply filter. ' + e.message);
+                      Util.error('Unable to apply filter. ' +
+                          e.message +
+                          '. This post my help you https://konvajs.org/docs/posts/Tainted_Canvas.html.');
                   }
                   this._filterUpToDate = true;
               }
@@ -3990,11 +3994,6 @@
       Node.prototype.clone = function (obj) {
           // instantiate new node
           var attrs = Util.cloneObject(this.attrs), key, allListeners, len, n, listener;
-          // filter black attrs
-          for (var i in CLONE_BLACK_LIST) {
-              var blockAttr = CLONE_BLACK_LIST[i];
-              delete attrs[blockAttr];
-          }
           // apply attr overrides
           for (key in obj) {
               attrs[key] = obj[key];
@@ -4345,10 +4344,10 @@
               this._fire(eventType, evt);
               // simulate event bubbling
               var stopBubble = (eventType === MOUSEENTER || eventType === MOUSELEAVE) &&
-                  (compareShape &&
-                      compareShape.isAncestorOf &&
-                      compareShape.isAncestorOf(this) &&
-                      !compareShape.isAncestorOf(this.parent));
+                  compareShape &&
+                  compareShape.isAncestorOf &&
+                  compareShape.isAncestorOf(this) &&
+                  !compareShape.isAncestorOf(this.parent);
               if (((evt && !evt.cancelBubble) || !evt) &&
                   this.parent &&
                   this.parent.isListening() &&
@@ -14943,8 +14942,8 @@
           window.addEventListener('mouseup', this._handleMouseUp, true);
           window.addEventListener('touchend', this._handleMouseUp, true);
           this._transforming = true;
-          this._fire('transformstart', { evt: e });
-          this.getNode()._fire('transformstart', { evt: e });
+          this._fire('transformstart', { evt: e, target: this.getNode() });
+          this.getNode()._fire('transformstart', { evt: e, target: this.getNode() });
       };
       Transformer.prototype._handleMouseMove = function (e) {
           var x, y, newHypotenuse;
@@ -15124,10 +15123,10 @@
               window.removeEventListener('touchmove', this._handleMouseMove);
               window.removeEventListener('mouseup', this._handleMouseUp, true);
               window.removeEventListener('touchend', this._handleMouseUp, true);
-              this._fire('transformend', { evt: e });
               var node = this.getNode();
+              this._fire('transformend', { evt: e, target: node });
               if (node) {
-                  node.fire('transformend', { evt: e });
+                  node.fire('transformend', { evt: e, target: node });
               }
           }
       };
@@ -15161,8 +15160,8 @@
               x: newAttrs.x - (dx * Math.cos(rotation) + dy * Math.sin(-rotation)),
               y: newAttrs.y - (dy * Math.cos(rotation) + dx * Math.sin(rotation))
           });
-          this._fire('transform', { evt: evt });
-          this.getNode()._fire('transform', { evt: evt });
+          this._fire('transform', { evt: evt, target: this.getNode() });
+          this.getNode()._fire('transform', { evt: evt, target: this.getNode() });
           this.update();
           this.getLayer().batchDraw();
       };
