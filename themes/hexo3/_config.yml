@@ -38,6 +38,7 @@ doc_sidebar:
     Custom: shapes/Custom.html
   Guides:
     Position vs Offset: posts/Position_vs_Offset.html
+    Tainted Canvas Issue: posts/Tainted_Canvas.html
   Styling:
     Fill: styling/Fill.html
     Stroke: styling/Stroke.html

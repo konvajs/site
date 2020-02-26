@@ -19,6 +19,8 @@ For all available filters go to [Filters Documentation](/api/Konva.Filters.html)
 
 Also take a look into [Image Border Demo](/docs/sandbox/Image_Border.html) for custom filter example.
 
+**In this demo we will remove all transparency from the image.**.
+
 {% iframe /downloads/code/filters/Custom_Filter.html %}
 
 {% include_code Konva Custom Filter Image Demo filters/Custom_Filter.html %}
