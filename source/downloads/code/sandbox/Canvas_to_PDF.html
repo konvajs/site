@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@4.1.6/konva.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+      integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="utf-8" />
+    <title>Konva PDF Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+      #save {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <button id="save">Save as PDF</button>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var back = new Konva.Rect({
+        width: stage.width(),
+        height: stage.height(),
+        fill: 'rgba(200, 200, 200)'
+      });
+      layer.add(back);
+
+      var text = new Konva.Text({
+        text: 'This is the Darth Vader',
+        x: 15,
+        y: 40,
+        rotation: -10,
+        filters: [Konva.Filters.Blur],
+        blurRadius: 4,
+        fontSize: 20
+      });
+      text.cache();
+      layer.add(text);
+
+      var arrow = new Konva.Arrow({
+        points: [70, 50, 100, 80, 150, 100, 190, 100],
+        tension: 0.5,
+        stroke: 'black',
+        fill: 'black'
+      });
+      layer.add(arrow);
+      layer.draw();
+
+      // alternative API:
+      Konva.Image.fromURL(
+        'https://konvajs.org//assets/darth-vader.jpg',
+        function(darthNode) {
+          darthNode.setAttrs({
+            x: 200,
+            y: 50,
+            scaleX: 0.5,
+            scaleY: 0.5
+          });
+          layer.add(darthNode);
+          layer.batchDraw();
+        }
+      );
+
+      document.getElementById('save').addEventListener('click', function() {
+        var pdf = new jsPDF('p', 'px', [stage.height(), stage.width()]);
+        pdf.setTextColor('#000000');
+        stage.find('Text').forEach(text => {
+          pdf.text(
+            text.text(),
+            text.x(),
+            text.y(),
+            {
+              baseline: 'top',
+              angle: -text.getAbsoluteRotation()
+            },
+            45
+          );
+        });
+
+        pdf.addImage(
+          stage.toDataURL({ pixelRatio: 2 }),
+          0,
+          0,
+          stage.width(),
+          stage.height()
+        );
+
+        pdf.save('canvas.pdf');
+      });
+    </script>
+  </body>
+</html>

@@ -198,6 +198,9 @@ demo_sidebar:
     SVG on Canvas:
       - svg_on_canvas.jpg
       - sandbox/SVG_On_Canvas.html
+    Canvas to PDF:
+      - pdf.jpg
+      - sandbox/Canvas_to_PDF.html
     Custom Font:
       - custom-font.png
       - sandbox/Custom_Font.html
