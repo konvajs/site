@@ -1,4 +1,5 @@
 title: Border for Image around Non Transparent parts
+layout: demo_page
 ---
 
 

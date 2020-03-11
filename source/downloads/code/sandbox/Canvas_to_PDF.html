@@ -90,16 +90,10 @@
         stage.find('Text').forEach(text => {
           const size = text.fontSize() / 0.75; // convert pixels to points
           pdf.setFontSize(size);
-          pdf.text(
-            text.text(),
-            text.x(),
-            text.y(),
-            {
-              baseline: 'top',
-              angle: -text.getAbsoluteRotation()
-            },
-            45
-          );
+          pdf.text(text.text(), text.x(), text.y(), {
+            baseline: 'top',
+            angle: -text.getAbsoluteRotation()
+          });
         });
 
         // then put image on top of texts (so texts are not visible)
