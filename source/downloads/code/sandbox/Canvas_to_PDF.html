@@ -53,7 +53,8 @@
         y: 40,
         rotation: -10,
         filters: [Konva.Filters.Blur],
-        blurRadius: 4
+        blurRadius: 4,
+        fontSize: 18
       });
       text.cache();
       layer.add(text);
@@ -85,8 +86,18 @@
       document.getElementById('save').addEventListener('click', function() {
         var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()]);
         pdf.setTextColor('#000000');
+
+        pdf.addImage(
+          stage.toDataURL({ pixelRatio: 2 }),
+          0,
+          0,
+          stage.width(),
+          stage.height()
+        );
+
         stage.find('Text').forEach(text => {
-          pdf.setFontSize(text.fontSize());
+          const size = text.fontSize() / 0.75; // convert pixels to points
+          pdf.setFontSize(size);
           pdf.text(
             text.text(),
             text.x(),
@@ -98,14 +109,6 @@
             45
           );
         });
-
-        pdf.addImage(
-          stage.toDataURL({ pixelRatio: 2 }),
-          0,
-          0,
-          stage.width(),
-          stage.height()
-        );
 
         pdf.save('canvas.pdf');
       });
