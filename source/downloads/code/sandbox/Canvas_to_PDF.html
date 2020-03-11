@@ -87,6 +87,7 @@
         var pdf = new jsPDF('l', 'px', [stage.width(), stage.height()]);
         pdf.setTextColor('#000000');
         stage.find('Text').forEach(text => {
+          text.setFontSize(text.fontSize());
           pdf.text(
             text.text(),
             text.x(),
