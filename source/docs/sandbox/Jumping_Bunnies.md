@@ -16,4 +16,4 @@ So choose wisely the tool for your applications.
 
 {% iframe /downloads/code/sandbox/Jumping_Bunnies.html %}
 
-{% include_code Konva 20000 Nodes Demo sandbox/Jumping_Bunnies.html %}
+{% include_code Konva Bunnies Demo sandbox/Jumping_Bunnies.html %}

@@ -18,11 +18,13 @@ You may need to write more code to cover more functions and different edge cases
 
 **Instructions: there are two interactive objects on the stage. "Add buttons" and a draggable red circle. Try to add more bunnies or drag the circle.**
 
+All you see on that screen is **rendered inside another javascript thread**!. So it should not block main JS thread of the current page.
+
 
 {% iframe /downloads/code/sandbox/Web_Worker.html %}
 
-{% include_code Konva 20000 Nodes Demo sandbox/Web_Worker.html %}
+{% include_code sandbox/Web_Worker.html %}
 
 And the code of the worker:
 
-{% include_code Konva 20000 Nodes Demo sandbox/Web_Worker.js %}
+{% include_code Worker Code sandbox/Web_Worker.js %}
