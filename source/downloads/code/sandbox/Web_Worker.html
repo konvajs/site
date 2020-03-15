@@ -19,42 +19,54 @@
       var htmlCanvas = document.getElementById('canvas');
       htmlCanvas.width = window.innerWidth;
       htmlCanvas.height = window.innerHeight;
-      var offscreen = htmlCanvas.transferControlToOffscreen();
 
-      var w = new Worker('./Web_Worker.js');
-      // pass canvas into webworker, so we can do all rendering inside it
-      w.postMessage({ canvas: offscreen }, [offscreen]);
+      var hasOffscreenSupport = !!htmlCanvas.transferControlToOffscreen;
+      if (hasOffscreenSupport) {
+        var offscreen = htmlCanvas.transferControlToOffscreen();
 
-      // "proxy" all DOM events from canvas into Konva engine
-      var EVENTS = [
-        'mouseenter',
-        'mousedown',
-        'mousemove',
-        'mouseup',
-        'mouseout',
-        'touchstart',
-        'touchmove',
-        'touchend',
-        'mouseover',
-        'wheel',
-        'contextmenu',
-        'pointerdown',
-        'pointermove',
-        'pointerup',
-        'pointercancel',
-        'lostpointercapture'
-      ];
-      EVENTS.forEach(eventName => {
-        htmlCanvas.addEventListener(eventName, e => {
-          w.postMessage({
-            eventName,
-            event: {
-              clientX: e.clientX,
-              clientY: e.clientY
-            }
+        var w = new Worker('./Web_Worker.js');
+        // pass canvas into webworker, so we can do all rendering inside it
+        w.postMessage({ canvas: offscreen }, [offscreen]);
+
+        // "proxy" all DOM events from canvas into Konva engine
+        var EVENTS = [
+          'mouseenter',
+          'mousedown',
+          'mousemove',
+          'mouseup',
+          'mouseout',
+          'touchstart',
+          'touchmove',
+          'touchend',
+          'mouseover',
+          'wheel',
+          'contextmenu',
+          'pointerdown',
+          'pointermove',
+          'pointerup',
+          'pointercancel',
+          'lostpointercapture'
+        ];
+        EVENTS.forEach(eventName => {
+          htmlCanvas.addEventListener(eventName, e => {
+            w.postMessage({
+              eventName,
+              event: {
+                clientX: e.clientX,
+                clientY: e.clientY
+              }
+            });
           });
         });
-      });
+      } else {
+        htmlCanvas
+          .getContext('2d')
+          .fillText(
+            '🛑 Sorry, your browser does not support Offscreen rendering...',
+            20,
+            20
+          );
+      }
     </script>
   </body>
 </html>

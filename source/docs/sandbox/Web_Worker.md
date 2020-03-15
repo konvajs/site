@@ -4,7 +4,7 @@ layout: demo_page
 
 ## How to run Konva in a Web Worker?
 
-**Warning! This demo is VERY EXPERIMENTAL!**
+**Warning! This demo is VERY EXPERIMENTAL! It may not work in many browsers.** Check [Offscreen canvas capability table](https://caniuse.com/#feat=offscreencanvas).
 
 With some extra work we can render `Konva` stage inside a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) using [Offscreen Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) for performance reasons or for some crazy ideas.
 
