@@ -219,6 +219,9 @@ demo_sidebar:
     Context Menu:
       - context.jpg
       - sandbox/Canvas_Context_Menu.html
+    Web Worker:
+      - offscreen.jpg
+      - sandbox/Web_Worker.html
   Performance tests:
     Drag and Drop Stress Test:
       - drag_stress-min.png
