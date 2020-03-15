@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.1.6
+   * Konva JavaScript Framework v4.2.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Feb 25 2020
+   * Date: Sat Mar 14 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.1.6',
+      version: '4.2.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -134,7 +134,7 @@
        */
       dragDistance: 3,
       /**
-       * Use degree values for angle properties. You may set this property to false if you want to use radiant values.
+       * Use degree values for angle properties. You may set this property to false if you want to use radian values.
        * @property angleDeg
        * @default true
        * @memberof Konva
@@ -2285,8 +2285,8 @@
           return this.height;
       };
       Canvas.prototype.setSize = function (width, height) {
-          this.setWidth(width);
-          this.setHeight(height);
+          this.setWidth(width || 0);
+          this.setHeight(height || 0);
       };
       /**
        * to data url
@@ -2309,7 +2309,7 @@
               catch (err) {
                   Util.error('Unable to get data URL. ' +
                       err.message +
-                      '. For more info read https://konvajs.org/docs/posts/Tainted_Canvas.html.');
+                      ' For more info read https://konvajs.org/docs/posts/Tainted_Canvas.html.');
                   return '';
               }
           }
@@ -2893,7 +2893,7 @@
                   catch (e) {
                       Util.error('Unable to apply filter. ' +
                           e.message +
-                          '. This post my help you https://konvajs.org/docs/posts/Tainted_Canvas.html.');
+                          ' This post my help you https://konvajs.org/docs/posts/Tainted_Canvas.html.');
                   }
                   this._filterUpToDate = true;
               }
@@ -5834,6 +5834,9 @@
           }
       };
       Stage.prototype._checkVisibility = function () {
+          if (!this.content) {
+              return;
+          }
           var style = this.visible() ? '' : 'none';
           this.content.style.display = style;
       };
@@ -5985,20 +5988,20 @@
           return null;
       };
       Stage.prototype._resizeDOM = function () {
+          var width = this.width();
+          var height = this.height();
           if (this.content) {
-              var width = this.width(), height = this.height(), layers = this.getChildren(), len = layers.length, n, layer;
               // set content dimensions
               this.content.style.width = width + PX;
               this.content.style.height = height + PX;
-              this.bufferCanvas.setSize(width, height);
-              this.bufferHitCanvas.setSize(width, height);
-              // set layer dimensions
-              for (n = 0; n < len; n++) {
-                  layer = layers[n];
-                  layer.setSize({ width: width, height: height });
-                  layer.draw();
-              }
           }
+          this.bufferCanvas.setSize(width, height);
+          this.bufferHitCanvas.setSize(width, height);
+          // set layer dimensions
+          this.children.each(function (layer) {
+              layer.setSize({ width: width, height: height });
+              layer.draw();
+          });
       };
       Stage.prototype.add = function (layer) {
           if (arguments.length > 1) {
@@ -6546,24 +6549,34 @@
           this.setPointersPositions(evt);
       };
       Stage.prototype._getContentPosition = function () {
-          var rect = this.content.getBoundingClientRect
-              ? this.content.getBoundingClientRect()
-              : { top: 0, left: 0, width: 1000, height: 1000 };
+          if (!this.content || !this.content.getBoundingClientRect) {
+              return {
+                  top: 0,
+                  left: 0,
+                  scaleX: 1,
+                  scaleY: 1
+              };
+          }
+          var rect = this.content.getBoundingClientRect();
           return {
               top: rect.top,
               left: rect.left,
               // sometimes clientWidth can be equals to 0
               // i saw it in react-konva test, looks like it is because of hidden testing element
               scaleX: rect.width / this.content.clientWidth || 1,
-              scaleY: rect.height / this.content.clientHeight || 1,
+              scaleY: rect.height / this.content.clientHeight || 1
           };
       };
       Stage.prototype._buildDOM = function () {
-          // the buffer canvas pixel ratio must be 1 because it is used as an
-          // intermediate canvas before copying the result onto a scene canvas.
-          // not setting it to 1 will result in an over compensation
-          this.bufferCanvas = new SceneCanvas();
-          this.bufferHitCanvas = new HitCanvas({ pixelRatio: 1 });
+          this.bufferCanvas = new SceneCanvas({
+              width: this.width(),
+              height: this.height()
+          });
+          this.bufferHitCanvas = new HitCanvas({
+              pixelRatio: 1,
+              width: this.width(),
+              height: this.height()
+          });
           if (!Konva.isBrowser) {
               return;
           }
@@ -11546,6 +11559,7 @@
           var ca = this.dataArray;
           // context position
           context.beginPath();
+          var isClosed = false;
           for (var n = 0; n < ca.length; n++) {
               var c = ca[n].command;
               var p = ca[n].points;
@@ -11576,11 +11590,17 @@
                       context.translate(-cx, -cy);
                       break;
                   case 'z':
+                      isClosed = true;
                       context.closePath();
                       break;
               }
           }
-          context.fillStrokeShape(this);
+          if (!isClosed && !this.hasFill()) {
+              context.strokeShape(this);
+          }
+          else {
+              context.fillStrokeShape(this);
+          }
       };
       Path.prototype.getSelfRect = function () {
           var points = [];
@@ -14702,6 +14722,7 @@
    * @param {Boolean} [config.resizeEnabled] Default is true
    * @param {Boolean} [config.rotateEnabled] Default is true
    * @param {Array} [config.rotationSnaps] Array of angles for rotation snaps. Default is []
+   * @param {Number} [config.rotationSnapTolerance] Snapping tolerance. If closer than this it will snap. Default is 5
    * @param {Number} [config.rotateAnchorOffset] Default is 50
    * @param {Number} [config.padding] Default is 0
    * @param {Boolean} [config.borderEnabled] Should we draw border? Default is true
@@ -14789,6 +14810,17 @@
       };
       Transformer.prototype.getNode = function () {
           return this._node;
+      };
+      /**
+       * return the name of current active anchor
+       * @method
+       * @name Konva.Transformer#detach
+       * @returns {String | Null}
+       * @example
+       * transformer.detach();
+       */
+      Transformer.prototype.getActiveAnchor = function () {
+          return this._movingAnchorName;
       };
       /**
        * detach transformer from an attached node
@@ -15048,7 +15080,7 @@
               var alpha = Konva.getAngle(this.getNode().rotation());
               var newAlpha = Util._degToRad(newRotation);
               var snaps = this.rotationSnaps();
-              var offset = 0.1;
+              var offset = Konva.getAngle(this.rotationSnapTolerance());
               for (var i = 0; i < snaps.length; i++) {
                   var angle = Konva.getAngle(snaps[i]);
                   var dif = Math.abs(angle - Util._degToRad(newRotation)) % (Math.PI * 2);
@@ -15128,6 +15160,7 @@
               if (node) {
                   node.fire('transformend', { evt: e, target: node });
               }
+              this._movingAnchorName = null;
           }
       };
       Transformer.prototype._fitNodeInto = function (newAttrs, evt) {
@@ -15412,6 +15445,20 @@
    * transformer.rotateAnchorOffset(100);
    */
   Factory.addGetterSetter(Transformer, 'rotateAnchorOffset', 50, getNumberValidator());
+  /**
+   * get/set distance for rotation tolerance
+   * @name Konva.Transformer#rotationSnapTolerance
+   * @method
+   * @param {Number} tolerance
+   * @returns {Number}
+   * @example
+   * // get
+   * var rotationSnapTolerance = transformer.rotationSnapTolerance();
+   *
+   * // set
+   * transformer.rotationSnapTolerance(100);
+   */
+  Factory.addGetterSetter(Transformer, 'rotationSnapTolerance', 5, getNumberValidator());
   /**
    * get/set visibility of border
    * @name Konva.Transformer#borderEnabled
