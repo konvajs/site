@@ -19,6 +19,10 @@ You may need to write more code to cover more functions and different edge cases
 **Instructions: there are two interactive objects on the stage. "Add buttons" and a draggable red circle. Try to add more bunnies or drag the circle.**
 
 
-{% iframe /downloads/code/sandbox/Offscreen_Canvas.html %}
+{% iframe /downloads/code/sandbox/Web_Worker.html %}
 
-{% include_code Konva 20000 Nodes Demo sandbox/Offscreen_Canvas.html %}
+{% include_code Konva 20000 Nodes Demo sandbox/Web_Worker.html %}
+
+And the code of the worker:
+
+{% include_code Konva 20000 Nodes Demo sandbox/Web_Worker.js %}
