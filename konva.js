@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.2.1
+   * Konva JavaScript Framework v4.2.2
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Thu Mar 26 2020
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.2.1',
+      version: '4.2.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -7250,10 +7250,13 @@
       };
       Shape.prototype.hasHitStroke = function () {
           var width = this.hitStrokeWidth();
-          // we should enable hit stroke we stroke is enabled
+          // on auto just check by stroke
+          if (width === 'auto') {
+              return this.hasStroke();
+          }
+          // we should enable hit stroke if stroke is enabled
           // and we have some value from width
-          return (this.strokeEnabled() &&
-              (width || (this.strokeWidth() && width === 'auto')));
+          return this.strokeEnabled() && !!width;
       };
       /**
        * determines if point is in the shape, regardless if other shapes are on top of it.  Note: because
