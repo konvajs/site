@@ -18,6 +18,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
     <React.Fragment>
       <Rect
         onClick={onSelect}
+        onTap={onSelect}
         ref={shapeRef}
         {...shapeProps}
         draggable
@@ -89,17 +90,20 @@ const App = () => {
   const [rectangles, setRectangles] = React.useState(initialRectangles);
   const [selectedId, selectShape] = React.useState(null);
 
+  const checkDeselect = e => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      selectShape(null);
+    }
+  };
+
   return (
     <Stage
       width={window.innerWidth}
       height={window.innerHeight}
-      onMouseDown={e => {
-        // deselect when clicked on empty area
-        const clickedOnEmpty = e.target === e.target.getStage();
-        if (clickedOnEmpty) {
-          selectShape(null);
-        }
-      }}
+      onMouseDown={checkDeselect}
+      onTouchStart={checkDeselect}
     >
       <Layer>
         {rectangles.map((rect, i) => {
