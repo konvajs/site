@@ -59,15 +59,13 @@
 
       // update Konva.Image size when meta is loaded
       video.addEventListener('loadedmetadata', function (e) {
-        text.destroy();
+        text.text('Press PLAY...');
         image.width(video.videoWidth);
         image.height(video.videoHeight);
-
-        video.play();
-        anim.start();
       });
 
       document.getElementById('play').addEventListener('click', function () {
+        text.destroy();
         video.play();
         anim.start();
       });
