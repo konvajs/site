@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -32,31 +32,44 @@
 
       var video = document.createElement('video');
       video.src =
-        'https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4';
+        'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
 
       var image = new Konva.Image({
         image: video,
         draggable: true,
         x: 50,
-        y: 50
+        y: 50,
       });
       layer.add(image);
 
-      // update Konva.Image size when meta is loaded
-      video.addEventListener('loadedmetadata', function(e) {
-        image.width(video.videoWidth);
-        image.height(video.videoHeight);
+      var text = new Konva.Text({
+        text: 'Loading video...',
+        width: stage.width(),
+        height: stage.height(),
+        align: 'center',
+        verticalAlign: 'middle',
       });
+      layer.add(text);
 
-      var anim = new Konva.Animation(function() {
+      var anim = new Konva.Animation(function () {
         // do nothing, animation just need to update the layer
       }, layer);
 
-      document.getElementById('play').addEventListener('click', function() {
+      // update Konva.Image size when meta is loaded
+      video.addEventListener('loadedmetadata', function (e) {
+        text.destroy();
+        image.width(video.videoWidth);
+        image.height(video.videoHeight);
+
         video.play();
         anim.start();
       });
-      document.getElementById('pause').addEventListener('click', function() {
+
+      document.getElementById('play').addEventListener('click', function () {
+        video.play();
+        anim.start();
+      });
+      document.getElementById('pause').addEventListener('click', function () {
         video.pause();
         anim.stop();
       });
