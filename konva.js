@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v4.2.2
+   * Konva JavaScript Framework v5.0.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Mar 26 2020
+   * Date: Tue Apr 21 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '4.2.2',
+      version: '5.0.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -469,6 +469,50 @@
       Transform.prototype.setAbsolutePosition = function (x, y) {
           var m0 = this.m[0], m1 = this.m[1], m2 = this.m[2], m3 = this.m[3], m4 = this.m[4], m5 = this.m[5], yt = (m0 * (y - m5) - m1 * (x - m4)) / (m0 * m3 - m1 * m2), xt = (x - m4 - m2 * yt) / m0;
           return this.translate(xt, yt);
+      };
+      /**
+       * convert transformation matrix back into node's attributes
+       * @method
+       * @name Konva.Transform#decompose
+       * @returns {Konva.Transform}
+       */
+      Transform.prototype.decompose = function () {
+          var a = this.m[0];
+          var b = this.m[1];
+          var c = this.m[2];
+          var d = this.m[3];
+          var e = this.m[4];
+          var f = this.m[5];
+          var delta = a * d - b * c;
+          var result = {
+              x: e,
+              y: f,
+              rotation: 0,
+              scaleX: 0,
+              scaleY: 0,
+              skewX: 0,
+              skewY: 0
+          };
+          // Apply the QR-like decomposition.
+          if (a != 0 || b != 0) {
+              var r = Math.sqrt(a * a + b * b);
+              result.rotation = b > 0 ? Math.acos(a / r) : -Math.acos(a / r);
+              result.scaleX = r;
+              result.scaleY = delta / r;
+              result.skewX = Math.atan((a * c + b * d) / (r * r));
+              result.skewY = 0;
+          }
+          else if (c != 0 || d != 0) {
+              var s = Math.sqrt(c * c + d * d);
+              result.rotation =
+                  Math.PI / 2 - (d > 0 ? Math.acos(-c / s) : -Math.acos(c / s));
+              result.scaleX = delta / s;
+              result.scaleY = s;
+              result.skewX = 0;
+              result.skewY = Math.atan((a * c + b * d) / (s * s));
+          }
+          result.rotation = Util._getRotation(result.rotation);
+          return result;
       };
       return Transform;
   }());
@@ -984,6 +1028,9 @@
       _radToDeg: function (rad) {
           return rad * DEG180_OVER_PI;
       },
+      _getRotation: function (radians) {
+          return Konva.angleDeg ? Util._radToDeg(radians) : radians;
+      },
       _capitalize: function (str) {
           return str.charAt(0).toUpperCase() + str.slice(1);
       },
@@ -1425,6 +1472,17 @@
       function __() { this.constructor = d; }
       d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   }
+
+  var __assign = function() {
+      __assign = Object.assign || function __assign(t) {
+          for (var s, i = 1, n = arguments.length; i < n; i++) {
+              s = arguments[i];
+              for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+          }
+          return t;
+      };
+      return __assign.apply(this, arguments);
+  };
 
   function __spreadArrays() {
       for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -2624,8 +2682,12 @@
        * when the logic for a cached result depends on ancestor propagation, use this
        * method to clear self and children cache
        */
-      Node.prototype._clearSelfAndDescendantCache = function (attr) {
+      Node.prototype._clearSelfAndDescendantCache = function (attr, forceEvent) {
           this._clearCache(attr);
+          // trigger clear cache, so transformer can use it
+          if (forceEvent) {
+              this.fire('clearCache');
+          }
           // skip clearing if node is cached with canvas
           // for performance reasons !!!
           if (this.isCached()) {
@@ -2633,7 +2695,7 @@
           }
           if (this.children) {
               this.children.each(function (node) {
-                  node._clearSelfAndDescendantCache(attr);
+                  node._clearSelfAndDescendantCache(attr, true);
               });
           }
       };
@@ -2722,8 +2784,8 @@
               height: height
           }), cachedFilterCanvas = new SceneCanvas({
               pixelRatio: pixelRatio,
-              width: width,
-              height: height
+              width: 0,
+              height: 0
           }), cachedHitCanvas = new HitCanvas({
               pixelRatio: 1,
               width: width,
@@ -2735,7 +2797,6 @@
           if (conf.imageSmoothingEnabled === false) {
               cachedSceneCanvas.getContext()._context.imageSmoothingEnabled = false;
               cachedFilterCanvas.getContext()._context.imageSmoothingEnabled = false;
-              cachedHitCanvas.getContext()._context.imageSmoothingEnabled = false;
           }
           sceneContext.save();
           hitContext.save();
@@ -2872,6 +2933,7 @@
           if (filters) {
               if (!this._filterUpToDate) {
                   var ratio = sceneCanvas.pixelRatio;
+                  filterCanvas.setSize(sceneCanvas.width / sceneCanvas.pixelRatio, sceneCanvas.height / sceneCanvas.pixelRatio);
                   try {
                       len = filters.length;
                       filterContext.clear();
@@ -3414,8 +3476,8 @@
               x: this.attrs.x + it.getTranslation().x,
               y: this.attrs.y + it.getTranslation().y
           };
-          this.setPosition({ x: pos.x, y: pos.y });
           this._setTransform(origTrans);
+          this.setPosition({ x: pos.x, y: pos.y });
           return this;
       };
       Node.prototype._setTransform = function (trans) {
@@ -3823,7 +3885,7 @@
        * node.fire('click', null, true);
        */
       Node.prototype.fire = function (eventType, evt, bubble) {
-          evt = evt || {};
+          if (evt === void 0) { evt = {}; }
           evt.target = evt.target || this;
           // bubble
           if (bubble) {
@@ -3917,15 +3979,11 @@
               }
               parent = parent.getParent();
           }
-          var scaleX = 1, scaleY = 1;
-          // start with stage and traverse downwards to self
-          this._eachAncestorReverse(function (node) {
-              scaleX *= node.scaleX();
-              scaleY *= node.scaleY();
-          }, top);
+          var transform = this.getAbsoluteTransform(top);
+          var attrs = transform.decompose();
           return {
-              x: scaleX,
-              y: scaleY
+              x: attrs.scaleX,
+              y: attrs.scaleY
           };
       };
       /**
@@ -3939,13 +3997,14 @@
        * var rotation = node.getAbsoluteRotation();
        */
       Node.prototype.getAbsoluteRotation = function () {
-          var parent = this;
-          var rotation = 0;
-          while (parent) {
-              rotation += parent.rotation();
-              parent = parent.getParent();
-          }
-          return rotation;
+          // var parent: Node = this;
+          // var rotation = 0;
+          // while (parent) {
+          //   rotation += parent.rotation();
+          //   parent = parent.getParent();
+          // }
+          // return rotation;
+          return this.getAbsoluteTransform().decompose().rotation;
       };
       /**
        * get transform of the node
@@ -5371,17 +5430,6 @@
           }
           return obj;
       };
-      Container.prototype._getDescendants = function (arr) {
-          var retArr = [];
-          var len = arr.length;
-          for (var n = 0; n < len; n++) {
-              var node = arr[n];
-              if (this.isAncestorOf(node)) {
-                  retArr.push(node);
-              }
-          }
-          return retArr;
-      };
       /**
        * determine if node is an ancestor
        * of descendant
@@ -5524,10 +5572,10 @@
           var dragSkip = !Konva.hitOnDragEnabled && layerUnderDrag;
           return layer && layer.hitGraphEnabled() && this.isVisible() && !dragSkip;
       };
-      Container.prototype.getClientRect = function (attrs) {
-          attrs = attrs || {};
-          var skipTransform = attrs.skipTransform;
-          var relativeTo = attrs.relativeTo;
+      Container.prototype.getClientRect = function (config) {
+          config = config || {};
+          var skipTransform = config.skipTransform;
+          var relativeTo = config.relativeTo;
           var minX, minY, maxX, maxY;
           var selfRect = {
               x: Infinity,
@@ -5543,8 +5591,8 @@
               }
               var rect = child.getClientRect({
                   relativeTo: that,
-                  skipShadow: attrs.skipShadow,
-                  skipStroke: attrs.skipStroke
+                  skipShadow: config.skipShadow,
+                  skipStroke: config.skipStroke
               });
               // skip invisible children (like empty groups)
               if (rect.width === 0 && rect.height === 0) {
@@ -6018,7 +6066,7 @@
                   length +
                   ' layers. Recommended maximum number of layers is 3-5. Adding more layers into the stage may drop the performance. Rethink your tree structure, you can use Konva.Group.');
           }
-          layer._setCanvasSize(this.width(), this.height());
+          layer.setSize({ width: this.width(), height: this.height() });
           // draw layer and append canvas to container
           layer.draw();
           if (Konva.isBrowser) {
@@ -6679,8 +6727,8 @@
           _this._waitingForDraw = false;
           _this.on('visibleChange', _this._checkVisibility);
           _this._checkVisibility();
-          _this.on('imageSmoothingEnabledChange', _this._checkSmooth);
-          _this._checkSmooth();
+          _this.on('imageSmoothingEnabledChange', _this._setSmoothEnabled);
+          _this._setSmoothEnabled();
           return _this;
       }
       // for nodejs?
@@ -6823,6 +6871,7 @@
       BaseLayer.prototype.setSize = function (_a) {
           var width = _a.width, height = _a.height;
           this.canvas.setSize(width, height);
+          this._setSmoothEnabled();
           return this;
       };
       BaseLayer.prototype._toKonvaCanvas = function (config) {
@@ -6842,11 +6891,11 @@
               this.canvas._canvas.style.display = 'none';
           }
       };
-      BaseLayer.prototype._checkSmooth = function () {
+      BaseLayer.prototype._setSmoothEnabled = function () {
           this.getContext()._context.imageSmoothingEnabled = this.imageSmoothingEnabled();
       };
       /**
-       * get/set width of layer.getter return width of stage. setter doing nothing.
+       * get/set width of layer. getter return width of stage. setter doing nothing.
        * if you want change width use `stage.width(value);`
        * @name Konva.BaseLayer#width
        * @method
@@ -6921,10 +6970,8 @@
    * // get imageSmoothingEnabled flag
    * var imageSmoothingEnabled = layer.imageSmoothingEnabled();
    *
-   * // disable clear before draw
    * layer.imageSmoothingEnabled(false);
    *
-   * // enable clear before draw
    * layer.imageSmoothingEnabled(true);
    */
   Factory.addGetterSetter(BaseLayer, 'imageSmoothingEnabled', true);
@@ -7036,12 +7083,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -7053,6 +7100,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -8616,10 +8664,11 @@
           });
           return _this;
       }
-      Layer.prototype._setCanvasSize = function (width, height) {
-          this.canvas.setSize(width, height);
+      Layer.prototype.setSize = function (_a) {
+          var width = _a.width, height = _a.height;
+          _super.prototype.setSize.call(this, { width: width, height: height });
           this.hitCanvas.setSize(width, height);
-          this._checkSmooth();
+          return this;
       };
       Layer.prototype._validateAdd = function (child) {
           var type = child.getType();
@@ -8778,12 +8827,6 @@
               parent.content.appendChild(this.hitCanvas._canvas);
           }
       };
-      Layer.prototype.setSize = function (_a) {
-          var width = _a.width, height = _a.height;
-          _super.prototype.setSize.call(this, { width: width, height: height });
-          this.hitCanvas.setSize(width, height);
-          return this;
-      };
       return Layer;
   }(BaseLayer));
   Layer.prototype.nodeType = 'Layer';
@@ -8844,10 +8887,6 @@
           if (type !== 'Shape') {
               Util.throw('You may only add shapes to a fast layer.');
           }
-      };
-      FastLayer.prototype._setCanvasSize = function (width, height) {
-          this.canvas.setSize(width, height);
-          this._checkSmooth();
       };
       FastLayer.prototype.hitGraphEnabled = function () {
           return false;
@@ -9904,12 +9943,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -9921,6 +9960,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -10093,12 +10133,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -10110,6 +10150,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -10387,12 +10428,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -10404,6 +10445,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -10604,12 +10646,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -10621,6 +10663,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -10741,12 +10784,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -10758,6 +10801,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -10915,12 +10959,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -10932,6 +10976,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -11494,12 +11539,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -11511,6 +11556,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -12311,12 +12357,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -12328,6 +12374,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -12463,12 +12510,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -12480,6 +12527,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -12621,12 +12669,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -12638,6 +12686,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -12774,12 +12823,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -12791,6 +12840,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -13141,12 +13191,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -13158,6 +13208,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -13368,12 +13419,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -13385,6 +13436,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -14029,12 +14081,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -14046,6 +14098,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
@@ -14635,7 +14688,7 @@
   ]
       .map(function (e) { return e + ("." + EVENTS_NAME); })
       .join(' ');
-  var NODE_RECT = 'nodeRect';
+  var NODES_RECT = 'nodesRect';
   var TRANSFORM_CHANGE_STR$1 = [
       'widthChange',
       'heightChange',
@@ -14662,16 +14715,11 @@
       'bottom-right': 135
   };
   var TOUCH_DEVICE = 'ontouchstart' in Konva._global;
-  function getCursor(anchorName, rad, isMirrored) {
+  function getCursor(anchorName, rad) {
       if (anchorName === 'rotater') {
           return 'crosshair';
       }
       rad += Util._degToRad(ANGLES[anchorName] || 0);
-      // If we are mirrored, we need to mirror the angle (this is not the same as
-      // rotate).
-      if (isMirrored) {
-          rad *= -1;
-      }
       var angle = ((Util._radToDeg(rad) % 360) + 360) % 360;
       if (Util._inRange(angle, 315 + 22.5, 360) || Util._inRange(angle, 0, 22.5)) {
           // TOP
@@ -14722,6 +14770,114 @@
       'bottom-right'
   ];
   var MAX_SAFE_INTEGER = 100000000;
+  function getCenter(shape) {
+      return {
+          x: shape.x +
+              (shape.width / 2) * Math.cos(shape.rotation) +
+              (shape.height / 2) * Math.sin(-shape.rotation),
+          y: shape.y +
+              (shape.height / 2) * Math.cos(shape.rotation) +
+              (shape.width / 2) * Math.sin(shape.rotation)
+      };
+  }
+  function rotateAroundPoint(shape, angleRad, point) {
+      var x = point.x +
+          (shape.x - point.x) * Math.cos(angleRad) -
+          (shape.y - point.y) * Math.sin(angleRad);
+      var y = point.y +
+          (shape.x - point.x) * Math.sin(angleRad) +
+          (shape.y - point.y) * Math.cos(angleRad);
+      return __assign(__assign({}, shape), { rotation: shape.rotation + angleRad, x: x,
+          y: y });
+  }
+  function rotateAroundCenter(shape, deltaRad) {
+      var center = getCenter(shape);
+      return rotateAroundPoint(shape, deltaRad, center);
+  }
+  function getShapeRect(shape) {
+      var angleRad = shape.rotation;
+      var x1 = shape.x;
+      var y1 = shape.y;
+      var x2 = x1 + shape.width * Math.cos(angleRad);
+      var y2 = y1 + shape.width * Math.sin(angleRad);
+      var x3 = shape.x +
+          shape.width * Math.cos(angleRad) +
+          shape.height * Math.sin(-angleRad);
+      var y3 = shape.y +
+          shape.height * Math.cos(angleRad) +
+          shape.width * Math.sin(angleRad);
+      var x4 = shape.x + shape.height * Math.sin(-angleRad);
+      var y4 = shape.y + shape.height * Math.cos(angleRad);
+      var leftX = Math.min(x1, x2, x3, x4);
+      var rightX = Math.max(x1, x2, x3, x4);
+      var topY = Math.min(y1, y2, y3, y4);
+      var bottomY = Math.max(y1, y2, y3, y4);
+      return {
+          x: leftX,
+          y: topY,
+          width: rightX - leftX,
+          height: bottomY - topY
+      };
+  }
+  function getShapesRect(shapes) {
+      var x1 = 9999999999;
+      var y1 = 9999999999;
+      var x2 = -999999999;
+      var y2 = -999999999;
+      shapes.forEach(function (shape) {
+          var rect = getShapeRect(shape);
+          x1 = Math.min(x1, rect.x);
+          y1 = Math.min(y1, rect.y);
+          x2 = Math.max(x2, rect.x + rect.width);
+          y2 = Math.max(y2, rect.y + rect.height);
+      });
+      return {
+          x: x1,
+          y: y1,
+          width: x2 - x1,
+          height: y2 - y1,
+          rotation: 0
+      };
+  }
+  function transformShape(shape, oldSelection, newSelection, keepOffset) {
+      if (keepOffset === void 0) { keepOffset = 1; }
+      var offset = rotateAroundPoint(shape, -oldSelection.rotation, {
+          x: oldSelection.x,
+          y: oldSelection.y
+      });
+      var offsetX = offset.x - oldSelection.x;
+      var offsetY = offset.y - oldSelection.y;
+      var angle = oldSelection.rotation;
+      var scaleX = shape.width ? newSelection.width / oldSelection.width : 1;
+      var scaleY = shape.height ? newSelection.height / oldSelection.height : 1;
+      return {
+          x: keepOffset * newSelection.x +
+              offsetX * scaleX * Math.cos(angle) +
+              offsetY * scaleY * Math.sin(-angle),
+          y: keepOffset * newSelection.y +
+              offsetX * scaleX * Math.sin(angle) +
+              offsetY * scaleY * Math.cos(angle),
+          width: shape.width * scaleX,
+          height: shape.height * scaleY,
+          rotation: shape.rotation
+      };
+  }
+  function transformAndRotateShape(shape, oldSelection, newSelection) {
+      var updated = transformShape(shape, oldSelection, newSelection);
+      return rotateAroundPoint(updated, newSelection.rotation - oldSelection.rotation, newSelection);
+  }
+  function getSnap(snaps, newRotationRad, tol) {
+      var snapped = newRotationRad;
+      for (var i = 0; i < snaps.length; i++) {
+          var angle = Konva.getAngle(snaps[i]);
+          var absDiff = Math.abs(angle - newRotationRad) % (Math.PI * 2);
+          var dif = Math.min(absDiff, Math.PI * 2 - absDiff);
+          if (dif < tol) {
+              snapped = angle;
+          }
+      }
+      return snapped;
+  }
   /**
    * Transformer constructor.  Transformer is a special type of group that allow you transform Konva
    * primitives and shapes. Transforming tool is not changing `width` and `height` properties of nodes
@@ -14790,26 +14946,44 @@
           return this;
       };
       Transformer.prototype.setNode = function (node) {
+          Util.warn('tr.setNode(shape), tr.node(shape) and tr.attachTo(shape) methods are deprecated. Please use tr.nodes(nodesArray) instead.');
+          return this.setNodes([node]);
+      };
+      Transformer.prototype.getNode = function () {
+          return this._nodes && this._nodes[0];
+      };
+      Transformer.prototype.setNodes = function (nodes) {
           var _this = this;
-          if (this._node) {
+          if (nodes === void 0) { nodes = []; }
+          if (this._nodes && this._nodes.length) {
               this.detach();
           }
-          this._node = node;
-          this._resetTransformCache();
-          var additionalEvents = node._attrsAffectingSize
-              .map(function (prop) { return prop + 'Change.' + EVENTS_NAME; })
-              .join(' ');
-          var onChange = function () {
-              _this._resetTransformCache();
-              if (!_this._transforming) {
-                  _this.update();
-              }
-          };
-          node.on(additionalEvents, onChange);
-          node.on(TRANSFORM_CHANGE_STR$1, onChange);
-          node.on("xChange." + EVENTS_NAME + " yChange." + EVENTS_NAME, function () {
-              return _this._resetTransformCache();
+          this._nodes = nodes;
+          if (nodes.length === 1) {
+              this.rotation(nodes[0].rotation());
+          }
+          else {
+              this.rotation(0);
+          }
+          this._nodes.forEach(function (node) {
+              var additionalEvents = node._attrsAffectingSize
+                  .map(function (prop) { return prop + 'Change.' + EVENTS_NAME; })
+                  .join(' ');
+              var onChange = function () {
+                  _this._resetTransformCache();
+                  if (!_this._transforming) {
+                      _this.update();
+                  }
+              };
+              node.on(additionalEvents, onChange);
+              node.on(TRANSFORM_CHANGE_STR$1, onChange);
+              node.on("clearCache." + EVENTS_NAME, function () {
+                  _this._resetTransformCache();
+              });
+              node.on("xChange." + EVENTS_NAME + " yChange." + EVENTS_NAME, onChange);
+              _this._proxyDrag(node);
           });
+          this._resetTransformCache();
           // we may need it if we set node in initial props
           // so elements are not defined yet
           var elementsCreated = !!this.findOne('.top-left');
@@ -14818,16 +14992,46 @@
           }
           return this;
       };
-      Transformer.prototype.getNode = function () {
-          return this._node;
+      Transformer.prototype._proxyDrag = function (node) {
+          var _this = this;
+          var lastPos;
+          node.on("dragstart." + EVENTS_NAME, function () {
+              lastPos = node.getAbsolutePosition();
+          });
+          node.on("dragmove." + EVENTS_NAME, function () {
+              if (!lastPos) {
+                  return;
+              }
+              var abs = node.getAbsolutePosition();
+              var dx = abs.x - lastPos.x;
+              var dy = abs.y - lastPos.y;
+              _this.nodes().forEach(function (otherNode) {
+                  if (otherNode === node) {
+                      return;
+                  }
+                  if (otherNode.isDragging()) {
+                      return;
+                  }
+                  var otherAbs = otherNode.getAbsolutePosition();
+                  otherNode.setAbsolutePosition({
+                      x: otherAbs.x + dx,
+                      y: otherAbs.y + dy
+                  });
+                  otherNode.startDrag();
+              });
+              lastPos = null;
+          });
+      };
+      Transformer.prototype.getNodes = function () {
+          return this._nodes;
       };
       /**
        * return the name of current active anchor
        * @method
-       * @name Konva.Transformer#detach
+       * @name Konva.Transformer#getActiveAnchor
        * @returns {String | Null}
        * @example
-       * transformer.detach();
+       * transformer.getActiveAnchor();
        */
       Transformer.prototype.getActiveAnchor = function () {
           return this._movingAnchorName;
@@ -14843,19 +15047,46 @@
       Transformer.prototype.detach = function () {
           if (this.getNode()) {
               this.getNode().off('.' + EVENTS_NAME);
-              this._node = undefined;
+              this._nodes = [];
           }
           this._resetTransformCache();
       };
       Transformer.prototype._resetTransformCache = function () {
-          this._clearCache(NODE_RECT);
+          this._clearCache(NODES_RECT);
           this._clearCache('transform');
           this._clearSelfAndDescendantCache('absoluteTransform');
       };
       Transformer.prototype._getNodeRect = function () {
-          return this._getCache(NODE_RECT, this.__getNodeRect);
+          return this._getCache(NODES_RECT, this.__getNodeRect);
       };
+      Transformer.prototype.__getNodeShape = function (node, rot, relative) {
+          if (rot === void 0) { rot = this.rotation(); }
+          var rect = node.getClientRect({
+              skipTransform: true,
+              skipShadow: true,
+              skipStroke: this.ignoreStroke()
+          });
+          var absScale = node.getAbsoluteScale(relative);
+          var absPos = node.getAbsolutePosition(relative);
+          var dx = rect.x * absScale.x - node.offsetX() * absScale.x;
+          var dy = rect.y * absScale.y - node.offsetY() * absScale.y;
+          var rotation = (Konva.getAngle(node.getAbsoluteRotation()) + Math.PI * 2) %
+              (Math.PI * 2);
+          var box = {
+              x: absPos.x + dx * Math.cos(rotation) + dy * Math.sin(-rotation),
+              y: absPos.y + dy * Math.cos(rotation) + dx * Math.sin(rotation),
+              width: rect.width * absScale.x,
+              height: rect.height * absScale.y,
+              rotation: rotation
+          };
+          return rotateAroundPoint(box, -Konva.getAngle(rot), {
+              x: 0,
+              y: 0
+          });
+      };
+      // returns box + rotation of all shapes
       Transformer.prototype.__getNodeRect = function () {
+          var _this = this;
           var node = this.getNode();
           if (!node) {
               return {
@@ -14866,33 +15097,20 @@
                   rotation: 0
               };
           }
-          if (node.parent && this.parent && node.parent !== this.parent) {
-              Util.warn('Transformer and attached node have different parents. Konva does not support such case right now. Please move Transformer to the parent of attaching node.');
-          }
-          var rect = node.getClientRect({
-              skipTransform: true,
-              skipShadow: true,
-              skipStroke: this.ignoreStroke()
+          var shapes = this.nodes().map(function (node) {
+              return _this.__getNodeShape(node);
           });
-          var rotation = Konva.getAngle(node.rotation());
-          var dx = rect.x * node.scaleX() - node.offsetX() * node.scaleX();
-          var dy = rect.y * node.scaleY() - node.offsetY() * node.scaleY();
-          return {
-              x: node.x() + dx * Math.cos(rotation) + dy * Math.sin(-rotation),
-              y: node.y() + dy * Math.cos(rotation) + dx * Math.sin(rotation),
-              width: rect.width * node.scaleX(),
-              height: rect.height * node.scaleY(),
-              rotation: node.rotation()
-          };
+          var box = getShapesRect(shapes);
+          return rotateAroundPoint(box, Konva.getAngle(this.rotation()), {
+              x: 0,
+              y: 0
+          });
       };
       Transformer.prototype.getX = function () {
           return this._getNodeRect().x;
       };
       Transformer.prototype.getY = function () {
           return this._getNodeRect().y;
-      };
-      Transformer.prototype.getRotation = function () {
-          return this._getNodeRect().rotation;
       };
       Transformer.prototype.getWidth = function () {
           return this._getNodeRect().width;
@@ -14915,29 +15133,17 @@
               strokeWidth: 1,
               name: name + ' _anchor',
               dragDistance: 0,
-              draggable: true,
+              draggable: false,
               hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto'
           });
           var self = this;
           anchor.on('mousedown touchstart', function (e) {
               self._handleMouseDown(e);
           });
-          anchor.on('dragstart', function (e) {
-              e.cancelBubble = true;
-          });
-          anchor.on('dragmove', function (e) {
-              e.cancelBubble = true;
-          });
-          anchor.on('dragend', function (e) {
-              e.cancelBubble = true;
-          });
           // add hover styling
           anchor.on('mouseenter', function () {
-              var rad = Konva.getAngle(_this.getAbsoluteRotation());
-              var scale = _this.getNode().getAbsoluteScale();
-              // If scale.y < 0 xor scale.x < 0 we need to flip (not rotate).
-              var isMirrored = scale.y * scale.x < 0;
-              var cursor = getCursor(name, rad, isMirrored);
+              var rad = Konva.getAngle(_this.rotation());
+              var cursor = getCursor(name, rad);
               anchor.getStage().content.style.cursor = cursor;
               _this._cursorChange = true;
           });
@@ -14951,11 +15157,12 @@
           this.add(anchor);
       };
       Transformer.prototype._createBack = function () {
+          var _this = this;
           var back = new Shape({
               name: 'back',
               width: 0,
               height: 0,
-              listening: false,
+              draggable: true,
               sceneFunc: function (ctx) {
                   var tr = this.getParent();
                   var padding = tr.padding();
@@ -14966,9 +15173,19 @@
                       ctx.lineTo(this.width() / 2, -tr.rotateAnchorOffset() * Util._sign(this.height()) - padding);
                   }
                   ctx.fillStrokeShape(this);
+              },
+              hitFunc: function (ctx, shape) {
+                  if (!_this.shouldOverdrawWholeArea()) {
+                      return;
+                  }
+                  var padding = _this.padding();
+                  ctx.beginPath();
+                  ctx.rect(-padding, -padding, shape.width() + padding * 2, shape.height() + padding * 2);
+                  ctx.fillStrokeShape(shape);
               }
           });
           this.add(back);
+          this._proxyDrag(back);
       };
       Transformer.prototype._handleMouseDown = function (e) {
           this._movingAnchorName = e.target.name().split(' ')[0];
@@ -14984,6 +15201,12 @@
           window.addEventListener('mouseup', this._handleMouseUp, true);
           window.addEventListener('touchend', this._handleMouseUp, true);
           this._transforming = true;
+          var ap = e.target.getAbsolutePosition();
+          var pos = e.target.getStage().getPointerPosition();
+          this._anchorDragOffset = {
+              x: pos.x - ap.x,
+              y: pos.y - ap.y
+          };
           this._fire('transformstart', { evt: e, target: this.getNode() });
           this.getNode()._fire('transformstart', { evt: e, target: this.getNode() });
       };
@@ -14992,23 +15215,57 @@
           var anchorNode = this.findOne('.' + this._movingAnchorName);
           var stage = anchorNode.getStage();
           stage.setPointersPositions(e);
-          anchorNode.setAbsolutePosition(stage.getPointerPosition());
+          var pp = stage.getPointerPosition();
+          var newNodePos = {
+              x: pp.x - this._anchorDragOffset.x,
+              y: pp.y - this._anchorDragOffset.y
+          };
+          var oldAbs = anchorNode.getAbsolutePosition();
+          anchorNode.setAbsolutePosition(newNodePos);
+          var newAbs = anchorNode.getAbsolutePosition();
+          if (oldAbs.x === newAbs.x && oldAbs.y === newAbs.y) {
+              return;
+          }
+          // rotater is working very differently, so do it first
+          if (this._movingAnchorName === 'rotater') {
+              var attrs = this._getNodeRect();
+              x = anchorNode.x() - attrs.width / 2;
+              y = -anchorNode.y() + attrs.height / 2;
+              // hor angle is changed?
+              var delta = Math.atan2(-y, x) + Math.PI / 2;
+              if (attrs.height < 0) {
+                  delta -= Math.PI;
+              }
+              var oldRotation = Konva.getAngle(this.rotation());
+              var newRotation = oldRotation + delta;
+              var tol = Konva.getAngle(this.rotationSnapTolerance());
+              var snappedRot = getSnap(this.rotationSnaps(), newRotation, tol);
+              var diff = snappedRot - attrs.rotation;
+              var shape = rotateAroundCenter(attrs, diff);
+              this._fitNodesInto(shape, e);
+              return;
+          }
           var keepProportion = this.keepRatio() || e.shiftKey;
-          var padding = this.padding();
+          var centeredScaling = this.centeredScaling() || e.altKey;
           if (this._movingAnchorName === 'top-left') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - anchorNode.x() - padding * 2, 2) +
-                      Math.pow(this.findOne('.bottom-right').y() - anchorNode.y() - padding * 2, 2));
-                  var reverseX = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
-                      ? -1
-                      : 1;
-                  var reverseY = this.findOne('.top-left').y() > this.findOne('.bottom-right').y()
-                      ? -1
-                      : 1;
+                  var comparePoint = centeredScaling
+                      ? {
+                          x: this.width() / 2,
+                          y: this.height() / 2
+                      }
+                      : {
+                          x: this.findOne('.bottom-right').x(),
+                          y: this.findOne('.bottom-right').y()
+                      };
+                  newHypotenuse = Math.sqrt(Math.pow(comparePoint.x - anchorNode.x(), 2) +
+                      Math.pow(comparePoint.y - anchorNode.y(), 2));
+                  var reverseX = this.findOne('.top-left').x() > comparePoint.x ? -1 : 1;
+                  var reverseY = this.findOne('.top-left').y() > comparePoint.y ? -1 : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.top-left').x(this.findOne('.bottom-right').x() - x - padding * 2);
-                  this.findOne('.top-left').y(this.findOne('.bottom-right').y() - y - padding * 2);
+                  this.findOne('.top-left').x(comparePoint.x - x);
+                  this.findOne('.top-left').y(comparePoint.y - y);
               }
           }
           else if (this._movingAnchorName === 'top-center') {
@@ -15016,18 +15273,23 @@
           }
           else if (this._movingAnchorName === 'top-right') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(anchorNode.x() - this.findOne('.bottom-left').x() - padding * 2, 2) +
-                      Math.pow(this.findOne('.bottom-left').y() - anchorNode.y() - padding * 2, 2));
-                  var reverseX = this.findOne('.top-right').x() < this.findOne('.top-left').x()
-                      ? -1
-                      : 1;
-                  var reverseY = this.findOne('.top-right').y() > this.findOne('.bottom-left').y()
-                      ? -1
-                      : 1;
+                  var comparePoint = centeredScaling
+                      ? {
+                          x: this.width() / 2,
+                          y: this.height() / 2
+                      }
+                      : {
+                          x: this.findOne('.bottom-left').x(),
+                          y: this.findOne('.bottom-left').y()
+                      };
+                  newHypotenuse = Math.sqrt(Math.pow(anchorNode.x() - comparePoint.x, 2) +
+                      Math.pow(comparePoint.y - anchorNode.y(), 2));
+                  var reverseX = this.findOne('.top-right').x() < comparePoint.x ? -1 : 1;
+                  var reverseY = this.findOne('.top-right').y() > comparePoint.y ? -1 : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.top-right').x(x + padding);
-                  this.findOne('.top-right').y(this.findOne('.bottom-left').y() - y - padding * 2);
+                  this.findOne('.top-right').x(comparePoint.x + x);
+                  this.findOne('.top-right').y(comparePoint.y - y);
               }
               var pos = anchorNode.position();
               this.findOne('.top-left').y(pos.y);
@@ -15041,18 +15303,23 @@
           }
           else if (this._movingAnchorName === 'bottom-left') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.top-right').x() - anchorNode.x() - padding * 2, 2) +
-                      Math.pow(anchorNode.y() - this.findOne('.top-right').y() - padding * 2, 2));
-                  var reverseX = this.findOne('.top-right').x() < this.findOne('.bottom-left').x()
-                      ? -1
-                      : 1;
-                  var reverseY = this.findOne('.bottom-right').y() < this.findOne('.top-left').y()
-                      ? -1
-                      : 1;
+                  var comparePoint = centeredScaling
+                      ? {
+                          x: this.width() / 2,
+                          y: this.height() / 2
+                      }
+                      : {
+                          x: this.findOne('.top-right').x(),
+                          y: this.findOne('.top-right').y()
+                      };
+                  newHypotenuse = Math.sqrt(Math.pow(comparePoint.x - anchorNode.x(), 2) +
+                      Math.pow(anchorNode.y() - comparePoint.y, 2));
+                  var reverseX = comparePoint.x < anchorNode.x() ? -1 : 1;
+                  var reverseY = anchorNode.y() < comparePoint.y ? -1 : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.bottom-left').x(this.findOne('.top-right').x() - x - padding * 2);
-                  this.findOne('.bottom-left').y(y + padding);
+                  anchorNode.x(comparePoint.x - x);
+                  anchorNode.y(comparePoint.y + y);
               }
               pos = anchorNode.position();
               this.findOne('.top-left').x(pos.x);
@@ -15063,77 +15330,37 @@
           }
           else if (this._movingAnchorName === 'bottom-right') {
               if (keepProportion) {
-                  newHypotenuse = Math.sqrt(Math.pow(this.findOne('.bottom-right').x() - padding, 2) +
-                      Math.pow(this.findOne('.bottom-right').y() - padding, 2));
-                  var reverseX = this.findOne('.top-left').x() > this.findOne('.bottom-right').x()
-                      ? -1
-                      : 1;
-                  var reverseY = this.findOne('.top-left').y() > this.findOne('.bottom-right').y()
-                      ? -1
-                      : 1;
+                  var comparePoint = centeredScaling
+                      ? {
+                          x: this.width() / 2,
+                          y: this.height() / 2
+                      }
+                      : {
+                          x: this.findOne('.top-left').x(),
+                          y: this.findOne('.top-left').y()
+                      };
+                  newHypotenuse = Math.sqrt(Math.pow(anchorNode.x() - comparePoint.x, 2) +
+                      Math.pow(anchorNode.y() - comparePoint.y, 2));
+                  var reverseX = this.findOne('.bottom-right').x() < comparePoint.x ? -1 : 1;
+                  var reverseY = this.findOne('.bottom-right').y() < comparePoint.y ? -1 : 1;
                   x = newHypotenuse * this.cos * reverseX;
                   y = newHypotenuse * this.sin * reverseY;
-                  this.findOne('.bottom-right').x(x + padding);
-                  this.findOne('.bottom-right').y(y + padding);
+                  this.findOne('.bottom-right').x(comparePoint.x + x);
+                  this.findOne('.bottom-right').y(comparePoint.y + y);
               }
-          }
-          else if (this._movingAnchorName === 'rotater') {
-              var attrs = this._getNodeRect();
-              x = anchorNode.x() - attrs.width / 2;
-              y = -anchorNode.y() + attrs.height / 2;
-              var dAlpha = Math.atan2(-y, x) + Math.PI / 2;
-              if (attrs.height < 0) {
-                  dAlpha -= Math.PI;
-              }
-              var rot = Konva.getAngle(this.rotation());
-              var newRotation = Util._radToDeg(rot) + Util._radToDeg(dAlpha);
-              var alpha = Konva.getAngle(this.getNode().rotation());
-              var newAlpha = Util._degToRad(newRotation);
-              var snaps = this.rotationSnaps();
-              var offset = Konva.getAngle(this.rotationSnapTolerance());
-              for (var i = 0; i < snaps.length; i++) {
-                  var angle = Konva.getAngle(snaps[i]);
-                  var dif = Math.abs(angle - Util._degToRad(newRotation)) % (Math.PI * 2);
-                  if (dif < offset) {
-                      newRotation = Util._radToDeg(angle);
-                      newAlpha = Util._degToRad(newRotation);
-                  }
-              }
-              var dx = padding;
-              var dy = padding;
-              this._fitNodeInto({
-                  rotation: Konva.angleDeg ? newRotation : Util._degToRad(newRotation),
-                  x: attrs.x +
-                      (attrs.width / 2 + padding) *
-                          (Math.cos(alpha) - Math.cos(newAlpha)) +
-                      (attrs.height / 2 + padding) *
-                          (Math.sin(-alpha) - Math.sin(-newAlpha)) -
-                      (dx * Math.cos(rot) + dy * Math.sin(-rot)),
-                  y: attrs.y +
-                      (attrs.height / 2 + padding) *
-                          (Math.cos(alpha) - Math.cos(newAlpha)) +
-                      (attrs.width / 2 + padding) *
-                          (Math.sin(alpha) - Math.sin(newAlpha)) -
-                      (dy * Math.cos(rot) + dx * Math.sin(rot)),
-                  width: attrs.width + padding * 2,
-                  height: attrs.height + padding * 2
-              }, e);
           }
           else {
               console.error(new Error('Wrong position argument of selection resizer: ' +
                   this._movingAnchorName));
           }
-          if (this._movingAnchorName === 'rotater') {
-              return;
-          }
           var centeredScaling = this.centeredScaling() || e.altKey;
           if (centeredScaling) {
               var topLeft = this.findOne('.top-left');
               var bottomRight = this.findOne('.bottom-right');
-              var topOffsetX = topLeft.x() + padding;
-              var topOffsetY = topLeft.y() + padding;
-              var bottomOffsetX = this.getWidth() - bottomRight.x() + padding;
-              var bottomOffsetY = this.getHeight() - bottomRight.y() + padding;
+              var topOffsetX = topLeft.x();
+              var topOffsetY = topLeft.y();
+              var bottomOffsetX = this.getWidth() - bottomRight.x();
+              var bottomOffsetY = this.getHeight() - bottomRight.y();
               bottomRight.move({
                   x: -topOffsetX,
                   y: -topOffsetY
@@ -15143,20 +15370,24 @@
                   y: bottomOffsetY
               });
           }
-          var absPos = this.findOne('.top-left').getAbsolutePosition(this.getParent());
+          var absPos = this.findOne('.top-left').getAbsolutePosition();
           x = absPos.x;
           y = absPos.y;
           var width = this.findOne('.bottom-right').x() - this.findOne('.top-left').x();
           var height = this.findOne('.bottom-right').y() - this.findOne('.top-left').y();
-          this._fitNodeInto({
-              x: x + this.offsetX(),
-              y: y + this.offsetY(),
+          this._fitNodesInto({
+              x: x,
+              y: y,
               width: width,
-              height: height
+              height: height,
+              rotation: Konva.getAngle(this.rotation())
           }, e);
       };
       Transformer.prototype._handleMouseUp = function (e) {
           this._removeEvents(e);
+      };
+      Transformer.prototype.getAbsoluteTransform = function () {
+          return this.getTransform();
       };
       Transformer.prototype._removeEvents = function (e) {
           if (this._transforming) {
@@ -15173,40 +15404,127 @@
               this._movingAnchorName = null;
           }
       };
-      Transformer.prototype._fitNodeInto = function (newAttrs, evt) {
-          // waring! in this attrs padding is included
-          var boundBoxFunc = this.boundBoxFunc();
-          if (boundBoxFunc) {
-              var oldAttrs = this._getNodeRect();
-              newAttrs = boundBoxFunc.call(this, oldAttrs, newAttrs);
+      Transformer.prototype._fitNodesInto = function (newAttrs, evt) {
+          var _this = this;
+          var oldAttrs = this._getNodeRect();
+          var minSize = 1;
+          if (Util._inRange(newAttrs.width, -this.padding() * 2 - minSize, minSize)) {
+              this.update();
+              return;
           }
-          var node = this.getNode();
-          if (newAttrs.rotation !== undefined) {
-              this.getNode().rotation(newAttrs.rotation);
+          if (Util._inRange(newAttrs.height, -this.padding() * 2 - minSize, minSize)) {
+              this.update();
+              return;
           }
+          var t = new Transform();
+          t.rotate(Konva.getAngle(this.rotation()));
+          if (this._movingAnchorName &&
+              newAttrs.width < 0 &&
+              this._movingAnchorName.indexOf('left') >= 0) {
+              var offset = t.point({
+                  x: -this.padding() * 2,
+                  y: 0
+              });
+              newAttrs.x += offset.x;
+              newAttrs.y += offset.y;
+              newAttrs.width += this.padding() * 2;
+              this._movingAnchorName = this._movingAnchorName.replace('left', 'right');
+              this._anchorDragOffset.x -= offset.x;
+              this._anchorDragOffset.y -= offset.y;
+          }
+          else if (this._movingAnchorName &&
+              newAttrs.width < 0 &&
+              this._movingAnchorName.indexOf('right') >= 0) {
+              var offset = t.point({
+                  x: this.padding() * 2,
+                  y: 0
+              });
+              this._movingAnchorName = this._movingAnchorName.replace('right', 'left');
+              this._anchorDragOffset.x -= offset.x;
+              this._anchorDragOffset.y -= offset.y;
+              newAttrs.width += this.padding() * 2;
+          }
+          if (this._movingAnchorName &&
+              newAttrs.height < 0 &&
+              this._movingAnchorName.indexOf('top') >= 0) {
+              var offset = t.point({
+                  x: 0,
+                  y: -this.padding() * 2
+              });
+              newAttrs.x += offset.x;
+              newAttrs.y += offset.y;
+              this._movingAnchorName = this._movingAnchorName.replace('top', 'bottom');
+              this._anchorDragOffset.x -= offset.x;
+              this._anchorDragOffset.y -= offset.y;
+              newAttrs.height += this.padding() * 2;
+          }
+          else if (this._movingAnchorName &&
+              newAttrs.height < 0 &&
+              this._movingAnchorName.indexOf('bottom') >= 0) {
+              var offset = t.point({
+                  x: 0,
+                  y: this.padding() * 2
+              });
+              this._movingAnchorName = this._movingAnchorName.replace('bottom', 'top');
+              this._anchorDragOffset.x -= offset.x;
+              this._anchorDragOffset.y -= offset.y;
+              newAttrs.height += this.padding() * 2;
+          }
+          this._nodes.forEach(function (node) {
+              var oldRect = _this.__getNodeShape(node, 0);
+              var newRect = transformAndRotateShape(oldRect, oldAttrs, newAttrs);
+              _this._fitNodeInto(node, newRect, evt);
+          });
+          this.rotation(Util._getRotation(newAttrs.rotation));
+          this._resetTransformCache();
+          this.update();
+          this.getLayer().batchDraw();
+      };
+      Transformer.prototype._fitNodeInto = function (node, newAttrs, evt) {
+          if (this.boundBoxFunc()) {
+              var oldAttrs = this.__getNodeShape(node, node.rotation(), node.getParent());
+              var bounded = this.boundBoxFunc()(oldAttrs, newAttrs, node);
+              if (bounded) {
+                  newAttrs = bounded;
+              }
+              else {
+                  Util.warn('boundBoxFunc returned falsy. You should return new bound rect from it!');
+              }
+          }
+          var parentRot = Konva.getAngle(node.getParent().getAbsoluteRotation());
+          node.rotation(Util._getRotation(newAttrs.rotation - parentRot));
           var pure = node.getClientRect({
               skipTransform: true,
               skipShadow: true,
               skipStroke: this.ignoreStroke()
           });
-          var padding = this.padding();
-          var scaleX = pure.width ? (newAttrs.width - padding * 2) / pure.width : 1;
-          var scaleY = pure.height
-              ? (newAttrs.height - padding * 2) / pure.height
-              : 1;
+          var parentTransform = node
+              .getParent()
+              .getAbsoluteTransform()
+              .copy();
+          parentTransform.invert();
+          var invertedPoint = parentTransform.point({
+              x: newAttrs.x,
+              y: newAttrs.y
+          });
+          newAttrs.x = invertedPoint.x;
+          newAttrs.y = invertedPoint.y;
+          var absScale = node.getParent().getAbsoluteScale();
+          pure.width *= absScale.x;
+          pure.height *= absScale.y;
+          var scaleX = pure.width ? newAttrs.width / pure.width : 1;
+          var scaleY = pure.height ? newAttrs.height / pure.height : 1;
           var rotation = Konva.getAngle(node.rotation());
-          var dx = pure.x * scaleX - padding - node.offsetX() * scaleX;
-          var dy = pure.y * scaleY - padding - node.offsetY() * scaleY;
-          this.getNode().setAttrs({
+          var dx = pure.x * scaleX - node.offsetX() * scaleX;
+          var dy = pure.y * scaleY - node.offsetY() * scaleY;
+          node.setAttrs({
               scaleX: scaleX,
               scaleY: scaleY,
               x: newAttrs.x - (dx * Math.cos(rotation) + dy * Math.sin(-rotation)),
               y: newAttrs.y - (dy * Math.cos(rotation) + dx * Math.sin(rotation))
           });
-          this._fire('transform', { evt: evt, target: this.getNode() });
-          this.getNode()._fire('transform', { evt: evt, target: this.getNode() });
-          this.update();
-          this.getLayer().batchDraw();
+          this._fire('transform', { evt: evt, target: node });
+          node._fire('transform', { evt: evt, target: node });
       };
       /**
        * force update of Konva.Transformer.
@@ -15221,15 +15539,7 @@
       Transformer.prototype.update = function () {
           var _this = this;
           var attrs = this._getNodeRect();
-          var node = this.getNode();
-          var scale = { x: 1, y: 1 };
-          if (node && node.getParent()) {
-              scale = node.getParent().getAbsoluteScale();
-          }
-          var invertedScale = {
-              x: 1 / scale.x,
-              y: 1 / scale.y
-          };
+          this.rotation(Util._getRotation(attrs.rotation));
           var width = attrs.width;
           var height = attrs.height;
           var enabledAnchors = this.enabledAnchors();
@@ -15249,68 +15559,71 @@
               });
           });
           this.findOne('.top-left').setAttrs({
-              x: -padding,
-              y: -padding,
-              scale: invertedScale,
+              x: 0,
+              y: 0,
+              offsetX: anchorSize / 2 + padding,
+              offsetY: anchorSize / 2 + padding,
               visible: resizeEnabled && enabledAnchors.indexOf('top-left') >= 0
           });
           this.findOne('.top-center').setAttrs({
               x: width / 2,
-              y: -padding,
-              scale: invertedScale,
+              y: 0,
+              offsetY: anchorSize / 2 + padding,
               visible: resizeEnabled && enabledAnchors.indexOf('top-center') >= 0
           });
           this.findOne('.top-right').setAttrs({
-              x: width + padding,
-              y: -padding,
-              scale: invertedScale,
+              x: width,
+              y: 0,
+              offsetX: anchorSize / 2 - padding,
+              offsetY: anchorSize / 2 + padding,
               visible: resizeEnabled && enabledAnchors.indexOf('top-right') >= 0
           });
           this.findOne('.middle-left').setAttrs({
-              x: -padding,
+              x: 0,
               y: height / 2,
-              scale: invertedScale,
+              offsetX: anchorSize / 2 + padding,
               visible: resizeEnabled && enabledAnchors.indexOf('middle-left') >= 0
           });
           this.findOne('.middle-right').setAttrs({
-              x: width + padding,
+              x: width,
               y: height / 2,
-              scale: invertedScale,
+              offsetX: anchorSize / 2 - padding,
               visible: resizeEnabled && enabledAnchors.indexOf('middle-right') >= 0
           });
           this.findOne('.bottom-left').setAttrs({
-              x: -padding,
-              y: height + padding,
-              scale: invertedScale,
+              x: 0,
+              y: height,
+              offsetX: anchorSize / 2 + padding,
+              offsetY: anchorSize / 2 - padding,
               visible: resizeEnabled && enabledAnchors.indexOf('bottom-left') >= 0
           });
           this.findOne('.bottom-center').setAttrs({
               x: width / 2,
-              y: height + padding,
-              scale: invertedScale,
+              y: height,
+              offsetY: anchorSize / 2 - padding,
               visible: resizeEnabled && enabledAnchors.indexOf('bottom-center') >= 0
           });
           this.findOne('.bottom-right').setAttrs({
-              x: width + padding,
-              y: height + padding,
-              scale: invertedScale,
+              x: width,
+              y: height,
+              offsetX: anchorSize / 2 - padding,
+              offsetY: anchorSize / 2 - padding,
               visible: resizeEnabled && enabledAnchors.indexOf('bottom-right') >= 0
           });
-          var scaledRotateAnchorOffset = -this.rotateAnchorOffset() * Math.abs(invertedScale.y);
           this.findOne('.rotater').setAttrs({
               x: width / 2,
-              y: scaledRotateAnchorOffset * Util._sign(height) - padding,
-              scale: invertedScale,
+              y: -this.rotateAnchorOffset() * Util._sign(height) - padding,
               visible: this.rotateEnabled()
           });
           this.findOne('.back').setAttrs({
-              width: width * scale.x,
-              height: height * scale.y,
-              scale: invertedScale,
+              width: width,
+              height: height,
               visible: this.borderEnabled(),
               stroke: this.borderStroke(),
               strokeWidth: this.borderStrokeWidth(),
-              dash: this.borderDash()
+              dash: this.borderDash(),
+              x: 0,
+              y: 0
           });
       };
       /**
@@ -15652,7 +15965,20 @@
    */
   Factory.addGetterSetter(Transformer, 'node');
   /**
-   * get/set bounding box function
+   * get/set attached nodes of the Transformer. Transformer will adapt to their size and listen to their events
+   * @method
+   * @name Konva.Transformer#Konva.Transformer#node
+   * @returns {Konva.Node}
+   * @example
+   * // get
+   * const nodes = transformer.nodes();
+   *
+   * // set
+   * transformer.nodes([rect, circle]);
+   */
+  Factory.addGetterSetter(Transformer, 'nodes');
+  /**
+   * get/set bounding box function. boundBondFunc operates is local coordinates of nodes parent
    * @name Konva.Transformer#boundBoxFunc
    * @method
    * @param {Function} func
@@ -15662,7 +15988,9 @@
    * var boundBoxFunc = transformer.boundBoxFunc();
    *
    * // set
-   * transformer.boundBoxFunc(function(oldBox, newBox) {
+   * transformer.boundBoxFunc(function(oldBox, newBox, node) {
+   *   // width and height of the boxes are corresponding to total width and height of a node
+   *   // so it includes scale of the node.
    *   if (newBox.width > 200) {
    *     return oldBox;
    *   }
@@ -15670,6 +15998,7 @@
    * });
    */
   Factory.addGetterSetter(Transformer, 'boundBoxFunc');
+  Factory.addGetterSetter(Transformer, 'shouldOverdrawWholeArea', false);
   Factory.backCompat(Transformer, {
       lineEnabled: 'borderEnabled',
       rotateHandlerOffset: 'rotateAnchorOffset',
@@ -15721,12 +16050,12 @@
      * @param {Number} [config.hitStrokeWidth] size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth
      * @param {Boolean} [config.strokeHitEnabled] flag which enables or disables stroke hit region.  The default is true
      * @param {Boolean} [config.perfectDrawEnabled] flag which enables or disables using buffer canvas.  The default is true
-     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shasow for stroke.  The default is true
+     * @param {Boolean} [config.shadowForStrokeEnabled] flag which enables or disables shadow for stroke.  The default is true
      * @param {Boolean} [config.strokeScaleEnabled] flag which enables or disables stroke scale.  The default is true
      * @param {Boolean} [config.strokeEnabled] flag which enables or disables the stroke.  The default value is true
      * @param {String} [config.lineJoin] can be miter, round, or bevel.  The default
      *  is miter
-     * @param {String} [config.lineCap] can be butt, round, or sqare.  The default
+     * @param {String} [config.lineCap] can be butt, round, or square.  The default
      *  is butt
      * @param {String} [config.shadowColor]
      * @param {Number} [config.shadowBlur]
@@ -15738,6 +16067,7 @@
      * @param {Boolean} [config.shadowEnabled] flag which enables or disables the shadow.  The default value is true
      * @param {Array} [config.dash]
      * @param {Boolean} [config.dashEnabled] flag which enables or disables the dashArray.  The default value is true
+
    * @param {Number} [config.x]
      * @param {Number} [config.y]
      * @param {Number} [config.width]
