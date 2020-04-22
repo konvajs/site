@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -35,13 +35,13 @@
         y: 70,
         fontSize: 30,
         text: 'centeredScaling = true',
-        draggable: true
+        draggable: true,
       });
       layer.add(text1);
 
       var tr1 = new Konva.Transformer({
-        node: text1,
-        centeredScaling: true
+        nodes: [text1],
+        centeredScaling: true,
       });
       layer.add(tr1);
 
@@ -50,13 +50,13 @@
         y: 200,
         fontSize: 30,
         text: 'centeredScaling = false',
-        draggable: true
+        draggable: true,
       });
       layer.add(text2);
 
       var tr2 = new Konva.Transformer({
-        node: text2,
-        centeredScaling: false
+        nodes: [text2],
+        centeredScaling: false,
       });
       layer.add(tr2);
 

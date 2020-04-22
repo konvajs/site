@@ -31,7 +31,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -40,14 +40,14 @@
       var group = new Konva.Group({
         x: 50,
         y: 50,
-        draggable: true
+        draggable: true,
       });
       layer.add(group);
 
       // create new transformer
       var tr = new Konva.Transformer();
       layer.add(tr);
-      tr.attachTo(group);
+      tr.nodes([group]);
       layer.draw();
 
       document.getElementById('button').addEventListener('click', addShape);
@@ -61,7 +61,7 @@
             radius: Math.random() * 100,
             fill: Konva.Util.getRandomColor(),
             stroke: 'black',
-            strokeWidth: Math.random() * 10
+            strokeWidth: Math.random() * 10,
           })
         );
         // force update manually

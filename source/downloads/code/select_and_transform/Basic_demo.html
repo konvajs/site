@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -37,7 +37,7 @@
         height: 90,
         fill: 'red',
         name: 'rect',
-        draggable: true
+        draggable: true,
       });
       layer.add(rect1);
 
@@ -48,15 +48,22 @@
         height: 90,
         fill: 'green',
         name: 'rect',
-        draggable: true
+        draggable: true,
       });
       layer.add(rect2);
+
+      var tr = new Konva.Transformer();
+      layer.add(tr);
+
+      // by default select the first shape
+      tr.nodes([rect1, rect2]);
+
       layer.draw();
 
-      stage.on('click tap', function(e) {
-        // if click on empty area - remove all transformers
+      stage.on('click tap', function (e) {
+        // if click on empty area - remove all selections
         if (e.target === stage) {
-          stage.find('Transformer').destroy();
+          tr.nodes([]);
           layer.draw();
           return;
         }
@@ -64,14 +71,27 @@
         if (!e.target.hasName('rect')) {
           return;
         }
-        // remove old transformers
-        // TODO: we can skip it if current rect is already selected
-        stage.find('Transformer').destroy();
 
-        // create new transformer
-        var tr = new Konva.Transformer();
-        layer.add(tr);
-        tr.attachTo(e.target);
+        // do we press shift or ctrl?
+        const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+        const isSelected = tr.nodes().indexOf(e.target) >= 0;
+
+        // if nothing is pressed and the node is not selected
+        if (!metaPressed && !isSelected) {
+          // select just one
+          tr.nodes([e.target]);
+        } else if (metaPressed && isSelected) {
+          // if we pressed keys and node was selected
+          // we need to remove it from selection:
+          const nodes = tr.nodes().slice(); // use slice to have new copy of array
+          // remove node from array
+          nodes.splice(nodes.indexOf(e.target), 1);
+          tr.nodes(nodes);
+        } else if (metaPressed && !isSelected) {
+          // add the node into selection
+          const nodes = tr.nodes().concat([e.target]);
+          tr.nodes(nodes);
+        }
         layer.draw();
       });
     </script>

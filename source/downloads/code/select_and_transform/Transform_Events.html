@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -38,13 +38,13 @@
         fill: 'red',
         name: 'rect',
         stroke: 'black',
-        draggable: true
+        draggable: true,
       });
       layer.add(rect);
 
       var text = new Konva.Text({
         x: 5,
-        y: 5
+        y: 5,
       });
       layer.add(text);
       updateText();
@@ -52,22 +52,22 @@
       // create new transformer
       var tr = new Konva.Transformer();
       layer.add(tr);
-      tr.attachTo(rect);
+      tr.nodes([rect]);
       layer.draw();
 
-      rect.on('transformstart', function() {
+      rect.on('transformstart', function () {
         console.log('transform start');
       });
 
-      rect.on('dragmove', function() {
+      rect.on('dragmove', function () {
         updateText();
       });
-      rect.on('transform', function() {
+      rect.on('transform', function () {
         updateText();
         console.log('transform');
       });
 
-      rect.on('transformend', function() {
+      rect.on('transformend', function () {
         console.log('transform end');
       });
 
@@ -79,7 +79,7 @@
           'width: ' + rect.width(),
           'height: ' + rect.height(),
           'scaleX: ' + rect.scaleX(),
-          'scaleY: ' + rect.scaleY()
+          'scaleY: ' + rect.scaleY(),
         ];
         text.text(lines.join('\n'));
         layer.batchDraw();

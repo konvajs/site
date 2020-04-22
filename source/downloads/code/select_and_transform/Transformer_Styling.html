@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -35,7 +35,7 @@
         y: 150,
         radius: 70,
         fill: 'red',
-        draggable: true
+        draggable: true,
       });
       layer.add(circle);
 
@@ -45,10 +45,11 @@
         anchorFill: 'yellow',
         anchorSize: 20,
         borderStroke: 'green',
-        borderDash: [3, 3]
+        borderDash: [3, 3],
+        nodes: [circle],
       });
       layer.add(tr);
-      tr.attachTo(circle);
+
       layer.draw();
     </script>
   </body>

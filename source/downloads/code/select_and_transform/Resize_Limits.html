@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -38,14 +38,14 @@
         fill: 'red',
         name: 'rect',
         stroke: 'black',
-        draggable: true
+        draggable: true,
       });
       layer.add(rect);
 
       var MAX_WIDTH = 200;
       // create new transformer
       var tr = new Konva.Transformer({
-        boundBoxFunc: function(oldBoundBox, newBoundBox) {
+        boundBoxFunc: function (oldBoundBox, newBoundBox) {
           // "boundBox" is an object with
           // x, y, width, height and rotation properties
           // transformer tool will try to fit node into that box
@@ -59,10 +59,10 @@
           }
 
           return newBoundBox;
-        }
+        },
       });
       layer.add(tr);
-      tr.attachTo(rect);
+      tr.nodes([rect]);
       layer.draw();
     </script>
   </body>

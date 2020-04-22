@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -35,14 +35,19 @@
         y: 70,
         fontSize: 30,
         text: 'keepRatio = true',
-        draggable: true
+        draggable: true,
       });
       layer.add(text1);
 
       var tr1 = new Konva.Transformer({
-        node: text1,
+        nodes: [text1],
         keepRatio: true,
-        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right']
+        enabledAnchors: [
+          'top-left',
+          'top-right',
+          'bottom-left',
+          'bottom-right',
+        ],
       });
       layer.add(tr1);
 
@@ -51,14 +56,19 @@
         y: 200,
         fontSize: 30,
         text: 'keepRatio = false',
-        draggable: true
+        draggable: true,
       });
       layer.add(text2);
 
       var tr2 = new Konva.Transformer({
-        node: text2,
+        nodes: [text2],
         keepRatio: false,
-        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right']
+        enabledAnchors: [
+          'top-left',
+          'top-right',
+          'bottom-left',
+          'bottom-right',
+        ],
       });
       layer.add(tr2);
 
