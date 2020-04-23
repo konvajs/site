@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v5.0.0
+   * Konva JavaScript Framework v5.0.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Apr 21 2020
+   * Date: Wed Apr 22 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '5.0.0',
+      version: '5.0.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2587,7 +2587,7 @@
       'offsetXChange.konva',
       'offsetYChange.konva',
       'transformsEnabledChange.konva'
-  ].join(SPACE), SCALE_CHANGE_STR = ['scaleXChange.konva', 'scaleYChange.konva'].join(SPACE);
+  ].join(SPACE);
   // TODO: can we remove children from node?
   var emptyChildren = new Collection();
   var idCounter = 1;
@@ -2628,6 +2628,8 @@
           this.parent = null;
           this._cache = new Map();
           this._lastPos = null;
+          this._batchingTransformChange = false;
+          this._needClearTransformCache = false;
           this._filterUpToDate = false;
           this._isUnderCache = false;
           this.children = emptyChildren;
@@ -2635,11 +2637,12 @@
           this.setAttrs(config);
           // event bindings for cache handling
           this.on(TRANSFORM_CHANGE_STR, function () {
+              if (_this._batchingTransformChange) {
+                  _this._needClearTransformCache = true;
+                  return;
+              }
               _this._clearCache(TRANSFORM);
               _this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
-          });
-          this.on(SCALE_CHANGE_STR, function () {
-              _this._clearSelfAndDescendantCache(ABSOLUTE_SCALE);
           });
           this.on('visibleChange.konva', function () {
               _this._clearSelfAndDescendantCache(VISIBLE);
@@ -2685,8 +2688,8 @@
       Node.prototype._clearSelfAndDescendantCache = function (attr, forceEvent) {
           this._clearCache(attr);
           // trigger clear cache, so transformer can use it
-          if (forceEvent) {
-              this.fire('clearCache');
+          if (forceEvent && attr === ABSOLUTE_TRANSFORM) {
+              this.fire('_clearTransformCache');
           }
           // skip clearing if node is cached with canvas
           // for performance reasons !!!
@@ -3429,9 +3432,26 @@
           }
           return depth;
       };
+      // sometimes we do several attributes changes
+      // like node.position(pos)
+      // for performance reasons, lets batch transform reset
+      // so it work faster
+      Node.prototype._batchTransformChanges = function (func) {
+          this._batchingTransformChange = true;
+          func();
+          this._batchingTransformChange = false;
+          if (this._needClearTransformCache) {
+              this._clearCache(TRANSFORM);
+              this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM, true);
+          }
+          this._needClearTransformCache = false;
+      };
       Node.prototype.setPosition = function (pos) {
-          this.x(pos.x);
-          this.y(pos.y);
+          var _this = this;
+          this._batchTransformChanges(function () {
+              _this.x(pos.x);
+              _this.y(pos.y);
+          });
           return this;
       };
       Node.prototype.getPosition = function () {
@@ -3468,8 +3488,9 @@
           this.attrs.y = origTrans.y;
           delete origTrans.x;
           delete origTrans.y;
-          // unravel transform
-          it = this.getAbsoluteTransform();
+          // important, use non cached value
+          this._clearCache(TRANSFORM);
+          it = this._getAbsoluteTransform();
           it.invert();
           it.translate(pos.x, pos.y);
           pos = {
@@ -3485,8 +3506,8 @@
           for (key in trans) {
               this.attrs[key] = trans[key];
           }
-          this._clearCache(TRANSFORM);
-          this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
+          // this._clearCache(TRANSFORM);
+          // this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
       };
       Node.prototype._clearTransform = function () {
           var trans = {
@@ -3509,8 +3530,6 @@
           this.attrs.offsetY = 0;
           this.attrs.skewX = 0;
           this.attrs.skewY = 0;
-          this._clearCache(TRANSFORM);
-          this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
           // return original transform
           return trans;
       };
@@ -3961,16 +3980,8 @@
        * var scaleX = node.getAbsoluteScale().x;
        */
       Node.prototype.getAbsoluteScale = function (top) {
-          // if using an argument, we can't cache the result.
-          if (top) {
-              return this._getAbsoluteScale(top);
-          }
-          else {
-              // if no argument, we can cache the result
-              return this._getCache(ABSOLUTE_SCALE, this._getAbsoluteScale);
-          }
-      };
-      Node.prototype._getAbsoluteScale = function (top) {
+          // do not cache this calculations,
+          // because it use cache transform
           // this is special logic for caching with some shapes with shadow
           var parent = this;
           while (parent) {
@@ -14934,7 +14945,7 @@
           return _this;
       }
       /**
-       * alias to `tr.node(shape)`
+       * alias to `tr.nodes([shape])`/ This method is deprecated and will be removed soon.
        * @method
        * @name Konva.Transformer#attachTo
        * @returns {Konva.Transformer}
@@ -14977,9 +14988,7 @@
               };
               node.on(additionalEvents, onChange);
               node.on(TRANSFORM_CHANGE_STR$1, onChange);
-              node.on("clearCache." + EVENTS_NAME, function () {
-                  _this._resetTransformCache();
-              });
+              node.on("_clearTransformCache." + EVENTS_NAME, onChange);
               node.on("xChange." + EVENTS_NAME + " yChange." + EVENTS_NAME, onChange);
               _this._proxyDrag(node);
           });
@@ -15133,12 +15142,21 @@
               strokeWidth: 1,
               name: name + ' _anchor',
               dragDistance: 0,
-              draggable: false,
+              // make it draggable,
+              // so activating the anchror will not start drag&drop of any parent
+              draggable: true,
               hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto'
           });
           var self = this;
           anchor.on('mousedown touchstart', function (e) {
               self._handleMouseDown(e);
+          });
+          anchor.on('dragstart', function (e) {
+              anchor.stopDrag();
+              e.cancelBubble = true;
+          });
+          anchor.on('dragend', function (e) {
+              e.cancelBubble = true;
           });
           // add hover styling
           anchor.on('mouseenter', function () {
@@ -15952,7 +15970,8 @@
    */
   Factory.addGetterSetter(Transformer, 'padding', 0, getNumberValidator());
   /**
-   * get/set attached node of the Transformer. Transformer will adapt to its size and listen to its events
+   * get/set attached node of the Transformer. Transformer will adapt to its size and listen to its events.
+   * **This method is deprecated and will be removed soon.** Please use `tr.nodes([shape1, shape2]);` instead
    * @method
    * @name Konva.Transformer#Konva.Transformer#node
    * @returns {Konva.Node}
@@ -15975,6 +15994,11 @@
    *
    * // set
    * transformer.nodes([rect, circle]);
+   * // push new item:
+   *
+   * const oldNodes = transformer.nodes();
+   * const newNodes = oldNodes.concat([newShape]);
+   * transformer.nodes(newNodes);
    */
   Factory.addGetterSetter(Transformer, 'nodes');
   /**
