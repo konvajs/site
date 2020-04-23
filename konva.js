@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v5.0.1
+   * Konva JavaScript Framework v5.0.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Apr 22 2020
+   * Date: Thu Apr 23 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '5.0.1',
+      version: '5.0.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -15054,10 +15054,13 @@
        * transformer.detach();
        */
       Transformer.prototype.detach = function () {
-          if (this.getNode()) {
-              this.getNode().off('.' + EVENTS_NAME);
-              this._nodes = [];
+          // remove events
+          if (this._nodes) {
+              this._nodes.forEach(function (node) {
+                  node.off('.' + EVENTS_NAME);
+              });
           }
+          this._nodes = [];
           this._resetTransformCache();
       };
       Transformer.prototype._resetTransformCache = function () {
@@ -15488,6 +15491,12 @@
               this._anchorDragOffset.y -= offset.y;
               newAttrs.height += this.padding() * 2;
           }
+          // let's find delta transform
+          // var dx = newAttrs.x - oldAttrs.x,
+          //   dy = newAttrs.y - oldAttrs.y,
+          //   angle = newAttrs.rotation - oldAttrs.rotation,
+          //   scaleX = newAttrs.width / oldAttrs.width,
+          //   scaleY = newAttrs.height / oldAttrs.height;
           this._nodes.forEach(function (node) {
               var oldRect = _this.__getNodeShape(node, 0);
               var newRect = transformAndRotateShape(oldRect, oldAttrs, newAttrs);
