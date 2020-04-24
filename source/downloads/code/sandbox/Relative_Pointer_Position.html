@@ -25,32 +25,32 @@
         width: width,
         height: height,
         x: 20,
-        y: 50
+        y: 50,
       });
 
       var layer = new Konva.Layer({
         scaleX: 1.2,
         scaleY: 0.8,
-        rotation: 5
+        rotation: 5,
       });
       stage.add(layer);
 
       var group = new Konva.Group({
         x: 30,
         rotation: 10,
-        scaleX: 1.5
+        scaleX: 1.5,
       });
       layer.add(group);
 
       var text = new Konva.Text({
         text: 'Click on the canvas to draw a circle',
-        fontSize: 20
+        fontSize: 20,
       });
       group.add(text);
       layer.draw();
 
+      // this function will return pointer position relative to the passed node
       function getRelativePointerPosition(node) {
-        // the function will return pointer position relative to the passed node
         var transform = node.getAbsoluteTransform().copy();
         // to detect relative position we need to invert transform
         transform.invert();
@@ -58,17 +58,17 @@
         // get pointer (say mouse or touch) position
         var pos = node.getStage().getPointerPosition();
 
-        // now we find relative point
+        // now we can find relative point
         return transform.point(pos);
       }
 
-      stage.on('click', function() {
+      stage.on('click', function () {
         var pos = getRelativePointerPosition(group);
         var shape = new Konva.Circle({
           x: pos.x,
           y: pos.y,
           fill: 'red',
-          radius: 20
+          radius: 20,
         });
 
         group.add(shape);
