@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "konva": "5.0.2",
-    "vue": "^2.5.2",
+    "vue": "^2.6.11",
     "vue-konva": "2.1.1"
   },
   "keywords": [
