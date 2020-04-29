@@ -1,7 +1,7 @@
 title: HTML5 Canvas Hue, Saturation and Value filter Image Tutorial
 ---
 
-To apply filter to an `Konva.Node`, we have to cache it first with `cache()` function. Then apply filter with `filter()` function.
+To apply filter to an `Konva.Node`, we have to cache it first with `cache()` function. Then apply filter with `filters()` function.
 
 To change hue, saturation and value components of an image with Konva, we can use the `Konva.Filters.HSV`.
 
