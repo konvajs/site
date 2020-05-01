@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v5.0.2
+   * Konva JavaScript Framework v5.0.3
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Apr 23 2020
+   * Date: Fri May 01 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '5.0.2',
+      version: '5.0.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -15508,18 +15508,6 @@
           this.getLayer().batchDraw();
       };
       Transformer.prototype._fitNodeInto = function (node, newAttrs, evt) {
-          if (this.boundBoxFunc()) {
-              var oldAttrs = this.__getNodeShape(node, node.rotation(), node.getParent());
-              var bounded = this.boundBoxFunc()(oldAttrs, newAttrs, node);
-              if (bounded) {
-                  newAttrs = bounded;
-              }
-              else {
-                  Util.warn('boundBoxFunc returned falsy. You should return new bound rect from it!');
-              }
-          }
-          var parentRot = Konva.getAngle(node.getParent().getAbsoluteRotation());
-          node.rotation(Util._getRotation(newAttrs.rotation - parentRot));
           var pure = node.getClientRect({
               skipTransform: true,
               skipShadow: true,
@@ -15534,11 +15522,24 @@
               x: newAttrs.x,
               y: newAttrs.y
           });
+          var absScale = node.getParent().getAbsoluteScale();
           newAttrs.x = invertedPoint.x;
           newAttrs.y = invertedPoint.y;
+          newAttrs.width /= absScale.x;
+          newAttrs.height /= absScale.y;
+          if (this.boundBoxFunc()) {
+              var oldAttrs = this.__getNodeShape(node, node.rotation(), node.getParent());
+              var bounded = this.boundBoxFunc()(oldAttrs, newAttrs, node);
+              if (bounded) {
+                  newAttrs = bounded;
+              }
+              else {
+                  Util.warn('boundBoxFunc returned falsy. You should return new bound rect from it!');
+              }
+          }
+          var parentRot = Konva.getAngle(node.getParent().getAbsoluteRotation());
+          node.rotation(Util._getRotation(newAttrs.rotation - parentRot));
           var absScale = node.getParent().getAbsoluteScale();
-          pure.width *= absScale.x;
-          pure.height *= absScale.y;
           var scaleX = pure.width ? newAttrs.width / pure.width : 1;
           var scaleY = pure.height ? newAttrs.height / pure.height : 1;
           var rotation = Konva.getAngle(node.rotation());
