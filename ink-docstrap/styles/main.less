@@ -1,8 +1,8 @@
-@import '../bower_components/bootstrap/less/bootstrap.less';
-@import 'variables.less';
-@import 'bootswatch.less';
+@import "../bower_components/bootstrap/less/bootstrap.less";
+@import "variables.less";
+@import "bootswatch.less";
 
-@headerHeight: 62px;
+@headerHeight: 150px;
 
 #main {
   margin-top: @headerHeight;
@@ -28,7 +28,7 @@ img.branding-logo {
   right: 0;
   @toc-bottom: @headerHeight + 10px;
   max-height: 82%;
-  max-height: ~'calc(100% - @{toc-bottom})';
+  max-height: ~"calc(100% - @{toc-bottom})";
   overflow: auto;
   padding: 5px;
 
@@ -179,7 +179,7 @@ code {
 
 // using calc and vh to get accurate value
 .dropdown-menu {
-  max-height: ~'calc(100vh - @{headerHeight})';
+  max-height: ~"calc(100vh - @{headerHeight})";
 }
 
 // switch off max height if collapsed
@@ -195,7 +195,7 @@ code {
 #header {
   background: #fff;
   border-bottom: 1px solid #ccc;
-  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding-top: 30px;
   padding-bottom: 30px;
   position: relative;
@@ -215,7 +215,7 @@ code {
   overflow: hidden;
   width: 127px;
   height: 30px;
-  background-image: url('images/logo.png');
+  background-image: url("images/logo.png");
   display: block;
 }
 @media all and (-webkit-min-device-pixel-ratio: 1.5),
@@ -225,7 +225,7 @@ code {
   (min-resolution: 138dpi),
   (min-resolution: 1.5dppx) {
   #logo {
-    background-image: url('images/logo@2x.png');
+    background-image: url("images/logo@2x.png");
     -webkit-background-size: 127px 30px;
     -moz-background-size: 127px 30px;
     background-size: 127px 30px;
@@ -258,7 +258,7 @@ code {
   right: 0;
   bottom: 0;
   margin: auto;
-  content: '\f0c9';
+  content: "\f0c9";
 }
 #main-nav-toggle:hover,
 #main-nav-toggle:active {
@@ -369,10 +369,10 @@ code {
   }
 }
 #github-btn:before {
-  content: '\f113';
+  content: "\f113";
 }
 #search-btn:before {
-  content: '\f002';
+  content: "\f002";
 }
 #search {
   -webkit-appearance: none;
@@ -385,7 +385,7 @@ code {
   font-family: inherit;
   position: relative;
   padding: 5px 5px 5px 29px;
-  background-image: url('/assets/search.svg');
+  background-image: url("/assets/search.svg");
   -webkit-background-size: 16px 16px;
   -moz-background-size: 16px 16px;
   background-size: 16px 16px;
