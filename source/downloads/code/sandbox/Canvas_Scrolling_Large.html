@@ -8,7 +8,6 @@
       body {
         margin: 0;
         padding: 0;
-        overflow: hidden;
         background-color: #f0f0f0;
         height: 100%;
         overflow: auto;
@@ -26,7 +25,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: WIDTH,
-        height: HEIGHT
+        height: HEIGHT,
       });
 
       var layer = new Konva.Layer();
@@ -38,7 +37,7 @@
           y: HEIGHT * Math.random(),
           radius: 50,
           fill: 'red',
-          stroke: 'black'
+          stroke: 'black',
         });
       }
 
