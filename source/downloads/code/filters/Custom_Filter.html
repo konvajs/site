@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Custom Filter Demo</title>
     <style>
@@ -20,14 +20,14 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
       stage.add(layer);
 
       // lets define a custom filter:
-      var OpacityFilter = function(imageData) {
+      var OpacityFilter = function (imageData) {
         // make all pixels opaque 100%
         var nPixels = imageData.data.length;
         for (var i = 3; i < nPixels; i += 4) {
@@ -35,13 +35,13 @@
         }
       };
 
-      Konva.Image.fromURL('/assets/lion.png', function(image) {
+      Konva.Image.fromURL('/assets/lion.png', function (image) {
         layer.add(image);
         image.setAttrs({
           x: 80,
           y: 30,
           borderSize: 5,
-          borderColor: 'red'
+          borderColor: 'red',
         });
 
         image.filters([OpacityFilter]);

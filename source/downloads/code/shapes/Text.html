@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Text Demo</title>
     <style>
@@ -19,7 +19,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: 340,
-        height: 300
+        height: 300,
       });
 
       var layer = new Konva.Layer();
@@ -30,7 +30,7 @@
         text: 'Simple Text',
         fontSize: 30,
         fontFamily: 'Calibri',
-        fill: 'green'
+        fill: 'green',
       });
 
       // to align text in the middle of the screen, we can set the
@@ -49,7 +49,7 @@
         fill: '#555',
         width: 300,
         padding: 20,
-        align: 'center'
+        align: 'center',
       });
 
       var rect = new Konva.Rect({
@@ -65,7 +65,7 @@
         shadowOffsetX: 10,
         shadowOffsetY: 10,
         shadowOpacity: 0.2,
-        cornerRadius: 10
+        cornerRadius: 10,
       });
 
       // add the shapes to the layer

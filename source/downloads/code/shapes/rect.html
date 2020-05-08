@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Rect Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -34,7 +34,7 @@
         height: 50,
         fill: 'green',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
       // add the shape to the layer
       layer.add(rect1);
@@ -46,7 +46,7 @@
         height: 50,
         fill: 'red',
         shadowBlur: 10,
-        cornerRadius: 10
+        cornerRadius: 10,
       });
       layer.add(rect2);
 
@@ -56,7 +56,7 @@
         width: 100,
         height: 100,
         fill: 'blue',
-        cornerRadius: [0, 10, 20, 30]
+        cornerRadius: [0, 10, 20, 30],
       });
       layer.add(rect3);
 

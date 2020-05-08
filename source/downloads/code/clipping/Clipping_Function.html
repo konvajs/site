@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Clipping Function Demo</title>
     <style>
@@ -22,17 +22,17 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
 
       var group = new Konva.Group({
-        clipFunc: function(ctx) {
+        clipFunc: function (ctx) {
           ctx.arc(250, 120, 50, 0, Math.PI * 2, false);
           ctx.arc(150, 120, 60, 0, Math.PI * 2, false);
         },
-        draggable: true
+        draggable: true,
       });
 
       var blueBlob = new Konva.Line({
@@ -41,7 +41,7 @@
         strokeWidth: 10,
         fill: '#aaf',
         tension: 0.8,
-        closed: true
+        closed: true,
       });
 
       var redBlob = new Konva.Line({
@@ -53,7 +53,7 @@
         scale: { x: 0.5, y: 0.5 },
         x: 100,
         y: 50,
-        closed: true
+        closed: true,
       });
 
       group.add(blueBlob);

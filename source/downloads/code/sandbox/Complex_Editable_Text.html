@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Editable Text on html5 canvas Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -35,7 +35,7 @@
         y: 80,
         fontSize: 20,
         draggable: true,
-        width: 200
+        width: 200,
       });
 
       layer.add(textNode);
@@ -44,17 +44,17 @@
         node: textNode,
         enabledAnchors: ['middle-left', 'middle-right'],
         // set minimum width of text
-        boundBoxFunc: function(oldBox, newBox) {
+        boundBoxFunc: function (oldBox, newBox) {
           newBox.width = Math.max(30, newBox.width);
           return newBox;
-        }
+        },
       });
 
-      textNode.on('transform', function() {
+      textNode.on('transform', function () {
         // reset scale, so only with is changing by transformer
         textNode.setAttrs({
           width: textNode.width() * textNode.scaleX(),
-          scaleX: 1
+          scaleX: 1,
         });
       });
 
@@ -81,7 +81,7 @@
         // so position of textarea will be the sum of positions above:
         var areaPosition = {
           x: stageBox.left + textPosition.x,
-          y: stageBox.top + textPosition.y
+          y: stageBox.top + textPosition.y,
         };
 
         // create textarea and style it
@@ -168,7 +168,7 @@
           textarea.style.width = newWidth + 'px';
         }
 
-        textarea.addEventListener('keydown', function(e) {
+        textarea.addEventListener('keydown', function (e) {
           // hide on enter
           // but don't hide on shift + enter
           if (e.keyCode === 13 && !e.shiftKey) {
@@ -181,7 +181,7 @@
           }
         });
 
-        textarea.addEventListener('keydown', function(e) {
+        textarea.addEventListener('keydown', function (e) {
           scale = textNode.getAbsoluteScale().x;
           setTextareaWidth(textNode.width() * scale);
           textarea.style.height = 'auto';

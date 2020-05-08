@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Shape Layering Demo</title>
     <style>
@@ -48,7 +48,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -59,7 +59,7 @@
 
       for (var n = 0; n < 6; n++) {
         // anonymous function to induce scope
-        (function() {
+        (function () {
           var i = n;
           var box = new Konva.Rect({
             x: i * 30 + 210,
@@ -70,13 +70,13 @@
             stroke: 'black',
             strokeWidth: 4,
             draggable: true,
-            name: colors[i]
+            name: colors[i],
           });
 
-          box.on('mouseover', function() {
+          box.on('mouseover', function () {
             document.body.style.cursor = 'pointer';
           });
-          box.on('mouseout', function() {
+          box.on('mouseout', function () {
             document.body.style.cursor = 'default';
           });
           if (colors[i] === 'yellow') {
@@ -91,7 +91,7 @@
       // add button event bindings
       document.getElementById('toTop').addEventListener(
         'click',
-        function() {
+        function () {
           yellowBox.moveToTop();
           layer.draw();
         },
@@ -100,7 +100,7 @@
 
       document.getElementById('toBottom').addEventListener(
         'click',
-        function() {
+        function () {
           yellowBox.moveToBottom();
           layer.draw();
         },
@@ -109,7 +109,7 @@
 
       document.getElementById('up').addEventListener(
         'click',
-        function() {
+        function () {
           yellowBox.moveUp();
           layer.draw();
         },
@@ -118,7 +118,7 @@
 
       document.getElementById('down').addEventListener(
         'click',
-        function() {
+        function () {
           yellowBox.moveDown();
           layer.draw();
         },
@@ -127,7 +127,7 @@
 
       document.getElementById('zIndex').addEventListener(
         'click',
-        function() {
+        function () {
           yellowBox.setZIndex(3);
           layer.draw();
         },

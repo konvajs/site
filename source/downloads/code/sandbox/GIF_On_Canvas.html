@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <script src="https://unpkg.com/gifler@0.1.0/gifler.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva GIF Demo</title>
@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -46,7 +46,7 @@
 
       // draw resulted canvas into the stage as Konva.Image
       var image = new Konva.Image({
-        image: canvas
+        image: canvas,
       });
       layer.add(image);
     </script>

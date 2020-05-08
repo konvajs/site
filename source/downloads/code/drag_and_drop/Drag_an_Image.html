@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Drag and Drop an Image Demo</title>
     <style>
@@ -23,7 +23,7 @@
         var stage = new Konva.Stage({
           container: 'container',
           width: width,
-          height: height
+          height: height,
         });
 
         var layer = new Konva.Layer();
@@ -34,14 +34,14 @@
           y: stage.height() / 2 - 137 / 2,
           width: 200,
           height: 137,
-          draggable: true
+          draggable: true,
         });
 
         // add cursor styling
-        darthVaderImg.on('mouseover', function() {
+        darthVaderImg.on('mouseover', function () {
           document.body.style.cursor = 'pointer';
         });
-        darthVaderImg.on('mouseout', function() {
+        darthVaderImg.on('mouseout', function () {
           document.body.style.cursor = 'default';
         });
 
@@ -49,7 +49,7 @@
         stage.add(layer);
       }
       var imageObj = new Image();
-      imageObj.onload = function() {
+      imageObj.onload = function () {
         drawImage(this);
       };
       imageObj.src = '/assets/darth-vader.jpg';

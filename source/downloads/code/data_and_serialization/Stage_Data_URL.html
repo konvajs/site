@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Stage Data URL Demo</title>
     <style>
@@ -40,7 +40,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -56,14 +56,14 @@
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
-      box.on('mouseover', function() {
+      box.on('mouseover', function () {
         document.body.style.cursor = 'pointer';
       });
 
-      box.on('mouseout', function() {
+      box.on('mouseout', function () {
         document.body.style.cursor = 'default';
       });
 
@@ -83,7 +83,7 @@
 
       document.getElementById('save').addEventListener(
         'click',
-        function() {
+        function () {
           var dataURL = stage.toDataURL();
           downloadURI(dataURL, 'stage.png');
         },

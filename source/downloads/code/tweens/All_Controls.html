@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva All Controls Demo</title>
     <style>
@@ -40,7 +40,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -53,7 +53,7 @@
         fill: 'green',
         stroke: 'black',
         strokeWidth: 2,
-        opacity: 0.2
+        opacity: 0.2,
       });
 
       layer.add(rect);
@@ -73,13 +73,13 @@
         easing: Konva.Easings.Linear,
         fillR: 0,
         fillG: 0,
-        fillB: 255
+        fillB: 255,
       });
 
       // pause tween
       document.getElementById('pause').addEventListener(
         'click',
-        function() {
+        function () {
           tween.pause();
         },
         false
@@ -88,7 +88,7 @@
       // reverse tween
       document.getElementById('reverse').addEventListener(
         'click',
-        function() {
+        function () {
           tween.reverse();
         },
         false
@@ -97,7 +97,7 @@
       // play tween forward
       document.getElementById('play').addEventListener(
         'click',
-        function() {
+        function () {
           tween.play();
         },
         false
@@ -106,7 +106,7 @@
       // reset tween
       document.getElementById('reset').addEventListener(
         'click',
-        function() {
+        function () {
           tween.reset();
         },
         false
@@ -115,7 +115,7 @@
       // force tween to finish
       document.getElementById('finish').addEventListener(
         'click',
-        function() {
+        function () {
           tween.finish();
         },
         false
@@ -124,7 +124,7 @@
       // seek to 3 seconds
       document.getElementById('seek').addEventListener(
         'click',
-        function() {
+        function () {
           tween.seek(3);
         },
         false

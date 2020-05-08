@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Physics Simulator Demo</title>
     <style>
@@ -34,19 +34,19 @@
         if (mag === 0) {
           return {
             x: 0,
-            y: 0
+            y: 0,
           };
         } else {
           return {
             x: a.x / mag,
-            y: a.y / mag
+            y: a.y / mag,
           };
         }
       }
       function add(a, b) {
         return {
           x: a.x + b.x,
-          y: a.y + b.y
+          y: a.y + b.y,
         };
       }
       function angleBetween(a, b) {
@@ -59,13 +59,13 @@
         var ry = a.x * sa + a.y * ca;
         return {
           x: rx * -1,
-          y: ry * -1
+          y: ry * -1,
         };
       }
       function invert(a) {
         return {
           x: a.x * -1,
-          y: a.y * -1
+          y: a.y * -1,
         };
       }
       /*
@@ -77,7 +77,7 @@
         return {
           x: 0,
           y: 0,
-          z: a.x * b.y - b.x * a.y
+          z: a.x * b.y - b.x * a.y,
         };
       }
       function getNormal(curve, ball) {
@@ -110,12 +110,12 @@
         if (totalX === 0 && totalY === 0) {
           normal = {
             x: 0,
-            y: -1
+            y: -1,
           };
         } else {
           normal = {
             x: totalX,
-            y: totalY
+            y: totalY,
           };
         }
 
@@ -186,7 +186,7 @@
             var c = 0.06 * timeDiff;
             ball.velocity = {
               x: c * (mouseX - ball.lastMouseX),
-              y: c * (mouseY - ball.lastMouseY)
+              y: c * (mouseY - ball.lastMouseY),
             };
 
             ball.lastMouseX = mouseX;
@@ -251,7 +251,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var curveLayer = new Konva.Layer();
@@ -260,7 +260,7 @@
       var anim;
 
       var curve = new Konva.Shape({
-        sceneFunc: function(context) {
+        sceneFunc: function (context) {
           context.beginPath();
           context.moveTo(40, height);
           context.bezierCurveTo(
@@ -276,7 +276,7 @@
           context.closePath();
           context.fillShape(this);
         },
-        fill: '#8dbdff'
+        fill: '#8dbdff',
       });
 
       curveLayer.add(curve);
@@ -288,32 +288,32 @@
         radius: radius,
         fill: 'blue',
         draggable: true,
-        opacity: 0.8
+        opacity: 0.8,
       });
 
       // custom property
       ball.velocity = {
         x: 0,
-        y: 0
+        y: 0,
       };
 
-      ball.on('dragstart', function() {
+      ball.on('dragstart', function () {
         ball.velocity = {
           x: 0,
-          y: 0
+          y: 0,
         };
         anim.start();
       });
 
-      ball.on('mousedown', function() {
+      ball.on('mousedown', function () {
         anim.stop();
       });
 
-      ball.on('mouseover', function() {
+      ball.on('mouseover', function () {
         document.body.style.cursor = 'pointer';
       });
 
-      ball.on('mouseout', function() {
+      ball.on('mouseout', function () {
         document.body.style.cursor = 'default';
       });
 
@@ -325,10 +325,10 @@
         node: ball,
         fill: 'red',
         duration: 0.3,
-        easing: Konva.Easings.EaseOut
+        easing: Konva.Easings.EaseOut,
       });
 
-      anim = new Konva.Animation(function(frame) {
+      anim = new Konva.Animation(function (frame) {
         updateBall(frame);
       }, ballLayer);
 

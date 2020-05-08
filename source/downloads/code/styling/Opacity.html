@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Opacity Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
       var layer = new Konva.Layer();
 
@@ -34,15 +34,15 @@
         fill: 'red',
         stroke: 'black',
         strokeWidth: 4,
-        opacity: 0.5
+        opacity: 0.5,
       });
 
-      pentagon.on('mouseover', function() {
+      pentagon.on('mouseover', function () {
         this.opacity(1);
         layer.draw();
       });
 
-      pentagon.on('mouseout', function() {
+      pentagon.on('mouseout', function () {
         this.opacity(0.5);
         layer.draw();
       });

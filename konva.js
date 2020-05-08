@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v5.0.3
+   * Konva JavaScript Framework v6.0.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri May 01 2020
+   * Date: Fri May 08 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '5.0.3',
+      version: '6.0.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -499,7 +499,7 @@
               result.rotation = b > 0 ? Math.acos(a / r) : -Math.acos(a / r);
               result.scaleX = r;
               result.scaleY = delta / r;
-              result.skewX = Math.atan((a * c + b * d) / (r * r));
+              result.skewX = (a * c + b * d) / delta;
               result.skewY = 0;
           }
           else if (c != 0 || d != 0) {
@@ -509,7 +509,7 @@
               result.scaleX = delta / s;
               result.scaleY = s;
               result.skewX = 0;
-              result.skewY = Math.atan((a * c + b * d) / (s * s));
+              result.skewY = (a * c + b * d) / delta;
           }
           result.rotation = Util._getRotation(result.rotation);
           return result;
@@ -2586,7 +2586,7 @@
       'rotationChange.konva',
       'offsetXChange.konva',
       'offsetYChange.konva',
-      'transformsEnabledChange.konva'
+      'transformsEnabledChange.konva',
   ].join(SPACE);
   // TODO: can we remove children from node?
   var emptyChildren = new Collection();
@@ -2769,7 +2769,7 @@
               conf.height === undefined) {
               rect = this.getClientRect({
                   skipTransform: true,
-                  relativeTo: this.getParent()
+                  relativeTo: this.getParent(),
               });
           }
           var width = Math.ceil(conf.width || rect.width), height = Math.ceil(conf.height || rect.height), pixelRatio = conf.pixelRatio, x = conf.x === undefined ? rect.x : conf.x, y = conf.y === undefined ? rect.y : conf.y, offset = conf.offset || 0, drawBorder = conf.drawBorder || false;
@@ -2784,15 +2784,15 @@
           var cachedSceneCanvas = new SceneCanvas({
               pixelRatio: pixelRatio,
               width: width,
-              height: height
+              height: height,
           }), cachedFilterCanvas = new SceneCanvas({
               pixelRatio: pixelRatio,
               width: 0,
-              height: 0
+              height: 0,
           }), cachedHitCanvas = new HitCanvas({
               pixelRatio: 1,
               width: width,
-              height: height
+              height: height,
           }), sceneContext = cachedSceneCanvas.getContext(), hitContext = cachedHitCanvas.getContext();
           cachedHitCanvas.isCache = true;
           this._cache.delete('canvas');
@@ -2831,7 +2831,7 @@
               filter: cachedFilterCanvas,
               hit: cachedHitCanvas,
               x: x,
-              y: y
+              y: y,
           });
           return this;
       };
@@ -2891,7 +2891,7 @@
               { x: rect.x, y: rect.y },
               { x: rect.x + rect.width, y: rect.y },
               { x: rect.x + rect.width, y: rect.y + rect.height },
-              { x: rect.x, y: rect.y + rect.height }
+              { x: rect.x, y: rect.y + rect.height },
           ];
           var minX, minY, maxX, maxY;
           var trans = this.getAbsoluteTransform(top);
@@ -2910,7 +2910,7 @@
               x: minX,
               y: minY,
               width: maxX - minX,
-              height: maxY - minY
+              height: maxY - minY,
           };
       };
       Node.prototype._drawCachedSceneCanvas = function (context) {
@@ -3049,7 +3049,7 @@
               }
               this.eventListeners[baseEvent].push({
                   name: name,
-                  handler: handler
+                  handler: handler,
               });
           }
           return this;
@@ -3106,7 +3106,7 @@
           var e = {
               target: this,
               type: evt.type,
-              evt: evt
+              evt: evt,
           };
           this.fire(evt.type, e);
           return this;
@@ -3457,7 +3457,7 @@
       Node.prototype.getPosition = function () {
           return {
               x: this.x(),
-              y: this.y()
+              y: this.y(),
           };
       };
       Node.prototype.getAbsolutePosition = function (top) {
@@ -3495,7 +3495,7 @@
           it.translate(pos.x, pos.y);
           pos = {
               x: this.attrs.x + it.getTranslation().x,
-              y: this.attrs.y + it.getTranslation().y
+              y: this.attrs.y + it.getTranslation().y,
           };
           this._setTransform(origTrans);
           this.setPosition({ x: pos.x, y: pos.y });
@@ -3519,7 +3519,7 @@
               offsetX: this.offsetX(),
               offsetY: this.offsetY(),
               skewX: this.skewX(),
-              skewY: this.skewY()
+              skewY: this.skewY(),
           };
           this.attrs.x = 0;
           this.attrs.y = 0;
@@ -3994,7 +3994,7 @@
           var attrs = transform.decompose();
           return {
               x: attrs.scaleX,
-              y: attrs.scaleY
+              y: attrs.scaleY,
           };
       };
       /**
@@ -4097,7 +4097,7 @@
           var stage = this.getStage(), x = config.x !== undefined ? config.x : box.x, y = config.y !== undefined ? config.y : box.y, pixelRatio = config.pixelRatio || 1, canvas = new SceneCanvas({
               width: config.width || box.width || (stage ? stage.width() : 0),
               height: config.height || box.height || (stage ? stage.height() : 0),
-              pixelRatio: pixelRatio
+              pixelRatio: pixelRatio,
           }), context = canvas.getContext();
           context.save();
           if (x || y) {
@@ -4204,7 +4204,7 @@
       Node.prototype.getSize = function () {
           return {
               width: this.width(),
-              height: this.height()
+              height: this.height(),
           };
       };
       /**
@@ -4261,7 +4261,7 @@
       Node.prototype._fireChangeEvent = function (attr, oldVal, newVal) {
           this._fire(attr + CHANGE, {
               oldVal: oldVal,
-              newVal: newVal
+              newVal: newVal,
           });
       };
       Node.prototype.setId = function (id) {
@@ -4467,10 +4467,10 @@
               startPointerPos: pos,
               offset: {
                   x: pos.x - ap.x,
-                  y: pos.y - ap.y
+                  y: pos.y - ap.y,
               },
               dragStatus: 'ready',
-              pointerId: pointerId
+              pointerId: pointerId,
           });
       };
       /**
@@ -4487,7 +4487,7 @@
           this.fire('dragstart', {
               type: 'dragstart',
               target: this,
-              evt: evt && evt.evt
+              evt: evt && evt.evt,
           }, true);
       };
       Node.prototype._setDragPosition = function (evt, elem) {
@@ -4499,7 +4499,7 @@
           }
           var newNodePos = {
               x: pos.x - elem.offset.x,
-              y: pos.y - elem.offset.y
+              y: pos.y - elem.offset.y,
           };
           var dbf = this.dragBoundFunc();
           if (dbf !== undefined) {
@@ -5163,7 +5163,7 @@
   Factory.backCompat(Node, {
       rotateDeg: 'rotate',
       setRotationDeg: 'setRotation',
-      getRotationDeg: 'getRotation'
+      getRotationDeg: 'getRotation',
   });
   Collection.mapMethods(Node);
 
@@ -6127,8 +6127,9 @@
           this._fire(MOUSEOVER, { evt: evt, target: this, currentTarget: this });
       };
       Stage.prototype._mouseout = function (evt) {
+          var _a;
           this.setPointersPositions(evt);
-          var targetShape = this.targetShape;
+          var targetShape = ((_a = this.targetShape) === null || _a === void 0 ? void 0 : _a.getStage()) ? this.targetShape : null;
           var eventsEnabled = !DD.isDragging || Konva.hitOnDragEnabled;
           if (targetShape && eventsEnabled) {
               targetShape._fireAndBubble(MOUSEOUT, { evt: evt });
@@ -6153,6 +6154,7 @@
           this._fire(CONTENT_MOUSEOUT, { evt: evt });
       };
       Stage.prototype._mousemove = function (evt) {
+          var _a;
           // workaround for mobile IE to force touch event when unhandled pointer event elevates into a mouse event
           if (Konva.UA.ieMobile) {
               return this._touchmove(evt);
@@ -6160,18 +6162,19 @@
           this.setPointersPositions(evt);
           var pointerId = Util._getFirstPointerId(evt);
           var shape;
+          var targetShape = ((_a = this.targetShape) === null || _a === void 0 ? void 0 : _a.getStage()) ? this.targetShape : null;
           var eventsEnabled = !DD.isDragging || Konva.hitOnDragEnabled;
           if (eventsEnabled) {
               shape = this.getIntersection(this.getPointerPosition());
               if (shape && shape.isListening()) {
-                  var differentTarget = !this.targetShape || this.targetShape !== shape;
+                  var differentTarget = targetShape !== shape;
                   if (eventsEnabled && differentTarget) {
-                      if (this.targetShape) {
-                          this.targetShape._fireAndBubble(MOUSEOUT, { evt: evt, pointerId: pointerId }, shape);
-                          this.targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt, pointerId: pointerId }, shape);
+                      if (targetShape) {
+                          targetShape._fireAndBubble(MOUSEOUT, { evt: evt, pointerId: pointerId }, shape);
+                          targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt, pointerId: pointerId }, shape);
                       }
-                      shape._fireAndBubble(MOUSEOVER, { evt: evt, pointerId: pointerId }, this.targetShape);
-                      shape._fireAndBubble(MOUSEENTER$1, { evt: evt, pointerId: pointerId }, this.targetShape);
+                      shape._fireAndBubble(MOUSEOVER, { evt: evt, pointerId: pointerId }, targetShape);
+                      shape._fireAndBubble(MOUSEENTER$1, { evt: evt, pointerId: pointerId }, targetShape);
                       shape._fireAndBubble(MOUSEMOVE, { evt: evt, pointerId: pointerId });
                       this.targetShape = shape;
                   }
@@ -6184,9 +6187,9 @@
                    * if no shape was detected, clear target shape and try
                    * to run mouseout from previous target shape
                    */
-                  if (this.targetShape && eventsEnabled) {
-                      this.targetShape._fireAndBubble(MOUSEOUT, { evt: evt, pointerId: pointerId });
-                      this.targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt, pointerId: pointerId });
+                  if (targetShape && eventsEnabled) {
+                      targetShape._fireAndBubble(MOUSEOUT, { evt: evt, pointerId: pointerId });
+                      targetShape._fireAndBubble(MOUSELEAVE$1, { evt: evt, pointerId: pointerId });
                       this._fire(MOUSEOVER, {
                           evt: evt,
                           target: this,
@@ -11073,12 +11076,12 @@
       Image.prototype.getWidth = function () {
           var _a;
           var image = this.image();
-          return _a = this.attrs.width, (_a !== null && _a !== void 0 ? _a : (image ? image.width : 0));
+          return (_a = this.attrs.width) !== null && _a !== void 0 ? _a : (image ? image.width : 0);
       };
       Image.prototype.getHeight = function () {
           var _a;
           var image = this.image();
-          return _a = this.attrs.height, (_a !== null && _a !== void 0 ? _a : (image ? image.height : 0));
+          return (_a = this.attrs.height) !== null && _a !== void 0 ? _a : (image ? image.height : 0);
       };
       /**
        * load image from given url and create `Konva.Image` instance
@@ -14607,7 +14610,7 @@
    */
   Factory.addGetterSetter(TextPath, 'letterSpacing', 0, getNumberValidator());
   /**
-   * get/set text baselineg.  The default is 'middle'. Can be 'top', 'bottom', 'middle', 'alphabetic', 'hanging'
+   * get/set text baseline.  The default is 'middle'. Can be 'top', 'bottom', 'middle', 'alphabetic', 'hanging'
    * @name Konva.TextPath#textBaseline
    * @method
    * @param {String} textBaseline
@@ -14695,7 +14698,7 @@
       'anchorStrokeWidthChange',
       'anchorFillChange',
       'anchorCornerRadiusChange',
-      'ignoreStrokeChange'
+      'ignoreStrokeChange',
   ]
       .map(function (e) { return e + ("." + EVENTS_NAME); })
       .join(' ');
@@ -14711,7 +14714,7 @@
       'offsetXChange',
       'offsetYChange',
       'transformsEnabledChange',
-      'strokeWidthChange'
+      'strokeWidthChange',
   ]
       .map(function (e) { return e + ("." + EVENTS_NAME); })
       .join(' ');
@@ -14723,7 +14726,7 @@
       'middle-left': 90,
       'bottom-left': -135,
       'bottom-center': 180,
-      'bottom-right': 135
+      'bottom-right': 135,
   };
   var TOUCH_DEVICE = 'ontouchstart' in Konva._global;
   function getCursor(anchorName, rad) {
@@ -14778,7 +14781,7 @@
       'middle-left',
       'bottom-left',
       'bottom-center',
-      'bottom-right'
+      'bottom-right',
   ];
   var MAX_SAFE_INTEGER = 100000000;
   function getCenter(shape) {
@@ -14788,7 +14791,7 @@
               (shape.height / 2) * Math.sin(-shape.rotation),
           y: shape.y +
               (shape.height / 2) * Math.cos(shape.rotation) +
-              (shape.width / 2) * Math.sin(shape.rotation)
+              (shape.width / 2) * Math.sin(shape.rotation),
       };
   }
   function rotateAroundPoint(shape, angleRad, point) {
@@ -14804,78 +14807,6 @@
   function rotateAroundCenter(shape, deltaRad) {
       var center = getCenter(shape);
       return rotateAroundPoint(shape, deltaRad, center);
-  }
-  function getShapeRect(shape) {
-      var angleRad = shape.rotation;
-      var x1 = shape.x;
-      var y1 = shape.y;
-      var x2 = x1 + shape.width * Math.cos(angleRad);
-      var y2 = y1 + shape.width * Math.sin(angleRad);
-      var x3 = shape.x +
-          shape.width * Math.cos(angleRad) +
-          shape.height * Math.sin(-angleRad);
-      var y3 = shape.y +
-          shape.height * Math.cos(angleRad) +
-          shape.width * Math.sin(angleRad);
-      var x4 = shape.x + shape.height * Math.sin(-angleRad);
-      var y4 = shape.y + shape.height * Math.cos(angleRad);
-      var leftX = Math.min(x1, x2, x3, x4);
-      var rightX = Math.max(x1, x2, x3, x4);
-      var topY = Math.min(y1, y2, y3, y4);
-      var bottomY = Math.max(y1, y2, y3, y4);
-      return {
-          x: leftX,
-          y: topY,
-          width: rightX - leftX,
-          height: bottomY - topY
-      };
-  }
-  function getShapesRect(shapes) {
-      var x1 = 9999999999;
-      var y1 = 9999999999;
-      var x2 = -999999999;
-      var y2 = -999999999;
-      shapes.forEach(function (shape) {
-          var rect = getShapeRect(shape);
-          x1 = Math.min(x1, rect.x);
-          y1 = Math.min(y1, rect.y);
-          x2 = Math.max(x2, rect.x + rect.width);
-          y2 = Math.max(y2, rect.y + rect.height);
-      });
-      return {
-          x: x1,
-          y: y1,
-          width: x2 - x1,
-          height: y2 - y1,
-          rotation: 0
-      };
-  }
-  function transformShape(shape, oldSelection, newSelection, keepOffset) {
-      if (keepOffset === void 0) { keepOffset = 1; }
-      var offset = rotateAroundPoint(shape, -oldSelection.rotation, {
-          x: oldSelection.x,
-          y: oldSelection.y
-      });
-      var offsetX = offset.x - oldSelection.x;
-      var offsetY = offset.y - oldSelection.y;
-      var angle = oldSelection.rotation;
-      var scaleX = shape.width ? newSelection.width / oldSelection.width : 1;
-      var scaleY = shape.height ? newSelection.height / oldSelection.height : 1;
-      return {
-          x: keepOffset * newSelection.x +
-              offsetX * scaleX * Math.cos(angle) +
-              offsetY * scaleY * Math.sin(-angle),
-          y: keepOffset * newSelection.y +
-              offsetX * scaleX * Math.sin(angle) +
-              offsetY * scaleY * Math.cos(angle),
-          width: shape.width * scaleX,
-          height: shape.height * scaleY,
-          rotation: shape.rotation
-      };
-  }
-  function transformAndRotateShape(shape, oldSelection, newSelection) {
-      var updated = transformShape(shape, oldSelection, newSelection);
-      return rotateAroundPoint(updated, newSelection.rotation - oldSelection.rotation, newSelection);
   }
   function getSnap(snaps, newRotationRad, tol) {
       var snapped = newRotationRad;
@@ -15024,7 +14955,7 @@
                   var otherAbs = otherNode.getAbsolutePosition();
                   otherNode.setAbsolutePosition({
                       x: otherAbs.x + dx,
-                      y: otherAbs.y + dy
+                      y: otherAbs.y + dy,
                   });
                   otherNode.startDrag();
               });
@@ -15071,12 +15002,13 @@
       Transformer.prototype._getNodeRect = function () {
           return this._getCache(NODES_RECT, this.__getNodeRect);
       };
+      // return absolute rotated bounding rectangle
       Transformer.prototype.__getNodeShape = function (node, rot, relative) {
           if (rot === void 0) { rot = this.rotation(); }
           var rect = node.getClientRect({
               skipTransform: true,
               skipShadow: true,
-              skipStroke: this.ignoreStroke()
+              skipStroke: this.ignoreStroke(),
           });
           var absScale = node.getAbsoluteScale(relative);
           var absPos = node.getAbsolutePosition(relative);
@@ -15089,11 +15021,11 @@
               y: absPos.y + dy * Math.cos(rotation) + dx * Math.sin(rotation),
               width: rect.width * absScale.x,
               height: rect.height * absScale.y,
-              rotation: rotation
+              rotation: rotation,
           };
           return rotateAroundPoint(box, -Konva.getAngle(rot), {
               x: 0,
-              y: 0
+              y: 0,
           });
       };
       // returns box + rotation of all shapes
@@ -15106,17 +15038,59 @@
                   y: -MAX_SAFE_INTEGER,
                   width: 0,
                   height: 0,
-                  rotation: 0
+                  rotation: 0,
               };
           }
-          var shapes = this.nodes().map(function (node) {
-              return _this.__getNodeShape(node);
+          var totalPoints = [];
+          this.nodes().map(function (node) {
+              var box = node.getClientRect({
+                  skipTransform: true,
+                  skipShadow: true,
+                  skipStroke: _this.ignoreStroke(),
+              });
+              var points = [
+                  { x: box.x, y: box.y },
+                  { x: box.x + box.width, y: box.y },
+                  { x: box.x + box.width, y: box.y + box.height },
+                  { x: box.x, y: box.y + box.height },
+              ];
+              var trans = node.getAbsoluteTransform();
+              points.forEach(function (point) {
+                  var transformed = trans.point(point);
+                  totalPoints.push(transformed);
+              });
           });
-          var box = getShapesRect(shapes);
-          return rotateAroundPoint(box, Konva.getAngle(this.rotation()), {
-              x: 0,
-              y: 0
+          var tr = new Transform();
+          tr.rotate(-Konva.getAngle(this.rotation()));
+          var minX, minY, maxX, maxY;
+          totalPoints.forEach(function (point) {
+              var transformed = tr.point(point);
+              if (minX === undefined) {
+                  minX = maxX = transformed.x;
+                  minY = maxY = transformed.y;
+              }
+              minX = Math.min(minX, transformed.x);
+              minY = Math.min(minY, transformed.y);
+              maxX = Math.max(maxX, transformed.x);
+              maxY = Math.max(maxY, transformed.y);
           });
+          tr.invert();
+          var p = tr.point({ x: minX, y: minY });
+          return {
+              x: p.x,
+              y: p.y,
+              width: maxX - minX,
+              height: maxY - minY,
+              rotation: Konva.getAngle(this.rotation()),
+          };
+          // const shapes = this.nodes().map(node => {
+          //   return this.__getNodeShape(node);
+          // });
+          // const box = getShapesRect(shapes);
+          // return rotateAroundPoint(box, Konva.getAngle(this.rotation()), {
+          //   x: 0,
+          //   y: 0
+          // });
       };
       Transformer.prototype.getX = function () {
           return this._getNodeRect().x;
@@ -15148,7 +15122,7 @@
               // make it draggable,
               // so activating the anchror will not start drag&drop of any parent
               draggable: true,
-              hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto'
+              hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto',
           });
           var self = this;
           anchor.on('mousedown touchstart', function (e) {
@@ -15169,9 +15143,6 @@
               _this._cursorChange = true;
           });
           anchor.on('mouseout', function () {
-              if (!anchor.getStage() || !anchor.getParent()) {
-                  return;
-              }
               anchor.getStage().content.style.cursor = '';
               _this._cursorChange = false;
           });
@@ -15203,7 +15174,7 @@
                   ctx.beginPath();
                   ctx.rect(-padding, -padding, shape.width() + padding * 2, shape.height() + padding * 2);
                   ctx.fillStrokeShape(shape);
-              }
+              },
           });
           this.add(back);
           this._proxyDrag(back);
@@ -15226,7 +15197,7 @@
           var pos = e.target.getStage().getPointerPosition();
           this._anchorDragOffset = {
               x: pos.x - ap.x,
-              y: pos.y - ap.y
+              y: pos.y - ap.y,
           };
           this._fire('transformstart', { evt: e, target: this.getNode() });
           this.getNode()._fire('transformstart', { evt: e, target: this.getNode() });
@@ -15239,7 +15210,7 @@
           var pp = stage.getPointerPosition();
           var newNodePos = {
               x: pp.x - this._anchorDragOffset.x,
-              y: pp.y - this._anchorDragOffset.y
+              y: pp.y - this._anchorDragOffset.y,
           };
           var oldAbs = anchorNode.getAbsolutePosition();
           anchorNode.setAbsolutePosition(newNodePos);
@@ -15273,11 +15244,11 @@
                   var comparePoint = centeredScaling
                       ? {
                           x: this.width() / 2,
-                          y: this.height() / 2
+                          y: this.height() / 2,
                       }
                       : {
                           x: this.findOne('.bottom-right').x(),
-                          y: this.findOne('.bottom-right').y()
+                          y: this.findOne('.bottom-right').y(),
                       };
                   newHypotenuse = Math.sqrt(Math.pow(comparePoint.x - anchorNode.x(), 2) +
                       Math.pow(comparePoint.y - anchorNode.y(), 2));
@@ -15297,11 +15268,11 @@
                   var comparePoint = centeredScaling
                       ? {
                           x: this.width() / 2,
-                          y: this.height() / 2
+                          y: this.height() / 2,
                       }
                       : {
                           x: this.findOne('.bottom-left').x(),
-                          y: this.findOne('.bottom-left').y()
+                          y: this.findOne('.bottom-left').y(),
                       };
                   newHypotenuse = Math.sqrt(Math.pow(anchorNode.x() - comparePoint.x, 2) +
                       Math.pow(comparePoint.y - anchorNode.y(), 2));
@@ -15327,11 +15298,11 @@
                   var comparePoint = centeredScaling
                       ? {
                           x: this.width() / 2,
-                          y: this.height() / 2
+                          y: this.height() / 2,
                       }
                       : {
                           x: this.findOne('.top-right').x(),
-                          y: this.findOne('.top-right').y()
+                          y: this.findOne('.top-right').y(),
                       };
                   newHypotenuse = Math.sqrt(Math.pow(comparePoint.x - anchorNode.x(), 2) +
                       Math.pow(anchorNode.y() - comparePoint.y, 2));
@@ -15354,11 +15325,11 @@
                   var comparePoint = centeredScaling
                       ? {
                           x: this.width() / 2,
-                          y: this.height() / 2
+                          y: this.height() / 2,
                       }
                       : {
                           x: this.findOne('.top-left').x(),
-                          y: this.findOne('.top-left').y()
+                          y: this.findOne('.top-left').y(),
                       };
                   newHypotenuse = Math.sqrt(Math.pow(anchorNode.x() - comparePoint.x, 2) +
                       Math.pow(anchorNode.y() - comparePoint.y, 2));
@@ -15384,11 +15355,11 @@
               var bottomOffsetY = this.getHeight() - bottomRight.y();
               bottomRight.move({
                   x: -topOffsetX,
-                  y: -topOffsetY
+                  y: -topOffsetY,
               });
               topLeft.move({
                   x: bottomOffsetX,
-                  y: bottomOffsetY
+                  y: bottomOffsetY,
               });
           }
           var absPos = this.findOne('.top-left').getAbsolutePosition();
@@ -15401,7 +15372,7 @@
               y: y,
               width: width,
               height: height,
-              rotation: Konva.getAngle(this.rotation())
+              rotation: Konva.getAngle(this.rotation()),
           }, e);
       };
       Transformer.prototype._handleMouseUp = function (e) {
@@ -15444,7 +15415,7 @@
               this._movingAnchorName.indexOf('left') >= 0) {
               var offset = t.point({
                   x: -this.padding() * 2,
-                  y: 0
+                  y: 0,
               });
               newAttrs.x += offset.x;
               newAttrs.y += offset.y;
@@ -15458,7 +15429,7 @@
               this._movingAnchorName.indexOf('right') >= 0) {
               var offset = t.point({
                   x: this.padding() * 2,
-                  y: 0
+                  y: 0,
               });
               this._movingAnchorName = this._movingAnchorName.replace('right', 'left');
               this._anchorDragOffset.x -= offset.x;
@@ -15470,7 +15441,7 @@
               this._movingAnchorName.indexOf('top') >= 0) {
               var offset = t.point({
                   x: 0,
-                  y: -this.padding() * 2
+                  y: -this.padding() * 2,
               });
               newAttrs.x += offset.x;
               newAttrs.y += offset.y;
@@ -15484,52 +15455,15 @@
               this._movingAnchorName.indexOf('bottom') >= 0) {
               var offset = t.point({
                   x: 0,
-                  y: this.padding() * 2
+                  y: this.padding() * 2,
               });
               this._movingAnchorName = this._movingAnchorName.replace('bottom', 'top');
               this._anchorDragOffset.x -= offset.x;
               this._anchorDragOffset.y -= offset.y;
               newAttrs.height += this.padding() * 2;
           }
-          // let's find delta transform
-          // var dx = newAttrs.x - oldAttrs.x,
-          //   dy = newAttrs.y - oldAttrs.y,
-          //   angle = newAttrs.rotation - oldAttrs.rotation,
-          //   scaleX = newAttrs.width / oldAttrs.width,
-          //   scaleY = newAttrs.height / oldAttrs.height;
-          this._nodes.forEach(function (node) {
-              var oldRect = _this.__getNodeShape(node, 0);
-              var newRect = transformAndRotateShape(oldRect, oldAttrs, newAttrs);
-              _this._fitNodeInto(node, newRect, evt);
-          });
-          this.rotation(Util._getRotation(newAttrs.rotation));
-          this._resetTransformCache();
-          this.update();
-          this.getLayer().batchDraw();
-      };
-      Transformer.prototype._fitNodeInto = function (node, newAttrs, evt) {
-          var pure = node.getClientRect({
-              skipTransform: true,
-              skipShadow: true,
-              skipStroke: this.ignoreStroke()
-          });
-          var parentTransform = node
-              .getParent()
-              .getAbsoluteTransform()
-              .copy();
-          parentTransform.invert();
-          var invertedPoint = parentTransform.point({
-              x: newAttrs.x,
-              y: newAttrs.y
-          });
-          var absScale = node.getParent().getAbsoluteScale();
-          newAttrs.x = invertedPoint.x;
-          newAttrs.y = invertedPoint.y;
-          newAttrs.width /= absScale.x;
-          newAttrs.height /= absScale.y;
           if (this.boundBoxFunc()) {
-              var oldAttrs = this.__getNodeShape(node, node.rotation(), node.getParent());
-              var bounded = this.boundBoxFunc()(oldAttrs, newAttrs, node);
+              var bounded = this.boundBoxFunc()(oldAttrs, newAttrs);
               if (bounded) {
                   newAttrs = bounded;
               }
@@ -15537,22 +15471,53 @@
                   Util.warn('boundBoxFunc returned falsy. You should return new bound rect from it!');
               }
           }
-          var parentRot = Konva.getAngle(node.getParent().getAbsoluteRotation());
-          node.rotation(Util._getRotation(newAttrs.rotation - parentRot));
-          var absScale = node.getParent().getAbsoluteScale();
-          var scaleX = pure.width ? newAttrs.width / pure.width : 1;
-          var scaleY = pure.height ? newAttrs.height / pure.height : 1;
-          var rotation = Konva.getAngle(node.rotation());
-          var dx = pure.x * scaleX - node.offsetX() * scaleX;
-          var dy = pure.y * scaleY - node.offsetY() * scaleY;
-          node.setAttrs({
-              scaleX: scaleX,
-              scaleY: scaleY,
-              x: newAttrs.x - (dx * Math.cos(rotation) + dy * Math.sin(-rotation)),
-              y: newAttrs.y - (dy * Math.cos(rotation) + dx * Math.sin(rotation))
+          // base size value doesn't really matter
+          // we just need to think about bounding boxes as transforms
+          // but how?
+          // the idea is that we have a transformed rectangle with the size of "baseSize"
+          var baseSize = 10000000;
+          var oldTr = new Transform();
+          oldTr.translate(oldAttrs.x, oldAttrs.y);
+          oldTr.rotate(oldAttrs.rotation);
+          oldTr.scale(oldAttrs.width / baseSize, oldAttrs.height / baseSize);
+          var newTr = new Transform();
+          newTr.translate(newAttrs.x, newAttrs.y);
+          newTr.rotate(newAttrs.rotation);
+          newTr.scale(newAttrs.width / baseSize, newAttrs.height / baseSize);
+          // now lets think we had [old transform] and now we have [new transform]
+          // Now, the questions is: how can we transform "parent" to go from [old transform] into [new transform]
+          // in equation it will be:
+          // [delta transform] * [old transform] = [new transform]
+          // that means that
+          // [delta transform] = [new transform] * [old transform inverted]
+          var delta = newTr.multiply(oldTr.invert());
+          this._nodes.forEach(function (node) {
+              // for each node we have the same [delta transform]
+              // the equations is
+              // [delta transform] * [parent transform] * [old local transform] = [parent transform] * [new local transform]
+              // and we need to find [new local transform]
+              // [new local] = [parent inverted] * [delta] * [parent] * [old local]
+              var parentTransform = node.getParent().getAbsoluteTransform();
+              var localTransform = node.getTransform().copy();
+              // skip offset:
+              localTransform.translate(node.offsetX(), node.offsetY());
+              var newLocalTransform = new Transform();
+              newLocalTransform
+                  .multiply(parentTransform.copy().invert())
+                  .multiply(delta)
+                  .multiply(parentTransform)
+                  .multiply(localTransform);
+              var attrs = newLocalTransform.decompose();
+              node._batchTransformChanges(function () {
+                  node.setAttrs(attrs);
+              });
+              _this._fire('transform', { evt: evt, target: node });
+              node._fire('transform', { evt: evt, target: node });
           });
-          this._fire('transform', { evt: evt, target: node });
-          node._fire('transform', { evt: evt, target: node });
+          this.rotation(Util._getRotation(newAttrs.rotation));
+          this._resetTransformCache();
+          this.update();
+          this.getLayer().batchDraw();
       };
       /**
        * force update of Konva.Transformer.
@@ -15563,6 +15528,12 @@
       Transformer.prototype.forceUpdate = function () {
           this._resetTransformCache();
           this.update();
+      };
+      Transformer.prototype._batchChangeChild = function (selector, attrs) {
+          var anchor = this.findOne(selector);
+          anchor._batchTransformChanges(function () {
+              anchor.setAttrs(attrs);
+          });
       };
       Transformer.prototype.update = function () {
           var _this = this;
@@ -15575,75 +15546,77 @@
           var padding = this.padding();
           var anchorSize = this.anchorSize();
           this.find('._anchor').each(function (node) {
-              return node.setAttrs({
-                  width: anchorSize,
-                  height: anchorSize,
-                  offsetX: anchorSize / 2,
-                  offsetY: anchorSize / 2,
-                  stroke: _this.anchorStroke(),
-                  strokeWidth: _this.anchorStrokeWidth(),
-                  fill: _this.anchorFill(),
-                  cornerRadius: _this.anchorCornerRadius()
+              node._batchTransformChanges(function () {
+                  node.setAttrs({
+                      width: anchorSize,
+                      height: anchorSize,
+                      offsetX: anchorSize / 2,
+                      offsetY: anchorSize / 2,
+                      stroke: _this.anchorStroke(),
+                      strokeWidth: _this.anchorStrokeWidth(),
+                      fill: _this.anchorFill(),
+                      cornerRadius: _this.anchorCornerRadius(),
+                  });
               });
           });
-          this.findOne('.top-left').setAttrs({
+          this._batchChangeChild('.top-left', {
               x: 0,
               y: 0,
               offsetX: anchorSize / 2 + padding,
               offsetY: anchorSize / 2 + padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('top-left') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('top-left') >= 0,
           });
-          this.findOne('.top-center').setAttrs({
+          this._batchChangeChild('.top-center', {
               x: width / 2,
               y: 0,
               offsetY: anchorSize / 2 + padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('top-center') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('top-center') >= 0,
           });
-          this.findOne('.top-right').setAttrs({
+          this._batchChangeChild('.top-right', {
               x: width,
               y: 0,
               offsetX: anchorSize / 2 - padding,
               offsetY: anchorSize / 2 + padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('top-right') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('top-right') >= 0,
           });
-          this.findOne('.middle-left').setAttrs({
+          this._batchChangeChild('.middle-left', {
               x: 0,
               y: height / 2,
               offsetX: anchorSize / 2 + padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('middle-left') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('middle-left') >= 0,
           });
-          this.findOne('.middle-right').setAttrs({
+          this._batchChangeChild('.middle-right', {
               x: width,
               y: height / 2,
               offsetX: anchorSize / 2 - padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('middle-right') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('middle-right') >= 0,
           });
-          this.findOne('.bottom-left').setAttrs({
+          this._batchChangeChild('.bottom-left', {
               x: 0,
               y: height,
               offsetX: anchorSize / 2 + padding,
               offsetY: anchorSize / 2 - padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('bottom-left') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('bottom-left') >= 0,
           });
-          this.findOne('.bottom-center').setAttrs({
+          this._batchChangeChild('.bottom-center', {
               x: width / 2,
               y: height,
               offsetY: anchorSize / 2 - padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('bottom-center') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('bottom-center') >= 0,
           });
-          this.findOne('.bottom-right').setAttrs({
+          this._batchChangeChild('.bottom-right', {
               x: width,
               y: height,
               offsetX: anchorSize / 2 - padding,
               offsetY: anchorSize / 2 - padding,
-              visible: resizeEnabled && enabledAnchors.indexOf('bottom-right') >= 0
+              visible: resizeEnabled && enabledAnchors.indexOf('bottom-right') >= 0,
           });
-          this.findOne('.rotater').setAttrs({
+          this._batchChangeChild('.rotater', {
               x: width / 2,
               y: -this.rotateAnchorOffset() * Util._sign(height) - padding,
-              visible: this.rotateEnabled()
+              visible: this.rotateEnabled(),
           });
-          this.findOne('.back').setAttrs({
+          this._batchChangeChild('.back', {
               width: width,
               height: height,
               visible: this.borderEnabled(),
@@ -15651,7 +15624,7 @@
               strokeWidth: this.borderStrokeWidth(),
               dash: this.borderDash(),
               x: 0,
-              y: 0
+              y: 0,
           });
       };
       /**
@@ -16012,7 +15985,7 @@
    */
   Factory.addGetterSetter(Transformer, 'nodes');
   /**
-   * get/set bounding box function. boundBondFunc operates is local coordinates of nodes parent
+   * get/set bounding box function. **IMPORTANT!** boundBondFunc operates in absolute coordinates.
    * @name Konva.Transformer#boundBoxFunc
    * @method
    * @param {Function} func
@@ -16022,8 +15995,8 @@
    * var boundBoxFunc = transformer.boundBoxFunc();
    *
    * // set
-   * transformer.boundBoxFunc(function(oldBox, newBox, node) {
-   *   // width and height of the boxes are corresponding to total width and height of a node
+   * transformer.boundBoxFunc(function(oldBox, newBox) {
+   *   // width and height of the boxes are corresponding to total absolute width and height of all nodes combined
    *   // so it includes scale of the node.
    *   if (newBox.width > 200) {
    *     return oldBox;
@@ -16036,7 +16009,7 @@
   Factory.backCompat(Transformer, {
       lineEnabled: 'borderEnabled',
       rotateHandlerOffset: 'rotateAnchorOffset',
-      enabledHandlers: 'enabledAnchors'
+      enabledHandlers: 'enabledAnchors',
   });
   Collection.mapMethods(Transformer);
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Shape Events Demo</title>
     <style>
@@ -25,7 +25,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -37,7 +37,7 @@
         radius: 80,
         fill: '#00D2FF',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
       var text = new Konva.Text({
@@ -46,14 +46,14 @@
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
-        fill: 'black'
+        fill: 'black',
       });
 
-      triangle.on('mouseout', function() {
+      triangle.on('mouseout', function () {
         writeMessage('Mouseout triangle');
       });
 
-      triangle.on('mousemove', function() {
+      triangle.on('mousemove', function () {
         var mousePos = stage.getPointerPosition();
         var x = mousePos.x - 190;
         var y = mousePos.y - 40;
@@ -66,19 +66,19 @@
         radius: 60,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
-      circle.on('mouseover', function() {
+      circle.on('mouseover', function () {
         writeMessage('Mouseover circle');
       });
-      circle.on('mouseout', function() {
+      circle.on('mouseout', function () {
         writeMessage('Mouseout circle');
       });
-      circle.on('mousedown', function() {
+      circle.on('mousedown', function () {
         writeMessage('Mousedown circle');
       });
-      circle.on('mouseup', function() {
+      circle.on('mouseup', function () {
         writeMessage('Mouseup circle');
       });
 

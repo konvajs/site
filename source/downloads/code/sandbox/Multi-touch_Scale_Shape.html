@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Multi-touch Scale Shape Demo</title>
     <style>
@@ -16,7 +16,6 @@
   <body>
     <div id="container"></div>
     <script>
-
       // by default Konva prevent some events when node is dragging
       // it improve the performance and work well for 95% of cases
       // we need to enable all events on Konva, even when we are dragging a node
@@ -43,8 +42,8 @@
         y: height / 2,
         offset: {
           x: width / 2,
-          y: height / 2
-        }
+          y: height / 2,
+        },
       });
 
       var layer = new Konva.Layer();
@@ -58,7 +57,7 @@
         stroke: 'black',
         strokeWidth: 4,
         draggable: true,
-        name: 'triangle'
+        name: 'triangle',
       });
 
       var circle = new Konva.Circle({
@@ -69,10 +68,10 @@
         stroke: 'black',
         strokeWidth: 4,
         draggable: true,
-        name: 'circle'
+        name: 'circle',
       });
 
-      stage.on('tap', function(evt) {
+      stage.on('tap', function (evt) {
         // set active shape
         var shape = evt.target;
         activeShape =
@@ -89,7 +88,7 @@
           stroke:
             activeShape && activeShape.getName() === triangle.getName()
               ? 'blue'
-              : 'black'
+              : 'black',
         });
 
         circle.setAttrs({
@@ -100,7 +99,7 @@
           stroke:
             activeShape && activeShape.getName() === circle.getName()
               ? 'blue'
-              : 'black'
+              : 'black',
         });
 
         layer.draw();
@@ -108,7 +107,7 @@
 
       stage.getContent().addEventListener(
         'touchmove',
-        function(evt) {
+        function (evt) {
           var touch1 = evt.touches[0];
           var touch2 = evt.touches[1];
 
@@ -116,11 +115,11 @@
             var dist = getDistance(
               {
                 x: touch1.clientX,
-                y: touch1.clientY
+                y: touch1.clientY,
               },
               {
                 x: touch2.clientX,
-                y: touch2.clientY
+                y: touch2.clientY,
               }
             );
 
@@ -141,7 +140,7 @@
 
       stage.getContent().addEventListener(
         'touchend',
-        function() {
+        function () {
           lastDist = 0;
         },
         false

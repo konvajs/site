@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva All Easings Demo</title>
     <style>
@@ -35,7 +35,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -56,7 +56,7 @@
         { name: 'BounceEaseInOut', color: 'blue' },
         { name: 'StrongEaseIn', color: 'green' },
         { name: 'StrongEaseOut', color: 'green' },
-        { name: 'StrongEaseInOut', color: 'green' }
+        { name: 'StrongEaseInOut', color: 'green' },
       ];
 
       var tweens = [];
@@ -71,7 +71,7 @@
           text: num + ') ' + ease.name,
           fontSize: 18,
           fontFamily: 'Calibri',
-          fill: ease.color
+          fill: ease.color,
         });
 
         layer.add(text);
@@ -81,7 +81,7 @@
           node: text,
           x: 280,
           easing: Konva.Easings[ease.name],
-          duration: 2
+          duration: 2,
         });
 
         // add tween to tweens array
@@ -93,7 +93,7 @@
       // play
       document.getElementById('play').addEventListener(
         'click',
-        function() {
+        function () {
           for (var n = 0; n < tweens.length; n++) {
             tweens[n].play();
           }
@@ -104,7 +104,7 @@
       // pause
       document.getElementById('pause').addEventListener(
         'click',
-        function() {
+        function () {
           for (var n = 0; n < tweens.length; n++) {
             tweens[n].pause();
           }
@@ -115,7 +115,7 @@
       // reverse
       document.getElementById('reverse').addEventListener(
         'click',
-        function() {
+        function () {
           for (var n = 0; n < tweens.length; n++) {
             tweens[n].reverse();
           }

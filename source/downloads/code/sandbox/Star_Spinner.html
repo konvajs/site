@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Star Spinner Demo</title>
     <style>
@@ -42,7 +42,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var animatedLayer = new Konva.Layer();
@@ -62,7 +62,7 @@
         shadowBlur: 10,
         shadowColor: 'black',
         shadowOpacity: 0.5,
-        opacity: 0.8
+        opacity: 0.8,
       });
 
       // custom properties
@@ -70,7 +70,7 @@
       star.angularVelocity = 6;
       star.controlled = false;
 
-      star.on('mousedown touchstart', function(evt) {
+      star.on('mousedown touchstart', function (evt) {
         this.angularVelocity = 0;
         this.controlled = true;
       });
@@ -81,17 +81,17 @@
         x: stage.width() / 2,
         y: stage.height() / 2,
         radius: 3,
-        fill: '#555'
+        fill: '#555',
       });
 
       animatedLayer.add(center);
 
       // add listeners to container
-      stage.on('mouseup touchend', function() {
+      stage.on('mouseup touchend', function () {
         star.controlled = false;
       });
 
-      stage.on('mousemove touchmove', function() {
+      stage.on('mousemove touchmove', function () {
         if (star.controlled) {
           var mousePos = stage.getPointerPosition();
           var x = star.x() - mousePos.x;
@@ -106,12 +106,12 @@
 
       stage.add(animatedLayer);
 
-      var anim = new Konva.Animation(function(frame) {
+      var anim = new Konva.Animation(function (frame) {
         animate(animatedLayer, star, frame);
       }, animatedLayer);
 
       // wait one second and then spin the star
-      setTimeout(function() {
+      setTimeout(function () {
         anim.start();
       });
     </script>

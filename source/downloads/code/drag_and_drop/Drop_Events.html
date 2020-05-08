@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Drop Events Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -33,7 +33,7 @@
       stage.add(tempLayer);
 
       var text = new Konva.Text({
-        fill: 'black'
+        fill: 'black',
       });
       layer.add(text);
 
@@ -49,20 +49,20 @@
           draggable: true,
           name: 'star ' + i,
           shadowOffsetX: 5,
-          shadowOffsetY: 5
+          shadowOffsetY: 5,
         });
         layer.add(star);
       }
       layer.draw();
 
-      stage.on('dragstart', function(e) {
+      stage.on('dragstart', function (e) {
         e.target.moveTo(tempLayer);
         text.text('Moving ' + e.target.name());
         layer.draw();
       });
 
       var previousShape;
-      stage.on('dragmove', function(evt) {
+      stage.on('dragmove', function (evt) {
         var pos = stage.getPointerPosition();
         var shape = layer.getIntersection(pos);
         if (previousShape && shape) {
@@ -73,7 +73,7 @@
               {
                 type: 'dragleave',
                 target: previousShape,
-                evt: evt.evt
+                evt: evt.evt,
               },
               true
             );
@@ -84,7 +84,7 @@
               {
                 type: 'dragenter',
                 target: shape,
-                evt: evt.evt
+                evt: evt.evt,
               },
               true
             );
@@ -95,7 +95,7 @@
               {
                 type: 'dragover',
                 target: previousShape,
-                evt: evt.evt
+                evt: evt.evt,
               },
               true
             );
@@ -107,7 +107,7 @@
             {
               type: 'dragenter',
               target: shape,
-              evt: evt.evt
+              evt: evt.evt,
             },
             true
           );
@@ -117,14 +117,14 @@
             {
               type: 'dragleave',
               target: previousShape,
-              evt: evt.evt
+              evt: evt.evt,
             },
             true
           );
           previousShape = undefined;
         }
       });
-      stage.on('dragend', function(e) {
+      stage.on('dragend', function (e) {
         var pos = stage.getPointerPosition();
         var shape = layer.getIntersection(pos);
         if (shape) {
@@ -133,7 +133,7 @@
             {
               type: 'drop',
               target: previousShape,
-              evt: e.evt
+              evt: e.evt,
             },
             true
           );
@@ -144,24 +144,24 @@
         tempLayer.draw();
       });
 
-      stage.on('dragenter', function(e) {
+      stage.on('dragenter', function (e) {
         e.target.fill('green');
         text.text('dragenter ' + e.target.name());
         layer.draw();
       });
 
-      stage.on('dragleave', function(e) {
+      stage.on('dragleave', function (e) {
         e.target.fill('blue');
         text.text('dragleave ' + e.target.name());
         layer.draw();
       });
 
-      stage.on('dragover', function(e) {
+      stage.on('dragover', function (e) {
         text.text('dragover ' + e.target.name());
         layer.draw();
       });
 
-      stage.on('drop', function(e) {
+      stage.on('drop', function (e) {
         e.target.fill('red');
         text.text('drop ' + e.target.name());
         layer.draw();

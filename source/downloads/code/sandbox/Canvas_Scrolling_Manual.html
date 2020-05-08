@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Canvas Scrolling Drag Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -39,7 +39,7 @@
           y: HEIGHT * Math.random(),
           radius: 50,
           fill: 'red',
-          stroke: 'black'
+          stroke: 'black',
         });
       }
 
@@ -62,19 +62,19 @@
         x: stage.width() - PADDING - 10,
         y: PADDING,
         draggable: true,
-        dragBoundFunc: function(pos) {
+        dragBoundFunc: function (pos) {
           pos.x = stage.width() - PADDING - 10;
           pos.y = Math.max(
             Math.min(pos.y, stage.height() - this.height() - PADDING),
             PADDING
           );
           return pos;
-        }
+        },
       });
       scrollLayers.add(verticalBar);
       scrollLayers.draw();
 
-      verticalBar.on('dragmove', function() {
+      verticalBar.on('dragmove', function () {
         // delta in %
         const availableHeight =
           stage.height() - PADDING * 2 - verticalBar.height();
@@ -92,7 +92,7 @@
         x: PADDING,
         y: stage.height() - PADDING - 10,
         draggable: true,
-        dragBoundFunc: function(pos) {
+        dragBoundFunc: function (pos) {
           pos.x = Math.max(
             Math.min(pos.x, stage.width() - this.width() - PADDING),
             PADDING
@@ -100,12 +100,12 @@
           pos.y = stage.height() - PADDING - 10;
 
           return pos;
-        }
+        },
       });
       scrollLayers.add(horizontalBar);
       scrollLayers.draw();
 
-      horizontalBar.on('dragmove', function() {
+      horizontalBar.on('dragmove', function () {
         // delta in %
         const availableWidth =
           stage.width() - PADDING * 2 - horizontalBar.width();

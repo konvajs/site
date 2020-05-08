@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Modify Shape Color on Click Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -34,10 +34,10 @@
         radius: 50,
         fill: '#00D2FF',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
-      triangle.on('click', function() {
+      triangle.on('click', function () {
         var fill = this.fill() == 'yellow' ? '#00D2FF' : 'yellow';
         this.fill(fill);
         layer.draw();
@@ -51,10 +51,10 @@
         radius: 50,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
-      circle.on('click', function() {
+      circle.on('click', function () {
         var fill = this.fill() == 'red' ? '#00d00f' : 'red';
         this.fill(fill);
         layer.draw();

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Modify Curves with Anchor Points Demo</title>
     <style>
@@ -35,7 +35,7 @@
           q.control.attrs.x,
           q.control.attrs.y,
           q.end.attrs.x,
-          q.end.attrs.y
+          q.end.attrs.y,
         ]);
 
         bezierLine.points([
@@ -46,7 +46,7 @@
           b.control2.attrs.x,
           b.control2.attrs.y,
           b.end.attrs.x,
-          b.end.attrs.y
+          b.end.attrs.y,
         ]);
         lineLayer.draw();
       }
@@ -58,22 +58,22 @@
           stroke: '#666',
           fill: '#ddd',
           strokeWidth: 2,
-          draggable: true
+          draggable: true,
         });
 
         // add hover styling
-        anchor.on('mouseover', function() {
+        anchor.on('mouseover', function () {
           document.body.style.cursor = 'pointer';
           this.strokeWidth(4);
           anchorLayer.draw();
         });
-        anchor.on('mouseout', function() {
+        anchor.on('mouseout', function () {
           document.body.style.cursor = 'default';
           this.strokeWidth(2);
           anchorLayer.draw();
         });
 
-        anchor.on('dragend', function() {
+        anchor.on('dragend', function () {
           drawCurves();
           updateDottedLines();
         });
@@ -118,7 +118,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       anchorLayer = new Konva.Layer();
@@ -135,7 +135,7 @@
         lineCap: 'round',
         id: 'quadLine',
         opacity: 0.3,
-        points: [0, 0]
+        points: [0, 0],
       });
 
       var bezierLine = new Konva.Line({
@@ -145,7 +145,7 @@
         lineCap: 'round',
         id: 'bezierLine',
         opacity: 0.3,
-        points: [0, 0]
+        points: [0, 0],
       });
 
       // add dotted line connectors
@@ -155,18 +155,18 @@
       quad = {
         start: buildAnchor(60, 30),
         control: buildAnchor(240, 110),
-        end: buildAnchor(80, 160)
+        end: buildAnchor(80, 160),
       };
 
       bezier = {
         start: buildAnchor(280, 20),
         control1: buildAnchor(530, 40),
         control2: buildAnchor(480, 150),
-        end: buildAnchor(300, 150)
+        end: buildAnchor(300, 150),
       };
 
       // keep curves insync with the lines
-      anchorLayer.on('beforeDraw', function() {
+      anchorLayer.on('beforeDraw', function () {
         drawCurves();
         updateDottedLines();
       });

@@ -5,9 +5,9 @@
   "main": "src/main.js",
   "private": true,
   "dependencies": {
-    "konva": "5.0.3",
+    "konva": "6.0.0",
     "vue": "^2.6.11",
-    "vue-konva": "2.1.1"
+    "vue-konva": "2.1.2"
   },
   "keywords": [
     "vue",

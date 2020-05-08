@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Listen or Don’t Listen to Events Demo</title>
     <style>
@@ -39,7 +39,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -50,7 +50,7 @@
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
-        fill: 'black'
+        fill: 'black',
       });
 
       var oval = new Konva.Circle({
@@ -62,13 +62,13 @@
         stroke: 'black',
         strokeWidth: 4,
         strokeScaleEnabled: false,
-        listening: false
+        listening: false,
       });
 
-      oval.on('mouseover', function() {
+      oval.on('mouseover', function () {
         writeMessage('Mouseover oval');
       });
-      oval.on('mouseout', function() {
+      oval.on('mouseout', function () {
         writeMessage('');
       });
 
@@ -78,7 +78,7 @@
 
       document.getElementById('listen').addEventListener(
         'click',
-        function() {
+        function () {
           oval.listening(true);
           layer.drawHit();
         },
@@ -87,7 +87,7 @@
 
       document.getElementById('dontListen').addEventListener(
         'click',
-        function() {
+        function () {
           oval.listening(false);
           layer.drawHit();
         },

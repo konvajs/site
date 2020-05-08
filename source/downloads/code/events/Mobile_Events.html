@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Mobile Touch Events Demo</title>
     <style>
@@ -25,7 +25,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -37,7 +37,7 @@
         radius: 80,
         fill: '#00D2FF',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
       var text = new Konva.Text({
@@ -46,7 +46,7 @@
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
-        fill: 'black'
+        fill: 'black',
       });
 
       var circle = new Konva.Circle({
@@ -55,20 +55,20 @@
         radius: 60,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
-      triangle.on('touchmove', function() {
+      triangle.on('touchmove', function () {
         var touchPos = stage.getPointerPosition();
         var x = touchPos.x - 190;
         var y = touchPos.y - 40;
         writeMessage('x: ' + x + ', y: ' + y);
       });
 
-      circle.on('touchstart', function() {
+      circle.on('touchstart', function () {
         writeMessage('Touchstart circle');
       });
-      circle.on('touchend', function() {
+      circle.on('touchend', function () {
         writeMessage('Touchend circle');
       });
 

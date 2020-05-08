@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Image Resize Demo</title>
     <style>
@@ -73,29 +73,29 @@
           radius: 8,
           name: name,
           draggable: true,
-          dragOnTop: false
+          dragOnTop: false,
         });
 
-        anchor.on('dragmove', function() {
+        anchor.on('dragmove', function () {
           update(this);
           layer.draw();
         });
-        anchor.on('mousedown touchstart', function() {
+        anchor.on('mousedown touchstart', function () {
           group.draggable(false);
           this.moveToTop();
         });
-        anchor.on('dragend', function() {
+        anchor.on('dragend', function () {
           group.draggable(true);
           layer.draw();
         });
         // add hover styling
-        anchor.on('mouseover', function() {
+        anchor.on('mouseover', function () {
           var layer = this.getLayer();
           document.body.style.cursor = 'pointer';
           this.strokeWidth(4);
           layer.draw();
         });
-        anchor.on('mouseout', function() {
+        anchor.on('mouseout', function () {
           var layer = this.getLayer();
           document.body.style.cursor = 'default';
           this.strokeWidth(2);
@@ -108,7 +108,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -117,19 +117,19 @@
       // darth vader
       var darthVaderImg = new Konva.Image({
         width: 200,
-        height: 137
+        height: 137,
       });
 
       // yoda
       var yodaImg = new Konva.Image({
         width: 93,
-        height: 104
+        height: 104,
       });
 
       var darthVaderGroup = new Konva.Group({
         x: 180,
         y: 50,
-        draggable: true
+        draggable: true,
       });
       layer.add(darthVaderGroup);
       darthVaderGroup.add(darthVaderImg);
@@ -141,7 +141,7 @@
       var yodaGroup = new Konva.Group({
         x: 20,
         y: 110,
-        draggable: true
+        draggable: true,
       });
       layer.add(yodaGroup);
       yodaGroup.add(yodaImg);
@@ -151,14 +151,14 @@
       addAnchor(yodaGroup, 0, 104, 'bottomLeft');
 
       var imageObj1 = new Image();
-      imageObj1.onload = function() {
+      imageObj1.onload = function () {
         darthVaderImg.image(imageObj1);
         layer.draw();
       };
       imageObj1.src = '/assets/darth-vader.jpg';
 
       var imageObj2 = new Image();
-      imageObj2.onload = function() {
+      imageObj2.onload = function () {
         yodaImg.image(imageObj2);
         layer.draw();
       };

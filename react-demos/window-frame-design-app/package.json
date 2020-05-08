@@ -5,12 +5,12 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "konva": "5.0.3",
+    "konva": "6.0.0",
     "mobx": "4.3.1",
     "mobx-react": "5.2.3",
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "react-konva": "16.13.0-0",
+    "react-konva": "16.13.0-2",
     "react-scripts": "1.1.4"
   },
   "devDependencies": {},

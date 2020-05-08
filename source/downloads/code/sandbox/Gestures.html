@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <!-- emulate touches on desktop -->
     <script src="https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js"></script>
     <!-- 3-rd party library for gesture events -->
@@ -31,7 +31,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -43,7 +43,7 @@
         scaleX: 1,
         scaleY: 1,
         draggable: true,
-        rotation: 0
+        rotation: 0,
       };
 
       var group = new Konva.Group(originalAttrs);
@@ -59,7 +59,7 @@
         offsetY: size / 2,
         cornerRadius: 5,
         shadowBlur: 10,
-        shadowColor: 'grey'
+        shadowColor: 'grey',
       });
       group.add(rect);
 
@@ -68,7 +68,7 @@
         text: defaultText,
         x: -size / 2,
         width: size,
-        align: 'center'
+        align: 'center',
       });
       group.add(text);
       layer.draw();
@@ -82,29 +82,29 @@
       hammertime.get('rotate').set({ enable: true });
 
       // now attach all possible events
-      group.on('swipe', function(ev) {
+      group.on('swipe', function (ev) {
         text.text('swiping');
         group.to({
           x: group.x() + ev.evt.gesture.deltaX,
           y: group.y() + ev.evt.gesture.deltaY,
 
-          onFinish: function() {
+          onFinish: function () {
             group.to(Object.assign({}, originalAttrs));
             text.text(defaultText);
-          }
+          },
         });
       });
 
-      group.on('press', function(ev) {
+      group.on('press', function (ev) {
         text.text('Under press');
         rect.to({
-          fill: 'green'
+          fill: 'green',
         });
       });
 
-      group.on('touchend', function(ev) {
+      group.on('touchend', function (ev) {
         rect.to({
-          fill: 'yellow'
+          fill: 'yellow',
         });
 
         setTimeout(() => {
@@ -119,7 +119,7 @@
 
       var oldRotation = 0;
       var startScale = 0;
-      group.on('rotatestart', function(ev) {
+      group.on('rotatestart', function (ev) {
         oldRotation = ev.evt.gesture.rotation;
         startScale = rect.scaleX();
         group.stopDrag();
@@ -127,7 +127,7 @@
         text.text('rotating...');
       });
 
-      group.on('rotate', function(ev) {
+      group.on('rotate', function (ev) {
         var delta = oldRotation - ev.evt.gesture.rotation;
         group.rotate(-delta);
         oldRotation = ev.evt.gesture.rotation;
@@ -136,7 +136,7 @@
         layer.batchDraw();
       });
 
-      group.on('rotateend rotatecancel', function(ev) {
+      group.on('rotateend rotatecancel', function (ev) {
         group.to(Object.assign({}, originalAttrs));
         text.text(defaultText);
         group.draggable(true);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Animals on the Beach Game Demo</title>
     <style>
@@ -29,7 +29,7 @@
         }
         for (var src in sources) {
           images[src] = new Image();
-          images[src].onload = function() {
+          images[src].onload = function () {
             if (++loadedImages >= numImages) {
               callback(images);
             }
@@ -62,7 +62,7 @@
         var stage = new Konva.Stage({
           container: 'container',
           width: 578,
-          height: 530
+          height: 530,
         });
         var background = new Konva.Layer();
         var animalLayer = new Konva.Layer();
@@ -73,45 +73,45 @@
         var animals = {
           snake: {
             x: 10,
-            y: 70
+            y: 70,
           },
           giraffe: {
             x: 90,
-            y: 70
+            y: 70,
           },
           monkey: {
             x: 275,
-            y: 70
+            y: 70,
           },
           lion: {
             x: 400,
-            y: 70
-          }
+            y: 70,
+          },
         };
 
         var outlines = {
           snake_black: {
             x: 275,
-            y: 350
+            y: 350,
           },
           giraffe_black: {
             x: 390,
-            y: 250
+            y: 250,
           },
           monkey_black: {
             x: 300,
-            y: 420
+            y: 420,
           },
           lion_black: {
             x: 100,
-            y: 390
-          }
+            y: 390,
+          },
         };
 
         // create draggable animals
         for (var key in animals) {
           // anonymous function to induce scope
-          (function() {
+          (function () {
             var privKey = key;
             var anim = animals[key];
 
@@ -119,10 +119,10 @@
               image: images[key],
               x: anim.x,
               y: anim.y,
-              draggable: true
+              draggable: true,
             });
 
-            animal.on('dragstart', function() {
+            animal.on('dragstart', function () {
               this.moveToTop();
               animalLayer.draw();
             });
@@ -130,12 +130,12 @@
              * check if animal is in the right spot and
              * snap into place if it is
              */
-            animal.on('dragend', function() {
+            animal.on('dragend', function () {
               var outline = outlines[privKey + '_black'];
               if (!animal.inRightPlace && isNearOutline(animal, outline)) {
                 animal.position({
                   x: outline.x,
-                  y: outline.y
+                  y: outline.y,
                 });
                 animalLayer.draw();
                 animal.inRightPlace = true;
@@ -146,25 +146,25 @@
                 }
 
                 // disable drag and drop
-                setTimeout(function() {
+                setTimeout(function () {
                   animal.draggable(false);
                 }, 50);
               }
             });
             // make animal glow on mouseover
-            animal.on('mouseover', function() {
+            animal.on('mouseover', function () {
               animal.image(images[privKey + '_glow']);
               animalLayer.draw();
               document.body.style.cursor = 'pointer';
             });
             // return animal on mouseout
-            animal.on('mouseout', function() {
+            animal.on('mouseout', function () {
               animal.image(images[privKey]);
               animalLayer.draw();
               document.body.style.cursor = 'default';
             });
 
-            animal.on('dragmove', function() {
+            animal.on('dragmove', function () {
               document.body.style.cursor = 'pointer';
             });
 
@@ -176,14 +176,14 @@
         // create animal outlines
         for (var key in outlines) {
           // anonymous function to induce scope
-          (function() {
+          (function () {
             var imageObj = images[key];
             var out = outlines[key];
 
             var outline = new Konva.Image({
               image: imageObj,
               x: out.x,
-              y: out.y
+              y: out.y,
             });
 
             animalLayer.add(outline);
@@ -213,7 +213,7 @@
         monkey_black: 'monkey-black.png',
         giraffe: 'giraffe.png',
         giraffe_glow: 'giraffe-glow.png',
-        giraffe_black: 'giraffe-black.png'
+        giraffe_black: 'giraffe-black.png',
       };
       loadImages(sources, initStage);
     </script>

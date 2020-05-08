@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Drag Events Demo</title>
     <style>
@@ -26,7 +26,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -37,7 +37,7 @@
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
-        fill: 'black'
+        fill: 'black',
       });
 
       var box = new Konva.Rect({
@@ -49,14 +49,14 @@
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
       // write out drag and drop events
-      box.on('dragstart', function() {
+      box.on('dragstart', function () {
         writeMessage('dragstart');
       });
-      box.on('dragend', function() {
+      box.on('dragend', function () {
         writeMessage('dragend');
       });
 

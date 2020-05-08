@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Mouse Cursor Styles Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
       var layer = new Konva.Layer();
 
@@ -35,7 +35,7 @@
         fill: 'red',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
       var shape2 = new Konva.RegularPolygon({
@@ -46,7 +46,7 @@
         fill: 'green',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
       var shape3 = new Konva.RegularPolygon({
@@ -59,30 +59,30 @@
         fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
-      shape1.on('mouseenter', function() {
+      shape1.on('mouseenter', function () {
         stage.container().style.cursor = 'pointer';
       });
 
-      shape1.on('mouseleave', function() {
+      shape1.on('mouseleave', function () {
         stage.container().style.cursor = 'default';
       });
 
-      shape2.on('mouseenter', function() {
+      shape2.on('mouseenter', function () {
         stage.container().style.cursor = 'move';
       });
 
-      shape2.on('mouseleave', function() {
+      shape2.on('mouseleave', function () {
         stage.container().style.cursor = 'default';
       });
 
-      shape3.on('mouseenter', function() {
+      shape3.on('mouseenter', function () {
         stage.container().style.cursor = 'crosshair';
       });
 
-      shape3.on('mouseleave', function() {
+      shape3.on('mouseleave', function () {
         stage.container().style.cursor = 'default';
       });
 

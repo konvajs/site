@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Common Easing Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -37,8 +37,8 @@
         strokeWidth: 4,
         offset: {
           x: 50,
-          y: 25
-        }
+          y: 25,
+        },
       });
 
       var blueBox = new Konva.Rect({
@@ -51,8 +51,8 @@
         strokeWidth: 4,
         offset: {
           x: 50,
-          y: 25
-        }
+          y: 25,
+        },
       });
 
       var redBox = new Konva.Rect({
@@ -65,8 +65,8 @@
         strokeWidth: 4,
         offset: {
           x: 50,
-          y: 25
-        }
+          y: 25,
+        },
       });
 
       layer.add(greenBox);
@@ -80,7 +80,7 @@
         scaleX: 2,
         scaleY: 1.5,
         easing: Konva.Easings.EaseIn,
-        duration: 1
+        duration: 1,
       });
 
       blueBox.tween = new Konva.Tween({
@@ -88,7 +88,7 @@
         scaleX: 2,
         scaleY: 1.5,
         easing: Konva.Easings.EaseInOut,
-        duration: 1
+        duration: 1,
       });
 
       redBox.tween = new Konva.Tween({
@@ -96,15 +96,15 @@
         scaleX: 2,
         scaleY: 1.5,
         easing: Konva.Easings.EaseOut,
-        duration: 1
+        duration: 1,
       });
 
       // use event delegation
-      layer.on('mouseover touchstart', function(evt) {
+      layer.on('mouseover touchstart', function (evt) {
         evt.target.tween.play();
       });
 
-      layer.on('mouseout touchend', function(evt) {
+      layer.on('mouseout touchend', function (evt) {
         evt.target.tween.reverse();
       });
     </script>

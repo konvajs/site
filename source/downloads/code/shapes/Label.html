@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Label Demo</title>
     <style>
@@ -20,7 +20,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -29,7 +29,7 @@
       var tooltip = new Konva.Label({
         x: 170,
         y: 75,
-        opacity: 0.75
+        opacity: 0.75,
       });
 
       tooltip.add(
@@ -43,7 +43,7 @@
           shadowBlur: 10,
           shadowOffsetX: 10,
           shadowOffsetY: 10,
-          shadowOpacity: 0.5
+          shadowOpacity: 0.5,
         })
       );
 
@@ -53,7 +53,7 @@
           fontFamily: 'Calibri',
           fontSize: 18,
           padding: 5,
-          fill: 'white'
+          fill: 'white',
         })
       );
 
@@ -61,7 +61,7 @@
       var labelLeft = new Konva.Label({
         x: 20,
         y: 130,
-        opacity: 0.75
+        opacity: 0.75,
       });
 
       labelLeft.add(
@@ -70,7 +70,7 @@
           pointerDirection: 'left',
           pointerWidth: 20,
           pointerHeight: 28,
-          lineJoin: 'round'
+          lineJoin: 'round',
         })
       );
 
@@ -80,7 +80,7 @@
           fontFamily: 'Calibri',
           fontSize: 18,
           padding: 5,
-          fill: 'white'
+          fill: 'white',
         })
       );
 
@@ -88,12 +88,12 @@
       var simpleLabel = new Konva.Label({
         x: 180,
         y: 150,
-        opacity: 0.75
+        opacity: 0.75,
       });
 
       simpleLabel.add(
         new Konva.Tag({
-          fill: 'yellow'
+          fill: 'yellow',
         })
       );
 
@@ -103,15 +103,12 @@
           fontFamily: 'Calibri',
           fontSize: 18,
           padding: 5,
-          fill: 'black'
+          fill: 'black',
         })
       );
 
       // add the labels to layer
-      layer
-        .add(tooltip)
-        .add(labelLeft)
-        .add(simpleLabel);
+      layer.add(tooltip).add(labelLeft).add(simpleLabel);
 
       // add the layer to the stage
       stage.add(layer);

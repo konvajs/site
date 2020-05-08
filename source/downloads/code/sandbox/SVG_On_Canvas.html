@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva SVG Demo</title>
@@ -24,7 +24,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -32,11 +32,11 @@
 
       var SOURCE = '/assets/tiger.svg';
       // try to draw SVG natively
-      Konva.Image.fromURL(SOURCE, imageNode => {
+      Konva.Image.fromURL(SOURCE, (imageNode) => {
         layer.add(imageNode);
         imageNode.setAttrs({
           width: 150,
-          height: 150
+          height: 150,
         });
         layer.batchDraw();
       });
@@ -44,16 +44,16 @@
       // draw svg with external library
       var canvas = document.createElement('canvas');
       canvg(canvas, SOURCE, {
-        renderCallback: function() {
+        renderCallback: function () {
           var image = new Konva.Image({
             image: canvas,
             x: 200,
             width: 150,
-            height: 150
+            height: 150,
           });
           layer.add(image);
           layer.batchDraw();
-        }
+        },
       });
     </script>
   </body>

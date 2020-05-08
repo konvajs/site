@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Canvas Stage Preview Demo</title>
     <style>
@@ -29,7 +29,7 @@
       const stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       const layer = new Konva.Layer();
@@ -45,7 +45,7 @@
           draggable: true,
           // each shape MUSH have uniq name
           // so we can easily update the preview clone by name
-          name: 'shape-' + i
+          name: 'shape-' + i,
         });
         layer.add(shape);
       }
@@ -55,7 +55,7 @@
       function updatePreview() {
         const scale = 1 / 4;
         // use pixelRatio to generate smaller preview
-        const url = stage.toDataURL({ pixelRatio : scale });
+        const url = stage.toDataURL({ pixelRatio: scale });
         document.getElementById('preview').src = url;
       }
 
@@ -72,14 +72,13 @@
           draggable: true,
           // each shape MUSH have uniq name
           // so we can easily update the preview clone by name
-          name: 'shape-' + layer.children.length
+          name: 'shape-' + layer.children.length,
         });
         layer.add(shape);
         layer.draw();
 
         updatePreview();
       });
-
 
       // show initial preview
       updatePreview();

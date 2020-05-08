@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Connect Objects demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -37,7 +37,7 @@
           result.push({
             id: 'target-' + result.length,
             x: stage.width() * Math.random(),
-            y: stage.height() * Math.random()
+            y: stage.height() * Math.random(),
           });
         }
         return result;
@@ -58,7 +58,7 @@
           result.push({
             id: 'connector-' + result.length,
             from: from,
-            to: to
+            to: to,
           });
         }
         return result;
@@ -75,7 +75,7 @@
           from.x + -radius * Math.cos(angle + Math.PI),
           from.y + radius * Math.sin(angle + Math.PI),
           to.x + -radius * Math.cos(angle),
-          to.y + radius * Math.sin(angle)
+          to.y + radius * Math.sin(angle),
         ];
       }
 
@@ -83,12 +83,12 @@
 
       // update all objects on the canvas from the state of the app
       function updateObjects() {
-        targets.forEach(target => {
+        targets.forEach((target) => {
           var node = layer.findOne('#' + target.id);
           node.x(target.x);
           node.y(target.y);
         });
-        connectors.forEach(connect => {
+        connectors.forEach((connect) => {
           var line = layer.findOne('#' + connect.id);
           var fromNode = layer.findOne('#' + connect.from);
           var toNode = layer.findOne('#' + connect.to);
@@ -103,22 +103,22 @@
       }
 
       // generate nodes for the app
-      connectors.forEach(connect => {
+      connectors.forEach((connect) => {
         var line = new Konva.Arrow({
           stroke: 'black',
           id: connect.id,
-          fill: 'black'
+          fill: 'black',
         });
         layer.add(line);
       });
 
-      targets.forEach(target => {
+      targets.forEach((target) => {
         var node = new Konva.Circle({
           id: target.id,
           fill: Konva.Util.getRandomColor(),
           radius: 20 + Math.random() * 20,
           shadowBlur: 10,
-          draggable: true
+          draggable: true,
         });
         layer.add(node);
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Simple Window drawing</title>
     <style>
@@ -28,11 +28,11 @@
     <div id="container"></div>
 
     <div id="controls">
-      <div style="float: left; padding: 10px">
+      <div style="float: left; padding: 10px;">
         Width:
         <input type="number" id="widthInput" />
       </div>
-      <div style="float: left; padding: 10px">
+      <div style="float: left; padding: 10px;">
         Height:
         <input type="number" id="heightInput" />
       </div>
@@ -44,7 +44,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -65,9 +65,9 @@
             frameWidth - padding,
             padding,
             padding,
-            padding
+            padding,
           ],
-          fill: 'white'
+          fill: 'white',
         });
 
         var left = new Konva.Line({
@@ -79,9 +79,9 @@
             padding,
             frameHeight - padding,
             0,
-            frameHeight
+            frameHeight,
           ],
-          fill: 'white'
+          fill: 'white',
         });
 
         var bottom = new Konva.Line({
@@ -93,9 +93,9 @@
             frameWidth - padding,
             frameHeight - padding,
             frameWidth,
-            frameHeight
+            frameHeight,
           ],
-          fill: 'white'
+          fill: 'white',
         });
 
         var right = new Konva.Line({
@@ -107,9 +107,9 @@
             frameWidth - padding,
             frameHeight - padding,
             frameWidth - padding,
-            padding
+            padding,
           ],
-          fill: 'white'
+          fill: 'white',
         });
 
         var glass = new Konva.Rect({
@@ -117,16 +117,12 @@
           y: padding,
           width: frameWidth - padding * 2,
           height: frameHeight - padding * 2,
-          fill: 'lightblue'
+          fill: 'lightblue',
         });
 
         group.add(glass, top, left, bottom, right);
 
-        group
-          .find('Line')
-          .closed(true)
-          .stroke('black')
-          .strokeWidth(1);
+        group.find('Line').closed(true).stroke('black').strokeWidth(1);
 
         return group;
       }
@@ -139,7 +135,7 @@
 
         var group = new Konva.Group();
         var lines = new Konva.Shape({
-          sceneFunc: function(ctx) {
+          sceneFunc: function (ctx) {
             ctx.fillStyle = 'grey';
             ctx.lineWidth = 0.5;
 
@@ -156,11 +152,11 @@
             ctx.lineTo(frameWidth, frameHeight + offset);
 
             ctx.stroke();
-          }
+          },
         });
 
         var leftArrow = new Konva.Shape({
-          sceneFunc: function(ctx) {
+          sceneFunc: function (ctx) {
             // top pointer
             ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
             ctx.lineTo(-arrowOffset, 0);
@@ -178,11 +174,11 @@
             ctx.strokeShape(this);
           },
           stroke: 'grey',
-          strokeWidth: 0.5
+          strokeWidth: 0.5,
         });
 
         var bottomArrow = new Konva.Shape({
-          sceneFunc: function(ctx) {
+          sceneFunc: function (ctx) {
             // top pointer
             ctx.translate(0, frameHeight + arrowOffset);
             ctx.moveTo(arrowSize, -arrowSize);
@@ -201,7 +197,7 @@
             ctx.strokeShape(this);
           },
           stroke: 'grey',
-          strokeWidth: 0.5
+          strokeWidth: 0.5,
         });
 
         // left text
@@ -210,22 +206,22 @@
         leftLabel.add(
           new Konva.Tag({
             fill: 'white',
-            stroke: 'grey'
+            stroke: 'grey',
           })
         );
         var leftText = new Konva.Text({
           text: heightInput.value + 'mm',
           padding: 2,
-          fill: 'black'
+          fill: 'black',
         });
 
         leftLabel.add(leftText);
         leftLabel.position({
           x: -arrowOffset - leftText.width(),
-          y: frameHeight / 2 - leftText.height() / 2
+          y: frameHeight / 2 - leftText.height() / 2,
         });
 
-        leftLabel.on('click tap', function() {
+        leftLabel.on('click tap', function () {
           createInput('height', this.getAbsolutePosition(), leftText.size());
         });
 
@@ -235,22 +231,22 @@
         bottomLabel.add(
           new Konva.Tag({
             fill: 'white',
-            stroke: 'grey'
+            stroke: 'grey',
           })
         );
         var bottomText = new Konva.Text({
           text: widthInput.value + 'mm',
           padding: 2,
-          fill: 'black'
+          fill: 'black',
         });
 
         bottomLabel.add(bottomText);
         bottomLabel.position({
           x: frameWidth / 2 - bottomText.width() / 2,
-          y: frameHeight + arrowOffset
+          y: frameHeight + arrowOffset,
         });
 
-        bottomLabel.on('click tap', function() {
+        bottomLabel.on('click tap', function () {
           createInput('width', this.getAbsolutePosition(), bottomText.size());
         });
 
@@ -285,23 +281,23 @@
 
         wrap.appendChild(input);
 
-        input.addEventListener('change', function() {
+        input.addEventListener('change', function () {
           similarInput.value = input.value;
           updateCanvas();
         });
 
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
           similarInput.value = input.value;
           updateCanvas();
         });
 
-        wrap.addEventListener('click', function(e) {
+        wrap.addEventListener('click', function (e) {
           if (e.target === wrap) {
             document.body.removeChild(wrap);
           }
         });
 
-        input.addEventListener('keyup', function(e) {
+        input.addEventListener('keyup', function (e) {
           if (e.keyCode === 13) {
             document.body.removeChild(wrap);
           }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Move Shape to Another Container Demo</title>
     <style>
@@ -39,19 +39,19 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
       var yellowGroup = new Konva.Group({
         x: 100,
         y: 100,
-        draggable: true
+        draggable: true,
       });
       var blueGroup = new Konva.Group({
         x: 300,
         y: 80,
-        draggable: true
+        draggable: true,
       });
 
       var box = new Konva.Rect({
@@ -60,7 +60,7 @@
         width: 100,
         height: 50,
         fill: 'red',
-        stroke: 'black'
+        stroke: 'black',
       });
 
       var yellowCircle = new Konva.Circle({
@@ -68,7 +68,7 @@
         y: 0,
         radius: 50,
         fill: 'yellow',
-        stroke: 'black'
+        stroke: 'black',
       });
 
       var blueCircle = new Konva.Circle({
@@ -76,7 +76,7 @@
         y: 0,
         radius: 50,
         fill: 'blue',
-        stroke: 'black'
+        stroke: 'black',
       });
 
       // build node tree
@@ -90,7 +90,7 @@
       // add button event bindings
       document.getElementById('toBlue').addEventListener(
         'click',
-        function() {
+        function () {
           box.moveTo(blueGroup);
           layer.draw();
         },
@@ -99,7 +99,7 @@
 
       document.getElementById('toYellow').addEventListener(
         'click',
-        function() {
+        function () {
           box.moveTo(yellowGroup);
           layer.draw();
         },

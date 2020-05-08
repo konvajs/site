@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Expand Image on Hover Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -36,9 +36,9 @@
         height: 137,
         offset: {
           x: 100,
-          y: 68
+          y: 68,
         },
-        draggable: true
+        draggable: true,
       });
       layer.add(darthVaderImg);
 
@@ -50,21 +50,21 @@
         height: 104,
         offset: {
           x: 46,
-          y: 52
+          y: 52,
         },
-        draggable: true
+        draggable: true,
       });
       layer.add(yodaImg);
 
       var imageObj1 = new Image();
-      imageObj1.onload = function() {
+      imageObj1.onload = function () {
         darthVaderImg.image(imageObj1);
         layer.draw();
       };
       imageObj1.src = '/assets/darth-vader.jpg';
 
       var imageObj2 = new Image();
-      imageObj2.onload = function() {
+      imageObj2.onload = function () {
         yodaImg.image(imageObj2);
         layer.draw();
       };
@@ -72,14 +72,14 @@
 
       // use event delegation to update pointer style
       // and apply borders
-      layer.on('mouseover', function(evt) {
+      layer.on('mouseover', function (evt) {
         var shape = evt.target;
         document.body.style.cursor = 'pointer';
         shape.scaleX(1.2);
         shape.scaleY(1.2);
         layer.draw();
       });
-      layer.on('mouseout', function(evt) {
+      layer.on('mouseout', function (evt) {
         var shape = evt.target;
         document.body.style.cursor = 'default';
         shape.scaleX(1);

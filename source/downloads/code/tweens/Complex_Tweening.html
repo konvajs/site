@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <script src="https://rawgit.com/konvajs/greensock-plugin/master/KonvaPlugin.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TimelineLite.min.js"></script>
@@ -27,7 +27,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -38,7 +38,7 @@
         numPoints: 5,
         innerRadius: 40,
         outerRadius: 70,
-        fill: 'red'
+        fill: 'red',
       });
 
       layer.add(star);
@@ -52,16 +52,16 @@
           x: 300,
           y: 130,
           innerRadius: 15,
-          rotation: 360
+          rotation: 360,
         },
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
       })
         .to(star, 2, {
           konva: {
             fill: 'rgb(0,0,255)',
             scaleX: 1.5,
-            scaleY: 1.5
-          }
+            scaleY: 1.5,
+          },
         })
         .to(star, 1, {
           konva: {
@@ -72,8 +72,8 @@
             shadowOffsetY: 10,
             shadowBlur: 10,
             shadowColor: 'black',
-            rotation: 0
-          }
+            rotation: 0,
+          },
         });
 
       var linearGradPentagon = new Konva.RegularPolygon({
@@ -83,16 +83,16 @@
         radius: 70,
         fillLinearGradientStartPoint: {
           x: -50,
-          y: -50
+          y: -50,
         },
         fillLinearGradientEndPoint: {
           x: 50,
-          y: 50
+          y: 50,
         },
         fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
       layer.add(linearGradPentagon);
@@ -104,19 +104,19 @@
       //object to store color values
       var tmpColors = {
         color0: 'white',
-        color1: 'black'
+        color1: 'black',
       };
 
       //tween the color values in myObject
       TweenLite.to(tmpColors, 5, {
         colorProps: {
           color0: 'black',
-          color1: 'red'
+          color1: 'red',
         },
         yoyo: true,
         repeat: 5,
         ease: Linear.easeNone,
-        onUpdate: applyProps
+        onUpdate: applyProps,
       });
 
       //apply new color values to gradient css of target
@@ -126,8 +126,8 @@
             0,
             tmpColors.color0,
             1,
-            tmpColors.color1
-          ]
+            tmpColors.color1,
+          ],
         });
         layer.batchDraw();
       }

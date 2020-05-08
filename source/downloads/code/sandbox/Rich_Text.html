@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <link
       rel="stylesheet"
@@ -27,7 +27,7 @@
 
   <body>
     <div id="editor-container">
-      That is <u>some</u> <span style="color: red"> styled text</span> on
+      That is <u>some</u> <span style="color: red;"> styled text</span> on
       <strong>canvas</strong>!
       <h2>What do you think about it?</h2>
     </div>
@@ -39,11 +39,11 @@
           toolbar: [
             [{ header: [1, 2, false] }],
             ['bold', 'italic', 'underline'],
-            ['image', 'code-block']
-          ]
+            ['image', 'code-block'],
+          ],
         },
         placeholder: 'Compose an epic...',
-        theme: 'snow' // or 'bubble'
+        theme: 'snow', // or 'bubble'
       });
 
       var width = window.innerWidth;
@@ -52,7 +52,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       const layer = new Konva.Layer();
@@ -64,7 +64,7 @@
         draggable: true,
         stroke: 'red',
         scaleX: 1 / window.devicePixelRatio,
-        scaleY: 1 / window.devicePixelRatio
+        scaleY: 1 / window.devicePixelRatio,
       });
       layer.add(shape);
 
@@ -73,8 +73,8 @@
       function renderText() {
         // convert DOM into image
         html2canvas(document.querySelector('.ql-editor'), {
-          backgroundColor: 'rgba(0,0,0,0)'
-        }).then(canvas => {
+          backgroundColor: 'rgba(0,0,0,0)',
+        }).then((canvas) => {
           // show it inside Konva.Image
           shape.image(canvas);
           layer.batchDraw();
@@ -87,7 +87,7 @@
         if (timeout) {
           return;
         }
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
           timeout = null;
           renderText();
         }, 500);

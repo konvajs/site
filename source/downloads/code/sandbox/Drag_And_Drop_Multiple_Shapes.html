@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Drag and Drop Multiple Shapes Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -38,30 +38,30 @@
           strokeWidth: 4,
           draggable: true,
           width: 100,
-          height: 50
+          height: 50,
         });
 
-        box.on('dragstart', function() {
+        box.on('dragstart', function () {
           this.moveToTop();
           layer.draw();
         });
 
-        box.on('dragmove', function() {
+        box.on('dragmove', function () {
           document.body.style.cursor = 'pointer';
         });
         /*
          * dblclick to remove box for desktop app
          * and dbltap to remove box for mobile app
          */
-        box.on('dblclick dbltap', function() {
+        box.on('dblclick dbltap', function () {
           this.destroy();
           layer.draw();
         });
 
-        box.on('mouseover', function() {
+        box.on('mouseover', function () {
           document.body.style.cursor = 'pointer';
         });
-        box.on('mouseout', function() {
+        box.on('mouseout', function () {
           document.body.style.cursor = 'default';
         });
 

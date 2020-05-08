@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Drop DOM element Demo</title>
     <style>
@@ -42,7 +42,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
       var layer = new Konva.Layer();
       stage.add(layer);
@@ -51,16 +51,16 @@
       var itemURL = '';
       document
         .getElementById('drag-items')
-        .addEventListener('dragstart', function(e) {
+        .addEventListener('dragstart', function (e) {
           itemURL = e.target.src;
         });
 
       var con = stage.container();
-      con.addEventListener('dragover', function(e) {
+      con.addEventListener('dragover', function (e) {
         e.preventDefault(); // !important
       });
 
-      con.addEventListener('drop', function(e) {
+      con.addEventListener('drop', function (e) {
         e.preventDefault();
         // now we need to find pointer position
         // we can't use stage.getPointerPosition() here, because that event
@@ -68,7 +68,7 @@
         // we can register it manually:
         stage.setPointersPositions(e);
 
-        Konva.Image.fromURL(itemURL, function(image) {
+        Konva.Image.fromURL(itemURL, function (image) {
           layer.add(image);
 
           image.position(stage.getPointerPosition());

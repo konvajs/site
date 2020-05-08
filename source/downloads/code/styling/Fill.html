@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Fill Demo</title>
     <style>
@@ -26,7 +26,7 @@
         }
         for (var src in sources) {
           images[src] = new Image();
-          images[src].onload = function() {
+          images[src].onload = function () {
             if (++loadedImages >= numImages) {
               callback(images);
             }
@@ -41,7 +41,7 @@
         var stage = new Konva.Stage({
           container: 'container',
           width: width,
-          height: height
+          height: height,
         });
         var layer = new Konva.Layer();
 
@@ -53,7 +53,7 @@
           fill: 'red',
           stroke: 'black',
           strokeWidth: 4,
-          draggable: true
+          draggable: true,
         });
 
         var patternPentagon = new Konva.RegularPolygon({
@@ -65,7 +65,7 @@
           fillPatternOffset: { x: -220, y: 70 },
           stroke: 'black',
           strokeWidth: 4,
-          draggable: true
+          draggable: true,
         });
 
         var linearGradPentagon = new Konva.RegularPolygon({
@@ -78,7 +78,7 @@
           fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
           stroke: 'black',
           strokeWidth: 4,
-          draggable: true
+          draggable: true,
         });
 
         var radialGradPentagon = new Konva.RegularPolygon({
@@ -93,71 +93,71 @@
           fillRadialGradientColorStops: [0, 'red', 0.5, 'yellow', 1, 'blue'],
           stroke: 'black',
           strokeWidth: 4,
-          draggable: true
+          draggable: true,
         });
 
         /*
          * bind listeners
          */
-        colorPentagon.on('mouseover touchstart', function() {
+        colorPentagon.on('mouseover touchstart', function () {
           this.fill('blue');
           layer.draw();
         });
 
-        colorPentagon.on('mouseout touchend', function() {
+        colorPentagon.on('mouseout touchend', function () {
           this.fill('red');
           layer.draw();
         });
 
-        patternPentagon.on('mouseover touchstart', function() {
+        patternPentagon.on('mouseover touchstart', function () {
           this.fillPatternImage(images.yoda);
           this.fillPatternOffset({ x: -100, y: 70 });
           layer.draw();
         });
 
-        patternPentagon.on('mouseout touchend', function() {
+        patternPentagon.on('mouseout touchend', function () {
           this.fillPatternImage(images.darthVader);
           this.fillPatternOffset({ x: -220, y: 70 });
           layer.draw();
         });
 
-        linearGradPentagon.on('mouseover touchstart', function() {
+        linearGradPentagon.on('mouseover touchstart', function () {
           this.fillLinearGradientStartPoint({ x: -50 });
           this.fillLinearGradientEndPoint({ x: 50 });
           this.fillLinearGradientColorStops([0, 'green', 1, 'yellow']);
           layer.draw();
         });
 
-        linearGradPentagon.on('mouseout touchend', function() {
+        linearGradPentagon.on('mouseout touchend', function () {
           // set multiple properties at once with setAttrs
           this.setAttrs({
             fillLinearGradientStartPoint: { x: -50, y: -50 },
             fillLinearGradientEndPoint: { x: 50, y: 50 },
-            fillLinearGradientColorStops: [0, 'red', 1, 'yellow']
+            fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
           });
           layer.draw();
         });
 
-        radialGradPentagon.on('mouseover touchstart', function() {
+        radialGradPentagon.on('mouseover touchstart', function () {
           this.fillRadialGradientColorStops([
             0,
             'red',
             0.5,
             'yellow',
             1,
-            'green'
+            'green',
           ]);
           layer.draw();
         });
 
-        radialGradPentagon.on('mouseout touchend', function() {
+        radialGradPentagon.on('mouseout touchend', function () {
           // set multiple properties at once with setAttrs
           this.setAttrs({
             fillRadialGradientStartPoint: 0,
             fillRadialGradientStartRadius: 0,
             fillRadialGradientEndPoint: 0,
             fillRadialGradientEndRadius: 70,
-            fillRadialGradientColorStops: [0, 'red', 0.5, 'yellow', 1, 'blue']
+            fillRadialGradientColorStops: [0, 'red', 0.5, 'yellow', 1, 'blue'],
           });
           layer.draw();
         });
@@ -170,10 +170,10 @@
       }
       var sources = {
         darthVader: '/assets/darth-vader.jpg',
-        yoda: '/assets/yoda.jpg'
+        yoda: '/assets/yoda.jpg',
       };
 
-      loadImages(sources, function(images) {
+      loadImages(sources, function (images) {
         draw(images);
       });
     </script>

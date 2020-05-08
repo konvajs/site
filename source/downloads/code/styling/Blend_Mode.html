@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Blend Mode Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
       var layer = new Konva.Layer();
 
@@ -38,7 +38,7 @@
         strokeWidth: 2,
         shadowColor: 'white',
         // shadowBlur: 0,
-        shadowOffset: { x: 10, y: 10 }
+        shadowOffset: { x: 10, y: 10 },
         // shadowOpacity: 0.5
       });
       layer.add(text);
@@ -51,7 +51,7 @@
         height: 100,
         fill: 'red',
         draggable: true,
-        globalCompositeOperation: 'xor'
+        globalCompositeOperation: 'xor',
       });
 
       layer.add(rect);

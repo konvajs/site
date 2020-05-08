@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Planets Image Map Demo</title>
     <style>
@@ -42,7 +42,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -53,7 +53,7 @@
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
-        fill: 'white'
+        fill: 'white',
       });
 
       var planetsLayer = new Konva.Layer();
@@ -64,43 +64,43 @@
         Mercury: {
           x: 46,
           y: 126,
-          radius: 32
+          radius: 32,
         },
         Venus: {
           x: 179,
           y: 126,
-          radius: 79
+          radius: 79,
         },
         Earth: {
           x: 366,
           y: 127,
-          radius: 85
+          radius: 85,
         },
         Mars: {
           x: 515,
           y: 127,
-          radius: 45
-        }
+          radius: 45,
+        },
       };
 
       var imageObj = new Image();
-      imageObj.onload = function() {
+      imageObj.onload = function () {
         // draw shape overlays
         for (var pubKey in planets) {
-          (function() {
+          (function () {
             var key = pubKey;
             var planet = planets[key];
 
             var planetOverlay = new Konva.Circle({
               x: planet.x,
               y: planet.y,
-              radius: planet.radius
+              radius: planet.radius,
             });
 
-            planetOverlay.on('mouseover', function() {
+            planetOverlay.on('mouseover', function () {
               writeMessage(key);
             });
-            planetOverlay.on('mouseout', function() {
+            planetOverlay.on('mouseout', function () {
               writeMessage('');
             });
 
@@ -111,7 +111,7 @@
         var checkbox = document.getElementById('checkbox');
         checkbox.addEventListener(
           'click',
-          function() {
+          function () {
             var shapes = circlesLayer.getChildren();
 
             // flip show property

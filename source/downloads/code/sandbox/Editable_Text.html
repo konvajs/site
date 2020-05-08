@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Editable Text on html5 canvas Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -33,7 +33,7 @@
         text: 'Some text here',
         x: 50,
         y: 50,
-        fontSize: 20
+        fontSize: 20,
       });
 
       layer.add(textNode);
@@ -54,7 +54,7 @@
         // so position of textarea will be the sum of positions above:
         var areaPosition = {
           x: stageBox.left + textPosition.x,
-          y: stageBox.top + textPosition.y
+          y: stageBox.top + textPosition.y,
         };
 
         // create textarea and style it
@@ -69,7 +69,7 @@
 
         textarea.focus();
 
-        textarea.addEventListener('keydown', function(e) {
+        textarea.addEventListener('keydown', function (e) {
           // hide on enter
           if (e.keyCode === 13) {
             textNode.text(textarea.value);

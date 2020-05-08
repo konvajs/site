@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Tween Filter Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -30,13 +30,13 @@
       var lion = new Konva.Image({
         x: 80,
         y: 30,
-        draggable: true
+        draggable: true,
       });
       layer.add(lion);
       stage.add(layer);
 
       var image = new Image();
-      image.onload = function() {
+      image.onload = function () {
         lion.image(image);
         lion.cache();
         lion.filters([Konva.Filters.Blur]);
@@ -48,14 +48,14 @@
           node: lion,
           duration: 0.6,
           blurRadius: 0,
-          easing: Konva.Easings.EaseInOut
+          easing: Konva.Easings.EaseInOut,
         });
 
-        lion.on('mouseover', function() {
+        lion.on('mouseover', function () {
           tween.play();
         });
 
-        lion.on('mouseout', function() {
+        lion.on('mouseout', function () {
           tween.reverse();
         });
       };

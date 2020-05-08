@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Cancel Event Bubble Propagation Demo</title>
     <style>
@@ -20,7 +20,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -33,19 +33,19 @@
         radius: 70,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
-      circle.on('click', function(evt) {
+      circle.on('click', function (evt) {
         alert('You clicked the circle!');
         evt.cancelBubble = true;
       });
 
-      group.on('click', function() {
+      group.on('click', function () {
         alert('You clicked on the group!');
       });
 
-      layer.on('click', function() {
+      layer.on('click', function () {
         alert('You clicked on the layer!');
       });
 

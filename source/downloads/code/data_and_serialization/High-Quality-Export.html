@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva High Quality Export Demo</title>
     <style>
@@ -36,7 +36,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -50,7 +50,7 @@
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
       layer.add(box);
 
@@ -61,7 +61,7 @@
         fill: 'red',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
       layer.add(circle);
 
@@ -80,7 +80,7 @@
 
       document.getElementById('save').addEventListener(
         'click',
-        function() {
+        function () {
           var dataURL = stage.toDataURL({ pixelRatio: 3 });
           downloadURI(dataURL, 'stage.png');
         },

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Multi-touch Scale Stage Demo</title>
     <style>
@@ -16,7 +16,6 @@
   <body>
     <div id="container"></div>
     <script>
-
       // by default Konva prevent some events when node is dragging
       // it improve the performance and work well for 95% of cases
       // we need to enable all events on Konva, even when we are dragging a node
@@ -42,8 +41,8 @@
         y: height / 2,
         offset: {
           x: width / 2,
-          y: height / 2
-        }
+          y: height / 2,
+        },
       });
 
       var layer = new Konva.Layer();
@@ -55,7 +54,7 @@
         radius: 80,
         fill: 'green',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
       var circle = new Konva.Circle({
@@ -64,10 +63,10 @@
         radius: 70,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
-      stage.on('touchmove', function(e) {
+      stage.on('touchmove', function (e) {
         e.evt.preventDefault();
         var touch1 = e.evt.touches[0];
         var touch2 = e.evt.touches[1];
@@ -76,11 +75,11 @@
           var dist = getDistance(
             {
               x: touch1.clientX,
-              y: touch1.clientY
+              y: touch1.clientY,
             },
             {
               x: touch2.clientX,
-              y: touch2.clientY
+              y: touch2.clientY,
             }
           );
 
@@ -97,7 +96,7 @@
         }
       });
 
-      stage.on('touchend', function() {
+      stage.on('touchend', function () {
         lastDist = 0;
       });
 

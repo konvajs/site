@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Finish Event Demo</title>
     <style>
@@ -27,7 +27,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -38,7 +38,7 @@
         fontFamily: 'Calibri',
         fontSize: 24,
         text: '',
-        fill: 'black'
+        fill: 'black',
       });
 
       var wheel = new Konva.Star({
@@ -50,7 +50,7 @@
         fill: 'purple',
         stroke: 'black',
         strokeWidth: 5,
-        lineJoin: 'bevel'
+        lineJoin: 'bevel',
       });
 
       layer.add(wheel);
@@ -63,12 +63,12 @@
         duration: 4,
         rotation: 360,
         easing: Konva.Easings.BackEaseOut,
-        onFinish: function() {
+        onFinish: function () {
           writeMessage('tween finished!');
-        }
+        },
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         tween.play();
       }, 1000);
     </script>

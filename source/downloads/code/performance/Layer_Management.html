@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Layer Management Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
       var animLayer = new Konva.Layer();
       var staticLayer = new Konva.Layer();
@@ -42,7 +42,7 @@
         fill: '#00D2FF',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
       var yellowHex = new Konva.RegularPolygon({
@@ -53,7 +53,7 @@
         fill: 'yellow',
         stroke: 'black',
         strokeWidth: 4,
-        draggable: true
+        draggable: true,
       });
 
       /*
@@ -70,9 +70,9 @@
         strokeWidth: 4,
         offset: {
           x: 30,
-          y: 0
+          y: 0,
         },
-        draggable: true
+        draggable: true,
       });
 
       var text = new Konva.Text({
@@ -81,7 +81,7 @@
         text: 'Static Layer',
         fontSize: '30',
         fontFamily: 'Calibri',
-        fill: 'black'
+        fill: 'black',
       });
 
       staticLayer.add(text);
@@ -90,7 +90,7 @@
       stage.add(animLayer, staticLayer);
 
       var period = 2000;
-      var anim = new Konva.Animation(function(frame) {
+      var anim = new Konva.Animation(function (frame) {
         var scale = Math.sin((frame.time * 2 * Math.PI) / period) + 0.001;
         // scale x and y
         blueHex.scale({ x: scale, y: scale });

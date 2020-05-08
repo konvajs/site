@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Snapping of shapes Demo</title>
     <style>
@@ -23,7 +23,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -40,7 +40,7 @@
             fill: Konva.Util.getRandomColor(),
             rotation: Math.random() * 360,
             draggable: true,
-            name: 'object'
+            name: 'object',
           })
         );
       }
@@ -52,7 +52,7 @@
         var horizontal = [0, stage.height() / 2, stage.height()];
 
         // and we snap over edges and center of each object on the canvas
-        stage.find('.object').forEach(guideItem => {
+        stage.find('.object').forEach((guideItem) => {
           if (guideItem === skipShape) {
             return;
           }
@@ -63,7 +63,7 @@
         });
         return {
           vertical: vertical.flat(),
-          horizontal: horizontal.flat()
+          horizontal: horizontal.flat(),
         };
       }
 
@@ -77,36 +77,36 @@
             {
               guide: Math.round(box.x),
               offset: Math.round(node.x() - box.x),
-              snap: 'start'
+              snap: 'start',
             },
             {
               guide: Math.round(box.x + box.width / 2),
               offset: Math.round(node.x() - box.x - box.width / 2),
-              snap: 'center'
+              snap: 'center',
             },
             {
               guide: Math.round(box.x + box.width),
               offset: Math.round(node.x() - box.x - box.width),
-              snap: 'end'
-            }
+              snap: 'end',
+            },
           ],
           horizontal: [
             {
               guide: Math.round(box.y),
               offset: Math.round(node.y() - box.y),
-              snap: 'start'
+              snap: 'start',
             },
             {
               guide: Math.round(box.y + box.height / 2),
               offset: Math.round(node.y() - box.y - box.height / 2),
-              snap: 'center'
+              snap: 'center',
             },
             {
               guide: Math.round(box.y + box.height),
               offset: Math.round(node.y() - box.y - box.height),
-              snap: 'end'
-            }
-          ]
+              snap: 'end',
+            },
+          ],
         };
       }
 
@@ -115,8 +115,8 @@
         var resultV = [];
         var resultH = [];
 
-        lineGuideStops.vertical.forEach(lineGuide => {
-          itemBounds.vertical.forEach(itemBound => {
+        lineGuideStops.vertical.forEach((lineGuide) => {
+          itemBounds.vertical.forEach((itemBound) => {
             var diff = Math.abs(lineGuide - itemBound.guide);
             // if the distance between guild line and object snap point is close we can consider this for snapping
             if (diff < GUIDELINE_OFFSET) {
@@ -124,21 +124,21 @@
                 lineGuide: lineGuide,
                 diff: diff,
                 snap: itemBound.snap,
-                offset: itemBound.offset
+                offset: itemBound.offset,
               });
             }
           });
         });
 
-        lineGuideStops.horizontal.forEach(lineGuide => {
-          itemBounds.horizontal.forEach(itemBound => {
+        lineGuideStops.horizontal.forEach((lineGuide) => {
+          itemBounds.horizontal.forEach((itemBound) => {
             var diff = Math.abs(lineGuide - itemBound.guide);
             if (diff < GUIDELINE_OFFSET) {
               resultH.push({
                 lineGuide: lineGuide,
                 diff: diff,
                 snap: itemBound.snap,
-                offset: itemBound.offset
+                offset: itemBound.offset,
               });
             }
           });
@@ -154,7 +154,7 @@
             lineGuide: minV.lineGuide,
             offset: minV.offset,
             orientation: 'V',
-            snap: minV.snap
+            snap: minV.snap,
           });
         }
         if (minH) {
@@ -162,21 +162,21 @@
             lineGuide: minH.lineGuide,
             offset: minH.offset,
             orientation: 'H',
-            snap: minH.snap
+            snap: minH.snap,
           });
         }
         return guides;
       }
 
       function drawGuides(guides) {
-        guides.forEach(lg => {
+        guides.forEach((lg) => {
           if (lg.orientation === 'H') {
             var line = new Konva.Line({
               points: [-6000, lg.lineGuide, 6000, lg.lineGuide],
               stroke: 'rgb(0, 161, 255)',
               strokeWidth: 1,
               name: 'guid-line',
-              dash: [4, 6]
+              dash: [4, 6],
             });
             layer.add(line);
             layer.batchDraw();
@@ -186,7 +186,7 @@
               stroke: 'rgb(0, 161, 255)',
               strokeWidth: 1,
               name: 'guid-line',
-              dash: [4, 6]
+              dash: [4, 6],
             });
             layer.add(line);
             layer.batchDraw();
@@ -194,7 +194,7 @@
         });
       }
 
-      layer.on('dragmove', function(e) {
+      layer.on('dragmove', function (e) {
         // clear all previous lines on the screen
         layer.find('.guid-line').destroy();
 
@@ -214,7 +214,7 @@
         drawGuides(guides);
 
         // now force object position
-        guides.forEach(lg => {
+        guides.forEach((lg) => {
           switch (lg.snap) {
             case 'start': {
               switch (lg.orientation) {
@@ -259,7 +259,7 @@
         });
       });
 
-      layer.on('dragend', function(e) {
+      layer.on('dragend', function (e) {
         // clear all previous lines on the screen
         layer.find('.guid-line').destroy();
         layer.batchDraw();

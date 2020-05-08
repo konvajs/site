@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Responsive Canvas Demo</title>
     <style>
@@ -32,7 +32,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: stageWidth,
-        height: stageHeight
+        height: stageHeight,
       });
 
       var layer = new Konva.Layer();
@@ -43,7 +43,7 @@
         radius: 50,
         fill: 'red',
         x: stage.width() / 2,
-        y: stage.height() / 2
+        y: stage.height() / 2,
       });
       layer.add(circle);
 
@@ -53,7 +53,7 @@
         x: stage.width() - 100,
         y: stage.height() - 100,
         width: 100,
-        height: 100
+        height: 100,
       });
       layer.add(rect);
 

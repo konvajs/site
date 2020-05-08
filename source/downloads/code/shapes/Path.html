@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Path Demo</title>
     <style>
@@ -20,7 +20,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -33,8 +33,8 @@
         fill: 'green',
         scale: {
           x: 2,
-          y: 2
-        }
+          y: 2,
+        },
       });
 
       // add the shape to the layer

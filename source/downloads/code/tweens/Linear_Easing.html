@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Linear Easing Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -35,7 +35,7 @@
         fill: 'green',
         stroke: 'black',
         strokeWidth: 2,
-        opacity: 0.2
+        opacity: 0.2,
       });
 
       layer.add(rect);
@@ -51,11 +51,11 @@
         rotation: Math.PI * 2,
         opacity: 1,
         strokeWidth: 6,
-        scaleX: 1.5
+        scaleX: 1.5,
       });
 
       // start tween after 2 seconds
-      setTimeout(function() {
+      setTimeout(function () {
         tween.play();
       }, 2000);
     </script>

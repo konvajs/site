@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Canvas Keyboard events Demo</title>
     <style>
@@ -20,7 +20,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       var layer = new Konva.Layer();
@@ -32,7 +32,7 @@
         radius: 70,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
       layer.add(circle);
@@ -49,7 +49,7 @@
 
       const DELTA = 4;
 
-      container.addEventListener('keydown', function(e) {
+      container.addEventListener('keydown', function (e) {
         if (e.keyCode === 37) {
           circle.x(circle.x() - DELTA);
         } else if (e.keyCode === 38) {

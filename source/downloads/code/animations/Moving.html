@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Animate Position Demo</title>
     <style>
@@ -22,7 +22,7 @@
       var stage = new Konva.Stage({
         container: 'container',
         width: width,
-        height: height
+        height: height,
       });
 
       var layer = new Konva.Layer();
@@ -34,7 +34,7 @@
         radius: 20,
         fill: 'red',
         stroke: 'black',
-        strokeWidth: 4
+        strokeWidth: 4,
       });
 
       layer.add(hexagon);
@@ -45,7 +45,7 @@
       // in ms
       var centerX = stage.width() / 2;
 
-      var anim = new Konva.Animation(function(frame) {
+      var anim = new Konva.Animation(function (frame) {
         hexagon.x(
           amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + centerX
         );

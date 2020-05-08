@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@5.0.3/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Wheel of Fortune Demo</title>
     <style>
@@ -76,7 +76,7 @@
         var startColor = 'rgb(' + r + ',' + g + ',' + b + ')';
 
         var wedge = new Konva.Group({
-          rotation: (2 * n * Math.PI) / numWedges
+          rotation: (2 * n * Math.PI) / numWedges,
         });
 
         var wedgeBackground = new Konva.Wedge({
@@ -90,7 +90,7 @@
           fill: '#64e9f8',
           fillPriority: 'radial-gradient',
           stroke: '#ccc',
-          strokeWidth: 2
+          strokeWidth: 2,
         });
 
         wedge.add(wedgeBackground);
@@ -106,7 +106,7 @@
           rotation: (Math.PI + angle) / 2,
           x: 380,
           y: 30,
-          listening: false
+          listening: false,
         });
 
         wedge.add(text);
@@ -125,7 +125,7 @@
         // activate / deactivate wedges based on point intersection
         var shape = stage.getIntersection({
           x: stage.width() / 2,
-          y: 100
+          y: 100,
         });
 
         if (controlled) {
@@ -142,10 +142,7 @@
             wheel.rotate(diff);
           } else if (!finished && !controlled) {
             if (shape) {
-              var text = shape
-                .getParent()
-                .findOne('Text')
-                .text();
+              var text = shape.getParent().findOne('Text').text();
               var price = text.split('\n').join('');
               alert('You price is ' + price);
             }
@@ -162,7 +159,7 @@
               node: pointer,
               duration: 0.3,
               y: 30,
-              easing: Konva.Easings.ElasticEaseOut
+              easing: Konva.Easings.ElasticEaseOut,
             }).play();
 
             if (activeWedge) {
@@ -177,12 +174,12 @@
         stage = new Konva.Stage({
           container: 'container',
           width: width,
-          height: height
+          height: height,
         });
         layer = new Konva.Layer();
         wheel = new Konva.Group({
           x: stage.width() / 2,
-          y: 410
+          y: 410,
         });
 
         for (var n = 0; n < numWedges; n++) {
@@ -206,7 +203,7 @@
           shadowOffsetX: 3,
           shadowOffsetY: 3,
           shadowBlur: 2,
-          shadowOpacity: 0.5
+          shadowOpacity: 0.5,
         });
 
         // add components to the stage
@@ -215,7 +212,7 @@
         stage.add(layer);
 
         // bind events
-        wheel.on('mousedown touchstart', function(evt) {
+        wheel.on('mousedown touchstart', function (evt) {
           angularVelocity = 0;
           controlled = true;
           target = evt.target;
@@ -224,7 +221,7 @@
         // add listeners to container
         stage.addEventListener(
           'mouseup touchend',
-          function() {
+          function () {
             controlled = false;
             angularVelocity = getAverageAngularVelocity() * 5;
 
@@ -241,7 +238,7 @@
 
         stage.addEventListener(
           'mousemove touchmove',
-          function(evt) {
+          function (evt) {
             var mousePos = stage.getPointerPosition();
             if (controlled && mousePos && target) {
               var x = mousePos.x - wheel.getX();
@@ -261,7 +258,7 @@
         var anim = new Konva.Animation(animate, layer);
 
         // wait one second and then spin the wheel
-        setTimeout(function() {
+        setTimeout(function () {
           anim.start();
         }, 1000);
       }
