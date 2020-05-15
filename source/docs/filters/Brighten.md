@@ -2,7 +2,7 @@ title: HTML5 Canvas Brighten Image Filter Tutorial
 ---
 
 To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
-function. Then apply filter with `filter()` function.
+function. Then apply filter with `filters()` function.
 
 To brighten or darken an image with Konva, we can use the `Konva.Filters.Brighten`
 filter and set the brightness amount with the `brightness` property.
