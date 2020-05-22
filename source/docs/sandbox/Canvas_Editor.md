@@ -10,4 +10,6 @@ This demo demonstrate [polotno.dev](https://polotno.dev/) framework.
 
 *Note: Polotno is currently in private alpha development stage. The release will be ready soon.*
 
+*Also it may be not optimized yet for small screens, so just [open it in a new window](https://codesandbox.io/embed/polotno-demo-yi1v5?fontsize=14&hidenavigation=1&theme=dark&view=preview) for better experience.**
+
 <iframe src="https://codesandbox.io/embed/polotno-demo-yi1v5?fontsize=14&hidenavigation=1&theme=dark&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
