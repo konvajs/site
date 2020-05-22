@@ -147,6 +147,26 @@ doc_sidebar:
     Avoid Memory Leaks: performance/Avoid_Memory_Leaks.html
 
 demo_sidebar:
+  CAD Systems:
+    Canvas Editor:
+      - polotno.jpg
+      - sandbox/Canvas_Editor.html
+    Simple Window Frame:
+      - simple-window.png
+      - sandbox/Simple_Window_Frame.html
+    Window Frame Designer:
+      - window.png
+      - sandbox/Window_Frame_Designer.html
+    Seats Reservation:
+      - seats-reservation.jpg
+      - sandbox/Seats_Reservation.html
+    Drawing Labels on Image:
+      - annotate.jpg
+      - sandbox/Image_Labeling.html
+    Interactive Building Map:
+      - building_map-min.png
+      - sandbox/Interactive_Building_Map.html
+
   Games and Apps:
     Wheel of Fortune:
       - wheel-of-fortune-min.png
@@ -163,22 +183,7 @@ demo_sidebar:
     Physics Simulator:
       - simulator-min.png
       - sandbox/Physics_Simulator.html
-  CAD Systems:
-    Simple Window Frame:
-      - simple-window.png
-      - sandbox/Simple_Window_Frame.html
-    Window Frame Designer:
-      - window.png
-      - sandbox/Window_Frame_Designer.html
-    Seats Reservation:
-      - seats-reservation.jpg
-      - sandbox/Seats_Reservation.html
-    Drawing Labels on Image:
-      - annotate.jpg
-      - sandbox/Image_Labeling.html
-    Interactive Building Map:
-      - building_map-min.png
-      - sandbox/Interactive_Building_Map.html
+
   Common use cases:
     Editable Text:
       - editable_text-min.png
