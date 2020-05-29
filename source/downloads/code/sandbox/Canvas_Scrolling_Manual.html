@@ -80,7 +80,7 @@
           stage.height() - PADDING * 2 - verticalBar.height();
         var delta = (verticalBar.y() - PADDING) / availableHeight;
 
-        layer.y(-stage.height() * delta);
+        layer.y(-(HEIGHT - stage.height()) * delta);
         layer.batchDraw();
       });
 
@@ -111,7 +111,7 @@
           stage.width() - PADDING * 2 - horizontalBar.width();
         var delta = (horizontalBar.x() - PADDING) / availableWidth;
 
-        layer.x(-stage.width() * delta);
+        layer.x(-(WIDTH - stage.width()) * delta);
         layer.batchDraw();
       });
     </script>
