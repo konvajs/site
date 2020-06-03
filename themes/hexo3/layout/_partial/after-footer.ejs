@@ -9,6 +9,7 @@
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
+      dsq.defer = true;
       dsq.src = '//go.disqus.com/<% if (page.comments){ %>embed.js<% } else { %>count.js<% } %>';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
@@ -18,6 +19,8 @@
 <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
+  media="print"
+  onload="this.media='all'"
 />
 <script
   type="text/javascript"
