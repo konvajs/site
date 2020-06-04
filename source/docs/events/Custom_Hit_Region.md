@@ -1,33 +1,26 @@
-title: HTML5 Canvas Custom Hit Detection Function Tutorial
+title: 自定义事件监听范围
 ---
 
-There are two ways to change hit region of the shape: `hitFunc` and `hitStrokeWidth` properties.
+我们可以使用 `hitFunc` 和 `hitStrokeWidth` 改变事件响应区域
 
-## 1. What is `hitFunc`?
+## 1. 什么是 `hitFunc`?
 
-To create a custom hit draw function for a shape with Konva, we can set
-the `hitFunc` property.  A hit draw function is the function that Konva
-will use to draw a region used for hit detection.  Using a custom draw hit
-function can have several benefits, such as making the hit region larger
-so that it's easier for users to interact with a shape, making some portions
-of a shape detectable and others not, or simplifying the hit draw function
-in order to improve rendering performance.
+我们可以通过设置 `hitFunc` 属性来创建一个定义事件响应区域函数。Konva 通过这个函数绘制一个区域用于监听事件被响应。使用自定义的函数的好处有很多，比方说：扩大一个图形交互的响应区域、让一个图形的局部相应事件而其它部分不能、或者运用简单的函数提高渲染性能。
 
-Also take a look into some [best practices](/docs/shapes/Custom.html) of writing custom `sceneFunc` that can be used for `hitFunc` too.
+查看自定义 `sceneFunc` 的[最佳实践](/docs/shapes/Custom.html) 同样也适用于 `hitFunc`。
 
-`hitFunc` is a function with two arguments: [Konva.Context](/api/Konva.Context.html) renderer and a shape instance.
+`hitFunc` 包含两个入参：[Konva.Context](/api/Konva.Context.html) 和 图形的实例。
 
-With `hitFunc` you have full control over drawing.
+通过 `hitFunc` 你可以完全掌控响应区域的绘制。
 
-## 2. What is `hitStrokeWidth`?
+## 2. 什么是 `hitStrokeWidth`?
 
-For some shapes, like `Konva.Line` it is too hard to overwrite `hitFunc`. In some cases you just want to make it thicker for events. In this case it is better to use `hitStrokeWidth` property with a large value.
+对于某些图形，像 `Konva.Line` 重写它的 `hitFunc` 会比较困难。某些情况下你仅仅知识像让事件响应的区域更粗一点。
+这种情况更适合使用 `hitStrokeWidth`。
 
+说明：尝试鼠标 mouseover, mouseout, mousedown, 和 mouseup 图形，观察响应区域已经超过了图形范围；
 
-Instructions: Mouseover, mouseout, mousedown, and mouseup over the star and
-observe that the hit region is an over sized circle encompassing the shape. Also try the same for a a line.
 Also you can toggle hit canvas too see how it looks. It may be useful for debugging.
-
 
 
 {% iframe /downloads/code/events/Custom_Hit_Region.html %}

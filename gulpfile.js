@@ -33,7 +33,7 @@ function generateDocs() {
   return gulp.src(['./konva.js', '../konva/README.md']).pipe(jsdoc(config));
 }
 
-exports.default = gulp.series(
+exports.generate = gulp.series(
   cleanPublic,
   generateHexo,
   cleanPublicDownloads,

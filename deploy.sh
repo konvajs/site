@@ -14,4 +14,4 @@ cd public
 git init
 git add .
 git commit -am 'Update docs'
-git push git@github.com:konvajs/konvajs.github.io.git master --force
+git push https://github.com/bluehymn/cn.konvajs.git master --force
