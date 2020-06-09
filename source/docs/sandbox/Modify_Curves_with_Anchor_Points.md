@@ -2,6 +2,8 @@ title: Modify Curves with Anchor Points
 layout: demo_page
 ---
 
+# How to modify line points with anchors?
+
 Instructions: Use your mouse or finger and drag and drop the anchor points to
 modify the curvature of the quadratic curve and the Bezier curve.
 
