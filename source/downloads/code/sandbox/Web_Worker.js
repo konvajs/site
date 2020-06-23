@@ -145,7 +145,6 @@ async function runBunnies() {
     var bunny = new Konva.Image({
       image: img,
       transformsEnabled: 'position',
-      hitGraphEnabled: false,
       x: 10,
       y: 10,
       listening: false

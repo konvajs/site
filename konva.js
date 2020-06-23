@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v6.0.0
+   * Konva JavaScript Framework v7.0.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri May 08 2020
+   * Date: Tue Jun 23 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '6.0.0',
+      version: '7.0.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -301,8 +301,17 @@
   var Transform = /** @class */ (function () {
       function Transform(m) {
           if (m === void 0) { m = [1, 0, 0, 1, 0, 0]; }
+          this.dirty = false;
           this.m = (m && m.slice()) || [1, 0, 0, 1, 0, 0];
       }
+      Transform.prototype.reset = function () {
+          this.m[0] = 1;
+          this.m[1] = 0;
+          this.m[2] = 0;
+          this.m[3] = 1;
+          this.m[4] = 0;
+          this.m[5] = 0;
+      };
       /**
        * Copy Konva.Transform object
        * @method
@@ -313,6 +322,14 @@
        */
       Transform.prototype.copy = function () {
           return new Transform(this.m);
+      };
+      Transform.prototype.copyInto = function (tr) {
+          tr.m[0] = this.m[0];
+          tr.m[1] = this.m[1];
+          tr.m[2] = this.m[2];
+          tr.m[3] = this.m[3];
+          tr.m[4] = this.m[4];
+          tr.m[5] = this.m[5];
       };
       /**
        * Transform point
@@ -325,7 +342,7 @@
           var m = this.m;
           return {
               x: m[0] * point.x + m[2] * point.y + m[4],
-              y: m[1] * point.x + m[3] * point.y + m[5]
+              y: m[1] * point.x + m[3] * point.y + m[5],
           };
       };
       /**
@@ -385,7 +402,7 @@
       Transform.prototype.getTranslation = function () {
           return {
               x: this.m[4],
-              y: this.m[5]
+              y: this.m[5],
           };
       };
       /**
@@ -491,7 +508,7 @@
               scaleX: 0,
               scaleY: 0,
               skewX: 0,
-              skewY: 0
+              skewY: 0,
           };
           // Apply the QR-like decomposition.
           if (a != 0 || b != 0) {
@@ -666,7 +683,7 @@
       white: [255, 255, 255],
       whitesmoke: [245, 245, 245],
       yellow: [255, 255, 0],
-      yellowgreen: [154, 205, 5]
+      yellowgreen: [154, 205, 5],
   }, RGB_REGEX = /rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/, animQueue = [];
   /**
    * @namespace Util
@@ -789,7 +806,7 @@
           return {
               r: (bigint >> 16) & 255,
               g: (bigint >> 8) & 255,
-              b: bigint & 255
+              b: bigint & 255,
           };
       },
       /**
@@ -833,7 +850,7 @@
               return {
                   r: rgb[0],
                   g: rgb[1],
-                  b: rgb[2]
+                  b: rgb[2],
               };
           }
           else if (color[0] === HASH) {
@@ -846,7 +863,7 @@
               return {
                   r: parseInt(rgb[1], 10),
                   g: parseInt(rgb[2], 10),
-                  b: parseInt(rgb[3], 10)
+                  b: parseInt(rgb[3], 10),
               };
           }
           else {
@@ -854,7 +871,7 @@
               return {
                   r: 0,
                   g: 0,
-                  b: 0
+                  b: 0,
               };
           }
       },
@@ -879,7 +896,7 @@
               r: c[0],
               g: c[1],
               b: c[2],
-              a: 1
+              a: 1,
           };
       },
       // Parse rgb(n, n, n)
@@ -891,7 +908,7 @@
                   r: parts[0],
                   g: parts[1],
                   b: parts[2],
-                  a: 1
+                  a: 1,
               };
           }
       },
@@ -904,7 +921,7 @@
                   r: parts[0],
                   g: parts[1],
                   b: parts[2],
-                  a: parts[3]
+                  a: parts[3],
               };
           }
       },
@@ -915,7 +932,7 @@
                   r: parseInt(str.slice(1, 3), 16),
                   g: parseInt(str.slice(3, 5), 16),
                   b: parseInt(str.slice(5, 7), 16),
-                  a: 1
+                  a: 1,
               };
           }
       },
@@ -926,7 +943,7 @@
                   r: parseInt(str[1] + str[1], 16),
                   g: parseInt(str[2] + str[2], 16),
                   b: parseInt(str[3] + str[3], 16),
-                  a: 1
+                  a: 1,
               };
           }
       },
@@ -948,7 +965,7 @@
                       r: Math.round(val),
                       g: Math.round(val),
                       b: Math.round(val),
-                      a: 1
+                      a: 1,
                   };
               }
               if (l < 0.5) {
@@ -985,7 +1002,7 @@
                   r: Math.round(rgb[0]),
                   g: Math.round(rgb[1]),
                   b: Math.round(rgb[2]),
-                  a: 1
+                  a: 1,
               };
           }
       },
@@ -1145,13 +1162,13 @@
           for (n = 0; n < startArray.length; n += 2) {
               start.push({
                   x: startArray[n],
-                  y: startArray[n + 1]
+                  y: startArray[n + 1],
               });
           }
           for (n = 0; n < endArray.length; n += 2) {
               end.push({
                   x: endArray[n],
-                  y: endArray[n + 1]
+                  y: endArray[n + 1],
               });
           }
           var newStart = [];
@@ -1206,7 +1223,7 @@
           else {
               return evt.changedTouches[0].identifier;
           }
-      }
+      },
   };
 
   function _formatValue(val) {
@@ -1327,9 +1344,9 @@
   var GET = 'get', SET = 'set';
   var Factory = {
       addGetterSetter: function (constructor, attr, def, validator, after) {
-          this.addGetter(constructor, attr, def);
-          this.addSetter(constructor, attr, validator, after);
-          this.addOverloadedGetterSetter(constructor, attr);
+          Factory.addGetter(constructor, attr, def);
+          Factory.addSetter(constructor, attr, validator, after);
+          Factory.addOverloadedGetterSetter(constructor, attr);
       },
       addGetter: function (constructor, attr, def) {
           var method = GET + Util._capitalize(attr);
@@ -1392,7 +1409,7 @@
               }
               return this;
           };
-          this.addOverloadedGetterSetter(constructor, attr);
+          Factory.addOverloadedGetterSetter(constructor, attr);
       },
       addOverloadedGetterSetter: function (constructor, attr) {
           var capitalizedAttr = Util._capitalize(attr), setter = SET + capitalizedAttr, getter = GET + capitalizedAttr;
@@ -1416,10 +1433,10 @@
               var val = this.attrs[attr];
               return val === undefined ? def : val;
           };
-          this.addSetter(constructor, attr, validator, function () {
+          Factory.addSetter(constructor, attr, validator, function () {
               Util.error(message);
           });
-          this.addOverloadedGetterSetter(constructor, attr);
+          Factory.addOverloadedGetterSetter(constructor, attr);
       },
       backCompat: function (constructor, methods) {
           Util.each(methods, function (oldMethodName, newMethodName) {
@@ -1441,7 +1458,7 @@
       },
       afterSetFilter: function () {
           this._filterUpToDate = false;
-      }
+      },
   };
 
   /*! *****************************************************************************
@@ -1527,7 +1544,7 @@
       'stroke',
       'strokeText',
       'transform',
-      'translate'
+      'translate',
   ];
   var CONTEXT_PROPERTIES = [
       'fillStyle',
@@ -1546,7 +1563,7 @@
       'textBaseline',
       'globalAlpha',
       'globalCompositeOperation',
-      'imageSmoothingEnabled'
+      'imageSmoothingEnabled',
   ];
   var traceArrMax = 100;
   /**
@@ -1711,7 +1728,7 @@
           }
       };
       Context.prototype._applyLineJoin = function (shape) {
-          var lineJoin = shape.getLineJoin();
+          var lineJoin = shape.attrs.lineJoin;
           if (lineJoin) {
               this.setAttr('lineJoin', lineJoin);
           }
@@ -2044,7 +2061,7 @@
                   ret = origMethod.apply(that, arguments);
                   that._trace({
                       method: methodName,
-                      args: args
+                      args: args,
                   });
                   return ret;
               };
@@ -2065,7 +2082,7 @@
               }
               that._trace({
                   property: prop,
-                  val: val
+                  val: val,
               });
           };
       };
@@ -2084,7 +2101,7 @@
           },
           set: function (val) {
               this._context[prop] = val;
-          }
+          },
       });
   });
   var SceneContext = /** @class */ (function (_super) {
@@ -2209,7 +2226,7 @@
       SceneContext.prototype._applyShadow = function (shape) {
           var util = Util, color = util.get(shape.getShadowRGBA(), 'black'), blur = util.get(shape.getShadowBlur(), 5), offset = util.get(shape.getShadowOffset(), {
               x: 0,
-              y: 0
+              y: 0,
           }), scale = shape.getAbsoluteScale(), ratio = this.canvas.getPixelRatio(), scaleX = scale.x * ratio, scaleY = scale.y * ratio;
           this.setAttr('shadowColor', color);
           this.setAttr('shadowBlur', blur * Math.min(Math.abs(scaleX), Math.abs(scaleY)));
@@ -2442,6 +2459,7 @@
       _dragElements: new Map(),
       // methods
       _drag: function (evt) {
+          var nodesToFireEvents = [];
           DD._dragElements.forEach(function (elem, key) {
               var node = elem.node;
               // we need to find pointer relative to that node
@@ -2470,11 +2488,14 @@
                   }
               }
               node._setDragPosition(evt, elem);
-              // execute ondragmove if defined
+              nodesToFireEvents.push(node);
+          });
+          // call dragmove only after ALL positions are changed
+          nodesToFireEvents.forEach(function (node) {
               node.fire('dragmove', {
                   type: 'dragmove',
                   target: node,
-                  evt: evt
+                  evt: evt,
               }, true);
           });
       },
@@ -2512,14 +2533,14 @@
                   elem.node.fire('dragend', {
                       type: 'dragend',
                       target: elem.node,
-                      evt: evt
+                      evt: evt,
                   }, true);
               }
               if (elem.dragStatus !== 'dragging') {
                   DD._dragElements.delete(key);
               }
           });
-      }
+      },
   };
   if (Konva.isBrowser) {
       window.addEventListener('mouseup', DD._endDragBefore, true);
@@ -2627,6 +2648,7 @@
           this.index = 0;
           this.parent = null;
           this._cache = new Map();
+          this._attachedDepsListeners = new Map();
           this._lastPos = null;
           this._batchingTransformChange = false;
           this._needClearTransformCache = false;
@@ -2660,9 +2682,16 @@
       Node.prototype.getChildren = function () {
           return emptyChildren;
       };
-      /** @lends Konva.Node.prototype */
       Node.prototype._clearCache = function (attr) {
-          if (attr) {
+          // if we want to clear transform cache
+          // we don't really need to remove it from the cache
+          // but instead mark as "dirty"
+          // so we don't need to create a new instance next time
+          if ((attr === TRANSFORM || attr === ABSOLUTE_TRANSFORM) &&
+              this._cache.get(attr)) {
+              this._cache.get(attr).dirty = true;
+          }
+          else if (attr) {
               this._cache.delete(attr);
           }
           else {
@@ -2671,12 +2700,30 @@
       };
       Node.prototype._getCache = function (attr, privateGetter) {
           var cache = this._cache.get(attr);
+          // for transform the cache can be NOT empty
+          // but we still need to recalculate it if it is dirty
+          var isTransform = attr === TRANSFORM || attr === ABSOLUTE_TRANSFORM;
+          var invalid = cache === undefined || (isTransform && cache.dirty === true);
           // if not cached, we need to set it using the private getter method.
-          if (cache === undefined) {
+          if (invalid) {
               cache = privateGetter.call(this);
               this._cache.set(attr, cache);
           }
           return cache;
+      };
+      Node.prototype._calculate = function (name, deps, getter) {
+          var _this = this;
+          // if we are trying to calculate function for the first time
+          // we need to attach listeners for change events
+          if (!this._attachedDepsListeners.get(name)) {
+              var depsString = deps.map(function (dep) { return dep + 'Change.konva'; }).join(SPACE);
+              this.on(depsString, function () {
+                  _this._clearCache(name);
+              });
+              this._attachedDepsListeners.set(name, true);
+          }
+          // just use cache function
+          return this._getCache(name, getter);
       };
       Node.prototype._getCanvasCache = function () {
           return this._cache.get(CANVAS);
@@ -2795,6 +2842,7 @@
               height: height,
           }), sceneContext = cachedSceneCanvas.getContext(), hitContext = cachedHitCanvas.getContext();
           cachedHitCanvas.isCache = true;
+          cachedSceneCanvas.isCache = true;
           this._cache.delete('canvas');
           this._filterUpToDate = false;
           if (conf.imageSmoothingEnabled === false) {
@@ -2809,8 +2857,8 @@
           this._isUnderCache = true;
           this._clearSelfAndDescendantCache(ABSOLUTE_OPACITY);
           this._clearSelfAndDescendantCache(ABSOLUTE_SCALE);
-          this.drawScene(cachedSceneCanvas, this, true);
-          this.drawHit(cachedHitCanvas, this, true);
+          this.drawScene(cachedSceneCanvas, this);
+          this.drawHit(cachedHitCanvas, this);
           this._isUnderCache = false;
           sceneContext.restore();
           hitContext.restore();
@@ -3248,24 +3296,27 @@
        * });
        */
       Node.prototype.setAttrs = function (config) {
-          var key, method;
-          if (!config) {
-              return this;
-          }
-          for (key in config) {
-              if (key === CHILDREN) {
-                  continue;
+          var _this = this;
+          this._batchTransformChanges(function () {
+              var key, method;
+              if (!config) {
+                  return _this;
               }
-              method = SET$1 + Util._capitalize(key);
-              // use setter if available
-              if (Util._isFunction(this[method])) {
-                  this[method](config[key]);
+              for (key in config) {
+                  if (key === CHILDREN) {
+                      continue;
+                  }
+                  method = SET$1 + Util._capitalize(key);
+                  // use setter if available
+                  if (Util._isFunction(_this[method])) {
+                      _this[method](config[key]);
+                  }
+                  else {
+                      // otherwise set directly
+                      _this._setAttr(key, config[key]);
+                  }
               }
-              else {
-                  // otherwise set directly
-                  this._setAttr(key, config[key]);
-              }
-          }
+          });
           return this;
       };
       /**
@@ -3276,12 +3327,8 @@
        * ----------+-----------+------------
        * T         | T         | T
        * T         | F         | F
-       * F         | T         | T
+       * F         | T         | F
        * F         | F         | F
-       * ----------+-----------+------------
-       * T         | I         | T
-       * F         | I         | F
-       * I         | I         | T
        *
        * @method
        * @name Konva.Node#isListening
@@ -3290,77 +3337,62 @@
       Node.prototype.isListening = function () {
           return this._getCache(LISTENING, this._isListening);
       };
-      Node.prototype._isListening = function () {
-          var listening = this.listening(), parent = this.getParent();
-          // the following conditions are a simplification of the truth table above.
-          // please modify carefully
-          if (listening === 'inherit') {
-              if (parent) {
-                  return parent.isListening();
-              }
-              else {
-                  return true;
-              }
+      Node.prototype._isListening = function (relativeTo) {
+          var listening = this.listening();
+          if (!listening) {
+              return false;
+          }
+          var parent = this.getParent();
+          if (parent && parent !== relativeTo && this !== relativeTo) {
+              return parent._isListening(relativeTo);
           }
           else {
-              return listening;
+              return true;
           }
       };
       /**
-         * determine if node is visible by taking into account ancestors.
-         *
-         * Parent    | Self      | isVisible
-         * visible   | visible   |
-         * ----------+-----------+------------
-         * T         | T         | T
-         * T         | F         | F
-         * F         | T         | T
-         * F         | F         | F
-         * ----------+-----------+------------
-         * T         | I         | T
-         * F         | I         | F
-         * I         | I         | T
-    
-          * @method
-          * @name Konva.Node#isVisible
-          * @returns {Boolean}
-          */
+       * determine if node is visible by taking into account ancestors.
+       *
+       * Parent    | Self      | isVisible
+       * visible   | visible   |
+       * ----------+-----------+------------
+       * T         | T         | T
+       * T         | F         | F
+       * F         | T         | F
+       * F         | F         | F
+       * @method
+       * @name Konva.Node#isVisible
+       * @returns {Boolean}
+       */
       Node.prototype.isVisible = function () {
           return this._getCache(VISIBLE, this._isVisible);
       };
       Node.prototype._isVisible = function (relativeTo) {
-          var visible = this.visible(), parent = this.getParent();
-          // the following conditions are a simplification of the truth table above.
-          // please modify carefully
-          if (visible === 'inherit') {
-              if (parent && parent !== relativeTo) {
-                  return parent._isVisible(relativeTo);
-              }
-              else {
-                  return true;
-              }
+          var visible = this.visible();
+          if (!visible) {
+              return false;
           }
-          else if (relativeTo && relativeTo !== parent) {
-              return visible && parent._isVisible(relativeTo);
+          var parent = this.getParent();
+          if (parent && parent !== relativeTo && this !== relativeTo) {
+              return parent._isVisible(relativeTo);
           }
           else {
-              return visible;
+              return true;
           }
       };
-      /**
-       * determine if listening is enabled by taking into account descendants.  If self or any children
-       * have _isListeningEnabled set to true, then self also has listening enabled.
-       * @method
-       * @name Konva.Node#shouldDrawHit
-       * @returns {Boolean}
-       */
-      Node.prototype.shouldDrawHit = function () {
+      Node.prototype.shouldDrawHit = function (top) {
+          if (top) {
+              return this._isVisible(top) && this._isListening(top);
+          }
           var layer = this.getLayer();
-          return ((!layer && this.isListening() && this.isVisible()) ||
-              (layer &&
-                  layer.hitGraphEnabled() &&
-                  this.isListening() &&
-                  this.isVisible()));
+          var layerUnderDrag = false;
+          DD._dragElements.forEach(function (elem) {
+              if (elem.dragStatus === 'dragging' && elem.node.getLayer() === layer) {
+                  layerUnderDrag = true;
+              }
+          });
+          var dragSkip = !Konva.hitOnDragEnabled && layerUnderDrag;
+          return this.isListening() && this.isVisible() && !dragSkip;
       };
       /**
        * show node. set visible = true
@@ -3952,20 +3984,27 @@
           }
           else {
               // try to use a cached value
+              at = this._cache.get(ABSOLUTE_TRANSFORM) || new Transform();
               if (this.parent) {
                   // transform will be cached
-                  at = this.parent.getAbsoluteTransform().copy();
+                  this.parent.getAbsoluteTransform().copyInto(at);
               }
               else {
-                  at = new Transform();
+                  at.reset();
               }
               var transformsEnabled = this.transformsEnabled();
               if (transformsEnabled === 'all') {
                   at.multiply(this.getTransform());
               }
               else if (transformsEnabled === 'position') {
-                  at.translate(this.x() - this.offsetX(), this.y() - this.offsetY());
+                  // use "attrs" directly, because it is a bit faster
+                  var x = this.attrs.x || 0;
+                  var y = this.attrs.y || 0;
+                  var offsetX = this.attrs.offsetX || 0;
+                  var offsetY = this.attrs.offsetY || 0;
+                  at.translate(x - offsetX, y - offsetY);
               }
+              at.dirty = false;
               return at;
           }
       };
@@ -4027,7 +4066,13 @@
           return this._getCache(TRANSFORM, this._getTransform);
       };
       Node.prototype._getTransform = function () {
-          var m = new Transform(), x = this.x(), y = this.y(), rotation = Konva.getAngle(this.rotation()), scaleX = this.scaleX(), scaleY = this.scaleY(), skewX = this.skewX(), skewY = this.skewY(), offsetX = this.offsetX(), offsetY = this.offsetY();
+          var _a, _b;
+          var m = this._cache.get(TRANSFORM) || new Transform();
+          m.reset();
+          // I was trying to use attributes directly here
+          // but it doesn't work for Transformer well
+          // because it overwrite x,y getters
+          var x = this.x(), y = this.y(), rotation = Konva.getAngle(this.rotation()), scaleX = (_a = this.attrs.scaleX) !== null && _a !== void 0 ? _a : 1, scaleY = (_b = this.attrs.scaleY) !== null && _b !== void 0 ? _b : 1, skewX = this.attrs.skewX || 0, skewY = this.attrs.skewY || 0, offsetX = this.attrs.offsetX || 0, offsetY = this.attrs.offsetY || 0;
           if (x !== 0 || y !== 0) {
               m.translate(x, y);
           }
@@ -4043,6 +4088,7 @@
           if (offsetX !== 0 || offsetY !== 0) {
               m.translate(-1 * offsetX, -1 * offsetY);
           }
+          m.dirty = false;
           return m;
       };
       /**
@@ -4642,6 +4688,7 @@
   }());
   Node.prototype.nodeType = 'Node';
   Node.prototype._attrsAffectingSize = [];
+  var addGetterSetter = Factory.addGetterSetter;
   /**
    * get/set zIndex relative to the node's siblings who share the same parent.
    * Please remember that zIndex is not absolute (like in CSS). It is relative to parent element only.
@@ -4656,7 +4703,7 @@
    * // set index
    * node.zIndex(2);
    */
-  Factory.addGetterSetter(Node, 'zIndex');
+  addGetterSetter(Node, 'zIndex');
   /**
    * get/set node absolute position
    * @name Konva.Node#absolutePosition
@@ -4675,8 +4722,8 @@
    *   y: 10
    * });
    */
-  Factory.addGetterSetter(Node, 'absolutePosition');
-  Factory.addGetterSetter(Node, 'position');
+  addGetterSetter(Node, 'absolutePosition');
+  addGetterSetter(Node, 'position');
   /**
    * get/set node position relative to parent
    * @name Konva.Node#position
@@ -4695,7 +4742,7 @@
    *   y: 10
    * });
    */
-  Factory.addGetterSetter(Node, 'x', 0, getNumberValidator());
+  addGetterSetter(Node, 'x', 0, getNumberValidator());
   /**
    * get/set x position
    * @name Konva.Node#x
@@ -4709,7 +4756,7 @@
    * // set x
    * node.x(5);
    */
-  Factory.addGetterSetter(Node, 'y', 0, getNumberValidator());
+  addGetterSetter(Node, 'y', 0, getNumberValidator());
   /**
    * get/set y position
    * @name Konva.Node#y
@@ -4723,7 +4770,7 @@
    * // set y
    * node.y(5);
    */
-  Factory.addGetterSetter(Node, 'globalCompositeOperation', 'source-over', getStringValidator());
+  addGetterSetter(Node, 'globalCompositeOperation', 'source-over', getStringValidator());
   /**
    * get/set globalCompositeOperation of a shape
    * @name Konva.Node#globalCompositeOperation
@@ -4737,7 +4784,7 @@
    * // set globalCompositeOperation
    * shape.globalCompositeOperation('source-in');
    */
-  Factory.addGetterSetter(Node, 'opacity', 1, getNumberValidator());
+  addGetterSetter(Node, 'opacity', 1, getNumberValidator());
   /**
    * get/set opacity.  Opacity values range from 0 to 1.
    *  A node with an opacity of 0 is fully transparent, and a node
@@ -4753,7 +4800,7 @@
    * // set opacity
    * node.opacity(0.5);
    */
-  Factory.addGetterSetter(Node, 'name', '', getStringValidator());
+  addGetterSetter(Node, 'name', '', getStringValidator());
   /**
    * get/set name
    * @name Konva.Node#name
@@ -4770,7 +4817,7 @@
    * // also node may have multiple names (as css classes)
    * node.name('foo bar');
    */
-  Factory.addGetterSetter(Node, 'id', '', getStringValidator());
+  addGetterSetter(Node, 'id', '', getStringValidator());
   /**
    * get/set id. Id is global for whole page.
    * @name Konva.Node#id
@@ -4784,7 +4831,7 @@
    * // set id
    * node.id('foo');
    */
-  Factory.addGetterSetter(Node, 'rotation', 0, getNumberValidator());
+  addGetterSetter(Node, 'rotation', 0, getNumberValidator());
   /**
    * get/set rotation in degrees
    * @name Konva.Node#rotation
@@ -4817,7 +4864,7 @@
    *   y: 3
    * });
    */
-  Factory.addGetterSetter(Node, 'scaleX', 1, getNumberValidator());
+  addGetterSetter(Node, 'scaleX', 1, getNumberValidator());
   /**
    * get/set scale x
    * @name Konva.Node#scaleX
@@ -4831,7 +4878,7 @@
    * // set scale x
    * node.scaleX(2);
    */
-  Factory.addGetterSetter(Node, 'scaleY', 1, getNumberValidator());
+  addGetterSetter(Node, 'scaleY', 1, getNumberValidator());
   /**
    * get/set scale y
    * @name Konva.Node#scaleY
@@ -4864,7 +4911,7 @@
    *   y: 10
    * });
    */
-  Factory.addGetterSetter(Node, 'skewX', 0, getNumberValidator());
+  addGetterSetter(Node, 'skewX', 0, getNumberValidator());
   /**
    * get/set skew x
    * @name Konva.Node#skewX
@@ -4878,7 +4925,7 @@
    * // set skew x
    * node.skewX(3);
    */
-  Factory.addGetterSetter(Node, 'skewY', 0, getNumberValidator());
+  addGetterSetter(Node, 'skewY', 0, getNumberValidator());
   /**
    * get/set skew y
    * @name Konva.Node#skewY
@@ -4910,7 +4957,7 @@
    *   y: 10
    * });
    */
-  Factory.addGetterSetter(Node, 'offsetX', 0, getNumberValidator());
+  addGetterSetter(Node, 'offsetX', 0, getNumberValidator());
   /**
    * get/set offset x
    * @name Konva.Node#offsetX
@@ -4924,7 +4971,7 @@
    * // set offset x
    * node.offsetX(3);
    */
-  Factory.addGetterSetter(Node, 'offsetY', 0, getNumberValidator());
+  addGetterSetter(Node, 'offsetY', 0, getNumberValidator());
   /**
    * get/set offset y
    * @name Konva.Node#offsetY
@@ -4938,7 +4985,7 @@
    * // set offset y
    * node.offsetY(3);
    */
-  Factory.addGetterSetter(Node, 'dragDistance', null, getNumberValidator());
+  addGetterSetter(Node, 'dragDistance', null, getNumberValidator());
   /**
    * get/set drag distance
    * @name Konva.Node#dragDistance
@@ -4955,7 +5002,7 @@
    * // or set globally
    * Konva.dragDistance = 3;
    */
-  Factory.addGetterSetter(Node, 'width', 0, getNumberValidator());
+  addGetterSetter(Node, 'width', 0, getNumberValidator());
   /**
    * get/set width
    * @name Konva.Node#width
@@ -4969,7 +5016,7 @@
    * // set width
    * node.width(100);
    */
-  Factory.addGetterSetter(Node, 'height', 0, getNumberValidator());
+  addGetterSetter(Node, 'height', 0, getNumberValidator());
   /**
    * get/set height
    * @name Konva.Node#height
@@ -4983,45 +5030,35 @@
    * // set height
    * node.height(100);
    */
-  Factory.addGetterSetter(Node, 'listening', 'inherit', function (val) {
-      var isValid = val === true || val === false || val === 'inherit';
-      if (!isValid) {
-          Util.warn(val +
-              ' is a not valid value for "listening" attribute. The value may be true, false or "inherit".');
-      }
-      return val;
-  });
+  addGetterSetter(Node, 'listening', true, getBooleanValidator());
   /**
-   * get/set listenig attr.  If you need to determine if a node is listening or not
+   * get/set listening attr.  If you need to determine if a node is listening or not
    *   by taking into account its parents, use the isListening() method
    * @name Konva.Node#listening
    * @method
-   * @param {Boolean|String} listening Can be "inherit", true, or false.  The default is "inherit".
-   * @returns {Boolean|String}
+   * @param {Boolean} listening Can be true, or false.  The default is true.
+   * @returns {Boolean}
    * @example
    * // get listening attr
    * var listening = node.listening();
    *
-   * // stop listening for events
+   * // stop listening for events, remove node and all its children from hit graph
    * node.listening(false);
    *
-   * // listen for events
-   * node.listening(true);
-   *
    * // listen to events according to the parent
-   * node.listening('inherit');
+   * node.listening(true);
    */
   /**
    * get/set preventDefault
-   * By default all shapes will prevent default behaviour
+   * By default all shapes will prevent default behavior
    * of a browser on a pointer move or tap.
    * that will prevent native scrolling when you are trying to drag&drop a node
    * but sometimes you may need to enable default actions
    * in that case you can set the property to false
    * @name Konva.Node#preventDefault
    * @method
-   * @param {Number} preventDefault
-   * @returns {Number}
+   * @param {Boolean} preventDefault
+   * @returns {Boolean}
    * @example
    * // get preventDefault
    * var shouldPrevent = shape.preventDefault();
@@ -5029,8 +5066,8 @@
    * // set preventDefault
    * shape.preventDefault(false);
    */
-  Factory.addGetterSetter(Node, 'preventDefault', true, getBooleanValidator());
-  Factory.addGetterSetter(Node, 'filters', null, function (val) {
+  addGetterSetter(Node, 'preventDefault', true, getBooleanValidator());
+  addGetterSetter(Node, 'filters', null, function (val) {
       this._filterUpToDate = false;
       return val;
   });
@@ -5056,22 +5093,15 @@
    *   Konva.Filters.Invert
    * ]);
    */
-  Factory.addGetterSetter(Node, 'visible', 'inherit', function (val) {
-      var isValid = val === true || val === false || val === 'inherit';
-      if (!isValid) {
-          Util.warn(val +
-              ' is a not valid value for "visible" attribute. The value may be true, false or "inherit".');
-      }
-      return val;
-  });
+  addGetterSetter(Node, 'visible', true, getBooleanValidator());
   /**
-   * get/set visible attr.  Can be "inherit", true, or false.  The default is "inherit".
+   * get/set visible attr.  Can be true, or false.  The default is true.
    *   If you need to determine if a node is visible or not
    *   by taking into account its parents, use the isVisible() method
    * @name Konva.Node#visible
    * @method
-   * @param {Boolean|String} visible
-   * @returns {Boolean|String}
+   * @param {Boolean} visible
+   * @returns {Boolean}
    * @example
    * // get visible attr
    * var visible = node.visible();
@@ -5079,13 +5109,11 @@
    * // make invisible
    * node.visible(false);
    *
-   * // make visible
+   * // make visible (according to the parent)
    * node.visible(true);
    *
-   * // make visible according to the parent
-   * node.visible('inherit');
    */
-  Factory.addGetterSetter(Node, 'transformsEnabled', 'all', getStringValidator());
+  addGetterSetter(Node, 'transformsEnabled', 'all', getStringValidator());
   /**
    * get/set transforms that are enabled.  Can be "all", "none", or "position".  The default
    *  is "all"
@@ -5120,7 +5148,7 @@
    *   height: 200
    * });
    */
-  Factory.addGetterSetter(Node, 'size');
+  addGetterSetter(Node, 'size');
   /**
    * get/set drag bound function.  This is used to override the default
    *  drag and drop position.
@@ -5142,7 +5170,7 @@
    *   };
    * });
    */
-  Factory.addGetterSetter(Node, 'dragBoundFunc');
+  addGetterSetter(Node, 'dragBoundFunc');
   /**
    * get/set draggable flag
    * @name Konva.Node#draggable
@@ -5159,7 +5187,7 @@
    * // disable drag and drop
    * node.draggable(false);
    */
-  Factory.addGetterSetter(Node, 'draggable', false, getBooleanValidator());
+  addGetterSetter(Node, 'draggable', false, getBooleanValidator());
   Factory.backCompat(Node, {
       rotateDeg: 'rotate',
       setRotationDeg: 'setRotation',
@@ -5246,7 +5274,8 @@
           return this.getChildren().length > 0;
       };
       /**
-       * remove all children
+       * remove all children. Children will be still in memory.
+       * If you want to completely destroy all children please use "destroyChildren" method instead
        * @method
        * @name Konva.Container#removeChildren
        */
@@ -5263,7 +5292,7 @@
           return this;
       };
       /**
-       * destroy all children
+       * destroy all children nodes.
        * @method
        * @name Konva.Container#destroyChildren
        */
@@ -5314,7 +5343,7 @@
           child.parent = this;
           _children.push(child);
           this._fire('add', {
-              child: child
+              child: child,
           });
           // chainable
           return this;
@@ -5492,46 +5521,45 @@
               child.index = n;
           });
       };
-      Container.prototype.drawScene = function (can, top, caching) {
+      Container.prototype.drawScene = function (can, top) {
           var layer = this.getLayer(), canvas = can || (layer && layer.getCanvas()), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedSceneCanvas = cachedCanvas && cachedCanvas.scene;
-          if (this.isVisible() || caching) {
-              if (!caching && cachedSceneCanvas) {
-                  context.save();
-                  layer._applyTransform(this, context, top);
-                  this._drawCachedSceneCanvas(context);
-                  context.restore();
-              }
-              else {
-                  // TODO: comment all arguments here
-                  // describe why we use false for caching
-                  // and why we use caching for skipBuffer, skipComposition
-                  this._drawChildren(canvas, 'drawScene', top, false, caching, caching);
-              }
+          var caching = canvas && canvas.isCache;
+          if (!this.isVisible() && !caching) {
+              return this;
+          }
+          if (cachedSceneCanvas) {
+              context.save();
+              var m = this.getAbsoluteTransform(top).getMatrix();
+              context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+              this._drawCachedSceneCanvas(context);
+              context.restore();
+          }
+          else {
+              this._drawChildren('drawScene', canvas, top);
           }
           return this;
       };
-      Container.prototype.drawHit = function (can, top, caching) {
+      Container.prototype.drawHit = function (can, top) {
+          if (!this.shouldDrawHit(top)) {
+              return this;
+          }
           var layer = this.getLayer(), canvas = can || (layer && layer.hitCanvas), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
-          if (this.shouldDrawHit(canvas) || caching) {
-              if (!caching && cachedHitCanvas) {
-                  context.save();
-                  layer._applyTransform(this, context, top);
-                  this._drawCachedHitCanvas(context);
-                  context.restore();
-              }
-              else {
-                  // TODO: comment all arguments here
-                  // describe why we use false for caching
-                  // and why we use caching for skipBuffer, skipComposition
-                  this._drawChildren(canvas, 'drawHit', top, false, caching, caching);
-              }
+          if (cachedHitCanvas) {
+              context.save();
+              var m = this.getAbsoluteTransform(top).getMatrix();
+              context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+              this._drawCachedHitCanvas(context);
+              context.restore();
+          }
+          else {
+              this._drawChildren('drawHit', canvas, top);
           }
           return this;
       };
-      // TODO: create ClipContainer
-      Container.prototype._drawChildren = function (canvas, drawMethod, top, caching, skipBuffer, skipComposition) {
-          var layer = this.getLayer(), context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (clipWidth && clipHeight) || clipFunc, clipX, clipY;
-          if (hasClip && layer) {
+      Container.prototype._drawChildren = function (drawMethod, canvas, top) {
+          var context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (clipWidth && clipHeight) || clipFunc;
+          var selfCache = top === this;
+          if (hasClip) {
               context.save();
               var transform = this.getAbsoluteTransform(top);
               var m = transform.getMatrix();
@@ -5541,47 +5569,30 @@
                   clipFunc.call(this, context, this);
               }
               else {
-                  clipX = this.clipX();
-                  clipY = this.clipY();
+                  var clipX = this.clipX();
+                  var clipY = this.clipY();
                   context.rect(clipX, clipY, clipWidth, clipHeight);
               }
               context.clip();
-              m = transform
-                  .copy()
-                  .invert()
-                  .getMatrix();
+              m = transform.copy().invert().getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
           }
-          var hasComposition = this.globalCompositeOperation() !== 'source-over' &&
-              !skipComposition &&
+          var hasComposition = !selfCache &&
+              this.globalCompositeOperation() !== 'source-over' &&
               drawMethod === 'drawScene';
-          if (hasComposition && layer) {
+          if (hasComposition) {
               context.save();
               context._applyGlobalCompositeOperation(this);
           }
           this.children.each(function (child) {
-              child[drawMethod](canvas, top, caching, skipBuffer);
+              child[drawMethod](canvas, top);
           });
-          if (hasComposition && layer) {
+          if (hasComposition) {
               context.restore();
           }
-          if (hasClip && layer) {
+          if (hasClip) {
               context.restore();
           }
-      };
-      Container.prototype.shouldDrawHit = function (canvas) {
-          if (canvas && canvas.isCache) {
-              return true;
-          }
-          var layer = this.getLayer();
-          var layerUnderDrag = false;
-          DD._dragElements.forEach(function (elem) {
-              if (elem.dragStatus === 'dragging' && elem.node.getLayer() === layer) {
-                  layerUnderDrag = true;
-              }
-          });
-          var dragSkip = !Konva.hitOnDragEnabled && layerUnderDrag;
-          return layer && layer.hitGraphEnabled() && this.isVisible() && !dragSkip;
       };
       Container.prototype.getClientRect = function (config) {
           config = config || {};
@@ -5592,7 +5603,7 @@
               x: Infinity,
               y: Infinity,
               width: 0,
-              height: 0
+              height: 0,
           };
           var that = this;
           this.children.each(function (child) {
@@ -5603,7 +5614,7 @@
               var rect = child.getClientRect({
                   relativeTo: that,
                   skipShadow: config.skipShadow,
-                  skipStroke: config.skipStroke
+                  skipStroke: config.skipStroke,
               });
               // skip invisible children (like empty groups)
               if (rect.width === 0 && rect.height === 0) {
@@ -5638,7 +5649,7 @@
                   x: minX,
                   y: minY,
                   width: maxX - minX,
-                  height: maxY - minY
+                  height: maxY - minY,
               };
           }
           else {
@@ -5646,7 +5657,7 @@
                   x: 0,
                   y: 0,
                   width: 0,
-                  height: 0
+                  height: 0,
               };
           }
           if (!skipTransform) {
@@ -5661,7 +5672,7 @@
       'x',
       'y',
       'width',
-      'height'
+      'height',
   ]);
   /**
    * get/set clip
@@ -5816,7 +5827,7 @@
       POINTERMOVE,
       POINTERUP,
       POINTERCANCEL,
-      LOSTPOINTERCAPTURE
+      LOSTPOINTERCAPTURE,
   ], 
   // cached variables
   eventsLength = EVENTS.length;
@@ -5985,7 +5996,7 @@
           }
           return {
               x: pos.x,
-              y: pos.y
+              y: pos.y,
           };
       };
       Stage.prototype._getPointerById = function (id) {
@@ -6005,7 +6016,7 @@
           var x = config.x || 0, y = config.y || 0, canvas = new SceneCanvas({
               width: config.width || this.width(),
               height: config.height || this.height(),
-              pixelRatio: config.pixelRatio || 1
+              pixelRatio: config.pixelRatio || 1,
           }), _context = canvas.getContext()._context, layers = this.children;
           if (x || y) {
               _context.translate(-1 * x, -1 * y);
@@ -6141,12 +6152,12 @@
               this._fire(MOUSELEAVE$1, {
                   evt: evt,
                   target: this,
-                  currentTarget: this
+                  currentTarget: this,
               });
               this._fire(MOUSEOUT, {
                   evt: evt,
                   target: this,
-                  currentTarget: this
+                  currentTarget: this,
               });
           }
           this.pointerPos = undefined;
@@ -6194,7 +6205,7 @@
                           evt: evt,
                           target: this,
                           currentTarget: this,
-                          pointerId: pointerId
+                          pointerId: pointerId,
                       });
                       this.targetShape = null;
                   }
@@ -6202,7 +6213,7 @@
                       evt: evt,
                       target: this,
                       currentTarget: this,
-                      pointerId: pointerId
+                      pointerId: pointerId,
                   });
               }
               // content event
@@ -6233,7 +6244,7 @@
                   evt: evt,
                   target: this,
                   currentTarget: this,
-                  pointerId: pointerId
+                  pointerId: pointerId,
               });
           }
           // content event
@@ -6280,18 +6291,19 @@
               }
           }
           else {
+              this.clickEndShape = null;
               this._fire(MOUSEUP, {
                   evt: evt,
                   target: this,
                   currentTarget: this,
-                  pointerId: pointerId
+                  pointerId: pointerId,
               });
               if (Konva.listenClickTap) {
                   this._fire(CLICK, {
                       evt: evt,
                       target: this,
                       currentTarget: this,
-                      pointerId: pointerId
+                      pointerId: pointerId,
                   });
               }
               if (fireDblClick) {
@@ -6299,7 +6311,7 @@
                       evt: evt,
                       target: this,
                       currentTarget: this,
-                      pointerId: pointerId
+                      pointerId: pointerId,
                   });
               }
           }
@@ -6328,7 +6340,7 @@
               this._fire(CONTEXTMENU, {
                   evt: evt,
                   target: this,
-                  currentTarget: this
+                  currentTarget: this,
               });
           }
           this._fire(CONTENT_CONTEXTMENU, { evt: evt });
@@ -6361,7 +6373,7 @@
                   evt: evt,
                   target: this,
                   currentTarget: this,
-                  pointerId: this._changedPointerPositions[0].id
+                  pointerId: this._changedPointerPositions[0].id,
               });
           }
           // content event
@@ -6396,7 +6408,7 @@
                       evt: evt,
                       target: this,
                       currentTarget: this,
-                      pointerId: this._changedPointerPositions[0].id
+                      pointerId: this._changedPointerPositions[0].id,
                   });
               }
               this._fire(CONTENT_TOUCHMOVE, { evt: evt });
@@ -6461,15 +6473,16 @@
                   evt: evt,
                   target: this,
                   currentTarget: this,
-                  pointerId: this._changedPointerPositions[0].id
+                  pointerId: this._changedPointerPositions[0].id,
               });
           }
           if (Konva.listenClickTap && !tapTriggered) {
+              this.clickEndShape = null;
               this._fire(TAP, {
                   evt: evt,
                   target: this,
                   currentTarget: this,
-                  pointerId: this._changedPointerPositions[0].id
+                  pointerId: this._changedPointerPositions[0].id,
               });
           }
           if (fireDblClick && !dblTapTriggered) {
@@ -6477,7 +6490,7 @@
                   evt: evt,
                   target: this,
                   currentTarget: this,
-                  pointerId: this._changedPointerPositions[0].id
+                  pointerId: this._changedPointerPositions[0].id,
               });
           }
           // content events
@@ -6500,7 +6513,7 @@
               this._fire(WHEEL, {
                   evt: evt,
                   target: this,
-                  currentTarget: this
+                  currentTarget: this,
               });
           }
           this._fire(CONTENT_WHEEL, { evt: evt });
@@ -6582,14 +6595,14 @@
                   _this._pointerPositions.push({
                       id: touch.identifier,
                       x: (touch.clientX - contentPosition.left) / contentPosition.scaleX,
-                      y: (touch.clientY - contentPosition.top) / contentPosition.scaleY
+                      y: (touch.clientY - contentPosition.top) / contentPosition.scaleY,
                   });
               });
               Collection.prototype.each.call(evt.changedTouches || evt.touches, function (touch) {
                   _this._changedPointerPositions.push({
                       id: touch.identifier,
                       x: (touch.clientX - contentPosition.left) / contentPosition.scaleX,
-                      y: (touch.clientY - contentPosition.top) / contentPosition.scaleY
+                      y: (touch.clientY - contentPosition.top) / contentPosition.scaleY,
                   });
               });
           }
@@ -6599,11 +6612,11 @@
               y = (evt.clientY - contentPosition.top) / contentPosition.scaleY;
               this.pointerPos = {
                   x: x,
-                  y: y
+                  y: y,
               };
               this._pointerPositions = [{ x: x, y: y, id: Util._getFirstPointerId(evt) }];
               this._changedPointerPositions = [
-                  { x: x, y: y, id: Util._getFirstPointerId(evt) }
+                  { x: x, y: y, id: Util._getFirstPointerId(evt) },
               ];
           }
       };
@@ -6617,7 +6630,7 @@
                   top: 0,
                   left: 0,
                   scaleX: 1,
-                  scaleY: 1
+                  scaleY: 1,
               };
           }
           var rect = this.content.getBoundingClientRect();
@@ -6627,18 +6640,18 @@
               // sometimes clientWidth can be equals to 0
               // i saw it in react-konva test, looks like it is because of hidden testing element
               scaleX: rect.width / this.content.clientWidth || 1,
-              scaleY: rect.height / this.content.clientHeight || 1
+              scaleY: rect.height / this.content.clientHeight || 1,
           };
       };
       Stage.prototype._buildDOM = function () {
           this.bufferCanvas = new SceneCanvas({
               width: this.width(),
-              height: this.height()
+              height: this.height(),
           });
           this.bufferHitCanvas = new HitCanvas({
               pixelRatio: 1,
               width: this.width(),
-              height: this.height()
+              height: this.height(),
           });
           if (!Konva.isBrowser) {
               return;
@@ -6669,7 +6682,7 @@
       /**
        * batch draw
        * @method
-       * @name Konva.BaseLayer#batchDraw
+       * @name Konva.Layer#batchDraw
        * @return {Konva.Stage} this
        */
       Stage.prototype.batchDraw = function () {
@@ -6696,318 +6709,6 @@
    * stage.container(container);
    */
   Factory.addGetterSetter(Stage, 'container');
-
-  /**
-   * BaseLayer constructor.
-   * @constructor
-   * @memberof Konva
-   * @augments Konva.Container
-   * @param {Object} config
-   * @param {Boolean} [config.clearBeforeDraw] set this property to false if you don't want
-   * to clear the canvas before each layer draw.  The default value is true.
-   * @param {Number} [config.x]
-     * @param {Number} [config.y]
-     * @param {Number} [config.width]
-     * @param {Number} [config.height]
-     * @param {Boolean} [config.visible]
-     * @param {Boolean} [config.listening] whether or not the node is listening for events
-     * @param {String} [config.id] unique id
-     * @param {String} [config.name] non-unique name
-     * @param {Number} [config.opacity] determines node opacity.  Can be any number between 0 and 1
-     * @param {Object} [config.scale] set scale
-     * @param {Number} [config.scaleX] set scale x
-     * @param {Number} [config.scaleY] set scale y
-     * @param {Number} [config.rotation] rotation in degrees
-     * @param {Object} [config.offset] offset from center point and rotation point
-     * @param {Number} [config.offsetX] set offset x
-     * @param {Number} [config.offsetY] set offset y
-     * @param {Boolean} [config.draggable] makes the node draggable.  When stages are draggable, you can drag and drop
-     *  the entire stage by dragging any portion of the stage
-     * @param {Number} [config.dragDistance]
-     * @param {Function} [config.dragBoundFunc]
-   * * @param {Object} [config.clip] set clip
-     * @param {Number} [config.clipX] set clip x
-     * @param {Number} [config.clipY] set clip y
-     * @param {Number} [config.clipWidth] set clip width
-     * @param {Number} [config.clipHeight] set clip height
-     * @param {Function} [config.clipFunc] set clip func
-
-   */
-  var BaseLayer = /** @class */ (function (_super) {
-      __extends(BaseLayer, _super);
-      function BaseLayer(config) {
-          var _this = _super.call(this, config) || this;
-          _this.canvas = new SceneCanvas();
-          _this._waitingForDraw = false;
-          _this.on('visibleChange', _this._checkVisibility);
-          _this._checkVisibility();
-          _this.on('imageSmoothingEnabledChange', _this._setSmoothEnabled);
-          _this._setSmoothEnabled();
-          return _this;
-      }
-      // for nodejs?
-      BaseLayer.prototype.createPNGStream = function () {
-          var c = this.canvas._canvas;
-          return c.createPNGStream();
-      };
-      /**
-       * get layer canvas wrapper
-       * @method
-       * @name Konva.BaseLayer#getCanvas
-       */
-      BaseLayer.prototype.getCanvas = function () {
-          return this.canvas;
-      };
-      /**
-       * get layer hit canvas
-       * @method
-       * @name Konva.BaseLayer#getHitCanvas
-       */
-      BaseLayer.prototype.getHitCanvas = function () {
-          return this.hitCanvas;
-      };
-      /**
-       * get layer canvas context
-       * @method
-       * @name Konva.BaseLayer#getContext
-       */
-      BaseLayer.prototype.getContext = function () {
-          return this.getCanvas().getContext();
-      };
-      /**
-       * clear scene and hit canvas contexts tied to the layer.
-       * This function doesn't remove any nodes. It just clear canvas element.
-       * @method
-       * @name Konva.BaseLayer#clear
-       * @param {Object} [bounds]
-       * @param {Number} [bounds.x]
-       * @param {Number} [bounds.y]
-       * @param {Number} [bounds.width]
-       * @param {Number} [bounds.height]
-       * @example
-       * layer.clear();
-       * layer.clear({
-       *   x : 0,
-       *   y : 0,
-       *   width : 100,
-       *   height : 100
-       * });
-       */
-      BaseLayer.prototype.clear = function (bounds) {
-          this.getContext().clear(bounds);
-          return this;
-      };
-      // extend Node.prototype.setZIndex
-      BaseLayer.prototype.setZIndex = function (index) {
-          _super.prototype.setZIndex.call(this, index);
-          var stage = this.getStage();
-          if (stage) {
-              stage.content.removeChild(this.getCanvas()._canvas);
-              if (index < stage.children.length - 1) {
-                  stage.content.insertBefore(this.getCanvas()._canvas, stage.children[index + 1].getCanvas()._canvas);
-              }
-              else {
-                  stage.content.appendChild(this.getCanvas()._canvas);
-              }
-          }
-          return this;
-      };
-      BaseLayer.prototype.moveToTop = function () {
-          Node.prototype.moveToTop.call(this);
-          var stage = this.getStage();
-          if (stage) {
-              stage.content.removeChild(this.getCanvas()._canvas);
-              stage.content.appendChild(this.getCanvas()._canvas);
-          }
-          return true;
-      };
-      BaseLayer.prototype.moveUp = function () {
-          var moved = Node.prototype.moveUp.call(this);
-          if (!moved) {
-              return false;
-          }
-          var stage = this.getStage();
-          if (!stage) {
-              return false;
-          }
-          stage.content.removeChild(this.getCanvas()._canvas);
-          if (this.index < stage.children.length - 1) {
-              stage.content.insertBefore(this.getCanvas()._canvas, stage.children[this.index + 1].getCanvas()._canvas);
-          }
-          else {
-              stage.content.appendChild(this.getCanvas()._canvas);
-          }
-          return true;
-      };
-      // extend Node.prototype.moveDown
-      BaseLayer.prototype.moveDown = function () {
-          if (Node.prototype.moveDown.call(this)) {
-              var stage = this.getStage();
-              if (stage) {
-                  var children = stage.children;
-                  stage.content.removeChild(this.getCanvas()._canvas);
-                  stage.content.insertBefore(this.getCanvas()._canvas, children[this.index + 1].getCanvas()._canvas);
-              }
-              return true;
-          }
-          return false;
-      };
-      // extend Node.prototype.moveToBottom
-      BaseLayer.prototype.moveToBottom = function () {
-          if (Node.prototype.moveToBottom.call(this)) {
-              var stage = this.getStage();
-              if (stage) {
-                  var children = stage.children;
-                  stage.content.removeChild(this.getCanvas()._canvas);
-                  stage.content.insertBefore(this.getCanvas()._canvas, children[1].getCanvas()._canvas);
-              }
-              return true;
-          }
-          return false;
-      };
-      BaseLayer.prototype.getLayer = function () {
-          return this;
-      };
-      BaseLayer.prototype.hitGraphEnabled = function () {
-          return true;
-      };
-      BaseLayer.prototype.remove = function () {
-          var _canvas = this.getCanvas()._canvas;
-          Node.prototype.remove.call(this);
-          if (_canvas && _canvas.parentNode && Util._isInDocument(_canvas)) {
-              _canvas.parentNode.removeChild(_canvas);
-          }
-          return this;
-      };
-      BaseLayer.prototype.getStage = function () {
-          return this.parent;
-      };
-      BaseLayer.prototype.setSize = function (_a) {
-          var width = _a.width, height = _a.height;
-          this.canvas.setSize(width, height);
-          this._setSmoothEnabled();
-          return this;
-      };
-      BaseLayer.prototype._toKonvaCanvas = function (config) {
-          config = config || {};
-          config.width = config.width || this.getWidth();
-          config.height = config.height || this.getHeight();
-          config.x = config.x !== undefined ? config.x : this.x();
-          config.y = config.y !== undefined ? config.y : this.y();
-          return Node.prototype._toKonvaCanvas.call(this, config);
-      };
-      BaseLayer.prototype._checkVisibility = function () {
-          var visible = this.visible();
-          if (visible) {
-              this.canvas._canvas.style.display = 'block';
-          }
-          else {
-              this.canvas._canvas.style.display = 'none';
-          }
-      };
-      BaseLayer.prototype._setSmoothEnabled = function () {
-          this.getContext()._context.imageSmoothingEnabled = this.imageSmoothingEnabled();
-      };
-      /**
-       * get/set width of layer. getter return width of stage. setter doing nothing.
-       * if you want change width use `stage.width(value);`
-       * @name Konva.BaseLayer#width
-       * @method
-       * @returns {Number}
-       * @example
-       * var width = layer.width();
-       */
-      BaseLayer.prototype.getWidth = function () {
-          if (this.parent) {
-              return this.parent.width();
-          }
-      };
-      BaseLayer.prototype.setWidth = function () {
-          Util.warn('Can not change width of layer. Use "stage.width(value)" function instead.');
-      };
-      /**
-       * get/set height of layer.getter return height of stage. setter doing nothing.
-       * if you want change height use `stage.height(value);`
-       * @name Konva.BaseLayer#height
-       * @method
-       * @returns {Number}
-       * @example
-       * var height = layer.height();
-       */
-      BaseLayer.prototype.getHeight = function () {
-          if (this.parent) {
-              return this.parent.height();
-          }
-      };
-      BaseLayer.prototype.setHeight = function () {
-          Util.warn('Can not change height of layer. Use "stage.height(value)" function instead.');
-      };
-      BaseLayer.prototype.getIntersection = function (pos, selector) {
-          return null;
-      };
-      /**
-       * batch draw. this function will not do immediate draw
-       * but it will schedule drawing to next tick (requestAnimFrame)
-       * @method
-       * @name Konva.BaseLayer#batchDraw
-       * @return {Konva.Layer} this
-       */
-      BaseLayer.prototype.batchDraw = function () {
-          var _this = this;
-          if (!this._waitingForDraw) {
-              this._waitingForDraw = true;
-              Util.requestAnimFrame(function () {
-                  _this.draw();
-                  _this._waitingForDraw = false;
-              });
-          }
-          return this;
-      };
-      // the apply transform method is handled by the Layer and FastLayer class
-      // because it is up to the layer to decide if an absolute or relative transform
-      // should be used
-      BaseLayer.prototype._applyTransform = function (shape, context, top) {
-          var m = shape.getAbsoluteTransform(top).getMatrix();
-          context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-      };
-      return BaseLayer;
-  }(Container));
-  BaseLayer.prototype.nodeType = 'BaseLayer';
-  /**
-   * get/set imageSmoothingEnabled flag
-   * For more info see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled
-   * @name Konva.BaseLayer#imageSmoothingEnabled
-   * @method
-   * @param {Boolean} imageSmoothingEnabled
-   * @returns {Boolean}
-   * @example
-   * // get imageSmoothingEnabled flag
-   * var imageSmoothingEnabled = layer.imageSmoothingEnabled();
-   *
-   * layer.imageSmoothingEnabled(false);
-   *
-   * layer.imageSmoothingEnabled(true);
-   */
-  Factory.addGetterSetter(BaseLayer, 'imageSmoothingEnabled', true);
-  /**
-   * get/set clearBeforeDraw flag which determines if the layer is cleared or not
-   *  before drawing
-   * @name Konva.BaseLayer#clearBeforeDraw
-   * @method
-   * @param {Boolean} clearBeforeDraw
-   * @returns {Boolean}
-   * @example
-   * // get clearBeforeDraw flag
-   * var clearBeforeDraw = layer.clearBeforeDraw();
-   *
-   * // disable clear before draw
-   * layer.clearBeforeDraw(false);
-   *
-   * // enable clear before draw
-   * layer.clearBeforeDraw(true);
-   */
-  Factory.addGetterSetter(BaseLayer, 'clearBeforeDraw', true);
-  Collection.mapMethods(BaseLayer);
 
   var HAS_SHADOW = 'hasShadow';
   var SHADOW_RGBA = 'shadowRGBA';
@@ -7291,11 +6992,20 @@
        * @returns {Boolean}
        */
       Shape.prototype.hasFill = function () {
-          return (this.fillEnabled() &&
-              !!(this.fill() ||
-                  this.fillPatternImage() ||
-                  this.fillLinearGradientColorStops() ||
-                  this.fillRadialGradientColorStops()));
+          var _this = this;
+          return this._calculate('hasFill', [
+              'fillEnabled',
+              'fill',
+              'fillPatternImage',
+              'fillLinearGradientColorStops',
+              'fillRadialGradientColorStops',
+          ], function () {
+              return (_this.fillEnabled() &&
+                  !!(_this.fill() ||
+                      _this.fillPatternImage() ||
+                      _this.fillLinearGradientColorStops() ||
+                      _this.fillRadialGradientColorStops()));
+          });
       };
       /**
        * returns whether or not the shape will be stroked
@@ -7304,11 +7014,25 @@
        * @returns {Boolean}
        */
       Shape.prototype.hasStroke = function () {
-          return (this.strokeEnabled() &&
-              this.strokeWidth() &&
-              !!(this.stroke() || this.strokeLinearGradientColorStops())
-          // this.getStrokeRadialGradientColorStops()
-          );
+          var _this = this;
+          return this._calculate('hasStroke', [
+              'strokeEnabled',
+              'strokeWidth',
+              'stroke',
+              'strokeLinearGradientColorStops',
+          ], function () {
+              return (_this.strokeEnabled() &&
+                  _this.strokeWidth() &&
+                  !!(_this.stroke() || _this.strokeLinearGradientColorStops())
+              // this.getStrokeRadialGradientColorStops()
+              );
+          });
+          // return (
+          //   this.strokeEnabled() &&
+          //   this.strokeWidth() &&
+          //   !!(this.stroke() || this.strokeLinearGradientColorStops())
+          //   // this.getStrokeRadialGradientColorStops()
+          // );
       };
       Shape.prototype.hasHitStroke = function () {
           var width = this.hitStrokeWidth();
@@ -7348,13 +7072,32 @@
       // why do we need buffer canvas?
       // it give better result when a shape has
       // stroke with fill and with some opacity
-      Shape.prototype._useBufferCanvas = function (caching) {
-          return !!((!caching || this.hasShadow()) &&
-              this.perfectDrawEnabled() &&
-              this.getAbsoluteOpacity() !== 1 &&
-              this.hasFill() &&
-              this.hasStroke() &&
-              this.getStage());
+      Shape.prototype._useBufferCanvas = function (forceFill) {
+          // image and sprite still has "fill" as image
+          // so they use that method with forced fill
+          // it probably will be simpler, then copy/paste the code
+          var _a;
+          // buffer canvas is available only inside the stage
+          if (!this.getStage()) {
+              return false;
+          }
+          // force skip buffer canvas
+          var perfectDrawEnabled = (_a = this.attrs.perfectDrawEnabled) !== null && _a !== void 0 ? _a : true;
+          if (!perfectDrawEnabled) {
+              return false;
+          }
+          var hasFill = forceFill || this.hasFill();
+          var hasStroke = this.hasStroke();
+          var isTransparent = this.getAbsoluteOpacity() !== 1;
+          if (hasFill && hasStroke && isTransparent) {
+              return true;
+          }
+          var hasShadow = this.hasShadow();
+          var strokeForShadow = this.shadowForStrokeEnabled();
+          if (hasFill && hasStroke && hasShadow && strokeForShadow) {
+              return true;
+          }
+          return false;
       };
       Shape.prototype.setStrokeHitEnabled = function (val) {
           Util.warn('strokeHitEnabled property is deprecated. Please use hitStrokeWidth instead.');
@@ -7391,7 +7134,7 @@
               x: this._centroid ? -size.width / 2 : 0,
               y: this._centroid ? -size.height / 2 : 0,
               width: size.width,
-              height: size.height
+              height: size.height,
           };
       };
       Shape.prototype.getClientRect = function (attrs) {
@@ -7426,21 +7169,30 @@
                   fillRect.x,
               y: -Math.round(strokeWidth / 2 + blurRadius) +
                   Math.min(shadowOffsetY, 0) +
-                  fillRect.y
+                  fillRect.y,
           };
           if (!skipTransform) {
               return this._transformedRect(rect, relativeTo);
           }
           return rect;
       };
-      Shape.prototype.drawScene = function (can, top, caching, skipBuffer) {
-          var layer = this.getLayer(), canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.sceneFunc(), hasShadow = this.hasShadow(), hasStroke = this.hasStroke(), stage, bufferCanvas, bufferContext;
+      Shape.prototype.drawScene = function (can, top) {
+          // basically there are 3 drawing modes
+          // 1 - simple drawing when nothing is cached.
+          // 2 - when we are caching current
+          // 3 - when node is cached and we need to draw it into layer
+          var layer = this.getLayer(), canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferCanvas, bufferContext;
+          var caching = canvas.isCache;
+          var skipBuffer = canvas.isCache;
+          var cachingSelf = top === this;
           if (!this.isVisible() && !caching) {
               return this;
           }
+          // if node is cached we just need to draw from cache
           if (cachedCanvas) {
               context.save();
-              layer._applyTransform(this, context, top);
+              var m = this.getAbsoluteTransform(top).getMatrix();
+              context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               this._drawCachedSceneCanvas(context);
               context.restore();
               return this;
@@ -7450,7 +7202,7 @@
           }
           context.save();
           // if buffer canvas is needed
-          if (this._useBufferCanvas(caching) && !skipBuffer) {
+          if (this._useBufferCanvas() && !skipBuffer) {
               stage = this.getStage();
               bufferCanvas = stage.bufferCanvas;
               bufferContext = bufferCanvas.getContext();
@@ -7458,95 +7210,47 @@
               bufferContext.save();
               bufferContext._applyLineJoin(this);
               // layer might be undefined if we are using cache before adding to layer
-              if (!caching) {
-                  if (layer) {
-                      layer._applyTransform(this, bufferContext, top);
-                  }
-                  else {
-                      var m = this.getAbsoluteTransform(top).getMatrix();
-                      context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-                  }
-              }
+              var o = this.getAbsoluteTransform(top).getMatrix();
+              bufferContext.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
               drawFunc.call(this, bufferContext, this);
               bufferContext.restore();
               var ratio = bufferCanvas.pixelRatio;
-              if (hasShadow && !canvas.hitCanvas) {
-                  context.save();
+              if (hasShadow) {
                   context._applyShadow(this);
-                  context._applyOpacity(this);
-                  context._applyGlobalCompositeOperation(this);
-                  context.drawImage(bufferCanvas._canvas, 0, 0, bufferCanvas.width / ratio, bufferCanvas.height / ratio);
-                  context.restore();
               }
-              else {
-                  context._applyOpacity(this);
-                  context._applyGlobalCompositeOperation(this);
-                  context.drawImage(bufferCanvas._canvas, 0, 0, bufferCanvas.width / ratio, bufferCanvas.height / ratio);
-              }
+              context._applyOpacity(this);
+              context._applyGlobalCompositeOperation(this);
+              context.drawImage(bufferCanvas._canvas, 0, 0, bufferCanvas.width / ratio, bufferCanvas.height / ratio);
           }
           else {
-              // if buffer canvas is not needed
               context._applyLineJoin(this);
-              // layer might be undefined if we are using cache before adding to layer
-              if (!caching) {
-                  if (layer) {
-                      layer._applyTransform(this, context, top);
-                  }
-                  else {
-                      var o = this.getAbsoluteTransform(top).getMatrix();
-                      context.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
-                  }
+              if (!cachingSelf) {
+                  var o = this.getAbsoluteTransform(top).getMatrix();
+                  context.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
+                  context._applyOpacity(this);
+                  context._applyGlobalCompositeOperation(this);
               }
-              if (hasShadow && hasStroke && !canvas.hitCanvas) {
-                  context.save();
-                  // apply shadow
-                  if (!caching) {
-                      context._applyOpacity(this);
-                      context._applyGlobalCompositeOperation(this);
-                  }
+              if (hasShadow) {
                   context._applyShadow(this);
-                  drawFunc.call(this, context, this);
-                  context.restore();
-                  // if shape has stroke we need to redraw shape
-                  // otherwise we will see a shadow under stroke (and over fill)
-                  // but I think this is unexpected behavior
-                  if (this.hasFill() && this.shadowForStrokeEnabled()) {
-                      drawFunc.call(this, context, this);
-                  }
               }
-              else if (hasShadow && !canvas.hitCanvas) {
-                  context.save();
-                  if (!caching) {
-                      context._applyOpacity(this);
-                      context._applyGlobalCompositeOperation(this);
-                  }
-                  context._applyShadow(this);
-                  drawFunc.call(this, context, this);
-                  context.restore();
-              }
-              else {
-                  if (!caching) {
-                      context._applyOpacity(this);
-                      context._applyGlobalCompositeOperation(this);
-                  }
-                  drawFunc.call(this, context, this);
-              }
+              drawFunc.call(this, context, this);
           }
           context.restore();
           return this;
       };
-      Shape.prototype.drawHit = function (can, top, caching) {
+      Shape.prototype.drawHit = function (can, top) {
+          if (!this.shouldDrawHit(top)) {
+              return this;
+          }
           var layer = this.getLayer(), canvas = can || layer.hitCanvas, context = canvas && canvas.getContext(), drawFunc = this.hitFunc() || this.sceneFunc(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
           if (!this.colorKey) {
               console.log(this);
               Util.warn('Looks like your canvas has a destroyed shape in it. Do not reuse shape after you destroyed it. See the shape in logs above. If you want to reuse shape you should call remove() instead of destroy()');
           }
-          if (!this.shouldDrawHit() && !caching) {
-              return this;
-          }
           if (cachedHitCanvas) {
               context.save();
-              layer._applyTransform(this, context, top);
+              var m = this.getAbsoluteTransform(top).getMatrix();
+              context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               this._drawCachedHitCanvas(context);
               context.restore();
               return this;
@@ -7556,14 +7260,10 @@
           }
           context.save();
           context._applyLineJoin(this);
-          if (!caching) {
-              if (layer) {
-                  layer._applyTransform(this, context, top);
-              }
-              else {
-                  var o = this.getAbsoluteTransform(top).getMatrix();
-                  context.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
-              }
+          var selfCache = this === top;
+          if (!selfCache) {
+              var o = this.getAbsoluteTransform(top).getMatrix();
+              context.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
           }
           drawFunc.call(this, context, this);
           context.restore();
@@ -7683,7 +7383,6 @@
    * // set hit stroke width always equals to scene stroke width
    * shape.hitStrokeWidth('auto');
    */
-  // TODO: probably we should deprecate it
   Factory.addGetterSetter(Shape, 'strokeHitEnabled', true, getBooleanValidator());
   /**
    * **deprecated, use hitStrokeWidth instead!** get/set strokeHitEnabled property. Useful for performance optimization.
@@ -8287,7 +7986,7 @@
    */
   Factory.addComponentsGetterSetter(Shape, 'fillLinearGradientStartPoint', [
       'x',
-      'y'
+      'y',
   ]);
   /**
    * get/set fill linear gradient start point
@@ -8309,7 +8008,7 @@
    */
   Factory.addComponentsGetterSetter(Shape, 'strokeLinearGradientStartPoint', [
       'x',
-      'y'
+      'y',
   ]);
   /**
    * get/set stroke linear gradient start point
@@ -8387,7 +8086,7 @@
    */
   Factory.addComponentsGetterSetter(Shape, 'fillLinearGradientEndPoint', [
       'x',
-      'y'
+      'y',
   ]);
   /**
    * get/set fill linear gradient end point
@@ -8409,7 +8108,7 @@
    */
   Factory.addComponentsGetterSetter(Shape, 'strokeLinearGradientEndPoint', [
       'x',
-      'y'
+      'y',
   ]);
   /**
    * get/set stroke linear gradient end point
@@ -8487,7 +8186,7 @@
    */
   Factory.addComponentsGetterSetter(Shape, 'fillRadialGradientStartPoint', [
       'x',
-      'y'
+      'y',
   ]);
   /**
    * get/set fill radial gradient start point
@@ -8537,7 +8236,7 @@
    */
   Factory.addComponentsGetterSetter(Shape, 'fillRadialGradientEndPoint', [
       'x',
-      'y'
+      'y',
   ]);
   /**
    * get/set fill radial gradient end point
@@ -8608,7 +8307,7 @@
       setDrawFunc: 'setSceneFunc',
       drawHitFunc: 'hitFunc',
       getDrawHitFunc: 'getHitFunc',
-      setDrawHitFunc: 'setHitFunc'
+      setDrawHitFunc: 'setHitFunc',
   });
   Collection.mapMethods(Shape);
 
@@ -8626,14 +8325,14 @@
       { x: -1, y: -1 },
       { x: 1, y: -1 },
       { x: 1, y: 1 },
-      { x: -1, y: 1 } // 8
+      { x: -1, y: 1 },
   ], INTERSECTION_OFFSETS_LEN = INTERSECTION_OFFSETS.length;
   /**
    * Layer constructor.  Layers are tied to their own canvas element and are used
    * to contain groups or shapes.
    * @constructor
    * @memberof Konva
-   * @augments Konva.BaseLayer
+   * @augments Konva.Container
    * @param {Object} config
    * @param {Boolean} [config.clearBeforeDraw] set this property to false if you don't want
    * to clear the canvas before each layer draw.  The default value is true.
@@ -8671,17 +8370,159 @@
    */
   var Layer = /** @class */ (function (_super) {
       __extends(Layer, _super);
-      function Layer() {
-          var _this = _super !== null && _super.apply(this, arguments) || this;
+      function Layer(config) {
+          var _this = _super.call(this, config) || this;
+          _this.canvas = new SceneCanvas();
           _this.hitCanvas = new HitCanvas({
-              pixelRatio: 1
+              pixelRatio: 1,
           });
+          _this._waitingForDraw = false;
+          _this.on('visibleChange', _this._checkVisibility);
+          _this._checkVisibility();
+          _this.on('imageSmoothingEnabledChange', _this._setSmoothEnabled);
+          _this._setSmoothEnabled();
           return _this;
       }
+      // for nodejs?
+      Layer.prototype.createPNGStream = function () {
+          var c = this.canvas._canvas;
+          return c.createPNGStream();
+      };
+      /**
+       * get layer canvas wrapper
+       * @method
+       * @name Konva.Layer#getCanvas
+       */
+      Layer.prototype.getCanvas = function () {
+          return this.canvas;
+      };
+      /**
+       * get layer hit canvas
+       * @method
+       * @name Konva.Layer#getHitCanvas
+       */
+      Layer.prototype.getHitCanvas = function () {
+          return this.hitCanvas;
+      };
+      /**
+       * get layer canvas context
+       * @method
+       * @name Konva.Layer#getContext
+       */
+      Layer.prototype.getContext = function () {
+          return this.getCanvas().getContext();
+      };
+      /**
+       * clear scene and hit canvas contexts tied to the layer.
+       * This function doesn't remove any nodes. It just clear canvas element.
+       * @method
+       * @name Konva.Layer#clear
+       * @param {Object} [bounds]
+       * @param {Number} [bounds.x]
+       * @param {Number} [bounds.y]
+       * @param {Number} [bounds.width]
+       * @param {Number} [bounds.height]
+       * @example
+       * layer.clear();
+       * layer.clear({
+       *   x : 0,
+       *   y : 0,
+       *   width : 100,
+       *   height : 100
+       * });
+       */
+      Layer.prototype.clear = function (bounds) {
+          this.getContext().clear(bounds);
+          this.getHitCanvas().getContext().clear(bounds);
+          return this;
+      };
+      // extend Node.prototype.setZIndex
+      Layer.prototype.setZIndex = function (index) {
+          _super.prototype.setZIndex.call(this, index);
+          var stage = this.getStage();
+          if (stage) {
+              stage.content.removeChild(this.getCanvas()._canvas);
+              if (index < stage.children.length - 1) {
+                  stage.content.insertBefore(this.getCanvas()._canvas, stage.children[index + 1].getCanvas()._canvas);
+              }
+              else {
+                  stage.content.appendChild(this.getCanvas()._canvas);
+              }
+          }
+          return this;
+      };
+      Layer.prototype.moveToTop = function () {
+          Node.prototype.moveToTop.call(this);
+          var stage = this.getStage();
+          if (stage) {
+              stage.content.removeChild(this.getCanvas()._canvas);
+              stage.content.appendChild(this.getCanvas()._canvas);
+          }
+          return true;
+      };
+      Layer.prototype.moveUp = function () {
+          var moved = Node.prototype.moveUp.call(this);
+          if (!moved) {
+              return false;
+          }
+          var stage = this.getStage();
+          if (!stage) {
+              return false;
+          }
+          stage.content.removeChild(this.getCanvas()._canvas);
+          if (this.index < stage.children.length - 1) {
+              stage.content.insertBefore(this.getCanvas()._canvas, stage.children[this.index + 1].getCanvas()._canvas);
+          }
+          else {
+              stage.content.appendChild(this.getCanvas()._canvas);
+          }
+          return true;
+      };
+      // extend Node.prototype.moveDown
+      Layer.prototype.moveDown = function () {
+          if (Node.prototype.moveDown.call(this)) {
+              var stage = this.getStage();
+              if (stage) {
+                  var children = stage.children;
+                  stage.content.removeChild(this.getCanvas()._canvas);
+                  stage.content.insertBefore(this.getCanvas()._canvas, children[this.index + 1].getCanvas()._canvas);
+              }
+              return true;
+          }
+          return false;
+      };
+      // extend Node.prototype.moveToBottom
+      Layer.prototype.moveToBottom = function () {
+          if (Node.prototype.moveToBottom.call(this)) {
+              var stage = this.getStage();
+              if (stage) {
+                  var children = stage.children;
+                  stage.content.removeChild(this.getCanvas()._canvas);
+                  stage.content.insertBefore(this.getCanvas()._canvas, children[1].getCanvas()._canvas);
+              }
+              return true;
+          }
+          return false;
+      };
+      Layer.prototype.getLayer = function () {
+          return this;
+      };
+      Layer.prototype.remove = function () {
+          var _canvas = this.getCanvas()._canvas;
+          Node.prototype.remove.call(this);
+          if (_canvas && _canvas.parentNode && Util._isInDocument(_canvas)) {
+              _canvas.parentNode.removeChild(_canvas);
+          }
+          return this;
+      };
+      Layer.prototype.getStage = function () {
+          return this.parent;
+      };
       Layer.prototype.setSize = function (_a) {
           var width = _a.width, height = _a.height;
-          _super.prototype.setSize.call(this, { width: width, height: height });
+          this.canvas.setSize(width, height);
           this.hitCanvas.setSize(width, height);
+          this._setSmoothEnabled();
           return this;
       };
       Layer.prototype._validateAdd = function (child) {
@@ -8689,6 +8530,78 @@
           if (type !== 'Group' && type !== 'Shape') {
               Util.throw('You may only add groups and shapes to a layer.');
           }
+      };
+      Layer.prototype._toKonvaCanvas = function (config) {
+          config = config || {};
+          config.width = config.width || this.getWidth();
+          config.height = config.height || this.getHeight();
+          config.x = config.x !== undefined ? config.x : this.x();
+          config.y = config.y !== undefined ? config.y : this.y();
+          return Node.prototype._toKonvaCanvas.call(this, config);
+      };
+      Layer.prototype._checkVisibility = function () {
+          var visible = this.visible();
+          if (visible) {
+              this.canvas._canvas.style.display = 'block';
+          }
+          else {
+              this.canvas._canvas.style.display = 'none';
+          }
+      };
+      Layer.prototype._setSmoothEnabled = function () {
+          this.getContext()._context.imageSmoothingEnabled = this.imageSmoothingEnabled();
+      };
+      /**
+       * get/set width of layer. getter return width of stage. setter doing nothing.
+       * if you want change width use `stage.width(value);`
+       * @name Konva.Layer#width
+       * @method
+       * @returns {Number}
+       * @example
+       * var width = layer.width();
+       */
+      Layer.prototype.getWidth = function () {
+          if (this.parent) {
+              return this.parent.width();
+          }
+      };
+      Layer.prototype.setWidth = function () {
+          Util.warn('Can not change width of layer. Use "stage.width(value)" function instead.');
+      };
+      /**
+       * get/set height of layer.getter return height of stage. setter doing nothing.
+       * if you want change height use `stage.height(value);`
+       * @name Konva.Layer#height
+       * @method
+       * @returns {Number}
+       * @example
+       * var height = layer.height();
+       */
+      Layer.prototype.getHeight = function () {
+          if (this.parent) {
+              return this.parent.height();
+          }
+      };
+      Layer.prototype.setHeight = function () {
+          Util.warn('Can not change height of layer. Use "stage.height(value)" function instead.');
+      };
+      /**
+       * batch draw. this function will not do immediate draw
+       * but it will schedule drawing to next tick (requestAnimFrame)
+       * @method
+       * @name Konva.Layer#batchDraw
+       * @return {Konva.Layer} this
+       */
+      Layer.prototype.batchDraw = function () {
+          var _this = this;
+          if (!this._waitingForDraw) {
+              this._waitingForDraw = true;
+              Util.requestAnimFrame(function () {
+                  _this.draw();
+                  _this._waitingForDraw = false;
+              });
+          }
+          return this;
       };
       /**
        * get visible intersection shape. This is the preferred
@@ -8708,7 +8621,7 @@
        */
       Layer.prototype.getIntersection = function (pos, selector) {
           var obj, i, intersectionOffset, shape;
-          if (!this.hitGraphEnabled() || !this.isVisible()) {
+          if (!this.isListening() || !this.isVisible()) {
               return null;
           }
           // in some cases antialiased area may be bigger than 1px
@@ -8720,7 +8633,7 @@
                   intersectionOffset = INTERSECTION_OFFSETS[i];
                   obj = this._getIntersection({
                       x: pos.x + intersectionOffset.x * spiralSearchDistance,
-                      y: pos.y + intersectionOffset.y * spiralSearchDistance
+                      y: pos.y + intersectionOffset.y * spiralSearchDistance,
                   });
                   shape = obj.shape;
                   if (shape && selector) {
@@ -8755,17 +8668,17 @@
               shape = shapes[HASH$1 + colorKey];
               if (shape) {
                   return {
-                      shape: shape
+                      shape: shape,
                   };
               }
               return {
-                  antialiased: true
+                  antialiased: true,
               };
           }
           else if (p3 > 0) {
               // antialiased pixel
               return {
-                  antialiased: true
+                  antialiased: true,
               };
           }
           // empty pixel
@@ -8774,37 +8687,27 @@
       Layer.prototype.drawScene = function (can, top) {
           var layer = this.getLayer(), canvas = can || (layer && layer.getCanvas());
           this._fire(BEFORE_DRAW, {
-              node: this
+              node: this,
           });
           if (this.clearBeforeDraw()) {
               canvas.getContext().clear();
           }
           Container.prototype.drawScene.call(this, canvas, top);
           this._fire(DRAW, {
-              node: this
+              node: this,
           });
           return this;
       };
       Layer.prototype.drawHit = function (can, top) {
           var layer = this.getLayer(), canvas = can || (layer && layer.hitCanvas);
           if (layer && layer.clearBeforeDraw()) {
-              layer
-                  .getHitCanvas()
-                  .getContext()
-                  .clear();
+              layer.getHitCanvas().getContext().clear();
           }
           Container.prototype.drawHit.call(this, canvas, top);
           return this;
       };
-      Layer.prototype.clear = function (bounds) {
-          BaseLayer.prototype.clear.call(this, bounds);
-          this.getHitCanvas()
-              .getContext()
-              .clear(bounds);
-          return this;
-      };
       /**
-       * enable hit graph
+       * enable hit graph. **DEPRECATED!** Use `layer.listening(true)` instead.
        * @name Konva.Layer#enableHitGraph
        * @method
        * @returns {Layer}
@@ -8814,7 +8717,7 @@
           return this;
       };
       /**
-       * disable hit graph
+       * disable hit graph. **DEPRECATED!** Use `layer.listening(false)` instead.
        * @name Konva.Layer#disableHitGraph
        * @method
        * @returns {Layer}
@@ -8822,6 +8725,14 @@
       Layer.prototype.disableHitGraph = function () {
           this.hitGraphEnabled(false);
           return this;
+      };
+      Layer.prototype.setHitGraphEnabled = function (val) {
+          Util.warn('hitGraphEnabled method is deprecated. Please use layer.listening() instead.');
+          this.listening(val);
+      };
+      Layer.prototype.getHitGraphEnabled = function (val) {
+          Util.warn('hitGraphEnabled method is deprecated. Please use layer.listening() instead.');
+          return this.listening();
       };
       /**
        * Show or hide hit canvas over the stage. May be useful for debugging custom hitFunc
@@ -8842,12 +8753,47 @@
           }
       };
       return Layer;
-  }(BaseLayer));
+  }(Container));
   Layer.prototype.nodeType = 'Layer';
   _registerNode(Layer);
+  /**
+   * get/set imageSmoothingEnabled flag
+   * For more info see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled
+   * @name Konva.Layer#imageSmoothingEnabled
+   * @method
+   * @param {Boolean} imageSmoothingEnabled
+   * @returns {Boolean}
+   * @example
+   * // get imageSmoothingEnabled flag
+   * var imageSmoothingEnabled = layer.imageSmoothingEnabled();
+   *
+   * layer.imageSmoothingEnabled(false);
+   *
+   * layer.imageSmoothingEnabled(true);
+   */
+  Factory.addGetterSetter(Layer, 'imageSmoothingEnabled', true);
+  /**
+   * get/set clearBeforeDraw flag which determines if the layer is cleared or not
+   *  before drawing
+   * @name Konva.Layer#clearBeforeDraw
+   * @method
+   * @param {Boolean} clearBeforeDraw
+   * @returns {Boolean}
+   * @example
+   * // get clearBeforeDraw flag
+   * var clearBeforeDraw = layer.clearBeforeDraw();
+   *
+   * // disable clear before draw
+   * layer.clearBeforeDraw(false);
+   *
+   * // enable clear before draw
+   * layer.clearBeforeDraw(true);
+   */
+  Factory.addGetterSetter(Layer, 'clearBeforeDraw', true);
   Factory.addGetterSetter(Layer, 'hitGraphEnabled', true, getBooleanValidator());
   /**
-   * get/set hitGraphEnabled flag.  Disabling the hit graph will greatly increase
+   * get/set hitGraphEnabled flag.  **DEPRECATED!** Use `layer.listening(false)` instead.
+   *  Disabling the hit graph will greatly increase
    *  draw performance because the hit graph will not be redrawn each time the layer is
    *  drawn.  This, however, also disables mouse/touch event detection
    * @name Konva.Layer#hitGraphEnabled
@@ -8867,20 +8813,14 @@
   Collection.mapMethods(Layer);
 
   /**
-   * FastLayer constructor. Layers are tied to their own canvas element and are used
+   * FastLayer constructor. **DEPRECATED!** Please use `Konva.Layer({ listening: false})` instead. Layers are tied to their own canvas element and are used
    * to contain shapes only.  If you don't need node nesting, mouse and touch interactions,
    * or event pub/sub, you should use FastLayer instead of Layer to create your layers.
    * It renders about 2x faster than normal layers.
+   *
    * @constructor
    * @memberof Konva
-   * @augments Konva.BaseLayer
-   * @param {Object} config
-   * @param {Boolean} [config.clearBeforeDraw] set this property to false if you don't want
-   * to clear the canvas before each layer draw.  The default value is true.
-   * @param {Boolean} [config.visible]
-   * @param {String} [config.id] unique id
-   * @param {String} [config.name] non-unique name
-   * @param {Number} [config.opacity] determines node opacity.  Can be any number between 0 and 1
+   * @augments Konva.Layer
    * * @param {Object} [config.clip] set clip
      * @param {Number} [config.clipX] set clip x
      * @param {Number} [config.clipY] set clip y
@@ -8893,32 +8833,14 @@
    */
   var FastLayer = /** @class */ (function (_super) {
       __extends(FastLayer, _super);
-      function FastLayer() {
-          return _super !== null && _super.apply(this, arguments) || this;
+      function FastLayer(attrs) {
+          var _this = _super.call(this, attrs) || this;
+          _this.listening(false);
+          Util.warn('Konva.Fast layer is deprecated. Please use "new Konva.Layer({ listening: false })" instead.');
+          return _this;
       }
-      FastLayer.prototype._validateAdd = function (child) {
-          var type = child.getType();
-          if (type !== 'Shape') {
-              Util.throw('You may only add shapes to a fast layer.');
-          }
-      };
-      FastLayer.prototype.hitGraphEnabled = function () {
-          return false;
-      };
-      FastLayer.prototype.drawScene = function (can) {
-          var layer = this.getLayer(), canvas = can || (layer && layer.getCanvas());
-          if (this.clearBeforeDraw()) {
-              canvas.getContext().clear();
-          }
-          Container.prototype.drawScene.call(this, canvas);
-          return this;
-      };
-      FastLayer.prototype.draw = function () {
-          this.drawScene();
-          return this;
-      };
       return FastLayer;
-  }(BaseLayer));
+  }(Layer));
   FastLayer.prototype.nodeType = 'FastLayer';
   _registerNode(FastLayer);
   Collection.mapMethods(FastLayer);
@@ -11030,15 +10952,13 @@
           return _super !== null && _super.apply(this, arguments) || this;
       }
       Image.prototype._useBufferCanvas = function () {
-          return !!((this.hasShadow() || this.getAbsoluteOpacity() !== 1) &&
-              this.hasStroke() &&
-              this.getStage());
+          return _super.prototype._useBufferCanvas.call(this, true);
       };
       Image.prototype._sceneFunc = function (context) {
-          var width = this.width(), height = this.height(), image = this.image(), cropWidth, cropHeight, params;
+          var width = this.getWidth(), height = this.getHeight(), image = this.attrs.image, cropWidth, cropHeight, params;
           if (image) {
-              cropWidth = this.cropWidth();
-              cropHeight = this.cropHeight();
+              cropWidth = this.attrs.cropWidth;
+              cropHeight = this.attrs.cropHeight;
               if (cropWidth && cropHeight) {
                   params = [
                       image,
@@ -11049,7 +10969,7 @@
                       0,
                       0,
                       width,
-                      height
+                      height,
                   ];
               }
               else {
@@ -11074,14 +10994,12 @@
           context.fillStrokeShape(this);
       };
       Image.prototype.getWidth = function () {
-          var _a;
-          var image = this.image();
-          return (_a = this.attrs.width) !== null && _a !== void 0 ? _a : (image ? image.width : 0);
+          var _a, _b;
+          return (_a = this.attrs.width) !== null && _a !== void 0 ? _a : (((_b = this.image()) === null || _b === void 0 ? void 0 : _b.width) || 0);
       };
       Image.prototype.getHeight = function () {
-          var _a;
-          var image = this.image();
-          return (_a = this.attrs.height) !== null && _a !== void 0 ? _a : (image ? image.height : 0);
+          var _a, _b;
+          return (_a = this.attrs.height) !== null && _a !== void 0 ? _a : (((_b = this.image()) === null || _b === void 0 ? void 0 : _b.height) || 0);
       };
       /**
        * load image from given url and create `Konva.Image` instance
@@ -11100,7 +11018,7 @@
           var img = Util.createImageElement();
           img.onload = function () {
               var image = new Image({
-                  image: img
+                  image: img,
               });
               callback(image);
           };
@@ -12970,7 +12888,7 @@
           context.fillShape(this);
       };
       Sprite.prototype._useBufferCanvas = function () {
-          return ((this.hasShadow() || this.getAbsoluteOpacity() !== 1) && this.hasStroke());
+          return _super.prototype._useBufferCanvas.call(this, true);
       };
       Sprite.prototype._setInterval = function () {
           var that = this;
@@ -13157,7 +13075,7 @@
   Factory.backCompat(Sprite, {
       index: 'frameIndex',
       getIndex: 'getFrameIndex',
-      setIndex: 'setFrameIndex'
+      setIndex: 'setFrameIndex',
   });
   Collection.mapMethods(Sprite);
 
@@ -13352,7 +13270,7 @@
       'height',
       'wrap',
       'ellipsis',
-      'letterSpacing'
+      'letterSpacing',
   ], 
   // cached variables
   attrChangeListLen$1 = ATTR_CHANGE_LIST$1.length;
@@ -13647,7 +13565,7 @@
           _context.restore();
           return {
               width: metrics.width,
-              height: fontSize
+              height: fontSize,
           };
       };
       Text.prototype._getContextFont = function () {
@@ -13666,9 +13584,11 @@
               SPACE$1 +
               this.fontVariant() +
               SPACE$1 +
-              this.fontSize() +
-              PX_SPACE +
-              this.fontFamily());
+              (this.fontSize() + PX_SPACE) +
+              // wrap font family into " so font families with spaces works ok
+              '"' +
+              this.fontFamily() +
+              '"');
       };
       Text.prototype._addTextLine = function (line) {
           if (this.align() === JUSTIFY) {
@@ -13809,7 +13729,7 @@
       'fontSize',
       'padding',
       'wrap',
-      'lineHeight'
+      'lineHeight',
   ];
   _registerNode(Text);
   /**
@@ -14850,7 +14770,7 @@
    *
    * @example
    * var transformer = new Konva.Transformer({
-   *   node: rectangle,
+   *   nodes: [rectangle],
    *   rotateAnchorOffset: 60,
    *   enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right']
    * });
@@ -14935,10 +14855,15 @@
       Transformer.prototype._proxyDrag = function (node) {
           var _this = this;
           var lastPos;
-          node.on("dragstart." + EVENTS_NAME, function () {
+          node.on("dragstart." + EVENTS_NAME, function (e) {
               lastPos = node.getAbsolutePosition();
+              // actual dragging of Transformer doesn't make sense
+              // but we need to proxy drag events
+              if (!_this.isDragging() && node !== _this.findOne('.back')) {
+                  _this.startDrag();
+              }
           });
-          node.on("dragmove." + EVENTS_NAME, function () {
+          node.on("dragmove." + EVENTS_NAME, function (e) {
               if (!lastPos) {
                   return;
               }
@@ -15952,24 +15877,11 @@
    * transformer.padding(10);
    */
   Factory.addGetterSetter(Transformer, 'padding', 0, getNumberValidator());
-  /**
-   * get/set attached node of the Transformer. Transformer will adapt to its size and listen to its events.
-   * **This method is deprecated and will be removed soon.** Please use `tr.nodes([shape1, shape2]);` instead
-   * @method
-   * @name Konva.Transformer#Konva.Transformer#node
-   * @returns {Konva.Node}
-   * @example
-   * // get
-   * const node = transformer.node();
-   *
-   * // set
-   * transformer.node(shape);
-   */
   Factory.addGetterSetter(Transformer, 'node');
   /**
    * get/set attached nodes of the Transformer. Transformer will adapt to their size and listen to their events
    * @method
-   * @name Konva.Transformer#Konva.Transformer#node
+   * @name Konva.Transformer#nodes
    * @returns {Konva.Node}
    * @example
    * // get
@@ -15977,10 +15889,11 @@
    *
    * // set
    * transformer.nodes([rect, circle]);
-   * // push new item:
    *
+   * // push new item:
    * const oldNodes = transformer.nodes();
    * const newNodes = oldNodes.concat([newShape]);
+   * // it is important to set new array instance (and concat method above will create it)
    * transformer.nodes(newNodes);
    */
   Factory.addGetterSetter(Transformer, 'nodes');

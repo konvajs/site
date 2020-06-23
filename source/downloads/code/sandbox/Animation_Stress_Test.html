@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
+    <script src="https://unpkg.com/konva@7.0.0/konva.min.js"></script>
     <meta charset="utf-8" />
     <title>Konva Animation Stress Test Demo</title>
     <style>
@@ -37,12 +37,12 @@
       });
 
       /*
-       * setting the hitGraphEnabled property to false will improve
+       * setting the listening property to false will improve
        * drawing performance because the rectangles won't have to be
        * drawn onto the hit graph
        */
       var layer = new Konva.Layer({
-        hitGraphEnabled: false,
+        listening: false,
       });
       var colors = [
         'red',
