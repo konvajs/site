@@ -16,7 +16,7 @@
     "outputSourcePath": true,
     "systemName": "Konva",
     "footer": "",
-    "copyright": "Konva Copyright © 2015 The contributors to the Konva project.",
+    "copyright": "Konva Copyright © 2020 The contributors to the Konva project.",
     "navType": "vertical",
     "linenums": true,
     "collapseSymbols": false,
@@ -25,10 +25,6 @@
       "search": false
     },
     "highlightTutorialCode": true,
-    "analytics": {
-      "ua": "UA-54202824-2",
-      "domain": "https://konvajs.org"
-    },
     "outputSourceFiles": false
   },
   "markdown": {

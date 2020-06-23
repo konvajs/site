@@ -1,18 +1,20 @@
 <template>
-<v-stage ref="stage" :config="stageSize">
-      <v-layer ref="layer">
-        <v-rect
-          ref="rect"
-          @dragstart="changeSize"
-          @dragend="changeSize"
-          :config="{
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-rect
+        ref="rect"
+        @dragstart="changeSize"
+        @dragend="changeSize"
+        :config="{
             width: 50,
             height: 50,
             fill: 'green',
             draggable: true
           }"
-        />
-        <v-regular-polygon ref="hexagon" :config="{
+      />
+      <v-regular-polygon
+        ref="hexagon"
+        :config="{
           x: 200,
           y: 200,
           sides: 6,
@@ -20,12 +22,14 @@
           fill: 'red',
           stroke: 'black',
           strokeWidth: 4
-        }" />
-      </v-layer>
-    </v-stage>
+        }"
+      />
+    </v-layer>
+  </v-stage>
 </template>
 
 <script>
+import Konva from "konva";
 const width = window.innerWidth;
 const height = window.innerHeight;
 
