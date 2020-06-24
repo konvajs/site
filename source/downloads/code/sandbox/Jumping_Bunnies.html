@@ -39,7 +39,7 @@
       var maxY = height;
       var minY = 0;
 
-      var startBunnyCount = 10;
+      var startBunnyCount = 1000;
       var isAdding = false;
       var count = 0;
       var amount = 10;
@@ -56,7 +56,7 @@
       wabbitTexture.onload = function () {
         _handleTextureLoaded();
       };
-      wabbitTexture.src = '/assets/bunny.png';
+      wabbitTexture.src = 'https://konvajs.org/assets/bunny.png';
 
       var stats = new Stats();
       document.body.appendChild(stats.domElement);
@@ -86,6 +86,7 @@
           var bunny = new Konva.Image({
             image: wabbitTexture,
             transformsEnabled: 'position',
+            perfectDrawEnabled: false,
             x: 10,
             y: 10,
           });
@@ -114,6 +115,7 @@
             var bunny = new Konva.Image({
               image: wabbitTexture,
               transformsEnabled: 'position',
+              perfectDrawEnabled: false,
               x: 0,
               y: 0,
             });
@@ -129,27 +131,35 @@
 
         for (var i = 0; i < bunnys.length; i++) {
           var bunny = bunnys[i];
-          bunny.setX(bunny.getX() + bunny.speedX);
-          bunny.setY(bunny.getY() + bunny.speedY);
+          var pos = {
+            x: bunny.x(),
+            y: bunny.y(),
+          };
+          pos.x = pos.x + bunny.speedX;
+          pos.y = pos.y + bunny.speedY;
           bunny.speedY += GRAVITY;
-          if (bunny.getX() > maxX - wabbitTexture.width) {
+          if (pos.x > maxX - wabbitTexture.width) {
             bunny.speedX *= -1;
-            bunny.setX(maxX - wabbitTexture.width);
-          } else if (bunny.getX() < minX) {
+            pos.x = maxX - wabbitTexture.width;
+          } else if (pos.x < minX) {
             bunny.speedX *= -1;
-            bunny.setX(minX);
+            pos.x = minX;
           }
 
-          if (bunny.getY() > maxY - wabbitTexture.height) {
+          if (pos.y > maxY - wabbitTexture.height) {
             bunny.speedY *= -0.85;
-            bunny.setY(maxY - wabbitTexture.height);
+            pos.y = maxY - wabbitTexture.height;
             if (Math.random() > 0.5) {
               bunny.speedY -= Math.random() * 6;
             }
-          } else if (bunny.getY() < minY) {
+          } else if (pos.y < minY) {
             bunny.speedY = 0;
-            bunny.setY(minY);
+            pos.y = minY;
           }
+          bunny.position({
+            x: pos.x,
+            y: pos.y,
+          });
         }
         layer.draw();
         requestAnimationFrame(update);

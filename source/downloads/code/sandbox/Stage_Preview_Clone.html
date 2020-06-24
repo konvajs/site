@@ -29,7 +29,7 @@
       const stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
 
       const layer = new Konva.Layer();
@@ -45,7 +45,7 @@
           draggable: true,
           // each shape MUSH have uniq name
           // so we can easily update the preview clone by name
-          name: 'shape-' + i
+          name: 'shape-' + i,
         });
         layer.add(shape);
       }
@@ -58,17 +58,17 @@
         width: window.innerWidth / 4,
         height: window.innerHeight / 4,
         scaleX: 1 / 4,
-        scaleY: 1 / 4
+        scaleY: 1 / 4,
       });
 
       // clone original layer, and disable all events on it
       // we will use "let" here, because we can redefine layer later
-      let previewLayer = layer.clone({ hitGraphEnabled: false });
+      let previewLayer = layer.clone({ listening: false });
       previewStage.add(previewLayer);
 
       function updatePreview() {
         // we just need to update ALL nodes in the preview
-        layer.children.forEach(shape => {
+        layer.children.forEach((shape) => {
           // find cloned node
           const clone = previewLayer.findOne('.' + shape.name());
           // update its position from the original
@@ -89,7 +89,7 @@
           draggable: true,
           // each shape MUSH have uniq name
           // so we can easily update the preview clone by name
-          name: 'shape-' + layer.children.length
+          name: 'shape-' + layer.children.length,
         });
         layer.add(shape);
         layer.batchDraw();
@@ -97,7 +97,7 @@
         // remove all layer
         previewLayer.destroy();
         // generate new one
-        previewLayer = layer.clone({ hitGraphEnabled: false });
+        previewLayer = layer.clone({ listening: false });
         previewStage.add(previewLayer);
       });
     </script>
