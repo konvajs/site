@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.0
+   * Konva JavaScript Framework v7.0.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Jun 23 2020
+   * Date: Mon Jun 29 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.0',
+      version: '7.0.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3514,7 +3514,7 @@
           return absoluteTransform.getTranslation();
       };
       Node.prototype.setAbsolutePosition = function (pos) {
-          var origTrans = this._clearTransform(), it;
+          var origTrans = this._clearTransform();
           // don't clear translation
           this.attrs.x = origTrans.x;
           this.attrs.y = origTrans.y;
@@ -3522,7 +3522,7 @@
           delete origTrans.y;
           // important, use non cached value
           this._clearCache(TRANSFORM);
-          it = this._getAbsoluteTransform();
+          var it = this._getAbsoluteTransform().copy();
           it.invert();
           it.translate(pos.x, pos.y);
           pos = {
@@ -3531,6 +3531,8 @@
           };
           this._setTransform(origTrans);
           this.setPosition({ x: pos.x, y: pos.y });
+          this._clearCache(TRANSFORM);
+          this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
           return this;
       };
       Node.prototype._setTransform = function (trans) {
@@ -13274,6 +13276,20 @@
   ], 
   // cached variables
   attrChangeListLen$1 = ATTR_CHANGE_LIST$1.length;
+  function normalizeFontFamily(fontFamily) {
+      return fontFamily
+          .split(',')
+          .map(function (family) {
+          family = family.trim();
+          var hasSpace = family.indexOf(' ') >= 0;
+          var hasQuotes = family.indexOf('"') >= 0 || family.indexOf("'") >= 0;
+          if (hasSpace && !hasQuotes) {
+              family = "\"" + family + "\"";
+          }
+          return family;
+      })
+          .join(', ');
+  }
   var dummyContext$1;
   function getDummyContext$1() {
       if (dummyContext$1) {
@@ -13586,9 +13602,7 @@
               SPACE$1 +
               (this.fontSize() + PX_SPACE) +
               // wrap font family into " so font families with spaces works ok
-              '"' +
-              this.fontFamily() +
-              '"');
+              normalizeFontFamily(this.fontFamily()));
       };
       Text.prototype._addTextLine = function (line) {
           if (this.align() === JUSTIFY) {
@@ -15433,9 +15447,7 @@
                   .multiply(parentTransform)
                   .multiply(localTransform);
               var attrs = newLocalTransform.decompose();
-              node._batchTransformChanges(function () {
-                  node.setAttrs(attrs);
-              });
+              node.setAttrs(attrs);
               _this._fire('transform', { evt: evt, target: node });
               node._fire('transform', { evt: evt, target: node });
           });
@@ -15456,9 +15468,7 @@
       };
       Transformer.prototype._batchChangeChild = function (selector, attrs) {
           var anchor = this.findOne(selector);
-          anchor._batchTransformChanges(function () {
-              anchor.setAttrs(attrs);
-          });
+          anchor.setAttrs(attrs);
       };
       Transformer.prototype.update = function () {
           var _this = this;
@@ -15471,17 +15481,15 @@
           var padding = this.padding();
           var anchorSize = this.anchorSize();
           this.find('._anchor').each(function (node) {
-              node._batchTransformChanges(function () {
-                  node.setAttrs({
-                      width: anchorSize,
-                      height: anchorSize,
-                      offsetX: anchorSize / 2,
-                      offsetY: anchorSize / 2,
-                      stroke: _this.anchorStroke(),
-                      strokeWidth: _this.anchorStrokeWidth(),
-                      fill: _this.anchorFill(),
-                      cornerRadius: _this.anchorCornerRadius(),
-                  });
+              node.setAttrs({
+                  width: anchorSize,
+                  height: anchorSize,
+                  offsetX: anchorSize / 2,
+                  offsetY: anchorSize / 2,
+                  stroke: _this.anchorStroke(),
+                  strokeWidth: _this.anchorStrokeWidth(),
+                  fill: _this.anchorFill(),
+                  cornerRadius: _this.anchorCornerRadius(),
               });
           });
           this._batchChangeChild('.top-left', {
