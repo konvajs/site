@@ -5,7 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "konva": "7.0.1",
+    "konva": "7.0.2",
     "mobx": "4.3.1",
     "mobx-react": "5.2.3",
     "react": "16.12.0",

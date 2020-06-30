@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.1
+   * Konva JavaScript Framework v7.0.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Jun 29 2020
+   * Date: Tue Jun 30 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.1',
+      version: '7.0.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -6422,7 +6422,7 @@
       Stage.prototype._touchend = function (evt) {
           var _this = this;
           this.setPointersPositions(evt);
-          var clickEndShape = this.clickEndShape, fireDblClick = false;
+          var tapEndShape = this.tapEndShape, fireDblClick = false;
           if (Konva.inDblClickWindow) {
               fireDblClick = true;
               clearTimeout(this.dblTimeout);
@@ -6453,14 +6453,14 @@
                   return;
               }
               processedShapesIds[shape._id] = true;
-              _this.clickEndShape = shape;
+              _this.tapEndShape = shape;
               shape._fireAndBubble(TOUCHEND, { evt: evt, pointerId: pos.id });
               triggeredOnShape = true;
               // detect if tap or double tap occurred
               if (Konva.listenClickTap && shape === _this.tapStartShape) {
                   tapTriggered = true;
                   shape._fireAndBubble(TAP, { evt: evt, pointerId: pos.id });
-                  if (fireDblClick && clickEndShape && clickEndShape === shape) {
+                  if (fireDblClick && tapEndShape && tapEndShape === shape) {
                       dblTapTriggered = true;
                       shape._fireAndBubble(DBL_TAP, { evt: evt, pointerId: pos.id });
                   }
@@ -6479,7 +6479,7 @@
               });
           }
           if (Konva.listenClickTap && !tapTriggered) {
-              this.clickEndShape = null;
+              this.tapEndShape = null;
               this._fire(TAP, {
                   evt: evt,
                   target: this,
@@ -6502,6 +6502,9 @@
               if (fireDblClick) {
                   this._fire(CONTENT_DBL_TAP, { evt: evt });
               }
+          }
+          if (this.preventDefault() && evt.cancelable) {
+              evt.preventDefault();
           }
           Konva.listenClickTap = false;
       };
