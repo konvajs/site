@@ -6,10 +6,13 @@ layout: react_page
 
 React Konva is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
 
+
 [Github Repo](https://github.com/lavrton/react-konva)
 
 
 An attempt to make [React](http://facebook.github.io/react/) work with the HTML5 canvas library. The goal is to have similar declarative markup as normal React and to have similar data-flow model.
+
+**Currently, `react-konva` is not supported in React Native environment.**
 
 Currently you can use all `Konva` nodes and shapes as React components and all `Konva` events are supported on them in same way as normal browser events are supported.
 
