@@ -117,9 +117,12 @@
           stage.scaleY(scale);
 
           // calculate new position of the stage
+          var dx = newCenter.x - lastCenter.x;
+          var dy = newCenter.y - lastCenter.y;
+
           var newPos = {
-            x: 2 * newCenter.x - pointTo.x * scale - lastCenter.x,
-            y: 2 * newCenter.y - pointTo.y * scale - lastCenter.y,
+            x: newCenter.x - pointTo.x * scale + dx,
+            y: newCenter.y - pointTo.y * scale + dy,
           };
 
           stage.position(newPos);
