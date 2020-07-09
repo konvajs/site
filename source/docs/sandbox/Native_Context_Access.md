@@ -14,7 +14,6 @@ There are two recommended ways if you want to draw something manually:
 2. Create a new canvas element manually and then use it for `Konva.Image`.
 
 
-
 {% iframe /downloads/code/sandbox/Native_Context_Access.html %}
 
 {% include_code Konva 20000 Nodes Demo sandbox/Native_Context_Access.html %}
