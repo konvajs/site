@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.2
+   * Konva JavaScript Framework v7.0.3
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Jun 30 2020
+   * Date: Thu Jul 09 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.2',
+      version: '7.0.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -4636,8 +4636,17 @@
                * drag and drop mode
                */
               var stage = this.getStage();
-              if (stage && DD._dragElements.has(this._id)) {
+              if (!stage) {
+                  return;
+              }
+              var dragElement = DD._dragElements.get(this._id);
+              var isDragging = dragElement && dragElement.dragStatus === 'dragging';
+              var isReady = dragElement && dragElement.dragStatus === 'ready';
+              if (isDragging) {
                   this.stopDrag();
+              }
+              else if (isReady) {
+                  DD._dragElements.delete(this._id);
               }
           }
       };
@@ -5503,7 +5512,7 @@
        * because it performs very poorly.  Please use the {@link Konva.Stage#getIntersection} method if at all possible
        * because it performs much better
        * @method
-       * @name Konva.Container#getIntersection
+       * @name Konva.Container#getAllIntersections
        * @param {Object} pos
        * @param {Number} pos.x
        * @param {Number} pos.y
@@ -8382,9 +8391,9 @@
               pixelRatio: 1,
           });
           _this._waitingForDraw = false;
-          _this.on('visibleChange', _this._checkVisibility);
+          _this.on('visibleChange.konva', _this._checkVisibility);
           _this._checkVisibility();
-          _this.on('imageSmoothingEnabledChange', _this._setSmoothEnabled);
+          _this.on('imageSmoothingEnabledChange.konva', _this._setSmoothEnabled);
           _this._setSmoothEnabled();
           return _this;
       }
@@ -13502,7 +13511,7 @@
                       var letter = text[li];
                       // skip justify for the last line
                       if (letter === ' ' && n !== textArrLen - 1 && align === JUSTIFY) {
-                          lineTranslateX += Math.floor((totalWidth - padding * 2 - width) / spacesNumber);
+                          lineTranslateX += (totalWidth - padding * 2 - width) / spacesNumber;
                           // context.translate(
                           //   Math.floor((totalWidth - padding * 2 - width) / spacesNumber),
                           //   0
@@ -13512,8 +13521,7 @@
                       this._partialTextY = translateY + lineTranslateY;
                       this._partialText = letter;
                       context.fillStrokeShape(this);
-                      lineTranslateX +=
-                          Math.round(this.measureSize(letter).width) + letterSpacing;
+                      lineTranslateX += this.measureSize(letter).width + letterSpacing;
                   }
               }
               else {
