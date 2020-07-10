@@ -6,26 +6,38 @@ comments: false
 .intro-wrap
   .outer
         h2.intro-features Features
-        ul.features
-          li 📱 Built-in in support for HDPI devices with pixel ratio optimizations for sharp text and shapes
-          li 📦 Object Oriented API
-          li 🛁 Node nesting and event bubbling
-          li 🚀 High performance event detection via color map hashing
-          li 📄 Layering support
-          li 🤔 Node caching to improve draw performance
-          li 🎇 Nodes can be converted into data URLs, image data, or image objects
-          li 👍 Animation support
-          li 👍 Tween support
-          li 👇 Drag and drop with configurable constraints and bounds
-          li 🎑 Filters
-          li 🔲 Ready to use shapes including rectangles, circles, images, text, lines, polygons, SVG paths, and more
-          li ❤️ Custom shapes
-          li 🚕 Event driven architecture which enables developers to subscribe to attr change events, layer draw events, and more
-          li 🤓 Serialization & de-serialization
-          li 🔍 Selector support e.g. stage.get('#foo') and layer.get('.bar');
-          li 🖥 Desktop and mobile events
-          li 👀 Custom hit regions
-          li and more...
+        
+        .features
+          .feature
+            img(src="/assets/features/undraw_abstract_x68e.svg")
+            h3.desc Object Oriented API with support of many shapes
+          .feature
+            img(src="/assets/features/undraw_file_sync_ot38.svg")
+            h3.desc Support for desktop and mobile devices
+
+          .feature
+            img(src="/assets/features/undraw_animating_1rgh.svg")
+            h3.desc Animations and tweens
+
+          .feature
+            img(src="/assets/features/undraw_fitting_pieces_cli3.svg")
+            h3.desc Node nesting, grouping and event bubbling
+
+          .feature
+            img(src="/assets/features/undraw_image_viewer_wxce.svg")
+            h3.desc Hight quality exports into data URLs, image data, or image objects
+
+          .feature
+            img(src="/assets/features/undraw_options_2fvi.svg")
+            h3.desc Nice read-to-use filters
+        
+          .feature
+            img(src="/assets/features/undraw_voice_interface_eckp.svg")
+            h3.desc Native integration with web frameworks such as React and Vue
+
+          .feature
+            img(src="/assets/features/undraw_drag_5i9w.svg")
+            h3.desc Built-in Drag&drop support
 
         h2.intro-features Who is using Konva?
 
@@ -64,7 +76,7 @@ comments: false
             a.add-app(href="https://github.com/konvajs/konva/issues/256") Do you want to add your app here?
 
         h2.intro-features Demo
-        iframe(src='https://codesandbox.io/embed/github/konvajs/site/tree/master/main-demo?hidenavigation=1&view=preview&fontsize=10',style='width:100%; height:600px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin')
+        iframe(src='/downloads/code/main-demo.html',style='width:100%; height:600px; box-shadow: 0 0 10px grey; border-radius: 4px; overflow:hidden;')
 
     .outer
     #intro-btn-wrap
