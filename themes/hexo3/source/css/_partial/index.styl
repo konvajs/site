@@ -138,23 +138,29 @@ $banner-getting-started-font
 
 .features .feature
   margin: 5px 0
-  width: 50%
   display: inline-block
   padding: 10px
   text-align: center
+
+  @media mq-mobile
+    width: 100%;
+    max-width: 300px;
 
   @media mq-normal
     margin: 4px
     width: 30%;
 
 .features .feature img
-  width: 50%
+  width: 80%
   height: 200px
   object-fit: contain
+  @media mq-normal
+    width: 50%;
 
 .features .feature .desc
   width: 100%
   padding-top: 10px
+  font-size: 16px;
 
 .grid-item
   width: 100%
