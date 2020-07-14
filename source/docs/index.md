@@ -2,15 +2,12 @@ title: Starting with Konva
 
 ---
 
-Welcome to the Konva's documentation. This documentation will help you get started fast.
-If you get any problems when using Konva you can ask me on [GitHub](https://github.com/konvajs/konva/issues).
-
 ## What's Konva?
 
-Konva is an HTML5 Canvas JavaScript framework that extends the 2d context
+`Konva` is an HTML5 Canvas JavaScript framework that extends the 2d context
 by enabling canvas interactivity for desktop and mobile applications.
 
-Konva enables high performance animations, transitions, node nesting, layering, filtering,
+`Konva` enables high performance animations, transitions, node nesting, layering, filtering,
 caching, event handling for desktop and mobile applications, and much more.
 
 You can draw things onto the stage, add event listeners to them, move them,
@@ -30,12 +27,12 @@ npm install konva
 Or just use script tag:
 
 ```html
-<script src="https://unpkg.com/konva@6.0.0/konva.min.js"></script>
+<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
 ```
 
 Or download from CDN:
 
-* [Full version konva.js](https://unpkg.com/konva@6.0.0/konva.js)
-* [Min version konva.min.js](https://unpkg.com/konva@6.0.0/konva.min.js)
+* [Full version konva.js](https://unpkg.com/konva@7.0.3/konva.js)
+* [Min version konva.min.js](https://unpkg.com/konva@7.0.3/konva.min.js)
 
 ### [Read next: Overview](/docs/overview.html)
