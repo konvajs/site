@@ -1,9 +1,9 @@
-title: HTML5 Canvas Stage Data URL Tutorial
+title: HTML5 Canvas to Data URL Tutorial
 ---
 
-## How to get base64 string of the canvas?
+## How to export canvas content into image?
 
-To get the data URL of the stage with Konva, we can use the `toDataURL()`
+To get the data URL of the stage with `Konva`, we can use the `toDataURL()`
 method which requires a callback function for `Stage` (for other nodes callback is not required).
 In addition, we can also pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
 We can also get the data URLs of specific nodes, including layers, groups, and shapes.
