@@ -116,6 +116,8 @@
       });
 
       stage.on('wheel', function (e) {
+        // prevent parent scrolling
+        e.evt.preventDefault();
         const dx = e.evt.deltaX;
         const dy = e.evt.deltaY;
 
