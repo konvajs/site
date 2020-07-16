@@ -114,6 +114,37 @@
         layer.x(-(WIDTH - stage.width()) * delta);
         layer.batchDraw();
       });
+
+      stage.on('wheel', function (e) {
+        const dx = e.evt.deltaX;
+        const dy = e.evt.deltaY;
+
+        const minX = -(WIDTH - stage.width());
+        const maxX = 0;
+
+        const x = Math.max(minX, Math.min(layer.x() - dx, maxX));
+
+        const minY = -(HEIGHT - stage.height());
+        const maxY = 0;
+
+        const y = Math.max(minY, Math.min(layer.y() - dy, maxY));
+        layer.position({ x, y });
+
+        const availableHeight =
+          stage.height() - PADDING * 2 - verticalBar.height();
+        const vy =
+          (layer.y() / (-HEIGHT + stage.height())) * availableHeight + PADDING;
+        verticalBar.y(vy);
+
+        const availableWidth =
+          stage.width() - PADDING * 2 - horizontalBar.width();
+
+        const hx =
+          (layer.x() / (-WIDTH + stage.width())) * availableWidth + PADDING;
+        horizontalBar.x(hx);
+
+        stage.batchDraw();
+      });
     </script>
   </body>
 </html>
