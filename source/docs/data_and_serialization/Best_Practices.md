@@ -17,7 +17,7 @@ var state = [{x: 10, y: 10}, { x: 160, y: 1041}]
 ```
 
 Now when you have that information, you need to have a function, that can create the whole canvas structure.
-If you want to update your canvas, for instance, you want to create a new ball, you don't need to create a new canvas node directly (like creating new instance of `Konva.Cirlce`), you just need to push a new object into a state and update (or recreate) canvas.
+If you want to update your canvas, for instance, you want to create a new ball, you don't need to create a new canvas node directly (like creating new instance of `Konva.Circle`), you just need to push a new object into a state and update (or recreate) canvas.
 
 In that case you don't need to care about image loading, filters, event listeners, etc in saving/loading phases. Because you do all these actions in your `create` or `update` functions.
 
