@@ -4,9 +4,9 @@ layout: demo_page
 
 ## How to scale image to fit available area without its stretching?
 
-The demo demonstrate how to use [`crop`](/api/Konva.Image.html#crop) property of `Konva.Image` to emulate `object-fit: cover` of CSS.
+The demo demonstrate how to use [crop](/api/Konva.Image.html#crop) property of `Konva.Image` to emulate `object-fit: cover` of CSS.
 
-The [`crop`](https://konvajs.org/api/Konva.Image.html#crop) property allows you to use only specified area of source image to draw into the canvas. If you do the correct calculations, then resulted image can be drawing without and stretching.
+The [crop](https://konvajs.org/api/Konva.Image.html#crop) property allows you to use only specified area of source image to draw into the canvas. If you do the correct calculations, then resulted image can be drawn without any stretching.
 
 **Instructions: try to resize an image or change crop strategy**.
 

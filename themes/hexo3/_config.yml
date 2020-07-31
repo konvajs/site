@@ -224,9 +224,9 @@ demo_sidebar:
     Context Menu:
       - context.jpg
       - sandbox/Canvas_Context_Menu.html
-    Web Worker:
-      - offscreen.jpg
-      - sandbox/Web_Worker.html
+    Image Scale To Fit:
+      - fit-image.jpg
+      - sandbox/Scale_Image_To_Fit.html
   Performance tests:
     Drag and Drop Stress Test:
       - drag_stress-min.png
@@ -247,6 +247,9 @@ demo_sidebar:
       - squiggle-min.png
       - sandbox/Quantum_Squiggle.html
   Other random demos:
+    Web Worker:
+      - offscreen.jpg
+      - sandbox/Web_Worker.html
     Star Spinner:
       - spinner-min.png
       - sandbox/Star_Spinner.html
@@ -265,9 +268,6 @@ demo_sidebar:
     Image Border:
       - border.jpg
       - sandbox/Image_Border.html
-    Image Scale To Fit:
-      - fit-image.jpg
-      - sandbox/Scale_Image_To_Fit.html
     Collision Detection:
       - collision-min.png
       - sandbox/Collision_Detection.html
