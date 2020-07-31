@@ -265,6 +265,9 @@ demo_sidebar:
     Image Border:
       - border.jpg
       - sandbox/Image_Border.html
+    Image Scale To Fit:
+      - fit-image.jpg
+      - sandbox/Scale_Image_To_Fit.html
     Collision Detection:
       - collision-min.png
       - sandbox/Collision_Detection.html
