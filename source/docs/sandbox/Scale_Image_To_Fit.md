@@ -8,6 +8,7 @@ The demo demonstrate how to use [crop](/api/Konva.Image.html#crop) property of `
 
 The [crop](https://konvajs.org/api/Konva.Image.html#crop) property allows you to use only specified area of source image to draw into the canvas. If you do the correct calculations, then resulted image can be drawn without any stretching.
 
+
 **Instructions: try to resize an image or change crop strategy**.
 
 {% iframe /downloads/code/sandbox/Scale_Image_To_Fit.html %}
