@@ -121,6 +121,7 @@
           pos
         );
         img.setAttrs(crop);
+        layer.draw();
       }
 
       Konva.Image.fromURL(
@@ -165,7 +166,7 @@
         }
       );
 
-      clip.onchange = (e) => {
+      document.querySelector('#clip').onchange = (e) => {
         applyCrop(e.target.value);
       };
     </script>
