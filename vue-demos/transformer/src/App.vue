@@ -1,7 +1,17 @@
 <template>
-  <v-stage ref="stage" :config="stageSize" @mousedown="handleStageMouseDown" @touchstart="handleStageMouseDown">
+  <v-stage
+    ref="stage"
+    :config="stageSize"
+    @mousedown="handleStageMouseDown"
+    @touchstart="handleStageMouseDown"
+  >
     <v-layer ref="layer">
-      <v-rect v-for="item in rectangles" :key="item.id" :config="item" @transformend="handleTransformEnd"/>
+      <v-rect
+        v-for="item in rectangles"
+        :key="item.id"
+        :config="item"
+        @transformend="handleTransformEnd"
+      />
       <v-transformer ref="transformer" />
     </v-layer>
   </v-stage>
@@ -17,7 +27,7 @@ export default {
     return {
       stageSize: {
         width: width,
-        height: height
+        height: height,
       },
       rectangles: [
         {
@@ -30,7 +40,7 @@ export default {
           scaleY: 1,
           fill: 'red',
           name: 'rect1',
-          draggable: true
+          draggable: true,
         },
         {
           rotation: 0,
@@ -42,17 +52,19 @@ export default {
           scaleY: 1,
           fill: 'green',
           name: 'rect2',
-          draggable: true
-        }
+          draggable: true,
+        },
       ],
-      selectedShapeName: ''
+      selectedShapeName: '',
     };
   },
   methods: {
     handleTransformEnd(e) {
       // shape is transformed, let us save new attrs back to the node
       // find element in our state
-      const rect = this.rectangles.find(r => r.name === this.selectedShapeName);
+      const rect = this.rectangles.find(
+        (r) => r.name === this.selectedShapeName
+      );
       // update the state
       rect.x = e.target.x();
       rect.y = e.target.y();
@@ -80,7 +92,7 @@ export default {
 
       // find clicked rect by its name
       const name = e.target.name();
-      const rect = this.rectangles.find(r => r.name === name);
+      const rect = this.rectangles.find((r) => r.name === name);
       if (rect) {
         this.selectedShapeName = name;
       } else {
@@ -102,13 +114,13 @@ export default {
 
       if (selectedNode) {
         // attach to another node
-        transformerNode.attachTo(selectedNode);
+        transformerNode.nodes([selectedNode]);
       } else {
         // remove transformer
-        transformerNode.detach();
+        transformerNode.nodes([]);
       }
       transformerNode.getLayer().batchDraw();
-    }
-  }
+    },
+  },
 };
 </script>
