@@ -12,4 +12,4 @@ Here is what you should do:
 4. If you just want to discuss Konva you can join [Gittip Chat](https://gitter.im/konvajs/konva)
 5. If you have something interesting to share use Twitter `#konvajs` hashtag
 6. Visit [Changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) to see what is changing.
-7. Do you have really complicated issue or do you need help with implementing a huge project? You can hire me. Just drop me a message to <mailto:anton@lavrton.com>.
+7. Need a consulting or strategy review? Go to [Consulting Page](https://lavrton.com/consulting)
