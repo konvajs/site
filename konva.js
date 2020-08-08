@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.4
+   * Konva JavaScript Framework v7.0.5
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Jul 30 2020
+   * Date: Sat Aug 08 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.4',
+      version: '7.0.5',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3585,7 +3585,7 @@
           // there's no need to build a family tree.  just execute
           // func with this because it will be the only node
           if (top && top._id === this._id) {
-              func(this);
+              // func(this);
               return;
           }
           family.unshift(this);
