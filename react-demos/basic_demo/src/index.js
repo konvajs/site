@@ -28,7 +28,7 @@ const App = () => {
       })
     );
   };
-  const handleDragStart = (e) => {
+  const handleDragEnd = (e) => {
     setStars(
       stars.map((star) => {
         return {
