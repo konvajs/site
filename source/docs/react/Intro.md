@@ -31,8 +31,8 @@ import { Stage, Layer, Rect } from 'react-konva';
 export const App = () => {
   return (
     // Stage - is a div wrapper
-    // Layer - is an actual 2d canvas element, so you can clear several layers inside the stage
-    // Rect and Circle are not DOM elements. It is 2d shapes on canvas
+    // Layer - is an actual 2d canvas element, so you can have several layers inside the stage
+    // Rect and Circle are not DOM elements. They are 2d shapes on canvas
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect width={50} height={50} fill="red" />
