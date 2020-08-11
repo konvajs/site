@@ -59,10 +59,10 @@ const App = () => {
             shadowColor="black"
             shadowBlur={10}
             shadowOpacity={0.6}
-            shadowOffsetX={start.isDragging ? 10 : 5}
-            shadowOffsetY={start.isDragging ? 10 : 5}
-            scaleX={start.isDragging ? 1.2 : 1}
-            scaleY={start.isDragging ? 1.2 : 1}
+            shadowOffsetX={star.isDragging ? 10 : 5}
+            shadowOffsetY={star.isDragging ? 10 : 5}
+            scaleX={star.isDragging ? 1.2 : 1}
+            scaleY={star.isDragging ? 1.2 : 1}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           />
