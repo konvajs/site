@@ -4,14 +4,16 @@ note-warn = hsl(0, 100%, 50%)
 
 #page-banner
   @extend $banner-background
-  padding: 30px 0
+  padding: 20px 0
   text-align: center
+  margin-bottom: 20px
   @media mq-normal
-    padding: 40px 0
+    padding: 20px 0
     text-align: left
 
 #page-banner-inner
   position: relative
+  padding-bottom: 20px;
 
 #page-title
   color: #555
@@ -26,11 +28,10 @@ note-warn = hsl(0, 100%, 50%)
     content: "\f040"
 
 .page-content
+  max-width: 800px
   column(12)
-  padding: 20px 0
   @media mq-normal
     column(9)
-    float: right
 
 .page-entry
   line-height: line-height

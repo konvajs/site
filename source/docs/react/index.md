@@ -2,9 +2,11 @@ title: Getting started with react and canvas via Konva
 layout: react_page
 ---
 
-![ReactKonva Logo](https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png)
+<div style="text-align: center">
+  <img src="https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png"/>
+</div>
 
-React Konva is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+`react-konva` is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
 
 
 [Github Repo](https://github.com/lavrton/react-konva)
@@ -14,9 +16,9 @@ An attempt to make [React](http://facebook.github.io/react/) work with the HTML5
 
 **Currently, `react-konva` is not supported in React Native environment.**
 
-Currently you can use all `Konva` nodes and shapes as React components and all `Konva` events are supported on them in same way as normal browser events are supported.
+Currently you can use all `Konva` nodes and shapes as React components and all `Konva` events are supported on them in same way.
 
-**Note: you can find a lot of demos and examples of using Konva there: [https://konvajs.org/](https://konvajs.org/). Really, just go there and take a look what Konva can do for you. You will be able to do the same with react-konva too. You don't need to learn `react-konva`, just learn Konva.**
+**Note: you can find a lot of demos and examples of using Konva there: [https://konvajs.org/](https://konvajs.org/). Really, just go there and take a look what Konva can do for you. You will be able to do the same with react-konva too. `Konva` for `react-konva` is like DOM for `React`.**
 
 ## Installation
 
@@ -45,7 +47,5 @@ shapes.
 
 ### react-konva vs vanilla canvas
 
-Vanilla canvas is faster because when you use `react-konva` you have two layers of abstractions. Konva framework is on top of canvas and React is on top of Konva.
-Depending on the use case this approach can be slow.
-The purpose of `react-konva` is to reduce the complexity of the application and use well-known declarative way for drawing on canvas.
+Vanilla canvas can is faster because when you use `react-konva` you have two layers of abstractions: (1) `Konva` framework is on top of canvas and (2) `React` is on top of `Konva`. For many applications is performance is still very good. The purpose of `react-konva` is to reduce the complexity of the application and use well-known declarative way for drawing on canvas.
 

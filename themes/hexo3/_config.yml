@@ -2,7 +2,7 @@ menu:
   Tutorials: /docs/index.html
   Demos: /docs/sandbox/index.html
   API docs: /api/Konva.html
-  React: /docs/react/index.html
+  React: /docs/react/Intro.html
   Vue: /docs/vue/index.html
   Support Konva: /docs/donate.html
   Need help?: /docs/support.html
@@ -355,11 +355,11 @@ demo_sidebar:
     # Touch Gestures: sandbox/Gestures.html
 
 react_sidebar:
-  Getting Started with React:
-    Intro: react/index.html
+  Docs and demos:
+    Intro: react/Intro.html
+    Overview: react/index.html
     Basic shapes: react/Shapes.html
     Custom shape: react/Custom_Shape.html
-  React demos:
     Events: react/Events.html
     Images: react/Images.html
     Filters: react/Filters.html

@@ -1,8 +1,8 @@
 var links = {
-  index: 'https://github.com/konvajs/konva'
+  index: 'https://github.com/konvajs/konva',
 };
 
-hexo.extend.helper.register('github_link', function(data) {
+hexo.extend.helper.register('github_link', function (data) {
   var match = data.file.match(/(\w+)\/lib\/(.+)/),
     name = match[1],
     path = 'lib/' + match[2];
@@ -29,10 +29,10 @@ hexo.extend.helper.register('github_link', function(data) {
   );
 });
 
-hexo.extend.helper.register('item_flags', function(data) {
+hexo.extend.helper.register('item_flags', function (data) {
   var result = '';
 
-  ['static', 'chainable', 'async', 'final'].forEach(function(i) {
+  ['static', 'chainable', 'async', 'final'].forEach(function (i) {
     if (data[i])
       result += '<span class="api-item-flag ' + i + '">' + i + '</span>';
   });
@@ -40,11 +40,17 @@ hexo.extend.helper.register('item_flags', function(data) {
   return result;
 });
 
-hexo.extend.helper.register('page_nav', function() {
-  var sidebar = this.theme.doc_sidebar,
-    path = this.path.replace(/^docs\//, ''),
+hexo.extend.helper.register('page_nav', function () {
+  var sidebar = Object.assign(
+    {},
+    this.theme.doc_sidebar,
+    this.theme.react_sidebar,
+    this.theme.vue_sidebar,
+    this.theme.demo_sidebar
+  );
+  (path = this.path.replace(/^docs\//, '')),
     // path = this.path,
-    list = {};
+    (list = {});
 
   for (var i in sidebar) {
     for (var j in sidebar[i]) {
