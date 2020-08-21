@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.5
+   * Konva JavaScript Framework v7.0.6
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sat Aug 08 2020
+   * Date: Fri Aug 21 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.5',
+      version: '7.0.6',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3373,7 +3373,13 @@
           var layer = this.getLayer();
           var layerUnderDrag = false;
           DD._dragElements.forEach(function (elem) {
-              if (elem.dragStatus === 'dragging' && elem.node.getLayer() === layer) {
+              if (elem.dragStatus !== 'dragging') {
+                  return;
+              }
+              else if (elem.node.nodeType === 'Stage') {
+                  layerUnderDrag = true;
+              }
+              else if (elem.node.getLayer() === layer) {
                   layerUnderDrag = true;
               }
           });
