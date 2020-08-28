@@ -84,6 +84,8 @@ doc_sidebar:
     Rotation Snaps: select_and_transform/Rotation_Snaps.html
     Stop Transform: select_and_transform/Stop_Transform.html
     Force Update: select_and_transform/Force_Update.html
+    Text Resizing: select_and_transform/Resize_Text.html
+    Ignore Stroke: select_and_transform/Ignore_Stroke_On_Transform.html
   Clipping:
     Simple Clip: clipping/Clipping_Regions.html
     Complex Clip: clipping/Clipping_Function.html
@@ -307,6 +309,7 @@ demo_sidebar:
     Drag and Drop Multiple Shapes:
       - drag_multiple-min.png
       - sandbox/Drag_and_Drop_Multiple_Shapes.html
+
 
     # Stage Preview: sandbox/Stage_Peview.html
     # Editable Text: sandbox/Editable_Text.html
