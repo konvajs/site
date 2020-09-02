@@ -208,6 +208,9 @@ demo_sidebar:
     Canvas Background:
       - canvas-background.jpg
       - sandbox/Canvas_Background.html
+    Transparent Group:
+      - transparent-group.jpg
+      - sandbox/Transparent_Group.html
     Canvas to PDF:
       - pdf.jpg
       - sandbox/Canvas_to_PDF.html
