@@ -7,7 +7,7 @@ Hello, my name is Anton. I am core maintainer of `Konva` framework.
 
 ### If you want to support development of `Konva` and all its ecosystem tools like `react-konva` and `vue-konva` you can use [Patreon](https://www.patreon.com/lavrton), [Open Collective](https://opencollective.com/konva) or [GitHub Sponsor](https://github.com/sponsors/lavrton).
 
-If you want to make a small one time donation please use [PayPal](https://paypal.me/lavrton)
+If you want to make a one time donation please use [PayPal](https://paypal.me/lavrton)
 
 I am spending a large amount of time to support `Konva` users and develop new versions with bugs fixes and new features.
 
