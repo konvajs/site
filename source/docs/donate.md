@@ -5,7 +5,7 @@ title: How to support and donate to Konva project?
 
 Hello, my name is Anton. I am core maintainer of `Konva` framework.
 
-If you want to support Konva or just want to say thank you, you can use [Patreon](https://www.patreon.com/lavrton), [Open Collective](https://opencollective.com/konva) or [PayPal](https://paypal.me/lavrton)
+### If you want to support development of `Konva` and all its ecosystem tools like `react-konva` and `vue-konva` you can use [Patreon](https://www.patreon.com/lavrton), [Open Collective](https://opencollective.com/konva), [GitHub Sponsor](https://github.com/sponsors/lavrton) or [PayPal](https://paypal.me/lavrton)
 
 
 I am spending a large amount of time to support `Konva` users and develop new versions with bugs fixes and new features.
