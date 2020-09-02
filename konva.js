@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.6
+   * Konva JavaScript Framework v7.0.7
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Aug 21 2020
+   * Date: Wed Sep 02 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.6',
+      version: '7.0.7',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1283,6 +1283,21 @@
                       ' is a not valid value for "' +
                       attr +
                       '" attribute. The value should be a string.');
+              }
+              return val;
+          };
+      }
+  }
+  function getStringOrGradientValidator() {
+      if (Konva.isUnminified) {
+          return function (val, attr) {
+              var isString = Util._isString(val);
+              var isGradient = Object.prototype.toString.call(val) === '[object CanvasGradient]';
+              if (!(isString || isGradient)) {
+                  Util.warn(_formatValue(val) +
+                      ' is a not valid value for "' +
+                      attr +
+                      '" attribute. The value should be a string or a native gradient.');
               }
               return val;
           };
@@ -4540,7 +4555,8 @@
        * @method
        * @name Konva.Node#startDrag
        */
-      Node.prototype.startDrag = function (evt) {
+      Node.prototype.startDrag = function (evt, bubbleEvent) {
+          if (bubbleEvent === void 0) { bubbleEvent = true; }
           if (!DD._dragElements.has(this._id)) {
               this._createDragElement(evt);
           }
@@ -4550,7 +4566,7 @@
               type: 'dragstart',
               target: this,
               evt: evt && evt.evt,
-          }, true);
+          }, bubbleEvent);
       };
       Node.prototype._setDragPosition = function (evt, elem) {
           // const pointers = this.getStage().getPointersPositions();
@@ -7379,7 +7395,7 @@
   Shape.prototype.on.call(Shape.prototype, 'fillPriorityChange.konva fillLinearGradientColorStopsChange.konva fillLinearGradientStartPointXChange.konva fillLinearGradientStartPointYChange.konva fillLinearGradientEndPointXChange.konva fillLinearGradientEndPointYChange.konva', _clearLinearGradientCache);
   Shape.prototype.on.call(Shape.prototype, 'fillPriorityChange.konva fillRadialGradientColorStopsChange.konva fillRadialGradientStartPointXChange.konva fillRadialGradientStartPointYChange.konva fillRadialGradientEndPointXChange.konva fillRadialGradientEndPointYChange.konva fillRadialGradientStartRadiusChange.konva fillRadialGradientEndRadiusChange.konva', _clearRadialGradientCache);
   // add getters and setters
-  Factory.addGetterSetter(Shape, 'stroke', undefined, getStringValidator());
+  Factory.addGetterSetter(Shape, 'stroke', undefined, getStringOrGradientValidator());
   /**
    * get/set stroke color
    * @name Konva.Shape#stroke
@@ -7697,7 +7713,7 @@
    * };
    * imageObj.src = 'path/to/image/jpg';
    */
-  Factory.addGetterSetter(Shape, 'fill', undefined, getStringValidator());
+  Factory.addGetterSetter(Shape, 'fill', undefined, getStringOrGradientValidator());
   /**
    * get/set fill color
    * @name Konva.Shape#fill
@@ -14931,7 +14947,7 @@
               // actual dragging of Transformer doesn't make sense
               // but we need to proxy drag events
               if (!_this.isDragging() && node !== _this.findOne('.back')) {
-                  _this.startDrag();
+                  _this.startDrag(e, false);
               }
           });
           node.on("dragmove." + EVENTS_NAME, function (e) {
@@ -18258,8 +18274,8 @@
           RGBA: RGBA,
           Sepia: Sepia,
           Solarize: Solarize,
-          Threshold: Threshold
-      }
+          Threshold: Threshold,
+      },
   });
 
   // main entry for umd build for rollup
