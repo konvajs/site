@@ -67,8 +67,11 @@
       );
       layer.add(group1);
 
+      // lets create the second group
       var group2 = group1.clone({ x: 250 });
       layer.add(group2);
+
+      // to change opacity behavior we have to fix whole group
       group2.cache();
 
       layer.draw();
