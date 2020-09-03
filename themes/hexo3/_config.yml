@@ -211,7 +211,7 @@ demo_sidebar:
     Transparent Group:
       - transparent-group.jpg
       - sandbox/Transparent_Group.html
-    Mirror Shape:
+    Mirror/Flip Shape:
       - mirror-shape.jpg
       - sandbox/Mirror_Canvas_Shape.html
     Canvas to PDF:
