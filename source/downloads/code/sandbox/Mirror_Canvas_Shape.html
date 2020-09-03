@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@7.0.7/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Transparency for several Shapes Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #f0f0f0;
+      }
+
+      #flip {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <button id="flip">Flip horizontally</button>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var text1 = new Konva.Text({
+        x: 180,
+        y: 50,
+        text: 'Default text with no offset. Its origin is in top left corner.',
+        align: 'center',
+        width: 200,
+      });
+      layer.add(text1);
+
+      var text2 = new Konva.Text({
+        text: 'Text with the origin in its center',
+        width: 200,
+        align: 'center',
+        y: 100,
+        x: 270,
+      });
+      layer.add(text2);
+      // set horizontal origin in the center of the text
+      text2.offsetX(text2.width() / 2);
+
+      layer.draw();
+
+      document.querySelector('#flip').addEventListener('click', () => {
+        layer
+          .find('Text')
+          .toArray()
+          .forEach((text) => {
+            text.to({
+              scaleX: -text.scaleX(),
+            });
+          });
+      });
+    </script>
+  </body>
+</html>
