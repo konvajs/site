@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.0.7
+   * Konva JavaScript Framework v7.1.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Sep 02 2020
+   * Date: Mon Sep 07 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.0.7',
+      version: '7.1.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3026,7 +3026,7 @@
        * @method
        * @name Konva.Node#on
        * @param {String} evtStr e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo'
-       * @param {Function} handler The handler function is passed an event object
+       * @param {Function} handler The handler function. The first argument of that function is event object. Event object has `target` as main target of the event, `currentTarget` as current node listener and `evt` as native browser event.
        * @returns {Konva.Node}
        * @example
        * // add click listener
@@ -13757,6 +13757,15 @@
                           currentHeightPx += lineHeightPx;
                           if (!shouldWrap ||
                               (fixedHeight && currentHeightPx + lineHeightPx > maxHeightPx)) {
+                              var lastLine = this.textArr[this.textArr.length - 1];
+                              if (lastLine) {
+                                  var haveSpace = this._getTextWidth(lastLine.text + ELLIPSIS) < maxWidth;
+                                  if (!haveSpace) {
+                                      lastLine.text = lastLine.text.slice(0, lastLine.text.length - 3);
+                                  }
+                                  this.textArr.splice(this.textArr.length - 1, 1);
+                                  this._addTextLine(lastLine.text + ELLIPSIS);
+                              }
                               /*
                                * stop wrapping if wrapping is disabled or if adding
                                * one more line would overflow the fixed height
@@ -13987,20 +13996,21 @@
    */
   Factory.addGetterSetter(Text, 'wrap', WORD);
   /**
-   * get/set ellipsis.  Can be true or false. Default is false.
-   * if Konva.Text config is set to wrap="none" and ellipsis=true, then it will add "..." to the end
+   * get/set ellipsis. Can be true or false. Default is false. If ellipses is true,
+   * Konva will add "..." at the end of the text if it doesn't have enough space to write characters.
+   * That is possible only when you limit both width and height of the text
    * @name Konva.Text#ellipsis
    * @method
    * @param {Boolean} ellipsis
    * @returns {Boolean}
    * @example
-   * // get ellipsis
+   * // get ellipsis param, returns true or false
    * var ellipsis = text.ellipsis();
    *
    * // set ellipsis
    * text.ellipsis(true);
    */
-  Factory.addGetterSetter(Text, 'ellipsis', false);
+  Factory.addGetterSetter(Text, 'ellipsis', false, getBooleanValidator());
   /**
    * set letter spacing property. Default value is 0.
    * @name Konva.Text#letterSpacing
@@ -14919,6 +14929,10 @@
                   .map(function (prop) { return prop + 'Change.' + EVENTS_NAME; })
                   .join(' ');
               var onChange = function () {
+                  //
+                  if (_this.nodes().length === 1) {
+                      _this.rotation(_this.nodes()[0].rotation());
+                  }
                   _this._resetTransformCache();
                   if (!_this._transforming) {
                       _this.update();
