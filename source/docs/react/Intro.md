@@ -26,7 +26,7 @@ npm install react-konva konva
 ## How it looks?
 
 ```js
-import { Stage, Layer, Rect } from 'react-konva';
+import { Stage, Layer, Rect, Circle } from 'react-konva';
 
 export const App = () => {
   return (
