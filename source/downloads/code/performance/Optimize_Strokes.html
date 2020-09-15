@@ -11,10 +11,20 @@
         overflow: hidden;
         background-color: #f0f0f0;
       }
+      label {
+        position: absolute;
+        top: 50px;
+        left: 0;
+      }
     </style>
+    <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
   </head>
   <body>
     <div id="container"></div>
+    <label>
+      <input type="checkbox" id="checkbox" />
+      Use optimized strokes
+    </label>
     <script>
       var width = window.innerWidth;
       var height = window.innerHeight;
@@ -46,44 +56,31 @@
         layer.add(shape);
       }
 
-      var drawTimes = 30;
-      console.time('default params');
-      for (i = 0; i < drawTimes; i++) {
-        layer.draw();
-      }
-      console.timeEnd('default params');
+      var stats = new Stats();
+      document.body.appendChild(stats.domElement);
+      stats.domElement.style.position = 'absolute';
+      stats.domElement.style.top = '0px';
 
-      layer.children.each(function (shape) {
-        shape.hitStrokeWidth(0);
+      stats.begin();
+      const anim = new Konva.Animation(() => {
+        stats.end();
+        layer.children.forEach((child) => {
+          child.move({
+            x: (Math.random() - 0.5) * 5,
+            y: (Math.random() - 0.5) * 5,
+          });
+        });
+        stats.begin();
+      }, layer);
+      anim.start();
+
+      document.querySelector('#checkbox').addEventListener('change', (e) => {
+        const shouldOptimize = e.target.checked;
+        layer.children.forEach((child) => {
+          child.hitStrokeWidth(shouldOptimize ? 0 : 'auto');
+          child.shadowForStrokeEnabled(shouldOptimize ? false : true);
+        });
       });
-
-      console.time('hitStrokeWidth = 0');
-      for (i = 0; i < drawTimes; i++) {
-        layer.draw();
-      }
-      console.timeEnd('hitStrokeWidth = 0');
-
-      layer.children.each(function (shape) {
-        shape.hitStrokeWidth('auto');
-        shape.shadowForStrokeEnabled(false);
-      });
-
-      console.time('shadowForStrokeEnabled = false');
-      for (i = 0; i < drawTimes; i++) {
-        layer.draw();
-      }
-      console.timeEnd('shadowForStrokeEnabled = false');
-
-      layer.children.each(function (shape) {
-        shape.hitStrokeWidth(0);
-        shape.shadowForStrokeEnabled(false);
-      });
-
-      console.time('shadowForStrokeEnabled = false, hitStrokeWidth = 0');
-      for (i = 0; i < drawTimes; i++) {
-        layer.draw();
-      }
-      console.timeEnd('shadowForStrokeEnabled = false, hitStrokeWidth = 0');
     </script>
   </body>
 </html>
