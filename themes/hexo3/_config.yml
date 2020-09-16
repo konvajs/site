@@ -379,10 +379,11 @@ react_sidebar:
     Transformer: react/Transformer.html
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html
-    DOM Portals: react/DOM_Portal.html
+    DOM Portal: react/DOM_Portal.html
+    Canvas Portal: react/Canvas_Portal.html
     Undo/Redo: react/Undo-Redo.html
     Changing zIndex: react/zIndex.html
-    Drop Image Into Canvas: react/Drop_Image.html
+    Drop DOM Image Into Canvas: react/Drop_Image.html
 
 vue_sidebar:
   Getting Started with Vue:

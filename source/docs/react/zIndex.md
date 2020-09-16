@@ -12,6 +12,8 @@ But it is not recommended to use that methods when you are working from the Reac
 
 Don't use `zIndex` for your canvas components.
 
+If you want to temporary move a node into another container, for example when you want to show an overlay, take a look into [Canvas Portal demo](/docs/react/Canvas_Portal.html).
+
 Instructions: try to drag a circle. See how it goes to the top. We are doing this by manipulating the state (so the `render()` returns correct order)
 
 

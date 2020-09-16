@@ -1,6 +1,6 @@
 {
-  "name": "react-konva-transformer",
-  "description": "React Konva demo for Transformer",
+  "name": "React Konva Portal demo",
+  "description": "React Konva portal demo",
   "version": "0.0.9",
   "keywords": [
     "canvas",
