@@ -4,22 +4,23 @@ import { Stage, Layer, Group, Rect, Text, Circle, Line } from 'react-konva';
 
 // make a portal implementation
 const Portal = ({ selector, enabled, children }) => {
+  // "selector" is a string to find another container to insert all internals
+  // if can be like ".top-layer" or "#overlay-group"
   const outer = React.useRef(null);
   const inner = React.useRef(null);
 
   React.useEffect(() => {
     const stage = outer.current.getStage();
-    const parent = stage.findOne(selector);
-    if (!parent) {
-      inner.current.moveTo(outer.current);
-    } else if (enabled) {
-      inner.current.moveTo(parent);
+    const newContainer = stage.findOne(selector);
+    if (enabled && newContainer) {
+      inner.current.moveTo(newContainer);
     } else {
       inner.current.moveTo(outer.current);
     }
+    // manually redraw layers
     outer.current.getLayer().batchDraw();
-    if (parent) {
-      parent.getLayer().batchDraw();
+    if (newContainer) {
+      newContainer.getLayer().batchDraw();
     }
   }, [selector, enabled]);
 
