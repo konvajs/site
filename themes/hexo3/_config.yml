@@ -367,7 +367,7 @@ demo_sidebar:
     # Touch Gestures: sandbox/Gestures.html
 
 react_sidebar:
-  Docs and demos:
+  Docs:
     Intro: react/Intro.html
     Overview: react/index.html
     Basic shapes: react/Shapes.html
@@ -379,11 +379,13 @@ react_sidebar:
     Transformer: react/Transformer.html
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html
+  Demos:
     DOM Portal: react/DOM_Portal.html
     Canvas Portal: react/Canvas_Portal.html
     Undo/Redo: react/Undo-Redo.html
     Changing zIndex: react/zIndex.html
     Drop DOM Image Into Canvas: react/Drop_Image.html
+    Free Drawing: react/Free_Drawing.html
 
 vue_sidebar:
   Getting Started with Vue:
