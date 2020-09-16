@@ -60,7 +60,6 @@ const App = () => {
         </Layer>
       </Stage>
       <select
-        style={{ position: 'absolute', top: '5px', left: '5px' }}
         value={tool}
         onChange={(e) => {
           setTool(e.target.value);
