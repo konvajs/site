@@ -1,5 +1,7 @@
-title: HTML5 Canvas Clipping Functions Tutorial
+title: Clipping Functions Tutorial
 ---
+
+## How to clip nodes in the layer?
 
 To draw things inside of complex clipping regions with Konva, we can set the `clipFunc`
 property of a group, a layer.

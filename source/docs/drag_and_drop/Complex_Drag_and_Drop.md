@@ -1,6 +1,8 @@
 title: HTML5 Canvas Complex Drag and Drop Bounds
 ---
 
+## How to limit dragging ability with Konva?
+
 To bound the movement of nodes being dragged and dropped inside regions with
 Konva, we can use the `dragBoundFunc` property to define boundaries that
 the node cannot cross.

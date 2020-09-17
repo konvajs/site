@@ -1,5 +1,7 @@
-title: HTML5 Canvas Konva Rotation Animation tutorial
+title: Rotation Animation tutorial
 ---
+
+## How to animation shape rotation?
 
 To animate a shape's rotation with Konva, we can create a new animation with
 `Konva.Animation`, and define a function which modifies the shape's rotation with each animation frame.
