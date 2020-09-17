@@ -72,38 +72,40 @@
       // but we will enable all edges and center
       function getObjectSnappingEdges(node) {
         var box = node.getClientRect();
+        var absPos = node.absolutePosition();
+
         return {
           vertical: [
             {
               guide: Math.round(box.x),
-              offset: Math.round(node.x() - box.x),
+              offset: Math.round(absPos.x - box.x),
               snap: 'start',
             },
             {
               guide: Math.round(box.x + box.width / 2),
-              offset: Math.round(node.x() - box.x - box.width / 2),
+              offset: Math.round(absPos.x - box.x - box.width / 2),
               snap: 'center',
             },
             {
               guide: Math.round(box.x + box.width),
-              offset: Math.round(node.x() - box.x - box.width),
+              offset: Math.round(absPos.x - box.x - box.width),
               snap: 'end',
             },
           ],
           horizontal: [
             {
               guide: Math.round(box.y),
-              offset: Math.round(node.y() - box.y),
+              offset: Math.round(absPos.y - box.y),
               snap: 'start',
             },
             {
               guide: Math.round(box.y + box.height / 2),
-              offset: Math.round(node.y() - box.y - box.height / 2),
+              offset: Math.round(absPos.y - box.y - box.height / 2),
               snap: 'center',
             },
             {
               guide: Math.round(box.y + box.height),
-              offset: Math.round(node.y() - box.y - box.height),
+              offset: Math.round(absPos.y - box.y - box.height),
               snap: 'end',
             },
           ],
@@ -172,23 +174,31 @@
         guides.forEach((lg) => {
           if (lg.orientation === 'H') {
             var line = new Konva.Line({
-              points: [-6000, lg.lineGuide, 6000, lg.lineGuide],
+              points: [-6000, 0, 6000, 0],
               stroke: 'rgb(0, 161, 255)',
               strokeWidth: 1,
               name: 'guid-line',
               dash: [4, 6],
             });
             layer.add(line);
+            line.absolutePosition({
+              x: 0,
+              y: lg.lineGuide,
+            });
             layer.batchDraw();
           } else if (lg.orientation === 'V') {
             var line = new Konva.Line({
-              points: [lg.lineGuide, -6000, lg.lineGuide, 6000],
+              points: [0, -6000, 0, 6000],
               stroke: 'rgb(0, 161, 255)',
               strokeWidth: 1,
               name: 'guid-line',
               dash: [4, 6],
             });
             layer.add(line);
+            line.absolutePosition({
+              x: lg.lineGuide,
+              y: 0,
+            });
             layer.batchDraw();
           }
         });
@@ -213,17 +223,18 @@
 
         drawGuides(guides);
 
+        var absPos = e.target.absolutePosition();
         // now force object position
         guides.forEach((lg) => {
           switch (lg.snap) {
             case 'start': {
               switch (lg.orientation) {
                 case 'V': {
-                  e.target.x(lg.lineGuide + lg.offset);
+                  absPos.x = lg.lineGuide + lg.offset;
                   break;
                 }
                 case 'H': {
-                  e.target.y(lg.lineGuide + lg.offset);
+                  absPos.y = lg.lineGuide + lg.offset;
                   break;
                 }
               }
@@ -232,11 +243,11 @@
             case 'center': {
               switch (lg.orientation) {
                 case 'V': {
-                  e.target.x(lg.lineGuide + lg.offset);
+                  absPos.x = lg.lineGuide + lg.offset;
                   break;
                 }
                 case 'H': {
-                  e.target.y(lg.lineGuide + lg.offset);
+                  absPos.y = lg.lineGuide + lg.offset;
                   break;
                 }
               }
@@ -245,11 +256,11 @@
             case 'end': {
               switch (lg.orientation) {
                 case 'V': {
-                  e.target.x(lg.lineGuide + lg.offset);
+                  absPos.x = lg.lineGuide + lg.offset;
                   break;
                 }
                 case 'H': {
-                  e.target.y(lg.lineGuide + lg.offset);
+                  absPos.y = lg.lineGuide + lg.offset;
                   break;
                 }
               }
@@ -257,6 +268,7 @@
             }
           }
         });
+        e.target.absolutePosition(absPos);
       });
 
       layer.on('dragend', function (e) {
