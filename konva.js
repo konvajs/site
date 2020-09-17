@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.1.2
+   * Konva JavaScript Framework v7.1.3
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Sep 16 2020
+   * Date: Thu Sep 17 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.1.2',
+      version: '7.1.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2908,7 +2908,6 @@
       };
       /**
        * Return client rectangle {x, y, width, height} of node. This rectangle also include all styling (strokes, shadows, etc).
-       * The rectangle position is relative to parent container.
        * The purpose of the method is similar to getBoundingClientRect API of the DOM.
        * @method
        * @name Konva.Node#getClientRect
@@ -13782,11 +13781,11 @@
                               (fixedHeight && currentHeightPx + lineHeightPx > maxHeightPx)) {
                               var lastLine = this.textArr[this.textArr.length - 1];
                               if (lastLine) {
-                                  var haveSpace = this._getTextWidth(lastLine.text + ELLIPSIS) < maxWidth;
-                                  if (!haveSpace) {
-                                      lastLine.text = lastLine.text.slice(0, lastLine.text.length - 3);
-                                  }
                                   if (shouldAddEllipsis) {
+                                      var haveSpace = this._getTextWidth(lastLine.text + ELLIPSIS) < maxWidth;
+                                      if (!haveSpace) {
+                                          lastLine.text = lastLine.text.slice(0, lastLine.text.length - 3);
+                                      }
                                       this.textArr.splice(this.textArr.length - 1, 1);
                                       this._addTextLine(lastLine.text + ELLIPSIS);
                                   }
