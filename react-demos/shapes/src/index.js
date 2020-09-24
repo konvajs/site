@@ -1,13 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {
-  Stage,
-  Layer,
-  Rect,
-  Text,
-  Circle,
-  Line,
-} from '../../free-drawing/src/node_modules/react-konva';
+import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
 
 const App = () => {
   return (

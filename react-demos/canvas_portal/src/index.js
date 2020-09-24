@@ -1,14 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {
-  Stage,
-  Layer,
-  Group,
-  Rect,
-  Text,
-  Circle,
-  Line,
-} from '../../free-drawing/src/node_modules/react-konva';
+import { Stage, Layer, Group, Rect, Text, Circle, Line } from 'react-konva';
 
 // make a portal implementation
 const Portal = ({ selector, enabled, children }) => {
