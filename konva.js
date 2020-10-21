@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.1.3
+   * Konva JavaScript Framework v7.1.4
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Sep 17 2020
+   * Date: Wed Oct 21 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.1.3',
+      version: '7.1.4',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2624,7 +2624,7 @@
       }
   };
   // CONSTANTS
-  var ABSOLUTE_OPACITY = 'absoluteOpacity', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CANVAS = 'canvas', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER = 'mouseenter', MOUSELEAVE = 'mouseleave', NAME = 'name', SET$1 = 'set', SHAPE = 'Shape', SPACE = ' ', STAGE = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', TRANSFORM_CHANGE_STR = [
+  var ABSOLUTE_OPACITY = 'absoluteOpacity', ALL_LISTENERS = 'allEventListeners', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CANVAS = 'canvas', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER = 'mouseenter', MOUSELEAVE = 'mouseleave', NAME = 'name', SET$1 = 'set', SHAPE = 'Shape', SPACE = ' ', STAGE = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', TRANSFORM_CHANGE_STR = [
       'xChange.konva',
       'yChange.konva',
       'scaleXChange.konva',
@@ -3090,7 +3090,7 @@
        * });
        */
       Node.prototype.on = function (evtStr, handler) {
-          // this._cache && this._cache.delete(ALL_LISTENERS);
+          this._cache && this._cache.delete(ALL_LISTENERS);
           if (arguments.length === 3) {
               return this._delegate.apply(this, arguments);
           }
@@ -3139,6 +3139,7 @@
        */
       Node.prototype.off = function (evtStr, callback) {
           var events = (evtStr || '').split(SPACE), len = events.length, n, t, event, parts, baseEvent, name;
+          this._cache && this._cache.delete(ALL_LISTENERS);
           if (!evtStr) {
               // remove all events
               for (t in this.eventListeners) {
@@ -4502,39 +4503,44 @@
               }
           }
       };
-      Node.prototype._getListeners = function (eventType) {
-          // const events = this._cache.get(ALL_LISTENERS);
-          // if (events && events[eventType]) {
-          //   return events[eventType];
-          // }
-          var totalEvents = [];
-          var obj;
-          while (true) {
-              obj = obj ? Object.getPrototypeOf(obj) : this;
-              if (!obj) {
-                  break;
+      Node.prototype._getProtoListeners = function (eventType) {
+          var listeners = this._cache.get(ALL_LISTENERS);
+          // if no cache for listeners, we need to pre calculate it
+          if (!listeners) {
+              listeners = {};
+              var obj = Object.getPrototypeOf(this);
+              while (obj) {
+                  if (!obj.eventListeners) {
+                      obj = Object.getPrototypeOf(obj);
+                      continue;
+                  }
+                  for (var event in obj.eventListeners) {
+                      var newEvents = obj.eventListeners[event];
+                      var oldEvents = listeners[event] || [];
+                      listeners[event] = newEvents.concat(oldEvents);
+                  }
+                  obj = Object.getPrototypeOf(obj);
               }
-              if (!obj.eventListeners) {
-                  continue;
-              }
-              var events = obj.eventListeners[eventType];
-              if (!events) {
-                  continue;
-              }
-              totalEvents = events.concat(totalEvents);
-              obj = Object.getPrototypeOf(obj);
+              this._cache.set(ALL_LISTENERS, listeners);
           }
-          // this._cache.set(ALL_LISTENERS, totalEvents);
-          return totalEvents;
+          return listeners[eventType];
       };
       Node.prototype._fire = function (eventType, evt) {
-          var events = this._getListeners(eventType), i;
-          if (events.length) {
-              evt = evt || {};
-              evt.currentTarget = this;
-              evt.type = eventType;
-              for (i = 0; i < events.length; i++) {
-                  events[i].handler.call(this, evt);
+          evt = evt || {};
+          evt.currentTarget = this;
+          evt.type = eventType;
+          var topListeners = this._getProtoListeners(eventType);
+          if (topListeners) {
+              for (var i = 0; i < topListeners.length; i++) {
+                  topListeners[i].handler.call(this, evt);
+              }
+          }
+          // it is important to iterate over self listeners without cache
+          // because events can be added/removed while firing
+          var selfListeners = this.eventListeners[eventType];
+          if (selfListeners) {
+              for (var i = 0; i < selfListeners.length; i++) {
+                  selfListeners[i].handler.call(this, evt);
               }
           }
       };
@@ -7215,16 +7221,16 @@
               height: size.height,
           };
       };
-      Shape.prototype.getClientRect = function (attrs) {
-          attrs = attrs || {};
-          var skipTransform = attrs.skipTransform;
-          var relativeTo = attrs.relativeTo;
+      Shape.prototype.getClientRect = function (config) {
+          if (config === void 0) { config = {}; }
+          var skipTransform = config.skipTransform;
+          var relativeTo = config.relativeTo;
           var fillRect = this.getSelfRect();
-          var applyStroke = !attrs.skipStroke && this.hasStroke();
+          var applyStroke = !config.skipStroke && this.hasStroke();
           var strokeWidth = (applyStroke && this.strokeWidth()) || 0;
           var fillAndStrokeWidth = fillRect.width + strokeWidth;
           var fillAndStrokeHeight = fillRect.height + strokeWidth;
-          var applyShadow = !attrs.skipShadow && this.hasShadow();
+          var applyShadow = !config.skipShadow && this.hasShadow();
           var shadowOffsetX = applyShadow ? this.shadowOffsetX() : 0;
           var shadowOffsetY = applyShadow ? this.shadowOffsetY() : 0;
           var preWidth = fillAndStrokeWidth + Math.abs(shadowOffsetX);
@@ -13524,7 +13530,11 @@
           return _this;
       }
       Text.prototype._sceneFunc = function (context) {
-          var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, textArr = this.textArr, textArrLen = textArr.length, verticalAlign = this.verticalAlign(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
+          var textArr = this.textArr, textArrLen = textArr.length;
+          if (!this.text()) {
+              return;
+          }
+          var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
           var translateY = 0;
           var translateY = lineHeightPx / 2;
           var lineTranslateX = 0;
@@ -15228,6 +15238,18 @@
           });
           this.add(back);
           this._proxyDrag(back);
+          // do not bubble drag from the back shape
+          // because we already "drag" whole transformer
+          // so we don't want to trigger drag twice on transformer
+          back.on('dragstart', function (e) {
+              e.cancelBubble = true;
+          });
+          back.on('dragmove', function (e) {
+              e.cancelBubble = true;
+          });
+          back.on('dragend', function (e) {
+              e.cancelBubble = true;
+          });
       };
       Transformer.prototype._handleMouseDown = function (e) {
           this._movingAnchorName = e.target.name().split(' ')[0];
