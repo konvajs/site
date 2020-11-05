@@ -16,6 +16,6 @@ On `select`, I am moving all selected shapes into a group and cache that group. 
 
 **Instructions: try to select several shapes and resize/rotate them.**
 
-{% iframe /downloads/code/sandbox/REsizing_Stress_Test.html %}
+{% iframe /downloads/code/sandbox/Resizing_Stress_Test.html %}
 
 {% include_code Konva Resizing Stress Test Demo sandbox/Resizing_Stress_Test.html %}

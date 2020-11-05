@@ -25,14 +25,9 @@
         height: height,
       });
 
+      // layer for all shapes
       var layer = new Konva.Layer();
       stage.add(layer);
-
-      var topLayer = new Konva.Layer();
-      stage.add(topLayer);
-      var group = new Konva.Group();
-      topLayer.add(group);
-
       for (var i = 0; i < 10000; i++) {
         var rect = new Konva.Circle({
           x: Math.random() * window.innerWidth,
@@ -43,16 +38,17 @@
         });
         layer.add(rect);
       }
+      layer.draw();
+
+      // top layer for transforming group
+      var topLayer = new Konva.Layer();
+      stage.add(topLayer);
+
+      var group = new Konva.Group();
+      topLayer.add(group);
 
       var tr = new Konva.Transformer();
       topLayer.add(tr);
-
-      // by default select all shapes
-      // tr.nodes([layer., rect2]);
-
-      // at this point basic demo is finished!!
-      // we just have several transforming nodes
-      layer.draw();
 
       // add a new feature, lets add ability to draw selection rectangle
       var selectionRectangle = new Konva.Rect({
@@ -79,11 +75,13 @@
           visible: true,
         });
 
+        // move old selection back to original layer
         group.children.toArray().forEach((shape) => {
           const transform = shape.getAbsoluteTransform();
           shape.moveTo(layer);
           shape.setAttrs(transform.decompose());
         });
+        // reset group transforms
         group.setAttrs({
           x: 0,
           y: 0,
@@ -96,7 +94,7 @@
       });
 
       stage.on('mousemove touchmove', () => {
-        // no nothing if we didn't start selection
+        // do nothing if we didn't start selection
         if (!selectionRectangle.visible()) {
           return;
         }
@@ -126,13 +124,10 @@
         var shapes = stage.find('.shape').toArray();
         var box = selectionRectangle.getClientRect();
 
-        // if (box.width === 0 || box.height === 0) {
-        //   stage.batchDraw();
-        //   console.log('nope');
-        //   return;
-        // }
-
+        // remove all children for better performance
         layer.removeChildren();
+
+        // then check intersections and add all shape into correct container
         shapes.forEach((shape) => {
           var intersected = Konva.Util.haveIntersection(
             box,
@@ -146,6 +141,7 @@
             shape.stroke(null);
           }
         });
+
         if (group.children.length) {
           tr.nodes([group]);
           group.cache();
