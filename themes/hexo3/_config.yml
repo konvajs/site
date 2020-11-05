@@ -254,6 +254,9 @@ demo_sidebar:
     20000 Nodes:
       - 2000_nodes-min.png
       - sandbox/20000_Nodes.html
+    Resizing Stress Test:
+      - resize_stress.jpg
+      - sandbox/Resizing_Stress_Test.html
     Quantum Squiggle:
       - squiggle-min.png
       - sandbox/Quantum_Squiggle.html
@@ -318,7 +321,6 @@ demo_sidebar:
     Drag and Drop Multiple Shapes:
       - drag_multiple-min.png
       - sandbox/Drag_and_Drop_Multiple_Shapes.html
-
 
     # Stage Preview: sandbox/Stage_Peview.html
     # Editable Text: sandbox/Editable_Text.html

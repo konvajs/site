@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@7.1.4/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Resizing stress test Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var topLayer = new Konva.Layer();
+      stage.add(topLayer);
+      var group = new Konva.Group();
+      topLayer.add(group);
+
+      for (var i = 0; i < 10000; i++) {
+        var rect = new Konva.Circle({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          radius: 10,
+          name: 'shape',
+          fill: Konva.Util.getRandomColor(),
+        });
+        layer.add(rect);
+      }
+
+      var tr = new Konva.Transformer();
+      topLayer.add(tr);
+
+      // by default select all shapes
+      // tr.nodes([layer., rect2]);
+
+      // at this point basic demo is finished!!
+      // we just have several transforming nodes
+      layer.draw();
+
+      // add a new feature, lets add ability to draw selection rectangle
+      var selectionRectangle = new Konva.Rect({
+        fill: 'rgba(0,0,255,0.5)',
+      });
+      topLayer.add(selectionRectangle);
+
+      var x1, y1, x2, y2;
+      stage.on('mousedown touchstart', (e) => {
+        // do nothing if we mousedown on eny shape
+        if (e.target.getParent() === tr) {
+          return;
+        }
+        x1 = stage.getPointerPosition().x;
+        y1 = stage.getPointerPosition().y;
+        x2 = stage.getPointerPosition().x;
+        y2 = stage.getPointerPosition().y;
+
+        selectionRectangle.setAttrs({
+          x: x1,
+          y: y1,
+          width: 0,
+          height: 0,
+          visible: true,
+        });
+
+        group.children.toArray().forEach((shape) => {
+          const transform = shape.getAbsoluteTransform();
+          shape.moveTo(layer);
+          shape.setAttrs(transform.decompose());
+        });
+        group.setAttrs({
+          x: 0,
+          y: 0,
+          scaleX: 1,
+          scaleY: 1,
+          rotation: 0,
+        });
+        group.clearCache();
+        stage.draw();
+      });
+
+      stage.on('mousemove touchmove', () => {
+        // no nothing if we didn't start selection
+        if (!selectionRectangle.visible()) {
+          return;
+        }
+        x2 = stage.getPointerPosition().x;
+        y2 = stage.getPointerPosition().y;
+
+        selectionRectangle.setAttrs({
+          x: Math.min(x1, x2),
+          y: Math.min(y1, y2),
+          width: Math.abs(x2 - x1),
+          height: Math.abs(y2 - y1),
+        });
+        topLayer.batchDraw();
+      });
+
+      stage.on('mouseup touchend', () => {
+        // no nothing if we didn't start selection
+        if (!selectionRectangle.visible()) {
+          return;
+        }
+        // update visibility in timeout, so we can check it in click event
+        setTimeout(() => {
+          selectionRectangle.visible(false);
+          topLayer.batchDraw();
+        });
+
+        var shapes = stage.find('.shape').toArray();
+        var box = selectionRectangle.getClientRect();
+
+        // if (box.width === 0 || box.height === 0) {
+        //   stage.batchDraw();
+        //   console.log('nope');
+        //   return;
+        // }
+
+        layer.removeChildren();
+        shapes.forEach((shape) => {
+          var intersected = Konva.Util.haveIntersection(
+            box,
+            shape.getClientRect()
+          );
+          if (intersected) {
+            group.add(shape);
+            shape.stroke('blue');
+          } else {
+            layer.add(shape);
+            shape.stroke(null);
+          }
+        });
+        if (group.children.length) {
+          tr.nodes([group]);
+          group.cache();
+        }
+
+        stage.batchDraw();
+      });
+
+      // clicks should select/deselect shapes
+      stage.on('click tap', function (e) {
+        // if we are selecting with rect, do nothing
+        if (selectionRectangle.visible()) {
+          return;
+        }
+
+        // if click on empty area - remove all selections
+        if (e.target === stage) {
+          tr.nodes([]);
+          stage.draw();
+          return;
+        }
+      });
+    </script>
+  </body>
+</html>
