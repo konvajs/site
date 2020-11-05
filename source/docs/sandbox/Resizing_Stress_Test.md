@@ -14,7 +14,7 @@ Resizing shapes are moved into another layer (another canvas element). So while 
 
 On `select`, I am moving all selected shapes into a group and cache that group. The cache action will convert group into bitmap image. It is mush faster to redraw such group on the screen.
 
-**Instructions: try to select several shapes and resize/rotate them.
+**Instructions: try to select several shapes and resize/rotate them.**
 
 {% iframe /downloads/code/sandbox/REsizing_Stress_Test.html %}
 
