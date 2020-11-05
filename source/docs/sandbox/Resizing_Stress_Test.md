@@ -18,4 +18,4 @@ On `select`, I am moving all selected shapes into a group and cache that group. 
 
 {% iframe /downloads/code/sandbox/REsizing_Stress_Test.html %}
 
-{% include_code Konva Resizing Stress Test Demo sandbox/REsizing_Stress_Test.html %}
+{% include_code Konva Resizing Stress Test Demo sandbox/Resizing_Stress_Test.html %}
