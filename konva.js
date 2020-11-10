@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.1.5
+   * Konva JavaScript Framework v7.1.6
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Tue Nov 10 2020
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.1.5',
+      version: '7.1.6',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -6098,20 +6098,26 @@
       };
       Stage.prototype._toKonvaCanvas = function (config) {
           config = config || {};
-          var x = config.x || 0, y = config.y || 0, canvas = new SceneCanvas({
-              width: config.width || this.width(),
-              height: config.height || this.height(),
+          config.x = config.x || 0;
+          config.y = config.y || 0;
+          config.width = config.width || this.width();
+          config.height = config.height || this.height();
+          var canvas = new SceneCanvas({
+              width: config.width,
+              height: config.height,
               pixelRatio: config.pixelRatio || 1,
-          }), _context = canvas.getContext()._context, layers = this.children;
-          if (x || y) {
-              _context.translate(-1 * x, -1 * y);
+          });
+          var _context = canvas.getContext()._context;
+          var layers = this.children;
+          if (config.x || config.y) {
+              _context.translate(-1 * config.x, -1 * config.y);
           }
           layers.each(function (layer) {
               if (!layer.isVisible()) {
                   return;
               }
               var layerCanvas = layer._toKonvaCanvas(config);
-              _context.drawImage(layerCanvas._canvas, x, y, layerCanvas.getWidth() / layerCanvas.getPixelRatio(), layerCanvas.getHeight() / layerCanvas.getPixelRatio());
+              _context.drawImage(layerCanvas._canvas, config.x, config.y, layerCanvas.getWidth() / layerCanvas.getPixelRatio(), layerCanvas.getHeight() / layerCanvas.getPixelRatio());
           });
           return canvas;
       };

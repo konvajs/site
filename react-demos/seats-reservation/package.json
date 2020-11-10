@@ -5,7 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "konva": "7.1.5",
+    "konva": "7.1.6",
     "react": "17.0.0",
     "react-dom": "17.0.0",
     "react-konva": "17.0.0-0",
