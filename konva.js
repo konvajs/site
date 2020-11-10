@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.1.4
+   * Konva JavaScript Framework v7.1.5
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Oct 21 2020
+   * Date: Tue Nov 10 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.1.4',
+      version: '7.1.5',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -2550,7 +2550,7 @@
               var drawNode = elem.node.getLayer() ||
                   (elem.node instanceof Konva['Stage'] && elem.node);
               if (drawNode) {
-                  drawNode.draw();
+                  drawNode.batchDraw();
               }
           });
       },
@@ -6770,7 +6770,7 @@
       /**
        * batch draw
        * @method
-       * @name Konva.Layer#batchDraw
+       * @name Konva.Stage#batchDraw
        * @return {Konva.Stage} this
        */
       Stage.prototype.batchDraw = function () {
@@ -8710,7 +8710,6 @@
        * var group = layer.getIntersection({x: 50, y: 50}, 'Group');
        */
       Layer.prototype.getIntersection = function (pos, selector) {
-          var obj, i, intersectionOffset, shape;
           if (!this.isListening() || !this.isVisible()) {
               return null;
           }
@@ -8719,13 +8718,13 @@
           var spiralSearchDistance = 1;
           var continueSearch = false;
           while (true) {
-              for (i = 0; i < INTERSECTION_OFFSETS_LEN; i++) {
-                  intersectionOffset = INTERSECTION_OFFSETS[i];
-                  obj = this._getIntersection({
+              for (var i = 0; i < INTERSECTION_OFFSETS_LEN; i++) {
+                  var intersectionOffset = INTERSECTION_OFFSETS[i];
+                  var obj = this._getIntersection({
                       x: pos.x + intersectionOffset.x * spiralSearchDistance,
                       y: pos.y + intersectionOffset.y * spiralSearchDistance,
                   });
-                  shape = obj.shape;
+                  var shape = obj.shape;
                   if (shape && selector) {
                       return shape.findAncestor(selector, true);
                   }
@@ -8751,11 +8750,12 @@
       };
       Layer.prototype._getIntersection = function (pos) {
           var ratio = this.hitCanvas.pixelRatio;
-          var p = this.hitCanvas.context.getImageData(Math.round(pos.x * ratio), Math.round(pos.y * ratio), 1, 1).data, p3 = p[3], colorKey, shape;
+          var p = this.hitCanvas.context.getImageData(Math.round(pos.x * ratio), Math.round(pos.y * ratio), 1, 1).data;
+          var p3 = p[3];
           // fully opaque pixel
           if (p3 === 255) {
-              colorKey = Util._rgbToHex(p[0], p[1], p[2]);
-              shape = shapes[HASH$1 + colorKey];
+              var colorKey = Util._rgbToHex(p[0], p[1], p[2]);
+              var shape = shapes[HASH$1 + colorKey];
               if (shape) {
                   return {
                       shape: shape,
@@ -10765,7 +10765,7 @@
   _registerNode(Circle);
   /**
    * get/set radius
-   * @name Konva.Arrow#radius
+   * @name Konva.Circle#radius
    * @method
    * @param {Number} radius
    * @returns {Number}
@@ -11056,10 +11056,13 @@
           return _super.prototype._useBufferCanvas.call(this, true);
       };
       Image.prototype._sceneFunc = function (context) {
-          var width = this.getWidth(), height = this.getHeight(), image = this.attrs.image, cropWidth, cropHeight, params;
+          var width = this.getWidth();
+          var height = this.getHeight();
+          var image = this.attrs.image;
+          var params;
           if (image) {
-              cropWidth = this.attrs.cropWidth;
-              cropHeight = this.attrs.cropHeight;
+              var cropWidth = this.attrs.cropWidth;
+              var cropHeight = this.attrs.cropHeight;
               if (cropWidth && cropHeight) {
                   params = [
                       image,
@@ -13307,44 +13310,44 @@
   _registerNode(Star);
   /**
    * get/set number of points
-   * @name Konva.Ring#numPoints
+   * @name Konva.Star#numPoints
    * @method
    * @param {Number} numPoints
    * @returns {Number}
    * @example
    * // get inner radius
-   * var numPoints = ring.numPoints();
+   * var numPoints = star.numPoints();
    *
    * // set inner radius
-   * ring.numPoints(20);
+   * star.numPoints(20);
    */
   Factory.addGetterSetter(Star, 'numPoints', 5, getNumberValidator());
   /**
    * get/set innerRadius
-   * @name Konva.Ring#innerRadius
+   * @name Konva.Star#innerRadius
    * @method
    * @param {Number} innerRadius
    * @returns {Number}
    * @example
    * // get inner radius
-   * var innerRadius = ring.innerRadius();
+   * var innerRadius = star.innerRadius();
    *
    * // set inner radius
-   * ring.innerRadius(20);
+   * star.innerRadius(20);
    */
   Factory.addGetterSetter(Star, 'innerRadius', 0, getNumberValidator());
   /**
    * get/set outerRadius
-   * @name Konva.Ring#outerRadius
+   * @name Konva.Star#outerRadius
    * @method
    * @param {Number} outerRadius
    * @returns {Number}
    * @example
    * // get inner radius
-   * var outerRadius = ring.outerRadius();
+   * var outerRadius = star.outerRadius();
    *
    * // set inner radius
-   * ring.outerRadius(20);
+   * star.outerRadius(20);
    */
   Factory.addGetterSetter(Star, 'outerRadius', 0, getNumberValidator());
   Collection.mapMethods(Star);
@@ -14631,7 +14634,7 @@
   Factory.addGetterSetter(TextPath, 'fontStyle', NORMAL$1);
   /**
    * get/set horizontal align of text.  Can be 'left', 'center', 'right' or 'justify'
-   * @name Konva.Text#align
+   * @name Konva.TextPath#align
    * @method
    * @param {String} align
    * @returns {String}
@@ -14968,7 +14971,7 @@
                       _this.rotation(_this.nodes()[0].rotation());
                   }
                   _this._resetTransformCache();
-                  if (!_this._transforming) {
+                  if (!_this._transforming && !_this.isDragging()) {
                       _this.update();
                   }
               };
