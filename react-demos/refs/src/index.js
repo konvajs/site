@@ -1,11 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {
-  Stage,
-  Layer,
-  Circle,
-  Text,
-} from '../../image-export/src/node_modules/react-konva';
+import { Stage, Layer, Circle, Text } from 'react-konva';
 
 const pulseShape = (shape) => {
   // use Konva methods to animate a shape
