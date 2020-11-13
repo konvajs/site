@@ -1,6 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Stage, Layer, Circle } from 'react-konva';
+import {
+  Stage,
+  Layer,
+  Circle,
+  Text,
+} from '../../image-export/src/node_modules/react-konva';
 
 const pulseShape = (shape) => {
   // use Konva methods to animate a shape
@@ -41,10 +46,11 @@ const App = () => {
       onTap={handleStageClick}
     >
       <Layer>
+        <Text text="Click on any place to see an animation" />
         <Circle
           ref={circleRef}
           x={window.innerWidth / 2}
-          y={window.innerHeight}
+          y={window.innerHeight / 2}
           radius={80}
           fill="red"
           onClick={handleCircleClick}
