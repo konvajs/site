@@ -378,6 +378,7 @@ react_sidebar:
     Images: react/Images.html
     Filters: react/Filters.html
     Drag and Drop: react/Drag_And_Drop.html
+    Refs and Konva Nodes: react/Access_Konva_Nodes.html
     Transformer: react/Transformer.html
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html

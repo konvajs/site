@@ -1,0 +1,25 @@
+{
+  "name": "react-konva-ref-demo",
+  "description": "react-konva demo for using react's ref",
+  "version": "1.0.0",
+  "keywords": [
+    "canvas",
+    "react",
+    "konva"
+  ],
+  "dependencies": {
+    "konva": "7.1.6",
+    "react": "17.0.0",
+    "react-dom": "17.0.0",
+    "react-konva": "17.0.0-0"
+  },
+  "devDependencies": {
+    "react-scripts": "2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
