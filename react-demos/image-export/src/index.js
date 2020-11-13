@@ -20,12 +20,17 @@ const App = () => {
 
   const handleExport = () => {
     const uri = stageRef.current.toDataURL();
-    downloadURI(uri, 'stage.png');
+    console.log(uri);
+    // we also can save uri as file
+    // but in the demo on Konva website it will not work
+    // because of iframe restrictions
+    // but feel free to use it in your apps:
+    // downloadURI(uri, 'stage.png');
   };
 
   return (
     <Fragment>
-      <button onClick={handleExport}>Click here to save stage as image</button>
+      <button onClick={handleExport}>Click here to log stage data URL</button>
       <Stage width={width} height={height} ref={stageRef}>
         <Layer>
           <Rect x={0} y={0} width={80} height={80} fill="red" />
