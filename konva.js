@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.1.6
+   * Konva JavaScript Framework v7.1.7
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Nov 10 2020
+   * Date: Mon Nov 16 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.1.6',
+      version: '7.1.7',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14391,7 +14391,7 @@
               var attempts = 0;
               p1 = undefined;
               while (Math.abs(glyphWidth - currLen) / glyphWidth > 0.01 &&
-                  attempts < 25) {
+                  attempts < 50) {
                   attempts++;
                   var cumulativePathLength = currLen;
                   while (pathCmd === undefined) {
