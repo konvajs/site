@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.1.8
+   * Konva JavaScript Framework v7.1.9
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Nov 17 2020
+   * Date: Fri Nov 20 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.1.8',
+      version: '7.1.9',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -12605,16 +12605,45 @@
           return _super !== null && _super.apply(this, arguments) || this;
       }
       RegularPolygon.prototype._sceneFunc = function (context) {
-          var sides = this.sides(), radius = this.radius(), n, x, y;
+          var points = this._getPoints();
           context.beginPath();
-          context.moveTo(0, 0 - radius);
-          for (n = 1; n < sides; n++) {
-              x = radius * Math.sin((n * 2 * Math.PI) / sides);
-              y = -1 * radius * Math.cos((n * 2 * Math.PI) / sides);
-              context.lineTo(x, y);
+          context.moveTo(points[0].x, points[0].y);
+          for (var n = 1; n < points.length; n++) {
+              context.lineTo(points[n].x, points[n].y);
           }
           context.closePath();
           context.fillStrokeShape(this);
+      };
+      RegularPolygon.prototype._getPoints = function () {
+          var sides = this.attrs.sides;
+          var radius = this.attrs.radius || 0;
+          var points = [];
+          for (var n = 0; n < sides; n++) {
+              points.push({
+                  x: radius * Math.sin((n * 2 * Math.PI) / sides),
+                  y: -1 * radius * Math.cos((n * 2 * Math.PI) / sides),
+              });
+          }
+          return points;
+      };
+      RegularPolygon.prototype.getSelfRect = function () {
+          var points = this._getPoints();
+          var minX = points[0].x;
+          var maxX = points[0].y;
+          var minY = points[0].x;
+          var maxY = points[0].y;
+          points.forEach(function (point) {
+              minX = Math.min(minX, point.x);
+              maxX = Math.max(maxX, point.x);
+              minY = Math.min(minY, point.y);
+              maxY = Math.max(maxY, point.y);
+          });
+          return {
+              x: minX,
+              y: minY,
+              width: maxX - minX,
+              height: maxY - minY,
+          };
       };
       RegularPolygon.prototype.getWidth = function () {
           return this.radius() * 2;
@@ -15573,7 +15602,7 @@
           newTr.translate(newAttrs.x, newAttrs.y);
           newTr.rotate(newAttrs.rotation);
           newTr.scale(newAttrs.width / baseSize, newAttrs.height / baseSize);
-          // now lets think we had [old transform] and now we have [new transform]
+          // now lets think we had [old transform] and n ow we have [new transform]
           // Now, the questions is: how can we transform "parent" to go from [old transform] into [new transform]
           // in equation it will be:
           // [delta transform] * [old transform] = [new transform]
@@ -15581,6 +15610,7 @@
           // [delta transform] = [new transform] * [old transform inverted]
           var delta = newTr.multiply(oldTr.invert());
           this._nodes.forEach(function (node) {
+              var _a;
               // for each node we have the same [delta transform]
               // the equations is
               // [delta transform] * [parent transform] * [old local transform] = [parent transform] * [new local transform]
@@ -15600,6 +15630,7 @@
               node.setAttrs(attrs);
               _this._fire('transform', { evt: evt, target: node });
               node._fire('transform', { evt: evt, target: node });
+              (_a = node.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
           });
           this.rotation(Util._getRotation(newAttrs.rotation));
           this._resetTransformCache();
