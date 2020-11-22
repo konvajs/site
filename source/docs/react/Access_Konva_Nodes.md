@@ -22,9 +22,9 @@ const App = () => {
 }
 ```
 
-## Using an event object inside event callback
+## Using an event object inside of the event callback
 
-Another common way to access Konva node is to just use an event object that you have as an argument in any event:
+Another common way to access a Konva node is to just use an event object that you have as an argument in any event:
 
 ```js
 import { Circle } from 'react-konva';
