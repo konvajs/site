@@ -19,11 +19,11 @@ npm install react-konva konva
     <h3 class="desc">Node nesting, grouping and event bubbling</h3>
   </div>
   <div class="feature"><img src="/assets/features/undraw_image_viewer_wxce.svg" />
-    <h3 class="desc">Hight quality exports into data URLs, image data, or image objects</h3>
+    <h3 class="desc">High quality exports into data URLs, image data, or image objects</h3>
   </div>
 </div>
 
-## How it looks?
+## How does it look?
 
 ```js
 import { Stage, Layer, Rect, Circle } from 'react-konva';

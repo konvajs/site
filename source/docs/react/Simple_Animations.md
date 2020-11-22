@@ -2,11 +2,11 @@ title: How to apply canvas animations with react and konva?
 layout: react_page
 ---
 
-Konva itself has two methods for animations [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). You can apply both of them to nodes manually.
+Konva itself has two methods for animations: [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). You can apply both of them to nodes manually.
 
-For simple use cases we recommend to use `node.to()` method. For more complex animations take a look for [Complex react-konva animation demo](/docs/react/Complex_Animations.html).
+For simple use cases we recommend to use the `node.to()` method. For more complex animations take a look at the [Complex react-konva animation demo](/docs/react/Complex_Animations.html).
 
-The demo is using [refs API](/docs/react/Access_Konva_Nodes.html) to access shape instance directly.
+The demo is using the [refs API](/docs/react/Access_Konva_Nodes.html) to access shape instances directly.
 
 Instructions: Try to move a rectangle.
 
