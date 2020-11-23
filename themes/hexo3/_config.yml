@@ -64,6 +64,7 @@ doc_sidebar:
     Fire Events: events/Fire_Events.html
     Stage Events: events/Stage_Events.html
     Keyboard Events: events/Keyboard_Events.html
+    Change Events: events/Change_Events.html
   Drag and Drop:
     Drag and Drop: drag_and_drop/Drag_and_Drop.html
     Drag an Image: drag_and_drop/Drag_an_Image.html
