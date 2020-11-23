@@ -2,13 +2,13 @@ title: How to access Konva nodes from react-konva?
 layout: react_page
 ---
 
-In some cases you may need to use `Konva` API directly. For example for canvas exporting or animations.
+In some cases you may need to use the `Konva` API directly. For example for exporting canvases or animations.
 
 There are two ways to access Konva nodes/shapes from `react-konva`. 
 
-## Using `refs` API.
+## Using the `refs` API.
 
-You can use [refs API](https://reactjs.org/docs/refs-and-the-dom.html) to get access to Konva node.
+You can use the [refs API](https://reactjs.org/docs/refs-and-the-dom.html) to get access to a Konva node.
 
 ```js
 import { Circle } from 'react-konva';
@@ -22,9 +22,9 @@ const App = () => {
 }
 ```
 
-## Using event object inside event callback
+## Using an event object inside of the event callback
 
-Another common way to access Konva node is to just use event object that you have as argument in any event:
+Another common way to access a Konva node is to just use an event object that you have as an argument in any event:
 
 ```js
 import { Circle } from 'react-konva';
