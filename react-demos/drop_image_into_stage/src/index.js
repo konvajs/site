@@ -29,12 +29,13 @@ const App = () => {
         alt="lion"
         src="https://konvajs.org/assets/lion.png"
         draggable="true"
-        onDragStart={e => {
+        onDragStart={(e) => {
           dragUrl.current = e.target.src;
         }}
       />
       <div
-        onDrop={e => {
+        onDrop={(e) => {
+          e.preventDefault();
           // register event position
           stageRef.current.setPointersPositions(e);
           // add image
@@ -42,12 +43,12 @@ const App = () => {
             images.concat([
               {
                 ...stageRef.current.getPointerPosition(),
-                src: dragUrl.current
-              }
+                src: dragUrl.current,
+              },
             ])
           );
         }}
-        onDragOver={e => e.preventDefault()}
+        onDragOver={(e) => e.preventDefault()}
       >
         <Stage
           width={window.innerWidth}
@@ -56,7 +57,7 @@ const App = () => {
           ref={stageRef}
         >
           <Layer>
-            {images.map(image => {
+            {images.map((image) => {
               return <URLImage image={image} />;
             })}
           </Layer>
