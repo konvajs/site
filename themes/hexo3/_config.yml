@@ -48,6 +48,7 @@ doc_sidebar:
     Hide and Show: styling/Hide_and_Show.html
     Mouse Cursor Style: styling/Mouse_Cursor.html
     Blend Mode: styling/Blend_Mode.html
+    Fill Stroke Order: styling/Fill_Stroke_Order.html
   Events:
     Binding Events: events/Binding_Events.html
     Image Events: events/Image_Events.html
