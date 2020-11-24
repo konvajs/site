@@ -11,7 +11,7 @@ In some rare cases you may need a shape that has stroke first, then a fill on to
 shape.fillAfterStrokeEnabled(true);
 ```
 
-Instructions: Take a look into two example of different fill&stroke order.
+Instructions: Take a look into two examples of different fill&stroke order.
 
 {% iframe /downloads/code/styling/Fill_Stroke_Order.html %}
 
