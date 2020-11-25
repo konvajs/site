@@ -21,12 +21,14 @@
       <!--<strong class="toc-title">Contents</strong>-->
       <!--<%- toc(page.content) %>-->
       <!--</div>-->
-      <div class="page-entry" itemprop="articleBody">
-        <%- page.content %>
+      <div class="page-entry" itemprop="articleBody"><%- page.content %></div>
+      <footer id="page-footer"><%- page_nav() %></footer>
+      <div
+        style="padding: 30px; font-size: 18px; text-align: center; color: grey"
+      >
+        Enjoying Konva? Please consider to
+        <a href="/docs/donate.html">support</a> the project.
       </div>
-      <footer id="page-footer">
-        <%- page_nav() %>
-      </footer>
       <%- partial('_partial/comment') %>
     </div>
   </div>
