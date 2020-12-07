@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.2.0
+   * Konva JavaScript Framework v7.2.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Nov 23 2020
+   * Date: Mon Dec 07 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.2.0',
+      version: '7.2.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -11272,7 +11272,8 @@
       'padding',
       'lineHeight',
       'text',
-      'width'
+      'width',
+      'height',
   ], CHANGE_KONVA = 'Change.konva', NONE = 'none', UP = 'up', RIGHT = 'right', DOWN = 'down', LEFT = 'left', 
   // cached variables
   attrChangeListLen = ATTR_CHANGE_LIST.length;
@@ -11411,11 +11412,11 @@
                   x: -1 * x,
                   y: -1 * y,
                   width: width,
-                  height: height
+                  height: height,
               });
               text.setAttrs({
                   x: -1 * x,
-                  y: -1 * y
+                  y: -1 * y,
               });
           }
       };
@@ -11510,7 +11511,7 @@
               x: x,
               y: y,
               width: width,
-              height: height
+              height: height,
           };
       };
       return Tag;
@@ -15332,7 +15333,6 @@
       };
       Transformer.prototype._handleMouseDown = function (e) {
           this._movingAnchorName = e.target.name().split(' ')[0];
-          // var node = this.getNode();
           var attrs = this._getNodeRect();
           var width = attrs.width;
           var height = attrs.height;
@@ -15351,7 +15351,9 @@
               y: pos.y - ap.y,
           };
           this._fire('transformstart', { evt: e, target: this.getNode() });
-          this.getNode()._fire('transformstart', { evt: e, target: this.getNode() });
+          this._nodes.forEach(function (target) {
+              target._fire('transformstart', { evt: e, target: target });
+          });
       };
       Transformer.prototype._handleMouseMove = function (e) {
           var x, y, newHypotenuse;
@@ -15542,7 +15544,9 @@
               var node = this.getNode();
               this._fire('transformend', { evt: e, target: node });
               if (node) {
-                  node.fire('transformend', { evt: e, target: node });
+                  this._nodes.forEach(function (target) {
+                      target._fire('transformend', { evt: e, target: target });
+                  });
               }
               this._movingAnchorName = null;
           }
