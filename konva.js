@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.2.1
+   * Konva JavaScript Framework v7.2.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Dec 07 2020
+   * Date: Fri Dec 18 2020
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.2.1',
+      version: '7.2.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1087,6 +1087,9 @@
           var len = p.length, allPoints = [], n, cp;
           for (n = 2; n < len - 2; n += 2) {
               cp = Util._getControlPoints(p[n - 2], p[n - 1], p[n], p[n + 1], p[n + 2], p[n + 3], tension);
+              if (isNaN(cp[0])) {
+                  continue;
+              }
               allPoints.push(cp[0]);
               allPoints.push(cp[1]);
               allPoints.push(p[n]);
@@ -3401,7 +3404,8 @@
               return true;
           }
       };
-      Node.prototype.shouldDrawHit = function (top) {
+      Node.prototype.shouldDrawHit = function (top, skipDragCheck) {
+          if (skipDragCheck === void 0) { skipDragCheck = false; }
           if (top) {
               return this._isVisible(top) && this._isListening(top);
           }
@@ -3418,7 +3422,7 @@
                   layerUnderDrag = true;
               }
           });
-          var dragSkip = !Konva.hitOnDragEnabled && layerUnderDrag;
+          var dragSkip = !skipDragCheck && !Konva.hitOnDragEnabled && layerUnderDrag;
           return this.isListening() && this.isVisible() && !dragSkip;
       };
       /**
@@ -4072,7 +4076,7 @@
        * @name Konva.Node#getAbsoluteRotation
        * @returns {Number}
        * @example
-       * // get absolute scale x
+       * // get absolute rotation
        * var rotation = node.getAbsoluteRotation();
        */
       Node.prototype.getAbsoluteRotation = function () {
@@ -5230,8 +5234,8 @@
    * @example
    * // get node size
    * var size = node.size();
-   * var x = size.x;
-   * var y = size.y;
+   * var width = size.width;
+   * var height = size.height;
    *
    * // set size
    * node.size({
@@ -7156,7 +7160,7 @@
       Shape.prototype.intersects = function (point) {
           var stage = this.getStage(), bufferHitCanvas = stage.bufferHitCanvas, p;
           bufferHitCanvas.getContext().clear();
-          this.drawHit(bufferHitCanvas);
+          this.drawHit(bufferHitCanvas, null, true);
           p = bufferHitCanvas.context.getImageData(Math.round(point.x), Math.round(point.y), 1, 1).data;
           return p[3] > 0;
       };
@@ -7335,8 +7339,9 @@
           context.restore();
           return this;
       };
-      Shape.prototype.drawHit = function (can, top) {
-          if (!this.shouldDrawHit(top)) {
+      Shape.prototype.drawHit = function (can, top, skipDragCheck) {
+          if (skipDragCheck === void 0) { skipDragCheck = false; }
+          if (!this.shouldDrawHit(top, skipDragCheck)) {
               return this;
           }
           var layer = this.getLayer(), canvas = can || layer.hitCanvas, context = canvas && canvas.getContext(), drawFunc = this.hitFunc() || this.sceneFunc(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
@@ -13826,7 +13831,7 @@
                           var mid = (low + high) >>> 1, substr = line.slice(0, mid + 1), substrWidth = this._getTextWidth(substr) + additionalWidth;
                           if (substrWidth <= maxWidth) {
                               low = mid + 1;
-                              match = substr + (shouldAddEllipsis ? ELLIPSIS : '');
+                              match = substr;
                               matchWidth = substrWidth;
                           }
                           else {
