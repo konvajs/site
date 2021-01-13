@@ -8,3 +8,4 @@ db.json
 debug.log
 tmp
 *.code-workspace
+# package
