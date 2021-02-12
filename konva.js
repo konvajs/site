@@ -1,14 +1,14 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.Konva = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Konva = factory());
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.2.2
+   * Konva JavaScript Framework v7.2.3
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Dec 18 2020
+   * Date: Fri Feb 12 2021
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.2.2',
+      version: '7.2.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -528,6 +528,7 @@
               result.skewX = 0;
               result.skewY = (a * c + b * d) / delta;
           }
+          else ;
           result.rotation = Util._getRotation(result.rotation);
           return result;
       };
@@ -731,7 +732,9 @@
       },
       _sign: function (number) {
           if (number === 0) {
-              return 0;
+              // that is not what sign usually returns
+              // but that is what we need
+              return 1;
           }
           if (number > 0) {
               return 1;
@@ -952,7 +955,7 @@
           // Check hsl() format
           if (/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.test(str)) {
               // Extract h, s, l
-              var _a = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(str), _ = _a[0], hsl = _a.slice(1);
+              var _a = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(str); _a[0]; var hsl = _a.slice(1);
               var h = Number(hsl[0]) / 360;
               var s = Number(hsl[1]) / 100;
               var l = Number(hsl[2]) / 100;
@@ -1495,25 +1498,25 @@
   };
 
   /*! *****************************************************************************
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-  this file except in compliance with the License. You may obtain a copy of the
-  License at http://www.apache.org/licenses/LICENSE-2.0
+  Copyright (c) Microsoft Corporation.
 
-  THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-  WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-  MERCHANTABLITY OR NON-INFRINGEMENT.
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted.
 
-  See the Apache Version 2.0 License for specific language governing permissions
-  and limitations under the License.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+  REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+  INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+  OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
   ***************************************************************************** */
   /* global Reflect, Promise */
 
   var extendStatics = function(d, b) {
       extendStatics = Object.setPrototypeOf ||
           ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-          function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+          function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
       return extendStatics(d, b);
   };
 
@@ -2154,7 +2157,7 @@
           shape._fillFunc(this);
       };
       SceneContext.prototype._fillPattern = function (shape) {
-          var fillPatternX = shape.getFillPatternX(), fillPatternY = shape.getFillPatternY(), fillPatternRotation = Konva.getAngle(shape.getFillPatternRotation()), fillPatternOffsetX = shape.getFillPatternOffsetX(), fillPatternOffsetY = shape.getFillPatternOffsetY(), fillPatternScaleX = shape.getFillPatternScaleX(), fillPatternScaleY = shape.getFillPatternScaleY();
+          var fillPatternX = shape.getFillPatternX(), fillPatternY = shape.getFillPatternY(), fillPatternRotation = Konva.getAngle(shape.getFillPatternRotation()), fillPatternOffsetX = shape.getFillPatternOffsetX(), fillPatternOffsetY = shape.getFillPatternOffsetY(); shape.getFillPatternScaleX(); shape.getFillPatternScaleY();
           if (fillPatternX || fillPatternY) {
               this.translate(fillPatternX || 0, fillPatternY || 0);
           }
@@ -3523,6 +3526,21 @@
               y: this.y(),
           };
       };
+      /**
+       * get absolute position of a node. That function can be used to calculate absolute position, but relative to any ancestor
+       * @method
+       * @name Konva.Node#getAbsolutePosition
+       * @param {Object} Ancestor optional ancestor node
+       * @returns {Konva.Node}
+       * @example
+       *
+       * // returns absolute position relative to top-left corner of canvas
+       * node.getAbsolutePosition();
+       *
+       * // calculate absolute position of node, inside stage
+       * // so stage transforms are ignored
+       * node.getAbsolutePosition(stage)
+       */
       Node.prototype.getAbsolutePosition = function (top) {
           var haveCachedParent = false;
           var parent = this.parent;
@@ -4897,7 +4915,7 @@
    */
   addGetterSetter(Node, 'name', '', getStringValidator());
   /**
-   * get/set name
+   * get/set name.
    * @name Konva.Node#name
    * @method
    * @param {String} name
@@ -5455,7 +5473,7 @@
        * You can provide a string with '#' for id selections and '.' for name selections.
        * Or a function that will return true/false when a node is passed through.  See example below.
        * With strings you can also select by type or class name. Pass multiple selectors
-       * separated by a space.
+       * separated by a comma.
        * @method
        * @name Konva.Container#find
        * @param {String | Function} selector
@@ -15038,7 +15056,7 @@
           }
           this._nodes = nodes;
           if (nodes.length === 1) {
-              this.rotation(nodes[0].rotation());
+              this.rotation(nodes[0].getAbsoluteRotation());
           }
           else {
               this.rotation(0);
@@ -15050,7 +15068,7 @@
               var onChange = function () {
                   //
                   if (_this.nodes().length === 1) {
-                      _this.rotation(_this.nodes()[0].rotation());
+                      _this.rotation(_this.nodes()[0].getAbsoluteRotation());
                   }
                   _this._resetTransformCache();
                   if (!_this._transforming && !_this.isDragging()) {
@@ -15265,7 +15283,7 @@
               name: name + ' _anchor',
               dragDistance: 0,
               // make it draggable,
-              // so activating the anchror will not start drag&drop of any parent
+              // so activating the anchor will not start drag&drop of any parent
               draggable: true,
               hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto',
           });
