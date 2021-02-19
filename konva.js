@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.2.3
+   * Konva JavaScript Framework v7.2.4
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Feb 12 2021
+   * Date: Fri Feb 19 2021
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.2.3',
+      version: '7.2.4',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -5929,7 +5929,7 @@
       MOUSEDOWN,
       MOUSEMOVE,
       MOUSEUP,
-      MOUSEOUT,
+      MOUSELEAVE$1,
       TOUCHSTART,
       TOUCHMOVE,
       TOUCHEND,
@@ -6256,7 +6256,7 @@
           this._fire(CONTENT_MOUSEOVER, { evt: evt });
           this._fire(MOUSEOVER, { evt: evt, target: this, currentTarget: this });
       };
-      Stage.prototype._mouseout = function (evt) {
+      Stage.prototype._mouseleave = function (evt) {
           var _a;
           this.setPointersPositions(evt);
           var targetShape = ((_a = this.targetShape) === null || _a === void 0 ? void 0 : _a.getStage()) ? this.targetShape : null;
