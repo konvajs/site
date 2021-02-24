@@ -8,7 +8,6 @@
       body {
         margin: 0;
         padding: 0;
-        overflow: hidden;
         background-color: #f0f0f0;
       }
     </style>
@@ -75,13 +74,10 @@
         // at first lets find position of text node relative to the stage:
         var textPosition = textNode.absolutePosition();
 
-        // then lets find position of stage container on the page:
-        var stageBox = stage.container().getBoundingClientRect();
-
         // so position of textarea will be the sum of positions above:
         var areaPosition = {
-          x: stageBox.left + textPosition.x,
-          y: stageBox.top + textPosition.y,
+          x: stage.container().offsetLeft + textPosition.x,
+          y: stage.container().offsetTop + textPosition.y,
         };
 
         // create textarea and style it
