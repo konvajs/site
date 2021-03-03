@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v7.2.4
+   * Konva JavaScript Framework v7.2.5
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Feb 19 2021
+   * Date: Wed Mar 03 2021
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -76,7 +76,7 @@
               : {};
   var Konva = {
       _global: glob,
-      version: '7.2.4',
+      version: '7.2.5',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -13962,6 +13962,7 @@
       'padding',
       'wrap',
       'lineHeight',
+      'letterSpacing',
   ];
   _registerNode(Text);
   /**
