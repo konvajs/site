@@ -21,7 +21,7 @@ If you want to update your canvas, for instance, you want to create a new ball, 
 
 In that case you don't need to care about image loading, filters, event listeners, etc in saving/loading phases. Because you do all these actions in your `create` or `update` functions.
 
-You should better understand what I am talking about if you know how many modern frameworks work (like `Rect`, `Vue`, `Angular` and many other).
+You would better understand what I am talking about if you know how many modern frameworks work (like `React`, `Vue`, `Angular` and many other).
 
 Also take a look into these demos to have a better idea:
 1. [Undo/redo with react](/docs/react/Undo-Redo.html)
