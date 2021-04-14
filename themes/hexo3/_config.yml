@@ -383,9 +383,10 @@ react_sidebar:
     Transformer: react/Transformer.html
     Simple Animations: react/Simple_Animations.html
     Complex Animations: react/Complex_Animations.html
-  Demos:
+  Utils:
     DOM Portal: react/DOM_Portal.html
     Canvas Portal: react/Canvas_Portal.html
+  Demos:
     Export into Image: react/Canvas_Export.html
     Undo/Redo: react/Undo-Redo.html
     Changing zIndex: react/zIndex.html

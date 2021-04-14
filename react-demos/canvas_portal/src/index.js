@@ -1,40 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Stage, Layer, Group, Rect, Text, Circle, Line } from 'react-konva';
-
-// make a portal implementation
-const Portal = ({ selector, enabled, children }) => {
-  // "selector" is a string to find another container to insert all internals
-  // if can be like ".top-layer" or "#overlay-group"
-  const outer = React.useRef(null);
-  const inner = React.useRef(null);
-
-  React.useEffect(() => {
-    const stage = outer.current.getStage();
-    const newContainer = stage.findOne(selector);
-    if (enabled && newContainer) {
-      inner.current.moveTo(newContainer);
-    } else {
-      inner.current.moveTo(outer.current);
-    }
-    // manually redraw layers
-    outer.current.getLayer().batchDraw();
-    if (newContainer) {
-      newContainer.getLayer().batchDraw();
-    }
-  }, [selector, enabled]);
-
-  // for smooth movement we will have to use two group
-  // outer - is main container
-  // inner - that we will move into another container
-  return (
-    <Group name="_outer_portal" ref={outer}>
-      <Group name="_inner_portal" ref={inner}>
-        {children}
-      </Group>
-    </Group>
-  );
-};
+import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
+import { Portal } from 'react-konva-utils';
 
 const App = () => {
   const [isDragging, setDragging] = React.useState(false);

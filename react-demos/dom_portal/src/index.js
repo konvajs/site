@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Portal from './Portal';
-import { Stage, Layer, Rect, Text } from 'react-konva';
+import { Stage, Layer, Rect } from 'react-konva';
+import { Html } from 'react-konva-utils';
 
 class App extends Component {
   render() {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Portal>
-            <input
-              style={{
+          <Html
+            divProps={{
+              style: {
                 position: 'absolute',
                 top: 10,
                 left: 10,
-                width: '200px'
-              }}
-              placeholder="DOM input from Konva nodes"
-            />
-          </Portal>
+              },
+            }}
+          >
+            <input placeholder="DOM input from Konva nodes" />
+          </Html>
           <Rect
             x={20}
             y={20}

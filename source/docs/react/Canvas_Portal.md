@@ -1,5 +1,6 @@
 title: How to use portals in react-konva?
 layout: react_page
+
 ---
 
 ## How does react-konva control the zIndex?
@@ -10,9 +11,10 @@ layout: react_page
 
 Currently `react-konva` doesn't support the `React.createPortal` API.
 
-But we can use a simple trick and manual Konva methods to move any node into another container on the whole stage.
+But we can use `<Portal />` component from [react-konva-utils package](https://github.com/konvajs/react-konva-utils)
 
 Such a portal can be useful when you want to temporarily move a node into another container. The common use cases are:
+
 1. Move a dragging shape into another layer for better performance
 2. Show an element on top of other elements, but still keep it deep down in the components tree
 
