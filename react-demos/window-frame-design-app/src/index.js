@@ -10,6 +10,8 @@ const rootElement = document.getElementById("root");
 ReactDOM.render(
   <Provider store={window.store}>
     <App />
+    sss
+
   </Provider>,
   rootElement
 );
