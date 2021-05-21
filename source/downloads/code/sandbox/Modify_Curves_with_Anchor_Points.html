@@ -36,12 +36,10 @@
         anchor.on('mouseover', function () {
           document.body.style.cursor = 'pointer';
           this.strokeWidth(4);
-          layer.draw();
         });
         anchor.on('mouseout', function () {
           document.body.style.cursor = 'default';
           this.strokeWidth(2);
-          layer.draw();
         });
 
         anchor.on('dragmove', function () {
@@ -87,7 +85,6 @@
           b.end.x(),
           b.end.y(),
         ]);
-        layer.draw();
       }
 
       // we will use custom shape for curve

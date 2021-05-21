@@ -43,8 +43,6 @@ export default {
   mounted() {
     const rectNode = this.$refs.rect.getNode();
     rectNode.cache();
-    // may need to redraw layer manually
-    rectNode.getLayer().batchDraw();
   },
   updated() {
     // recache

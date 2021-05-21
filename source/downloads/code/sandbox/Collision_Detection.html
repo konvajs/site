@@ -61,8 +61,6 @@
       for (var i = 0; i < 10; i++) {
         layer.add(createShape());
       }
-      layer.draw();
-
       layer.on('dragmove', function (e) {
         var target = e.target;
         var targetRect = e.target.getClientRect();
@@ -76,8 +74,6 @@
           } else {
             group.findOne('.fillShape').fill('grey');
           }
-          // do not need to call layer.draw() here
-          // because it will be called by dragmove action
         });
       });
 

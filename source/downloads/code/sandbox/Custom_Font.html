@@ -84,13 +84,11 @@
       });
 
       layer.add(text);
-      layer.draw();
 
       whenFontIsLoaded(function () {
         // set font style when font is loaded
         // so Konva will recalculate text wrapping if it has limited width
         text.fontFamily('Kavivanar');
-        layer.draw();
       });
     </script>
   </body>

@@ -124,7 +124,6 @@
 
             animal.on('dragstart', function () {
               this.moveToTop();
-              animalLayer.draw();
             });
             /*
              * check if animal is in the right spot and
@@ -137,7 +136,6 @@
                   x: outline.x,
                   y: outline.y,
                 });
-                animalLayer.draw();
                 animal.inRightPlace = true;
 
                 if (++score >= 4) {
@@ -154,13 +152,11 @@
             // make animal glow on mouseover
             animal.on('mouseover', function () {
               animal.image(images[privKey + '_glow']);
-              animalLayer.draw();
               document.body.style.cursor = 'pointer';
             });
             // return animal on mouseout
             animal.on('mouseout', function () {
               animal.image(images[privKey]);
-              animalLayer.draw();
               document.body.style.cursor = 'default';
             });
 

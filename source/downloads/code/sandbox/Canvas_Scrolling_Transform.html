@@ -67,7 +67,6 @@
       for (var i = 0; i < NUMBER; i++) {
         layer.add(generateNode());
       }
-      layer.draw();
 
       var scrollContainer = document.getElementById('scroll-container');
       function repositionStage() {
@@ -77,7 +76,6 @@
           'translate(' + dx + 'px, ' + dy + 'px)';
         stage.x(-dx);
         stage.y(-dy);
-        stage.batchDraw();
       }
       scrollContainer.addEventListener('scroll', repositionStage);
       repositionStage();

@@ -46,8 +46,6 @@
       var tr = new Konva.Transformer();
       layer.add(tr);
       tr.nodes([rect]);
-      layer.draw();
-
       tr.on('transform', function () {
         var width = rect.width() * rect.scaleX();
         if (width > 200) {

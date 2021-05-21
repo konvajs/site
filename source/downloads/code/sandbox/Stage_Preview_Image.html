@@ -50,8 +50,6 @@
         layer.add(shape);
       }
 
-      layer.draw();
-
       function updatePreview() {
         const scale = 1 / 4;
         // use pixelRatio to generate smaller preview
@@ -75,7 +73,6 @@
           name: 'shape-' + layer.children.length,
         });
         layer.add(shape);
-        layer.draw();
 
         updatePreview();
       });

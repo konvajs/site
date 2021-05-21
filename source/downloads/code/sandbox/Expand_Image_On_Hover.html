@@ -59,14 +59,12 @@
       var imageObj1 = new Image();
       imageObj1.onload = function () {
         darthVaderImg.image(imageObj1);
-        layer.draw();
       };
       imageObj1.src = '/assets/darth-vader.jpg';
 
       var imageObj2 = new Image();
       imageObj2.onload = function () {
         yodaImg.image(imageObj2);
-        layer.draw();
       };
       imageObj2.src = '/assets/yoda.jpg';
 
@@ -77,14 +75,12 @@
         document.body.style.cursor = 'pointer';
         shape.scaleX(1.2);
         shape.scaleY(1.2);
-        layer.draw();
       });
       layer.on('mouseout', function (evt) {
         var shape = evt.target;
         document.body.style.cursor = 'default';
         shape.scaleX(1);
         shape.scaleY(1);
-        layer.draw();
       });
     </script>
   </body>

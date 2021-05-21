@@ -64,7 +64,6 @@
 
       function updateText(e) {
         text.text('Position: x = ' + e.target.x() + '   y = ' + e.target.y());
-        layer.batchDraw();
       }
 
       rect.on('dragmove', updateText);

@@ -26,7 +26,6 @@
     <script>
       function writeMessage(message) {
         text.text(message);
-        layer.draw();
       }
 
       var stage = new Konva.Stage({
@@ -74,8 +73,6 @@
         stroke: 'black',
       });
       layer.add(line);
-
-      layer.draw();
 
       star.on('mouseover', function () {
         writeMessage('Mouseover star');

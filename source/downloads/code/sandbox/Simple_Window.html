@@ -28,11 +28,11 @@
     <div id="container"></div>
 
     <div id="controls">
-      <div style="float: left; padding: 10px;">
+      <div style="float: left; padding: 10px">
         Width:
         <input type="number" id="widthInput" />
       </div>
-      <div style="float: left; padding: 10px;">
+      <div style="float: left; padding: 10px">
         Height:
         <input type="number" id="heightInput" />
       </div>
@@ -122,7 +122,11 @@
 
         group.add(glass, top, left, bottom, right);
 
-        group.find('Line').closed(true).stroke('black').strokeWidth(1);
+        group.find('Line').forEach((line) => {
+          line.closed(true);
+          line.stroke('black');
+          line.strokeWidth(1);
+        });
 
         return group;
       }
@@ -331,8 +335,6 @@
 
         var infoGroup = createInfo(frameOnScreenWidth, frameOnScreenHeight);
         group.add(infoGroup);
-
-        layer.draw();
       }
 
       widthInput.addEventListener('change', updateCanvas);

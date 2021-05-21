@@ -50,7 +50,6 @@
           var slider = document.getElementById(attr);
           function update() {
             lion[attr](parseFloat(slider.value));
-            layer.batchDraw();
           }
           slider.oninput = update;
           update();

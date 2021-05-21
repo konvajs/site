@@ -56,17 +56,12 @@
       // set horizontal origin in the center of the text
       text2.offsetX(text2.width() / 2);
 
-      layer.draw();
-
       document.querySelector('#flip').addEventListener('click', () => {
-        layer
-          .find('Text')
-          .toArray()
-          .forEach((text) => {
-            text.to({
-              scaleX: -text.scaleX(),
-            });
+        layer.find('Text').forEach((text) => {
+          text.to({
+            scaleX: -text.scaleX(),
           });
+        });
       });
     </script>
   </body>

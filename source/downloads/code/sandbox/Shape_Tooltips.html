@@ -50,12 +50,10 @@
         });
         tooltip.text('Cyan Triangle');
         tooltip.show();
-        tooltipLayer.batchDraw();
       });
 
       triangle.on('mouseout', function () {
         tooltip.hide();
-        tooltipLayer.draw();
       });
 
       shapesLayer.add(triangle);
@@ -77,12 +75,10 @@
         });
         tooltip.text('Red Circle');
         tooltip.show();
-        tooltipLayer.batchDraw();
       });
 
       circle.on('mouseout', function () {
         tooltip.hide();
-        tooltipLayer.draw();
       });
 
       shapesLayer.add(circle);

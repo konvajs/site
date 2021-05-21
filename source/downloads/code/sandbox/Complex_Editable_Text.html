@@ -59,13 +59,10 @@
 
       layer.add(tr);
 
-      layer.draw();
-
       textNode.on('dblclick dbltap', () => {
         // hide text node and transformer:
         textNode.hide();
         tr.hide();
-        layer.draw();
 
         // create textarea over canvas with absolute position
         // first we need to find position for textarea
@@ -138,7 +135,6 @@
           textNode.show();
           tr.show();
           tr.forceUpdate();
-          layer.draw();
         }
 
         function setTextareaWidth(newWidth) {

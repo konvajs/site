@@ -131,16 +131,13 @@
         var shape = evt.target;
         if (shape) {
           shape.opacity(0.5);
-          shapesLayer.draw();
         }
       });
       stage.on('mouseout', function (evt) {
         var shape = evt.target;
         if (shape) {
           shape.opacity(0);
-          shapesLayer.draw();
           tooltip.hide();
-          tooltipLayer.draw();
         }
       });
       stage.on('mousemove', function (evt) {
@@ -150,7 +147,6 @@
           var x = mousePos.x;
           var y = mousePos.y - 5;
           updateTooltip(tooltip, x, y, shape.attrs.key);
-          tooltipLayer.batchDraw();
         }
       });
     </script>

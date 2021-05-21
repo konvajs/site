@@ -27,7 +27,7 @@
 
   <body>
     <div id="editor-container">
-      That is <u>some</u> <span style="color: red;"> styled text</span> on
+      That is <u>some</u> <span style="color: red"> styled text</span> on
       <strong>canvas</strong>!
       <h2>What do you think about it?</h2>
     </div>
@@ -68,8 +68,6 @@
       });
       layer.add(shape);
 
-      layer.draw();
-
       function renderText() {
         // convert DOM into image
         html2canvas(document.querySelector('.ql-editor'), {
@@ -77,7 +75,6 @@
         }).then((canvas) => {
           // show it inside Konva.Image
           shape.image(canvas);
-          layer.batchDraw();
         });
       }
 

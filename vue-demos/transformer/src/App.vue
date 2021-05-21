@@ -119,7 +119,6 @@ export default {
         // remove transformer
         transformerNode.nodes([]);
       }
-      transformerNode.getLayer().batchDraw();
     },
   },
 };

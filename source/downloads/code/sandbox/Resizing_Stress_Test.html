@@ -38,7 +38,6 @@
         });
         layer.add(rect);
       }
-      layer.draw();
 
       // top layer for transforming group
       var topLayer = new Konva.Layer();
@@ -90,7 +89,6 @@
           rotation: 0,
         });
         group.clearCache();
-        stage.draw();
       });
 
       stage.on('mousemove touchmove', () => {
@@ -107,7 +105,6 @@
           width: Math.abs(x2 - x1),
           height: Math.abs(y2 - y1),
         });
-        topLayer.batchDraw();
       });
 
       stage.on('mouseup touchend', () => {
@@ -118,10 +115,9 @@
         // update visibility in timeout, so we can check it in click event
         setTimeout(() => {
           selectionRectangle.visible(false);
-          topLayer.batchDraw();
         });
 
-        var shapes = stage.find('.shape').toArray();
+        var shapes = stage.find('.shape');
         var box = selectionRectangle.getClientRect();
 
         // remove all children for better performance
@@ -146,8 +142,6 @@
           tr.nodes([group]);
           group.cache();
         }
-
-        stage.batchDraw();
       });
 
       // clicks should select/deselect shapes
@@ -160,7 +154,6 @@
         // if click on empty area - remove all selections
         if (e.target === stage) {
           tr.nodes([]);
-          stage.draw();
           return;
         }
       });

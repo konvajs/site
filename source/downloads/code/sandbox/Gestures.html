@@ -71,7 +71,6 @@
         align: 'center',
       });
       group.add(text);
-      layer.draw();
 
       // attach modified version of Hammer.js
       // "domEvents" property will allow triggering events on group
@@ -109,7 +108,6 @@
 
         setTimeout(() => {
           text.text(defaultText);
-          layer.batchDraw();
         }, 300);
       });
 
@@ -133,14 +131,12 @@
         oldRotation = ev.evt.gesture.rotation;
         group.scaleX(startScale * ev.evt.gesture.scale);
         group.scaleY(startScale * ev.evt.gesture.scale);
-        layer.batchDraw();
       });
 
       group.on('rotateend rotatecancel', function (ev) {
         group.to(Object.assign({}, originalAttrs));
         text.text(defaultText);
         group.draggable(true);
-        layer.batchDraw();
       });
     </script>
   </body>

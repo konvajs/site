@@ -65,7 +65,6 @@
         const pos = stage.getPointerPosition();
         var newPoints = lastLine.points().concat([pos.x, pos.y]);
         lastLine.points(newPoints);
-        layer.batchDraw();
       });
 
       var select = document.getElementById('tool');

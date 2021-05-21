@@ -50,8 +50,6 @@
         layer.add(shape);
       }
 
-      layer.draw();
-
       // create smaller preview stage
       const previewStage = new Konva.Stage({
         container: 'preview',
@@ -74,7 +72,6 @@
           // update its position from the original
           clone.position(shape.position());
         });
-        previewLayer.batchDraw();
       }
 
       stage.on('dragmove', updatePreview);
@@ -92,7 +89,6 @@
           name: 'shape-' + layer.children.length,
         });
         layer.add(shape);
-        layer.batchDraw();
 
         // remove all layer
         previewLayer.destroy();

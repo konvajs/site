@@ -80,7 +80,6 @@
           function update() {
             lion['emboss' + attr](slider.value);
             console.log(slider.value);
-            layer.batchDraw();
           }
           slider.oninput = update;
           update();
@@ -89,7 +88,6 @@
         function update() {
           lion.embossBlend(slider.checked);
           console.log(slider.checked);
-          layer.batchDraw();
         }
         slider.onchange = update;
         update();

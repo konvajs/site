@@ -224,7 +224,7 @@ layer.add(circle);
 // then try to search
 
 // find by type
-layer.find('Circle'); // all circles
+layer.find('Circle'); // returns array of all circles
 
 // find by id
 layer.findOne('#face');

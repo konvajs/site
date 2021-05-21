@@ -23,17 +23,12 @@
   <body>
     <div id="container"></div>
     <div id="buttons">
-      <button id="listen">
-        Listen
-      </button>
-      <button id="dontListen">
-        Dont' Listen
-      </button>
+      <button id="listen">Listen</button>
+      <button id="dontListen">Dont' Listen</button>
     </div>
     <script>
       function writeMessage(message) {
         text.text(message);
-        layer.draw();
       }
 
       var stage = new Konva.Stage({

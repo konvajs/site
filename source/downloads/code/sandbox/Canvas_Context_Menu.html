@@ -66,8 +66,6 @@
       });
       layer.add(shape);
 
-      layer.draw();
-
       stage.on('dblclick dbltap', function () {
         // add a new shape
         var newShape = new Konva.Circle({
@@ -78,7 +76,6 @@
           shadowBlur: 10,
         });
         layer.add(newShape);
-        layer.draw();
       });
 
       // setup menu
@@ -96,7 +93,6 @@
 
       document.getElementById('delete-button').addEventListener('click', () => {
         currentShape.destroy();
-        layer.draw();
       });
 
       window.addEventListener('click', () => {

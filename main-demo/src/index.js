@@ -1,4 +1,4 @@
-import Konva from "konva";
+import Konva from 'konva';
 
 var width = window.innerWidth;
 var height = window.innerHeight;
@@ -14,31 +14,31 @@ function addStar(layer, stage) {
     numPoints: 5,
     innerRadius: 30,
     outerRadius: 50,
-    fill: "#89b717",
+    fill: '#89b717',
     opacity: 0.8,
     draggable: true,
     scale: {
       x: scale,
-      y: scale
+      y: scale,
     },
     rotation: Math.random() * 180,
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowBlur: 10,
     shadowOffset: {
       x: 5,
-      y: 5
+      y: 5,
     },
     shadowOpacity: 0.6,
     // custom attribute
-    startScale: scale
+    startScale: scale,
   });
 
   layer.add(star);
 }
 var stage = new Konva.Stage({
-  container: "container",
+  container: 'container',
   width: width,
-  height: height
+  height: height,
 });
 
 var layer = new Konva.Layer();
@@ -50,11 +50,10 @@ for (var n = 0; n < 30; n++) {
 
 stage.add(layer, dragLayer);
 
-stage.on("dragstart", function(evt) {
+stage.on('dragstart', function (evt) {
   var shape = evt.target;
   // moving to another layer will improve dragging performance
   shape.moveTo(dragLayer);
-  stage.draw();
 
   if (tween) {
     tween.pause();
@@ -62,25 +61,24 @@ stage.on("dragstart", function(evt) {
   shape.setAttrs({
     shadowOffset: {
       x: 15,
-      y: 15
+      y: 15,
     },
     scale: {
-      x: shape.getAttr("startScale") * 1.2,
-      y: shape.getAttr("startScale") * 1.2
-    }
+      x: shape.getAttr('startScale') * 1.2,
+      y: shape.getAttr('startScale') * 1.2,
+    },
   });
 });
 
-stage.on("dragend", function(evt) {
+stage.on('dragend', function (evt) {
   var shape = evt.target;
   shape.moveTo(layer);
-  stage.draw();
   shape.to({
     duration: 0.5,
     easing: Konva.Easings.ElasticEaseOut,
-    scaleX: shape.getAttr("startScale"),
-    scaleY: shape.getAttr("startScale"),
+    scaleX: shape.getAttr('startScale'),
+    scaleY: shape.getAttr('startScale'),
     shadowOffsetX: 5,
-    shadowOffsetY: 5
+    shadowOffsetY: 5,
   });
 });

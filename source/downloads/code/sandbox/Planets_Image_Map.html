@@ -36,7 +36,6 @@
 
       function writeMessage(message) {
         text.text(message);
-        messageLayer.draw();
       }
 
       var stage = new Konva.Stage({
@@ -120,8 +119,6 @@
               var f = shape.fill();
               shape.fill(f == 'red' ? null : 'red');
             }
-
-            circlesLayer.draw();
           },
           false
         );

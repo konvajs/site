@@ -112,7 +112,6 @@
           img.onload = function () {
             node.image(img);
             update(state);
-            layer.batchDraw();
           };
           img.src = item.src;
         });
@@ -142,7 +141,6 @@
             node.clearCache();
           }
         });
-        layer.batchDraw();
       }
 
       //

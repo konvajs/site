@@ -185,7 +185,6 @@
               x: 0,
               y: lg.lineGuide,
             });
-            layer.batchDraw();
           } else if (lg.orientation === 'V') {
             var line = new Konva.Line({
               points: [0, -6000, 0, 6000],
@@ -199,14 +198,13 @@
               x: lg.lineGuide,
               y: 0,
             });
-            layer.batchDraw();
           }
         });
       }
 
       layer.on('dragmove', function (e) {
         // clear all previous lines on the screen
-        layer.find('.guid-line').destroy();
+        layer.find('.guid-line').forEach((l) => l.destroy());
 
         // find possible snapping lines
         var lineGuideStops = getLineGuideStops(e.target);
@@ -273,11 +271,8 @@
 
       layer.on('dragend', function (e) {
         // clear all previous lines on the screen
-        layer.find('.guid-line').destroy();
-        layer.batchDraw();
+        layer.find('.guid-line').forEach((l) => l.destroy());
       });
-
-      layer.draw();
     </script>
   </body>
 </html>

@@ -70,7 +70,6 @@
       stage.on('mousedown', function (evt) {
         var shape = evt.target;
         shape.moveTo(dragLayer);
-        stage.draw();
         // restart drag and drop in the new layer
         shape.startDrag();
       });
@@ -78,7 +77,6 @@
       stage.on('mouseup', function (evt) {
         var shape = evt.target;
         shape.moveTo(layer);
-        stage.draw();
       });
 
       stage.on('dragstart', function (evt) {

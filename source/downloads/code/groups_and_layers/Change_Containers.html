@@ -25,12 +25,8 @@
   <body>
     <div id="container"></div>
     <div id="buttons">
-      <button id="toBlue">
-        Move red box to blue group
-      </button>
-      <button id="toYellow">
-        Move red box to yellow group
-      </button>
+      <button id="toBlue">Move red box to blue group</button>
+      <button id="toYellow">Move red box to yellow group</button>
     </div>
     <script>
       var width = window.innerWidth;
@@ -92,7 +88,6 @@
         'click',
         function () {
           box.moveTo(blueGroup);
-          layer.draw();
         },
         false
       );
@@ -101,7 +96,6 @@
         'click',
         function () {
           box.moveTo(yellowGroup);
-          layer.draw();
         },
         false
       );

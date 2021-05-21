@@ -16,9 +16,6 @@ const FilterImage = () => {
     if (image) {
       // you many need to reapply cache on some props changes like shadow, stroke, etc.
       imageRef.current.cache();
-      // since this update is not handled by "react-konva" and we are using Konva methods directly
-      // we have to redraw layer manually
-      imageRef.current.getLayer().batchDraw();
     }
   }, [image]);
 
@@ -38,7 +35,7 @@ const FilterImage = () => {
 // try to click on rect to see color updates
 class FilterRect extends React.Component {
   state = {
-    color: 'green'
+    color: 'green',
   };
   componentDidMount() {
     this.applyCache();
@@ -46,7 +43,7 @@ class FilterRect extends React.Component {
   handleClick = () => {
     this.setState(
       {
-        color: Konva.Util.getRandomColor()
+        color: Konva.Util.getRandomColor(),
       },
       () => {
         // recache shape when we updated it
@@ -56,7 +53,6 @@ class FilterRect extends React.Component {
   };
   applyCache() {
     this.rect.cache();
-    this.rect.getLayer().batchDraw();
   }
   render() {
     return (
@@ -69,7 +65,7 @@ class FilterRect extends React.Component {
         height={50}
         fill={this.state.color}
         shadowBlur={10}
-        ref={node => {
+        ref={(node) => {
           this.rect = node;
         }}
         onClick={this.handleClick}

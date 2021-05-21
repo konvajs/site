@@ -40,7 +40,6 @@
       triangle.on('click', function () {
         var fill = this.fill() == 'yellow' ? '#00D2FF' : 'yellow';
         this.fill(fill);
-        layer.draw();
       });
 
       layer.add(triangle);
@@ -57,7 +56,6 @@
       circle.on('click', function () {
         var fill = this.fill() == 'red' ? '#00d00f' : 'red';
         this.fill(fill);
-        layer.draw();
       });
 
       layer.add(circle);

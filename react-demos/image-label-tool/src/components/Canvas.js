@@ -27,18 +27,18 @@ function zoomStage(stage, scaleBy) {
 
   const pos = {
     x: stage.width() / 2,
-    y: stage.height() / 2
+    y: stage.height() / 2,
   };
   const mousePointTo = {
     x: pos.x / oldScale - stage.x() / oldScale,
-    y: pos.y / oldScale - stage.y() / oldScale
+    y: pos.y / oldScale - stage.y() / oldScale,
   };
 
   const newScale = Math.max(0.05, oldScale * scaleBy);
 
   const newPos = {
     x: -(mousePointTo.x - pos.x / newScale) * newScale,
-    y: -(mousePointTo.y - pos.y / newScale) * newScale
+    y: -(mousePointTo.y - pos.y / newScale) * newScale,
   };
 
   const newAttrs = limitAttributes(stage, { ...newPos, scale: newScale });
@@ -48,9 +48,8 @@ function zoomStage(stage, scaleBy) {
     y: newAttrs.y,
     scaleX: newAttrs.scale,
     scaleY: newAttrs.scale,
-    duration: 0.1
+    duration: 0.1,
   });
-  stage.batchDraw();
 }
 
 function limitAttributes(stage, newAttrs) {
@@ -72,26 +71,26 @@ function limitAttributes(stage, newAttrs) {
 
 export default () => {
   const stageRef = React.useRef();
-  const { width, height } = useStore(s => ({
+  const { width, height } = useStore((s) => ({
     width: s.width,
-    height: s.height
+    height: s.height,
   }));
-  const setSize = useStore(s => s.setSize);
-  const scale = useStore(state => state.scale);
-  const isDrawing = useStore(state => state.isDrawing);
-  const toggleDrawing = useStore(state => state.toggleIsDrawing);
+  const setSize = useStore((s) => s.setSize);
+  const scale = useStore((state) => state.scale);
+  const isDrawing = useStore((state) => state.isDrawing);
+  const toggleDrawing = useStore((state) => state.toggleIsDrawing);
 
-  const regions = useStore(state => state.regions);
-  const setRegions = useStore(state => state.setRegions);
+  const regions = useStore((state) => state.regions);
+  const setRegions = useStore((state) => state.setRegions);
 
-  const selectRegion = useStore(s => s.selectRegion);
+  const selectRegion = useStore((s) => s.selectRegion);
 
   React.useEffect(() => {
     function checkSize() {
       const container = document.querySelector('.right-panel');
       setSize({
         width: container.offsetWidth,
-        height
+        height,
       });
     }
     checkSize();
@@ -107,13 +106,13 @@ export default () => {
         scaleX={scale}
         scaleY={scale}
         className="canvas"
-        onClick={e => {
+        onClick={(e) => {
           const clickedNotOnRegion = e.target.name() !== 'region';
           if (clickedNotOnRegion) {
             selectRegion(null);
           }
         }}
-        onWheel={e => {
+        onWheel={(e) => {
           e.evt.preventDefault();
           const stage = stageRef.current;
 
@@ -122,22 +121,21 @@ export default () => {
           const pos = limitAttributes(stage, {
             x: stage.x() + dx,
             y: stage.y() + dy,
-            scale: stage.scaleX()
+            scale: stage.scaleX(),
           });
           stageRef.current.position(pos);
-          stageRef.current.batchDraw();
         }}
-        onMouseDown={e => {
+        onMouseDown={(e) => {
           toggleDrawing(true);
           const point = getRelativePointerPosition(e.target.getStage());
           const region = {
             id: id++,
             color: Konva.Util.getRandomColor(),
-            points: [point]
+            points: [point],
           };
           setRegions(regions.concat([region]));
         }}
-        onMouseMove={e => {
+        onMouseMove={(e) => {
           if (!isDrawing) {
             return;
           }
@@ -147,7 +145,7 @@ export default () => {
           regions.splice(regions.length - 1, 1);
           setRegions(regions.concat([lastRegion]));
         }}
-        onMouseUp={e => {
+        onMouseUp={(e) => {
           if (!isDrawing) {
             return;
           }

@@ -47,23 +47,9 @@
         fontSize: 20,
       });
       group.add(text);
-      layer.draw();
-
-      // this function will return pointer position relative to the passed node
-      function getRelativePointerPosition(node) {
-        var transform = node.getAbsoluteTransform().copy();
-        // to detect relative position we need to invert transform
-        transform.invert();
-
-        // get pointer (say mouse or touch) position
-        var pos = node.getStage().getPointerPosition();
-
-        // now we can find relative point
-        return transform.point(pos);
-      }
 
       stage.on('click', function () {
-        var pos = getRelativePointerPosition(group);
+        var pos = group.getRelativePointerPosition();
         var shape = new Konva.Circle({
           x: pos.x,
           y: pos.y,
@@ -72,7 +58,6 @@
         });
 
         group.add(shape);
-        layer.batchDraw();
       });
     </script>
   </body>

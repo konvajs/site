@@ -39,7 +39,6 @@
           image: imageObj,
         });
         layer.add(backgroundImage);
-        layer.draw();
       };
 
       imageObj.src = '/assets/space.jpg';
@@ -50,14 +49,12 @@
           x: zoomLevel,
           y: zoomLevel,
         });
-        layer.draw();
       });
 
       layer.on('mousemove', function (e) {
         var pos = stage.getPointerPosition();
         layer.x(-pos.x);
         layer.y(-pos.y);
-        layer.draw();
       });
 
       layer.on('mouseleave', function () {
@@ -67,7 +64,6 @@
           x: 1,
           y: 1,
         });
-        layer.draw();
       });
     </script>
   </body>

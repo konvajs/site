@@ -97,7 +97,6 @@
           bunnys.push(bunny);
           layer.add(bunny);
         }
-        layer.batchDraw();
       }
 
       function onTouchStart(event) {
@@ -161,7 +160,6 @@
             y: pos.y,
           });
         }
-        layer.draw();
         requestAnimationFrame(update);
         stats.end();
       }

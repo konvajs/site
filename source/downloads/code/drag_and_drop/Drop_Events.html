@@ -53,12 +53,10 @@
         });
         layer.add(star);
       }
-      layer.draw();
 
       stage.on('dragstart', function (e) {
         e.target.moveTo(tempLayer);
         text.text('Moving ' + e.target.name());
-        layer.draw();
       });
 
       var previousShape;
@@ -140,31 +138,25 @@
         }
         previousShape = undefined;
         e.target.moveTo(layer);
-        layer.draw();
-        tempLayer.draw();
       });
 
       stage.on('dragenter', function (e) {
         e.target.fill('green');
         text.text('dragenter ' + e.target.name());
-        layer.draw();
       });
 
       stage.on('dragleave', function (e) {
         e.target.fill('blue');
         text.text('dragleave ' + e.target.name());
-        layer.draw();
       });
 
       stage.on('dragover', function (e) {
         text.text('dragover ' + e.target.name());
-        layer.draw();
       });
 
       stage.on('drop', function (e) {
         e.target.fill('red');
         text.text('drop ' + e.target.name());
-        layer.draw();
       });
     </script>
   </body>

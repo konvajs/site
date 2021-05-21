@@ -53,7 +53,6 @@
       var tr = new Konva.Transformer();
       layer.add(tr);
       tr.nodes([rect]);
-      layer.draw();
 
       rect.on('transformstart', function () {
         console.log('transform start');
@@ -82,7 +81,6 @@
           'scaleY: ' + rect.scaleY(),
         ];
         text.text(lines.join('\n'));
-        layer.batchDraw();
       }
     </script>
   </body>

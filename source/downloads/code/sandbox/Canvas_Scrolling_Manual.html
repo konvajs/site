@@ -46,7 +46,6 @@
       for (var i = 0; i < NUMBER; i++) {
         layer.add(generateNode());
       }
-      layer.draw();
 
       // now draw our bars
       var scrollLayers = new Konva.Layer();
@@ -72,7 +71,6 @@
         },
       });
       scrollLayers.add(verticalBar);
-      scrollLayers.draw();
 
       verticalBar.on('dragmove', function () {
         // delta in %
@@ -81,7 +79,6 @@
         var delta = (verticalBar.y() - PADDING) / availableHeight;
 
         layer.y(-(HEIGHT - stage.height()) * delta);
-        layer.batchDraw();
       });
 
       var horizontalBar = new Konva.Rect({
@@ -103,7 +100,6 @@
         },
       });
       scrollLayers.add(horizontalBar);
-      scrollLayers.draw();
 
       horizontalBar.on('dragmove', function () {
         // delta in %
@@ -112,7 +108,6 @@
         var delta = (horizontalBar.x() - PADDING) / availableWidth;
 
         layer.x(-(WIDTH - stage.width()) * delta);
-        layer.batchDraw();
       });
 
       stage.on('wheel', function (e) {
@@ -144,8 +139,6 @@
         const hx =
           (layer.x() / (-WIDTH + stage.width())) * availableWidth + PADDING;
         horizontalBar.x(hx);
-
-        stage.batchDraw();
       });
     </script>
   </body>

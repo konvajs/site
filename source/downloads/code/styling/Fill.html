@@ -101,31 +101,26 @@
          */
         colorPentagon.on('mouseover touchstart', function () {
           this.fill('blue');
-          layer.draw();
         });
 
         colorPentagon.on('mouseout touchend', function () {
           this.fill('red');
-          layer.draw();
         });
 
         patternPentagon.on('mouseover touchstart', function () {
           this.fillPatternImage(images.yoda);
           this.fillPatternOffset({ x: -100, y: 70 });
-          layer.draw();
         });
 
         patternPentagon.on('mouseout touchend', function () {
           this.fillPatternImage(images.darthVader);
           this.fillPatternOffset({ x: -220, y: 70 });
-          layer.draw();
         });
 
         linearGradPentagon.on('mouseover touchstart', function () {
           this.fillLinearGradientStartPoint({ x: -50 });
           this.fillLinearGradientEndPoint({ x: 50 });
           this.fillLinearGradientColorStops([0, 'green', 1, 'yellow']);
-          layer.draw();
         });
 
         linearGradPentagon.on('mouseout touchend', function () {
@@ -135,7 +130,6 @@
             fillLinearGradientEndPoint: { x: 50, y: 50 },
             fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
           });
-          layer.draw();
         });
 
         radialGradPentagon.on('mouseover touchstart', function () {
@@ -147,7 +141,6 @@
             1,
             'green',
           ]);
-          layer.draw();
         });
 
         radialGradPentagon.on('mouseout touchend', function () {
@@ -159,7 +152,6 @@
             fillRadialGradientEndRadius: 70,
             fillRadialGradientColorStops: [0, 'red', 0.5, 'yellow', 1, 'blue'],
           });
-          layer.draw();
         });
 
         layer.add(colorPentagon);

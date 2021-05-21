@@ -37,8 +37,6 @@
       });
       layer.add(circle);
 
-      layer.draw();
-
       var scaleBy = 1.01;
       stage.on('wheel', (e) => {
         e.evt.preventDefault();
@@ -61,7 +59,6 @@
           y: pointer.y - mousePointTo.y * newScale,
         };
         stage.position(newPos);
-        stage.batchDraw();
       });
     </script>
   </body>

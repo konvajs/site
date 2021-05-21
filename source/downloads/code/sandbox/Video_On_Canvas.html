@@ -51,8 +51,6 @@
       });
       layer.add(text);
 
-      layer.draw();
-
       var anim = new Konva.Animation(function () {
         // do nothing, animation just need to update the layer
       }, layer);
@@ -62,7 +60,6 @@
         text.text('Press PLAY...');
         image.width(video.videoWidth);
         image.height(video.videoHeight);
-        layer.draw();
       });
 
       document.getElementById('play').addEventListener('click', function () {

@@ -39,13 +39,11 @@
       pentagon.on('mouseover', function () {
         this.stroke('blue');
         this.strokeWidth(20);
-        layer.draw();
       });
 
       pentagon.on('mouseout', function () {
         this.stroke('black');
         this.strokeWidth(4);
-        layer.draw();
       });
       // add the shape to the layer
       layer.add(pentagon);

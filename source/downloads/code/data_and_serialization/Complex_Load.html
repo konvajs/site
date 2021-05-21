@@ -24,18 +24,16 @@
       /*
        * set functions
        */
-      stage.find('#blueRectangle').on('mouseover mouseout', function () {
+      stage.findOne('#blueRectangle').on('mouseover mouseout', function () {
         var stroke = this.stroke();
         this.stroke(stroke === 'black' ? 'red' : 'black');
-        stage.draw();
       });
       /*
        * set images
        */
       var imageObj = new Image();
       imageObj.onload = function () {
-        stage.find('#yodaImage')[0].image(imageObj);
-        stage.draw();
+        stage.findOne('#yodaImage')[0].image(imageObj);
       };
       imageObj.src = '/assets/yoda.jpg';
     </script>

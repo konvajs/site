@@ -43,7 +43,6 @@
 
         box.on('dragstart', function () {
           this.moveToTop();
-          layer.draw();
         });
 
         box.on('dragmove', function () {
@@ -55,7 +54,6 @@
          */
         box.on('dblclick dbltap', function () {
           this.destroy();
-          layer.draw();
         });
 
         box.on('mouseover', function () {

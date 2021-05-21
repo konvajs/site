@@ -1,5 +1,5 @@
 // load konva framework
-importScripts('https://unpkg.com/konva@4.2.0/konva.min.js');
+importScripts('https://unpkg.com/konva@8/konva.min.js');
 
 // monkeypatch Konva for offscreen canvas usage
 Konva.Util.createCanvasElement = () => {
@@ -11,7 +11,7 @@ Konva.Util.createCanvasElement = () => {
 // now we can create our canvas content
 var stage = new Konva.Stage({
   width: 200,
-  height: 200
+  height: 200,
 });
 
 var layer = new Konva.Layer();
@@ -23,7 +23,7 @@ layer.add(topGroup);
 // counter will show number of bunnies
 var counter = new Konva.Text({
   x: 5,
-  y: 35
+  y: 35,
 });
 topGroup.add(counter);
 
@@ -31,13 +31,13 @@ topGroup.add(counter);
 var button = new Konva.Label({
   x: 5,
   y: 5,
-  opacity: 0.75
+  opacity: 0.75,
 });
 topGroup.add(button);
 
 button.add(
   new Konva.Tag({
-    fill: 'black'
+    fill: 'black',
   })
 );
 
@@ -47,7 +47,7 @@ button.add(
     fontFamily: 'Calibri',
     fontSize: 18,
     padding: 5,
-    fill: 'white'
+    fill: 'white',
   })
 );
 
@@ -57,12 +57,11 @@ var circle = new Konva.Circle({
   y: stage.height() / 2,
   radius: 20,
   fill: 'red',
-  draggable: true
+  draggable: true,
 });
 topGroup.add(circle);
-layer.draw();
 
-self.onmessage = function(evt) {
+self.onmessage = function (evt) {
   // when canvas is passes we can start our worker
   // we can try to use that canvas for the layer with some manual replacement (and probably better performance)
   // but for simplicity we will just copy layer content into passed canvas
@@ -72,7 +71,7 @@ self.onmessage = function(evt) {
     // we may need to add extra event to resize stage on a fly
     stage.setSize({
       width: canvas.width,
-      height: canvas.height
+      height: canvas.height,
     });
 
     const ctx = canvas.getContext('2d');
@@ -119,9 +118,9 @@ function requestAnimationFrame(cb) {
 // that function is large and adapted from bunnies demo
 // the only interesting part here is how to load images to use for Konva.Image
 async function runBunnies() {
-  const imgBlob = await fetch('https://konvajs.org/assets/bunny.png').then(r =>
-    r.blob()
-  );
+  const imgBlob = await fetch(
+    'https://konvajs.org/assets/bunny.png'
+  ).then((r) => r.blob());
   // use "createImageBitmap" instead of "new window.Image()"
   const img = await createImageBitmap(imgBlob);
 
@@ -133,11 +132,11 @@ async function runBunnies() {
   var count = 0;
   var amount = 10;
 
-  button.on('mousedown', function() {
+  button.on('mousedown', function () {
     isAdding = true;
   });
 
-  button.on('mouseup', function() {
+  button.on('mouseup', function () {
     isAdding = false;
   });
 
@@ -147,7 +146,7 @@ async function runBunnies() {
       transformsEnabled: 'position',
       x: 10,
       y: 10,
-      listening: false
+      listening: false,
     });
 
     bunny.speedX = Math.random() * 10;
@@ -158,7 +157,6 @@ async function runBunnies() {
     layer.add(bunny);
   }
   topGroup.moveToTop();
-  layer.draw();
 
   function update() {
     var maxX = stage.width() - 10;
@@ -172,7 +170,7 @@ async function runBunnies() {
           transformsEnabled: 'position',
           x: 0,
           y: 0,
-          listening: false
+          listening: false,
         });
         bunny.speedX = Math.random() * 10;
         bunny.speedY = Math.random() * 10 - 5;

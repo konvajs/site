@@ -5,7 +5,7 @@ import SubSection from './SubSection';
 import {
   SECTION_TOP_PADDING,
   getSectionWidth,
-  getSubsectionWidth
+  getSubsectionWidth,
 } from './layout';
 
 export default React.memo(
@@ -17,7 +17,7 @@ export default React.memo(
     onHoverSeat,
     onSelectSeat,
     onDeselectSeat,
-    selectedSeatsIds
+    selectedSeatsIds,
   }) => {
     const containerRef = React.useRef();
 
@@ -25,7 +25,6 @@ export default React.memo(
     // we just need to recache on some changes
     React.useEffect(() => {
       containerRef.current.cache();
-      containerRef.current.getLayer().batchDraw();
     }, [section, selectedSeatsIds]);
     const width = getSectionWidth(section);
     let lastSubsectionX = 0;
@@ -39,7 +38,7 @@ export default React.memo(
           stroke="lightgrey"
           cornerRadius={5}
         />
-        {section.subsections.map(subsection => {
+        {section.subsections.map((subsection) => {
           const subWidth = getSubsectionWidth(subsection);
           const pos = lastSubsectionX;
           lastSubsectionX += subWidth;

@@ -48,7 +48,6 @@
       var tr = new Konva.Transformer();
       layer.add(tr);
       tr.nodes([group]);
-      layer.draw();
 
       document.getElementById('button').addEventListener('click', addShape);
       addShape();
@@ -66,7 +65,6 @@
         );
         // force update manually
         tr.forceUpdate();
-        layer.draw();
       }
     </script>
   </body>

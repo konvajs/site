@@ -62,8 +62,6 @@
 
       stage.on('dragmove', () => {
         background.absolutePosition({ x: 0, y: 0 });
-        // you may need to add extra calculations here if you are changing scale, rotation of and parent of the background
-        layer.batchDraw();
       });
 
       // add demo shape
@@ -74,7 +72,6 @@
         fill: 'red',
       });
       layer.add(circle);
-      layer.draw();
     </script>
   </body>
 </html>

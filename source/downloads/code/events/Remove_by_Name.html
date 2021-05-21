@@ -23,20 +23,13 @@
   <body>
     <div id="container"></div>
     <div id="buttons">
-      <button id="remove1">
-        Remove First Listener
-      </button>
-      <button id="remove2">
-        Remove Second Listener
-      </button>
-      <button id="removeAll">
-        Remove All Listeners
-      </button>
+      <button id="remove1">Remove First Listener</button>
+      <button id="remove2">Remove Second Listener</button>
+      <button id="removeAll">Remove All Listeners</button>
     </div>
     <script>
       function writeMessage(message) {
         text.text(message);
-        layer.draw();
       }
 
       var stage = new Konva.Stage({

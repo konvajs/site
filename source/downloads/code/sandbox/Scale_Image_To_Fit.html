@@ -121,7 +121,6 @@
           pos
         );
         img.setAttrs(crop);
-        layer.draw();
       }
 
       Konva.Image.fromURL(
@@ -151,7 +150,6 @@
           });
 
           layer.add(tr);
-          layer.draw();
 
           img.on('transform', () => {
             // reset scale on transform

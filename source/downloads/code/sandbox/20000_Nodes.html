@@ -116,13 +116,11 @@
             .getText()
             .text('node: ' + node.id() + ', color: ' + node.fill());
           tooltip.show();
-          tooltipLayer.batchDraw();
         }
       });
 
       stage.on('mouseout', function (evt) {
         tooltip.hide();
-        tooltipLayer.draw();
       });
 
       var startLayer;
@@ -132,7 +130,6 @@
         if (shape) {
           startLayer = shape.getLayer();
           shape.moveTo(dragLayer);
-          startLayer.draw();
           // manually trigger drag and drop
           shape.startDrag();
         }
@@ -142,8 +139,6 @@
         var shape = evt.target;
         if (shape) {
           shape.moveTo(startLayer);
-          dragLayer.draw();
-          startLayer.draw();
         }
       });
     </script>
