@@ -27,12 +27,12 @@ npm install konva
 Or just use script tag:
 
 ```html
-<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
+<script src="https://unpkg.com/konva@8/konva.min.js"></script>
 ```
 
 Or download from CDN:
 
-* [Full version konva.js](https://unpkg.com/konva@7.0.3/konva.js)
-* [Min version konva.min.js](https://unpkg.com/konva@7.0.3/konva.min.js)
+- [Full version konva.js](https://unpkg.com/konva@8/konva.js)
+- [Min version konva.min.js](https://unpkg.com/konva@8/konva.min.js)
 
 ### [Read next: Overview](/docs/overview.html)
