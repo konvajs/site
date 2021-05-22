@@ -35,26 +35,23 @@
           'mousemove',
           'mouseup',
           'mouseout',
-          'touchstart',
-          'touchmove',
-          'touchend',
-          'mouseover',
           'wheel',
           'contextmenu',
           'pointerdown',
           'pointermove',
           'pointerup',
           'pointercancel',
-          'lostpointercapture'
+          'lostpointercapture',
         ];
-        EVENTS.forEach(eventName => {
-          htmlCanvas.addEventListener(eventName, e => {
+        EVENTS.forEach((eventName) => {
+          htmlCanvas.addEventListener(eventName, (e) => {
             w.postMessage({
               eventName,
               event: {
                 clientX: e.clientX,
-                clientY: e.clientY
-              }
+                clientY: e.clientY,
+                type: e,
+              },
             });
           });
         });
