@@ -107,7 +107,8 @@ self.onmessage = function (evt) {
 
   // pass incoming events into the stage
   if (evt.data.eventName) {
-    stage['_' + evt.data.eventName](evt.data.event);
+    const event = evt.data.eventName.replace('mouse', 'pointer');
+    stage['_' + event](evt.data.event);
   }
 };
 
@@ -118,9 +119,9 @@ function requestAnimationFrame(cb) {
 // that function is large and adapted from bunnies demo
 // the only interesting part here is how to load images to use for Konva.Image
 async function runBunnies() {
-  const imgBlob = await fetch(
-    'https://konvajs.org/assets/bunny.png'
-  ).then((r) => r.blob());
+  const imgBlob = await fetch('https://konvajs.org/assets/bunny.png').then(
+    (r) => r.blob()
+  );
   // use "createImageBitmap" instead of "new window.Image()"
   const img = await createImageBitmap(imgBlob);
 
