@@ -64,7 +64,7 @@
       layer.on('dragmove', function (e) {
         var target = e.target;
         var targetRect = e.target.getClientRect();
-        layer.children.each(function (group) {
+        layer.children.forEach(function (group) {
           // do not check intersection with itself
           if (group === target) {
             return;
