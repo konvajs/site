@@ -1,6 +1,10 @@
 title: HTML5 Canvas Batch Draw Tip
 ---
 
+**Update: this demo is not relevant with the new `konva@8`. In the new version, `Konva` is doing all batching draws automatically on any changes on canvas.**
+
+The demo may be still relevant if you use `Konva.autoDrawEnabled = false`.
+
 In some situations, we may want to update a Konva shape as fast as possible,
 but without causing too many redraws.  For example, if we want to update an
 element on the stage via mousemove, we don't want to redraw the layer with the

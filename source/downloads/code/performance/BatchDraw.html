@@ -17,6 +17,10 @@
   <body>
     <div id="container"></div>
     <script>
+      // disable auto draw for the demo
+      // most applications don't need that
+      Konva.autoDrawEnabled = false;
+
       var stage = new Konva.Stage({
         container: 'container',
         width: window.innerWidth,
@@ -47,6 +51,7 @@
 
       stage.on('mousemove', function () {
         rect.rotate(5);
+        layer.batchDraw();
       });
     </script>
   </body>
