@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Stage, Layer, Text } from 'react-konva';
-import { Spring, animated } from 'react-spring/renderprops-konva';
+import { Spring, animated } from '@react-spring/konva';
 
 class ColoredRect extends React.Component {
   state = { flag: false };
