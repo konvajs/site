@@ -23,16 +23,16 @@
       <div id="container"></div>
     </div>
     <script>
-      // let's think our stage virtual size will be 1000x1000px
+      // let's think our scene virtual size will be 1000x1000px
       // but the real size will be different to fit user's page
-      // so the stage will be 100% visible on any device
-      var stageWidth = 1000;
-      var stageHeight = 1000;
+      var sceneWidth = 1000;
+      var sceneHeight = 1000;
 
       var stage = new Konva.Stage({
         container: 'container',
-        width: stageWidth,
-        height: stageHeight,
+        // first just set set as is
+        width: sceneWidth,
+        height: sceneHeight,
       });
 
       var layer = new Konva.Layer();
@@ -60,13 +60,15 @@
       function fitStageIntoParentContainer() {
         var container = document.querySelector('#stage-parent');
 
-        // now we need to fit stage into parent
+        // now we need to fit stage into parent container
         var containerWidth = container.offsetWidth;
-        // to do this we need to scale the stage
-        var scale = containerWidth / stageWidth;
 
-        stage.width(stageWidth * scale);
-        stage.height(stageHeight * scale);
+        // but we also make the full scene visible
+        // so we need to scale all objects on canvas
+        var scale = containerWidth / sceneWidth;
+
+        stage.width(sceneWidth * scale);
+        stage.height(sceneHeight * scale);
         stage.scale({ x: scale, y: scale });
       }
 
