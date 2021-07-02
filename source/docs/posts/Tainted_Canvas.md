@@ -48,7 +48,9 @@ const MyImage = ({ url }) => {
 }
 ```
 
-**But it may not work for all cases. If it doesn't work, then you have to find a way to store images somewhere else. Like your own domain or a hosting that allows CORS requests.**
+### What if it doesn't work?
+
+**It may still not work for all cases. If it doesn't work, then you have to configure your server in a different way (it is out of Konva scope) or you can try to store images somewhere else where CORS requests are supported.**
 
 
 
