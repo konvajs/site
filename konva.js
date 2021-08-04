@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.1.2
+   * Konva JavaScript Framework v8.1.3
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Wed Aug 04 2021
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.1.2',
+      version: '8.1.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -7096,7 +7096,7 @@
   Shape.prototype.eventListeners = {};
   Shape.prototype.on.call(Shape.prototype, 'shadowColorChange.konva shadowBlurChange.konva shadowOffsetChange.konva shadowOpacityChange.konva shadowEnabledChange.konva', _clearHasShadowCache);
   Shape.prototype.on.call(Shape.prototype, 'shadowColorChange.konva shadowOpacityChange.konva shadowEnabledChange.konva', _clearGetShadowRGBACache);
-  Shape.prototype.on.call(Shape.prototype, 'fillPriorityChange.konva fillPatternImageChange.konva fillPatternRepeatChange.konva fillPatternScaleXChange.konva fillPatternScaleYChange.konva fillPatternOffsetX.konva fillPatternOffsetY.konva fillPatternXChange.konva fillPatternYChange.konva fillPatternRotation.konva', _clearFillPatternCache);
+  Shape.prototype.on.call(Shape.prototype, 'fillPriorityChange.konva fillPatternImageChange.konva fillPatternRepeatChange.konva fillPatternScaleXChange.konva fillPatternScaleYChange.konva fillPatternOffsetXChange.konva fillPatternOffsetYChange.konva fillPatternXChange.konva fillPatternYChange.konva fillPatternRotationChange.konva', _clearFillPatternCache);
   Shape.prototype.on.call(Shape.prototype, 'fillPriorityChange.konva fillLinearGradientColorStopsChange.konva fillLinearGradientStartPointXChange.konva fillLinearGradientStartPointYChange.konva fillLinearGradientEndPointXChange.konva fillLinearGradientEndPointYChange.konva', _clearLinearGradientCache);
   Shape.prototype.on.call(Shape.prototype, 'fillPriorityChange.konva fillRadialGradientColorStopsChange.konva fillRadialGradientStartPointXChange.konva fillRadialGradientStartPointYChange.konva fillRadialGradientEndPointXChange.konva fillRadialGradientEndPointYChange.konva fillRadialGradientStartRadiusChange.konva fillRadialGradientEndRadiusChange.konva', _clearRadialGradientCache);
   // add getters and setters
