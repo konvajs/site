@@ -5,10 +5,10 @@
 }(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.1.1
+   * Konva JavaScript Framework v8.1.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Jul 01 2021
+   * Date: Wed Aug 04 2021
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.1.1',
+      version: '8.1.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -11586,6 +11586,14 @@
       }
       _setImageLoad() {
           const image = this.image();
+          // check is image is already loaded
+          if (image && image.complete) {
+              return;
+          }
+          // check is video is already loaded
+          if (image && image.readyState === 4) {
+              return;
+          }
           if (image && image['addEventListener']) {
               image['addEventListener']('load', () => {
                   this._requestDraw();
