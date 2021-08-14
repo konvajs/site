@@ -57,10 +57,13 @@
       });
 
       // and core function - drawing
-      stage.on('mousemove touchmove', function () {
+      stage.on('mousemove touchmove', function (e) {
         if (!isPaint) {
           return;
         }
+
+        // prevent scrolling on touch devices
+        e.evt.preventDefault();
 
         const pos = stage.getPointerPosition();
         var newPoints = lastLine.points().concat([pos.x, pos.y]);
