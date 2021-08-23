@@ -239,6 +239,9 @@ demo_sidebar:
     Image Scale To Fit:
       - fit-image.jpg
       - sandbox/Scale_Image_To_Fit.html
+    Limit Resize and Drag:
+      - resize-limit.jpg
+      - sandbox/Limited_Drag_And_Resize.html
   Performance tests:
     Drag and Drop Stress Test:
       - drag_stress-min.png
