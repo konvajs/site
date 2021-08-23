@@ -8,6 +8,6 @@ eep it on its original position after the scale.
 
 _Instructions: try to drag or resize shapes out of canvas._
 
-{% iframe /downloads/code/sandbox/Mirror_Canvas_Shape.html %}
+{% iframe /downloads/code/sandbox/Limited_Drag_And_Resize.html %}
 
-{% include_code Konva Mirror Shape sandbox/Mirror_Canvas_Shape.html %}
+{% include_code sandbox/Limited_Drag_And_Resize.html %}
