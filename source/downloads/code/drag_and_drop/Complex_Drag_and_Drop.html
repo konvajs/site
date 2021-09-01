@@ -27,18 +27,15 @@
 
       var layer = new Konva.Layer();
 
-      // bound below y=50
       var blueGroup = new Konva.Group({
         x: 30,
         y: 70,
         draggable: true,
-        dragBoundFunc: function (pos) {
-          var newY = pos.y < 50 ? 50 : pos.y;
-          return {
-            x: pos.x,
-            y: newY,
-          };
-        },
+      });
+
+      // bound below y=50
+      blueGroup.on('dragmove', () => {
+        blueGroup.y(Math.max(blueGroup.y(), 50));
       });
 
       // bound inside a circle
@@ -46,19 +43,20 @@
         x: stage.width() / 2,
         y: 70,
         draggable: true,
-        dragBoundFunc: function (pos) {
-          var x = stage.width() / 2;
-          var y = 70;
-          var radius = 50;
-          var scale =
-            radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
-          if (scale < 1)
-            return {
-              y: Math.round((pos.y - y) * scale + y),
-              x: Math.round((pos.x - x) * scale + x),
-            };
-          else return pos;
-        },
+      });
+
+      yellowGroup.on('dragmove', () => {
+        var x = stage.width() / 2;
+        var y = 70;
+        var radius = 50;
+        const pos = yellowGroup.absolutePosition();
+        var scale =
+          radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+
+        if (scale < 1) {
+          yellowGroup.x(Math.round((pos.x - x) * scale + x));
+          yellowGroup.y(Math.round((pos.y - y) * scale + y));
+        }
       });
 
       var blueText = new Konva.Text({

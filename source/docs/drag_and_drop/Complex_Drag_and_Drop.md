@@ -3,10 +3,9 @@
 ## How to limit dragging ability with Konva?
 
 To bound the movement of nodes being dragged and dropped inside regions with
-Konva, we can use the `dragBoundFunc` property to define boundaries that
-the node cannot cross.
+Konva, we can use the `dragmove` event to define boundaries that the node cannot cross.
 
-**Note: `dragBoundsFunc` is working with absolute position of a node. So it has a new absolute position as argument and you need to return a new absolute position. In some situations it is not very comfortable way to work with limits. In that case you can control position of the node inside `dragmove` event.**
+_Tip: you can use `shape.absolutePosition()` method to get/set absolute position of a node, instead of relative `x` and `y`._
 
 Instructions: Drag and drop the the light blue rectangle and observe that it
 is bound below an imaginary boundary at y = 50. Drag and drop the yellow

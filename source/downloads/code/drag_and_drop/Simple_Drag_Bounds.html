@@ -26,9 +26,10 @@
       });
 
       var layer = new Konva.Layer();
+      // add the layer to the stage
+      stage.add(layer);
 
       var rectHeight = 50;
-      var rectWidth = 100;
       var rectY = (stage.height() - rectHeight) / 2;
 
       var hbox = new Konva.Text({
@@ -47,6 +48,13 @@
           };
         },
       });
+      layer.add(hbox);
+      var originalY = hbox.y();
+      hbox.on('dragmove', () => {
+        // we will keep new x position
+        // but reset y position to the original
+        hbox.y(originalY);
+      });
 
       var vbox = new Konva.Text({
         x: 150,
@@ -57,18 +65,14 @@
         text: 'vertical',
         fill: 'black',
         padding: 15,
-        dragBoundFunc: function (pos) {
-          return {
-            x: this.absolutePosition().x,
-            y: pos.y,
-          };
-        },
       });
-
-      layer.add(hbox);
       layer.add(vbox);
-      // add the layer to the stage
-      stage.add(layer);
+      var originalX = vbox.x();
+      vbox.on('dragmove', () => {
+        // we will keep new x position
+        // but reset y position to the original
+        vbox.x(originalX);
+      });
     </script>
   </body>
 </html>
