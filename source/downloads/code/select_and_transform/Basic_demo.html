@@ -82,7 +82,7 @@
       });
 
       stage.on('mousemove touchmove', () => {
-        // no nothing if we didn't start selection
+        // do nothing if we didn't start selection
         if (!selectionRectangle.visible()) {
           return;
         }
@@ -98,7 +98,7 @@
       });
 
       stage.on('mouseup touchend', () => {
-        // no nothing if we didn't start selection
+        // do nothing if we didn't start selection
         if (!selectionRectangle.visible()) {
           return;
         }
