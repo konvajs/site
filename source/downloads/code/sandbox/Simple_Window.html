@@ -309,7 +309,7 @@
       }
 
       function updateCanvas() {
-        layer.children.destroy();
+        layer.children.forEach((child) => child.destroy());
 
         var frameWidth = parseInt(widthInput.value, 10);
         var frameHeight = parseInt(heightInput.value, 10);
