@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.2.2
+   * Konva JavaScript Framework v8.2.3
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Oct 06 2021
+   * Date: Fri Oct 22 2021
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.2.2',
+      version: '8.2.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1070,8 +1070,8 @@
       },
       _getFirstPointerId(evt) {
           if (!evt.touches) {
-              // fake id for mouse
-              return 999;
+              // try to use pointer id or fake id
+              return evt.pointerId || 999;
           }
           else {
               return evt.changedTouches[0].identifier;
