@@ -71,6 +71,7 @@
         if (e.target !== stage) {
           return;
         }
+        e.evt.preventDefault();
         x1 = stage.getPointerPosition().x;
         y1 = stage.getPointerPosition().y;
         x2 = stage.getPointerPosition().x;
@@ -86,6 +87,7 @@
         if (!selectionRectangle.visible()) {
           return;
         }
+        e.evt.preventDefault();
         x2 = stage.getPointerPosition().x;
         y2 = stage.getPointerPosition().y;
 
@@ -102,6 +104,7 @@
         if (!selectionRectangle.visible()) {
           return;
         }
+        e.evt.preventDefault();
         // update visibility in timeout, so we can check it in click event
         setTimeout(() => {
           selectionRectangle.visible(false);
