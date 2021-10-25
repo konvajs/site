@@ -82,7 +82,7 @@
         selectionRectangle.height(0);
       });
 
-      stage.on('mousemove touchmove', () => {
+      stage.on('mousemove touchmove', (e) => {
         // do nothing if we didn't start selection
         if (!selectionRectangle.visible()) {
           return;
@@ -99,7 +99,7 @@
         });
       });
 
-      stage.on('mouseup touchend', () => {
+      stage.on('mouseup touchend', (e) => {
         // do nothing if we didn't start selection
         if (!selectionRectangle.visible()) {
           return;
