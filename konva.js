@@ -5,7 +5,7 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.2.4
+   * Konva JavaScript Framework v8.3.0
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Mon Nov 15 2021
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.2.4',
+      version: '8.3.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14977,13 +14977,17 @@
           var stage = anchorNode.getStage();
           stage.setPointersPositions(e);
           const pp = stage.getPointerPosition();
-          var newNodePos = {
+          let newNodePos = {
               x: pp.x - this._anchorDragOffset.x,
               y: pp.y - this._anchorDragOffset.y,
           };
           const oldAbs = anchorNode.getAbsolutePosition();
+          if (this.anchorDragBoundFunc()) {
+              newNodePos = this.anchorDragBoundFunc()(oldAbs, newNodePos, e);
+          }
           anchorNode.setAbsolutePosition(newNodePos);
           const newAbs = anchorNode.getAbsolutePosition();
+          // console.log(oldAbs, newNodePos, newAbs);
           if (oldAbs.x === newAbs.x && oldAbs.y === newAbs.y) {
               return;
           }
@@ -15792,6 +15796,25 @@
    * });
    */
   Factory.addGetterSetter(Transformer, 'boundBoxFunc');
+  /**
+   * get/set dragging func for transformer anchors
+   * @name Konva.Transformer#anchorDragBoundFunc
+   * @method
+   * @param {Function} func
+   * @returns {Function}
+   * @example
+   * // get
+   * var anchorDragBoundFunc = transformer.anchorDragBoundFunc();
+   *
+   * // set
+   * transformer.anchorDragBoundFunc(function(oldAbsPos, newAbsPos, event) {
+   *  return {
+   *   x: 0,
+   *   y: newAbsolutePosition.y
+   *  }
+   * });
+   */
+  Factory.addGetterSetter(Transformer, 'anchorDragBoundFunc');
   /**
    * using this setting you can drag transformer group by dragging empty space between attached nodes
    * shouldOverdrawWholeArea = true may temporary disable all events on attached nodes
