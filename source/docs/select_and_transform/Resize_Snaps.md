@@ -15,6 +15,10 @@ transformer.anchorDragBoundFunc(function (oldAbsPos, newAbsPos, event) {
 });
 ```
 
+In the demo we will try to implement snapping for resizing. There are many implementations possible.
+
+**Instructions: Try to resize a shape. You will see how transformer is trying to snap to guide lines.**
+
 {% iframe /downloads/code/select_and_transform/Resize_Snaps.html %}
 
 {% include_code Konva Shape transform and selection Demo select_and_transform/Resize_Snaps.html %}

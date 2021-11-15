@@ -70,10 +70,26 @@
       const tr = new Konva.Transformer({
         nodes: [rect],
         anchorDragBoundFunc: function (oldPos, newPos, event) {
+          // oldPos - is old absolute position of the anchor
+          // newPos - is a new (possible) absolute position of the anchor based on pointer position
+          // it is possible that anchor will have a different absolute position after this function
+          // because every anchor has its own limits on position, based on resizing logic
+
           // do not snap rotating point
           if (tr.getActiveAnchor() === 'rotater') {
             return newPos;
           }
+
+          const dist = Math.sqrt(
+            Math.pow(newPos.x - oldPos.x, 2) + Math.pow(newPos.y - oldPos.y, 2)
+          );
+
+          // do not do any snapping with new absolute position (pointer position)
+          // is too far away from old position
+          if (dist > 10) {
+            return newPos;
+          }
+
           const closestX = Math.round(newPos.x / cellWidth) * cellWidth;
           const diffX = Math.abs(newPos.x - closestX);
 
@@ -83,8 +99,8 @@
           const snappedX = diffX < 10;
           const snappedY = diffY < 10;
 
-          // a bit different snap stratagies based on snap direction
-          // we need to resuse old position for better UX
+          // a bit different snap strategies based on snap direction
+          // we need to reuse old position for better UX
           if (snappedX && !snappedY) {
             return {
               x: closestX,
