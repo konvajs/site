@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.3.0
+   * Konva JavaScript Framework v8.3.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Nov 15 2021
+   * Date: Thu Dec 09 2021
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.3.0',
+      version: '8.3.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3449,11 +3449,14 @@
               Util.warn('Node has no parent. moveToTop function is ignored.');
               return false;
           }
-          var index = this.index;
-          this.parent.children.splice(index, 1);
-          this.parent.children.push(this);
-          this.parent._setChildrenIndices();
-          return true;
+          var index = this.index, len = this.parent.getChildren().length;
+          if (index < len - 1) {
+              this.parent.children.splice(index, 1);
+              this.parent.children.push(this);
+              this.parent._setChildrenIndices();
+              return true;
+          }
+          return false;
       }
       /**
        * move node up
@@ -6251,15 +6254,13 @@
               const pointerId = pos.id;
               const event = { evt: evt, pointerId };
               let fireDblClick = false;
-              if (Konva$2['_' + eventType + 'InDblClickWindow'] &&
-                  Konva$2['_' + eventType + 'InDblClickWindowId'] === pointerId) {
+              if (Konva$2['_' + eventType + 'InDblClickWindow']) {
                   fireDblClick = true;
                   clearTimeout(this[eventType + 'DblTimeout']);
               }
               else if (!DD.justDragged) {
                   // don't set inDblClickWindow after dragging
                   Konva$2['_' + eventType + 'InDblClickWindow'] = true;
-                  Konva$2['_' + eventType + 'InDblClickWindowId'] = pointerId;
                   clearTimeout(this[eventType + 'DblTimeout']);
               }
               this[eventType + 'DblTimeout'] = setTimeout(function () {
@@ -9718,6 +9719,32 @@
       }
       setHeight(height) {
           this.outerRadius(height / 2);
+      }
+      getSelfRect() {
+          const radius = this.outerRadius();
+          const DEG_TO_RAD = Math.PI / 180;
+          const angle = this.angle() * DEG_TO_RAD;
+          const inc = 1 * DEG_TO_RAD;
+          let end = angle + inc;
+          if (this.clockwise()) {
+              end = 360;
+          }
+          const xs = [];
+          const ys = [];
+          for (let i = 0; i < end; i += inc) {
+              xs.push(Math.cos(i));
+              ys.push(Math.sin(i));
+          }
+          const minX = Math.round(radius * Math.min(...xs));
+          const maxX = Math.round(radius * Math.max(...xs));
+          const minY = Math.round(radius * Math.min(...ys));
+          const maxY = Math.round(radius * Math.max(...ys));
+          return {
+              x: minX || 0,
+              y: minY || 0,
+              width: maxX - minX,
+              height: maxY - minY
+          };
       }
   }
   Arc.prototype._centroid = true;
