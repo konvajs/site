@@ -18,19 +18,18 @@
 
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
-  media="print"
-  onload="this.media='all'"
+  href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha"
 />
 <script
   type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"
+  src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"
 ></script>
 <script type="text/javascript">
   docsearch({
-    apiKey: '031987a5aa012671236e1d4992009b4f',
+    apiKey: '79bc02f9230d7d4c985e6f543a0a6427',
+    appId: '8J5ZKQ6RXR',
     indexName: 'konvajs',
-    inputSelector: '#search',
+    container: '#search-container',
     algoliaOptions: {
       hitsPerPage: 10,
       // See https://www.algolia.com/doc/api-reference/api-parameters/
@@ -46,7 +45,7 @@
     //   });
     //   return suggestions.slice(0, 10);
     // },
-    debug: true, // Set debug to true if you want to inspect the dropdown
+    debug: false, // Set debug to true if you want to inspect the dropdown
   });
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
