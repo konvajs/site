@@ -2,7 +2,7 @@ title: HTML5 Canvas Desktop and Mobile Events Support Tutorial
 
 ---
 
-_Note: this demo may be outdate, because modern browsers support pointer events. And you can use pointer events in Konva too. See [Pointer Events Demo](/docs/events/Pointer_Evens.html). But if you prefer not to use pointer events, keep reading..._
+_Note: this demo may be outdate, because modern browsers support pointer events. And you can use pointer events in Konva too. See [Pointer Events Demo](/docs/events/Pointer_Events.html). But if you prefer not to use pointer events, keep reading..._
 
 To add event handlers to shapes that work for both desktop and mobile applications with Konva, we can use the `on()` method and pass in paired events.
 For example, in order for the `mousedown` event to be triggered on desktop and mobile applications, we can use the `"mousedown touchstart"` event pair to cover both mediums.
