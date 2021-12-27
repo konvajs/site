@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@8.3.1/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Pointer Events Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      function writeMessage(message) {
+        text.text(message);
+      }
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+
+      var layer = new Konva.Layer();
+
+      var triangle = new Konva.RegularPolygon({
+        x: 80,
+        y: 120,
+        sides: 3,
+        radius: 80,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 4,
+      });
+
+      var text = new Konva.Text({
+        x: 10,
+        y: 10,
+        fontFamily: 'Calibri',
+        fontSize: 24,
+        text: '',
+        fill: 'black',
+      });
+
+      var circle = new Konva.Circle({
+        x: 230,
+        y: 100,
+        radius: 60,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 4,
+      });
+
+      triangle.on('pointermove', function () {
+        var pointerPos = stage.getPointerPosition();
+        var x = pointerPos.x - 190;
+        var y = pointerPos.y - 40;
+        writeMessage('x: ' + x + ', y: ' + y);
+      });
+
+      circle.on('pointerdown', function () {
+        writeMessage('pointerdown circle');
+      });
+      circle.on('pointerup', function () {
+        writeMessage('pointerup circle');
+      });
+
+      circle.on('pointerdblclick', function () {
+        writeMessage('pointerdblclick circle');
+      });
+
+      layer.add(triangle);
+      layer.add(circle);
+      layer.add(text);
+
+      // add the layer to the stage
+      stage.add(layer);
+    </script>
+  </body>
+</html>
