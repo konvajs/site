@@ -413,6 +413,7 @@ vue_sidebar:
     Transformer: vue/Transformer.html
     Simple Animations: vue/Simple_Animations.html
     Cache: vue/Cache.html
+    Changing zIndex: vue/zIndex.html
 
 fb_admins:
 twitter: lavrton
