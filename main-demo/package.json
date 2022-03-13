@@ -8,10 +8,10 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "konva": "8.3.3"
+    "konva": "8.3.4"
   },
   "devDependencies": {
-    "@babel/core": "8.3.3",
+    "@babel/core": "8.3.4",
     "parcel-bundler": "^1.6.1"
   }
 }

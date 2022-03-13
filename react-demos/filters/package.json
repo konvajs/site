@@ -8,7 +8,7 @@
     "konva"
   ],
   "dependencies": {
-    "konva": "8.3.3",
+    "konva": "8.3.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-konva": "17.0.2-0",
