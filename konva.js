@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.3.4
+   * Konva JavaScript Framework v8.3.5
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sun Mar 13 2022
+   * Date: Mon Mar 21 2022
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.3.4',
+      version: '8.3.5',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -3975,9 +3975,11 @@
       _toKonvaCanvas(config) {
           config = config || {};
           var box = this.getClientRect();
-          var stage = this.getStage(), x = config.x !== undefined ? config.x : box.x, y = config.y !== undefined ? config.y : box.y, pixelRatio = config.pixelRatio || 1, canvas = new SceneCanvas({
-              width: config.width || box.width || (stage ? stage.width() : 0),
-              height: config.height || box.height || (stage ? stage.height() : 0),
+          var stage = this.getStage(), x = config.x !== undefined ? config.x : Math.floor(box.x), y = config.y !== undefined ? config.y : Math.floor(box.y), pixelRatio = config.pixelRatio || 1, canvas = new SceneCanvas({
+              width: config.width || Math.ceil(box.width) || (stage ? stage.width() : 0),
+              height: config.height ||
+                  Math.ceil(box.height) ||
+                  (stage ? stage.height() : 0),
               pixelRatio: pixelRatio,
           }), context = canvas.getContext();
           context.save();
