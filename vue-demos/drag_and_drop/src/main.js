@@ -1,13 +1,7 @@
-import Vue from 'vue';
-import App from './App';
-
+import { createApp } from 'vue';
+import App from './App.vue';
 import VueKonva from 'vue-konva';
 
-Vue.use(VueKonva);
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  components: { App },
-  template: '<App/>'
-});
+const app = createApp(App);
+app.use(VueKonva);
+app.mount('#app');
