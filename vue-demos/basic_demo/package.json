@@ -6,8 +6,8 @@
   "private": true,
   "dependencies": {
     "konva": "8.3.4",
-    "vue": "^2.6.11",
-    "vue-konva": "2.1.5"
+    "vue": "^3.2",
+    "vue-konva": "3.0.0"
   },
   "keywords": [
     "vue",
