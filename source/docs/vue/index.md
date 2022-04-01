@@ -24,11 +24,33 @@ To get more info about `Konva` you can read [Konva Overview](https://konvajs.org
 
 ### 1 Install via npm
 
+`vue@3`:
+
 ```npm
 npm install vue-konva konva --save
 ```
 
+`vue@2`:
+
+```npm
+npm install vue-konva@2 konva --save
+```
+
 ### 2 Import and use VueKonva
+
+`vue@3`:
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import VueKonva from 'vue-konva';
+
+const app = createApp(App);
+app.use(VueKonva);
+app.mount('#app');
+```
+
+`vue@2`:
 
 ```javascript
 import Vue from 'vue';
