@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Image } from 'react-konva';
 import useImage from 'use-image';
 
@@ -17,7 +17,7 @@ const LionImage = () => {
 // and then we will set it to native image instance when it is loaded
 class URLImage extends React.Component {
   state = {
-    image: null
+    image: null,
   };
   componentDidMount() {
     this.loadImage();
@@ -40,7 +40,7 @@ class URLImage extends React.Component {
     // after setState react-konva will update canvas and redraw the layer
     // because "image" property is changed
     this.setState({
-      image: this.image
+      image: this.image,
     });
     // if you keep same image object during source updates
     // you will have to update layer manually:
@@ -52,7 +52,7 @@ class URLImage extends React.Component {
         x={this.props.x}
         y={this.props.y}
         image={this.state.image}
-        ref={node => {
+        ref={(node) => {
           this.imageNode = node;
         }}
       />
@@ -73,4 +73,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

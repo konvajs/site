@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Line, Text } from 'react-konva';
 
 const App = () => {
@@ -72,4 +72,6 @@ const App = () => {
   );
 };
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

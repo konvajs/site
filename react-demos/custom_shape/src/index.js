@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Shape } from 'react-konva';
 
 class App extends Component {
@@ -28,4 +28,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

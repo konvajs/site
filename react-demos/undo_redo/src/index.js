@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 
 let history = [
   {
     x: 20,
-    y: 20
-  }
+    y: 20,
+  },
 ];
 let historyStep = 0;
 
 class App extends Component {
   state = {
-    position: history[0]
+    position: history[0],
   };
 
   handleUndo = () => {
@@ -22,7 +22,7 @@ class App extends Component {
     historyStep -= 1;
     const previous = history[historyStep];
     this.setState({
-      position: previous
+      position: previous,
     });
   };
 
@@ -33,20 +33,20 @@ class App extends Component {
     historyStep += 1;
     const next = history[historyStep];
     this.setState({
-      position: next
+      position: next,
     });
   };
 
-  handleDragEnd = e => {
+  handleDragEnd = (e) => {
     history = history.slice(0, historyStep + 1);
     const pos = {
       x: e.target.x(),
-      y: e.target.y()
+      y: e.target.y(),
     };
     history = history.concat([pos]);
     historyStep += 1;
     this.setState({
-      position: pos
+      position: pos,
     });
   };
   render() {
@@ -70,4 +70,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

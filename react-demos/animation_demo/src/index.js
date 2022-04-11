@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 
 import { Trail, animated, Globals } from 'react-spring/dist/konva';
 
 Globals.injectFrame(
-  x => requestAnimationFrame(x),
-  x => cancelAnimationFrame(x)
+  (x) => requestAnimationFrame(x),
+  (x) => cancelAnimationFrame(x)
 );
 
 class App extends Component {
   state = {
     toggle: true,
-    items: ['item1', 'item2', 'item3', 'item4', 'item5']
+    items: ['item1', 'item2', 'item3', 'item4', 'item5'],
   };
-  toggle = () => this.setState(state => ({ toggle: !state.toggle }));
+  toggle = () => this.setState((state) => ({ toggle: !state.toggle }));
 
   render() {
     const { toggle, items } = this.state;
@@ -46,4 +46,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

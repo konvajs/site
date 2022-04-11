@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Konva from 'konva';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Circle } from 'react-konva';
 
 function generateItems() {
@@ -10,7 +10,7 @@ function generateItems() {
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       id: 'node-' + i,
-      color: Konva.Util.getRandomColor()
+      color: Konva.Util.getRandomColor(),
     });
   }
   return items;
@@ -18,31 +18,31 @@ function generateItems() {
 
 class App extends Component {
   state = {
-    items: generateItems()
+    items: generateItems(),
   };
-  handleDragStart = e => {
+  handleDragStart = (e) => {
     const id = e.target.name();
     const items = this.state.items.slice();
-    const item = items.find(i => i.id === id);
+    const item = items.find((i) => i.id === id);
     const index = items.indexOf(item);
     // remove from the list:
     items.splice(index, 1);
     // add to the top
     items.push(item);
     this.setState({
-      items
+      items,
     });
   };
-  onDragEnd = e => {
+  onDragEnd = (e) => {
     const id = e.target.name();
     const items = this.state.items.slice();
-    const item = this.state.items.find(i => i.id === id);
+    const item = this.state.items.find((i) => i.id === id);
     const index = this.state.items.indexOf(item);
     // update item position
     items[index] = {
       ...item,
       x: e.target.x(),
-      y: e.target.y()
+      y: e.target.y(),
     };
     this.setState({ items });
   };
@@ -50,7 +50,7 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          {this.state.items.map(item => (
+          {this.state.items.map((item) => (
             <Circle
               key={item.id}
               name={item.id}
@@ -69,4 +69,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

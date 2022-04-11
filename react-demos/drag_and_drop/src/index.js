@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Text } from 'react-konva';
 
 class App extends Component {
   state = {
     isDragging: false,
     x: 50,
-    y: 50
+    y: 50,
   };
 
   render() {
@@ -21,14 +21,14 @@ class App extends Component {
             fill={this.state.isDragging ? 'green' : 'black'}
             onDragStart={() => {
               this.setState({
-                isDragging: true
+                isDragging: true,
               });
             }}
-            onDragEnd={e => {
+            onDragEnd={(e) => {
               this.setState({
                 isDragging: false,
                 x: e.target.x(),
-                y: e.target.y()
+                y: e.target.y(),
               });
             }}
           />
@@ -38,4 +38,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

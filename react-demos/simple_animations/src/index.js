@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Rect } from 'react-konva';
 
 class MyRect extends React.Component {
@@ -8,13 +8,13 @@ class MyRect extends React.Component {
     this.rect.to({
       scaleX: Math.random() + 0.8,
       scaleY: Math.random() + 0.8,
-      duration: 0.2
+      duration: 0.2,
     });
   };
   render() {
     return (
       <Rect
-        ref={node => {
+        ref={(node) => {
           this.rect = node;
         }}
         width={50}
@@ -40,4 +40,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

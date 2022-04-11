@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Rect } from 'react-konva';
 
 // function from https://stackoverflow.com/a/15832662/512042
@@ -49,4 +49,6 @@ const App = () => {
   );
 };
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Text } from 'react-konva';
 import { Spring, animated } from '@react-spring/konva';
 
 class ColoredRect extends React.Component {
   state = { flag: false };
-  handleClick = () => this.setState(state => ({ flag: !state.flag }));
+  handleClick = () => this.setState((state) => ({ flag: !state.flag }));
   render() {
     const { flag } = this.state;
     return (
@@ -17,10 +17,10 @@ class ColoredRect extends React.Component {
           shadowBlur: flag ? 25 : 5,
           fill: flag ? 'seagreen' : 'hotpink',
           width: flag ? 300 : 50,
-          height: flag ? 300 : 50
+          height: flag ? 300 : 50,
         }}
       >
-        {props => (
+        {(props) => (
           <animated.Rect {...props} y={50} onClick={this.handleClick} />
         )}
       </Spring>
@@ -41,4 +41,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);
