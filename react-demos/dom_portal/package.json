@@ -9,9 +9,9 @@
   ],
   "dependencies": {
     "konva": "8.3.5",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-konva": "17.0.2-0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-konva": "18.0.0-0",
     "react-konva-utils": "0.1.1"
   },
   "devDependencies": {
