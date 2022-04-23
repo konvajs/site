@@ -33,6 +33,6 @@ class App extends Component {
   }
 }
 
-ReactDOM.const container = document.getElementById('root');
-const root = createRoot(container);
-root.render(<App  />);
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
