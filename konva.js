@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.3.5
+   * Konva JavaScript Framework v8.3.6
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Mar 21 2022
+   * Date: Wed Apr 27 2022
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.3.5',
+      version: '8.3.6',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -369,17 +369,6 @@
        */
       getMatrix() {
           return this.m;
-      }
-      /**
-       * set to absolute position via translation
-       * @method
-       * @name Konva.Transform#setAbsolutePosition
-       * @returns {Konva.Transform}
-       * @author ericdrowell
-       */
-      setAbsolutePosition(x, y) {
-          var m0 = this.m[0], m1 = this.m[1], m2 = this.m[2], m3 = this.m[3], m4 = this.m[4], m5 = this.m[5], yt = (m0 * (y - m5) - m1 * (x - m4)) / (m0 * m3 - m1 * m2), xt = (x - m4 - m2 * yt) / m0;
-          return this.translate(xt, yt);
       }
       /**
        * convert transformation matrix back into node's attributes
@@ -3982,6 +3971,9 @@
                   (stage ? stage.height() : 0),
               pixelRatio: pixelRatio,
           }), context = canvas.getContext();
+          if (config.imageSmoothingEnabled === false) {
+              context._context.imageSmoothingEnabled = false;
+          }
           context.save();
           if (x || y) {
               context.translate(-1 * x, -1 * y);
@@ -4004,6 +3996,7 @@
        * You can use that property to increase quality of the image, for example for super hight quality exports
        * or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image.
        * If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+       * @param {Boolean} [config.imageSmoothingEnabled] set this to false if you want to disable imageSmoothing
        * @example
        * var canvas = node.toCanvas();
        */
@@ -4030,6 +4023,7 @@
        * You can use that property to increase quality of the image, for example for super hight quality exports
        * or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image.
        * If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+       * @param {Boolean} [config.imageSmoothingEnabled] set this to false if you want to disable imageSmoothing
        * @returns {String}
        */
       toDataURL(config) {
@@ -4062,6 +4056,7 @@
        * You can use that property to increase quality of the image, for example for super hight quality exports
        * or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image.
        * If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+       * @param {Boolean} [config.imageSmoothingEnabled] set this to false if you want to disable imageSmoothing
        * @example
        * var image = node.toImage({
        *   callback(img) {
