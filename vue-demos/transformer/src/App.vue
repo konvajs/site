@@ -76,6 +76,10 @@ export default {
       rect.fill = Konva.Util.getRandomColor();
     },
     handleStageMouseDown(e) {
+      // filter native events
+      if (!e.evt) {
+        return;
+      }
       // clicked on stage - clear selection
       if (e.target === e.target.getStage()) {
         this.selectedShapeName = '';
