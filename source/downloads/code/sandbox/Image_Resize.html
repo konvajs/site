@@ -22,14 +22,14 @@
       function update(activeAnchor) {
         var group = activeAnchor.getParent();
 
-        var topLeft = group.get('.topLeft')[0];
-        var topRight = group.get('.topRight')[0];
-        var bottomRight = group.get('.bottomRight')[0];
-        var bottomLeft = group.get('.bottomLeft')[0];
-        var image = group.get('Image')[0];
+        var topLeft = group.findOne('.topLeft');
+        var topRight = group.findOne('.topRight');
+        var bottomRight = group.findOne('.bottomRight');
+        var bottomLeft = group.findOne('.bottomLeft');
+        var image = group.findOne('Image');
 
-        var anchorX = activeAnchor.getX();
-        var anchorY = activeAnchor.getY();
+        var anchorX = activeAnchor.x();
+        var anchorY = activeAnchor.y();
 
         // update anchor positions
         switch (activeAnchor.getName()) {
@@ -53,8 +53,8 @@
 
         image.position(topLeft.position());
 
-        var width = topRight.getX() - topLeft.getX();
-        var height = bottomLeft.getY() - topLeft.getY();
+        var width = topRight.x() - topLeft.x();
+        var height = bottomLeft.y() - topLeft.y();
         if (width && height) {
           image.width(width);
           image.height(height);
