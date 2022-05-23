@@ -6,7 +6,7 @@ Pointer events can be useful to handle both mobile and desktop events with one h
 
 To bind pointer event handlers to shapes with Konva, we can use the `on()` method.
 The `on()` method requires an event type and a function to be executed when the event occurs.
-Konva supports `pointerdown`, `pointermove`, `pointereup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`,`pointerleave`, `pointerclick`, `pointerdblclick` events.
+Konva supports `pointerdown`, `pointermove`, `pointerup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`,`pointerleave`, `pointerclick`, `pointerdblclick` events.
 
 _Note: This example works on both mobile and desktop devices._
 
