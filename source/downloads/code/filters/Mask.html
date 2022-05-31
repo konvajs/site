@@ -64,7 +64,7 @@
         stage.add(layer);
         var slider = document.getElementById('slider');
         slider.oninput = function () {
-          vader.threshold(slider.value);
+          vader.threshold(parseInt(slider.value, 10));
         };
       }
 
