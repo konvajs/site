@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.3.9
+   * Konva JavaScript Framework v8.3.10
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon May 30 2022
+   * Date: Mon Jun 20 2022
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.3.9',
+      version: '8.3.10',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -15493,6 +15493,11 @@
       // we will recreate inner nodes manually
       toObject() {
           return Node.prototype.toObject.call(this);
+      }
+      getClientRect() {
+          // return zero size
+          // so it will be skipped in calculations
+          return { x: 0, y: 0, width: 0, height: 0 };
       }
   }
   function validateAnchors(val) {
