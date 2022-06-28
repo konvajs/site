@@ -2433,7 +2433,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    */
   class Node {
       constructor(config) {
@@ -5115,8 +5114,7 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
-   *      * @param {Object} [config.clip] set clip
+   * @param {Object} [config.clip] set clip
      * @param {Number} [config.clipX] set clip x
      * @param {Number} [config.clipY] set clip y
      * @param {Number} [config.clipWidth] set clip width
@@ -5818,7 +5816,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var stage = new Konva.Stage({
    *   width: 500,
@@ -6639,7 +6636,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var customShape = new Konva.Shape({
    *   x: 5,
@@ -8161,8 +8157,7 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
-   *      * @param {Object} [config.clip] set clip
+   * @param {Object} [config.clip] set clip
      * @param {Number} [config.clipX] set clip x
      * @param {Number} [config.clipY] set clip y
      * @param {Number} [config.clipWidth] set clip width
@@ -8610,7 +8605,7 @@
    * @constructor
    * @memberof Konva
    * @augments Konva.Layer
-   *      * @param {Object} [config.clip] set clip
+   * @param {Object} [config.clip] set clip
      * @param {Number} [config.clipX] set clip x
      * @param {Number} [config.clipY] set clip y
      * @param {Number} [config.clipWidth] set clip width
@@ -8656,8 +8651,7 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
-   *      * @param {Object} [config.clip] set clip
+   * @param {Object} [config.clip] set clip
      * @param {Number} [config.clipX] set clip x
      * @param {Number} [config.clipY] set clip y
      * @param {Number} [config.clipWidth] set clip width
@@ -9702,7 +9696,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * // draw a Arc that's pointing downwards
    * var arc = new Konva.Arc({
@@ -9928,7 +9921,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var line = new Konva.Line({
    *   x: 100,
@@ -10217,7 +10209,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var path = new Konva.Path({
    *   x: 240,
@@ -11047,7 +11038,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var line = new Konva.Line({
    *   points: [73, 70, 340, 23, 450, 60, 500, 20],
@@ -11292,7 +11282,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * // create circle
    * var circle = new Konva.Circle({
@@ -11426,7 +11415,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var ellipse = new Konva.Ellipse({
    *   radius : {
@@ -11597,7 +11585,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var imageObj = new Image();
    * imageObj.onload = function() {
@@ -11849,7 +11836,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * // create label
    * var label = new Konva.Label({
@@ -12183,7 +12169,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var rect = new Konva.Rect({
    *   width: 100,
@@ -12332,7 +12317,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var hexagon = new Konva.RegularPolygon({
    *   x: 100,
@@ -12516,7 +12500,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var ring = new Konva.Ring({
    *   innerRadius: 40,
@@ -12666,7 +12649,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var imageObj = new Image();
    * imageObj.onload = function() {
@@ -13032,7 +13014,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var star = new Konva.Star({
    *   x: 100,
@@ -13277,7 +13258,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var text = new Konva.Text({
    *   x: 10,
@@ -13949,7 +13929,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * var kerningPairs = {
    *   'A': {
@@ -16000,7 +15979,6 @@
      *  the entire stage by dragging any portion of the stage
      * @param {Number} [config.dragDistance]
      * @param {Function} [config.dragBoundFunc]
-
    * @example
    * // draw a wedge that's pointing downwards
    * var wedge = new Konva.Wedge({
