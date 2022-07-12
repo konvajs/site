@@ -52,6 +52,7 @@ const App = () => {
               strokeWidth={5}
               tension={0.5}
               lineCap="round"
+              lineJoin="round"
               globalCompositeOperation={
                 line.tool === 'eraser' ? 'destination-out' : 'source-over'
               }
