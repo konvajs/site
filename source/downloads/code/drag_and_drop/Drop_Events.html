@@ -56,6 +56,7 @@
 
       stage.on('dragstart', function (e) {
         e.target.moveTo(tempLayer);
+        layer.draw();
         text.text('Moving ' + e.target.name());
       });
 
@@ -69,8 +70,6 @@
             previousShape.fire(
               'dragleave',
               {
-                type: 'dragleave',
-                target: previousShape,
                 evt: evt.evt,
               },
               true
@@ -80,8 +79,6 @@
             shape.fire(
               'dragenter',
               {
-                type: 'dragenter',
-                target: shape,
                 evt: evt.evt,
               },
               true
@@ -91,8 +88,6 @@
             previousShape.fire(
               'dragover',
               {
-                type: 'dragover',
-                target: previousShape,
                 evt: evt.evt,
               },
               true
@@ -103,8 +98,6 @@
           shape.fire(
             'dragenter',
             {
-              type: 'dragenter',
-              target: shape,
               evt: evt.evt,
             },
             true
@@ -113,8 +106,6 @@
           previousShape.fire(
             'dragleave',
             {
-              type: 'dragleave',
-              target: previousShape,
               evt: evt.evt,
             },
             true
@@ -129,8 +120,6 @@
           previousShape.fire(
             'drop',
             {
-              type: 'drop',
-              target: previousShape,
               evt: e.evt,
             },
             true
