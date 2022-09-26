@@ -1,4 +1,4 @@
-title: How to implement undo/react on canvas with React?
+title: How to implement undo/redo on canvas with React?
 layout: react_page
 ---
 
