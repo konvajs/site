@@ -129,8 +129,10 @@
         stage.add(messageLayer);
 
         // draw planets
-        var planetsContext = planetsLayer.getContext();
-        planetsContext.drawImage(imageObj, 0, 0);
+        var planetsImage = new Konva.Image({
+          image: imageObj,
+        });
+        planetsLayer.add(planetsImage);
       };
       imageObj.src = '/assets/planets.png';
     </script>
