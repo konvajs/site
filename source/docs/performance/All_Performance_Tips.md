@@ -14,7 +14,7 @@ The HTML5 canvas is efficient at what it does and internally `Konva` has many fe
 
 The optimizations here focus on two general rules:
 
-* Compute as little as possible: all computation takes time to complete. Each individual computation may run in a tiny fraction of a second, but the thousands or millions of computations caused by your code, Konva, JavaScript, and the layers below that, will add up to something more observable by the human eye if that super-slick animation or effect  is, in fact, jerky. 
+* Compute as little as possible: all computation takes time to complete. Each individual computation may run in a tiny fraction of a second, but the thousands or millions of computations caused by your code, Konva, JavaScript, and the layers below that, will add up to something more observable by the human eye if that super-slick animation or effect is, in fact, jerky. 
 
 * **Draw as little as possible**: this is important because all drawing has a performance cost. There are two categories of cost - firstly the computation of the drawing which we covered in the point above, and then the movement of the drawing from memory to the screen. Depending on the case, there may also be intermediate off-screen compositing or per-pixel processing. The rule is therefore do as little drawing as possible. 
 
@@ -32,7 +32,7 @@ on all devices. But, just in case you have bad performance on retina devices, se
 
 1. [Layer Management](/docs/performance/Layer_Management.html) - under the hood, each Konva layer is a separate HTML5 canvas element which gives some useful capabilities, including the ability to refresh only a layer that changed and so avoid the performance cost of refreshing the entire stage. But with great power great responsibility comes, and each layer has an incremental performance overhead so we should keep the number of layers to a minimum.  
 
-2. Use `layer.listening(false)` - Konva gives us mouse and touch event listeners on all the shapes we draw. But there is a performance cost for each one, and for a layer with with many shapes Konva has to expend many cycles checking which listeners might be triggered. If you have a layer on which none of the shapes need to react to events, take this burden away by setting `layer.listening(false)`. See [Demo](/docs/sandbox/Animation_Stress_Test.html). There is a similar point in the shapes section.
+2. Use `layer.listening(false)` - Konva gives us mouse and touch event listeners on all the shapes we draw. But there is a performance cost for each one, and for a layer with many shapes Konva has to expend many cycles checking which listeners might be triggered. If you have a layer on which none of the shapes need to react to events, take this burden away by setting `layer.listening(false)`. See [Demo](/docs/sandbox/Animation_Stress_Test.html). There is a similar point in the shapes section.
 
 4. Optimise dragging costs - while you drag a shape across a layer that layer must be redrawn per cycle of the move event listener. To avoid this performance cost, move the shape to a dedicated layer while dragging, then move it back to original layer at drag end. See [Demo](/docs/sandbox/Drag_and_Drop_Stress_Test.html)
 
