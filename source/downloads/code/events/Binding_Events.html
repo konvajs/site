@@ -54,9 +54,7 @@
 
       triangle.on('mousemove', function () {
         var mousePos = stage.getPointerPosition();
-        var x = mousePos.x - 190;
-        var y = mousePos.y - 40;
-        writeMessage('x: ' + x + ', y: ' + y);
+        writeMessage('x: ' + mousePos.x + ', y: ' + mousePos.y);
       });
 
       var circle = new Konva.Circle({
