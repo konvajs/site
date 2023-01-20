@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v8.4.1
+   * Konva JavaScript Framework v8.4.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Jan 19 2023
+   * Date: Fri Jan 20 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '8.4.1',
+      version: '8.4.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -13753,11 +13753,11 @@
                   }
               }
               // if element height is fixed, abort if adding one more line would overflow
-              if (fixedHeight && currentHeightPx + lineHeightPx > maxHeightPx) {
-                  break;
-              }
               if (this.textArr[this.textArr.length - 1]) {
                   this.textArr[this.textArr.length - 1].lastInParagraph = true;
+              }
+              if (fixedHeight && currentHeightPx + lineHeightPx > maxHeightPx) {
+                  break;
               }
           }
           this.textHeight = fontSize;
