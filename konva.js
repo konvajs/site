@@ -8,7 +8,7 @@
    * Konva JavaScript Framework v8.4.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Jan 20 2023
+   * Date: Mon Feb 20 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -14819,6 +14819,7 @@
    * when you resize them. Instead it changes `scaleX` and `scaleY` properties.
    * @constructor
    * @memberof Konva
+   * @augments Konva.Group
    * @param {Object} config
    * @param {Boolean} [config.resizeEnabled] Default is true
    * @param {Boolean} [config.rotateEnabled] Default is true
