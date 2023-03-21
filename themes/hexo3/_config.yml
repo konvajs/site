@@ -394,6 +394,7 @@ react_sidebar:
     Canvas Portal: react/Canvas_Portal.html
   Demos:
     Export into Image: react/Canvas_Export.html
+    Snap: react/Snap.html
     Undo/Redo: react/Undo-Redo.html
     Changing zIndex: react/zIndex.html
     Drop DOM Image Into Canvas: react/Drop_Image.html
