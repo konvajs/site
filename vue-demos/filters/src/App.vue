@@ -38,17 +38,15 @@ export default {
   methods: {
     handleMouseMove() {
       this.color = Konva.Util.getRandomColor();
+      // recache
+      const rectNode = this.$refs.rect.getNode();
+      // may need to redraw layer manually
+      rectNode.cache();
     }
   },
   mounted() {
     const rectNode = this.$refs.rect.getNode();
     rectNode.cache();
   },
-  updated() {
-    // recache
-    const rectNode = this.$refs.rect.getNode();
-    // may need to redraw layer manually
-    rectNode.cache();
-  }
 };
 </script>
