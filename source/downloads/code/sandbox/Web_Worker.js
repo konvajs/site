@@ -1,5 +1,5 @@
 // load konva framework
-importScripts('https://unpkg.com/konva@8/konva.min.js');
+importScripts('https://unpkg.com/konva@9/konva.min.js');
 
 // monkeypatch Konva for offscreen canvas usage
 Konva.Util.createCanvasElement = () => {
