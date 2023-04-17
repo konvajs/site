@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.0.0
+   * Konva JavaScript Framework v9.0.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Apr 14 2023
+   * Date: Mon Apr 17 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.0.0',
+      version: '9.0.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -4449,26 +4449,23 @@
           }
       }
       _getProtoListeners(eventType) {
-          let listeners = this._cache.get(ALL_LISTENERS);
-          // if no cache for listeners, we need to pre calculate it
-          if (!listeners) {
-              listeners = {};
+          var _a, _b, _c;
+          const allListeners = (_a = this._cache.get(ALL_LISTENERS)) !== null && _a !== void 0 ? _a : {};
+          let events = allListeners === null || allListeners === void 0 ? void 0 : allListeners[eventType];
+          if (events === undefined) {
+              //recalculate cache
+              events = [];
               let obj = Object.getPrototypeOf(this);
               while (obj) {
-                  if (!obj.eventListeners) {
-                      obj = Object.getPrototypeOf(obj);
-                      continue;
-                  }
-                  for (var event in obj.eventListeners) {
-                      const newEvents = obj.eventListeners[event];
-                      const oldEvents = listeners[event] || [];
-                      listeners[event] = newEvents.concat(oldEvents);
-                  }
+                  const hierarchyEvents = (_c = (_b = obj.eventListeners) === null || _b === void 0 ? void 0 : _b[eventType]) !== null && _c !== void 0 ? _c : [];
+                  events.push(...hierarchyEvents);
                   obj = Object.getPrototypeOf(obj);
               }
-              this._cache.set(ALL_LISTENERS, listeners);
+              // update cache
+              allListeners[eventType] = events;
+              this._cache.set(ALL_LISTENERS, allListeners);
           }
-          return listeners[eventType];
+          return events;
       }
       _fire(eventType, evt) {
           evt = evt || {};
@@ -15516,6 +15513,7 @@
    * @param {Number} [config.anchorStrokeWidth] Anchor stroke size
    * @param {Number} [config.anchorSize] Default is 10
    * @param {Boolean} [config.keepRatio] Should we keep ratio when we are moving edges? Default is true
+   * @param {String} [config.shiftBehavior] How does transformer react on shift key press when we are moving edges? Default is 'default'
    * @param {Boolean} [config.centeredScaling] Should we resize relative to node's center? Default is false
    * @param {Array} [config.enabledAnchors] Array of names of enabled handles
    * @param {Boolean} [config.flipEnabled] Can we flip/mirror shape on transform?. True by default
@@ -15958,7 +15956,17 @@
               this._fitNodesInto(shape, e);
               return;
           }
-          var keepProportion = this.keepRatio() || e.shiftKey;
+          var shiftBehavior = this.shiftBehavior();
+          var keepProportion;
+          if (shiftBehavior === 'inverted') {
+              keepProportion = this.keepRatio() && !e.shiftKey;
+          }
+          else if (shiftBehavior === 'none') {
+              keepProportion = this.keepRatio();
+          }
+          else {
+              keepProportion = this.keepRatio() || e.shiftKey;
+          }
           var centeredScaling = this.centeredScaling() || e.altKey;
           if (this._movingAnchorName === 'top-left') {
               if (keepProportion) {
@@ -16675,6 +16683,20 @@
    * transformer.keepRatio(false);
    */
   Factory.addGetterSetter(Transformer, 'keepRatio', true);
+  /**
+   * get/set how to react on skift key while resizing anchors at corners
+   * @name Konva.Transformer#shiftBehavior
+   * @method
+   * @param {String} shiftBehavior
+   * @returns {String}
+   * @example
+   * // get
+   * var shiftBehavior = transformer.shiftBehavior();
+   *
+   * // set
+   * transformer.shiftBehavior('none');
+   */
+  Factory.addGetterSetter(Transformer, 'shiftBehavior', 'default');
   /**
    * get/set should we resize relative to node's center?
    * @name Konva.Transformer#centeredScaling
