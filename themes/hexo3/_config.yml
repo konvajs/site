@@ -4,6 +4,7 @@ menu:
   API docs: /api/Konva.html
   React: /docs/react/Intro.html
   Vue: /docs/vue/index.html
+  Svelte: /docs/svelte/index.html
   ❤️ Support Konva: /docs/donate.html
   Need help?: /docs/support.html
   # Consulting: https://lavrton.com
@@ -414,6 +415,22 @@ vue_sidebar:
     Simple Animations: vue/Simple_Animations.html
     Cache: vue/Cache.html
     Changing zIndex: vue/zIndex.html
+
+svelte_sidebar:
+  Getting Started with Svelte:
+    Intro: svelte/index.html
+    Basic shapes: svelte/Shapes.html
+  #   Custom shape: svelte/Custom_Shape.html
+  # svelte demos:
+  #   Events: svelte/Events.html
+  #   Images: svelte/Images.html
+  #   Filters: svelte/Filters.html
+  #   Save/Load: svelte/Save-Load.html
+  #   Drag and Drop: svelte/Drag_And_Drop.html
+  #   Transformer: svelte/Transformer.html
+  #   Simple Animations: svelte/Simple_Animations.html
+  #   Cache: svelte/Cache.html
+  #   Changing zIndex: svelte/zIndex.html
 
 fb_admins:
 twitter: lavrton
