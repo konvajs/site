@@ -1,5 +1,6 @@
 title: How to resize and rotate canvas shapes with vue and konva?
-layout: vue_page
+layout: svelte_page
+
 ---
 
 Currently there is no good pure declarative "vue-way" to use Transformer tool.
@@ -10,7 +11,4 @@ Idea: you need to create `Konva.Transformer` node, and attach it into required n
 
 Instructions: click on shape to select it.
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/vue-demos/transformer?hidenavigation=1&view=split&fontsize=10&module=/src/App.vue" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
-
-
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/transformer?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

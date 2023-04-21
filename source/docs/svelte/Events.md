@@ -1,14 +1,31 @@
-title: How to listen to an event on a canvas shape with Vue and Konva?
-layout: vue_page
+title: How to listen to an event on a canvas shape with Svelte and Konva?
+layout: svelte_page
+
 ---
 
-With `vue-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+With `svelte-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+
+```js
+<script>
+  import { Stage, Layer, Rect } from 'svelte-konva';
+
+  function handleClick(e) {
+    const konvaEvent = e.detail;
+    window.alert(`Clicked on rectangle: ${konvaEvent.type}`);
+  }
+</script>
+
+<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+  <Layer>
+    <Rect
+      config={{ x: 100, y: 100, width: 400, height: 200, fill: 'blue' }}
+      on:pointerclick={handleClick}
+    />
+  </Layer>
+</Stage>
+```
 
 For the full list of events take a look into [on() method documentation](/api/Konva.Node.html#on).
 
-
-
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/vue-demos/events?hidenavigation=1&view=split&fontsize=10&module=/src/App.vue" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
-
-
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/events?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+```

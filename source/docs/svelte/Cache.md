@@ -1,7 +1,7 @@
-title: How to cache canvas shapes with Vue
-layout: vue_page
----
+title: How to cache canvas shapes with Svelte
+layout: svelte_page
 
+---
 
 If you want to cache a node in `vue` app, you need to have an access to Konva node and use `node.cache()` function.
 
@@ -18,4 +18,4 @@ You should see much better performance.
 this.$refs.group.getNode().cache();
 ```
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/vue-demos/cache?hidenavigation=1&view=split&fontsize=10&module=/src/App.vue" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/cache?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

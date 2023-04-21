@@ -405,7 +405,6 @@ vue_sidebar:
     Intro: vue/index.html
     Basic shapes: vue/Shapes.html
     Custom shape: vue/Custom_Shape.html
-  Vue demos:
     Events: vue/Events.html
     Images: vue/Images.html
     Filters: vue/Filters.html
@@ -420,10 +419,9 @@ svelte_sidebar:
   Getting Started with Svelte:
     Intro: svelte/index.html
     Basic shapes: svelte/Shapes.html
-  #   Custom shape: svelte/Custom_Shape.html
-  # svelte demos:
-  #   Events: svelte/Events.html
-  #   Images: svelte/Images.html
+    Custom shape: svelte/Custom_Shape.html
+    Events: svelte/Events.html
+    Images: svelte/Images.html
   #   Filters: svelte/Filters.html
   #   Save/Load: svelte/Save-Load.html
   #   Drag and Drop: svelte/Drag_And_Drop.html

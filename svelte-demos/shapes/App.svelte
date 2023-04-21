@@ -2,9 +2,9 @@
 	import { Stage, Layer, Text, Rect, Circle, Line } from "svelte-konva";
 </script>
 
-<Stage config={{ width, height }}>
+<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
   <Layer>
-	<Text config={{text: 'Some text on canvas', fontSize: 15}}/>
+			<Text config={{text: 'Some text on canvas', fontSize: 15}}/>
       <Rect config={{
           x: 20,
           y: 50,
