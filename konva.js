@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.0.1
+   * Konva JavaScript Framework v9.0.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Apr 17 2023
+   * Date: Sun May 14 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.0.1',
+      version: '9.0.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14133,6 +14133,7 @@
       context.fillText(this._partialText, this._partialTextX, this._partialTextY);
   }
   function _strokeFunc$1(context) {
+      context.setAttr('miterLimit', 2);
       context.strokeText(this._partialText, this._partialTextX, this._partialTextY);
   }
   function checkDefaultFill(config) {
