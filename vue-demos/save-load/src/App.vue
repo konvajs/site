@@ -10,9 +10,7 @@
         <v-circle
           v-for="item in list"
           :key="item.id"
-          :config="{
-            x : item.x, y: item.y, radius: 50, fill: 'red',
-          }"></v-circle>
+          :config="item"></v-circle>
       </v-layer>
       <v-layer ref="dragLayer"></v-layer>
     </v-stage>
@@ -37,14 +35,18 @@ export default {
     handleClick(evt) {
       const stage = evt.target.getStage();
       const pos = stage.getPointerPosition();
-      this.list.push(pos);
+      this.list.push({
+        radius: 50,
+        fill: 'red',
+        ...pos
+      });
 
       this.save();
     },
 
     load() {
-      const data = localStorage.getItem('storage') || '[]';
-      this.list = JSON.parse(data);
+      const data = localStorage.getItem('storage');
+      if (data) this.list = JSON.parse(data);
     },
 
     save() {
