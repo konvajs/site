@@ -430,6 +430,7 @@ svelte_sidebar:
   #  Bindings: svelte/Bindings.html
     Simple Animations: svelte/Simple_Animations.html
     Cache: svelte/Cache.html
+    Labels: svelte/Labels.html
   #   Changing zIndex: svelte/zIndex.html
 
 fb_admins:

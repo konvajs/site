@@ -1,5 +1,5 @@
 {
-  "name": "svelte-konva-save-load-demo",
+  "name": "svelte-konva-labels-demo",
   "version": "1.0.0",
   "devDependencies": {
     "npm-run-all": "^4.1.5",
@@ -27,5 +27,5 @@
     "konva",
     "svelte-konva"
   ],
-  "description": "svelte-konva save/load demo"
+  "description": "svelte-konva labels demo"
 }
