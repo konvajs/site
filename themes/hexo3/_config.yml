@@ -427,7 +427,7 @@ svelte_sidebar:
     Drag and Drop: svelte/Drag_And_Drop.html
     Konva Node: svelte/Konva_Node.html
     Transformer: svelte/Transformer.html
-  #  Bindings: svelte/Bindings.html
+    Bindings: svelte/Bindings.html
     Simple Animations: svelte/Simple_Animations.html
     Cache: svelte/Cache.html
     Labels: svelte/Labels.html
