@@ -431,7 +431,7 @@ svelte_sidebar:
     Simple Animations: svelte/Simple_Animations.html
     Cache: svelte/Cache.html
     Labels: svelte/Labels.html
-  #   Changing zIndex: svelte/zIndex.html
+    Changing zIndex: svelte/zIndex.html
 
 fb_admins:
 twitter: lavrton
