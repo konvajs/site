@@ -422,13 +422,16 @@ svelte_sidebar:
     Custom shape: svelte/Custom_Shape.html
     Events: svelte/Events.html
     Images: svelte/Images.html
-  #   Filters: svelte/Filters.html
-  #   Save/Load: svelte/Save-Load.html
-  #   Drag and Drop: svelte/Drag_And_Drop.html
-  #   Transformer: svelte/Transformer.html
-  #   Simple Animations: svelte/Simple_Animations.html
-  #   Cache: svelte/Cache.html
-  #   Changing zIndex: svelte/zIndex.html
+    Filters: svelte/Filters.html
+    Save/Load: svelte/Save_Load.html
+    Drag and Drop: svelte/Drag_And_Drop.html
+    Konva Node: svelte/Konva_Node.html
+    Transformer: svelte/Transformer.html
+    Bindings: svelte/Bindings.html
+    Simple Animations: svelte/Simple_Animations.html
+    Cache: svelte/Cache.html
+    Labels: svelte/Labels.html
+    Changing zIndex: svelte/zIndex.html
 
 fb_admins:
 twitter: lavrton

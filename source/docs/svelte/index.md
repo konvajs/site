@@ -1,4 +1,4 @@
-title: Getting started with svelte and canvas via Konva
+title: Getting started with Svelte and canvas via Konva
 layout: svelte_page
 
 ---
@@ -11,7 +11,7 @@ GitHub: https://github.com/konvajs/svelte-konva
 
 It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
 
-All `svelte-konva` components correspond to `Konva` components of the same name with the prefix 'v-'. All the parameters available for `Konva` objects can add as `config` in the prop for corresponding `svalte-konva` components.
+All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as `config` prop for corresponding `svalte-konva` components.
 
 To get more info about `Konva` you can read [Konva Overview](https://konvajs.org/docs/overview.html).
 
