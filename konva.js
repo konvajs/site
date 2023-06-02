@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.0.2
+   * Konva JavaScript Framework v9.1.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sun May 14 2023
+   * Date: Fri Jun 02 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.0.2',
+      version: '9.1.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -15372,6 +15372,7 @@
       'anchorFillChange',
       'anchorCornerRadiusChange',
       'ignoreStrokeChange',
+      'anchorStyleFuncChange',
   ]
       .map((e) => e + `.${EVENTS_NAME}`)
       .join(' ');
@@ -16293,7 +16294,8 @@
           var resizeEnabled = this.resizeEnabled();
           var padding = this.padding();
           var anchorSize = this.anchorSize();
-          this.find('._anchor').forEach((node) => {
+          const anchors = this.find('._anchor');
+          anchors.forEach((node) => {
               node.setAttrs({
                   width: anchorSize,
                   height: anchorSize,
@@ -16372,6 +16374,12 @@
               x: 0,
               y: 0,
           });
+          const styleFunc = this.anchorStyleFunc();
+          if (styleFunc) {
+              anchors.forEach((node) => {
+                  styleFunc(node);
+              });
+          }
           (_a = this.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
       }
       /**
@@ -16801,6 +16809,28 @@
    * });
    */
   Factory.addGetterSetter(Transformer, 'anchorDragBoundFunc');
+  /**
+   * get/set styling function for transformer anchors to overwrite default styles
+   * @name Konva.Transformer#anchorStyleFunc
+   * @method
+   * @param {Function} func
+   * @returns {Function}
+   * @example
+   * // get
+   * var anchorStyleFunc = transformer.anchorStyleFunc();
+   *
+   * // set
+   * transformer.anchorStyleFunc(function(anchor) {
+   *  // anchor is a simple Konva.Rect instance
+   *  // it will be executed AFTER all attributes are set, like 'anchorStrokeWidth' or 'anchorFill'
+   *  if (anchor.hasName('.rotater')) {
+   *    // make rotater anchor filled black and looks like a circle
+   *    anchor.fill('black');
+   *    anchor.cornerRadius(anchor.width() / 2);
+   *  }
+   * });
+   */
+  Factory.addGetterSetter(Transformer, 'anchorStyleFunc');
   /**
    * using this setting you can drag transformer group by dragging empty space between attached nodes
    * shouldOverdrawWholeArea = true may temporary disable all events on attached nodes
