@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.1.0
+   * Konva JavaScript Framework v9.2.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Jun 02 2023
+   * Date: Mon Jun 05 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.1.0',
+      version: '9.2.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1712,13 +1712,8 @@
       clearRect(a0, a1, a2, a3) {
           this._context.clearRect(a0, a1, a2, a3);
       }
-      /**
-       * clip function.
-       * @method
-       * @name Konva.Context#clip
-       */
-      clip() {
-          this._context.clip();
+      clip(...args) {
+          this._context.clip.apply(this._context, args);
       }
       /**
        * closePath function.
@@ -1803,18 +1798,9 @@
           }
           return this._context.isPointInPath(x, y, fillRule);
       }
-      /**
-       * fill function.
-       * @method
-       * @name Konva.Context#fill
-       */
-      fill(path2d) {
-          if (path2d) {
-              this._context.fill(path2d);
-          }
-          else {
-              this._context.fill();
-          }
+      fill(...args) {
+          // this._context.fill();
+          this._context.fill.apply(this._context, args);
       }
       /**
        * fillRect function.
@@ -5619,15 +5605,16 @@
               var m = transform.getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               context.beginPath();
+              let clipArgs;
               if (clipFunc) {
-                  clipFunc.call(this, context, this);
+                  clipArgs = clipFunc.call(this, context, this);
               }
               else {
                   var clipX = this.clipX();
                   var clipY = this.clipY();
                   context.rect(clipX, clipY, clipWidth, clipHeight);
               }
-              context.clip();
+              context.clip.apply(context, clipArgs);
               m = transform.copy().invert().getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
           }
@@ -5817,9 +5804,14 @@
    * // get clip function
    * var clipFunction = container.clipFunc();
    *
-   * // set clip height
+   * // set clip function
    * container.clipFunc(function(ctx) {
    *   ctx.rect(0, 0, 100, 100);
+   * });
+   *
+   * container.clipFunc(function(ctx) {
+   *   // optionally return a clip Path2D and clip-rule or just the clip-rule
+   *   return [new Path2D('M0 0v50h50Z'), 'evenodd']
    * });
    */
 
@@ -6692,7 +6684,13 @@
   // the approach is good. But what if we want to cache the shape before we add it into the stage
   // what color to use for hit test?
   function _fillFunc$2(context) {
-      context.fill();
+      const fillRule = this.attrs.fillRule;
+      if (fillRule) {
+          context.fill(fillRule);
+      }
+      else {
+          context.fill();
+      }
   }
   function _strokeFunc$2(context) {
       context.stroke();
@@ -8265,6 +8263,20 @@
    *
    * // set fill pattern rotation
    * shape.fillPatternRotation(20);
+   */
+  Factory.addGetterSetter(Shape, 'fillRule', undefined, getStringValidator());
+  /**
+   * get/set fill rule
+   * @name Konva.Shape#fillRule
+   * @method
+   * @param {CanvasFillRule} rotation
+   * @returns {Konva.Shape}
+   * @example
+   * // get fill rule
+   * var fillRule = shape.fillRule();
+   *
+   * // set fill rule
+   * shape.fillRule('evenodd);
    */
   Factory.backCompat(Shape, {
       dashArray: 'dash',
