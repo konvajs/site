@@ -4,7 +4,7 @@
   "description": "Caching vue-konva nodes",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --disable-host-check",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
