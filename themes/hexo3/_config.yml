@@ -83,6 +83,7 @@ doc_sidebar:
     Centered Scaling: select_and_transform/Centered_Scaling.html
     Keep Ratio: select_and_transform/Keep_Ratio.html
     Styling: select_and_transform/Transformer_Styling.html
+    Complex Styling: select_and_transform/Transformer_Complex_Styling.html
     Transform Events: select_and_transform/Transform_Events.html
     Resize Limits: select_and_transform/Resize_Limits.html
     Rotation Snaps: select_and_transform/Rotation_Snaps.html
