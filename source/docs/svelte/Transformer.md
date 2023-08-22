@@ -1,13 +1,11 @@
-title: How to resize and rotate canvas shapes with vue and konva?
+title: How to resize and rotate canvas shapes with Svelte and Konva?
 layout: svelte_page
 
 ---
 
-Currently there is no good pure declarative "vue-way" to use Transformer tool.
-But you still can use it with some small manual requests to the Konva nodes.
-And it will work just fine.
+You can use the transformer tool by using the svelte-konva transformer component. Generally this approach requires some interfacing with the native Konva API. You can attach shapes to the transformer by manually attaching their handles to the transformer using the `nodes()` function. svelte-konva also automatically keeps your config in sync with the Konva node on `transformend`. See the [bindings](/docs/svelte/Bindings.html) doc page for more details.
 
-Idea: you need to create `Konva.Transformer` node, and attach it into required node manually.
+For a more detailed example with select & transform functionality see the [example](https://github.com/konvajs/svelte-konva/blob/master/src/routes/examples/transform/Transform.svelte) in the svelte-konva repo.
 
 Instructions: click on shape to select it.
 

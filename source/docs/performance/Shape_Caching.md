@@ -1,4 +1,8 @@
-## title: HTML5 Canvas Shape Caching Performance Tip
+title: HTML5 Canvas Shape Caching Performance Tip
+
+---
+
+## HTML5 Canvas Shape Caching Performance Tip
 
 One way to drastically improve drawing performance for complex Konva shapes is to cache them as images.
 This can be achieved by using the `cache()` method to convert a node into an image object.

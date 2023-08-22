@@ -4,12 +4,12 @@
   "description": "How to use Konva.Transformer in vue-konva?",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --disable-host-check",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "konva": "9.0.2",
+    "konva": "9.2.0",
     "vue": "^3.0.0-0",
     "vue-konva": "3.0.1"
   },
