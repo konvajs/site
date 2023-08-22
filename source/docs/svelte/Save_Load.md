@@ -9,4 +9,4 @@ This approach is not recommended when using svelte-konva. In svelte-konva you sh
 
 The demo saves and retrieves the data from localstorage as JSON but you're free to use any way of saving you'd like.
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/save-load?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/save_load?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
