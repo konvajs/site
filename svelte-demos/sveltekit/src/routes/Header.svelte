@@ -20,18 +20,12 @@
 				<a href="/">Prerendering</a>
 			</li>
 			<li
-				aria-current={$page.url.pathname === "/about"
+				aria-current={$page.url.pathname === "/ssr"
 					? "page"
 					: undefined}
 			>
-				<a href="/about">SSR</a>
-			</li>
-			<li
-				aria-current={$page.url.pathname.startsWith("/sverdle")
-					? "page"
-					: undefined}
-			>
-				<a href="/sverdle">Sverdle</a>
+				<!-- Force SSR instead of CSR on navigation for demo purposes -->
+				<a data-sveltekit-reload href="/ssr">SSR</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
