@@ -17,7 +17,8 @@
 		</svg>
 		<ul>
 			<li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
-				<a href="/">Prerendering</a>
+				<!-- Force full reload instead of CSR on navigation for demo purposes -->
+				<a data-sveltekit-reload href="/">Prerendering</a>
 			</li>
 			<li
 				aria-current={$page.url.pathname === "/ssr"
@@ -26,6 +27,14 @@
 			>
 				<!-- Force SSR instead of CSR on navigation for demo purposes -->
 				<a data-sveltekit-reload href="/ssr">SSR</a>
+			</li>
+			<li
+				aria-current={$page.url.pathname === "/spa"
+					? "page"
+					: undefined}
+			>
+				<!-- Force full SPA reload instead of CSR on navigation for demo purposes -->
+				<a data-sveltekit-reload href="/spa">SPA</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
