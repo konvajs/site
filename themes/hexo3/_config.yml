@@ -432,6 +432,7 @@ svelte_sidebar:
     Cache: svelte/Cache.html
     Labels: svelte/Labels.html
     Changing zIndex: svelte/zIndex.html
+    SvelteKit: svelte/SvelteKit.html
 
 fb_admins:
 twitter: lavrton
