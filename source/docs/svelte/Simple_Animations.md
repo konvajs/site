@@ -1,4 +1,4 @@
-title: How to apply canvas animations with Svelte and konva?
+title: How to apply canvas animations with Svelte and Konva?
 layout: svelte_page
 
 ---
