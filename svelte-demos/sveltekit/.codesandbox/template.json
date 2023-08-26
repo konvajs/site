@@ -1,0 +1,12 @@
+{
+  "title": "SvelteKit",
+  "description": "The official Svelte Cloud Sandbox Template by the CodeSandbox team",
+  "iconUrl": "https://github.com/codesandbox/sandbox-templates/blob/main/sveltekit/.codesandbox/icon.png?raw=true",
+  "tags": [
+    "svelekit",
+    "svelekit",
+    "javascript",
+    "typescript"
+  ],
+  "published": true
+}
