@@ -28,4 +28,4 @@ Keep in mind that svelte-konva will evaluate the `staticConfig` prop only once d
 
 Drag the different rings and observe the reactive changes triggered by Svelte. Note how dragging the red ring does not trigger a reactive change but still changes the actual value of the config due to not being bound.
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/bindings?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/bindings?hidenavigation=1&view=split&fontsize=10&module=/src/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

@@ -1,9 +1,7 @@
-title: How to change the zIndex of nodes with Svelte?
+title: How to change the zIndex of nodes with svelte-konva?
 layout: svelte_page
 
 ---
-
-## How to change the zIndex and reorder components in `svelte-konva`?
 
 When working with other Konva-Wrappers like `vue-konva` or `react-konva` you might be used to the data order representing the drawing order of the components on the canvas. In svelte-konva such a functionality is currently not implemented as it is not possible to implement in Svelte 3 right now.
 
@@ -26,4 +24,4 @@ Based on the ordering one would expect to see the circle drawn on the top of the
 
 Instructions: Try to drag a circle. See how it goes to the top. This is done by calling `moveToTop()` on the dragged shape handle.
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/zIndex?hidenavigation=1&view=split&fontsize=10" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/zIndex?hidenavigation=1&view=split&fontsize=10&module=/src/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

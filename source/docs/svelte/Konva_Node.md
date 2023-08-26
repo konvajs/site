@@ -7,4 +7,4 @@ In some cases you might need to access the underlying Konva node of the svelte-k
 
 **Caution:** The node is initially undefined and becomes defined one tick after the component has been mounted. If you want to access the node directly after component mounting you need to await a Svelte `tick()` before the handle prop becomes defined. 
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/konva-node?hidenavigation=1&view=split&fontsize=10&module=/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/konva_node?hidenavigation=1&view=split&fontsize=10&module=/src/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
