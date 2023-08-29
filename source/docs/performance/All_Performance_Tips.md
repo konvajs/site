@@ -25,8 +25,7 @@ The optimizations here focus on two general rules:
 
 2. Set a viewport on mobile - Scaling images is a significant performance hit, so for mobile applications set viewport: `<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">` which will avoid unnecessary scaling of your Konva output.
 
-3. Use `Konva.pixelRatio = 1` on retina devices - Konva automatically handles pixel ratio adjustments in order to render crisp drawings
-on all devices. But, just in case you have bad performance on retina devices, set `Konva.pixelRatio = 1` to reduce the scaling work Konva has to do. This setting might affect the output in some cases, so make sure that quality of the result is ok for you.
+3. Use `Konva.pixelRatio = 1` on retina devices - Konva automatically handles pixel ratio adjustments in order to render crisp drawings on all devices. But, just in case you have bad performance on retina devices, set `Konva.pixelRatio = 1` to reduce the scaling work Konva has to do. This setting might affect the output in some cases, so make sure that quality of the result is ok for you.
 
 ### Layers
 
