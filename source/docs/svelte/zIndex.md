@@ -24,4 +24,4 @@ Based on the ordering one would expect to see the circle drawn on the top of the
 
 Instructions: Try to drag a circle. See how it goes to the top. This is done by calling `moveToTop()` on the dragged shape handle.
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/zIndex?hidenavigation=1&view=split&fontsize=10&module=/src/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/zIndex?file=/src/App.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

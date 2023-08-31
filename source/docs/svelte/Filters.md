@@ -9,4 +9,4 @@ In case you dynamically change the style of the nodes you need to recache them m
 
 Instructions: hover over the rectangle to see the changes
 
-<iframe src="https://codesandbox.io/embed/github/konvajs/site/tree/master/svelte-demos/filters?hidenavigation=1&view=split&fontsize=10&module=/src/App.svelte" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/filters?file=/src/App.svelte" style="width:100%; height:800px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
