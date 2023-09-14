@@ -5,17 +5,17 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.2.0
+   * Konva JavaScript Framework v9.2.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Jun 05 2023
+   * Date: Thu Sep 14 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
    *
    * @license
    */
-  var PI_OVER_180 = Math.PI / 180;
+  const PI_OVER_180 = Math.PI / 180;
   /**
    * @namespace Konva
    */
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.2.0',
+      version: '9.2.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1109,7 +1109,7 @@
       releaseCanvas(...canvases) {
           if (!Konva$2.releaseCanvasOnDestroy)
               return;
-          canvases.forEach(c => {
+          canvases.forEach((c) => {
               c.width = 0;
               c.height = 0;
           });
@@ -1120,7 +1120,11 @@
           let bottomLeft = 0;
           let bottomRight = 0;
           if (typeof cornerRadius === 'number') {
-              topLeft = topRight = bottomLeft = bottomRight = Math.min(cornerRadius, width / 2, height / 2);
+              topLeft =
+                  topRight =
+                      bottomLeft =
+                          bottomRight =
+                              Math.min(cornerRadius, width / 2, height / 2);
           }
           else {
               topLeft = Math.min(cornerRadius[0] || 0, width / 2, height / 2);
@@ -1137,7 +1141,7 @@
           context.arc(bottomLeft, height - bottomLeft, bottomLeft, Math.PI / 2, Math.PI, false);
           context.lineTo(0, topLeft);
           context.arc(topLeft, topLeft, topLeft, Math.PI, (Math.PI * 3) / 2, false);
-      }
+      },
   };
 
   function _formatValue(val) {
@@ -1677,16 +1681,17 @@
        * @method
        * @name Konva.Context#arc
        */
-      arc(a0, a1, a2, a3, a4, a5) {
-          this._context.arc(a0, a1, a2, a3, a4, a5);
+      arc(x, y, radius, startAngle, endAngle, counterClockwise) {
+          this._context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
       }
       /**
        * arcTo function.
        * @method
        * @name Konva.Context#arcTo
+       *
        */
-      arcTo(a0, a1, a2, a3, a4) {
-          this._context.arcTo(a0, a1, a2, a3, a4);
+      arcTo(x1, y1, x2, y2, radius) {
+          this._context.arcTo(x1, y1, x2, y2, radius);
       }
       /**
        * beginPath function.
@@ -1701,16 +1706,16 @@
        * @method
        * @name Konva.Context#bezierCurveTo
        */
-      bezierCurveTo(a0, a1, a2, a3, a4, a5) {
-          this._context.bezierCurveTo(a0, a1, a2, a3, a4, a5);
+      bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) {
+          this._context.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
       }
       /**
        * clearRect function.
        * @method
        * @name Konva.Context#clearRect
        */
-      clearRect(a0, a1, a2, a3) {
-          this._context.clearRect(a0, a1, a2, a3);
+      clearRect(x, y, width, height) {
+          this._context.clearRect(x, y, width, height);
       }
       clip(...args) {
           this._context.clip.apply(this._context, args);
@@ -1728,13 +1733,13 @@
        * @method
        * @name Konva.Context#createImageData
        */
-      createImageData(a0, a1) {
+      createImageData(width, height) {
           var a = arguments;
           if (a.length === 2) {
-              return this._context.createImageData(a0, a1);
+              return this._context.createImageData(width, height);
           }
           else if (a.length === 1) {
-              return this._context.createImageData(a0);
+              return this._context.createImageData(width);
           }
       }
       /**
@@ -1742,41 +1747,41 @@
        * @method
        * @name Konva.Context#createLinearGradient
        */
-      createLinearGradient(a0, a1, a2, a3) {
-          return this._context.createLinearGradient(a0, a1, a2, a3);
+      createLinearGradient(x0, y0, x1, y1) {
+          return this._context.createLinearGradient(x0, y0, x1, y1);
       }
       /**
        * createPattern function.
        * @method
        * @name Konva.Context#createPattern
        */
-      createPattern(a0, a1) {
-          return this._context.createPattern(a0, a1);
+      createPattern(image, repetition) {
+          return this._context.createPattern(image, repetition);
       }
       /**
        * createRadialGradient function.
        * @method
        * @name Konva.Context#createRadialGradient
        */
-      createRadialGradient(a0, a1, a2, a3, a4, a5) {
-          return this._context.createRadialGradient(a0, a1, a2, a3, a4, a5);
+      createRadialGradient(x0, y0, r0, x1, y1, r1) {
+          return this._context.createRadialGradient(x0, y0, r0, x1, y1, r1);
       }
       /**
        * drawImage function.
        * @method
        * @name Konva.Context#drawImage
        */
-      drawImage(a0, a1, a2, a3, a4, a5, a6, a7, a8) {
+      drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
           // this._context.drawImage(...arguments);
           var a = arguments, _context = this._context;
           if (a.length === 3) {
-              _context.drawImage(a0, a1, a2);
+              _context.drawImage(image, sx, sy);
           }
           else if (a.length === 5) {
-              _context.drawImage(a0, a1, a2, a3, a4);
+              _context.drawImage(image, sx, sy, sWidth, sHeight);
           }
           else if (a.length === 9) {
-              _context.drawImage(a0, a1, a2, a3, a4, a5, a6, a7, a8);
+              _context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
           }
       }
       /**
@@ -1784,8 +1789,8 @@
        * @method
        * @name Konva.Context#ellipse
        */
-      ellipse(a0, a1, a2, a3, a4, a5, a6, a7) {
-          this._context.ellipse(a0, a1, a2, a3, a4, a5, a6, a7);
+      ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise) {
+          this._context.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise);
       }
       /**
        * isPointInPath function.
@@ -1844,48 +1849,48 @@
        * @method
        * @name Konva.Context#getImageData
        */
-      getImageData(a0, a1, a2, a3) {
-          return this._context.getImageData(a0, a1, a2, a3);
+      getImageData(sx, sy, sw, sh) {
+          return this._context.getImageData(sx, sy, sw, sh);
       }
       /**
        * lineTo function.
        * @method
        * @name Konva.Context#lineTo
        */
-      lineTo(a0, a1) {
-          this._context.lineTo(a0, a1);
+      lineTo(x, y) {
+          this._context.lineTo(x, y);
       }
       /**
        * moveTo function.
        * @method
        * @name Konva.Context#moveTo
        */
-      moveTo(a0, a1) {
-          this._context.moveTo(a0, a1);
+      moveTo(x, y) {
+          this._context.moveTo(x, y);
       }
       /**
        * rect function.
        * @method
        * @name Konva.Context#rect
        */
-      rect(a0, a1, a2, a3) {
-          this._context.rect(a0, a1, a2, a3);
+      rect(x, y, width, height) {
+          this._context.rect(x, y, width, height);
       }
       /**
        * putImageData function.
        * @method
        * @name Konva.Context#putImageData
        */
-      putImageData(a0, a1, a2) {
-          this._context.putImageData(a0, a1, a2);
+      putImageData(imageData, dx, dy) {
+          this._context.putImageData(imageData, dx, dy);
       }
       /**
        * quadraticCurveTo function.
        * @method
        * @name Konva.Context#quadraticCurveTo
        */
-      quadraticCurveTo(a0, a1, a2, a3) {
-          this._context.quadraticCurveTo(a0, a1, a2, a3);
+      quadraticCurveTo(cpx, cpy, x, y) {
+          this._context.quadraticCurveTo(cpx, cpy, x, y);
       }
       /**
        * restore function.
@@ -1900,8 +1905,8 @@
        * @method
        * @name Konva.Context#rotate
        */
-      rotate(a0) {
-          this._context.rotate(a0);
+      rotate(angle) {
+          this._context.rotate(angle);
       }
       /**
        * save function.
@@ -1916,26 +1921,26 @@
        * @method
        * @name Konva.Context#scale
        */
-      scale(a0, a1) {
-          this._context.scale(a0, a1);
+      scale(x, y) {
+          this._context.scale(x, y);
       }
       /**
        * setLineDash function.
        * @method
        * @name Konva.Context#setLineDash
        */
-      setLineDash(a0) {
+      setLineDash(segments) {
           // works for Chrome and IE11
           if (this._context.setLineDash) {
-              this._context.setLineDash(a0);
+              this._context.setLineDash(segments);
           }
           else if ('mozDash' in this._context) {
               // verified that this works in firefox
-              this._context['mozDash'] = a0;
+              this._context['mozDash'] = segments;
           }
           else if ('webkitLineDash' in this._context) {
               // does not currently work for Safari
-              this._context['webkitLineDash'] = a0;
+              this._context['webkitLineDash'] = segments;
           }
           // no support for IE9 and IE10
       }
@@ -1952,8 +1957,8 @@
        * @method
        * @name Konva.Context#setTransform
        */
-      setTransform(a0, a1, a2, a3, a4, a5) {
-          this._context.setTransform(a0, a1, a2, a3, a4, a5);
+      setTransform(a, b, c, d, e, f) {
+          this._context.setTransform(a, b, c, d, e, f);
       }
       /**
        * stroke function.
@@ -1973,24 +1978,24 @@
        * @method
        * @name Konva.Context#strokeText
        */
-      strokeText(a0, a1, a2, a3) {
-          this._context.strokeText(a0, a1, a2, a3);
+      strokeText(text, x, y, maxWidth) {
+          this._context.strokeText(text, x, y, maxWidth);
       }
       /**
        * transform function.
        * @method
        * @name Konva.Context#transform
        */
-      transform(a0, a1, a2, a3, a4, a5) {
-          this._context.transform(a0, a1, a2, a3, a4, a5);
+      transform(a, b, c, d, e, f) {
+          this._context.transform(a, b, c, d, e, f);
       }
       /**
        * translate function.
        * @method
        * @name Konva.Context#translate
        */
-      translate(a0, a1) {
-          this._context.translate(a0, a1);
+      translate(x, y) {
+          this._context.translate(x, y);
       }
       _enableTrace() {
           var that = this, len = CONTEXT_METHODS.length, origSetter = this.setAttr, n, args;
@@ -2681,7 +2686,7 @@
               conf.height === undefined) {
               rect = this.getClientRect({
                   skipTransform: true,
-                  relativeTo: this.getParent(),
+                  relativeTo: this.getParent() || undefined,
               });
           }
           var width = Math.ceil(conf.width || rect.width), height = Math.ceil(conf.height || rect.height), pixelRatio = conf.pixelRatio, x = conf.x === undefined ? Math.floor(rect.x) : conf.x, y = conf.y === undefined ? Math.floor(rect.y) : conf.y, offset = conf.offset || 0, drawBorder = conf.drawBorder || false, hitCanvasPixelRatio = conf.hitCanvasPixelRatio || 1;
@@ -2818,7 +2823,7 @@
               { x: rect.x + rect.width, y: rect.y + rect.height },
               { x: rect.x, y: rect.y + rect.height },
           ];
-          var minX, minY, maxX, maxY;
+          var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
           var trans = this.getAbsoluteTransform(top);
           points.forEach(function (point) {
               var transformed = trans.point(point);
@@ -3320,8 +3325,9 @@
                   addChildren(nodes);
               }
           }
-          if (that.nodeType !== UPPER_STAGE) {
-              addChildren(that.getStage().getChildren());
+          const stage = this.getStage();
+          if (that.nodeType !== UPPER_STAGE && stage) {
+              addChildren(stage.getChildren());
           }
           return index;
       }
@@ -3381,11 +3387,12 @@
        * rect.getRelativePointerPosition();
        */
       getRelativePointerPosition() {
-          if (!this.getStage()) {
+          const stage = this.getStage();
+          if (!stage) {
               return null;
           }
           // get pointer (say mouse or touch) position
-          var pos = this.getStage().getPointerPosition();
+          var pos = stage.getPointerPosition();
           if (!pos) {
               return null;
           }
@@ -3432,12 +3439,10 @@
           return absoluteTransform.getTranslation();
       }
       setAbsolutePosition(pos) {
-          var origTrans = this._clearTransform();
+          const { x, y, ...origTrans } = this._clearTransform();
           // don't clear translation
-          this.attrs.x = origTrans.x;
-          this.attrs.y = origTrans.y;
-          delete origTrans.x;
-          delete origTrans.y;
+          this.attrs.x = x;
+          this.attrs.y = y;
           // important, use non cached value
           this._clearCache(TRANSFORM);
           var it = this._getAbsoluteTransform().copy();
@@ -3831,7 +3836,7 @@
               return parent.getStage();
           }
           else {
-              return undefined;
+              return null;
           }
       }
       /**
@@ -4488,6 +4493,9 @@
           var pointerId = evt ? evt.pointerId : undefined;
           var stage = this.getStage();
           var ap = this.getAbsolutePosition();
+          if (!stage) {
+              return;
+          }
           var pos = stage._getPointerById(pointerId) ||
               stage._changedPointerPositions[0] ||
               ap;
@@ -5534,7 +5542,7 @@
        */
       getAllIntersections(pos) {
           var arr = [];
-          this.find('Shape').forEach(function (shape) {
+          this.find('Shape').forEach((shape) => {
               if (shape.isVisible() && shape.intersects(pos)) {
                   arr.push(shape);
               }
@@ -5635,9 +5643,8 @@
               context.restore();
           }
       }
-      getClientRect(config) {
+      getClientRect(config = {}) {
           var _a;
-          config = config || {};
           var skipTransform = config.skipTransform;
           var relativeTo = config.relativeTo;
           var minX, minY, maxX, maxY;
@@ -6231,20 +6238,24 @@
       _pointerenter(evt) {
           this.setPointersPositions(evt);
           const events = getEventsMap(evt.type);
-          this._fire(events.pointerenter, {
-              evt: evt,
-              target: this,
-              currentTarget: this,
-          });
+          if (events) {
+              this._fire(events.pointerenter, {
+                  evt: evt,
+                  target: this,
+                  currentTarget: this,
+              });
+          }
       }
       _pointerover(evt) {
           this.setPointersPositions(evt);
           const events = getEventsMap(evt.type);
-          this._fire(events.pointerover, {
-              evt: evt,
-              target: this,
-              currentTarget: this,
-          });
+          if (events) {
+              this._fire(events.pointerover, {
+                  evt: evt,
+                  target: this,
+                  currentTarget: this,
+              });
+          }
       }
       _getTargetShape(evenType) {
           let shape = this[evenType + 'targetShape'];
@@ -6284,7 +6295,7 @@
                   currentTarget: this,
               });
           }
-          this.pointerPos = undefined;
+          this.pointerPos = null;
           this._pointerPositions = [];
       }
       _pointerdown(evt) {
@@ -6301,8 +6312,7 @@
               // probably we are staring a click
               Konva$2['_' + eventType + 'ListenClick'] = true;
               // no shape detected? do nothing
-              const hasShape = shape && shape.isListening();
-              if (!hasShape) {
+              if (!shape || !shape.isListening()) {
                   return;
               }
               if (Konva$2.capturePointerEventsEnabled) {
@@ -6356,8 +6366,8 @@
               const event = { evt: evt, pointerId };
               var differentTarget = targetShape !== shape;
               if (differentTarget && targetShape) {
-                  targetShape._fireAndBubble(events.pointerout, Object.assign({}, event), shape);
-                  targetShape._fireAndBubble(events.pointerleave, Object.assign({}, event), shape);
+                  targetShape._fireAndBubble(events.pointerout, { ...event }, shape);
+                  targetShape._fireAndBubble(events.pointerleave, { ...event }, shape);
               }
               if (shape) {
                   if (processedShapesIds[shape._id]) {
@@ -6368,11 +6378,11 @@
               if (shape && shape.isListening()) {
                   triggeredOnShape = true;
                   if (differentTarget) {
-                      shape._fireAndBubble(events.pointerover, Object.assign({}, event), targetShape);
-                      shape._fireAndBubble(events.pointerenter, Object.assign({}, event), targetShape);
+                      shape._fireAndBubble(events.pointerover, { ...event }, targetShape);
+                      shape._fireAndBubble(events.pointerenter, { ...event }, targetShape);
                       this[eventType + 'targetShape'] = shape;
                   }
-                  shape._fireAndBubble(events.pointermove, Object.assign({}, event));
+                  shape._fireAndBubble(events.pointermove, { ...event });
               }
               else {
                   if (targetShape) {
@@ -6434,14 +6444,14 @@
               if (shape && shape.isListening()) {
                   triggeredOnShape = true;
                   this[eventType + 'ClickEndShape'] = shape;
-                  shape._fireAndBubble(events.pointerup, Object.assign({}, event));
+                  shape._fireAndBubble(events.pointerup, { ...event });
                   // detect if click or double click occurred
                   if (Konva$2['_' + eventType + 'ListenClick'] &&
                       clickStartShape &&
                       clickStartShape === shape) {
-                      shape._fireAndBubble(events.pointerclick, Object.assign({}, event));
+                      shape._fireAndBubble(events.pointerclick, { ...event });
                       if (fireDblClick && clickEndShape && clickEndShape === shape) {
-                          shape._fireAndBubble(events.pointerdblclick, Object.assign({}, event));
+                          shape._fireAndBubble(events.pointerdblclick, { ...event });
                       }
                   }
               }
@@ -7012,10 +7022,14 @@
        * @returns {Boolean}
        */
       intersects(point) {
-          var stage = this.getStage(), bufferHitCanvas = stage.bufferHitCanvas, p;
+          var stage = this.getStage();
+          if (!stage) {
+              return false;
+          }
+          const bufferHitCanvas = stage.bufferHitCanvas;
           bufferHitCanvas.getContext().clear();
-          this.drawHit(bufferHitCanvas, null, true);
-          p = bufferHitCanvas.context.getImageData(Math.round(point.x), Math.round(point.y), 1, 1).data;
+          this.drawHit(bufferHitCanvas, undefined, true);
+          const p = bufferHitCanvas.context.getImageData(Math.round(point.x), Math.round(point.y), 1, 1).data;
           return p[3] > 0;
       }
       destroy() {
@@ -7128,7 +7142,8 @@
           // 1 - simple drawing when nothing is cached.
           // 2 - when we are caching current
           // 3 - when node is cached and we need to draw it into layer
-          var layer = this.getLayer(), canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferCanvas, bufferContext;
+          var layer = this.getLayer();
+          var canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferCanvas, bufferContext;
           var skipBuffer = canvas.isCache;
           var cachingSelf = top === this;
           if (!this.isVisible() && !cachingSelf) {
@@ -8276,7 +8291,7 @@
    * var fillRule = shape.fillRule();
    *
    * // set fill rule
-   * shape.fillRule('evenodd);
+   * shape.fillRule('evenodd');
    */
   Factory.backCompat(Shape, {
       dashArray: 'dash',
@@ -8854,7 +8869,7 @@
   Group.prototype.nodeType = 'Group';
   _registerNode(Group);
 
-  var now = (function () {
+  const now = (function () {
       if (glob.performance && glob.performance.now) {
           return function () {
               return glob.performance.now();
@@ -8906,20 +8921,10 @@
        * @return {Konva.Animation} this
        */
       setLayers(layers) {
-          var lays = [];
+          let lays = [];
           // if passing in no layers
-          if (!layers) {
-              lays = [];
-          }
-          else if (layers.length > 0) {
-              // if passing in an array of Layers
-              // NOTE: layers could be an array.  for simplicity, I'm just inspecting
-              // the length property to check for both cases
-              lays = layers;
-          }
-          else {
-              // if passing in a Layer
-              lays = [layers];
+          if (layers) {
+              lays = Array.isArray(layers) ? layers : [layers];
           }
           this.layers = lays;
           return this;
@@ -8941,9 +8946,10 @@
        * @return {Bool} true if layer is added to animation, otherwise false
        */
       addLayer(layer) {
-          var layers = this.layers, len = layers.length, n;
+          const layers = this.layers;
+          const len = layers.length;
           // don't add the layer if it already exists
-          for (n = 0; n < len; n++) {
+          for (let n = 0; n < len; n++) {
               if (layers[n]._id === layer._id) {
                   return false;
               }
@@ -8958,8 +8964,10 @@
        * @return {Bool} is animation running?
        */
       isRunning() {
-          var a = Animation, animations = a.animations, len = animations.length, n;
-          for (n = 0; n < len; n++) {
+          const a = Animation;
+          const animations = a.animations;
+          const len = animations.length;
+          for (let n = 0; n < len; n++) {
               if (animations[n].id === this.id) {
                   return true;
               }
@@ -9000,8 +9008,10 @@
           this._handleAnimation();
       }
       static _removeAnimation(anim) {
-          var id = anim.id, animations = this.animations, len = animations.length, n;
-          for (n = 0; n < len; n++) {
+          const id = anim.id;
+          const animations = this.animations;
+          const len = animations.length;
+          for (let n = 0; n < len; n++) {
               if (animations[n].id === id) {
                   this.animations.splice(n, 1);
                   break;
@@ -9009,7 +9019,8 @@
           }
       }
       static _runFrames() {
-          var layerHash = {}, animations = this.animations, anim, layers, func, n, i, layersLen, layer, key, needRedraw;
+          const layerHash = {};
+          const animations = this.animations;
           /*
            * loop through all animations and execute animation
            *  function.  if the animation object has specified node,
@@ -9021,13 +9032,14 @@
            * WARNING: don't cache animations.length because it could change while
            * the for loop is running, causing a JS error
            */
-          for (n = 0; n < animations.length; n++) {
-              anim = animations[n];
-              layers = anim.layers;
-              func = anim.func;
+          for (let n = 0; n < animations.length; n++) {
+              const anim = animations[n];
+              const layers = anim.layers;
+              const func = anim.func;
               anim._updateFrameObject(now());
-              layersLen = layers.length;
+              const layersLen = layers.length;
               // if animation object has a function, execute it
+              let needRedraw;
               if (func) {
                   // allow anim bypassing drawing
                   needRedraw = func.call(anim, anim.frame) !== false;
@@ -9038,14 +9050,14 @@
               if (!needRedraw) {
                   continue;
               }
-              for (i = 0; i < layersLen; i++) {
-                  layer = layers[i];
+              for (let i = 0; i < layersLen; i++) {
+                  const layer = layers[i];
                   if (layer._id !== undefined) {
                       layerHash[layer._id] = layer;
                   }
               }
           }
-          for (key in layerHash) {
+          for (let key in layerHash) {
               if (!layerHash.hasOwnProperty(key)) {
                   continue;
               }
@@ -9053,7 +9065,7 @@
           }
       }
       static _animationLoop() {
-          var Anim = Animation;
+          const Anim = Animation;
           if (Anim.animations.length) {
               Anim._runFrames();
               Util.requestAnimFrame(Anim._animationLoop);
@@ -11610,7 +11622,7 @@
                       // case for a trailing comma before next command
                       break;
                   }
-                  var cmd = null;
+                  var cmd = '';
                   var points = [];
                   var startX = cpx, startY = cpy;
                   // Move var from within the switch to up here (jshint)
@@ -14166,7 +14178,7 @@
    * @param {Object} config
    * @param {String} [config.fontFamily] default is Arial
    * @param {Number} [config.fontSize] in pixels.  Default is 12
-   * @param {String} [config.fontStyle] can be 'normal', 'bold', 'italic' or even 'italic bold'.  Default is 'normal'
+   * @param {String} [config.fontStyle] can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
    * @param {String} [config.fontVariant] can be normal or small-caps.  Default is normal
    * @param {String} [config.textDecoration] can be line-through, underline or empty string. Default is empty string.
    * @param {String} config.text
@@ -14608,6 +14620,15 @@
       getStrokeScaleEnabled() {
           return true;
       }
+      _useBufferCanvas() {
+          const hasLine = this.textDecoration().indexOf('underline') !== -1 ||
+              this.textDecoration().indexOf('line-through') !== -1;
+          const hasShadow = this.hasShadow();
+          if (hasLine && hasShadow) {
+              return true;
+          }
+          return super._useBufferCanvas();
+      }
   }
   Text.prototype._fillFunc = _fillFunc$1;
   Text.prototype._strokeFunc = _strokeFunc$1;
@@ -14686,7 +14707,7 @@
    */
   Factory.addGetterSetter(Text, 'fontSize', 12, getNumberValidator());
   /**
-   * get/set font style.  Can be 'normal', 'italic', or 'bold' or even 'italic bold'.  'normal' is the default.
+   * get/set font style.  Can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
    * @name Konva.Text#fontStyle
    * @method
    * @param {String} fontStyle
@@ -14862,7 +14883,7 @@
    * @param {Object} config
    * @param {String} [config.fontFamily] default is Arial
    * @param {Number} [config.fontSize] default is 12
-   * @param {String} [config.fontStyle] can be normal, bold, or italic.  Default is normal
+   * @param {String} [config.fontStyle] Can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
    * @param {String} [config.fontVariant] can be normal or small-caps.  Default is normal
    * @param {String} [config.textBaseline] Can be 'top', 'bottom', 'middle', 'alphabetic', 'hanging'. Default is middle
    * @param {String} config.text
@@ -15251,7 +15272,7 @@
    */
   Factory.addGetterSetter(TextPath, 'fontSize', 12, getNumberValidator());
   /**
-   * get/set font style.  Can be 'normal', 'italic', or 'bold'.  'normal' is the default.
+   * get/set font style.  Can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
    * @name Konva.TextPath#fontStyle
    * @method
    * @param {String} fontStyle
@@ -15413,9 +15434,9 @@
       'bottom-right': 135,
   };
   const TOUCH_DEVICE = 'ontouchstart' in Konva$2._global;
-  function getCursor(anchorName, rad) {
+  function getCursor(anchorName, rad, rotateCursor) {
       if (anchorName === 'rotater') {
-          return 'crosshair';
+          return rotateCursor;
       }
       rad += Util.degToRad(ANGLES[anchorName] || 0);
       var angle = ((Util.radToDeg(rad) % 360) + 360) % 360;
@@ -15485,8 +15506,12 @@
       const y = point.y +
           (shape.x - point.x) * Math.sin(angleRad) +
           (shape.y - point.y) * Math.cos(angleRad);
-      return Object.assign(Object.assign({}, shape), { rotation: shape.rotation + angleRad, x,
-          y });
+      return {
+          ...shape,
+          rotation: shape.rotation + angleRad,
+          x,
+          y,
+      };
   }
   function rotateAroundCenter(shape, deltaRad) {
       const center = getCenter(shape);
@@ -15516,6 +15541,7 @@
    * @param {Array} [config.rotationSnaps] Array of angles for rotation snaps. Default is []
    * @param {Number} [config.rotationSnapTolerance] Snapping tolerance. If closer than this it will snap. Default is 5
    * @param {Number} [config.rotateAnchorOffset] Default is 50
+   * @param {String} [config.rotateAnchorCursor] Default is crosshair
    * @param {Number} [config.padding] Default is 0
    * @param {Boolean} [config.borderEnabled] Should we draw border? Default is true
    * @param {String} [config.borderStroke] Border stroke color
@@ -15547,6 +15573,7 @@
       constructor(config) {
           // call super constructor
           super(config);
+          this._movingAnchorName = null;
           this._transforming = false;
           this._createElements();
           // bindings
@@ -15772,7 +15799,7 @@
           });
           const tr = new Transform();
           tr.rotate(-Konva$2.getAngle(this.rotation()));
-          var minX, minY, maxX, maxY;
+          var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
           totalPoints.forEach(function (point) {
               var transformed = tr.point(point);
               if (minX === undefined) {
@@ -15816,9 +15843,9 @@
       }
       _createElements() {
           this._createBack();
-          ANCHORS_NAMES.forEach(function (name) {
+          ANCHORS_NAMES.forEach((name) => {
               this._createAnchor(name);
-          }.bind(this));
+          });
           this._createAnchor('rotater');
       }
       _createAnchor(name) {
@@ -15847,7 +15874,8 @@
           // add hover styling
           anchor.on('mouseenter', () => {
               var rad = Konva$2.getAngle(this.rotation());
-              var cursor = getCursor(name, rad);
+              var rotateCursor = this.rotateAnchorCursor();
+              var cursor = getCursor(name, rad, rotateCursor);
               anchor.getStage().content &&
                   (anchor.getStage().content.style.cursor = cursor);
               this._cursorChange = true;
@@ -15865,16 +15893,16 @@
               width: 0,
               height: 0,
               draggable: true,
-              sceneFunc(ctx) {
-                  var tr = this.getParent();
+              sceneFunc(ctx, shape) {
+                  var tr = shape.getParent();
                   var padding = tr.padding();
                   ctx.beginPath();
-                  ctx.rect(-padding, -padding, this.width() + padding * 2, this.height() + padding * 2);
-                  ctx.moveTo(this.width() / 2, -padding);
+                  ctx.rect(-padding, -padding, shape.width() + padding * 2, shape.height() + padding * 2);
+                  ctx.moveTo(shape.width() / 2, -padding);
                   if (tr.rotateEnabled()) {
-                      ctx.lineTo(this.width() / 2, -tr.rotateAnchorOffset() * Util._sign(this.height()) - padding);
+                      ctx.lineTo(shape.width() / 2, -tr.rotateAnchorOffset() * Util._sign(shape.height()) - padding);
                   }
-                  ctx.fillStrokeShape(this);
+                  ctx.fillStrokeShape(shape);
               },
               hitFunc: (ctx, shape) => {
                   if (!this.shouldOverdrawWholeArea()) {
@@ -16565,6 +16593,20 @@
    */
   Factory.addGetterSetter(Transformer, 'rotateAnchorOffset', 50, getNumberValidator());
   /**
+   * get/set rotation anchor cursor
+   * @name Konva.Transformer#rotateAnchorCursor
+   * @method
+   * @param {String} cursorName
+   * @returns {String}
+   * @example
+   * // get
+   * var currentRotationAnchorCursor = transformer.rotateAnchorCursor();
+   *
+   * // set
+   * transformer.rotateAnchorCursor('grab');
+   */
+  Factory.addGetterSetter(Transformer, 'rotateAnchorCursor', 'crosshair');
+  /**
    * get/set distance for rotation tolerance
    * @name Konva.Transformer#rotationSnapTolerance
    * @method
@@ -17102,518 +17144,39 @@
       this.next = null;
   }
   var mul_table = [
-      512,
-      512,
-      456,
-      512,
-      328,
-      456,
-      335,
-      512,
-      405,
-      328,
-      271,
-      456,
-      388,
-      335,
-      292,
-      512,
-      454,
-      405,
-      364,
-      328,
-      298,
-      271,
-      496,
-      456,
-      420,
-      388,
-      360,
-      335,
-      312,
-      292,
-      273,
-      512,
-      482,
-      454,
-      428,
-      405,
-      383,
-      364,
-      345,
-      328,
-      312,
-      298,
-      284,
-      271,
-      259,
-      496,
-      475,
-      456,
-      437,
-      420,
-      404,
-      388,
-      374,
-      360,
-      347,
-      335,
-      323,
-      312,
-      302,
-      292,
-      282,
-      273,
-      265,
-      512,
-      497,
-      482,
-      468,
-      454,
-      441,
-      428,
-      417,
-      405,
-      394,
-      383,
-      373,
-      364,
-      354,
-      345,
-      337,
-      328,
-      320,
-      312,
-      305,
-      298,
-      291,
-      284,
-      278,
-      271,
-      265,
-      259,
-      507,
-      496,
-      485,
-      475,
-      465,
-      456,
-      446,
-      437,
-      428,
-      420,
-      412,
-      404,
-      396,
-      388,
-      381,
-      374,
-      367,
-      360,
-      354,
-      347,
-      341,
-      335,
-      329,
-      323,
-      318,
-      312,
-      307,
-      302,
-      297,
-      292,
-      287,
-      282,
-      278,
-      273,
-      269,
-      265,
-      261,
-      512,
-      505,
-      497,
-      489,
-      482,
-      475,
-      468,
-      461,
-      454,
-      447,
-      441,
-      435,
-      428,
-      422,
-      417,
-      411,
-      405,
-      399,
-      394,
-      389,
-      383,
-      378,
-      373,
-      368,
-      364,
-      359,
-      354,
-      350,
-      345,
-      341,
-      337,
-      332,
-      328,
-      324,
-      320,
-      316,
-      312,
-      309,
-      305,
-      301,
-      298,
-      294,
-      291,
-      287,
-      284,
-      281,
-      278,
-      274,
-      271,
-      268,
-      265,
-      262,
-      259,
-      257,
-      507,
-      501,
-      496,
-      491,
-      485,
-      480,
-      475,
-      470,
-      465,
-      460,
-      456,
-      451,
-      446,
-      442,
-      437,
-      433,
-      428,
-      424,
-      420,
-      416,
-      412,
-      408,
-      404,
-      400,
-      396,
-      392,
-      388,
-      385,
-      381,
-      377,
-      374,
-      370,
-      367,
-      363,
-      360,
-      357,
-      354,
-      350,
-      347,
-      344,
-      341,
-      338,
-      335,
-      332,
-      329,
-      326,
-      323,
-      320,
-      318,
-      315,
-      312,
-      310,
-      307,
-      304,
-      302,
-      299,
-      297,
-      294,
-      292,
-      289,
-      287,
-      285,
-      282,
-      280,
-      278,
-      275,
-      273,
-      271,
-      269,
-      267,
-      265,
-      263,
-      261,
-      259,
+      512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292,
+      512, 454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292,
+      273, 512, 482, 454, 428, 405, 383, 364, 345, 328, 312, 298, 284, 271, 259,
+      496, 475, 456, 437, 420, 404, 388, 374, 360, 347, 335, 323, 312, 302, 292,
+      282, 273, 265, 512, 497, 482, 468, 454, 441, 428, 417, 405, 394, 383, 373,
+      364, 354, 345, 337, 328, 320, 312, 305, 298, 291, 284, 278, 271, 265, 259,
+      507, 496, 485, 475, 465, 456, 446, 437, 428, 420, 412, 404, 396, 388, 381,
+      374, 367, 360, 354, 347, 341, 335, 329, 323, 318, 312, 307, 302, 297, 292,
+      287, 282, 278, 273, 269, 265, 261, 512, 505, 497, 489, 482, 475, 468, 461,
+      454, 447, 441, 435, 428, 422, 417, 411, 405, 399, 394, 389, 383, 378, 373,
+      368, 364, 359, 354, 350, 345, 341, 337, 332, 328, 324, 320, 316, 312, 309,
+      305, 301, 298, 294, 291, 287, 284, 281, 278, 274, 271, 268, 265, 262, 259,
+      257, 507, 501, 496, 491, 485, 480, 475, 470, 465, 460, 456, 451, 446, 442,
+      437, 433, 428, 424, 420, 416, 412, 408, 404, 400, 396, 392, 388, 385, 381,
+      377, 374, 370, 367, 363, 360, 357, 354, 350, 347, 344, 341, 338, 335, 332,
+      329, 326, 323, 320, 318, 315, 312, 310, 307, 304, 302, 299, 297, 294, 292,
+      289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259,
   ];
   var shg_table = [
-      9,
-      11,
-      12,
-      13,
-      13,
-      14,
-      14,
-      15,
-      15,
-      15,
-      15,
-      16,
-      16,
-      16,
-      16,
-      17,
-      17,
-      17,
-      17,
-      17,
-      17,
-      17,
-      18,
-      18,
-      18,
-      18,
-      18,
-      18,
-      18,
-      18,
-      18,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      19,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      20,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      21,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      22,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      23,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
-      24,
+      9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17,
+      17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19,
+      19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+      20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22,
+      22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
+      22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23,
+      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+      23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+      23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+      24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+      24, 24, 24, 24, 24, 24, 24,
   ];
   function filterGaussBlurRGBA(imageData, radius) {
       var pixels = imageData.data, width = imageData.width, height = imageData.height;
@@ -17628,7 +17191,15 @@
       stack.next = stackStart;
       yw = yi = 0;
       for (y = 0; y < height; y++) {
-          r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
+          r_in_sum =
+              g_in_sum =
+                  b_in_sum =
+                      a_in_sum =
+                          r_sum =
+                              g_sum =
+                                  b_sum =
+                                      a_sum =
+                                          0;
           r_out_sum = radiusPlus1 * (pr = pixels[yi]);
           g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
           b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
@@ -17702,7 +17273,15 @@
           yw += width;
       }
       for (x = 0; x < width; x++) {
-          g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
+          g_in_sum =
+              b_in_sum =
+                  a_in_sum =
+                      r_in_sum =
+                          g_sum =
+                              b_sum =
+                                  a_sum =
+                                      r_sum =
+                                          0;
           yi = x << 2;
           r_out_sum = radiusPlus1 * (pr = pixels[yi]);
           g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
