@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "konva": "9.2.1",
+    "konva": "9.2.2",
     "vue": "^3.0.0-0",
     "vue-konva": "3.0.1"
   },

@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.2.1
+   * Konva JavaScript Framework v9.2.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Sep 14 2023
+   * Date: Mon Oct 09 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.2.1',
+      version: '9.2.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1485,11 +1485,13 @@
       'shadowBlur',
       'shadowOffsetX',
       'shadowOffsetY',
+      'letterSpacing',
       'lineCap',
       'lineDashOffset',
       'lineJoin',
       'lineWidth',
       'miterLimit',
+      'direction',
       'font',
       'textAlign',
       'textBaseline',
@@ -14113,7 +14115,8 @@
   // constants
   var AUTO = 'auto', 
   //CANVAS = 'canvas',
-  CENTER = 'center', JUSTIFY = 'justify', CHANGE_KONVA = 'Change.konva', CONTEXT_2D = '2d', DASH = '-', LEFT = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL$1 = 'normal', PX_SPACE = 'px ', SPACE = ' ', RIGHT = 'right', WORD = 'word', CHAR = 'char', NONE = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
+  CENTER = 'center', INHERIT = 'inherit', JUSTIFY = 'justify', CHANGE_KONVA = 'Change.konva', CONTEXT_2D = '2d', DASH = '-', LEFT = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL$1 = 'normal', PX_SPACE = 'px ', SPACE = ' ', RIGHT = 'right', RTL = 'rtl', WORD = 'word', CHAR = 'char', NONE = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
+      'direction',
       'fontFamily',
       'fontSize',
       'fontStyle',
@@ -14176,6 +14179,7 @@
    * @memberof Konva
    * @augments Konva.Shape
    * @param {Object} config
+   * @param {String} [config.direction] default is inherit
    * @param {String} [config.fontFamily] default is Arial
    * @param {Number} [config.fontSize] in pixels.  Default is 12
    * @param {String} [config.fontStyle] can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
@@ -14288,11 +14292,15 @@
           if (!this.text()) {
               return;
           }
-          var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
+          var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), direction = this.direction(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
+          direction = direction === INHERIT ? context.direction : direction;
           var translateY = 0;
           var translateY = lineHeightPx / 2;
           var lineTranslateX = 0;
           var lineTranslateY = 0;
+          if (direction === RTL) {
+              context.setAttr('direction', direction);
+          }
           context.setAttr('font', this._getContextFont());
           context.setAttr('textBaseline', MIDDLE);
           context.setAttr('textAlign', LEFT);
@@ -14351,7 +14359,10 @@
                   context.stroke();
                   context.restore();
               }
-              if (letterSpacing !== 0 || align === JUSTIFY) {
+              // As `letterSpacing` isn't supported on Safari, we use this polyfill.
+              // The exception is for RTL text, which we rely on native as it cannot
+              // be supported otherwise.
+              if (direction !== RTL && (letterSpacing !== 0 || align === JUSTIFY)) {
                   //   var words = text.split(' ');
                   spacesNumber = text.split(' ').length - 1;
                   var array = stringToArray(text);
@@ -14373,6 +14384,9 @@
                   }
               }
               else {
+                  if (letterSpacing !== 0) {
+                      context.setAttr('letterSpacing', `${letterSpacing}px`);
+                  }
                   this._partialTextX = lineTranslateX;
                   this._partialTextY = translateY + lineTranslateY;
                   this._partialText = text;
@@ -14678,6 +14692,20 @@
    * text.height() // will return calculated height, and not "auto"
    */
   Factory.overWriteSetter(Text, 'height', getNumberOrAutoValidator());
+  /**
+   * get/set direction
+   * @name Konva.Text#direction
+   * @method
+   * @param {String} direction
+   * @returns {String}
+   * @example
+   * // get direction
+   * var direction = text.direction();
+   *
+   * // set direction
+   * text.direction('rtl');
+   */
+  Factory.addGetterSetter(Text, 'direction', INHERIT);
   /**
    * get/set font family
    * @name Konva.Text#fontFamily
