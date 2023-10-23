@@ -66,20 +66,23 @@
       var lastCenter = null;
       var lastDist = 0;
 
-      var hadDrag = false;
-      stage.on('dragstart', function (e) {
-        hadDrag = true;
-      });
+      var dragStopped = false;
 
       stage.on('touchmove', function (e) {
         e.evt.preventDefault();
         var touch1 = e.evt.touches[0];
         var touch2 = e.evt.touches[1];
 
+        if (touch1 && !touch2 && !stage.isDragging() && dragStopped) {
+          stage.startDrag();
+          dragStopped = false;
+        }
+
         if (touch1 && touch2) {
           // if the stage was under Konva's drag&drop
           // we need to stop it, and implement our own pan logic with two pointers
           if (stage.isDragging()) {
+            dragStopped = true;
             stage.stopDrag();
           }
 
@@ -134,15 +137,6 @@
       stage.on('touchend', function (e) {
         lastDist = 0;
         lastCenter = null;
-        if (hasDrag) {
-          setTimeout(() => {
-            hasDrag = false;
-            stage.startDrag();
-          }, 60);
-        }
-        if (e.evt.touches.length === 0) {
-          hasDrag = false;
-        }
       });
 
       layer.add(triangle);
