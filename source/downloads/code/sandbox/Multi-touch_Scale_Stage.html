@@ -138,7 +138,10 @@
           setTimeout(() => {
             hasDrag = false;
             stage.startDrag();
-          });
+          }, 60);
+        }
+        if (e.evt.touches.length === 0) {
+          hasDrag = false;
         }
       });
 
