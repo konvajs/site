@@ -66,6 +66,11 @@
       var lastCenter = null;
       var lastDist = 0;
 
+      var hadDrag = false;
+      stage.on('dragstart', function (e) {
+        hadDrag = true;
+      });
+
       stage.on('touchmove', function (e) {
         e.evt.preventDefault();
         var touch1 = e.evt.touches[0];
@@ -126,9 +131,14 @@
         }
       });
 
-      stage.on('touchend', function () {
+      stage.on('touchend', function (e) {
         lastDist = 0;
         lastCenter = null;
+        if (hasDrag) {
+          hasDrag = false;
+          stage.startDrag();
+          return;
+        }
       });
 
       layer.add(triangle);
