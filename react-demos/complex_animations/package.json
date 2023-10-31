@@ -9,7 +9,7 @@
   ],
   "dependencies": {
     "@react-spring/konva": "9.2.3",
-    "konva": "9.2.2",
+    "konva": "9.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-konva": "18.0.0-0"

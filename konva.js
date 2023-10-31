@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.2.2
+   * Konva JavaScript Framework v9.2.3
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Oct 09 2023
+   * Date: Tue Oct 31 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.2.2',
+      version: '9.2.3',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -16210,7 +16210,6 @@
               this.update();
               return;
           }
-          const allowNegativeScale = this.flipEnabled();
           var t = new Transform();
           t.rotate(Konva$2.getAngle(this.rotation()));
           if (this._movingAnchorName &&
@@ -16226,10 +16225,6 @@
               this._movingAnchorName = this._movingAnchorName.replace('left', 'right');
               this._anchorDragOffset.x -= offset.x;
               this._anchorDragOffset.y -= offset.y;
-              if (!allowNegativeScale) {
-                  this.update();
-                  return;
-              }
           }
           else if (this._movingAnchorName &&
               newAttrs.width < 0 &&
@@ -16242,10 +16237,6 @@
               this._anchorDragOffset.x -= offset.x;
               this._anchorDragOffset.y -= offset.y;
               newAttrs.width += this.padding() * 2;
-              if (!allowNegativeScale) {
-                  this.update();
-                  return;
-              }
           }
           if (this._movingAnchorName &&
               newAttrs.height < 0 &&
@@ -16260,10 +16251,6 @@
               this._anchorDragOffset.x -= offset.x;
               this._anchorDragOffset.y -= offset.y;
               newAttrs.height += this.padding() * 2;
-              if (!allowNegativeScale) {
-                  this.update();
-                  return;
-              }
           }
           else if (this._movingAnchorName &&
               newAttrs.height < 0 &&
@@ -16276,10 +16263,6 @@
               this._anchorDragOffset.x -= offset.x;
               this._anchorDragOffset.y -= offset.y;
               newAttrs.height += this.padding() * 2;
-              if (!allowNegativeScale) {
-                  this.update();
-                  return;
-              }
           }
           if (this.boundBoxFunc()) {
               const bounded = this.boundBoxFunc()(oldAttrs, newAttrs);
@@ -16300,9 +16283,19 @@
           oldTr.rotate(oldAttrs.rotation);
           oldTr.scale(oldAttrs.width / baseSize, oldAttrs.height / baseSize);
           const newTr = new Transform();
-          newTr.translate(newAttrs.x, newAttrs.y);
-          newTr.rotate(newAttrs.rotation);
-          newTr.scale(newAttrs.width / baseSize, newAttrs.height / baseSize);
+          const newScaleX = newAttrs.width / baseSize;
+          const newScaleY = newAttrs.height / baseSize;
+          if (this.flipEnabled() === false) {
+              newTr.translate(newAttrs.x, newAttrs.y);
+              newTr.rotate(newAttrs.rotation);
+              newTr.translate(newAttrs.width < 0 ? newAttrs.width : 0, newAttrs.height < 0 ? newAttrs.height : 0);
+              newTr.scale(Math.abs(newScaleX), Math.abs(newScaleY));
+          }
+          else {
+              newTr.translate(newAttrs.x, newAttrs.y);
+              newTr.rotate(newAttrs.rotation);
+              newTr.scale(newScaleX, newScaleY);
+          }
           // now lets think we had [old transform] and n ow we have [new transform]
           // Now, the questions is: how can we transform "parent" to go from [old transform] into [new transform]
           // in equation it will be:
