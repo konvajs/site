@@ -141,8 +141,9 @@
           const tr = new Konva.Transformer({
             nodes: [img],
             keepRatio: false,
+            flipEnabled: false,
             boundBoxFunc: (oldBox, newBox) => {
-              if (newBox.width < 10 || newBox.height < 10) {
+              if (Math.abs(newBox.width) < 10 || Math.abs(newBox.height) < 10) {
                 return oldBox;
               }
               return newBox;

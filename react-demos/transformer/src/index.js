@@ -54,9 +54,10 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
       {isSelected && (
         <Transformer
           ref={trRef}
+          flipEnabled={false}
           boundBoxFunc={(oldBox, newBox) => {
             // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
+            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
               return oldBox;
             }
             return newBox;

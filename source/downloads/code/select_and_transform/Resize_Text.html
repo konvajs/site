@@ -43,11 +43,12 @@
       var tr = new Konva.Transformer({
         nodes: [text],
         padding: 5,
+        flipEnabled: false,
         // enable only side anchors
         enabledAnchors: ['middle-left', 'middle-right'],
         // limit transformer size
         boundBoxFunc: (oldBox, newBox) => {
-          if (newBox.width < MIN_WIDTH) {
+          if (Math.abs(newBox.width) < MIN_WIDTH) {
             return oldBox;
           }
           return newBox;
