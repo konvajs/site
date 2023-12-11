@@ -66,6 +66,7 @@
       layer.add(selectionRectangle);
 
       var x1, y1, x2, y2;
+      var selecting = false;
       stage.on('mousedown touchstart', (e) => {
         // do nothing if we mousedown on any shape
         if (e.target !== stage) {
@@ -77,14 +78,14 @@
         x2 = stage.getPointerPosition().x;
         y2 = stage.getPointerPosition().y;
 
-        selectionRectangle.visible(true);
         selectionRectangle.width(0);
         selectionRectangle.height(0);
+        selecting = true;
       });
 
       stage.on('mousemove touchmove', (e) => {
         // do nothing if we didn't start selection
-        if (!selectionRectangle.visible()) {
+        if (!selecting) {
           return;
         }
         e.evt.preventDefault();
@@ -92,6 +93,7 @@
         y2 = stage.getPointerPosition().y;
 
         selectionRectangle.setAttrs({
+          visible: true,
           x: Math.min(x1, x2),
           y: Math.min(y1, y2),
           width: Math.abs(x2 - x1),
@@ -101,15 +103,13 @@
 
       stage.on('mouseup touchend', (e) => {
         // do nothing if we didn't start selection
+        selecting = false;
         if (!selectionRectangle.visible()) {
           return;
         }
         e.evt.preventDefault();
         // update visibility in timeout, so we can check it in click event
-        setTimeout(() => {
-          selectionRectangle.visible(false);
-        });
-
+        selectionRectangle.visible(false);
         var shapes = stage.find('.rect');
         var box = selectionRectangle.getClientRect();
         var selected = shapes.filter((shape) =>
