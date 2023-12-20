@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.2.3
+   * Konva JavaScript Framework v9.3.0
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Tue Oct 31 2023
+   * Date: Wed Dec 20 2023
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.2.3',
+      version: '9.3.0',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -4217,7 +4217,7 @@
                   this.toCanvas(config).toBlob((blob) => {
                       resolve(blob);
                       callback === null || callback === void 0 ? void 0 : callback(blob);
-                  });
+                  }, config === null || config === void 0 ? void 0 : config.mimeType, config === null || config === void 0 ? void 0 : config.quality);
               }
               catch (err) {
                   reject(err);
@@ -6887,11 +6887,11 @@
                   const m = tr.getMatrix();
                   const matrix = typeof DOMMatrix === 'undefined'
                       ? {
-                          a: m[0],
-                          b: m[1],
-                          c: m[2],
+                          a: m[0], // Horizontal scaling. A value of 1 results in no scaling.
+                          b: m[1], // Vertical skewing.
+                          c: m[2], // Horizontal skewing.
                           d: m[3],
-                          e: m[4],
+                          e: m[4], // Horizontal translation (moving).
                           f: m[5], // Vertical translation (moving).
                       }
                       : new DOMMatrix(m);
@@ -8317,10 +8317,10 @@
    * 8 - 7 - 6
    */
   INTERSECTION_OFFSETS = [
-      { x: 0, y: 0 },
-      { x: -1, y: -1 },
-      { x: 1, y: -1 },
-      { x: 1, y: 1 },
+      { x: 0, y: 0 }, // 0
+      { x: -1, y: -1 }, // 2
+      { x: 1, y: -1 }, // 4
+      { x: 1, y: 1 }, // 6
       { x: -1, y: 1 }, // 8
   ], INTERSECTION_OFFSETS_LEN = INTERSECTION_OFFSETS.length;
   /**
@@ -15566,6 +15566,7 @@
    * @param {Object} config
    * @param {Boolean} [config.resizeEnabled] Default is true
    * @param {Boolean} [config.rotateEnabled] Default is true
+   * @param {Boolean} [config.rotateLineVisible] Default is true
    * @param {Array} [config.rotationSnaps] Array of angles for rotation snaps. Default is []
    * @param {Number} [config.rotationSnapTolerance] Snapping tolerance. If closer than this it will snap. Default is 5
    * @param {Number} [config.rotateAnchorOffset] Default is 50
@@ -15927,7 +15928,7 @@
                   ctx.beginPath();
                   ctx.rect(-padding, -padding, shape.width() + padding * 2, shape.height() + padding * 2);
                   ctx.moveTo(shape.width() / 2, -padding);
-                  if (tr.rotateEnabled()) {
+                  if (tr.rotateEnabled() && tr.rotateLineVisible()) {
                       ctx.lineTo(shape.width() / 2, -tr.rotateAnchorOffset() * Util._sign(shape.height()) - padding);
                   }
                   ctx.fillStrokeShape(shape);
@@ -16585,6 +16586,20 @@
    * transformer.rotateEnabled(false);
    */
   Factory.addGetterSetter(Transformer, 'rotateEnabled', true);
+  /**
+   * get/set visibility of a little line that connects transformer and rotate anchor.
+   * @name Konva.Transformer#rotateLineVisible
+   * @method
+   * @param {Boolean} enabled
+   * @returns {Boolean}
+   * @example
+   * // get
+   * var rotateLineVisible = transformer.rotateLineVisible();
+   *
+   * // set
+   * transformer.rotateLineVisible(false);
+   */
+  Factory.addGetterSetter(Transformer, 'rotateLineVisible', true);
   /**
    * get/set rotation snaps angles.
    * @name Konva.Transformer#rotationSnaps
