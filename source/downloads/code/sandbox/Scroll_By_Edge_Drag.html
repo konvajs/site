@@ -29,15 +29,13 @@
       var layer = new Konva.Layer();
       stage.add(layer);
 
-      var WIDTH = 3000;
-      var HEIGHT = 3000;
-      var NUMBER = 200;
+      var NUMBER = 100;
 
       function generateNode() {
         return new Konva.Circle({
-          x: WIDTH * (Math.random() * 2 - 1),
-          y: HEIGHT * (Math.random() * 2 - 1),
-          radius: 50,
+          x: width * (Math.random() * 2 - 1),
+          y: height * (Math.random() * 2 - 1),
+          radius: 40,
           fill: 'red',
           stroke: 'black',
           draggable: true,
