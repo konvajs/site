@@ -204,7 +204,7 @@ demo_sidebar:
       - sandbox/Canvas_Scrolling.html
     Scroll by Edge Drag:
       - scroll.png
-      - sandbox/Scroll_By_Edge_Drag
+      - sandbox/Scroll_By_Edge_Drag.html
     Gif Animation:
       - gif.jpg
       - sandbox/GIF_On_Canvas.html
