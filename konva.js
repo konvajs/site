@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.0
+   * Konva JavaScript Framework v9.3.1
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Dec 20 2023
+   * Date: Wed Jan 17 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.0',
+      version: '9.3.1',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -1467,6 +1467,7 @@
       'putImageData',
       'quadraticCurveTo',
       'rect',
+      'roundRect',
       'restore',
       'rotate',
       'save',
@@ -1877,6 +1878,14 @@
        */
       rect(x, y, width, height) {
           this._context.rect(x, y, width, height);
+      }
+      /**
+       * roundRect function.
+       * @method
+       * @name Konva.Context#roundRect
+       */
+      roundRect(x, y, width, height, radii) {
+          this._context.roundRect(x, y, width, height, radii);
       }
       /**
        * putImageData function.
@@ -2696,10 +2705,13 @@
               Util.error('Can not cache the node. Width or height of the node equals 0. Caching is skipped.');
               return;
           }
-          // let's just add 1 pixel extra,
           // because using Math.floor on x, y position may shift drawing
-          width += offset * 2 + 1;
-          height += offset * 2 + 1;
+          // to avoid shift we need to increase size
+          // but we better to avoid it, for better filters flows
+          const extraPaddingX = Math.abs(Math.round(rect.x) - x) > 0.5 ? 1 : 0;
+          const extraPaddingY = Math.abs(Math.round(rect.y) - y) > 0.5 ? 1 : 0;
+          width += offset * 2 + extraPaddingX;
+          height += offset * 2 + extraPaddingY;
           x -= offset;
           y -= offset;
           // if (Math.floor(x) < x) {
@@ -3160,7 +3172,7 @@
        * @returns {Object}
        */
       getAttrs() {
-          return this.attrs || {};
+          return (this.attrs || {});
       }
       /**
        * set multiple attrs at once using an object literal
@@ -3688,8 +3700,11 @@
        * @returns {Object}
        */
       toObject() {
-          var obj = {}, attrs = this.getAttrs(), key, val, getter, defaultValue, nonPlainObject;
-          obj.attrs = {};
+          var attrs = this.getAttrs(), key, val, getter, defaultValue, nonPlainObject;
+          const obj = {
+              attrs: {},
+              className: this.getClassName(),
+          };
           for (key in attrs) {
               val = attrs[key];
               // if value is object and object is not plain
@@ -3709,7 +3724,6 @@
                   obj.attrs[key] = val;
               }
           }
-          obj.className = this.getClassName();
           return Util._prepareToStringify(obj);
       }
       /**
@@ -4076,6 +4090,11 @@
                   (stage ? stage.height() : 0),
               pixelRatio: pixelRatio,
           }), context = canvas.getContext();
+          const bufferCanvas = new SceneCanvas({
+              width: canvas.width,
+              height: canvas.height,
+              pixelRatio: canvas.pixelRatio,
+          });
           if (config.imageSmoothingEnabled === false) {
               context._context.imageSmoothingEnabled = false;
           }
@@ -4083,7 +4102,7 @@
           if (x || y) {
               context.translate(-1 * x, -1 * y);
           }
-          this.drawScene(canvas);
+          this.drawScene(canvas, undefined, bufferCanvas);
           context.restore();
           return canvas;
       }
@@ -5570,7 +5589,7 @@
           });
           this._requestDraw();
       }
-      drawScene(can, top) {
+      drawScene(can, top, bufferCanvas) {
           var layer = this.getLayer(), canvas = can || (layer && layer.getCanvas()), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedSceneCanvas = cachedCanvas && cachedCanvas.scene;
           var caching = canvas && canvas.isCache;
           if (!this.isVisible() && !caching) {
@@ -5584,7 +5603,7 @@
               context.restore();
           }
           else {
-              this._drawChildren('drawScene', canvas, top);
+              this._drawChildren('drawScene', canvas, top, bufferCanvas);
           }
           return this;
       }
@@ -5605,7 +5624,7 @@
           }
           return this;
       }
-      _drawChildren(drawMethod, canvas, top) {
+      _drawChildren(drawMethod, canvas, top, bufferCanvas) {
           var _a;
           var context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (clipWidth && clipHeight) || clipFunc;
           const selfCache = top === this;
@@ -5636,7 +5655,7 @@
               context._applyGlobalCompositeOperation(this);
           }
           (_a = this.children) === null || _a === void 0 ? void 0 : _a.forEach(function (child) {
-              child[drawMethod](canvas, top);
+              child[drawMethod](canvas, top, bufferCanvas);
           });
           if (hasComposition) {
               context.restore();
@@ -7048,10 +7067,6 @@
           // so they use that method with forced fill
           // it probably will be simpler, then copy/paste the code
           var _a;
-          // buffer canvas is available only inside the stage
-          if (!this.getStage()) {
-              return false;
-          }
           // force skip buffer canvas
           const perfectDrawEnabled = (_a = this.attrs.perfectDrawEnabled) !== null && _a !== void 0 ? _a : true;
           if (!perfectDrawEnabled) {
@@ -7139,13 +7154,13 @@
           }
           return rect;
       }
-      drawScene(can, top) {
+      drawScene(can, top, bufferCanvas) {
           // basically there are 3 drawing modes
           // 1 - simple drawing when nothing is cached.
           // 2 - when we are caching current
           // 3 - when node is cached and we need to draw it into layer
           var layer = this.getLayer();
-          var canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferCanvas, bufferContext;
+          var canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferContext;
           var skipBuffer = canvas.isCache;
           var cachingSelf = top === this;
           if (!this.isVisible() && !cachingSelf) {
@@ -7167,8 +7182,8 @@
           // if buffer canvas is needed
           if (this._useBufferCanvas() && !skipBuffer) {
               stage = this.getStage();
-              bufferCanvas = stage.bufferCanvas;
-              bufferContext = bufferCanvas.getContext();
+              const bc = bufferCanvas || stage.bufferCanvas;
+              bufferContext = bc.getContext();
               bufferContext.clear();
               bufferContext.save();
               bufferContext._applyLineJoin(this);
@@ -7177,13 +7192,13 @@
               bufferContext.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
               drawFunc.call(this, bufferContext, this);
               bufferContext.restore();
-              var ratio = bufferCanvas.pixelRatio;
+              var ratio = bc.pixelRatio;
               if (hasShadow) {
                   context._applyShadow(this);
               }
               context._applyOpacity(this);
               context._applyGlobalCompositeOperation(this);
-              context.drawImage(bufferCanvas._canvas, 0, 0, bufferCanvas.width / ratio, bufferCanvas.height / ratio);
+              context.drawImage(bc._canvas, 0, 0, bc.width / ratio, bc.height / ratio);
           }
           else {
               context._applyLineJoin(this);
