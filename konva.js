@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.1
+   * Konva JavaScript Framework v9.3.2
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed Jan 17 2024
+   * Date: Fri Jan 26 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.1',
+      version: '9.3.2',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -4091,8 +4091,10 @@
               pixelRatio: pixelRatio,
           }), context = canvas.getContext();
           const bufferCanvas = new SceneCanvas({
-              width: canvas.width,
-              height: canvas.height,
+              // width and height already multiplied by pixelRatio
+              // so we need to revert that
+              width: canvas.width / canvas.pixelRatio,
+              height: canvas.height / canvas.pixelRatio,
               pixelRatio: canvas.pixelRatio,
           });
           if (config.imageSmoothingEnabled === false) {
