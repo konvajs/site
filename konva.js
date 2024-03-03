@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.4
+   * Konva JavaScript Framework v9.3.5
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Sun Mar 03 2024
+   * Date: Mon Mar 04 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.4',
+      version: '9.3.5',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -147,6 +147,10 @@
        */
       isDragging() {
           return Konva$2['DD'].isDragging;
+      },
+      isTransforming() {
+          var _a;
+          return (_a = Konva$2['Transformer']) === null || _a === void 0 ? void 0 : _a.isTransforming();
       },
       /**
        * returns whether or not a drag and drop operation is ready, but may
@@ -3287,7 +3291,9 @@
                   layerUnderDrag = true;
               }
           });
-          var dragSkip = !skipDragCheck && !Konva$2.hitOnDragEnabled && layerUnderDrag;
+          var dragSkip = !skipDragCheck &&
+              !Konva$2.hitOnDragEnabled &&
+              (layerUnderDrag || Konva$2.isTransforming());
           return this.isListening() && this.isVisible() && !dragSkip;
       }
       /**
@@ -6297,7 +6303,7 @@
           }
           this.setPointersPositions(evt);
           var targetShape = this._getTargetShape(eventType);
-          var eventsEnabled = !DD.isDragging || Konva$2.hitOnDragEnabled;
+          var eventsEnabled = !(Konva$2.isDragging() || Konva$2.isTransforming()) || Konva$2.hitOnDragEnabled;
           if (targetShape && eventsEnabled) {
               targetShape._fireAndBubble(events.pointerout, { evt: evt });
               targetShape._fireAndBubble(events.pointerleave, { evt: evt });
@@ -6373,11 +6379,11 @@
           if (!events) {
               return;
           }
-          if (DD.isDragging && DD.node.preventDefault() && evt.cancelable) {
+          if (Konva$2.isDragging() && DD.node.preventDefault() && evt.cancelable) {
               evt.preventDefault();
           }
           this.setPointersPositions(evt);
-          var eventsEnabled = !DD.isDragging || Konva$2.hitOnDragEnabled;
+          var eventsEnabled = !(Konva$2.isDragging() || Konva$2.isTransforming()) || Konva$2.hitOnDragEnabled;
           if (!eventsEnabled) {
               return;
           }
@@ -15576,6 +15582,7 @@
       }
       return snapped;
   }
+  let activeTransformersCount = 0;
   /**
    * Transformer constructor.  Transformer is a special type of group that allow you transform Konva
    * primitives and shapes. Transforming tool is not changing `width` and `height` properties of nodes
@@ -16002,6 +16009,7 @@
               x: pos.x - ap.x,
               y: pos.y - ap.y,
           };
+          activeTransformersCount++;
           this._fire('transformstart', { evt: e.evt, target: this.getNode() });
           this._nodes.forEach((target) => {
               target._fire('transformstart', { evt: e.evt, target });
@@ -16210,6 +16218,7 @@
                   window.removeEventListener('touchend', this._handleMouseUp, true);
               }
               var node = this.getNode();
+              activeTransformersCount--;
               this._fire('transformend', { evt: e, target: node });
               if (node) {
                   this._nodes.forEach((target) => {
@@ -16342,11 +16351,14 @@
                   .multiply(localTransform);
               const attrs = newLocalTransform.decompose();
               node.setAttrs(attrs);
-              this._fire('transform', { evt: evt, target: node });
-              node._fire('transform', { evt: evt, target: node });
               (_a = node.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
           });
           this.rotation(Util._getRotation(newAttrs.rotation));
+          // trigger transform event AFTER we update rotation
+          this._nodes.forEach((node) => {
+              this._fire('transform', { evt: evt, target: node });
+              node._fire('transform', { evt: evt, target: node });
+          });
           this._resetTransformCache();
           this.update();
           this.getLayer().batchDraw();
@@ -16517,6 +16529,9 @@
           }
       }
   }
+  Transformer.isTransforming = () => {
+      return activeTransformersCount > 0;
+  };
   function validateAnchors(val) {
       if (!(val instanceof Array)) {
           Util.warn('enabledAnchors value should be an array');
