@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.5
+   * Konva JavaScript Framework v9.3.6
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Mar 04 2024
+   * Date: Thu Mar 07 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.5',
+      version: '9.3.6',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -16209,6 +16209,7 @@
           return this.getTransform();
       }
       _removeEvents(e) {
+          var _a;
           if (this._transforming) {
               this._transforming = false;
               if (typeof window !== 'undefined') {
@@ -16220,9 +16221,14 @@
               var node = this.getNode();
               activeTransformersCount--;
               this._fire('transformend', { evt: e, target: node });
+              // redraw layer to restore hit graph
+              (_a = this.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
               if (node) {
                   this._nodes.forEach((target) => {
+                      var _a;
                       target._fire('transformend', { evt: e, target });
+                      // redraw layer to restore hit graph
+                      (_a = target.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
                   });
               }
               this._movingAnchorName = null;

@@ -8,7 +8,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "konva": "9.3.5"
+    "konva": "9.3.6"
   },
   "devDependencies": {
     "@babel/core": "8.3.5",
