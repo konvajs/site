@@ -6,14 +6,18 @@
     <Layer>
         <Shape
             config={{
+                width: 260,
+                height: 170,
                 sceneFunc: function (context, shape) {
+                    const width = shape.width();
+                    const height = shape.height();
                     context.beginPath();
-                    context.moveTo(20, 50);
-                    context.lineTo(220, 80);
-                    context.quadraticCurveTo(150, 100, 260, 170);
+                    context.moveTo(0, 0);
+                    context.lineTo(width - 40, height - 90);
+                    context.quadraticCurveTo(width - 110, height - 70, width, height);
                     context.closePath();
 
-                    // special Konva.js method
+                    // (!) Konva specific method, it is very important
                     context.fillStrokeShape(shape);
                 },
                 fill: "#00D2FF",
