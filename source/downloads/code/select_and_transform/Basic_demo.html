@@ -62,6 +62,8 @@
       var selectionRectangle = new Konva.Rect({
         fill: 'rgba(0,0,255,0.5)',
         visible: false,
+        // disable events to not interrupt with events
+        listening: false,
       });
       layer.add(selectionRectangle);
 
