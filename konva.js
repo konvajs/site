@@ -5,7 +5,7 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.7
+   * Konva JavaScript Framework v9.3.8
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Wed May 15 2024
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.7',
+      version: '9.3.8',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -87,6 +87,7 @@
       _mouseDblClickPointerId: null,
       _touchDblClickPointerId: null,
       _pointerDblClickPointerId: null,
+      _fixTextRendering: false,
       /**
        * Global pixel ratio configuration. KonvaJS automatically detect pixel ratio of current device.
        * But you may override such property, if you want to use your value. Set this value before any components initializations.
@@ -14321,9 +14322,10 @@
           var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), direction = this.direction(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
           direction = direction === INHERIT ? context.direction : direction;
           var translateY = lineHeightPx / 2;
-          const baseline = this.textBaseline();
-          if (baseline === 'alphabetic') {
+          var baseline = MIDDLE;
+          if (Konva$2._fixTextRendering) {
               var metrics = this.measureSize('M'); // Use a sample character to get the ascent
+              baseline = 'alphabetic';
               translateY =
                   (metrics.fontBoundingBoxAscent - metrics.fontBoundingBoxDescent) / 2 +
                       lineHeightPx / 2;
@@ -14764,7 +14766,6 @@
    * text.fontFamily('Arial');
    */
   Factory.addGetterSetter(Text, 'fontFamily', 'Arial');
-  Factory.addGetterSetter(Text, 'textBaseline', MIDDLE);
   /**
    * get/set font size in pixels
    * @name Konva.Text#fontSize
