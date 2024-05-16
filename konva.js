@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.6
+   * Konva JavaScript Framework v9.3.7
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Thu Mar 07 2024
+   * Date: Wed May 15 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.6',
+      version: '9.3.7',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -6344,6 +6344,7 @@
               Konva$2['_' + eventType + 'ListenClick'] = true;
               // no shape detected? do nothing
               if (!shape || !shape.isListening()) {
+                  this[eventType + 'ClickStartShape'] = undefined;
                   return;
               }
               if (Konva$2.capturePointerEventsEnabled) {
@@ -14319,15 +14320,21 @@
           }
           var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), direction = this.direction(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
           direction = direction === INHERIT ? context.direction : direction;
-          var translateY = 0;
           var translateY = lineHeightPx / 2;
+          const baseline = this.textBaseline();
+          if (baseline === 'alphabetic') {
+              var metrics = this.measureSize('M'); // Use a sample character to get the ascent
+              translateY =
+                  (metrics.fontBoundingBoxAscent - metrics.fontBoundingBoxDescent) / 2 +
+                      lineHeightPx / 2;
+          }
           var lineTranslateX = 0;
           var lineTranslateY = 0;
           if (direction === RTL) {
               context.setAttr('direction', direction);
           }
           context.setAttr('font', this._getContextFont());
-          context.setAttr('textBaseline', MIDDLE);
+          context.setAttr('textBaseline', baseline);
           context.setAttr('textAlign', LEFT);
           // handle vertical alignment
           if (verticalAlign === MIDDLE) {
@@ -14478,6 +14485,18 @@
           metrics = _context.measureText(text);
           _context.restore();
           return {
+              // copy all text metrics data:
+              actualBoundingBoxAscent: metrics.actualBoundingBoxAscent,
+              actualBoundingBoxDescent: metrics.actualBoundingBoxDescent,
+              actualBoundingBoxLeft: metrics.actualBoundingBoxLeft,
+              actualBoundingBoxRight: metrics.actualBoundingBoxRight,
+              alphabeticBaseline: metrics.alphabeticBaseline,
+              emHeightAscent: metrics.emHeightAscent,
+              emHeightDescent: metrics.emHeightDescent,
+              fontBoundingBoxAscent: metrics.fontBoundingBoxAscent,
+              fontBoundingBoxDescent: metrics.fontBoundingBoxDescent,
+              hangingBaseline: metrics.hangingBaseline,
+              ideographicBaseline: metrics.ideographicBaseline,
               width: metrics.width,
               height: fontSize,
           };
@@ -14745,6 +14764,7 @@
    * text.fontFamily('Arial');
    */
   Factory.addGetterSetter(Text, 'fontFamily', 'Arial');
+  Factory.addGetterSetter(Text, 'textBaseline', MIDDLE);
   /**
    * get/set font size in pixels
    * @name Konva.Text#fontSize
@@ -18059,7 +18079,7 @@
       rad = Math.sqrt(x * x + y * y);
       rMax = rad > rMax ? rad : rMax;
       // We'll be uisng x as the radius, and y as the angle (theta=t)
-      var rSize = ySize, tSize = xSize, radius, theta, phaseShift = opt.polarRotation || 0;
+      var rSize = ySize, tSize = xSize, radius, theta, phaseShift = 0;
       // We need to convert to degrees and we need to make sure
       // it's between (0-360)
       // var conversion = tSize/360*180/Math.PI;
