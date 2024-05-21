@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.8
+   * Konva JavaScript Framework v9.3.9
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Wed May 15 2024
+   * Date: Mon May 20 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.8',
+      version: '9.3.9',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14362,12 +14362,17 @@
               if (shouldUnderline) {
                   context.save();
                   context.beginPath();
-                  context.moveTo(lineTranslateX, translateY + lineTranslateY + Math.round(fontSize / 2));
+                  let yOffset = Konva$2._fixTextRendering
+                      ? Math.round(fontSize / 4)
+                      : Math.round(fontSize / 2);
+                  const x = lineTranslateX;
+                  const y = translateY + lineTranslateY + yOffset;
+                  context.moveTo(x, y);
                   spacesNumber = text.split(' ').length - 1;
                   oneWord = spacesNumber === 0;
                   lineWidth =
                       align === JUSTIFY && !lastLine ? totalWidth - padding * 2 : width;
-                  context.lineTo(lineTranslateX + Math.round(lineWidth), translateY + lineTranslateY + Math.round(fontSize / 2));
+                  context.lineTo(x + Math.round(lineWidth), y);
                   // I have no idea what is real ratio
                   // just /15 looks good enough
                   context.lineWidth = fontSize / 15;
@@ -14379,14 +14384,15 @@
               if (shouldLineThrough) {
                   context.save();
                   context.beginPath();
-                  context.moveTo(lineTranslateX, translateY + lineTranslateY);
+                  let yOffset = Konva$2._fixTextRendering ? -Math.round(fontSize / 4) : 0;
+                  context.moveTo(lineTranslateX, translateY + lineTranslateY + yOffset);
                   spacesNumber = text.split(' ').length - 1;
                   oneWord = spacesNumber === 0;
                   lineWidth =
                       align === JUSTIFY && lastLine && !oneWord
                           ? totalWidth - padding * 2
                           : width;
-                  context.lineTo(lineTranslateX + Math.round(lineWidth), translateY + lineTranslateY);
+                  context.lineTo(lineTranslateX + Math.round(lineWidth), translateY + lineTranslateY + yOffset);
                   context.lineWidth = fontSize / 15;
                   const gradient = this._getLinearGradient();
                   context.strokeStyle = gradient || fill;
