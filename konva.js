@@ -5,7 +5,7 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.10
+   * Konva JavaScript Framework v9.3.11
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Thu May 23 2024
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.10',
+      version: '9.3.11',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -6711,7 +6711,7 @@
   // TODO: any other way to solve this issue?
   // TODO: should we remove it if chrome fixes the issue?
   if (Konva$2.isBrowser) {
-      window.addEventListener('focus', () => {
+      document.addEventListener('visibilitychange', () => {
           stages.forEach((stage) => {
               stage.batchDraw();
           });
