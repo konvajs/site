@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.9
+   * Konva JavaScript Framework v9.3.10
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon May 20 2024
+   * Date: Thu May 23 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.9',
+      version: '9.3.10',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -6706,6 +6706,17 @@
    * stage.container(container);
    */
   Factory.addGetterSetter(Stage, 'container');
+  // chrome is clearing canvas in inactive browser window, causing layer content to be erased
+  // so let's redraw layers as soon as window becomes active
+  // TODO: any other way to solve this issue?
+  // TODO: should we remove it if chrome fixes the issue?
+  if (Konva$2.isBrowser) {
+      window.addEventListener('focus', () => {
+          stages.forEach((stage) => {
+              stage.batchDraw();
+          });
+      });
+  }
 
   var HAS_SHADOW = 'hasShadow';
   var SHADOW_RGBA = 'shadowRGBA';
