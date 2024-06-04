@@ -224,44 +224,13 @@
         var absPos = e.target.absolutePosition();
         // now force object position
         guides.forEach((lg) => {
-          switch (lg.snap) {
-            case 'start': {
-              switch (lg.orientation) {
-                case 'V': {
-                  absPos.x = lg.lineGuide + lg.offset;
-                  break;
-                }
-                case 'H': {
-                  absPos.y = lg.lineGuide + lg.offset;
-                  break;
-                }
-              }
+          switch (lg.orientation) {
+            case 'V': {
+              absPos.x = lg.lineGuide + lg.offset;
               break;
             }
-            case 'center': {
-              switch (lg.orientation) {
-                case 'V': {
-                  absPos.x = lg.lineGuide + lg.offset;
-                  break;
-                }
-                case 'H': {
-                  absPos.y = lg.lineGuide + lg.offset;
-                  break;
-                }
-              }
-              break;
-            }
-            case 'end': {
-              switch (lg.orientation) {
-                case 'V': {
-                  absPos.x = lg.lineGuide + lg.offset;
-                  break;
-                }
-                case 'H': {
-                  absPos.y = lg.lineGuide + lg.offset;
-                  break;
-                }
-              }
+            case 'H': {
+              absPos.y = lg.lineGuide + lg.offset;
               break;
             }
           }
