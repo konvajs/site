@@ -8,7 +8,7 @@
    * Konva JavaScript Framework v9.3.13
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Fri Jul 05 2024
+   * Date: Mon Jul 15 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -5106,6 +5106,8 @@
   /**
    * get/set listening attr.  If you need to determine if a node is listening or not
    *   by taking into account its parents, use the isListening() method
+   *   nodes with listening set to false will not be detected in hit graph
+   *   so they will be ignored in container.getIntersection() method
    * @name Konva.Node#listening
    * @method
    * @param {Boolean} listening Can be true, or false.  The default is true.
@@ -5564,6 +5566,7 @@
        * canvas and redraw every shape inside the container, it should only be used for special situations
        * because it performs very poorly.  Please use the {@link Konva.Stage#getIntersection} method if at all possible
        * because it performs much better
+       * nodes with listening set to false will not be detected
        * @method
        * @name Konva.Container#getAllIntersections
        * @param {Object} pos
@@ -6173,6 +6176,7 @@
       /**
        * get visible intersection shape. This is the preferred
        *  method for determining if a point intersects a shape or not
+       * nodes with listening set to false will not be detected
        * @method
        * @name Konva.Stage#getIntersection
        * @param {Object} pos
@@ -8644,6 +8648,7 @@
        * get visible intersection shape. This is the preferred
        * method for determining if a point intersects a shape or not
        * also you may pass optional selector parameter to return ancestor of intersected shape
+       * nodes with listening set to false will not be detected
        * @method
        * @name Konva.Layer#getIntersection
        * @param {Object} pos
