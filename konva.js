@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.13
+   * Konva JavaScript Framework v9.3.14
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Jul 15 2024
+   * Date: Tue Jul 16 2024
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.13',
+      version: '9.3.14',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -6754,7 +6754,13 @@
       context.stroke();
   }
   function _fillFuncHit(context) {
-      context.fill();
+      const fillRule = this.attrs.fillRule;
+      if (fillRule) {
+          context.fill(fillRule);
+      }
+      else {
+          context.fill();
+      }
   }
   function _strokeFuncHit(context) {
       context.stroke();
@@ -12640,6 +12646,11 @@
           }
       }
       _useBufferCanvas() {
+          const hasCornerRadius = !!this.cornerRadius();
+          const hasShadow = this.hasShadow();
+          if (hasCornerRadius && hasShadow) {
+              return true;
+          }
           return super._useBufferCanvas(true);
       }
       _sceneFunc(context) {
