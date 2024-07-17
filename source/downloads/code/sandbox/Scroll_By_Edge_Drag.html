@@ -48,40 +48,32 @@
 
       let scrollInterval = null;
 
-      stage.on('dragstart', () => {
-        const duration = 0.1;
+      stage.on('dragstart', (e) => {
+        const duration = 1000 / 60;
         scrollInterval = setInterval(() => {
           const pos = stage.getPointerPosition();
           const offset = 100;
           const isNearLeft = pos.x < offset;
           if (isNearLeft) {
-            stage.to({
-              x: stage.x() + 20,
-              duration,
-            });
+            stage.x(stage.x() + 2);
+            e.target.x(e.target.x() - 2);
           }
           const isNearRight = pos.x > stage.width() - offset;
           if (isNearRight) {
-            stage.to({
-              x: stage.x() - 20,
-              duration,
-            });
+            stage.x(stage.x() - 2);
+            e.target.x(e.target.x() + 2);
           }
           const isNearTop = pos.y < offset;
           if (isNearTop) {
-            stage.to({
-              y: stage.y() + 20,
-              duration,
-            });
+            stage.y(stage.y() + 2);
+            e.target.y(e.target.y() - 2);
           }
           const isNearBottom = pos.y > stage.height() - offset;
           if (isNearBottom) {
-            stage.to({
-              y: stage.y() - 20,
-              duration,
-            });
+            stage.y(stage.y() - 2);
+            e.target.y(e.target.y() + 2);
           }
-        }, duration * 1000);
+        }, duration);
       });
       stage.on('dragend', () => {
         clearInterval(scrollInterval);
