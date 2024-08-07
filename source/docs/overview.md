@@ -156,12 +156,12 @@ See [working example](/docs/events/Binding_Events.html).
 
 ## DRAG AND DROP
 
-`Konva` has builtin drag support. For the current moment there is no `drop` events (`drop`, `dragenter`, `dragleave`, `dragover`)
-but it is very easy to implement them [via framework](/docs/drag_and_drop/Drop_Events.html).
+`Konva` has builtin drag support. There is no `drop` event, instead use `dragenter`, `dragleave`, and `dragover`.
+It is very easy to implement `drop` events [via a framework](/docs/drag_and_drop/Drop_Events.html).
 
 To enable drag&drop just set property draggable = true.
 
-```
+```js
 shape.draggable('true');
 ```
 
