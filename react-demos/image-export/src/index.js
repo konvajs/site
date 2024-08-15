@@ -25,7 +25,7 @@ const App = () => {
     // but in the demo on Konva website it will not work
     // because of iframe restrictions
     // but feel free to use it in your apps:
-    // downloadURI(uri, 'stage.png');
+    downloadURI(uri, 'stage.png');
   };
 
   return (
