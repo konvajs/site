@@ -28,14 +28,13 @@
       // layer for all shapes
       var layer = new Konva.Layer();
       stage.add(layer);
-      for (var i = 0; i < 10000; i++) {
+      for (var i = 0; i < 2; i++) {
         var shape = new Konva.Circle({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
           radius: 10,
           name: 'shape',
           fill: Konva.Util.getRandomColor(),
-          draggable: true,
         });
         layer.add(shape);
       }
@@ -44,7 +43,9 @@
       var topLayer = new Konva.Layer();
       stage.add(topLayer);
 
-      var group = new Konva.Group();
+      var group = new Konva.Group({
+        draggable: true,
+      });
       topLayer.add(group);
 
       var tr = new Konva.Transformer();
@@ -62,6 +63,10 @@
         if (e.target.getParent() === tr) {
           return;
         }
+        // do nothing if we mousedown on the group
+        if (e.target.parent === group) {
+          return;
+        }
         x1 = stage.getPointerPosition().x;
         y1 = stage.getPointerPosition().y;
         x2 = stage.getPointerPosition().x;
@@ -76,7 +81,7 @@
         });
 
         // move old selection back to original layer
-        group.children.toArray().forEach((shape) => {
+        group.children.slice().forEach((shape) => {
           const transform = shape.getAbsoluteTransform();
           shape.moveTo(layer);
           shape.setAttrs(transform.decompose());
@@ -142,6 +147,9 @@
         if (group.children.length) {
           tr.nodes([group]);
           group.cache();
+        } else {
+          tr.nodes([]);
+          group.clearCache();
         }
       });
 
