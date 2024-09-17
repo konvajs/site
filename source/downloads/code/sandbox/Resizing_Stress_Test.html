@@ -29,14 +29,15 @@
       var layer = new Konva.Layer();
       stage.add(layer);
       for (var i = 0; i < 10000; i++) {
-        var rect = new Konva.Circle({
+        var shape = new Konva.Circle({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
           radius: 10,
           name: 'shape',
           fill: Konva.Util.getRandomColor(),
+          draggable: true,
         });
-        layer.add(rect);
+        layer.add(shape);
       }
 
       // top layer for transforming group
