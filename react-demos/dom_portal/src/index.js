@@ -8,15 +8,7 @@ class App extends Component {
     return (
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Html
-            divProps={{
-              style: {
-                position: 'absolute',
-                top: 10,
-                left: 10,
-              },
-            }}
-          >
+          <Html>
             <input placeholder="DOM input from Konva nodes" />
           </Html>
           <Rect
