@@ -1,0 +1,90 @@
+---
+title: HTML5 canvas Arc Tutorial
+sidebar_label: Arc
+hide_table_of_contents: true
+slug: /docs/shapes/Arc.html
+---
+
+To create an arc shape with `Konva`, we can instantiate a `Konva.Arc()` object.
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container', // id of container <div>
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+
+var arc = new Konva.Arc({
+    x: stage.width() / 2,
+    y: stage.height() / 2,
+    innerRadius: 40,
+    outerRadius: 70,
+    angle: 60,
+    fill: 'yellow',
+    stroke: 'black',
+    strokeWidth: 4,
+});
+
+layer.add(arc);
+```
+
+</TabItem>
+<TabItem value="React">
+```js live react
+import { Stage, Layer, Arc } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Arc x={window.innerWidth / 2} y={window.innerWidth / 2} innerRadius={40} outerRadius={70} angle={60} fill="yellow" stroke="black" strokeWidth={4} />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+</TabItem>
+<TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="{ width, height }">
+    <v-layer>
+      <v-arc :config="arcConfig">
+      </v-arc>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const arcConfig = {
+  x: width / 2,
+  y: height / 2,
+  innerRadius: 40,
+  outerRadius: 70,
+  angle: 60,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+};
+</script>
+```
+</TabItem>
+</Tabs>
+

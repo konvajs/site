@@ -1,0 +1,67 @@
+<a name="Konva.Canvas"></a>
+
+## *Konva.Canvas*
+Canvas Renderer constructor. It is a wrapper around native canvas element.
+Usually you don't need to use it manually.
+
+
+* *[.Canvas](#Konva.Canvas)*
+    * *[new Canvas(config)](#new_Konva.Canvas_new)*
+    * *[.getContext()](#Konva.Canvas+getContext) ⇒ <code>CanvasContext</code>*
+    * *[.toDataURL(mimeType, quality)](#Konva.Canvas+toDataURL) ⇒ <code>String</code>*
+    * *[.pixelRatio(pixelRatio)](#Konva.Canvas+pixelRatio) ⇒ <code>Number</code>*
+
+<a name="new_Konva.Canvas_new"></a>
+
+### *new Canvas(config)*
+
+| Param | Type |
+| --- | --- |
+| config | <code>Object</code> | 
+| config.width | <code>Number</code> | 
+| config.height | <code>Number</code> | 
+| config.pixelRatio | <code>Number</code> | 
+
+<a name="Konva.Canvas+getContext"></a>
+
+### *canvas.getContext() ⇒ <code>CanvasContext</code>*
+get canvas context
+
+**Returns**: <code>CanvasContext</code> - context  
+<a name="Konva.Canvas+toDataURL"></a>
+
+### *canvas.toDataURL(mimeType, quality) ⇒ <code>String</code>*
+to data url
+
+**Returns**: <code>String</code> - data url string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mimeType | <code>String</code> |  |
+| quality | <code>Number</code> | between 0 and 1 for jpg mime types |
+
+<a name="Konva.Canvas+pixelRatio"></a>
+
+### *canvas.pixelRatio(pixelRatio) ⇒ <code>Number</code>*
+get/set pixel ratio.
+KonvaJS automatically handles pixel ratio adustments in order to render crisp drawings
+ on all devices. Most desktops, low end tablets, and low end phones, have device pixel ratios
+ of 1.  Some high end tablets and phones, like iPhones and iPads have a device pixel ratio
+ of 2.  Some Macbook Pros, and iMacs also have a device pixel ratio of 2.  Some high end Android devices have pixel
+ ratios of 2 or 3.  Some browsers like Firefox allow you to configure the pixel ratio of the viewport.  Unless otherwise
+ specificed, the pixel ratio will be defaulted to the actual device pixel ratio.  You can override the device pixel
+ ratio for special situations, or, if you don't want the pixel ratio to be taken into account, you can set it to 1.
+
+
+| Param | Type |
+| --- | --- |
+| pixelRatio | <code>Number</code> | 
+
+**Example**  
+```js
+// get
+var pixelRatio = layer.getCanvas.pixelRatio();
+
+// set
+layer.getCanvas().pixelRatio(3);
+```

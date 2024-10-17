@@ -1,0 +1,48 @@
+{
+  "name": "@docusaurus/theme-live-codeblock",
+  "version": "3.5.2",
+  "description": "Docusaurus live code block component.",
+  "main": "lib/index.js",
+  "types": "src/theme-live-codeblock.d.ts",
+  "sideEffects": [
+    "lib/theme/Playground/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc --build && node ../../admin/scripts/copyUntypedFiles.js && prettier --config ../../.prettierrc --write \"lib/theme/**/*.js\"",
+    "watch": "run-p -c copy:watch build:watch",
+    "build:watch": "tsc --build --watch",
+    "copy:watch": "node ../../admin/scripts/copyUntypedFiles.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/docusaurus.git",
+    "directory": "packages/docusaurus-theme-live-codeblock"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/core": "3.5.2",
+    "@docusaurus/theme-common": "3.5.2",
+    "@docusaurus/theme-translations": "3.5.2",
+    "@docusaurus/utils-validation": "3.5.2",
+    "@philpl/buble": "^0.19.7",
+    "clsx": "^2.0.0",
+    "fs-extra": "^11.1.1",
+    "react-live": "^4.1.6",
+    "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "3.5.2",
+    "@types/buble": "^0.20.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=18.0"
+  },
+  "gitHead": "eeec303dd773774ed5a023884800da0b061f6942"
+}

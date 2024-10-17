@@ -1,0 +1,82 @@
+<a name="Konva.Tween"></a>
+
+## Konva.Tween
+Tween constructor.  Tweens enable you to animate a node between the current state and a new state.
+ You can play, pause, reverse, seek, reset, and finish tweens.  By default, tweens are animated using
+ a linear easing.  For more tweening options, check out [Easings](#Konva.Easings)
+
+
+* [.Tween](#Konva.Tween)
+    * [new Tween()](#new_Konva.Tween_new)
+    * [.play()](#Konva.Tween+play) ⇒ <code>Tween</code>
+    * [.reverse()](#Konva.Tween+reverse) ⇒ <code>Tween</code>
+    * [.reset()](#Konva.Tween+reset) ⇒ <code>Tween</code>
+    * [.seek((t)](#Konva.Tween+seek() ⇒ <code>Tween</code>
+    * [.pause()](#Konva.Tween+pause) ⇒ <code>Tween</code>
+    * [.finish()](#Konva.Tween+finish) ⇒ <code>Tween</code>
+    * [.destroy()](#Konva.Tween+destroy)
+
+<a name="new_Konva.Tween_new"></a>
+
+### new Tween()
+**Example**  
+```js
+// instantiate new tween which fully rotates a node in 1 second
+var tween = new Konva.Tween({
+  // list of tween specific properties
+  node: node,
+  duration: 1,
+  easing: Konva.Easings.EaseInOut,
+  onUpdate: () => console.log('node attrs updated')
+  onFinish: () => console.log('finished'),
+  // set new values for any attributes of a passed node
+  rotation: 360,
+  fill: 'red'
+});
+
+// play tween
+tween.play();
+
+// pause tween
+tween.pause();
+```
+<a name="Konva.Tween+play"></a>
+
+### tween.play() ⇒ <code>Tween</code>
+play
+
+<a name="Konva.Tween+reverse"></a>
+
+### tween.reverse() ⇒ <code>Tween</code>
+reverse
+
+<a name="Konva.Tween+reset"></a>
+
+### tween.reset() ⇒ <code>Tween</code>
+reset
+
+<a name="Konva.Tween+seek("></a>
+
+### tween.seek((t) ⇒ <code>Tween</code>
+seek
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| t | <code>Integer</code> | time in seconds between 0 and the duration |
+
+<a name="Konva.Tween+pause"></a>
+
+### tween.pause() ⇒ <code>Tween</code>
+pause
+
+<a name="Konva.Tween+finish"></a>
+
+### tween.finish() ⇒ <code>Tween</code>
+finish
+
+<a name="Konva.Tween+destroy"></a>
+
+### tween.destroy()
+destroy
+

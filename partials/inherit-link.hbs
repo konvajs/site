@@ -1,0 +1,11 @@
+{{! usage: link to="namepath" html=true/false caption="optional caption"~}}
+{{#link to~}}
+{{#if url~}}
+{{#each this}}
+  {{@key}}: {{this}}
+{{/each}}
+[<code>{{#if ../../caption}}{{escape ../../../caption}}{{else}}{{escape name}}{{/if}}</code>]({{{url}}})
+{{~else~}}
+<code>{{#if ../../caption}}{{escape ../../../caption}}{{else}}{{escape name}}{{/if~}}</code>
+{{~/if~}}
+{{/link~}}

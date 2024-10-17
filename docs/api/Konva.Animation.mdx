@@ -1,0 +1,82 @@
+<a name="Konva.Animation"></a>
+
+## Konva.Animation
+Animation constructor.
+
+
+* [.Animation](#Konva.Animation)
+    * [new Animation(func, [layers])](#new_Konva.Animation_new)
+    * [.setLayers([layers])](#Konva.Animation+setLayers) ⇒ [<code>Animation</code>](#Konva.Animation)
+    * [.getLayers()](#Konva.Animation+getLayers) ⇒ <code>Array</code>
+    * [.addLayer(layer)](#Konva.Animation+addLayer) ⇒ <code>Bool</code>
+    * [.isRunning()](#Konva.Animation+isRunning) ⇒ <code>Bool</code>
+    * [.start()](#Konva.Animation+start) ⇒ [<code>Animation</code>](#Konva.Animation)
+    * [.stop()](#Konva.Animation+stop) ⇒ [<code>Animation</code>](#Konva.Animation)
+
+<a name="new_Konva.Animation_new"></a>
+
+### new Animation(func, [layers])
+
+| Param | Type | Description |
+| --- | --- | --- |
+| func | <code>AnimationFn</code> | function executed on each animation frame.  The function is passed a frame object, which contains  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed  since the last animation frame. The time property is the time in milliseconds that elapsed from the moment the animation started  to the current animation frame. The lastTime property is a `time` value from the previous frame.  The frameRate property is the current frame rate in frames / second.  Return false from function, if you don't need to redraw layer/layers on some frames. |
+| [layers] | [<code>Layer</code>](#Konva.Layer) \| <code>Array</code> | layer(s) to be redrawn on each animation frame. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw. |
+
+**Example**  
+```js
+// move a node to the right at 50 pixels / second
+var velocity = 50;
+
+var anim = new Konva.Animation(function(frame) {
+  var dist = velocity * (frame.timeDiff / 1000);
+  node.move({x: dist, y: 0});
+}, layer);
+
+anim.start();
+```
+<a name="Konva.Animation+setLayers"></a>
+
+### animation.setLayers([layers]) ⇒ [<code>Animation</code>](#Konva.Animation)
+set layers to be redrawn on each animation frame
+
+**Returns**: [<code>Animation</code>](#Konva.Animation) - this  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [layers] | [<code>Layer</code>](#Konva.Layer) \| <code>Array</code> | layer(s) to be redrawn. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw. |
+
+<a name="Konva.Animation+getLayers"></a>
+
+### animation.getLayers() ⇒ <code>Array</code>
+get layers
+
+**Returns**: <code>Array</code> - Array of Konva.Layer  
+<a name="Konva.Animation+addLayer"></a>
+
+### animation.addLayer(layer) ⇒ <code>Bool</code>
+add layer.  Returns true if the layer was added, and false if it was not
+
+**Returns**: <code>Bool</code> - true if layer is added to animation, otherwise false  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| layer | [<code>Layer</code>](#Konva.Layer) | to add |
+
+<a name="Konva.Animation+isRunning"></a>
+
+### animation.isRunning() ⇒ <code>Bool</code>
+determine if animation is running or not.  returns true or false
+
+**Returns**: <code>Bool</code> - is animation running?  
+<a name="Konva.Animation+start"></a>
+
+### animation.start() ⇒ [<code>Animation</code>](#Konva.Animation)
+start animation
+
+**Returns**: [<code>Animation</code>](#Konva.Animation) - this  
+<a name="Konva.Animation+stop"></a>
+
+### animation.stop() ⇒ [<code>Animation</code>](#Konva.Animation)
+stop animation
+
+**Returns**: [<code>Animation</code>](#Konva.Animation) - this  

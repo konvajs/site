@@ -1,0 +1,25 @@
+<a name="Konva.FastLayer"></a>
+
+## Konva.FastLayer ⇐ <code>Object</code>
+FastLayer constructor. **DEPRECATED!** Please use `Konva.Layer({ listening: false})` instead. Layers are tied to their own canvas element and are used
+to contain shapes only.  If you don't need node nesting, mouse and touch interactions,
+or event pub/sub, you should use FastLayer instead of Layer to create your layers.
+It renders about 2x faster than normal layers.
+
+**Extends**: <code>Object</code>  
+<a name="new_Konva.FastLayer_new"></a>
+
+### new FastLayer()
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [config.clipX] | <code>Number</code> | set clip x |
+| [config.clipY] | <code>Number</code> | set clip y |
+| [config.clipWidth] | <code>Number</code> | set clip width |
+| [config.clipHeight] | <code>Number</code> | set clip height |
+| [config.clipFunc] | <code>function</code> | set clip func |
+
+**Example**  
+```js
+var layer = new Konva.FastLayer();
+```
