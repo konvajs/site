@@ -1,0 +1,466 @@
+---
+title: Konva.Konva
+sidebar_label: Konva
+slug: /docs/api/Konva.html
+---
+
+<a name="Konva"></a>
+
+## Konva : <code>object</code>
+
+<a name="Konva.Transform"></a>
+
+### Konva.Transform
+Transform constructor.
+In most of the cases you don't need to use it in your app. Because it is for internal usage in Konva core.
+But there is a documentation for that class in case you still want
+to make some manual calculations.
+
+
+<a name="Konva.Context"></a>
+
+### Konva.Context
+Konva wrapper around native 2d canvas context. It has almost the same API of 2d context with some additional functions.
+With core Konva shapes you don't need to use this object. But you will use it if you want to create
+a [custom shape](/docs/react/Custom_Shape.html) or a [custom hit regions](/docs/events/Custom_Hit_Region.html).
+For full information about each 2d context API use [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
+
+
+<a name="Konva.Canvas"></a>
+
+### *Konva.Canvas*
+Canvas Renderer constructor. It is a wrapper around native canvas element.
+Usually you don't need to use it manually.
+
+
+<a name="Konva.Node"></a>
+
+### Konva.Node
+Node constructor. Nodes are entities that can be transformed, layered,
+and have bound events. The stage, layers, groups, and shapes all extend Node.
+
+
+<a name="Konva.Container"></a>
+
+### *Konva.Container ⇐ [<code>Node</code>](../Konva.Node.html)*
+Container constructor.&nbsp; Containers are used to contain nodes or other containers
+
+**Extends**: [<code>Node</code>](../Konva.Node.html)  
+
+**Augments**: 
+Konva.Node
+<a name="Konva.Stage"></a>
+
+### Konva.Stage ⇐ [<code>Container</code>](../Konva.Container.html)
+Stage constructor.  A stage is used to contain multiple layers
+
+**Extends**: [<code>Container</code>](../Konva.Container.html)  
+
+**Augments**: 
+Konva.Container
+<a name="Konva.Shape"></a>
+
+### Konva.Shape ⇐ [<code>Node</code>](../Konva.Node.html)
+Shape constructor.  Shapes are primitive objects such as rectangles,
+ circles, text, lines, etc.
+
+**Extends**: [<code>Node</code>](../Konva.Node.html)  
+
+**Augments**: 
+Konva.Node
+<a name="Konva.Layer"></a>
+
+### Konva.Layer ⇐ [<code>Container</code>](../Konva.Container.html)
+Layer constructor.  Layers are tied to their own canvas element and are used
+to contain groups or shapes.
+
+**Extends**: [<code>Container</code>](../Konva.Container.html)  
+
+**Augments**: 
+Konva.Container
+<a name="Konva.FastLayer"></a>
+
+### Konva.FastLayer ⇐ <code>Object</code>
+FastLayer constructor. **DEPRECATED!** Please use `Konva.Layer({ listening: false})` instead. Layers are tied to their own canvas element and are used
+to contain shapes only.  If you don't need node nesting, mouse and touch interactions,
+or event pub/sub, you should use FastLayer instead of Layer to create your layers.
+It renders about 2x faster than normal layers.
+
+**Extends**: <code>Object</code>  
+
+**Augments**: 
+Object
+<a name="Konva.Group"></a>
+
+### Konva.Group ⇐ [<code>Container</code>](../Konva.Container.html)
+Group constructor.  Groups are used to contain shapes or other groups.
+
+**Extends**: [<code>Container</code>](../Konva.Container.html)  
+
+**Augments**: 
+Konva.Container
+<a name="Konva.Animation"></a>
+
+### Konva.Animation
+Animation constructor.
+
+
+<a name="Konva.Tween"></a>
+
+### Konva.Tween
+Tween constructor.  Tweens enable you to animate a node between the current state and a new state.
+ You can play, pause, reverse, seek, reset, and finish tweens.  By default, tweens are animated using
+ a linear easing.  For more tweening options, check out [Easings](#Konva.Easings)
+
+
+<a name="Konva.Arc"></a>
+
+### Konva.Arc ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Arc constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Line"></a>
+
+### Konva.Line ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Line constructor.&nbsp; Lines are defined by an array of points and
+ a tension
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Path"></a>
+
+### Konva.Path ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Path constructor.
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+**Author**: Jason Follas  
+<a name="Konva.Arrow"></a>
+
+### Konva.Arrow ⇐ [<code>Line</code>](../Konva.Line.html)
+Arrow constructor
+
+**Extends**: [<code>Line</code>](../Konva.Line.html)  
+
+**Augments**: 
+Konva.Line
+<a name="Konva.Circle"></a>
+
+### Konva.Circle ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Circle constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Ellipse"></a>
+
+### Konva.Ellipse ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Ellipse constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Image"></a>
+
+### Konva.Image ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Image constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Label"></a>
+
+### Konva.Label
+Label constructor.&nbsp; Labels are groups that contain a Text and Tag shape
+
+
+<a name="Konva.Tag"></a>
+
+### Konva.Tag
+Tag constructor.&nbsp; A Tag can be configured
+ to have a pointer element that points up, right, down, or left
+
+
+<a name="Konva.Rect"></a>
+
+### Konva.Rect ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Rect constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.RegularPolygon"></a>
+
+### Konva.RegularPolygon ⇐ [<code>Shape</code>](../Konva.Shape.html)
+RegularPolygon constructor. Examples include triangles, squares, pentagons, hexagons, etc.
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Ring"></a>
+
+### Konva.Ring ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Ring constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Sprite"></a>
+
+### Konva.Sprite ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Sprite constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Star"></a>
+
+### Konva.Star ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Star constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.Text"></a>
+
+### Konva.Text ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Text constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.TextPath"></a>
+
+### Konva.TextPath ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Path constructor.
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+**Author**: Jason Follas  
+<a name="Konva.Transformer"></a>
+
+### Konva.Transformer
+Transformer constructor.  Transformer is a special type of group that allow you transform Konva
+primitives and shapes. Transforming tool is not changing `width` and `height` properties of nodes
+when you resize them. Instead it changes `scaleX` and `scaleY` properties.
+
+
+<a name="Konva.Wedge"></a>
+
+### Konva.Wedge ⇐ [<code>Shape</code>](../Konva.Shape.html)
+Wedge constructor
+
+**Extends**: [<code>Shape</code>](../Konva.Shape.html)  
+
+**Augments**: 
+Konva.Shape
+<a name="Konva.autoDrawEnabled"></a>
+
+### Konva.autoDrawEnabled
+Should Konva automatically update canvas on any changes. Default is true.
+
+
+**Default**: <code>true</code>  
+**Properties**
+
+| Name |
+| --- |
+| autoDrawEnabled | 
+
+**Example**  
+```js
+Konva.autoDrawEnabled = true;
+```
+<a name="Konva.hitOnDragEnabled"></a>
+
+### Konva.hitOnDragEnabled
+Should we enable hit detection while dragging? For performance reasons, by default it is false.
+But on some rare cases you want to see hit graph and check intersections. Just set it to true.
+
+
+**Default**: <code>false</code>  
+**Properties**
+
+| Name |
+| --- |
+| hitOnDragEnabled | 
+
+**Example**  
+```js
+Konva.hitOnDragEnabled = true;
+```
+<a name="Konva.capturePointerEventsEnabled"></a>
+
+### Konva.capturePointerEventsEnabled
+Should we capture touch events and bind them to the touchstart target? That is how it works on DOM elements.
+The case: we touchstart on div1, then touchmove out of that element into another element div2.
+DOM will continue trigger touchmove events on div1 (not div2). Because events are "captured" into initial target.
+By default Konva do not do that and will trigger touchmove on another element, while pointer is moving.
+
+
+**Default**: <code>false</code>  
+**Properties**
+
+| Name |
+| --- |
+| capturePointerEventsEnabled | 
+
+**Example**  
+```js
+Konva.capturePointerEventsEnabled = true;
+```
+<a name="Konva.pixelRatio"></a>
+
+### Konva.pixelRatio
+Global pixel ratio configuration. KonvaJS automatically detect pixel ratio of current device.
+But you may override such property, if you want to use your value. Set this value before any components initializations.
+
+
+**Default**: <code>undefined</code>  
+**Properties**
+
+| Name |
+| --- |
+| pixelRatio | 
+
+**Example**  
+```js
+// before any Konva code:
+Konva.pixelRatio = 1;
+```
+<a name="Konva.dragDistance"></a>
+
+### Konva.dragDistance
+Drag distance property. If you start to drag a node you may want to wait until pointer is moved to some distance from start point,
+only then start dragging. Default is 3px.
+
+
+**Default**: <code>0</code>  
+**Properties**
+
+| Name |
+| --- |
+| dragDistance | 
+
+**Example**  
+```js
+Konva.dragDistance = 10;
+```
+<a name="Konva.angleDeg"></a>
+
+### Konva.angleDeg
+Use degree values for angle properties. You may set this property to false if you want to use radian values.
+
+
+**Default**: <code>true</code>  
+**Properties**
+
+| Name |
+| --- |
+| angleDeg | 
+
+**Example**  
+```js
+node.rotation(45); // 45 degrees
+Konva.angleDeg = false;
+node.rotation(Math.PI / 2); // PI/2 radian
+```
+<a name="Konva.showWarnings"></a>
+
+### Konva.showWarnings
+Show different warnings about errors or wrong API usage
+
+
+**Default**: <code>true</code>  
+**Properties**
+
+| Name |
+| --- |
+| showWarnings | 
+
+**Example**  
+```js
+Konva.showWarnings = false;
+```
+<a name="Konva.dragButtons"></a>
+
+### Konva.dragButtons
+Configure what mouse buttons can be used for drag and drop.
+Default value is [0] - only left mouse button.
+
+
+**Default**: <code>true</code>  
+**Properties**
+
+| Name |
+| --- |
+| dragButtons | 
+
+**Example**  
+```js
+// enable left and right mouse buttons
+Konva.dragButtons = [0, 2];
+```
+<a name="Konva.releaseCanvasOnDestroy"></a>
+
+### Konva.releaseCanvasOnDestroy
+Should Konva release canvas elements on destroy. Default is true.
+Useful to avoid memory leak issues in Safari on macOS/iOS.
+
+
+**Default**: <code>true</code>  
+**Properties**
+
+| Name |
+| --- |
+| releaseCanvasOnDestroy | 
+
+**Example**  
+```js
+Konva.releaseCanvasOnDestroy = true;
+```
+<a name="Konva.Util"></a>
+
+### Konva.Util : <code>object</code>
+
+<a name="Konva.Easings"></a>
+
+### Konva.Easings : <code>object</code>
+
+<a name="Konva.Filters"></a>
+
+### Konva.Filters : <code>object</code>
+
+<a name="Konva.isDragging"></a>
+
+### Konva.isDragging()
+returns whether or not drag and drop is currently active
+
+
+<a name="Konva.isDragReady"></a>
+
+### Konva.isDragReady()
+returns whether or not a drag and drop operation is ready, but may
+ not necessarily have started
+
+
+
+  
