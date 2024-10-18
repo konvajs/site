@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Konva - JavaScript Canvas 2d Library',
-  tagline: 'Your ultimate bridge between JavaScript and HTML5 canvas',
+  tagline: 'The ultimate bridge between your Vanilla/React/Vue/Svelte/Angular app and canvas graphics',
   favicon: 'img/favicon.ico',
   themes: ['./src/theme-live-codeblock'],
 
@@ -40,7 +40,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/konvajs/site/tree/new/',
         },
         blog: {
           showReadingTime: true,
@@ -51,7 +51,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/konvajs/site/tree/new/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
