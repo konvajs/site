@@ -106,7 +106,7 @@ determine if node is currently cached
 
 ### getClientRect(config)
 
-Return client rectangle `{x, y, width, height}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
+Return client rectangle `\{x, y, width, height\}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
 
 **Parameters:**
 
@@ -116,7 +116,7 @@ Return client rectangle `{x, y, width, height}` of node. This rectangle also inc
 - `config.skipStroke` (Boolean) (optional): should we apply stroke to the node for calculating bound box?
 - `config.relativeTo` (Object) (optional): calculate client rect relative to one of the parents
 
-**Returns:** `Object` rect with `{x, y, width, height}` properties
+**Returns:** `Object` <code>rect with `\{x, y, width, height\}` properties</code>
 
 **Example:**
 
@@ -423,7 +423,7 @@ move node to the top of its siblings
 
 move node up
 
-**Returns:** `Boolean` flag is moved or not
+**Returns:** `Boolean` <code>flag is moved or not</code>
 
 ### moveDown()
 
@@ -488,7 +488,7 @@ get all ancestors (parent then parent of the parent, etc) of the node
 - `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
 - `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-**Returns:** `Array` [ancestors]
+**Returns:** `Array` <code>[ancestors]</code>
 
 **Example:**
 
@@ -507,7 +507,7 @@ get ancestor (parent or parent of the parent, etc) of the node that match passed
 - `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
 - `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-**Returns:** `Konva.Node` ancestor
+**Returns:** `Konva.Node` <code>ancestor</code>
 
 **Example:**
 

@@ -177,7 +177,7 @@ determines if point is in the shape, regardless if other shapes are on top of it
 
 return self rectangle (x, y, width, height) of shape. This method are not taken into account transformation and styles.
 
-**Returns:** `Object` rect with `{x, y, width, height}` properties
+**Returns:** `Object` <code>rect with `\{x, y, width, height\}` properties</code>
 
 **Inherited from:** [Konva.Shape#getSelfRect](/docs/api/Konva.Shape.html#getselfrect)
 
@@ -752,7 +752,7 @@ get/set fill linear gradient color stops
 
 - `colorStops` (Array)
 
-**Returns:** `Array` colorStops
+**Returns:** `Array` <code>colorStops</code>
 
 **Inherited from:** [Konva.Shape#fillLinearGradientColorStops](/docs/api/Konva.Shape.html#filllineargradientcolorstops)
 
@@ -775,7 +775,7 @@ get/set stroke linear gradient color stops
 
 - `colorStops` (Array)
 
-**Returns:** `Array` colorStops
+**Returns:** `Array` <code>colorStops</code>
 
 **Inherited from:** [Konva.Shape#strokeLinearGradientColorStops](/docs/api/Konva.Shape.html#strokelineargradientcolorstops)
 
@@ -1714,7 +1714,7 @@ determine if node is currently cached
 
 ### getClientRect(config)
 
-Return client rectangle `{x, y, width, height}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
+Return client rectangle `\{x, y, width, height\}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
 
 **Parameters:**
 
@@ -1724,7 +1724,7 @@ Return client rectangle `{x, y, width, height}` of node. This rectangle also inc
 - `config.skipStroke` (Boolean) (optional): should we apply stroke to the node for calculating bound box?
 - `config.relativeTo` (Object) (optional): calculate client rect relative to one of the parents
 
-**Returns:** `Object` rect with `{x, y, width, height}` properties
+**Returns:** `Object` <code>rect with `\{x, y, width, height\}` properties</code>
 
 **Inherited from:** [Konva.Node#getClientRect](/docs/api/Konva.Node.html#getclientrect)
 
@@ -2071,7 +2071,7 @@ move node to the top of its siblings
 
 move node up
 
-**Returns:** `Boolean` flag is moved or not
+**Returns:** `Boolean` <code>flag is moved or not</code>
 
 **Inherited from:** [Konva.Node#moveUp](/docs/api/Konva.Node.html#moveup)
 
@@ -2152,7 +2152,7 @@ get all ancestors (parent then parent of the parent, etc) of the node
 - `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
 - `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-**Returns:** `Array` [ancestors]
+**Returns:** `Array` <code>[ancestors]</code>
 
 **Inherited from:** [Konva.Node#findAncestors](/docs/api/Konva.Node.html#findancestors)
 
@@ -2173,7 +2173,7 @@ get ancestor (parent or parent of the parent, etc) of the node that match passed
 - `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
 - `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-**Returns:** `Konva.Node` ancestor
+**Returns:** `Konva.Node` <code>ancestor</code>
 
 **Inherited from:** [Konva.Node#findAncestor](/docs/api/Konva.Node.html#findancestor)
 

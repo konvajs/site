@@ -15,7 +15,10 @@ function processDescription(description) {
     // Replace newlines with spaces to prevent breaking markdown table rows
     .replace(/\n/g, ' ')
     // Escape pipe characters to prevent breaking markdown table structure
-    .replace(/\|/g, '\\|');
+    .replace(/\|/g, '\\|')
+    // Escape curly braces to prevent breaking MDX
+    .replace(/{/g, '\\{')
+    .replace(/}/g, '\\}');
 }
 
 // Add this function after the processDescription function
@@ -265,7 +268,7 @@ function generateFunctionMarkdown(func) {
       markdown += `\`${returnType}\` `;
     }
     if (func.returns[0].description) {
-      markdown += processDescription(func.returns[0].description);
+      markdown += '<code>' + processDescription(func.returns[0].description) + '</code>';
     }
     markdown += '\n\n';
   }

@@ -35,7 +35,7 @@ Group constructor.  Groups are used to contain shapes or other groups.
 | offsetY (optional) | `Number` | set offset y |
 | draggable (optional) | `Boolean` | makes the node draggable.  When stages are draggable, you can drag and drop  the entire stage by dragging any portion of the stage |
 | dragDistance (optional) | `Number` |  |
-| dragBoundFunc (optional) | `function` | * @param {Object} [config.clip] set clip |
+| dragBoundFunc (optional) | `function` | * @param \{Object\} [config.clip] set clip |
 | clipX (optional) | `Number` | set clip x |
 | clipY (optional) | `Number` | set clip y |
 | clipWidth (optional) | `Number` | set clip width |
@@ -204,7 +204,7 @@ get all shapes that intersect a point.  Note: because this method must clear a t
 - `pos.x` (Number)
 - `pos.y` (Number)
 
-**Returns:** `Array` array of shapes
+**Returns:** `Array` <code>array of shapes</code>
 
 **Inherited from:** [Konva.Container#getAllIntersections](/docs/api/Konva.Container.html#getallintersections)
 
@@ -429,7 +429,7 @@ determine if node is currently cached
 
 ### getClientRect(config)
 
-Return client rectangle `{x, y, width, height}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
+Return client rectangle `\{x, y, width, height\}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
 
 **Parameters:**
 
@@ -439,7 +439,7 @@ Return client rectangle `{x, y, width, height}` of node. This rectangle also inc
 - `config.skipStroke` (Boolean) (optional): should we apply stroke to the node for calculating bound box?
 - `config.relativeTo` (Object) (optional): calculate client rect relative to one of the parents
 
-**Returns:** `Object` rect with `{x, y, width, height}` properties
+**Returns:** `Object` <code>rect with `\{x, y, width, height\}` properties</code>
 
 **Inherited from:** [Konva.Node#getClientRect](/docs/api/Konva.Node.html#getclientrect)
 
@@ -786,7 +786,7 @@ move node to the top of its siblings
 
 move node up
 
-**Returns:** `Boolean` flag is moved or not
+**Returns:** `Boolean` <code>flag is moved or not</code>
 
 **Inherited from:** [Konva.Node#moveUp](/docs/api/Konva.Node.html#moveup)
 
@@ -867,7 +867,7 @@ get all ancestors (parent then parent of the parent, etc) of the node
 - `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
 - `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-**Returns:** `Array` [ancestors]
+**Returns:** `Array` <code>[ancestors]</code>
 
 **Inherited from:** [Konva.Node#findAncestors](/docs/api/Konva.Node.html#findancestors)
 
@@ -888,7 +888,7 @@ get ancestor (parent or parent of the parent, etc) of the node that match passed
 - `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
 - `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-**Returns:** `Konva.Node` ancestor
+**Returns:** `Konva.Node` <code>ancestor</code>
 
 **Inherited from:** [Konva.Node#findAncestor](/docs/api/Konva.Node.html#findancestor)
 
