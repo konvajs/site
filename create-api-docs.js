@@ -42,7 +42,7 @@ await mkdir("./docs/api", { recursive: true });
 // Object to store documentation for each class/namespace
 const docs = {};
 
-// Process each item in the data
+// first let's create files and name spaces
 data.forEach((item) => {
   // Skip undocumented items
   if (item.undocumented) return;
@@ -60,7 +60,15 @@ data.forEach((item) => {
         namespaces: []
       };
     }
+  }
+});
 
+// Process each item in the data
+data.forEach((item) => {
+  // Skip undocumented items
+  if (item.undocumented) return;
+
+  if (item.kind === 'class' || item.kind === 'namespace') {
     // If it's a class and has a memberof property, add it to the parent namespace
     if (item.kind === 'class' && item.memberof) {
       const parentDoc = docs[item.memberof];
@@ -96,6 +104,8 @@ data.forEach((item) => {
         parentDoc.methods = parentDoc.methods || [];
         parentDoc.methods.push(methodInfo);
       }
+    } else {
+      console.error(`Parent namespace not found for ${item.longname}`);
     }
   } else if (item.kind === 'member' && item.memberof) {
     // Handle static properties
