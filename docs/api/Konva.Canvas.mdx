@@ -1,3 +1,9 @@
+---
+title: Konva.Canvas
+sidebar_label: Canvas
+slug: /docs/api/Canvas.html
+---
+
 <a name="Konva.Canvas"></a>
 
 ## *Konva.Canvas*
@@ -5,15 +11,10 @@ Canvas Renderer constructor. It is a wrapper around native canvas element.
 Usually you don't need to use it manually.
 
 
-* *[.Canvas](#Konva.Canvas)*
-    * *[new Canvas(config)](#new_Konva.Canvas_new)*
-    * *[.getContext()](#Konva.Canvas+getContext) ⇒ <code>CanvasContext</code>*
-    * *[.toDataURL(mimeType, quality)](#Konva.Canvas+toDataURL) ⇒ <code>String</code>*
-    * *[.pixelRatio(pixelRatio)](#Konva.Canvas+pixelRatio) ⇒ <code>Number</code>*
-
 <a name="new_Konva.Canvas_new"></a>
 
 ### *new Canvas(config)*
+
 
 | Param | Type |
 | --- | --- |
@@ -27,11 +28,13 @@ Usually you don't need to use it manually.
 ### *canvas.getContext() ⇒ <code>CanvasContext</code>*
 get canvas context
 
+
 **Returns**: <code>CanvasContext</code> - context  
 <a name="Konva.Canvas+toDataURL"></a>
 
 ### *canvas.toDataURL(mimeType, quality) ⇒ <code>String</code>*
 to data url
+
 
 **Returns**: <code>String</code> - data url string  
 
@@ -53,6 +56,7 @@ KonvaJS automatically handles pixel ratio adustments in order to render crisp dr
  ratio for special situations, or, if you don't want the pixel ratio to be taken into account, you can set it to 1.
 
 
+
 | Param | Type |
 | --- | --- |
 | pixelRatio | <code>Number</code> | 
@@ -65,3 +69,5 @@ var pixelRatio = layer.getCanvas.pixelRatio();
 // set
 layer.getCanvas().pixelRatio(3);
 ```
+
+  

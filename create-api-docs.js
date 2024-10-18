@@ -9,11 +9,6 @@ const inputFile = "konva.js";
 /* get template data */
 const templateData = await jsdoc2md.getTemplateData({ files: inputFile });
 
-/* reduce templateData to an array of class names */
-const classNames = templateData
-  .filter((i) => i.kind === "class")
-  .map((i) => i.name);
-
 const kinds = [];
 templateData.forEach((i) => {
   if (kinds.indexOf(i.kind) === -1) {
@@ -21,12 +16,14 @@ templateData.forEach((i) => {
   }
 });
 
-const kindsToRender = ["class", "member"];
+const kindsToRender = ["class", "member", "namespace"];
 
 // Remove ./docs/api if it exists
 if (existsSync("./docs/api")) {
   await rm("./docs/api", { recursive: true, force: true });
 }
+
+fs.writeFile(`./data.json`, JSON.stringify(templateData, null, 2));
 
 // Create a new ./docs/api folder
 await mkdir("./docs/api", { recursive: true });
@@ -38,17 +35,32 @@ for (const item of templateData) {
   if (kindsToRender.indexOf(kind) === -1) {
     continue;
   }
+  let data = [...templateData];
+  if (name === 'Konva') {
+    data = templateData.filter((i) => i.kind === 'class' ||i.kind === 'namespace' || i.memberof === 'Konva');
+  }
   const template = `{{#${kind} name="${name}"}}{{>docs}}{{/${kind}}}`;
   console.log(`rendering ${name}, template: ${template}`);
   const output = await jsdoc2md.render({
-    data: templateData,
+    data,
     template: template,
     partial: [
       "./partials/scope.hbs",
       "./partials/inherit-link.hbs",
       "./partials/overrides.hbs",
+      "./partials/docs.hbs",
+      "./partials/header.hbs",
+      "./partials/augments.hbs",
+      "./partials/link.hbs"
     ],
     helper: ["./helpers/replace.js"],
   });
-  await fs.writeFile(`./docs/api/Konva.${name}.mdx`, output);
+  await fs.writeFile(`./docs/api/Konva.${name}.mdx`, `---
+title: Konva.${name}
+sidebar_label: ${name}
+slug: /docs/api/${name}.html
+---
+
+${output}
+  `);
 }

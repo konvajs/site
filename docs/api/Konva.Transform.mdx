@@ -1,3 +1,9 @@
+---
+title: Konva.Transform
+sidebar_label: Transform
+slug: /docs/api/Transform.html
+---
+
 <a name="Konva.Transform"></a>
 
 ## Konva.Transform
@@ -7,23 +13,10 @@ But there is a documentation for that class in case you still want
 to make some manual calculations.
 
 
-* [.Transform](#Konva.Transform)
-    * [new Transform([m])](#new_Konva.Transform_new)
-    * [.copy()](#Konva.Transform+copy) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.point(point)](#Konva.Transform+point) ⇒ <code>Object</code>
-    * [.translate(x, y)](#Konva.Transform+translate) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.scale(sx, sy)](#Konva.Transform+scale) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.rotate(rad)](#Konva.Transform+rotate) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.getTranslation()](#Konva.Transform+getTranslation) ⇒ <code>Object</code>
-    * [.skew(sx, sy)](#Konva.Transform+skew) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.multiply(matrix)](#Konva.Transform+multiply) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.invert()](#Konva.Transform+invert) ⇒ [<code>Transform</code>](#Konva.Transform)
-    * [.getMatrix()](#Konva.Transform+getMatrix)
-    * [.decompose()](#Konva.Transform+decompose) ⇒ [<code>Transform</code>](#Konva.Transform)
-
 <a name="new_Konva.Transform_new"></a>
 
 ### new Transform([m])
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -31,8 +24,9 @@ to make some manual calculations.
 
 <a name="Konva.Transform+copy"></a>
 
-### transform.copy() ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.copy() ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Copy Konva.Transform object
+
 
 **Example**  
 ```js
@@ -43,6 +37,7 @@ const tr = shape.getTransform().copy()
 ### transform.point(point) ⇒ <code>Object</code>
 Transform point
 
+
 **Returns**: <code>Object</code> - 2D point(x, y)  
 
 | Param | Type | Description |
@@ -51,8 +46,9 @@ Transform point
 
 <a name="Konva.Transform+translate"></a>
 
-### transform.translate(x, y) ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.translate(x, y) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply translation
+
 
 
 | Param | Type |
@@ -62,8 +58,9 @@ Apply translation
 
 <a name="Konva.Transform+scale"></a>
 
-### transform.scale(sx, sy) ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.scale(sx, sy) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply scale
+
 
 
 | Param | Type |
@@ -73,8 +70,9 @@ Apply scale
 
 <a name="Konva.Transform+rotate"></a>
 
-### transform.rotate(rad) ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.rotate(rad) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply rotation
+
 
 
 | Param | Type | Description |
@@ -86,11 +84,13 @@ Apply rotation
 ### transform.getTranslation() ⇒ <code>Object</code>
 Returns the translation
 
+
 **Returns**: <code>Object</code> - 2D point(x, y)  
 <a name="Konva.Transform+skew"></a>
 
-### transform.skew(sx, sy) ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.skew(sx, sy) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply skew
+
 
 
 | Param | Type |
@@ -100,26 +100,32 @@ Apply skew
 
 <a name="Konva.Transform+multiply"></a>
 
-### transform.multiply(matrix) ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.multiply(matrix) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Transform multiplication
+
 
 
 | Param | Type |
 | --- | --- |
-| matrix | [<code>Transform</code>](#Konva.Transform) | 
+| matrix | [<code>Transform</code>](../Konva.Transform.html) | 
 
 <a name="Konva.Transform+invert"></a>
 
-### transform.invert() ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.invert() ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Invert the matrix
+
 
 <a name="Konva.Transform+getMatrix"></a>
 
 ### transform.getMatrix()
 return matrix
 
+
 <a name="Konva.Transform+decompose"></a>
 
-### transform.decompose() ⇒ [<code>Transform</code>](#Konva.Transform)
+### transform.decompose() ⇒ [<code>Transform</code>](../Konva.Transform.html)
 convert transformation matrix back into node's attributes
 
+
+
+  
