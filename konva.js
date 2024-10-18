@@ -11420,7 +11420,7 @@
        * @method
        * @name Konva.Path#getPointAtLength
        * @param {Number} length length
-       * @returns {Object} point {x,y} point
+       * @returns {Object} point `{x,y}` point
        * @example
        * var point = path.getPointAtLength(10);
        */

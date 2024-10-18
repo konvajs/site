@@ -1,131 +1,119 @@
 ---
 title: Konva.Transform
 sidebar_label: Transform
-slug: /docs/api/Transform.html
+slug: Konva.Transform.html
 ---
 
-<a name="Konva.Transform"></a>
+# Transform
 
-## Konva.Transform
-Transform constructor.
-In most of the cases you don't need to use it in your app. Because it is for internal usage in Konva core.
-But there is a documentation for that class in case you still want
-to make some manual calculations.
+```javascript
+new Konva.Transform(config)
+```
 
+Transform constructor. In most of the cases you don't need to use it in your app. Because it is for internal usage in Konva core. But there is a documentation for that class in case you still want to make some manual calculations.
 
-<a name="new_Konva.Transform_new"></a>
+## Parameters
 
-### new Transform([m])
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| m (optional) | `Array` | Optional six-element matrix |
 
+## Own Methods
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [m] | <code>Array</code> | Optional six-element matrix |
+### copy()
 
-<a name="Konva.Transform+copy"></a>
-
-### transform.copy() ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Copy Konva.Transform object
 
+**Returns:** `Konva.Transform` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 const tr = shape.getTransform().copy()
 ```
-<a name="Konva.Transform+point"></a>
 
-### transform.point(point) ⇒ <code>Object</code>
+### point(point)
+
 Transform point
 
+**Parameters:**
 
-**Returns**: <code>Object</code> - 2D point(x, y)  
+- `point` (Object): 2D point(x, y)
 
-| Param | Type | Description |
-| --- | --- | --- |
-| point | <code>Object</code> | 2D point(x, y) |
+**Returns:** `Object` 2D point(x, y)
 
-<a name="Konva.Transform+translate"></a>
+### translate(x, y)
 
-### transform.translate(x, y) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply translation
 
+**Parameters:**
 
+- `x` (Number)
+- `y` (Number)
 
-| Param | Type |
-| --- | --- |
-| x | <code>Number</code> | 
-| y | <code>Number</code> | 
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Transform+scale"></a>
+### scale(sx, sy)
 
-### transform.scale(sx, sy) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply scale
 
+**Parameters:**
 
+- `sx` (Number)
+- `sy` (Number)
 
-| Param | Type |
-| --- | --- |
-| sx | <code>Number</code> | 
-| sy | <code>Number</code> | 
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Transform+rotate"></a>
+### rotate(rad)
 
-### transform.rotate(rad) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply rotation
 
+**Parameters:**
 
+- `rad` (Number): Angle in radians
 
-| Param | Type | Description |
-| --- | --- | --- |
-| rad | <code>Number</code> | Angle in radians |
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Transform+getTranslation"></a>
+### getTranslation()
 
-### transform.getTranslation() ⇒ <code>Object</code>
 Returns the translation
 
+**Returns:** `Object` 2D point(x, y)
 
-**Returns**: <code>Object</code> - 2D point(x, y)  
-<a name="Konva.Transform+skew"></a>
+### skew(sx, sy)
 
-### transform.skew(sx, sy) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Apply skew
 
+**Parameters:**
 
+- `sx` (Number)
+- `sy` (Number)
 
-| Param | Type |
-| --- | --- |
-| sx | <code>Number</code> | 
-| sy | <code>Number</code> | 
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Transform+multiply"></a>
+### multiply(matrix)
 
-### transform.multiply(matrix) ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Transform multiplication
 
+**Parameters:**
 
+- `matrix` (Konva.Transform)
 
-| Param | Type |
-| --- | --- |
-| matrix | [<code>Transform</code>](../Konva.Transform.html) | 
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Transform+invert"></a>
+### invert()
 
-### transform.invert() ⇒ [<code>Transform</code>](../Konva.Transform.html)
 Invert the matrix
 
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Transform+getMatrix"></a>
+### getMatrix()
 
-### transform.getMatrix()
 return matrix
 
+### decompose()
 
-<a name="Konva.Transform+decompose"></a>
-
-### transform.decompose() ⇒ [<code>Transform</code>](../Konva.Transform.html)
 convert transformation matrix back into node's attributes
 
+**Returns:** `Konva.Transform` 
 
-
-  

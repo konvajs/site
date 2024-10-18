@@ -1,0 +1,67 @@
+---
+title: Konva.Animation
+sidebar_label: Animation
+slug: Konva.Animation.html
+---
+
+# Animation
+
+```javascript
+new Konva.Animation(config)
+```
+
+Animation constructor.
+
+## Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| func | `AnimationFn` | function executed on each animation frame.  The function is passed a frame object, which contains  timeDiff, lastTime, time, and frameRate properties.  The timeDiff property is the number of milliseconds that have passed  since the last animation frame. The time property is the time in milliseconds that elapsed from the moment the animation started  to the current animation frame. The lastTime property is a `time` value from the previous frame.  The frameRate property is the current frame rate in frames / second.  Return false from function, if you don't need to redraw layer/layers on some frames. |
+| layers (optional) | `Konva.Layer|Array` | layer(s) to be redrawn on each animation frame. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw. |
+
+## Own Methods
+
+### setLayers(layers)
+
+set layers to be redrawn on each animation frame
+
+**Parameters:**
+
+- `layers` (Konva.Layer|Array) (optional): layer(s) to be redrawn. Can be a layer, an array of layers, or null.  Not specifying a node will result in no redraw.
+
+**Returns:** `Konva.Animation` this
+
+### getLayers()
+
+get layers
+
+**Returns:** `Array` Array of Konva.Layer
+
+### addLayer(layer)
+
+add layer.  Returns true if the layer was added, and false if it was not
+
+**Parameters:**
+
+- `layer` (Konva.Layer): to add
+
+**Returns:** `Bool` true if layer is added to animation, otherwise false
+
+### isRunning()
+
+determine if animation is running or not.  returns true or false
+
+**Returns:** `Bool` is animation running?
+
+### start()
+
+start animation
+
+**Returns:** `Konva.Animation` this
+
+### stop()
+
+stop animation
+
+**Returns:** `Konva.Animation` this
+

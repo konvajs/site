@@ -1,79 +1,78 @@
 ---
 title: Konva.Node
 sidebar_label: Node
-slug: /docs/api/Node.html
+slug: Konva.Node.html
 ---
 
-<a name="Konva.Node"></a>
+# Node
 
-## Konva.Node
-Node constructor. Nodes are entities that can be transformed, layered,
-and have bound events. The stage, layers, groups, and shapes all extend Node.
+```javascript
+new Konva.Node(config)
+```
 
+Node constructor. Nodes are entities that can be transformed, layered, and have bound events. The stage, layers, groups, and shapes all extend Node.
 
-<a name="new_Konva.Node_new"></a>
+## Parameters
 
-### new Node(config)
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| config | `Object` |  |
+| x (optional) | `Number` |  |
+| y (optional) | `Number` |  |
+| width (optional) | `Number` |  |
+| height (optional) | `Number` |  |
+| visible (optional) | `Boolean` |  |
+| listening (optional) | `Boolean` | whether or not the node is listening for events |
+| id (optional) | `String` | unique id |
+| name (optional) | `String` | non-unique name |
+| opacity (optional) | `Number` | determines node opacity.  Can be any number between 0 and 1 |
+| scale (optional) | `Object` | set scale |
+| scaleX (optional) | `Number` | set scale x |
+| scaleY (optional) | `Number` | set scale y |
+| rotation (optional) | `Number` | rotation in degrees |
+| offset (optional) | `Object` | offset from center point and rotation point |
+| offsetX (optional) | `Number` | set offset x |
+| offsetY (optional) | `Number` | set offset y |
+| draggable (optional) | `Boolean` | makes the node draggable.  When stages are draggable, you can drag and drop  the entire stage by dragging any portion of the stage |
+| dragDistance (optional) | `Number` |  |
+| dragBoundFunc (optional) | `function` |  |
 
+## Own Methods
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> |  |
-| [config.x] | <code>Number</code> |  |
-| [config.y] | <code>Number</code> |  |
-| [config.width] | <code>Number</code> |  |
-| [config.height] | <code>Number</code> |  |
-| [config.visible] | <code>Boolean</code> |  |
-| [config.listening] | <code>Boolean</code> | whether or not the node is listening for events |
-| [config.id] | <code>String</code> | unique id |
-| [config.name] | <code>String</code> | non-unique name |
-| [config.opacity] | <code>Number</code> | determines node opacity.  Can be any number between 0 and 1 |
-| [config.scale] | <code>Object</code> | set scale |
-| [config.scaleX] | <code>Number</code> | set scale x |
-| [config.scaleY] | <code>Number</code> | set scale y |
-| [config.rotation] | <code>Number</code> | rotation in degrees |
-| [config.offset] | <code>Object</code> | offset from center point and rotation point |
-| [config.offsetX] | <code>Number</code> | set offset x |
-| [config.offsetY] | <code>Number</code> | set offset y |
-| [config.draggable] | <code>Boolean</code> | makes the node draggable.  When stages are draggable, you can drag and drop  the entire stage by dragging any portion of the stage |
-| [config.dragDistance] | <code>Number</code> |  |
-| [config.dragBoundFunc] | <code>function</code> |  |
+### clearCache()
 
-<a name="Konva.Node+clearCache"></a>
-
-### node.clearCache() ⇒ [<code>Node</code>](../Konva.Node.html)
 clear cached canvas
 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.clearCache();
 ```
-<a name="Konva.Node+cache"></a>
 
-### node.cache([config]) ⇒ [<code>Node</code>](../Konva.Node.html)
-cache node to improve drawing performance, apply filters, or create more accurate
- hit regions. For all basic shapes size of cache canvas will be automatically detected.
- If you need to cache your custom `Konva.Shape` instance you have to pass shape's bounding box
- properties. Look at [https://konvajs.org/docs/performance/Shape_Caching.html](https://konvajs.org/docs/performance/Shape_Caching.html) for more information.
+### cache(config)
 
+cache node to improve drawing performance, apply filters, or create more accurate  hit regions. For all basic shapes size of cache canvas will be automatically detected.  If you need to cache your custom `Konva.Shape` instance you have to pass shape's bounding box  properties. Look at [https://konvajs.org/docs/performance/Shape_Caching.html](https://konvajs.org/docs/performance/Shape_Caching.html) for more information.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [config] | <code>Object</code> |  |
-| [config.x] | <code>Number</code> |  |
-| [config.y] | <code>Number</code> |  |
-| [config.width] | <code>Number</code> |  |
-| [config.height] | <code>Number</code> |  |
-| [config.offset] | <code>Number</code> | increase canvas size by `offset` pixel in all directions. |
-| [config.drawBorder] | <code>Boolean</code> | when set to true, a red border will be drawn around the cached  region for debugging purposes |
-| [config.pixelRatio] | <code>Number</code> | change quality (or pixel ratio) of cached image. pixelRatio = 2 will produce 2x sized cache. |
-| [config.imageSmoothingEnabled] | <code>Boolean</code> | control imageSmoothingEnabled property of created canvas for cache |
-| [config.hitCanvasPixelRatio] | <code>Number</code> | change quality (or pixel ratio) of cached hit canvas. |
+- `config` (Object) (optional)
+- `config.x` (Number) (optional)
+- `config.y` (Number) (optional)
+- `config.width` (Number) (optional)
+- `config.height` (Number) (optional)
+- `config.offset` (Number) (optional): increase canvas size by `offset` pixel in all directions.
+- `config.drawBorder` (Boolean) (optional): when set to true, a red border will be drawn around the cached  region for debugging purposes
+- `config.pixelRatio` (Number) (optional): change quality (or pixel ratio) of cached image. pixelRatio = 2 will produce 2x sized cache.
+- `config.imageSmoothingEnabled` (Boolean) (optional): control imageSmoothingEnabled property of created canvas for cache
+- `config.hitCanvasPixelRatio` (Number) (optional): change quality (or pixel ratio) of cached hit canvas.
 
-**Example**  
-```js
+**Returns:** `Konva.Node` 
+
+**Example:**
+
+```javascript
 // cache a shape with the x,y position of the bounding box at the center and
 // the width and height of the bounding box equal to the width and height of
 // the shape obtained from shape.width() and shape.height()
@@ -98,31 +97,30 @@ node.cache({
   drawBorder: true
 });
 ```
-<a name="Konva.Node+isCached"></a>
 
-### node.isCached() ⇒ <code>Boolean</code>
+### isCached()
+
 determine if node is currently cached
 
+**Returns:** `Boolean` 
 
-<a name="Konva.Node+getClientRect"></a>
+### getClientRect(config)
 
-### node.getClientRect(config) ⇒ <code>Object</code>
-Return client rectangle `{x, y, width, height}` of node. This rectangle also include all styling (strokes, shadows, etc).
-The purpose of the method is similar to getBoundingClientRect API of the DOM.
+Return client rectangle `{x, y, width, height}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
 
+**Parameters:**
 
-**Returns**: <code>Object</code> - rect with `{x, y, width, height}` properties  
+- `config` (Object)
+- `config.skipTransform` (Boolean) (optional): should we apply transform to node for calculating rect?
+- `config.skipShadow` (Boolean) (optional): should we apply shadow to the node for calculating bound box?
+- `config.skipStroke` (Boolean) (optional): should we apply stroke to the node for calculating bound box?
+- `config.relativeTo` (Object) (optional): calculate client rect relative to one of the parents
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> |  |
-| [config.skipTransform] | <code>Boolean</code> | should we apply transform to node for calculating rect? |
-| [config.skipShadow] | <code>Boolean</code> | should we apply shadow to the node for calculating bound box? |
-| [config.skipStroke] | <code>Boolean</code> | should we apply stroke to the node for calculating bound box? |
-| [config.relativeTo] | <code>Object</code> | calculate client rect relative to one of the parents |
+**Returns:** `Object` rect with `{x, y, width, height}` properties
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 var rect = new Konva.Rect({
      width : 100,
      height : 100,
@@ -147,25 +145,21 @@ rect.getClientRect({ skipTransform: true});
 rect.getClientRect();
 // returns Object {x: -2, y: 46, width: 104, height: 208}
 ```
-<a name="Konva.Node+on"></a>
 
-### node.on(evtStr, handler) ⇒ [<code>Node</code>](../Konva.Node.html)
-bind events to the node. KonvaJS supports mouseover, mousemove,
- mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,
- touchend, tap, dbltap, dragstart, dragmove, and dragend events.
- Pass in a string of events delimited by a space to bind multiple events at once
- such as 'mousedown mouseup mousemove'. Include a namespace to bind an
- event by name such as 'click.foobar'.
+### on(evtStr, handler)
 
+bind events to the node. KonvaJS supports mouseover, mousemove,  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,  touchend, tap, dbltap, dragstart, dragmove, and dragend events.  Pass in a string of events delimited by a space to bind multiple events at once  such as 'mousedown mouseup mousemove'. Include a namespace to bind an  event by name such as 'click.foobar'.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| evtStr | <code>String</code> | e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo' |
-| handler | <code>function</code> | The handler function. The first argument of that function is event object. Event object has `target` as main target of the event, `currentTarget` as current node listener and `evt` as native browser event. |
+- `evtStr` (String): e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo'
+- `handler` (function): The handler function. The first argument of that function is event object. Event object has `target` as main target of the event, `currentTarget` as current node listener and `evt` as native browser event.
 
-**Example**  
-```js
+**Returns:** `Konva.Node` 
+
+**Example:**
+
+```javascript
 // add click listener
 node.on('click', function() {
   console.log('you clicked me!');
@@ -214,24 +208,20 @@ layer.on('click', 'Group', function(evt) {
   var group = evt.currentTarget;
 });
 ```
-<a name="Konva.Node+off"></a>
 
-### node.off(evtStr) ⇒ [<code>Node</code>](../Konva.Node.html)
-remove event bindings from the node. Pass in a string of
- event types delimmited by a space to remove multiple event
- bindings at once such as 'mousedown mouseup mousemove'.
- include a namespace to remove an event binding by name
- such as 'click.foobar'. If you only give a name like '.foobar',
- all events in that namespace will be removed.
+### off(evtStr)
 
+remove event bindings from the node. Pass in a string of  event types delimmited by a space to remove multiple event  bindings at once such as 'mousedown mouseup mousemove'.  include a namespace to remove an event binding by name  such as 'click.foobar'. If you only give a name like '.foobar',  all events in that namespace will be removed.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| evtStr | <code>String</code> | e.g. 'click', 'mousedown touchstart', '.foobar' |
+- `evtStr` (String): e.g. 'click', 'mousedown touchstart', '.foobar'
 
-**Example**  
-```js
+**Returns:** `Konva.Node` 
+
+**Example:**
+
+```javascript
 // remove listener
 node.off('click');
 
@@ -241,159 +231,148 @@ node.off('click touchstart');
 // remove listener by name
 node.off('click.foo');
 ```
-<a name="Konva.Node+remove"></a>
 
-### node.remove() ⇒ [<code>Node</code>](../Konva.Node.html)
+### remove()
+
 remove a node from parent, but don't destroy. You can reuse the node later.
 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.remove();
 ```
-<a name="Konva.Node+destroy"></a>
 
-### node.destroy()
-remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy().
-If the node is a container (Group, Stage or Layer) it will destroy all children too.
+### destroy()
 
+remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy(). If the node is a container (Group, Stage or Layer) it will destroy all children too.
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.destroy();
 ```
-<a name="Konva.Node+getAttr"></a>
 
-### node.getAttr(attr) ⇒ <code>Integer</code> \| <code>String</code> \| <code>Object</code> \| <code>Array</code>
+### getAttr(attr)
+
 get attr
 
+**Parameters:**
 
+- `attr` (String)
 
-| Param | Type |
-| --- | --- |
-| attr | <code>String</code> | 
+**Returns:** `Integer|String|Object|Array` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 var x = node.getAttr('x');
 ```
-<a name="Konva.Node+getAncestors"></a>
 
-### node.getAncestors() ⇒ <code>Array</code>
+### getAncestors()
+
 get ancestors
 
+**Returns:** `Array` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 shape.getAncestors().forEach(function(node) {
   console.log(node.getId());
 })
 ```
-<a name="Konva.Node+getAttrs"></a>
 
-### node.getAttrs() ⇒ <code>Object</code>
+### getAttrs()
+
 get attrs object literal
 
+**Returns:** `Object` 
 
-<a name="Konva.Node+setAttrs"></a>
+### setAttrs(config)
 
-### node.setAttrs(config) ⇒ [<code>Node</code>](../Konva.Node.html)
 set multiple attrs at once using an object literal
 
+**Parameters:**
 
+- `config` (Object): object containing key value pairs
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> | object containing key value pairs |
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.setAttrs({
   x: 5,
   fill: 'red'
 });
 ```
-<a name="Konva.Node+isListening"></a>
 
-### node.isListening() ⇒ <code>Boolean</code>
-determine if node is listening for events by taking into account ancestors.
+### isListening()
 
-Parent    | Self      | isListening
-listening | listening |
-----------+-----------+------------
-T         | T         | T
-T         | F         | F
-F         | T         | F
-F         | F         | F
+determine if node is listening for events by taking into account ancestors.  Parent    \| Self      \| isListening listening \| listening \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
 
+**Returns:** `Boolean` 
 
-<a name="Konva.Node+isVisible"></a>
+### isVisible()
 
-### node.isVisible() ⇒ <code>Boolean</code>
-determine if node is visible by taking into account ancestors.
+determine if node is visible by taking into account ancestors.  Parent    \| Self      \| isVisible visible   \| visible   \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
 
-Parent    | Self      | isVisible
-visible   | visible   |
-----------+-----------+------------
-T         | T         | T
-T         | F         | F
-F         | T         | F
-F         | F         | F
+**Returns:** `Boolean` 
 
+### show()
 
-<a name="Konva.Node+show"></a>
-
-### node.show() ⇒ [<code>Node</code>](../Konva.Node.html)
 show node. set visible = true
 
+**Returns:** `Konva.Node` 
 
-<a name="Konva.Node+hide"></a>
+### hide()
 
-### node.hide() ⇒ [<code>Node</code>](../Konva.Node.html)
 hide node.  Hidden nodes are no longer detectable
 
+**Returns:** `Konva.Node` 
 
-<a name="Konva.Node+getAbsoluteZIndex"></a>
+### getAbsoluteZIndex()
 
-### node.getAbsoluteZIndex() ⇒ <code>Integer</code>
-get absolute z-index which takes into account sibling
- and ancestor indices
+get absolute z-index which takes into account sibling  and ancestor indices
 
+**Returns:** `Integer` 
 
-<a name="Konva.Node+getDepth"></a>
+### getDepth()
 
-### node.getDepth() ⇒ <code>Integer</code>
-get node depth in node tree.  Returns an integer.
- e.g. Stage depth will always be 0.  Layers will always be 1.  Groups and Shapes will always
- be >= 2
+get node depth in node tree.  Returns an integer.  e.g. Stage depth will always be 0.  Layers will always be 1.  Groups and Shapes will always  be >= 2
 
+**Returns:** `Integer` 
 
-<a name="Konva.Node+getRelativePointerPosition"></a>
+### getRelativePointerPosition()
 
-### node.getRelativePointerPosition() ⇒ [<code>Node</code>](../Konva.Node.html)
 get position of first pointer (like mouse or first touch) relative to local coordinates of current node
 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // let's think we have a rectangle at position x = 10, y = 10
 // now we clicked at x = 15, y = 15 of the stage
 // if you want to know position of the click, related to the rectangle you can use
 rect.getRelativePointerPosition();
 ```
-<a name="Konva.Node+getAbsolutePosition"></a>
 
-### node.getAbsolutePosition(Ancestor) ⇒ [<code>Node</code>](../Konva.Node.html)
+### getAbsolutePosition(Ancestor)
+
 get absolute position of a node. That function can be used to calculate absolute position, but relative to any ancestor
 
+**Parameters:**
 
+- `Ancestor` (Object): optional ancestor node
 
-| Param | Type | Description |
-| --- | --- | --- |
-| Ancestor | <code>Object</code> | optional ancestor node |
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // returns absolute position relative to top-left corner of canvas
 node.getAbsolutePosition();
 
@@ -401,168 +380,169 @@ node.getAbsolutePosition();
 // so stage transforms are ignored
 node.getAbsolutePosition(stage)
 ```
-<a name="Konva.Node+move"></a>
 
-### node.move(change) ⇒ [<code>Node</code>](../Konva.Node.html)
+### move(change)
+
 move node by an amount relative to its current position
 
+**Parameters:**
 
+- `change` (Object)
+- `change.x` (Number)
+- `change.y` (Number)
 
-| Param | Type |
-| --- | --- |
-| change | <code>Object</code> | 
-| change.x | <code>Number</code> | 
-| change.y | <code>Number</code> | 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // move node in x direction by 1px and y direction by 2px
 node.move({
   x: 1,
   y: 2
 });
 ```
-<a name="Konva.Node+rotate"></a>
 
-### node.rotate(theta) ⇒ [<code>Node</code>](../Konva.Node.html)
+### rotate(theta)
+
 rotate node by an amount in degrees relative to its current rotation
 
+**Parameters:**
 
+- `theta` (Number)
 
-| Param | Type |
-| --- | --- |
-| theta | <code>Number</code> | 
+**Returns:** `Konva.Node` 
 
-<a name="Konva.Node+moveToTop"></a>
+### moveToTop()
 
-### node.moveToTop() ⇒ <code>Boolean</code>
 move node to the top of its siblings
 
+**Returns:** `Boolean` 
 
-<a name="Konva.Node+moveUp"></a>
+### moveUp()
 
-### node.moveUp() ⇒ <code>Boolean</code>
 move node up
 
+**Returns:** `Boolean` flag is moved or not
 
-**Returns**: <code>Boolean</code> - flag is moved or not  
-<a name="Konva.Node+moveDown"></a>
+### moveDown()
 
-### node.moveDown() ⇒ <code>Boolean</code>
 move node down
 
+**Returns:** `Boolean` 
 
-<a name="Konva.Node+moveToBottom"></a>
+### moveToBottom()
 
-### node.moveToBottom() ⇒ <code>Boolean</code>
 move node to the bottom of its siblings
 
+**Returns:** `Boolean` 
 
-<a name="Konva.Node+getAbsoluteOpacity"></a>
+### getAbsoluteOpacity()
 
-### node.getAbsoluteOpacity() ⇒ <code>Number</code>
 get absolute opacity
 
+**Returns:** `Number` 
 
-<a name="Konva.Node+moveTo"></a>
+### moveTo(newContainer)
 
-### node.moveTo(newContainer) ⇒ [<code>Node</code>](../Konva.Node.html)
 move node to another container
 
+**Parameters:**
 
+- `newContainer` (Container)
 
-| Param | Type |
-| --- | --- |
-| newContainer | <code>Container</code> | 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // move node from current layer into layer2
 node.moveTo(layer2);
 ```
-<a name="Konva.Node+toObject"></a>
 
-### node.toObject() ⇒ <code>Object</code>
+### toObject()
+
 convert Node into an object for serialization.  Returns an object.
 
+**Returns:** `Object` 
 
-<a name="Konva.Node+toJSON"></a>
+### toJSON()
 
-### node.toJSON() ⇒ <code>String</code>
 convert Node into a JSON string.  Returns a JSON string.
 
+**Returns:** `String` 
 
-<a name="Konva.Node+getParent"></a>
+### getParent()
 
-### node.getParent() ⇒ [<code>Node</code>](../Konva.Node.html)
 get parent container
 
+**Returns:** `Konva.Node` 
 
-<a name="Konva.Node+findAncestors"></a>
+### findAncestors(selector, includeSelf, stopNode)
 
-### node.findAncestors(selector, [includeSelf], [stopNode]) ⇒ <code>Array</code>
 get all ancestors (parent then parent of the parent, etc) of the node
 
+**Parameters:**
 
-**Returns**: <code>Array</code> - [ancestors]  
+- `selector` (String): selector for search
+- `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
+- `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-| Param | Type | Description |
-| --- | --- | --- |
-| selector | <code>String</code> | selector for search |
-| [includeSelf] | <code>Boolean</code> | show we think that node is ancestro itself? |
-| [stopNode] | [<code>Node</code>](../Konva.Node.html) | optional node where we need to stop searching (one of ancestors) |
+**Returns:** `Array` [ancestors]
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get one of the parent group
 var parentGroups = node.findAncestors('Group');
 ```
-<a name="Konva.Node+findAncestor"></a>
 
-### node.findAncestor(selector, [includeSelf], [stopNode]) ⇒ [<code>Node</code>](../Konva.Node.html)
+### findAncestor(selector, includeSelf, stopNode)
+
 get ancestor (parent or parent of the parent, etc) of the node that match passed selector
 
+**Parameters:**
 
-**Returns**: [<code>Node</code>](../Konva.Node.html) - ancestor  
+- `selector` (String): selector for search
+- `includeSelf` (Boolean) (optional): show we think that node is ancestro itself?
+- `stopNode` (Konva.Node) (optional): optional node where we need to stop searching (one of ancestors)
 
-| Param | Type | Description |
-| --- | --- | --- |
-| selector | <code>String</code> | selector for search |
-| [includeSelf] | <code>Boolean</code> | show we think that node is ancestro itself? |
-| [stopNode] | [<code>Node</code>](../Konva.Node.html) | optional node where we need to stop searching (one of ancestors) |
+**Returns:** `Konva.Node` ancestor
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get one of the parent group
 var group = node.findAncestors('.mygroup');
 ```
-<a name="Konva.Node+getLayer"></a>
 
-### node.getLayer() ⇒ [<code>Layer</code>](../Konva.Layer.html)
+### getLayer()
+
 get layer ancestor
 
+**Returns:** `Konva.Layer` 
 
-<a name="Konva.Node+getStage"></a>
+### getStage()
 
-### node.getStage() ⇒ [<code>Stage</code>](../Konva.Stage.html)
 get stage ancestor
 
+**Returns:** `Konva.Stage` 
 
-<a name="Konva.Node+fire"></a>
+### fire(eventType, evt, bubble)
 
-### node.fire(eventType, [evt], [bubble]) ⇒ [<code>Node</code>](../Konva.Node.html)
 fire event
 
+**Parameters:**
 
+- `eventType` (String): event type.  can be a regular event, like click, mouseover, or mouseout, or it can be a custom event, like myCustomEvent
+- `evt` (Event) (optional): event object
+- `bubble` (Boolean) (optional): setting the value to false, or leaving it undefined, will result in the event  not bubbling.  Setting the value to true will result in the event bubbling.
 
-| Param | Type | Description |
-| --- | --- | --- |
-| eventType | <code>String</code> | event type.  can be a regular event, like click, mouseover, or mouseout, or it can be a custom event, like myCustomEvent |
-| [evt] | <code>Event</code> | event object |
-| [bubble] | <code>Boolean</code> | setting the value to false, or leaving it undefined, will result in the event  not bubbling.  Setting the value to true will result in the event bubbling. |
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // manually fire click event
 node.fire('click');
 
@@ -577,58 +557,58 @@ node.fire('foo', {
 // fire click event that bubbles
 node.fire('click', null, true);
 ```
-<a name="Konva.Node+getAbsoluteTransform"></a>
 
-### node.getAbsoluteTransform() ⇒ [<code>Transform</code>](../Konva.Transform.html)
-get absolute transform of the node which takes into
- account its ancestor transforms
+### getAbsoluteTransform()
 
+get absolute transform of the node which takes into  account its ancestor transforms
 
-<a name="Konva.Node+getAbsoluteScale"></a>
+**Returns:** `Konva.Transform` 
 
-### node.getAbsoluteScale() ⇒ <code>Object</code>
-get absolute scale of the node which takes into
- account its ancestor scales
+### getAbsoluteScale()
 
+get absolute scale of the node which takes into  account its ancestor scales
 
-**Example**  
-```js
+**Returns:** `Object` 
+
+**Example:**
+
+```javascript
 // get absolute scale x
 var scaleX = node.getAbsoluteScale().x;
 ```
-<a name="Konva.Node+getAbsoluteRotation"></a>
 
-### node.getAbsoluteRotation() ⇒ <code>Number</code>
-get absolute rotation of the node which takes into
- account its ancestor rotations
+### getAbsoluteRotation()
 
+get absolute rotation of the node which takes into  account its ancestor rotations
 
-**Example**  
-```js
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
 // get absolute rotation
 var rotation = node.getAbsoluteRotation();
 ```
-<a name="Konva.Node+getTransform"></a>
 
-### node.getTransform() ⇒ [<code>Transform</code>](../Konva.Transform.html)
+### getTransform()
+
 get transform of the node
 
+**Returns:** `Konva.Transform` 
 
-<a name="Konva.Node+clone"></a>
+### clone(obj)
 
-### node.clone(obj) ⇒ [<code>Node</code>](../Konva.Node.html)
-clone node.  Returns a new Node instance with identical attributes.  You can also override
- the node properties with an object literal, enabling you to use an existing node as a template
- for another node
+clone node.  Returns a new Node instance with identical attributes.  You can also override  the node properties with an object literal, enabling you to use an existing node as a template  for another node
 
+**Parameters:**
 
+- `obj` (Object): override attrs
 
-| Param | Type | Description |
-| --- | --- | --- |
-| obj | <code>Object</code> | override attrs |
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // simple clone
 var clone = node.clone();
 
@@ -637,265 +617,267 @@ var clone = rect.clone({
   x: 5
 });
 ```
-<a name="Konva.Node+toCanvas"></a>
 
-### node.toCanvas(config)
+### toCanvas(config)
+
 converts node into an canvas element.
 
+**Parameters:**
 
+- `config` (Object)
+- `config.callback` (function): function executed when the composite has completed
+- `config.x` (Number) (optional): x position of canvas section
+- `config.y` (Number) (optional): y position of canvas section
+- `config.width` (Number) (optional): width of canvas section
+- `config.height` (Number) (optional): height of canvas section
+- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> |  |
-| config.callback | <code>function</code> | function executed when the composite has completed |
-| [config.x] | <code>Number</code> | x position of canvas section |
-| [config.y] | <code>Number</code> | y position of canvas section |
-| [config.width] | <code>Number</code> | width of canvas section |
-| [config.height] | <code>Number</code> | height of canvas section |
-| [config.pixelRatio] | <code>Number</code> | pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000. |
-| [config.imageSmoothingEnabled] | <code>Boolean</code> | set this to false if you want to disable imageSmoothing |
+**Example:**
 
-**Example**  
-```js
+```javascript
 var canvas = node.toCanvas();
 ```
-<a name="Konva.Node+toDataURL"></a>
 
-### node.toDataURL(config) ⇒ <code>String</code>
-Creates a composite data URL (base64 string). If MIME type is not
-specified, then "image/png" will result. For "image/jpeg", specify a quality
-level as quality (range 0.0 - 1.0)
+### toDataURL(config)
 
+Creates a composite data URL (base64 string). If MIME type is not specified, then "image/png" will result. For "image/jpeg", specify a quality level as quality (range 0.0 - 1.0)
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> |  |
-| [config.mimeType] | <code>String</code> | can be "image/png" or "image/jpeg".  "image/png" is the default |
-| [config.x] | <code>Number</code> | x position of canvas section |
-| [config.y] | <code>Number</code> | y position of canvas section |
-| [config.width] | <code>Number</code> | width of canvas section |
-| [config.height] | <code>Number</code> | height of canvas section |
-| [config.quality] | <code>Number</code> | jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality |
-| [config.pixelRatio] | <code>Number</code> | pixelRatio of output image url. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000. |
-| [config.imageSmoothingEnabled] | <code>Boolean</code> | set this to false if you want to disable imageSmoothing |
+- `config` (Object)
+- `config.mimeType` (String) (optional): can be "image/png" or "image/jpeg".  "image/png" is the default
+- `config.x` (Number) (optional): x position of canvas section
+- `config.y` (Number) (optional): y position of canvas section
+- `config.width` (Number) (optional): width of canvas section
+- `config.height` (Number) (optional): height of canvas section
+- `config.quality` (Number) (optional): jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality
+- `config.pixelRatio` (Number) (optional): pixelRatio of output image url. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
-<a name="Konva.Node+toImage"></a>
+**Returns:** `String` 
 
-### node.toImage(config) ⇒ <code>Promise.&lt;Image&gt;</code>
-converts node into an image.  Since the toImage
- method is asynchronous, the resulting image can only be retrieved from the config callback
- or the returned Promise.  toImage is most commonly used
- to cache complex drawings as an image so that they don't have to constantly be redrawn
+### toImage(config)
 
+converts node into an image.  Since the toImage  method is asynchronous, the resulting image can only be retrieved from the config callback  or the returned Promise.  toImage is most commonly used  to cache complex drawings as an image so that they don't have to constantly be redrawn
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> |  |
-| [config.callback] | <code>function</code> | function executed when the composite has completed |
-| [config.mimeType] | <code>String</code> | can be "image/png" or "image/jpeg".  "image/png" is the default |
-| [config.x] | <code>Number</code> | x position of canvas section |
-| [config.y] | <code>Number</code> | y position of canvas section |
-| [config.width] | <code>Number</code> | width of canvas section |
-| [config.height] | <code>Number</code> | height of canvas section |
-| [config.quality] | <code>Number</code> | jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality |
-| [config.pixelRatio] | <code>Number</code> | pixelRatio of output image. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000. |
-| [config.imageSmoothingEnabled] | <code>Boolean</code> | set this to false if you want to disable imageSmoothing |
+- `config` (Object)
+- `config.callback` (function) (optional): function executed when the composite has completed
+- `config.mimeType` (String) (optional): can be "image/png" or "image/jpeg".  "image/png" is the default
+- `config.x` (Number) (optional): x position of canvas section
+- `config.y` (Number) (optional): y position of canvas section
+- `config.width` (Number) (optional): width of canvas section
+- `config.height` (Number) (optional): height of canvas section
+- `config.quality` (Number) (optional): jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality
+- `config.pixelRatio` (Number) (optional): pixelRatio of output image. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
-**Example**  
-```js
+**Returns:** `Promise<Image>` 
+
+**Example:**
+
+```javascript
 var image = node.toImage({
   callback(img) {
     // do stuff with img
   }
 });
 ```
-<a name="Konva.Node+toBlob"></a>
 
-### node.toBlob(config) ⇒ <code>Promise.&lt;Blob&gt;</code>
-Converts node into a blob.  Since the toBlob method is asynchronous,
- the resulting blob can only be retrieved from the config callback
- or the returned Promise.
+### toBlob(config)
 
+Converts node into a blob.  Since the toBlob method is asynchronous,  the resulting blob can only be retrieved from the config callback  or the returned Promise.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| config | <code>Object</code> |  |
-| [config.callback] | <code>function</code> | function executed when the composite has completed |
-| [config.x] | <code>Number</code> | x position of canvas section |
-| [config.y] | <code>Number</code> | y position of canvas section |
-| [config.width] | <code>Number</code> | width of canvas section |
-| [config.height] | <code>Number</code> | height of canvas section |
-| [config.pixelRatio] | <code>Number</code> | pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000. |
-| [config.imageSmoothingEnabled] | <code>Boolean</code> | set this to false if you want to disable imageSmoothing |
+- `config` (Object)
+- `config.callback` (function) (optional): function executed when the composite has completed
+- `config.x` (Number) (optional): x position of canvas section
+- `config.y` (Number) (optional): y position of canvas section
+- `config.width` (Number) (optional): width of canvas section
+- `config.height` (Number) (optional): height of canvas section
+- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
-**Example**  
-```js
+**Returns:** `Promise<Blob>` 
+
+**Example:**
+
+```javascript
 var blob = await node.toBlob({});
 ```
-<a name="Konva.Node+getClassName"></a>
 
-### node.getClassName() ⇒ <code>String</code>
+### getClassName()
+
 get class name, which may return Stage, Layer, Group, or shape class names like Rect, Circle, Text, etc.
 
+**Returns:** `String` 
 
-<a name="Konva.Node+getType"></a>
+### getType()
 
-### node.getType() ⇒ <code>String</code>
 get the node type, which may return Stage, Layer, Group, or Shape
 
+**Returns:** `String` 
 
-<a name="Konva.Node+addName"></a>
+### addName(name)
 
-### node.addName(name) ⇒ [<code>Node</code>](../Konva.Node.html)
 add name to node
 
+**Parameters:**
 
+- `name` (String)
 
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.name('red');
 node.addName('selected');
 node.name(); // return 'red selected'
 ```
-<a name="Konva.Node+hasName"></a>
 
-### node.hasName(name) ⇒ <code>Boolean</code>
+### hasName(name)
+
 check is node has name
 
+**Parameters:**
 
+- `name` (String)
 
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
+**Returns:** `Boolean` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.name('red');
 node.hasName('red');   // return true
 node.hasName('selected'); // return false
 node.hasName(''); // return false
 ```
-<a name="Konva.Node+removeName"></a>
 
-### node.removeName(name) ⇒ [<code>Node</code>](../Konva.Node.html)
+### removeName(name)
+
 remove name from node
 
+**Parameters:**
 
+- `name` (String)
 
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.name('red selected');
 node.removeName('selected');
 node.hasName('selected'); // return false
 node.name(); // return 'red'
 ```
-<a name="Konva.Node+setAttr"></a>
 
-### node.setAttr(attr, val) ⇒ [<code>Node</code>](../Konva.Node.html)
+### setAttr(attr, val)
+
 set attr
 
+**Parameters:**
 
+- `attr` (String)
+- `val` (*)
 
-| Param | Type |
-| --- | --- |
-| attr | <code>String</code> | 
-| val | <code>\*</code> | 
+**Returns:** `Konva.Node` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 node.setAttr('x', 5);
 ```
-<a name="Konva.Node+draw"></a>
 
-### node.draw() ⇒ [<code>Node</code>](../Konva.Node.html)
+### draw()
+
 draw both scene and hit graphs.  If the node being drawn is the stage, all of the layers will be cleared and redrawn
 
+**Returns:** `Konva.Node` 
 
-<a name="Konva.Node+startDrag"></a>
+### startDrag()
 
-### node.startDrag()
 initiate drag and drop.
 
+### stopDrag()
 
-<a name="Konva.Node+stopDrag"></a>
-
-### node.stopDrag()
 stop drag and drop
 
+### isDragging()
 
-<a name="Konva.Node+isDragging"></a>
-
-### node.isDragging()
 determine if node is currently in drag and drop mode
 
+### isClientRectOnScreen(margin)
 
-<a name="Konva.Node+isClientRectOnScreen"></a>
-
-### node.isClientRectOnScreen(margin) ⇒ <code>Boolean</code>
 determine if node (at least partially) is currently in user-visible area
 
+**Parameters:**
 
+- `margin` (Number|Object): optional margin in pixels
+- `margin.x` (Number)
+- `margin.y` (Number)
 
-| Param | Type | Description |
-| --- | --- | --- |
-| margin | <code>Number</code> \| <code>Object</code> | optional margin in pixels |
-| margin.x | <code>Number</code> |  |
-| margin.y | <code>Number</code> |  |
+**Returns:** `Boolean` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get index
 // default calculations
 var isOnScreen = node.isClientRectOnScreen()
 // increase object size (or screen size) for cases when objects close to the screen still need to be marked as "visible"
 var isOnScreen = node.isClientRectOnScreen({ x: stage.width(), y: stage.height() })
 ```
-<a name="Konva.Node+zIndex"></a>
 
-### node.zIndex(index) ⇒ <code>Number</code>
-get/set zIndex relative to the node's siblings who share the same parent.
-Please remember that zIndex is not absolute (like in CSS). It is relative to parent element only.
+### Node.create(json, container)
 
+create node with JSON string or an Object.  De-serializtion does not generate custom  shape drawing functions, images, or event handlers (this would make the  serialized object huge).  If your app uses custom shapes, images, and  event handlers (it probably does), then you need to select the appropriate  shapes after loading the stage and set these properties via on(), setSceneFunc(),  and setImage() methods
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| index | <code>Number</code> | 
+- `json` (String|Object): string or object
+- `container` (Element) (optional): optional container dom element used only if you're  creating a stage node
 
-**Example**  
-```js
+### zIndex(index)
+
+get/set zIndex relative to the node's siblings who share the same parent. Please remember that zIndex is not absolute (like in CSS). It is relative to parent element only.
+
+**Parameters:**
+
+- `index` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
 // get index
 var index = node.zIndex();
 
 // set index
 node.zIndex(2);
 ```
-<a name="Konva.Node+absolutePosition"></a>
 
-### node.absolutePosition(pos) ⇒ <code>Object</code>
+### absolutePosition(pos)
+
 get/set node absolute position
 
+**Parameters:**
 
+- `pos` (Object)
+- `pos.x` (Number)
+- `pos.y` (Number)
 
-| Param | Type |
-| --- | --- |
-| pos | <code>Object</code> | 
-| pos.x | <code>Number</code> | 
-| pos.y | <code>Number</code> | 
+**Returns:** `Object` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get position
 var position = node.absolutePosition();
 
@@ -905,21 +887,22 @@ node.absolutePosition({
   y: 10
 });
 ```
-<a name="Konva.Node+position"></a>
 
-### node.position(pos) ⇒ <code>Object</code>
+### position(pos)
+
 get/set node position relative to parent
 
+**Parameters:**
 
+- `pos` (Object)
+- `pos.x` (Number)
+- `pos.y` (Number)
 
-| Param | Type |
-| --- | --- |
-| pos | <code>Object</code> | 
-| pos.x | <code>Number</code> | 
-| pos.y | <code>Number</code> | 
+**Returns:** `Object` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get position
 var position = node.position();
 
@@ -929,97 +912,100 @@ node.position({
   y: 10
 });
 ```
-<a name="Konva.Node+x"></a>
 
-### node.x(x) ⇒ <code>Object</code>
+### x(x)
+
 get/set x position
 
+**Parameters:**
 
+- `x` (Number)
 
-| Param | Type |
-| --- | --- |
-| x | <code>Number</code> | 
+**Returns:** `Object` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get x
 var x = node.x();
 
 // set x
 node.x(5);
 ```
-<a name="Konva.Node+y"></a>
 
-### node.y(y) ⇒ <code>Integer</code>
+### y(y)
+
 get/set y position
 
+**Parameters:**
 
+- `y` (Number)
 
-| Param | Type |
-| --- | --- |
-| y | <code>Number</code> | 
+**Returns:** `Integer` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get y
 var y = node.y();
 
 // set y
 node.y(5);
 ```
-<a name="Konva.Node+globalCompositeOperation"></a>
 
-### node.globalCompositeOperation(type) ⇒ <code>String</code>
+### globalCompositeOperation(type)
+
 get/set globalCompositeOperation of a node. globalCompositeOperation DOESN'T affect hit graph of nodes. So they are still trigger to events as they have default "source-over" globalCompositeOperation.
 
+**Parameters:**
 
+- `type` (String)
 
-| Param | Type |
-| --- | --- |
-| type | <code>String</code> | 
+**Returns:** `String` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get globalCompositeOperation
 var globalCompositeOperation = shape.globalCompositeOperation();
 
 // set globalCompositeOperation
 shape.globalCompositeOperation('source-in');
 ```
-<a name="Konva.Node+opacity"></a>
 
-### node.opacity(opacity) ⇒ <code>Number</code>
-get/set opacity.  Opacity values range from 0 to 1.
- A node with an opacity of 0 is fully transparent, and a node
- with an opacity of 1 is fully opaque
+### opacity(opacity)
 
+get/set opacity.  Opacity values range from 0 to 1.  A node with an opacity of 0 is fully transparent, and a node  with an opacity of 1 is fully opaque
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| opacity | <code>Object</code> | 
+- `opacity` (Object)
 
-**Example**  
-```js
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
 // get opacity
 var opacity = node.opacity();
 
 // set opacity
 node.opacity(0.5);
 ```
-<a name="Konva.Node+name"></a>
 
-### node.name(name) ⇒ <code>String</code>
+### name(name)
+
 get/set name.
 
+**Parameters:**
 
+- `name` (String)
 
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
+**Returns:** `String` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get name
 var name = node.name();
 
@@ -1029,59 +1015,62 @@ node.name('foo');
 // also node may have multiple names (as css classes)
 node.name('foo bar');
 ```
-<a name="Konva.Node+id"></a>
 
-### node.id(id) ⇒ <code>String</code>
+### id(id)
+
 get/set id. Id is global for whole page.
 
+**Parameters:**
 
+- `id` (String)
 
-| Param | Type |
-| --- | --- |
-| id | <code>String</code> | 
+**Returns:** `String` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get id
 var name = node.id();
 
 // set id
 node.id('foo');
 ```
-<a name="Konva.Node+rotation"></a>
 
-### node.rotation(rotation) ⇒ <code>Number</code>
+### rotation(rotation)
+
 get/set rotation in degrees
 
+**Parameters:**
 
+- `rotation` (Number)
 
-| Param | Type |
-| --- | --- |
-| rotation | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get rotation in degrees
 var rotation = node.rotation();
 
 // set rotation in degrees
 node.rotation(45);
 ```
-<a name="Konva.Node+scale"></a>
 
-### node.scale(scale) ⇒ <code>Object</code>
+### scale(scale)
+
 get/set scale
 
+**Parameters:**
 
+- `scale` (Object)
+- `scale.x` (Number)
+- `scale.y` (Number)
 
-| Param | Type |
-| --- | --- |
-| scale | <code>Object</code> | 
-| scale.x | <code>Number</code> | 
-| scale.y | <code>Number</code> | 
+**Returns:** `Object` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get scale
 var scale = node.scale();
 
@@ -1091,59 +1080,62 @@ shape.scale({
   y: 3
 });
 ```
-<a name="Konva.Node+scaleX"></a>
 
-### node.scaleX(x) ⇒ <code>Number</code>
+### scaleX(x)
+
 get/set scale x
 
+**Parameters:**
 
+- `x` (Number)
 
-| Param | Type |
-| --- | --- |
-| x | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get scale x
 var scaleX = node.scaleX();
 
 // set scale x
 node.scaleX(2);
 ```
-<a name="Konva.Node+scaleY"></a>
 
-### node.scaleY(y) ⇒ <code>Number</code>
+### scaleY(y)
+
 get/set scale y
 
+**Parameters:**
 
+- `y` (Number)
 
-| Param | Type |
-| --- | --- |
-| y | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get scale y
 var scaleY = node.scaleY();
 
 // set scale y
 node.scaleY(2);
 ```
-<a name="Konva.Node+skew"></a>
 
-### node.skew(skew) ⇒ <code>Object</code>
+### skew(skew)
+
 get/set skew
 
+**Parameters:**
 
+- `skew` (Object)
+- `skew.x` (Number)
+- `skew.y` (Number)
 
-| Param | Type |
-| --- | --- |
-| skew | <code>Object</code> | 
-| skew.x | <code>Number</code> | 
-| skew.y | <code>Number</code> | 
+**Returns:** `Object` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get skew
 var skew = node.skew();
 
@@ -1153,95 +1145,100 @@ node.skew({
   y: 10
 });
 ```
-<a name="Konva.Node+skewX"></a>
 
-### node.skewX(x) ⇒ <code>Number</code>
+### skewX(x)
+
 get/set skew x
 
+**Parameters:**
 
+- `x` (Number)
 
-| Param | Type |
-| --- | --- |
-| x | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get skew x
 var skewX = node.skewX();
 
 // set skew x
 node.skewX(3);
 ```
-<a name="Konva.Node+skewY"></a>
 
-### node.skewY(y) ⇒ <code>Number</code>
+### skewY(y)
+
 get/set skew y
 
+**Parameters:**
 
+- `y` (Number)
 
-| Param | Type |
-| --- | --- |
-| y | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get skew y
 var skewY = node.skewY();
 
 // set skew y
 node.skewY(3);
 ```
-<a name="Konva.Node+offsetX"></a>
 
-### node.offsetX(x) ⇒ <code>Number</code>
+### offsetX(x)
+
 get/set offset x
 
+**Parameters:**
 
+- `x` (Number)
 
-| Param | Type |
-| --- | --- |
-| x | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get offset x
 var offsetX = node.offsetX();
 
 // set offset x
 node.offsetX(3);
 ```
-<a name="Konva.Node+offsetY"></a>
 
-### node.offsetY(y) ⇒ <code>Number</code>
+### offsetY(y)
+
 get/set offset y
 
+**Parameters:**
 
+- `y` (Number)
 
-| Param | Type |
-| --- | --- |
-| y | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get offset y
 var offsetY = node.offsetY();
 
 // set offset y
 node.offsetY(3);
 ```
-<a name="Konva.Node+dragDistance"></a>
 
-### node.dragDistance(distance) ⇒ <code>Number</code>
+### dragDistance(distance)
+
 get/set drag distance
 
+**Parameters:**
 
+- `distance` (Number)
 
-| Param | Type |
-| --- | --- |
-| distance | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get drag distance
 var dragDistance = node.dragDistance();
 
@@ -1251,60 +1248,60 @@ node.dragDistance(3);
 // or set globally
 Konva.dragDistance = 3;
 ```
-<a name="Konva.Node+width"></a>
 
-### node.width(width) ⇒ <code>Number</code>
+### width(width)
+
 get/set width
 
+**Parameters:**
 
+- `width` (Number)
 
-| Param | Type |
-| --- | --- |
-| width | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get width
 var width = node.width();
 
 // set width
 node.width(100);
 ```
-<a name="Konva.Node+height"></a>
 
-### node.height(height) ⇒ <code>Number</code>
+### height(height)
+
 get/set height
 
+**Parameters:**
 
+- `height` (Number)
 
-| Param | Type |
-| --- | --- |
-| height | <code>Number</code> | 
+**Returns:** `Number` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get height
 var height = node.height();
 
 // set height
 node.height(100);
 ```
-<a name="Konva.Node+listening"></a>
 
-### node.listening(listening) ⇒ <code>Boolean</code>
-get/set listening attr.  If you need to determine if a node is listening or not
-  by taking into account its parents, use the isListening() method
-  nodes with listening set to false will not be detected in hit graph
-  so they will be ignored in container.getIntersection() method
+### listening(listening)
 
+get/set listening attr.  If you need to determine if a node is listening or not   by taking into account its parents, use the isListening() method   nodes with listening set to false will not be detected in hit graph   so they will be ignored in container.getIntersection() method
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| listening | <code>Boolean</code> | Can be true, or false.  The default is true. |
+- `listening` (Boolean): Can be true, or false.  The default is true.
 
-**Example**  
-```js
+**Returns:** `Boolean` 
+
+**Example:**
+
+```javascript
 // get listening attr
 var listening = node.listening();
 
@@ -1314,43 +1311,40 @@ node.listening(false);
 // listen to events according to the parent
 node.listening(true);
 ```
-<a name="Konva.Node+preventDefault"></a>
 
-### node.preventDefault(preventDefault) ⇒ <code>Boolean</code>
-get/set preventDefault
-By default all shapes will prevent default behavior
-of a browser on a pointer move or tap.
-that will prevent native scrolling when you are trying to drag&drop a node
-but sometimes you may need to enable default actions
-in that case you can set the property to false
+### preventDefault(preventDefault)
 
+get/set preventDefault By default all shapes will prevent default behavior of a browser on a pointer move or tap. that will prevent native scrolling when you are trying to drag&drop a node but sometimes you may need to enable default actions in that case you can set the property to false
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| preventDefault | <code>Boolean</code> | 
+- `preventDefault` (Boolean)
 
-**Example**  
-```js
+**Returns:** `Boolean` 
+
+**Example:**
+
+```javascript
 // get preventDefault
 var shouldPrevent = shape.preventDefault();
 
 // set preventDefault
 shape.preventDefault(false);
 ```
-<a name="Konva.Node+filters"></a>
 
-### node.filters(filters) ⇒ <code>Array</code>
+### filters(filters)
+
 get/set filters.  Filters are applied to cached canvases
 
+**Parameters:**
 
+- `filters` (Array): array of filters
 
-| Param | Type | Description |
-| --- | --- | --- |
-| filters | <code>Array</code> | array of filters |
+**Returns:** `Array` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get filters
 var filters = node.filters();
 
@@ -1366,21 +1360,20 @@ node.filters([
   Konva.Filters.Invert
 ]);
 ```
-<a name="Konva.Node+visible"></a>
 
-### node.visible(visible) ⇒ <code>Boolean</code>
-get/set visible attr.  Can be true, or false.  The default is true.
-  If you need to determine if a node is visible or not
-  by taking into account its parents, use the isVisible() method
+### visible(visible)
 
+get/set visible attr.  Can be true, or false.  The default is true.   If you need to determine if a node is visible or not   by taking into account its parents, use the isVisible() method
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| visible | <code>Boolean</code> | 
+- `visible` (Boolean)
 
-**Example**  
-```js
+**Returns:** `Boolean` 
+
+**Example:**
+
+```javascript
 // get visible attr
 var visible = node.visible();
 
@@ -1390,41 +1383,42 @@ node.visible(false);
 // make visible (according to the parent)
 node.visible(true);
 ```
-<a name="Konva.Node+transformsEnabled"></a>
 
-### node.transformsEnabled(enabled) ⇒ <code>String</code>
-get/set transforms that are enabled.  Can be "all", "none", or "position".  The default
- is "all"
+### transformsEnabled(enabled)
 
+get/set transforms that are enabled.  Can be "all", "none", or "position".  The default  is "all"
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| enabled | <code>String</code> | 
+- `enabled` (String)
 
-**Example**  
-```js
+**Returns:** `String` 
+
+**Example:**
+
+```javascript
 // enable position transform only to improve draw performance
 node.transformsEnabled('position');
 
 // enable all transforms
 node.transformsEnabled('all');
 ```
-<a name="Konva.Node+size"></a>
 
-### node.size(size) ⇒ <code>Object</code>
+### size(size)
+
 get/set node size
 
+**Parameters:**
 
+- `size` (Object)
+- `size.width` (Number)
+- `size.height` (Number)
 
-| Param | Type |
-| --- | --- |
-| size | <code>Object</code> | 
-| size.width | <code>Number</code> | 
-| size.height | <code>Number</code> | 
+**Returns:** `Object` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get node size
 var size = node.size();
 var width = size.width;
@@ -1436,20 +1430,20 @@ node.size({
   height: 200
 });
 ```
-<a name="Konva.Node+dragBoundFunc"></a>
 
-### node.dragBoundFunc(dragBoundFunc) ⇒ <code>function</code>
-get/set drag bound function.  This is used to override the default
- drag and drop position.
+### dragBoundFunc(dragBoundFunc)
 
+get/set drag bound function.  This is used to override the default  drag and drop position.
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| dragBoundFunc | <code>function</code> | 
+- `dragBoundFunc` (function)
 
-**Example**  
-```js
+**Returns:** `function` 
+
+**Example:**
+
+```javascript
 // get drag bound function
 var dragBoundFunc = node.dragBoundFunc();
 
@@ -1463,19 +1457,20 @@ node.dragBoundFunc(function(pos){
   };
 });
 ```
-<a name="Konva.Node+draggable"></a>
 
-### node.draggable(draggable) ⇒ <code>Boolean</code>
+### draggable(draggable)
+
 get/set draggable flag
 
+**Parameters:**
 
+- `draggable` (Boolean)
 
-| Param | Type |
-| --- | --- |
-| draggable | <code>Boolean</code> | 
+**Returns:** `Boolean` 
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 // get draggable flag
 var draggable = node.draggable();
 
@@ -1485,19 +1480,18 @@ node.draggable(true);
 // disable drag and drop
 node.draggable(false);
 ```
-<a name="Konva.Node+to"></a>
 
-### node.to([params])
-Tween node properties. Shorter usage of [Tween](#Konva.Tween) object.
+### to(params)
 
+Tween node properties. Shorter usage of [Konva.Tween](/docs/api/Konva-Tween.html) object.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [params] | <code>Object</code> | tween params |
+- `params` (Object) (optional): tween params
 
-**Example**  
-```js
+**Example:**
+
+```javascript
 circle.to({
   x : 50,
   duration : 0.5,
@@ -1505,321 +1499,274 @@ circle.to({
   onFinish: () => console.log('finished'),
 });
 ```
-<a name="Konva.Node+blurRadius"></a>
 
-### node.blurRadius(radius) ⇒ <code>Integer</code>
-get/set blur radius. Use with [Blur](#Konva.Filters.Blur) filter
+### blurRadius(radius)
 
+get/set blur radius. Use with [Konva.Filters.Blur](/docs/api/Konva-Filters-Blur.html) filter
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| radius | <code>Integer</code> | 
+- `radius` (Integer)
 
-<a name="Konva.Node+brightness"></a>
+**Returns:** `Integer` 
 
-### node.brightness(brightness) ⇒ <code>Number</code>
-get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values
- brighten the pixels and negative values darken them. Use with [Brighten](#Konva.Filters.Brighten) filter.
+### brightness(brightness)
 
+get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values  brighten the pixels and negative values darken them. Use with [Konva.Filters.Brighten](/docs/api/Konva-Filters-Brighten.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| brightness | <code>Number</code> | value between -1 and 1 |
+- `brightness` (Number): value between -1 and 1
 
-<a name="Konva.Node+contrast"></a>
+**Returns:** `Number` 
 
-### node.contrast(contrast) ⇒ <code>Number</code>
-get/set filter contrast.  The contrast is a number between -100 and 100.
-Use with [Contrast](#Konva.Filters.Contrast) filter.
+### contrast(contrast)
 
+get/set filter contrast.  The contrast is a number between -100 and 100. Use with [Konva.Filters.Contrast](/docs/api/Konva-Filters-Contrast.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| contrast | <code>Number</code> | value between -100 and 100 |
+- `contrast` (Number): value between -100 and 100
 
-<a name="Konva.Node+embossStrength"></a>
+**Returns:** `Number` 
 
-### node.embossStrength(level) ⇒ <code>Number</code>
-get/set emboss strength. Use with [Emboss](#Konva.Filters.Emboss) filter.
+### embossStrength(level)
 
+get/set emboss strength. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| level | <code>Number</code> | between 0 and 1.  Default is 0.5 |
+- `level` (Number): between 0 and 1.  Default is 0.5
 
-<a name="Konva.Node+embossWhiteLevel"></a>
+**Returns:** `Number` 
 
-### node.embossWhiteLevel(embossWhiteLevel) ⇒ <code>Number</code>
-get/set emboss white level. Use with [Emboss](#Konva.Filters.Emboss) filter.
+### embossWhiteLevel(embossWhiteLevel)
 
+get/set emboss white level. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| embossWhiteLevel | <code>Number</code> | between 0 and 1.  Default is 0.5 |
+- `embossWhiteLevel` (Number): between 0 and 1.  Default is 0.5
 
-<a name="Konva.Node+embossDirection"></a>
+**Returns:** `Number` 
 
-### node.embossDirection(embossDirection) ⇒ <code>String</code>
-get/set emboss direction. Use with [Emboss](#Konva.Filters.Emboss) filter.
+### embossDirection(embossDirection)
 
+get/set emboss direction. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| embossDirection | <code>String</code> | can be top-left, top, top-right, right, bottom-right, bottom, bottom-left or left   The default is top-left |
+- `embossDirection` (String): can be top-left, top, top-right, right, bottom-right, bottom, bottom-left or left   The default is top-left
 
-<a name="Konva.Node+embossBlend"></a>
+**Returns:** `String` 
 
-### node.embossBlend(embossBlend) ⇒ <code>Boolean</code>
-get/set emboss blend. Use with [Emboss](#Konva.Filters.Emboss) filter.
+### embossBlend(embossBlend)
 
+get/set emboss blend. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| embossBlend | <code>Boolean</code> | 
+- `embossBlend` (Boolean)
 
-<a name="Konva.Node+enhance"></a>
+**Returns:** `Boolean` 
 
-### node.enhance(amount) ⇒ <code>Float</code>
-get/set enhance. Use with [Enhance](#Konva.Filters.Enhance) filter. -1 to 1 values
+### enhance(amount)
 
+get/set enhance. Use with [Konva.Filters.Enhance](/docs/api/Konva-Filters-Enhance.html) filter. -1 to 1 values
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| amount | <code>Float</code> | 
+- `amount` (Float)
 
-<a name="Konva.Node+hue"></a>
+**Returns:** `Float` 
 
-### node.hue(hue) ⇒ <code>Number</code>
-get/set hsv hue in degrees. Use with [HSV](#Konva.Filters.HSV) or [HSL](#Konva.Filters.HSL) filter.
+### hue(hue)
 
+get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| hue | <code>Number</code> | value between 0 and 359 |
+- `hue` (Number): value between 0 and 359
 
-<a name="Konva.Node+saturation"></a>
+**Returns:** `Number` 
 
-### node.saturation(saturation) ⇒ <code>Number</code>
-get/set hsv saturation. Use with [HSV](#Konva.Filters.HSV) or [HSL](#Konva.Filters.HSL) filter.
+### saturation(saturation)
 
+get/set hsv saturation. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| saturation | <code>Number</code> | 0 is no change, -1.0 halves the saturation, 1.0 doubles, etc.. |
+- `saturation` (Number): 0 is no change, -1.0 halves the saturation, 1.0 doubles, etc..
 
-<a name="Konva.Node+luminance"></a>
+**Returns:** `Number` 
 
-### node.luminance(value) ⇒ <code>Number</code>
-get/set hsl luminance. Use with [HSL](#Konva.Filters.HSL) filter.
+### luminance(value)
 
+get/set hsl luminance. Use with [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>Number</code> | from -1 to 1 |
+- `value` (Number): from -1 to 1
 
-<a name="Konva.Node+hue"></a>
+**Returns:** `Number` 
 
-### node.hue(hue) ⇒ <code>Number</code>
-get/set hsv hue in degrees. Use with [HSV](#Konva.Filters.HSV) or [HSL](#Konva.Filters.HSL) filter.
+### hue(hue)
 
+get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| hue | <code>Number</code> | value between 0 and 359 |
+- `hue` (Number): value between 0 and 359
 
-<a name="Konva.Node+saturation"></a>
+**Returns:** `Number` 
 
-### node.saturation(saturation) ⇒ <code>Number</code>
-get/set hsv saturation. Use with [HSV](#Konva.Filters.HSV) or [HSL](#Konva.Filters.HSL) filter.
+### saturation(saturation)
 
+get/set hsv saturation. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| saturation | <code>Number</code> | 0 is no change, -1.0 halves the saturation, 1.0 doubles, etc.. |
+- `saturation` (Number): 0 is no change, -1.0 halves the saturation, 1.0 doubles, etc..
 
-<a name="Konva.Node+value"></a>
+**Returns:** `Number` 
 
-### node.value(value) ⇒ <code>Number</code>
-get/set hsv value. Use with [HSV](#Konva.Filters.HSV) filter.
+### value(value)
 
+get/set hsv value. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| value | <code>Number</code> | 0 is no change, -1.0 halves the value, 1.0 doubles, etc.. |
+- `value` (Number): 0 is no change, -1.0 halves the value, 1.0 doubles, etc..
 
-<a name="Konva.Node+kaleidoscopePower"></a>
+**Returns:** `Number` 
 
-### node.kaleidoscopePower(power) ⇒ <code>Integer</code>
-get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](Konva.Filters.Kaleidoscope) filter.
+### kaleidoscopePower(power)
 
+get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/docs/api/Konva-Filters-Kaleidoscope.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| power | <code>Integer</code> | of kaleidoscope |
+- `power` (Integer): of kaleidoscope
 
-<a name="Konva.Node+kaleidoscopeAngle"></a>
+**Returns:** `Integer` 
 
-### node.kaleidoscopeAngle(degrees) ⇒ <code>Integer</code>
-get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](Konva.Filters.Kaleidoscope) filter.
+### kaleidoscopeAngle(degrees)
 
+get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](/docs/api/Konva-Filters-Kaleidoscope.html) filter.
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| degrees | <code>Integer</code> | 
+- `degrees` (Integer)
 
-<a name="Konva.Node+noise"></a>
+**Returns:** `Integer` 
 
-### node.noise(noise) ⇒ <code>Number</code>
-get/set noise amount.  Must be a value between 0 and 1. Use with [Noise](#Konva.Filters.Noise) filter.
+### noise(noise)
 
+get/set noise amount.  Must be a value between 0 and 1. Use with [Konva.Filters.Noise](/docs/api/Konva-Filters-Noise.html) filter.
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| noise | <code>Number</code> | 
+- `noise` (Number)
 
-<a name="Konva.Node+pixelSize"></a>
+**Returns:** `Number` 
 
-### node.pixelSize(pixelSize) ⇒ <code>Integer</code>
-get/set pixel size. Use with [Pixelate](#Konva.Filters.Pixelate) filter.
+### pixelSize(pixelSize)
 
+get/set pixel size. Use with [Konva.Filters.Pixelate](/docs/api/Konva-Filters-Pixelate.html) filter.
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| pixelSize | <code>Integer</code> | 
+- `pixelSize` (Integer)
 
-<a name="Konva.Node+levels"></a>
+**Returns:** `Integer` 
 
-### node.levels(level) ⇒ <code>Number</code>
-get/set levels.  Must be a number between 0 and 1.  Use with [Posterize](#Konva.Filters.Posterize) filter.
+### levels(level)
 
+get/set levels.  Must be a number between 0 and 1.  Use with [Konva.Filters.Posterize](/docs/api/Konva-Filters-Posterize.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| level | <code>Number</code> | between 0 and 1 |
+- `level` (Number): between 0 and 1
 
-<a name="Konva.Node+red"></a>
+**Returns:** `Number` 
 
-### node.red(red) ⇒ <code>Integer</code>
-get/set filter red value. Use with [RGB](#Konva.Filters.RGB) filter.
+### red(red)
 
+get/set filter red value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-RGB.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| red | <code>Integer</code> | value between 0 and 255 |
+- `red` (Integer): value between 0 and 255
 
-<a name="Konva.Node+green"></a>
+**Returns:** `Integer` 
 
-### node.green(green) ⇒ <code>Integer</code>
-get/set filter green value. Use with [RGB](#Konva.Filters.RGB) filter.
+### green(green)
 
+get/set filter green value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-RGB.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| green | <code>Integer</code> | value between 0 and 255 |
+- `green` (Integer): value between 0 and 255
 
-<a name="Konva.Node+blue"></a>
+**Returns:** `Integer` 
 
-### node.blue(blue) ⇒ <code>Integer</code>
-get/set filter blue value. Use with [RGB](#Konva.Filters.RGB) filter.
+### blue(blue)
 
+get/set filter blue value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-RGB.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| blue | <code>Integer</code> | value between 0 and 255 |
+- `blue` (Integer): value between 0 and 255
 
-<a name="Konva.Node+red"></a>
+**Returns:** `Integer` 
 
-### node.red(red) ⇒ <code>Integer</code>
-get/set filter red value. Use with [RGBA](#Konva.Filters.RGBA) filter.
+### red(red)
 
+get/set filter red value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| red | <code>Integer</code> | value between 0 and 255 |
+- `red` (Integer): value between 0 and 255
 
-<a name="Konva.Node+green"></a>
+**Returns:** `Integer` 
 
-### node.green(green) ⇒ <code>Integer</code>
-get/set filter green value. Use with [RGBA](#Konva.Filters.RGBA) filter.
+### green(green)
 
+get/set filter green value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| green | <code>Integer</code> | value between 0 and 255 |
+- `green` (Integer): value between 0 and 255
 
-<a name="Konva.Node+blue"></a>
+**Returns:** `Integer` 
 
-### node.blue(blue) ⇒ <code>Integer</code>
-get/set filter blue value. Use with [RGBA](#Konva.Filters.RGBA) filter.
+### blue(blue)
 
+get/set filter blue value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| blue | <code>Integer</code> | value between 0 and 255 |
+- `blue` (Integer): value between 0 and 255
 
-<a name="Konva.Node+alpha"></a>
+**Returns:** `Integer` 
 
-### node.alpha(alpha) ⇒ <code>Float</code>
-get/set filter alpha value. Use with [RGBA](#Konva.Filters.RGBA) filter.
+### alpha(alpha)
 
+get/set filter alpha value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
+**Parameters:**
 
-| Param | Type | Description |
-| --- | --- | --- |
-| alpha | <code>Float</code> | value between 0 and 1 |
+- `alpha` (Float): value between 0 and 1
 
-<a name="Konva.Node+threshold"></a>
+**Returns:** `Float` 
 
-### node.threshold(threshold) ⇒ <code>Number</code>
-get/set threshold.  Must be a value between 0 and 1. Use with [Threshold](#Konva.Filters.Threshold) or [Mask](#Konva.Filters.Mask) filter.
+### threshold(threshold)
 
+get/set threshold.  Must be a value between 0 and 1. Use with [Konva.Filters.Threshold](/docs/api/Konva-Filters-Threshold.html) or [Konva.Filters.Mask](/docs/api/Konva-Filters-Mask.html) filter.
 
+**Parameters:**
 
-| Param | Type |
-| --- | --- |
-| threshold | <code>Number</code> | 
+- `threshold` (Number)
 
-<a name="Konva.Node.Node.create"></a>
+**Returns:** `Number` 
 
-### Node.Node.create(json, [container])
-create node with JSON string or an Object.  De-serializtion does not generate custom
- shape drawing functions, images, or event handlers (this would make the
- serialized object huge).  If your app uses custom shapes, images, and
- event handlers (it probably does), then you need to select the appropriate
- shapes after loading the stage and set these properties via on(), setSceneFunc(),
- and setImage() methods
-
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| json | <code>String</code> \| <code>Object</code> | string or object |
-| [container] | <code>Element</code> | optional container dom element used only if you're  creating a stage node |
-
-
-  

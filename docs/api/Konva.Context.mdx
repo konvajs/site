@@ -1,307 +1,202 @@
 ---
 title: Konva.Context
 sidebar_label: Context
-slug: /docs/api/Context.html
+slug: Konva.Context.html
 ---
 
-<a name="Konva.Context"></a>
+# Context
 
-## Konva.Context
-Konva wrapper around native 2d canvas context. It has almost the same API of 2d context with some additional functions.
-With core Konva shapes you don't need to use this object. But you will use it if you want to create
-a [custom shape](/docs/react/Custom_Shape.html) or a [custom hit regions](/docs/events/Custom_Hit_Region.html).
-For full information about each 2d context API use [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
-
-
-<a name="new_Konva.Context_new"></a>
-
-### new Context()
-
-**Example**  
-```js
-const rect = new Konva.Shape({
-   fill: 'red',
-   width: 100,
-   height: 100,
-   sceneFunc: (ctx, shape) => {
-     // ctx - is context wrapper
-     // shape - is instance of Konva.Shape, so it equals to "rect" variable
-     ctx.rect(0, 0, shape.getAttr('width'), shape.getAttr('height'));
-
-     // automatically fill shape from props and draw hit region
-     ctx.fillStrokeShape(shape);
-   }
-})
+```javascript
+new Konva.Context(config)
 ```
-<a name="Konva.Context+fillShape"></a>
 
-### context.fillShape(shape)
+Konva wrapper around native 2d canvas context. It has almost the same API of 2d context with some additional functions. With core Konva shapes you don't need to use this object. But you will use it if you want to create a [custom shape](/docs/react/Custom_Shape.html) or a [custom hit regions](/docs/events/Custom_Hit_Region.html). For full information about each 2d context API use [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
+
+## Own Methods
+
+### fillShape(shape)
+
 fill shape
 
+**Parameters:**
 
+- `shape` (Konva.Shape)
 
-| Param | Type |
-| --- | --- |
-| shape | [<code>Shape</code>](../Konva.Shape.html) | 
+### strokeShape(shape)
 
-<a name="Konva.Context+strokeShape"></a>
-
-### context.strokeShape(shape)
 stroke shape
 
+**Parameters:**
 
+- `shape` (Konva.Shape)
 
-| Param | Type |
-| --- | --- |
-| shape | [<code>Shape</code>](../Konva.Shape.html) | 
+### fillStrokeShape(shape)
 
-<a name="Konva.Context+fillStrokeShape"></a>
-
-### context.fillStrokeShape(shape)
 fill then stroke
 
+**Parameters:**
 
+- `shape` (Konva.Shape)
 
-| Param | Type |
-| --- | --- |
-| shape | [<code>Shape</code>](../Konva.Shape.html) | 
+### reset()
 
-<a name="Konva.Context+reset"></a>
-
-### context.reset()
 reset canvas context transform
 
+### getCanvas()
 
-<a name="Konva.Context+getCanvas"></a>
-
-### context.getCanvas() ⇒ [<code>Canvas</code>](../Konva.Canvas.html)
 get canvas wrapper
 
+**Returns:** `Konva.Canvas` 
 
-<a name="Konva.Context+clear"></a>
+### clear(bounds)
 
-### context.clear([bounds])
 clear canvas
 
+**Parameters:**
 
+- `bounds` (Object) (optional)
+- `bounds.x` (Number) (optional)
+- `bounds.y` (Number) (optional)
+- `bounds.width` (Number) (optional)
+- `bounds.height` (Number) (optional)
 
-| Param | Type |
-| --- | --- |
-| [bounds] | <code>Object</code> | 
-| [bounds.x] | <code>Number</code> | 
-| [bounds.y] | <code>Number</code> | 
-| [bounds.width] | <code>Number</code> | 
-| [bounds.height] | <code>Number</code> | 
+### arc()
 
-<a name="Konva.Context+arc"></a>
-
-### context.arc()
 arc function.
 
+### arcTo()
 
-<a name="Konva.Context+arcTo"></a>
-
-### context.arcTo()
 arcTo function.
 
+### beginPath()
 
-<a name="Konva.Context+beginPath"></a>
-
-### context.beginPath()
 beginPath function.
 
+### bezierCurveTo()
 
-<a name="Konva.Context+bezierCurveTo"></a>
-
-### context.bezierCurveTo()
 bezierCurveTo function.
 
+### clearRect()
 
-<a name="Konva.Context+clearRect"></a>
-
-### context.clearRect()
 clearRect function.
 
+### closePath()
 
-<a name="Konva.Context+closePath"></a>
-
-### context.closePath()
 closePath function.
 
+### createImageData()
 
-<a name="Konva.Context+createImageData"></a>
-
-### context.createImageData()
 createImageData function.
 
+### createLinearGradient()
 
-<a name="Konva.Context+createLinearGradient"></a>
-
-### context.createLinearGradient()
 createLinearGradient function.
 
+### createPattern()
 
-<a name="Konva.Context+createPattern"></a>
-
-### context.createPattern()
 createPattern function.
 
+### createRadialGradient()
 
-<a name="Konva.Context+createRadialGradient"></a>
-
-### context.createRadialGradient()
 createRadialGradient function.
 
+### drawImage()
 
-<a name="Konva.Context+drawImage"></a>
-
-### context.drawImage()
 drawImage function.
 
+### ellipse()
 
-<a name="Konva.Context+ellipse"></a>
-
-### context.ellipse()
 ellipse function.
 
+### isPointInPath()
 
-<a name="Konva.Context+isPointInPath"></a>
-
-### context.isPointInPath()
 isPointInPath function.
 
+### fillRect()
 
-<a name="Konva.Context+fillRect"></a>
-
-### context.fillRect()
 fillRect function.
 
+### strokeRect()
 
-<a name="Konva.Context+strokeRect"></a>
-
-### context.strokeRect()
 strokeRect function.
 
+### fillText()
 
-<a name="Konva.Context+fillText"></a>
-
-### context.fillText()
 fillText function.
 
+### measureText()
 
-<a name="Konva.Context+measureText"></a>
-
-### context.measureText()
 measureText function.
 
+### getImageData()
 
-<a name="Konva.Context+getImageData"></a>
-
-### context.getImageData()
 getImageData function.
 
+### lineTo()
 
-<a name="Konva.Context+lineTo"></a>
-
-### context.lineTo()
 lineTo function.
 
+### moveTo()
 
-<a name="Konva.Context+moveTo"></a>
-
-### context.moveTo()
 moveTo function.
 
+### rect()
 
-<a name="Konva.Context+rect"></a>
-
-### context.rect()
 rect function.
 
+### roundRect()
 
-<a name="Konva.Context+roundRect"></a>
-
-### context.roundRect()
 roundRect function.
 
+### putImageData()
 
-<a name="Konva.Context+putImageData"></a>
-
-### context.putImageData()
 putImageData function.
 
+### quadraticCurveTo()
 
-<a name="Konva.Context+quadraticCurveTo"></a>
-
-### context.quadraticCurveTo()
 quadraticCurveTo function.
 
+### restore()
 
-<a name="Konva.Context+restore"></a>
-
-### context.restore()
 restore function.
 
+### rotate()
 
-<a name="Konva.Context+rotate"></a>
-
-### context.rotate()
 rotate function.
 
+### save()
 
-<a name="Konva.Context+save"></a>
-
-### context.save()
 save function.
 
+### scale()
 
-<a name="Konva.Context+scale"></a>
-
-### context.scale()
 scale function.
 
+### setLineDash()
 
-<a name="Konva.Context+setLineDash"></a>
-
-### context.setLineDash()
 setLineDash function.
 
+### getLineDash()
 
-<a name="Konva.Context+getLineDash"></a>
-
-### context.getLineDash()
 getLineDash function.
 
+### setTransform()
 
-<a name="Konva.Context+setTransform"></a>
-
-### context.setTransform()
 setTransform function.
 
+### stroke()
 
-<a name="Konva.Context+stroke"></a>
-
-### context.stroke()
 stroke function.
 
+### strokeText()
 
-<a name="Konva.Context+strokeText"></a>
-
-### context.strokeText()
 strokeText function.
 
+### transform()
 
-<a name="Konva.Context+transform"></a>
-
-### context.transform()
 transform function.
 
+### translate()
 
-<a name="Konva.Context+translate"></a>
-
-### context.translate()
 translate function.
 
-
-
-  

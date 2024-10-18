@@ -1,0 +1,55 @@
+---
+title: Konva.Label
+sidebar_label: Label
+slug: Konva.Label.html
+---
+
+# Label
+
+```javascript
+new Konva.Label(config)
+```
+
+Label constructor.&nbsp; Labels are groups that contain a Text and Tag shape
+
+## Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| config | `Object` |  |
+| x (optional) | `Number` |  |
+| y (optional) | `Number` |  |
+| width (optional) | `Number` |  |
+| height (optional) | `Number` |  |
+| visible (optional) | `Boolean` |  |
+| listening (optional) | `Boolean` | whether or not the node is listening for events |
+| id (optional) | `String` | unique id |
+| name (optional) | `String` | non-unique name |
+| opacity (optional) | `Number` | determines node opacity.  Can be any number between 0 and 1 |
+| scale (optional) | `Object` | set scale |
+| scaleX (optional) | `Number` | set scale x |
+| scaleY (optional) | `Number` | set scale y |
+| rotation (optional) | `Number` | rotation in degrees |
+| offset (optional) | `Object` | offset from center point and rotation point |
+| offsetX (optional) | `Number` | set offset x |
+| offsetY (optional) | `Number` | set offset y |
+| draggable (optional) | `Boolean` | makes the node draggable.  When stages are draggable, you can drag and drop  the entire stage by dragging any portion of the stage |
+| dragDistance (optional) | `Number` |  |
+| dragBoundFunc (optional) | `function` |  |
+
+## Own Methods
+
+### getText()
+
+get Text shape for the label.  You need to access the Text shape in order to update the text properties
+
+**Example:**
+
+```javascript
+label.getText().fill('red')
+```
+
+### getTag()
+
+get Tag shape for the label.  You need to access the Tag shape in order to update the pointer properties and the corner radius
+

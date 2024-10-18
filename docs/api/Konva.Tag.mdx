@@ -1,0 +1,94 @@
+---
+title: Konva.Tag
+sidebar_label: Tag
+slug: Konva.Tag.html
+---
+
+# Tag
+
+```javascript
+new Konva.Tag(config)
+```
+
+Tag constructor.&nbsp; A Tag can be configured  to have a pointer element that points up, right, down, or left
+
+## Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| config | `Object` |  |
+| pointerDirection (optional) | `String` | can be up, right, down, left, or none; the default  is none.  When a pointer is present, the positioning of the label is relative to the tip of the pointer. |
+| pointerWidth (optional) | `Number` |  |
+| pointerHeight (optional) | `Number` |  |
+| cornerRadius (optional) | `Number` |  |
+
+## Own Methods
+
+### pointerDirection(pointerDirection)
+
+get/set pointer direction
+
+**Parameters:**
+
+- `pointerDirection` (String): can be up, right, down, left, or none.  The default is none.
+
+**Returns:** `String` 
+
+**Example:**
+
+```javascript
+tag.pointerDirection('right');
+```
+
+### pointerWidth(pointerWidth)
+
+get/set pointer width
+
+**Parameters:**
+
+- `pointerWidth` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+tag.pointerWidth(20);
+```
+
+### pointerHeight(pointerHeight)
+
+get/set pointer height
+
+**Parameters:**
+
+- `pointerHeight` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+tag.pointerHeight(20);
+```
+
+### cornerRadius(cornerRadius)
+
+get/set cornerRadius
+
+**Parameters:**
+
+- `cornerRadius` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+tag.cornerRadius(20);
+
+// set different corner radius values
+// top-left, top-right, bottom-right, bottom-left
+tag.cornerRadius([0, 10, 20, 30]);
+```
+
