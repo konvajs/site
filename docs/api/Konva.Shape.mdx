@@ -2,6 +2,7 @@
 title: Konva.Shape
 sidebar_label: Shape
 slug: Konva.Shape.html
+
 ---
 
 # Shape
@@ -91,25 +92,25 @@ Shape constructor.  Shapes are primitive objects such as rectangles,  circles, t
 
 ## Own Methods
 
-### hasShadow()
+### hasShadow() {#hasShadow}
 
 returns whether or not a shadow will be rendered
 
 **Returns:** `Boolean` 
 
-### hasFill()
+### hasFill() {#hasFill}
 
 returns whether or not the shape will be filled
 
 **Returns:** `Boolean` 
 
-### hasStroke()
+### hasStroke() {#hasStroke}
 
 returns whether or not the shape will be stroked
 
 **Returns:** `Boolean` 
 
-### intersects(point)
+### intersects(point) {#intersects}
 
 determines if point is in the shape, regardless if other shapes are on top of it.  Note: because  this method clears a temporary canvas and then redraws the shape, it performs very poorly if executed many times  consecutively.  Please use the [Konva.Stage#getIntersection](/docs/api/Konva-Stage#getIntersection.html) method if at all possible  because it performs much better
 
@@ -121,7 +122,7 @@ determines if point is in the shape, regardless if other shapes are on top of it
 
 **Returns:** `Boolean` 
 
-### getSelfRect()
+### getSelfRect() {#getSelfRect}
 
 return self rectangle (x, y, width, height) of shape. This method are not taken into account transformation and styles.
 
@@ -134,7 +135,7 @@ rect.getSelfRect();  // return {x:0, y:0, width:rect.width(), height:rect.height
 circle.getSelfRect();  // return {x: - circle.width() / 2, y: - circle.height() / 2, width:circle.width(), height:circle.height()}
 ```
 
-### drawHitFromCache(alphaThreshold)
+### drawHitFromCache(alphaThreshold) {#drawHitFromCache}
 
 draw hit graph using the cached scene canvas
 
@@ -151,7 +152,7 @@ shape.cache();
 shape.drawHitFromCache();
 ```
 
-### stroke(color)
+### stroke(color) {#stroke}
 
 get/set stroke color
 
@@ -180,7 +181,7 @@ shape.stroke('rgb(0,255,0)');
 shape.stroke('rgba(0,255,0,0.5');
 ```
 
-### strokeWidth(strokeWidth)
+### strokeWidth(strokeWidth) {#strokeWidth}
 
 get/set stroke width
 
@@ -200,7 +201,7 @@ var strokeWidth = shape.strokeWidth();
 shape.strokeWidth(10);
 ```
 
-### fillAfterStrokeEnabled(fillAfterStrokeEnabled)
+### fillAfterStrokeEnabled(fillAfterStrokeEnabled) {#fillAfterStrokeEnabled}
 
 get/set fillAfterStrokeEnabled property. By default Konva is drawing filling first, then stroke on top of the fill. In rare situations you may want a different behavior. When you have a stroke first then fill on top of it. Especially useful for Text objects. Default is false.
 
@@ -220,7 +221,7 @@ var fillAfterStrokeEnabled = shape.fillAfterStrokeEnabled();
 shape.fillAfterStrokeEnabled(true);
 ```
 
-### hitStrokeWidth(hitStrokeWidth)
+### hitStrokeWidth(hitStrokeWidth) {#hitStrokeWidth}
 
 get/set stroke width for hit detection. Default value is "auto", it means it will be equals to strokeWidth
 
@@ -242,7 +243,7 @@ shape.hitStrokeWidth(20);
 shape.hitStrokeWidth('auto');
 ```
 
-### strokeHitEnabled(strokeHitEnabled)
+### strokeHitEnabled(strokeHitEnabled) {#strokeHitEnabled}
 
 **deprecated, use hitStrokeWidth instead!** get/set strokeHitEnabled property. Useful for performance optimization. You may set `shape.strokeHitEnabled(false)`. In this case stroke will be no draw on hit canvas, so hit area of shape will be decreased (by lineWidth / 2). Remember that non closed line with `strokeHitEnabled = false` will be not drawn on hit canvas, that is mean line will no trigger pointer events (like mouseover) Default value is true.
 
@@ -262,7 +263,7 @@ var strokeHitEnabled = shape.strokeHitEnabled();
 shape.strokeHitEnabled();
 ```
 
-### perfectDrawEnabled(perfectDrawEnabled)
+### perfectDrawEnabled(perfectDrawEnabled) {#perfectDrawEnabled}
 
 get/set perfectDrawEnabled. If a shape has fill, stroke and opacity you may set `perfectDrawEnabled` to false to improve performance. See http://konvajs.org/docs/performance/Disable_Perfect_Draw.html for more information. Default value is true
 
@@ -282,7 +283,7 @@ var perfectDrawEnabled = shape.perfectDrawEnabled();
 shape.perfectDrawEnabled();
 ```
 
-### shadowForStrokeEnabled(shadowForStrokeEnabled)
+### shadowForStrokeEnabled(shadowForStrokeEnabled) {#shadowForStrokeEnabled}
 
 get/set shadowForStrokeEnabled. Useful for performance optimization. You may set `shape.shadowForStrokeEnabled(false)`. In this case stroke will no effect shadow. Remember if you set `shadowForStrokeEnabled = false` for non closed line - that line will have no shadow!. Default value is true
 
@@ -302,7 +303,7 @@ var shadowForStrokeEnabled = shape.shadowForStrokeEnabled();
 shape.shadowForStrokeEnabled();
 ```
 
-### lineJoin(lineJoin)
+### lineJoin(lineJoin) {#lineJoin}
 
 get/set line join.  Can be miter, round, or bevel.  The  default is miter
 
@@ -322,7 +323,7 @@ var lineJoin = shape.lineJoin();
 shape.lineJoin('round');
 ```
 
-### lineCap(lineCap)
+### lineCap(lineCap) {#lineCap}
 
 get/set line cap.  Can be butt, round, or square
 
@@ -342,7 +343,7 @@ var lineCap = shape.lineCap();
 shape.lineCap('round');
 ```
 
-### sceneFunc(drawFunc)
+### sceneFunc(drawFunc) {#sceneFunc}
 
 get/set scene draw function. That function is used to draw the shape on a canvas. Also that function will be used to draw hit area of the shape, in case if hitFunc is not defined.
 
@@ -369,7 +370,7 @@ shape.sceneFunc(function(context, shape) {
 });
 ```
 
-### hitFunc(drawFunc)
+### hitFunc(drawFunc) {#hitFunc}
 
 get/set hit draw function. That function is used to draw custom hit area of a shape.
 
@@ -395,7 +396,7 @@ shape.hitFunc(function(context) {
 });
 ```
 
-### dash(dash)
+### dash(dash) {#dash}
 
 get/set dash array for stroke.
 
@@ -416,7 +417,7 @@ get/set dash array for stroke.
  line.dash([10, 20, 0.001, 20]);
 ```
 
-### dash(dash)
+### dash(dash) {#dash}
 
 get/set dash offset for stroke.
 
@@ -434,7 +435,7 @@ get/set dash offset for stroke.
  line.dashOffset(5);
 ```
 
-### shadowColor(color)
+### shadowColor(color) {#shadowColor}
 
 get/set shadow color
 
@@ -463,7 +464,7 @@ shape.shadowColor('rgb(0,255,0)');
 shape.shadowColor('rgba(0,255,0,0.5');
 ```
 
-### shadowBlur(blur)
+### shadowBlur(blur) {#shadowBlur}
 
 get/set shadow blur
 
@@ -483,7 +484,7 @@ var shadowBlur = shape.shadowBlur();
 shape.shadowBlur(10);
 ```
 
-### shadowOpacity(opacity)
+### shadowOpacity(opacity) {#shadowOpacity}
 
 get/set shadow opacity.  must be a value between 0 and 1
 
@@ -503,7 +504,7 @@ var shadowOpacity = shape.shadowOpacity();
 shape.shadowOpacity(0.5);
 ```
 
-### shadowOffset(offset)
+### shadowOffset(offset) {#shadowOffset}
 
 get/set shadow offset
 
@@ -528,7 +529,7 @@ shape.shadowOffset({
 });
 ```
 
-### shadowOffsetX(x)
+### shadowOffsetX(x) {#shadowOffsetX}
 
 get/set shadow offset x
 
@@ -548,7 +549,7 @@ var shadowOffsetX = shape.shadowOffsetX();
 shape.shadowOffsetX(5);
 ```
 
-### shadowOffsetY(y)
+### shadowOffsetY(y) {#shadowOffsetY}
 
 get/set shadow offset y
 
@@ -568,7 +569,7 @@ var shadowOffsetY = shape.shadowOffsetY();
 shape.shadowOffsetY(5);
 ```
 
-### fillPatternImage(image)
+### fillPatternImage(image) {#fillPatternImage}
 
 get/set fill pattern image
 
@@ -592,7 +593,7 @@ imageObj.onload = function() {
 imageObj.src = 'path/to/image/jpg';
 ```
 
-### fill(color)
+### fill(color) {#fill}
 
 get/set fill color
 
@@ -624,7 +625,7 @@ shape.fill('rgba(0,255,0,0.5');
 shape.fill(null);
 ```
 
-### fillPatternX(x)
+### fillPatternX(x) {#fillPatternX}
 
 get/set fill pattern x
 
@@ -643,7 +644,7 @@ var fillPatternX = shape.fillPatternX();
 shape.fillPatternX(20);
 ```
 
-### fillPatternY(y)
+### fillPatternY(y) {#fillPatternY}
 
 get/set fill pattern y
 
@@ -662,7 +663,7 @@ var fillPatternY = shape.fillPatternY();
 shape.fillPatternY(20);
 ```
 
-### fillLinearGradientColorStops(colorStops)
+### fillLinearGradientColorStops(colorStops) {#fillLinearGradientColorStops}
 
 get/set fill linear gradient color stops
 
@@ -683,7 +684,7 @@ var colorStops = shape.fillLinearGradientColorStops();
 shape.fillLinearGradientColorStops(0, 'red', 0.5, 'blue', 1, 'green');
 ```
 
-### strokeLinearGradientColorStops(colorStops)
+### strokeLinearGradientColorStops(colorStops) {#strokeLinearGradientColorStops}
 
 get/set stroke linear gradient color stops
 
@@ -704,7 +705,7 @@ var colorStops = shape.strokeLinearGradientColorStops();
 shape.strokeLinearGradientColorStops([0, 'red', 0.5, 'blue', 1, 'green']);
 ```
 
-### fillRadialGradientStartRadius(radius)
+### fillRadialGradientStartRadius(radius) {#fillRadialGradientStartRadius}
 
 get/set fill radial gradient start radius
 
@@ -724,7 +725,7 @@ var startRadius = shape.fillRadialGradientStartRadius();
 shape.fillRadialGradientStartRadius(0);
 ```
 
-### fillRadialGradientEndRadius(radius)
+### fillRadialGradientEndRadius(radius) {#fillRadialGradientEndRadius}
 
 get/set fill radial gradient end radius
 
@@ -744,7 +745,7 @@ var endRadius = shape.fillRadialGradientEndRadius();
 shape.fillRadialGradientEndRadius(100);
 ```
 
-### fillRadialGradientColorStops(colorStops)
+### fillRadialGradientColorStops(colorStops) {#fillRadialGradientColorStops}
 
 get/set fill radial gradient color stops
 
@@ -765,7 +766,7 @@ var colorStops = shape.fillRadialGradientColorStops();
 shape.fillRadialGradientColorStops(0, 'red', 0.5, 'blue', 1, 'green');
 ```
 
-### fillPatternRepeat(repeat)
+### fillPatternRepeat(repeat) {#fillPatternRepeat}
 
 get/set fill pattern repeat.  Can be 'repeat', 'repeat-x', 'repeat-y', or 'no-repeat'.  The default is 'repeat'
 
@@ -788,7 +789,7 @@ shape.fillPatternRepeat('repeat-x');
 shape.fillPatternRepeat('no-repeat');
 ```
 
-### fillEnabled(enabled)
+### fillEnabled(enabled) {#fillEnabled}
 
 get/set fill enabled flag
 
@@ -811,7 +812,7 @@ shape.fillEnabled(false);
 shape.fillEnabled(true);
 ```
 
-### strokeEnabled(enabled)
+### strokeEnabled(enabled) {#strokeEnabled}
 
 get/set stroke enabled flag
 
@@ -834,7 +835,7 @@ shape.strokeEnabled(false);
 shape.strokeEnabled(true);
 ```
 
-### shadowEnabled(enabled)
+### shadowEnabled(enabled) {#shadowEnabled}
 
 get/set shadow enabled flag
 
@@ -857,7 +858,7 @@ shape.shadowEnabled(false);
 shape.shadowEnabled(true);
 ```
 
-### dashEnabled(enabled)
+### dashEnabled(enabled) {#dashEnabled}
 
 get/set dash enabled flag
 
@@ -880,7 +881,7 @@ shape.dashEnabled(false);
 shape.dashEnabled(true);
 ```
 
-### strokeScaleEnabled(enabled)
+### strokeScaleEnabled(enabled) {#strokeScaleEnabled}
 
 get/set strokeScale enabled flag
 
@@ -903,7 +904,7 @@ shape.strokeScaleEnabled(false);
 shape.strokeScaleEnabled(true);
 ```
 
-### fillPriority(priority)
+### fillPriority(priority) {#fillPriority}
 
 get/set fill priority.  can be color, pattern, linear-gradient, or radial-gradient.  The default is color.   This is handy if you want to toggle between different fill types.
 
@@ -923,7 +924,7 @@ var fillPriority = shape.fillPriority();
 shape.fillPriority('linear-gradient');
 ```
 
-### fillPatternOffset(offset)
+### fillPatternOffset(offset) {#fillPatternOffset}
 
 get/set fill pattern offset
 
@@ -948,7 +949,7 @@ shape.fillPatternOffset({
 });
 ```
 
-### fillPatternOffsetX(x)
+### fillPatternOffsetX(x) {#fillPatternOffsetX}
 
 get/set fill pattern offset x
 
@@ -968,7 +969,7 @@ var patternOffsetX = shape.fillPatternOffsetX();
 shape.fillPatternOffsetX(20);
 ```
 
-### fillPatternOffsetY(y)
+### fillPatternOffsetY(y) {#fillPatternOffsetY}
 
 get/set fill pattern offset y
 
@@ -988,7 +989,7 @@ var patternOffsetY = shape.fillPatternOffsetY();
 shape.fillPatternOffsetY(10);
 ```
 
-### fillPatternScale(scale)
+### fillPatternScale(scale) {#fillPatternScale}
 
 get/set fill pattern scale
 
@@ -1013,7 +1014,7 @@ shape.fillPatternScale({
 });
 ```
 
-### fillPatternScaleX(x)
+### fillPatternScaleX(x) {#fillPatternScaleX}
 
 get/set fill pattern scale x
 
@@ -1033,7 +1034,7 @@ var patternScaleX = shape.fillPatternScaleX();
 shape.fillPatternScaleX(2);
 ```
 
-### fillPatternScaleY(y)
+### fillPatternScaleY(y) {#fillPatternScaleY}
 
 get/set fill pattern scale y
 
@@ -1053,7 +1054,7 @@ var patternScaleY = shape.fillPatternScaleY();
 shape.fillPatternScaleY(2);
 ```
 
-### fillLinearGradientStartPoint(startPoint)
+### fillLinearGradientStartPoint(startPoint) {#fillLinearGradientStartPoint}
 
 get/set fill linear gradient start point
 
@@ -1078,7 +1079,7 @@ shape.fillLinearGradientStartPoint({
 });
 ```
 
-### strokeLinearGradientStartPoint(startPoint)
+### strokeLinearGradientStartPoint(startPoint) {#strokeLinearGradientStartPoint}
 
 get/set stroke linear gradient start point
 
@@ -1103,7 +1104,7 @@ shape.strokeLinearGradientStartPoint({
 });
 ```
 
-### fillLinearGradientStartPointX(x)
+### fillLinearGradientStartPointX(x) {#fillLinearGradientStartPointX}
 
 get/set fill linear gradient start point x
 
@@ -1123,7 +1124,7 @@ var startPointX = shape.fillLinearGradientStartPointX();
 shape.fillLinearGradientStartPointX(20);
 ```
 
-### linearLinearGradientStartPointX(x)
+### linearLinearGradientStartPointX(x) {#linearLinearGradientStartPointX}
 
 get/set stroke linear gradient start point x
 
@@ -1143,7 +1144,7 @@ var startPointX = shape.strokeLinearGradientStartPointX();
 shape.strokeLinearGradientStartPointX(20);
 ```
 
-### fillLinearGradientStartPointY(y)
+### fillLinearGradientStartPointY(y) {#fillLinearGradientStartPointY}
 
 get/set fill linear gradient start point y
 
@@ -1163,7 +1164,7 @@ var startPointY = shape.fillLinearGradientStartPointY();
 shape.fillLinearGradientStartPointY(20);
 ```
 
-### strokeLinearGradientStartPointY(y)
+### strokeLinearGradientStartPointY(y) {#strokeLinearGradientStartPointY}
 
 get/set stroke linear gradient start point y
 
@@ -1183,7 +1184,7 @@ var startPointY = shape.strokeLinearGradientStartPointY();
 shape.strokeLinearGradientStartPointY(20);
 ```
 
-### fillLinearGradientEndPoint(endPoint)
+### fillLinearGradientEndPoint(endPoint) {#fillLinearGradientEndPoint}
 
 get/set fill linear gradient end point
 
@@ -1208,7 +1209,7 @@ shape.fillLinearGradientEndPoint({
 });
 ```
 
-### strokeLinearGradientEndPoint(endPoint)
+### strokeLinearGradientEndPoint(endPoint) {#strokeLinearGradientEndPoint}
 
 get/set stroke linear gradient end point
 
@@ -1233,7 +1234,7 @@ shape.strokeLinearGradientEndPoint({
 });
 ```
 
-### fillLinearGradientEndPointX(x)
+### fillLinearGradientEndPointX(x) {#fillLinearGradientEndPointX}
 
 get/set fill linear gradient end point x
 
@@ -1253,7 +1254,7 @@ var endPointX = shape.fillLinearGradientEndPointX();
 shape.fillLinearGradientEndPointX(20);
 ```
 
-### strokeLinearGradientEndPointX(x)
+### strokeLinearGradientEndPointX(x) {#strokeLinearGradientEndPointX}
 
 get/set fill linear gradient end point x
 
@@ -1273,7 +1274,7 @@ var endPointX = shape.strokeLinearGradientEndPointX();
 shape.strokeLinearGradientEndPointX(20);
 ```
 
-### fillLinearGradientEndPointY(y)
+### fillLinearGradientEndPointY(y) {#fillLinearGradientEndPointY}
 
 get/set fill linear gradient end point y
 
@@ -1293,7 +1294,7 @@ var endPointY = shape.fillLinearGradientEndPointY();
 shape.fillLinearGradientEndPointY(20);
 ```
 
-### strokeLinearGradientEndPointY(y)
+### strokeLinearGradientEndPointY(y) {#strokeLinearGradientEndPointY}
 
 get/set stroke linear gradient end point y
 
@@ -1313,7 +1314,7 @@ var endPointY = shape.strokeLinearGradientEndPointY();
 shape.strokeLinearGradientEndPointY(20);
 ```
 
-### fillRadialGradientStartPoint(startPoint)
+### fillRadialGradientStartPoint(startPoint) {#fillRadialGradientStartPoint}
 
 get/set fill radial gradient start point
 
@@ -1338,7 +1339,7 @@ shape.fillRadialGradientStartPoint({
 });
 ```
 
-### fillRadialGradientStartPointX(x)
+### fillRadialGradientStartPointX(x) {#fillRadialGradientStartPointX}
 
 get/set fill radial gradient start point x
 
@@ -1358,7 +1359,7 @@ var startPointX = shape.fillRadialGradientStartPointX();
 shape.fillRadialGradientStartPointX(20);
 ```
 
-### fillRadialGradientStartPointY(y)
+### fillRadialGradientStartPointY(y) {#fillRadialGradientStartPointY}
 
 get/set fill radial gradient start point y
 
@@ -1378,7 +1379,7 @@ var startPointY = shape.fillRadialGradientStartPointY();
 shape.fillRadialGradientStartPointY(20);
 ```
 
-### fillRadialGradientEndPoint(endPoint)
+### fillRadialGradientEndPoint(endPoint) {#fillRadialGradientEndPoint}
 
 get/set fill radial gradient end point
 
@@ -1403,7 +1404,7 @@ shape.fillRadialGradientEndPoint({
 });
 ```
 
-### fillRadialGradientEndPointX(x)
+### fillRadialGradientEndPointX(x) {#fillRadialGradientEndPointX}
 
 get/set fill radial gradient end point x
 
@@ -1423,7 +1424,7 @@ var endPointX = shape.fillRadialGradientEndPointX();
 shape.fillRadialGradientEndPointX(20);
 ```
 
-### fillRadialGradientEndPointY(y)
+### fillRadialGradientEndPointY(y) {#fillRadialGradientEndPointY}
 
 get/set fill radial gradient end point y
 
@@ -1443,7 +1444,7 @@ var endPointY = shape.fillRadialGradientEndPointY();
 shape.fillRadialGradientEndPointY(20);
 ```
 
-### fillPatternRotation(rotation)
+### fillPatternRotation(rotation) {#fillPatternRotation}
 
 get/set fill pattern rotation in degrees
 
@@ -1463,7 +1464,7 @@ var patternRotation = shape.fillPatternRotation();
 shape.fillPatternRotation(20);
 ```
 
-### fillRule(rotation)
+### fillRule(rotation) {#fillRule}
 
 get/set fill rule
 

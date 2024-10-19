@@ -134,6 +134,7 @@ for (const [longname, docItem] of Object.entries(docs)) {
 title: ${docItem.longname}
 sidebar_label: ${docItem.name}
 slug: ${docItem.longname}.html
+${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
 ---
 
 # ${docItem.name}\n\n`;
@@ -203,7 +204,7 @@ slug: ${docItem.longname}.html
           .filter(p => !p.name.includes('.')) // Filter out nested properties
           .map(p => p.name)
           .join(', ') : '';
-        markdown += `### ${method.isStatic ? 'static ' : ''}${method.name}(${params})\n\n`;
+        markdown += `### ${method.isStatic ? 'static ' : ''}${method.name}(${params}) {#${method.name}}\n\n`;
         markdown += generateFunctionMarkdown(method);
       });
     }

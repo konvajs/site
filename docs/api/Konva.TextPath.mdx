@@ -2,6 +2,7 @@
 title: Konva.TextPath
 sidebar_label: TextPath
 slug: Konva.TextPath.html
+
 ---
 
 # TextPath
@@ -99,11 +100,11 @@ Path constructor.
 
 ## Own Methods
 
-### getTextWidth()
+### getTextWidth() {#getTextWidth}
 
 get text width in pixels
 
-### data(data)
+### data(data) {#data}
 
 get/set SVG path data string.  This method  also automatically parses the data string  into a data array.  Currently supported SVG data:  M, m, L, l, H, h, V, v, Q, q, T, t, C, c, S, s, A, a, Z, z
 
@@ -123,7 +124,7 @@ var data = shape.data();
 shape.data('M200,100h100v50z');
 ```
 
-### fontFamily(fontFamily)
+### fontFamily(fontFamily) {#fontFamily}
 
 get/set font family
 
@@ -143,7 +144,7 @@ var fontFamily = shape.fontFamily();
 shape.fontFamily('Arial');
 ```
 
-### fontSize(fontSize)
+### fontSize(fontSize) {#fontSize}
 
 get/set font size in pixels
 
@@ -163,7 +164,7 @@ var fontSize = shape.fontSize();
 shape.fontSize(22);
 ```
 
-### fontStyle(fontStyle)
+### fontStyle(fontStyle) {#fontStyle}
 
 get/set font style.  Can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
 
@@ -183,7 +184,7 @@ var fontStyle = shape.fontStyle();
 shape.fontStyle('bold');
 ```
 
-### align(align)
+### align(align) {#align}
 
 get/set horizontal align of text.  Can be 'left', 'center', 'right' or 'justify'
 
@@ -206,7 +207,7 @@ text.align('center');
 text.align('right');
 ```
 
-### letterSpacing(letterSpacing)
+### letterSpacing(letterSpacing) {#letterSpacing}
 
 get/set letter spacing.  The default is 0.
 
@@ -226,7 +227,7 @@ var letterSpacing = shape.letterSpacing();
 shape.letterSpacing(2);
 ```
 
-### textBaseline(textBaseline)
+### textBaseline(textBaseline) {#textBaseline}
 
 get/set text baseline.  The default is 'middle'. Can be 'top', 'bottom', 'middle', 'alphabetic', 'hanging'
 
@@ -246,7 +247,7 @@ var textBaseline = shape.textBaseline();
 shape.textBaseline('top');
 ```
 
-### fontVariant(fontVariant)
+### fontVariant(fontVariant) {#fontVariant}
 
 get/set font variant.  Can be 'normal' or 'small-caps'.  'normal' is the default.
 
@@ -266,7 +267,7 @@ var fontVariant = shape.fontVariant();
 shape.fontVariant('small-caps');
 ```
 
-### getText(text)
+### getText(text) {#getText}
 
 get/set text
 
@@ -286,7 +287,7 @@ var text = text.text();
 text.text('Hello world!');
 ```
 
-### textDecoration(textDecoration)
+### textDecoration(textDecoration) {#textDecoration}
 
 get/set text decoration of a text.  Can be '' or 'underline'.
 
@@ -306,7 +307,7 @@ var textDecoration = shape.textDecoration();
 shape.textDecoration('underline');
 ```
 
-### kerningFunc(kerningFunc)
+### kerningFunc(kerningFunc) {#kerningFunc}
 
 get/set kerning function.
 

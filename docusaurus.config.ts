@@ -78,7 +78,13 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialsSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Tutorials',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'demosSidebar',
+          position: 'left',
+          label: 'Demos',
         },
         {
           type: 'docSidebar',
@@ -86,7 +92,7 @@ const config: Config = {
           position: 'left',
           label: 'API Reference',
         },
-        // {to: '/blog', label: 'Blog', position: 'left'},
+        {to: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', label: 'Price', position: 'left'},
         {
           href: 'https://github.com/konvajs/konva',
           label: 'GitHub',

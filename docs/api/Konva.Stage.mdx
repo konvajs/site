@@ -2,6 +2,7 @@
 title: Konva.Stage
 sidebar_label: Stage
 slug: Konva.Stage.html
+
 ---
 
 # Stage
@@ -42,7 +43,7 @@ Stage constructor.  A stage is used to contain multiple layers
 
 ## Own Methods
 
-### setContainer(container)
+### setContainer(container) {#setContainer}
 
 set container dom element which contains the stage wrapper div element
 
@@ -50,17 +51,17 @@ set container dom element which contains the stage wrapper div element
 
 - `container` (DomElement): can pass in a dom element or id string
 
-### clear()
+### clear() {#clear}
 
 clear all layers
 
-### getPointerPosition()
+### getPointerPosition() {#getPointerPosition}
 
 returns ABSOLUTE pointer position which can be a touch position or mouse position pointer position doesn't include any transforms (such as scale) of the stage it is just a plain position of pointer relative to top-left corner of the canvas
 
 **Returns:** `Vector2d|null` 
 
-### getIntersection(pos)
+### getIntersection(pos) {#getIntersection}
 
 get visible intersection shape. This is the preferred  method for determining if a point intersects a shape or not nodes with listening set to false will not be detected
 
@@ -78,11 +79,11 @@ get visible intersection shape. This is the preferred  method for determining if
 var shape = stage.getIntersection({x: 50, y: 50});
 ```
 
-### getLayers()
+### getLayers() {#getLayers}
 
 returns an array of layers
 
-### setPointersPositions(event)
+### setPointersPositions(event) {#setPointersPositions}
 
 manually register pointers positions (mouse/touch) in the stage. So you can use stage.getPointerPosition(). Usually you don't need to use that method because all internal events are automatically registered. It may be useful if event is triggered outside of the stage, but you still want to use Konva methods to get pointers position.
 
@@ -98,13 +99,13 @@ window.addEventListener('mousemove', (e) => {
 });
 ```
 
-### batchDraw()
+### batchDraw() {#batchDraw}
 
 batch draw
 
 **Returns:** `Konva.Stage` <code>this</code>
 
-### container()
+### container() {#container}
 
 get/set container DOM element
 

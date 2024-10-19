@@ -2,6 +2,7 @@
 title: Konva.Sprite
 sidebar_label: Sprite
 slug: Konva.Sprite.html
+
 ---
 
 # Sprite
@@ -96,21 +97,21 @@ Sprite constructor
 
 ## Own Methods
 
-### start()
+### start() {#start}
 
 start sprite animation
 
-### stop()
+### stop() {#stop}
 
 stop sprite animation
 
-### isRunning()
+### isRunning() {#isRunning}
 
 determine if animation of sprite is running or not.  returns true or false
 
 **Returns:** `Boolean` 
 
-### animation(anim)
+### animation(anim) {#animation}
 
 get/set animation key
 
@@ -130,7 +131,7 @@ var animation = sprite.animation();
 sprite.animation('kicking');
 ```
 
-### animations(animations)
+### animations(animations) {#animations}
 
 get/set animations map
 
@@ -169,7 +170,7 @@ sprite.animations({
 });
 ```
 
-### offsets(offsets)
+### offsets(offsets) {#offsets}
 
 get/set offsets map
 
@@ -208,7 +209,7 @@ sprite.offsets({
 });
 ```
 
-### image(image)
+### image(image) {#image}
 
 get/set image
 
@@ -228,7 +229,7 @@ var image = sprite.image();
 sprite.image(imageObj);
 ```
 
-### frameIndex(frameIndex)
+### frameIndex(frameIndex) {#frameIndex}
 
 set/set animation frame index
 
@@ -248,7 +249,7 @@ var frameIndex = sprite.frameIndex();
 sprite.frameIndex(3);
 ```
 
-### frameRate(frameRate)
+### frameRate(frameRate) {#frameRate}
 
 get/set frame rate in frames per second.  Increase this number to make the sprite  animation run faster, and decrease the number to make the sprite animation run slower  The default is 17 frames per second
 

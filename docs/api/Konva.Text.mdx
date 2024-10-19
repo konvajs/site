@@ -2,6 +2,7 @@
 title: Konva.Text
 sidebar_label: Text
 slug: Konva.Text.html
+
 ---
 
 # Text
@@ -104,13 +105,13 @@ Text constructor
 
 ## Own Methods
 
-### getTextWidth()
+### getTextWidth() {#getTextWidth}
 
 get pure text width without padding
 
 **Returns:** `Number` 
 
-### measureSize(text)
+### measureSize(text) {#measureSize}
 
 measure string with the font of current text shape. That method can't handle multiline text.
 
@@ -120,7 +121,7 @@ measure string with the font of current text shape. That method can't handle mul
 
 **Returns:** `Object` <code>\{ width , height \} of measured text</code>
 
-### _shouldHandleEllipsis(currentHeightPx)
+### _shouldHandleEllipsis(currentHeightPx) {#_shouldHandleEllipsis}
 
 whether to handle ellipsis, there are two cases: 1. the current line is the last line 2. wrap is NONE
 
@@ -128,7 +129,7 @@ whether to handle ellipsis, there are two cases: 1. the current line is the last
 
 - `currentHeightPx` (Number)
 
-### width(width)
+### width(width) {#width}
 
 get/set width of text area, which includes padding.
 
@@ -152,7 +153,7 @@ text.width('auto');
 text.width() // will return calculated width, and not "auto"
 ```
 
-### height(height)
+### height(height) {#height}
 
 get/set the height of the text area, which takes into account multi-line text, line heights, and padding.
 
@@ -176,7 +177,7 @@ text.height('auto');
 text.height() // will return calculated height, and not "auto"
 ```
 
-### direction(direction)
+### direction(direction) {#direction}
 
 get/set direction
 
@@ -196,7 +197,7 @@ var direction = text.direction();
 text.direction('rtl');
 ```
 
-### fontFamily(fontFamily)
+### fontFamily(fontFamily) {#fontFamily}
 
 get/set font family
 
@@ -216,7 +217,7 @@ var fontFamily = text.fontFamily();
 text.fontFamily('Arial');
 ```
 
-### fontSize(fontSize)
+### fontSize(fontSize) {#fontSize}
 
 get/set font size in pixels
 
@@ -236,7 +237,7 @@ var fontSize = text.fontSize();
 text.fontSize(22);
 ```
 
-### fontStyle(fontStyle)
+### fontStyle(fontStyle) {#fontStyle}
 
 get/set font style.  Can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default.
 
@@ -256,7 +257,7 @@ var fontStyle = text.fontStyle();
 text.fontStyle('bold');
 ```
 
-### fontVariant(fontVariant)
+### fontVariant(fontVariant) {#fontVariant}
 
 get/set font variant.  Can be 'normal' or 'small-caps'.  'normal' is the default.
 
@@ -276,7 +277,7 @@ var fontVariant = text.fontVariant();
 text.fontVariant('small-caps');
 ```
 
-### padding(padding)
+### padding(padding) {#padding}
 
 get/set padding
 
@@ -296,7 +297,7 @@ var padding = text.padding();
 text.padding(10);
 ```
 
-### align(align)
+### align(align) {#align}
 
 get/set horizontal align of text.  Can be 'left', 'center', 'right' or 'justify'
 
@@ -319,7 +320,7 @@ text.align('center');
 text.align('right');
 ```
 
-### verticalAlign(verticalAlign)
+### verticalAlign(verticalAlign) {#verticalAlign}
 
 get/set vertical align of text.  Can be 'top', 'middle', 'bottom'.
 
@@ -339,7 +340,7 @@ var verticalAlign = text.verticalAlign();
 text.verticalAlign('middle');
 ```
 
-### lineHeight(lineHeight)
+### lineHeight(lineHeight) {#lineHeight}
 
 get/set line height.  The default is 1.
 
@@ -359,7 +360,7 @@ var lineHeight = text.lineHeight();
 text.lineHeight(2);
 ```
 
-### wrap(wrap)
+### wrap(wrap) {#wrap}
 
 get/set wrap.  Can be "word", "char", or "none". Default is "word". In "word" wrapping any word still can be wrapped if it can't be placed in the required width without breaks.
 
@@ -379,7 +380,7 @@ var wrap = text.wrap();
 text.wrap('word');
 ```
 
-### ellipsis(ellipsis)
+### ellipsis(ellipsis) {#ellipsis}
 
 get/set ellipsis. Can be true or false. Default is false. If ellipses is true, Konva will add "..." at the end of the text if it doesn't have enough space to write characters. That is possible only when you limit both width and height of the text
 
@@ -399,7 +400,7 @@ var ellipsis = text.ellipsis();
 text.ellipsis(true);
 ```
 
-### letterSpacing(letterSpacing)
+### letterSpacing(letterSpacing) {#letterSpacing}
 
 set letter spacing property. Default value is 0.
 
@@ -407,7 +408,7 @@ set letter spacing property. Default value is 0.
 
 - `letterSpacing` (Number)
 
-### text(text)
+### text(text) {#text}
 
 get/set text
 
@@ -427,7 +428,7 @@ var text = text.text();
 text.text('Hello world!');
 ```
 
-### textDecoration(textDecoration)
+### textDecoration(textDecoration) {#textDecoration}
 
 get/set text decoration of a text.  Possible values are 'underline', 'line-through' or combination of these values separated by space
 

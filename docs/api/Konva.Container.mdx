@@ -2,6 +2,7 @@
 title: Konva.Container
 sidebar_label: Container
 slug: Konva.Container.html
+
 ---
 
 # Container
@@ -46,7 +47,7 @@ Container constructor.&nbsp; Containers are used to contain nodes or other conta
 
 ## Own Methods
 
-### getChildren(filterFunc)
+### getChildren(filterFunc) {#getChildren}
 
 returns an array of direct descendant nodes
 
@@ -68,21 +69,21 @@ var circles = layer.getChildren(function(node){
 });
 ```
 
-### hasChildren()
+### hasChildren() {#hasChildren}
 
 determine if node has children
 
 **Returns:** `Boolean` 
 
-### removeChildren()
+### removeChildren() {#removeChildren}
 
 remove all children. Children will be still in memory. If you want to completely destroy all children please use "destroyChildren" method instead
 
-### destroyChildren()
+### destroyChildren() {#destroyChildren}
 
 destroy all children nodes.
 
-### add(children)
+### add(children) {#add}
 
 add a child and children into container
 
@@ -103,7 +104,7 @@ layer.add(...shapes);
 layer.draw();
 ```
 
-### find(selector)
+### find(selector) {#find}
 
 return an array of nodes that match the selector. You can provide a string with '#' for id selections and '.' for name selections. Or a function that will return true/false when a node is passed through.  See example below. With strings you can also select by type or class name. Pass multiple selectors separated by a comma.
 
@@ -145,7 +146,7 @@ var alphaNodes = layer.find(node => {
 });
 ```
 
-### findOne(selector)
+### findOne(selector) {#findOne}
 
 return a first node from `find` method
 
@@ -170,7 +171,7 @@ var node = stage.findOne(node => {
 })
 ```
 
-### isAncestorOf(node)
+### isAncestorOf(node) {#isAncestorOf}
 
 determine if node is an ancestor of descendant
 
@@ -178,7 +179,7 @@ determine if node is an ancestor of descendant
 
 - `node` (Konva.Node)
 
-### getAllIntersections(pos)
+### getAllIntersections(pos) {#getAllIntersections}
 
 get all shapes that intersect a point.  Note: because this method must clear a temporary canvas and redraw every shape inside the container, it should only be used for special situations because it performs very poorly.  Please use the [Konva.Stage#getIntersection](/docs/api/Konva-Stage#getIntersection.html) method if at all possible because it performs much better nodes with listening set to false will not be detected
 
@@ -190,7 +191,7 @@ get all shapes that intersect a point.  Note: because this method must clear a t
 
 **Returns:** `Array` <code>array of shapes</code>
 
-### clip(clip)
+### clip(clip) {#clip}
 
 get/set clip
 
@@ -219,7 +220,7 @@ container.clip({
 });
 ```
 
-### clipX(x)
+### clipX(x) {#clipX}
 
 get/set clip x
 
@@ -239,7 +240,7 @@ var clipX = container.clipX();
 container.clipX(10);
 ```
 
-### clipY(y)
+### clipY(y) {#clipY}
 
 get/set clip y
 
@@ -259,7 +260,7 @@ var clipY = container.clipY();
 container.clipY(10);
 ```
 
-### clipWidth(width)
+### clipWidth(width) {#clipWidth}
 
 get/set clip width
 
@@ -279,7 +280,7 @@ var clipWidth = container.clipWidth();
 container.clipWidth(100);
 ```
 
-### clipHeight(height)
+### clipHeight(height) {#clipHeight}
 
 get/set clip height
 
@@ -299,7 +300,7 @@ var clipHeight = container.clipHeight();
 container.clipHeight(100);
 ```
 
-### clipFunc(function)
+### clipFunc(function) {#clipFunc}
 
 get/set clip function
 

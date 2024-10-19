@@ -1,0 +1,96 @@
+---
+title: HTML5 canvas Rectangle Tutorial
+sidebar_label: Rectangle
+hide_table_of_contents: true
+slug: /docs/shapes/Rectangle.html
+---
+
+To create a rectangle shape with `Konva`, we can instantiate a `Konva.Rect()` object.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container', // id of container <div>
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rect = new Konva.Rect({
+  x: 20,
+  y: 20,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+layer.add(rect);
+````
+
+</TabItem>
+<TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect
+          x={20}
+          y={20}
+          width={100}
+          height={50}
+          fill="green"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+</TabItem>
+<TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-rect :config="rectConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = {
+  x: 20,
+  y: 20,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+};
+</script>
+
+```
+</TabItem>
+</Tabs>

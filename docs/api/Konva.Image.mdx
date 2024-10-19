@@ -2,6 +2,7 @@
 title: Konva.Image
 sidebar_label: Image
 slug: Konva.Image.html
+
 ---
 
 # Image
@@ -93,7 +94,7 @@ Image constructor
 
 ## Own Methods
 
-### Image.fromURL(url, callback, onError)
+### Image.fromURL(url, callback, onError) {#Image.fromURL}
 
 load image from given url and create `Konva.Image` instance
 
@@ -113,7 +114,7 @@ Konva.Image.fromURL(imageURL, function(image){
  });
 ```
 
-### cornerRadius(cornerRadius)
+### cornerRadius(cornerRadius) {#cornerRadius}
 
 get/set corner radius
 
@@ -137,7 +138,7 @@ image.cornerRadius(10);
 image.cornerRadius([0, 10, 20, 30]);
 ```
 
-### image(image)
+### image(image) {#image}
 
 get/set image source. It can be image, canvas or video element
 
@@ -157,7 +158,7 @@ var image = shape.image();
 shape.image(img);
 ```
 
-### crop(crop)
+### crop(crop) {#crop}
 
 get/set crop
 
@@ -186,7 +187,7 @@ image.crop({
 });
 ```
 
-### cropX(x)
+### cropX(x) {#cropX}
 
 get/set crop x
 
@@ -206,7 +207,7 @@ var cropX = image.cropX();
 image.cropX(20);
 ```
 
-### cropY(y)
+### cropY(y) {#cropY}
 
 get/set crop y
 
@@ -226,7 +227,7 @@ var cropY = image.cropY();
 image.cropY(20);
 ```
 
-### cropWidth(width)
+### cropWidth(width) {#cropWidth}
 
 get/set crop width
 
@@ -246,7 +247,7 @@ var cropWidth = image.cropWidth();
 image.cropWidth(20);
 ```
 
-### cropHeight(height)
+### cropHeight(height) {#cropHeight}
 
 get/set crop height
 

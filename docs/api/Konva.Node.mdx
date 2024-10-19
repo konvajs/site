@@ -2,6 +2,7 @@
 title: Konva.Node
 sidebar_label: Node
 slug: Konva.Node.html
+
 ---
 
 # Node
@@ -39,7 +40,7 @@ Node constructor. Nodes are entities that can be transformed, layered, and have 
 
 ## Own Methods
 
-### clearCache()
+### clearCache() {#clearCache}
 
 clear cached canvas
 
@@ -51,7 +52,7 @@ clear cached canvas
 node.clearCache();
 ```
 
-### cache(config)
+### cache(config) {#cache}
 
 cache node to improve drawing performance, apply filters, or create more accurate  hit regions. For all basic shapes size of cache canvas will be automatically detected.  If you need to cache your custom `Konva.Shape` instance you have to pass shape's bounding box  properties. Look at [https://konvajs.org/docs/performance/Shape_Caching.html](https://konvajs.org/docs/performance/Shape_Caching.html) for more information.
 
@@ -98,13 +99,13 @@ node.cache({
 });
 ```
 
-### isCached()
+### isCached() {#isCached}
 
 determine if node is currently cached
 
 **Returns:** `Boolean` 
 
-### getClientRect(config)
+### getClientRect(config) {#getClientRect}
 
 Return client rectangle `\{x, y, width, height\}` of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
 
@@ -146,7 +147,7 @@ rect.getClientRect();
 // returns Object {x: -2, y: 46, width: 104, height: 208}
 ```
 
-### on(evtStr, handler)
+### on(evtStr, handler) {#on}
 
 bind events to the node. KonvaJS supports mouseover, mousemove,  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,  touchend, tap, dbltap, dragstart, dragmove, and dragend events.  Pass in a string of events delimited by a space to bind multiple events at once  such as 'mousedown mouseup mousemove'. Include a namespace to bind an  event by name such as 'click.foobar'.
 
@@ -209,7 +210,7 @@ layer.on('click', 'Group', function(evt) {
 });
 ```
 
-### off(evtStr)
+### off(evtStr) {#off}
 
 remove event bindings from the node. Pass in a string of  event types delimmited by a space to remove multiple event  bindings at once such as 'mousedown mouseup mousemove'.  include a namespace to remove an event binding by name  such as 'click.foobar'. If you only give a name like '.foobar',  all events in that namespace will be removed.
 
@@ -232,7 +233,7 @@ node.off('click touchstart');
 node.off('click.foo');
 ```
 
-### remove()
+### remove() {#remove}
 
 remove a node from parent, but don't destroy. You can reuse the node later.
 
@@ -244,7 +245,7 @@ remove a node from parent, but don't destroy. You can reuse the node later.
 node.remove();
 ```
 
-### destroy()
+### destroy() {#destroy}
 
 remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy(). If the node is a container (Group, Stage or Layer) it will destroy all children too.
 
@@ -254,7 +255,7 @@ remove and destroy a node. Kill it and delete forever! You should not reuse node
 node.destroy();
 ```
 
-### getAttr(attr)
+### getAttr(attr) {#getAttr}
 
 get attr
 
@@ -270,7 +271,7 @@ get attr
 var x = node.getAttr('x');
 ```
 
-### getAncestors()
+### getAncestors() {#getAncestors}
 
 get ancestors
 
@@ -284,13 +285,13 @@ shape.getAncestors().forEach(function(node) {
 })
 ```
 
-### getAttrs()
+### getAttrs() {#getAttrs}
 
 get attrs object literal
 
 **Returns:** `Object` 
 
-### setAttrs(config)
+### setAttrs(config) {#setAttrs}
 
 set multiple attrs at once using an object literal
 
@@ -309,43 +310,43 @@ node.setAttrs({
 });
 ```
 
-### isListening()
+### isListening() {#isListening}
 
 determine if node is listening for events by taking into account ancestors.  Parent    \| Self      \| isListening listening \| listening \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
 
 **Returns:** `Boolean` 
 
-### isVisible()
+### isVisible() {#isVisible}
 
 determine if node is visible by taking into account ancestors.  Parent    \| Self      \| isVisible visible   \| visible   \| ----------+-----------+------------ T         \| T         \| T T         \| F         \| F F         \| T         \| F F         \| F         \| F
 
 **Returns:** `Boolean` 
 
-### show()
+### show() {#show}
 
 show node. set visible = true
 
 **Returns:** `Konva.Node` 
 
-### hide()
+### hide() {#hide}
 
 hide node.  Hidden nodes are no longer detectable
 
 **Returns:** `Konva.Node` 
 
-### getAbsoluteZIndex()
+### getAbsoluteZIndex() {#getAbsoluteZIndex}
 
 get absolute z-index which takes into account sibling  and ancestor indices
 
 **Returns:** `Integer` 
 
-### getDepth()
+### getDepth() {#getDepth}
 
 get node depth in node tree.  Returns an integer.  e.g. Stage depth will always be 0.  Layers will always be 1.  Groups and Shapes will always  be >= 2
 
 **Returns:** `Integer` 
 
-### getRelativePointerPosition()
+### getRelativePointerPosition() {#getRelativePointerPosition}
 
 get position of first pointer (like mouse or first touch) relative to local coordinates of current node
 
@@ -360,7 +361,7 @@ get position of first pointer (like mouse or first touch) relative to local coor
 rect.getRelativePointerPosition();
 ```
 
-### getAbsolutePosition(Ancestor)
+### getAbsolutePosition(Ancestor) {#getAbsolutePosition}
 
 get absolute position of a node. That function can be used to calculate absolute position, but relative to any ancestor
 
@@ -381,7 +382,7 @@ node.getAbsolutePosition();
 node.getAbsolutePosition(stage)
 ```
 
-### move(change)
+### move(change) {#move}
 
 move node by an amount relative to its current position
 
@@ -403,7 +404,7 @@ node.move({
 });
 ```
 
-### rotate(theta)
+### rotate(theta) {#rotate}
 
 rotate node by an amount in degrees relative to its current rotation
 
@@ -413,37 +414,37 @@ rotate node by an amount in degrees relative to its current rotation
 
 **Returns:** `Konva.Node` 
 
-### moveToTop()
+### moveToTop() {#moveToTop}
 
 move node to the top of its siblings
 
 **Returns:** `Boolean` 
 
-### moveUp()
+### moveUp() {#moveUp}
 
 move node up
 
 **Returns:** `Boolean` <code>flag is moved or not</code>
 
-### moveDown()
+### moveDown() {#moveDown}
 
 move node down
 
 **Returns:** `Boolean` 
 
-### moveToBottom()
+### moveToBottom() {#moveToBottom}
 
 move node to the bottom of its siblings
 
 **Returns:** `Boolean` 
 
-### getAbsoluteOpacity()
+### getAbsoluteOpacity() {#getAbsoluteOpacity}
 
 get absolute opacity
 
 **Returns:** `Number` 
 
-### moveTo(newContainer)
+### moveTo(newContainer) {#moveTo}
 
 move node to another container
 
@@ -460,25 +461,25 @@ move node to another container
 node.moveTo(layer2);
 ```
 
-### toObject()
+### toObject() {#toObject}
 
 convert Node into an object for serialization.  Returns an object.
 
 **Returns:** `Object` 
 
-### toJSON()
+### toJSON() {#toJSON}
 
 convert Node into a JSON string.  Returns a JSON string.
 
 **Returns:** `String` 
 
-### getParent()
+### getParent() {#getParent}
 
 get parent container
 
 **Returns:** `Konva.Node` 
 
-### findAncestors(selector, includeSelf, stopNode)
+### findAncestors(selector, includeSelf, stopNode) {#findAncestors}
 
 get all ancestors (parent then parent of the parent, etc) of the node
 
@@ -497,7 +498,7 @@ get all ancestors (parent then parent of the parent, etc) of the node
 var parentGroups = node.findAncestors('Group');
 ```
 
-### findAncestor(selector, includeSelf, stopNode)
+### findAncestor(selector, includeSelf, stopNode) {#findAncestor}
 
 get ancestor (parent or parent of the parent, etc) of the node that match passed selector
 
@@ -516,19 +517,19 @@ get ancestor (parent or parent of the parent, etc) of the node that match passed
 var group = node.findAncestors('.mygroup');
 ```
 
-### getLayer()
+### getLayer() {#getLayer}
 
 get layer ancestor
 
 **Returns:** `Konva.Layer` 
 
-### getStage()
+### getStage() {#getStage}
 
 get stage ancestor
 
 **Returns:** `Konva.Stage` 
 
-### fire(eventType, evt, bubble)
+### fire(eventType, evt, bubble) {#fire}
 
 fire event
 
@@ -558,13 +559,13 @@ node.fire('foo', {
 node.fire('click', null, true);
 ```
 
-### getAbsoluteTransform()
+### getAbsoluteTransform() {#getAbsoluteTransform}
 
 get absolute transform of the node which takes into  account its ancestor transforms
 
 **Returns:** `Konva.Transform` 
 
-### getAbsoluteScale()
+### getAbsoluteScale() {#getAbsoluteScale}
 
 get absolute scale of the node which takes into  account its ancestor scales
 
@@ -577,7 +578,7 @@ get absolute scale of the node which takes into  account its ancestor scales
 var scaleX = node.getAbsoluteScale().x;
 ```
 
-### getAbsoluteRotation()
+### getAbsoluteRotation() {#getAbsoluteRotation}
 
 get absolute rotation of the node which takes into  account its ancestor rotations
 
@@ -590,13 +591,13 @@ get absolute rotation of the node which takes into  account its ancestor rotatio
 var rotation = node.getAbsoluteRotation();
 ```
 
-### getTransform()
+### getTransform() {#getTransform}
 
 get transform of the node
 
 **Returns:** `Konva.Transform` 
 
-### clone(obj)
+### clone(obj) {#clone}
 
 clone node.  Returns a new Node instance with identical attributes.  You can also override  the node properties with an object literal, enabling you to use an existing node as a template  for another node
 
@@ -618,7 +619,7 @@ var clone = rect.clone({
 });
 ```
 
-### toCanvas(config)
+### toCanvas(config) {#toCanvas}
 
 converts node into an canvas element.
 
@@ -639,7 +640,7 @@ converts node into an canvas element.
 var canvas = node.toCanvas();
 ```
 
-### toDataURL(config)
+### toDataURL(config) {#toDataURL}
 
 Creates a composite data URL (base64 string). If MIME type is not specified, then "image/png" will result. For "image/jpeg", specify a quality level as quality (range 0.0 - 1.0)
 
@@ -657,7 +658,7 @@ Creates a composite data URL (base64 string). If MIME type is not specified, the
 
 **Returns:** `String` 
 
-### toImage(config)
+### toImage(config) {#toImage}
 
 converts node into an image.  Since the toImage  method is asynchronous, the resulting image can only be retrieved from the config callback  or the returned Promise.  toImage is most commonly used  to cache complex drawings as an image so that they don't have to constantly be redrawn
 
@@ -686,7 +687,7 @@ var image = node.toImage({
 });
 ```
 
-### toBlob(config)
+### toBlob(config) {#toBlob}
 
 Converts node into a blob.  Since the toBlob method is asynchronous,  the resulting blob can only be retrieved from the config callback  or the returned Promise.
 
@@ -709,19 +710,19 @@ Converts node into a blob.  Since the toBlob method is asynchronous,  the result
 var blob = await node.toBlob({});
 ```
 
-### getClassName()
+### getClassName() {#getClassName}
 
 get class name, which may return Stage, Layer, Group, or shape class names like Rect, Circle, Text, etc.
 
 **Returns:** `String` 
 
-### getType()
+### getType() {#getType}
 
 get the node type, which may return Stage, Layer, Group, or Shape
 
 **Returns:** `String` 
 
-### addName(name)
+### addName(name) {#addName}
 
 add name to node
 
@@ -739,7 +740,7 @@ node.addName('selected');
 node.name(); // return 'red selected'
 ```
 
-### hasName(name)
+### hasName(name) {#hasName}
 
 check is node has name
 
@@ -758,7 +759,7 @@ node.hasName('selected'); // return false
 node.hasName(''); // return false
 ```
 
-### removeName(name)
+### removeName(name) {#removeName}
 
 remove name from node
 
@@ -777,7 +778,7 @@ node.hasName('selected'); // return false
 node.name(); // return 'red'
 ```
 
-### setAttr(attr, val)
+### setAttr(attr, val) {#setAttr}
 
 set attr
 
@@ -794,25 +795,25 @@ set attr
 node.setAttr('x', 5);
 ```
 
-### draw()
+### draw() {#draw}
 
 draw both scene and hit graphs.  If the node being drawn is the stage, all of the layers will be cleared and redrawn
 
 **Returns:** `Konva.Node` 
 
-### startDrag()
+### startDrag() {#startDrag}
 
 initiate drag and drop.
 
-### stopDrag()
+### stopDrag() {#stopDrag}
 
 stop drag and drop
 
-### isDragging()
+### isDragging() {#isDragging}
 
 determine if node is currently in drag and drop mode
 
-### isClientRectOnScreen(margin)
+### isClientRectOnScreen(margin) {#isClientRectOnScreen}
 
 determine if node (at least partially) is currently in user-visible area
 
@@ -834,7 +835,7 @@ var isOnScreen = node.isClientRectOnScreen()
 var isOnScreen = node.isClientRectOnScreen({ x: stage.width(), y: stage.height() })
 ```
 
-### Node.create(json, container)
+### Node.create(json, container) {#Node.create}
 
 create node with JSON string or an Object.  De-serializtion does not generate custom  shape drawing functions, images, or event handlers (this would make the  serialized object huge).  If your app uses custom shapes, images, and  event handlers (it probably does), then you need to select the appropriate  shapes after loading the stage and set these properties via on(), setSceneFunc(),  and setImage() methods
 
@@ -843,7 +844,7 @@ create node with JSON string or an Object.  De-serializtion does not generate cu
 - `json` (String|Object): string or object
 - `container` (Element) (optional): optional container dom element used only if you're  creating a stage node
 
-### zIndex(index)
+### zIndex(index) {#zIndex}
 
 get/set zIndex relative to the node's siblings who share the same parent. Please remember that zIndex is not absolute (like in CSS). It is relative to parent element only.
 
@@ -863,7 +864,7 @@ var index = node.zIndex();
 node.zIndex(2);
 ```
 
-### absolutePosition(pos)
+### absolutePosition(pos) {#absolutePosition}
 
 get/set node absolute position
 
@@ -888,7 +889,7 @@ node.absolutePosition({
 });
 ```
 
-### position(pos)
+### position(pos) {#position}
 
 get/set node position relative to parent
 
@@ -913,7 +914,7 @@ node.position({
 });
 ```
 
-### x(x)
+### x(x) {#x}
 
 get/set x position
 
@@ -933,7 +934,7 @@ var x = node.x();
 node.x(5);
 ```
 
-### y(y)
+### y(y) {#y}
 
 get/set y position
 
@@ -953,7 +954,7 @@ var y = node.y();
 node.y(5);
 ```
 
-### globalCompositeOperation(type)
+### globalCompositeOperation(type) {#globalCompositeOperation}
 
 get/set globalCompositeOperation of a node. globalCompositeOperation DOESN'T affect hit graph of nodes. So they are still trigger to events as they have default "source-over" globalCompositeOperation.
 
@@ -973,7 +974,7 @@ var globalCompositeOperation = shape.globalCompositeOperation();
 shape.globalCompositeOperation('source-in');
 ```
 
-### opacity(opacity)
+### opacity(opacity) {#opacity}
 
 get/set opacity.  Opacity values range from 0 to 1.  A node with an opacity of 0 is fully transparent, and a node  with an opacity of 1 is fully opaque
 
@@ -993,7 +994,7 @@ var opacity = node.opacity();
 node.opacity(0.5);
 ```
 
-### name(name)
+### name(name) {#name}
 
 get/set name.
 
@@ -1016,7 +1017,7 @@ node.name('foo');
 node.name('foo bar');
 ```
 
-### id(id)
+### id(id) {#id}
 
 get/set id. Id is global for whole page.
 
@@ -1036,7 +1037,7 @@ var name = node.id();
 node.id('foo');
 ```
 
-### rotation(rotation)
+### rotation(rotation) {#rotation}
 
 get/set rotation in degrees
 
@@ -1056,7 +1057,7 @@ var rotation = node.rotation();
 node.rotation(45);
 ```
 
-### scale(scale)
+### scale(scale) {#scale}
 
 get/set scale
 
@@ -1081,7 +1082,7 @@ shape.scale({
 });
 ```
 
-### scaleX(x)
+### scaleX(x) {#scaleX}
 
 get/set scale x
 
@@ -1101,7 +1102,7 @@ var scaleX = node.scaleX();
 node.scaleX(2);
 ```
 
-### scaleY(y)
+### scaleY(y) {#scaleY}
 
 get/set scale y
 
@@ -1121,7 +1122,7 @@ var scaleY = node.scaleY();
 node.scaleY(2);
 ```
 
-### skew(skew)
+### skew(skew) {#skew}
 
 get/set skew
 
@@ -1146,7 +1147,7 @@ node.skew({
 });
 ```
 
-### skewX(x)
+### skewX(x) {#skewX}
 
 get/set skew x
 
@@ -1166,7 +1167,7 @@ var skewX = node.skewX();
 node.skewX(3);
 ```
 
-### skewY(y)
+### skewY(y) {#skewY}
 
 get/set skew y
 
@@ -1186,7 +1187,7 @@ var skewY = node.skewY();
 node.skewY(3);
 ```
 
-### offsetX(x)
+### offsetX(x) {#offsetX}
 
 get/set offset x
 
@@ -1206,7 +1207,7 @@ var offsetX = node.offsetX();
 node.offsetX(3);
 ```
 
-### offsetY(y)
+### offsetY(y) {#offsetY}
 
 get/set offset y
 
@@ -1226,7 +1227,7 @@ var offsetY = node.offsetY();
 node.offsetY(3);
 ```
 
-### dragDistance(distance)
+### dragDistance(distance) {#dragDistance}
 
 get/set drag distance
 
@@ -1249,7 +1250,7 @@ node.dragDistance(3);
 Konva.dragDistance = 3;
 ```
 
-### width(width)
+### width(width) {#width}
 
 get/set width
 
@@ -1269,7 +1270,7 @@ var width = node.width();
 node.width(100);
 ```
 
-### height(height)
+### height(height) {#height}
 
 get/set height
 
@@ -1289,7 +1290,7 @@ var height = node.height();
 node.height(100);
 ```
 
-### listening(listening)
+### listening(listening) {#listening}
 
 get/set listening attr.  If you need to determine if a node is listening or not   by taking into account its parents, use the isListening() method   nodes with listening set to false will not be detected in hit graph   so they will be ignored in container.getIntersection() method
 
@@ -1312,7 +1313,7 @@ node.listening(false);
 node.listening(true);
 ```
 
-### preventDefault(preventDefault)
+### preventDefault(preventDefault) {#preventDefault}
 
 get/set preventDefault By default all shapes will prevent default behavior of a browser on a pointer move or tap. that will prevent native scrolling when you are trying to drag&drop a node but sometimes you may need to enable default actions in that case you can set the property to false
 
@@ -1332,7 +1333,7 @@ var shouldPrevent = shape.preventDefault();
 shape.preventDefault(false);
 ```
 
-### filters(filters)
+### filters(filters) {#filters}
 
 get/set filters.  Filters are applied to cached canvases
 
@@ -1361,7 +1362,7 @@ node.filters([
 ]);
 ```
 
-### visible(visible)
+### visible(visible) {#visible}
 
 get/set visible attr.  Can be true, or false.  The default is true.   If you need to determine if a node is visible or not   by taking into account its parents, use the isVisible() method
 
@@ -1384,7 +1385,7 @@ node.visible(false);
 node.visible(true);
 ```
 
-### transformsEnabled(enabled)
+### transformsEnabled(enabled) {#transformsEnabled}
 
 get/set transforms that are enabled.  Can be "all", "none", or "position".  The default  is "all"
 
@@ -1404,7 +1405,7 @@ node.transformsEnabled('position');
 node.transformsEnabled('all');
 ```
 
-### size(size)
+### size(size) {#size}
 
 get/set node size
 
@@ -1431,7 +1432,7 @@ node.size({
 });
 ```
 
-### dragBoundFunc(dragBoundFunc)
+### dragBoundFunc(dragBoundFunc) {#dragBoundFunc}
 
 get/set drag bound function.  This is used to override the default  drag and drop position.
 
@@ -1458,7 +1459,7 @@ node.dragBoundFunc(function(pos){
 });
 ```
 
-### draggable(draggable)
+### draggable(draggable) {#draggable}
 
 get/set draggable flag
 
@@ -1481,7 +1482,7 @@ node.draggable(true);
 node.draggable(false);
 ```
 
-### to(params)
+### to(params) {#to}
 
 Tween node properties. Shorter usage of [Konva.Tween](/docs/api/Konva-Tween.html) object.
 
@@ -1500,7 +1501,7 @@ circle.to({
 });
 ```
 
-### blurRadius(radius)
+### blurRadius(radius) {#blurRadius}
 
 get/set blur radius. Use with [Konva.Filters.Blur](/docs/api/Konva-Filters-Blur.html) filter
 
@@ -1510,7 +1511,7 @@ get/set blur radius. Use with [Konva.Filters.Blur](/docs/api/Konva-Filters-Blur.
 
 **Returns:** `Integer` 
 
-### brightness(brightness)
+### brightness(brightness) {#brightness}
 
 get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values  brighten the pixels and negative values darken them. Use with [Konva.Filters.Brighten](/docs/api/Konva-Filters-Brighten.html) filter.
 
@@ -1520,7 +1521,7 @@ get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; P
 
 **Returns:** `Number` 
 
-### contrast(contrast)
+### contrast(contrast) {#contrast}
 
 get/set filter contrast.  The contrast is a number between -100 and 100. Use with [Konva.Filters.Contrast](/docs/api/Konva-Filters-Contrast.html) filter.
 
@@ -1530,7 +1531,7 @@ get/set filter contrast.  The contrast is a number between -100 and 100. Use wit
 
 **Returns:** `Number` 
 
-### embossStrength(level)
+### embossStrength(level) {#embossStrength}
 
 get/set emboss strength. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
@@ -1540,7 +1541,7 @@ get/set emboss strength. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters
 
 **Returns:** `Number` 
 
-### embossWhiteLevel(embossWhiteLevel)
+### embossWhiteLevel(embossWhiteLevel) {#embossWhiteLevel}
 
 get/set emboss white level. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
@@ -1550,7 +1551,7 @@ get/set emboss white level. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filt
 
 **Returns:** `Number` 
 
-### embossDirection(embossDirection)
+### embossDirection(embossDirection) {#embossDirection}
 
 get/set emboss direction. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
@@ -1560,7 +1561,7 @@ get/set emboss direction. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filter
 
 **Returns:** `String` 
 
-### embossBlend(embossBlend)
+### embossBlend(embossBlend) {#embossBlend}
 
 get/set emboss blend. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Emboss.html) filter.
 
@@ -1570,7 +1571,7 @@ get/set emboss blend. Use with [Konva.Filters.Emboss](/docs/api/Konva-Filters-Em
 
 **Returns:** `Boolean` 
 
-### enhance(amount)
+### enhance(amount) {#enhance}
 
 get/set enhance. Use with [Konva.Filters.Enhance](/docs/api/Konva-Filters-Enhance.html) filter. -1 to 1 values
 
@@ -1580,7 +1581,7 @@ get/set enhance. Use with [Konva.Filters.Enhance](/docs/api/Konva-Filters-Enhanc
 
 **Returns:** `Float` 
 
-### hue(hue)
+### hue(hue) {#hue}
 
 get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
@@ -1590,7 +1591,7 @@ get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters
 
 **Returns:** `Number` 
 
-### saturation(saturation)
+### saturation(saturation) {#saturation}
 
 get/set hsv saturation. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
@@ -1600,7 +1601,7 @@ get/set hsv saturation. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV
 
 **Returns:** `Number` 
 
-### luminance(value)
+### luminance(value) {#luminance}
 
 get/set hsl luminance. Use with [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
@@ -1610,7 +1611,7 @@ get/set hsl luminance. Use with [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.
 
 **Returns:** `Number` 
 
-### hue(hue)
+### hue(hue) {#hue}
 
 get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
@@ -1620,7 +1621,7 @@ get/set hsv hue in degrees. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters
 
 **Returns:** `Number` 
 
-### saturation(saturation)
+### saturation(saturation) {#saturation}
 
 get/set hsv saturation. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) or [Konva.Filters.HSL](/docs/api/Konva-Filters-HSL.html) filter.
 
@@ -1630,7 +1631,7 @@ get/set hsv saturation. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV
 
 **Returns:** `Number` 
 
-### value(value)
+### value(value) {#value}
 
 get/set hsv value. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html) filter.
 
@@ -1640,7 +1641,7 @@ get/set hsv value. Use with [Konva.Filters.HSV](/docs/api/Konva-Filters-HSV.html
 
 **Returns:** `Number` 
 
-### kaleidoscopePower(power)
+### kaleidoscopePower(power) {#kaleidoscopePower}
 
 get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/docs/api/Konva-Filters-Kaleidoscope.html) filter.
 
@@ -1650,7 +1651,7 @@ get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/docs/api/Konv
 
 **Returns:** `Integer` 
 
-### kaleidoscopeAngle(degrees)
+### kaleidoscopeAngle(degrees) {#kaleidoscopeAngle}
 
 get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](/docs/api/Konva-Filters-Kaleidoscope.html) filter.
 
@@ -1660,7 +1661,7 @@ get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](/docs/api/Konv
 
 **Returns:** `Integer` 
 
-### noise(noise)
+### noise(noise) {#noise}
 
 get/set noise amount.  Must be a value between 0 and 1. Use with [Konva.Filters.Noise](/docs/api/Konva-Filters-Noise.html) filter.
 
@@ -1670,7 +1671,7 @@ get/set noise amount.  Must be a value between 0 and 1. Use with [Konva.Filters.
 
 **Returns:** `Number` 
 
-### pixelSize(pixelSize)
+### pixelSize(pixelSize) {#pixelSize}
 
 get/set pixel size. Use with [Konva.Filters.Pixelate](/docs/api/Konva-Filters-Pixelate.html) filter.
 
@@ -1680,7 +1681,7 @@ get/set pixel size. Use with [Konva.Filters.Pixelate](/docs/api/Konva-Filters-Pi
 
 **Returns:** `Integer` 
 
-### levels(level)
+### levels(level) {#levels}
 
 get/set levels.  Must be a number between 0 and 1.  Use with [Konva.Filters.Posterize](/docs/api/Konva-Filters-Posterize.html) filter.
 
@@ -1690,7 +1691,7 @@ get/set levels.  Must be a number between 0 and 1.  Use with [Konva.Filters.Post
 
 **Returns:** `Number` 
 
-### red(red)
+### red(red) {#red}
 
 get/set filter red value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-RGB.html) filter.
 
@@ -1700,7 +1701,7 @@ get/set filter red value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-R
 
 **Returns:** `Integer` 
 
-### green(green)
+### green(green) {#green}
 
 get/set filter green value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-RGB.html) filter.
 
@@ -1710,7 +1711,7 @@ get/set filter green value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters
 
 **Returns:** `Integer` 
 
-### blue(blue)
+### blue(blue) {#blue}
 
 get/set filter blue value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-RGB.html) filter.
 
@@ -1720,7 +1721,7 @@ get/set filter blue value. Use with [Konva.Filters.RGB](/docs/api/Konva-Filters-
 
 **Returns:** `Integer` 
 
-### red(red)
+### red(red) {#red}
 
 get/set filter red value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
@@ -1730,7 +1731,7 @@ get/set filter red value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-
 
 **Returns:** `Integer` 
 
-### green(green)
+### green(green) {#green}
 
 get/set filter green value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
@@ -1740,7 +1741,7 @@ get/set filter green value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filter
 
 **Returns:** `Integer` 
 
-### blue(blue)
+### blue(blue) {#blue}
 
 get/set filter blue value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
@@ -1750,7 +1751,7 @@ get/set filter blue value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters
 
 **Returns:** `Integer` 
 
-### alpha(alpha)
+### alpha(alpha) {#alpha}
 
 get/set filter alpha value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filters-RGBA.html) filter.
 
@@ -1760,7 +1761,7 @@ get/set filter alpha value. Use with [Konva.Filters.RGBA](/docs/api/Konva-Filter
 
 **Returns:** `Float` 
 
-### threshold(threshold)
+### threshold(threshold) {#threshold}
 
 get/set threshold.  Must be a value between 0 and 1. Use with [Konva.Filters.Threshold](/docs/api/Konva-Filters-Threshold.html) or [Konva.Filters.Mask](/docs/api/Konva-Filters-Mask.html) filter.
 

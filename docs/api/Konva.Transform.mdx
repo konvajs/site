@@ -2,6 +2,7 @@
 title: Konva.Transform
 sidebar_label: Transform
 slug: Konva.Transform.html
+
 ---
 
 # Transform
@@ -20,7 +21,7 @@ Transform constructor. In most of the cases you don't need to use it in your app
 
 ## Own Methods
 
-### copy()
+### copy() {#copy}
 
 Copy Konva.Transform object
 
@@ -32,7 +33,7 @@ Copy Konva.Transform object
 const tr = shape.getTransform().copy()
 ```
 
-### point(point)
+### point(point) {#point}
 
 Transform point
 
@@ -42,7 +43,7 @@ Transform point
 
 **Returns:** `Object` <code>2D point(x, y)</code>
 
-### translate(x, y)
+### translate(x, y) {#translate}
 
 Apply translation
 
@@ -53,7 +54,7 @@ Apply translation
 
 **Returns:** `Konva.Transform` 
 
-### scale(sx, sy)
+### scale(sx, sy) {#scale}
 
 Apply scale
 
@@ -64,7 +65,7 @@ Apply scale
 
 **Returns:** `Konva.Transform` 
 
-### rotate(rad)
+### rotate(rad) {#rotate}
 
 Apply rotation
 
@@ -74,13 +75,13 @@ Apply rotation
 
 **Returns:** `Konva.Transform` 
 
-### getTranslation()
+### getTranslation() {#getTranslation}
 
 Returns the translation
 
 **Returns:** `Object` <code>2D point(x, y)</code>
 
-### skew(sx, sy)
+### skew(sx, sy) {#skew}
 
 Apply skew
 
@@ -91,7 +92,7 @@ Apply skew
 
 **Returns:** `Konva.Transform` 
 
-### multiply(matrix)
+### multiply(matrix) {#multiply}
 
 Transform multiplication
 
@@ -101,17 +102,17 @@ Transform multiplication
 
 **Returns:** `Konva.Transform` 
 
-### invert()
+### invert() {#invert}
 
 Invert the matrix
 
 **Returns:** `Konva.Transform` 
 
-### getMatrix()
+### getMatrix() {#getMatrix}
 
 return matrix
 
-### decompose()
+### decompose() {#decompose}
 
 convert transformation matrix back into node's attributes
 

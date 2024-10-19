@@ -2,6 +2,7 @@
 title: Konva.Layer
 sidebar_label: Layer
 slug: Konva.Layer.html
+
 ---
 
 # Layer
@@ -47,23 +48,23 @@ Layer constructor.  Layers are tied to their own canvas element and are used to 
 
 ## Own Methods
 
-### getCanvas()
+### getCanvas() {#getCanvas}
 
 get layer canvas wrapper
 
-### getNativeCanvasElement()
+### getNativeCanvasElement() {#getNativeCanvasElement}
 
 get native canvas element
 
-### getHitCanvas()
+### getHitCanvas() {#getHitCanvas}
 
 get layer hit canvas
 
-### getContext()
+### getContext() {#getContext}
 
 get layer canvas context
 
-### width()
+### width() {#width}
 
 get/set width of layer. getter return width of stage. setter doing nothing. if you want change width use `stage.width(value);`
 
@@ -75,7 +76,7 @@ get/set width of layer. getter return width of stage. setter doing nothing. if y
 var width = layer.width();
 ```
 
-### height()
+### height() {#height}
 
 get/set height of layer.getter return height of stage. setter doing nothing. if you want change height use `stage.height(value);`
 
@@ -87,13 +88,13 @@ get/set height of layer.getter return height of stage. setter doing nothing. if 
 var height = layer.height();
 ```
 
-### batchDraw()
+### batchDraw() {#batchDraw}
 
 batch draw. this function will not do immediate draw but it will schedule drawing to next tick (requestAnimFrame)
 
 **Returns:** `Konva.Layer` <code>this</code>
 
-### getIntersection(pos)
+### getIntersection(pos) {#getIntersection}
 
 get visible intersection shape. This is the preferred method for determining if a point intersects a shape or not also you may pass optional selector parameter to return ancestor of intersected shape nodes with listening set to false will not be detected
 
@@ -111,23 +112,23 @@ get visible intersection shape. This is the preferred method for determining if 
 var shape = layer.getIntersection({x: 50, y: 50});
 ```
 
-### enableHitGraph()
+### enableHitGraph() {#enableHitGraph}
 
 enable hit graph. **DEPRECATED!** Use `layer.listening(true)` instead.
 
 **Returns:** `Layer` 
 
-### disableHitGraph()
+### disableHitGraph() {#disableHitGraph}
 
 disable hit graph. **DEPRECATED!** Use `layer.listening(false)` instead.
 
 **Returns:** `Layer` 
 
-### toggleHitCanvas()
+### toggleHitCanvas() {#toggleHitCanvas}
 
 Show or hide hit canvas over the stage. May be useful for debugging custom hitFunc
 
-### imageSmoothingEnabled(imageSmoothingEnabled)
+### imageSmoothingEnabled(imageSmoothingEnabled) {#imageSmoothingEnabled}
 
 get/set imageSmoothingEnabled flag For more info see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled
 
@@ -148,7 +149,7 @@ layer.imageSmoothingEnabled(false);
 layer.imageSmoothingEnabled(true);
 ```
 
-### clearBeforeDraw(clearBeforeDraw)
+### clearBeforeDraw(clearBeforeDraw) {#clearBeforeDraw}
 
 get/set clearBeforeDraw flag which determines if the layer is cleared or not  before drawing
 
@@ -171,7 +172,7 @@ layer.clearBeforeDraw(false);
 layer.clearBeforeDraw(true);
 ```
 
-### hitGraphEnabled(enabled)
+### hitGraphEnabled(enabled) {#hitGraphEnabled}
 
 get/set hitGraphEnabled flag.  **DEPRECATED!** Use `layer.listening(false)` instead.  Disabling the hit graph will greatly increase  draw performance because the hit graph will not be redrawn each time the layer is  drawn.  This, however, also disables mouse/touch event detection
 

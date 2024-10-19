@@ -7,9 +7,10 @@ slug: /docs/shapes/Arc.html
 
 To create an arc shape with `Konva`, we can instantiate a `Konva.Arc()` object.
 
+For full list of properties and methods, see the [Arc API Reference](/docs/api/Konva.Arc.html).
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -25,20 +26,19 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-
 var arc = new Konva.Arc({
-    x: stage.width() / 2,
-    y: stage.height() / 2,
-    innerRadius: 40,
-    outerRadius: 70,
-    angle: 60,
-    fill: 'yellow',
-    stroke: 'black',
-    strokeWidth: 4,
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  innerRadius: 40,
+  outerRadius: 70,
+  angle: 60,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
 });
 
 layer.add(arc);
-```
+````
 
 </TabItem>
 <TabItem value="React">
@@ -46,17 +46,29 @@ layer.add(arc);
 import { Stage, Layer, Arc } from 'react-konva';
 
 const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage width={width} height={height}>
       <Layer>
-        <Arc x={window.innerWidth / 2} y={window.innerWidth / 2} innerRadius={40} outerRadius={70} angle={60} fill="yellow" stroke="black" strokeWidth={4} />
+        <Arc
+          x={width / 2}
+          y={height / 2}
+          innerRadius={40}
+          outerRadius={70}
+          angle={60}
+          fill="yellow"
+          stroke="black"
+          strokeWidth={4}
+        />
       </Layer>
     </Stage>
   );
 };
 
 export default App;
-```
+````
+
 </TabItem>
 <TabItem value="Vue">
 ```js live vue
@@ -84,7 +96,9 @@ const arcConfig = {
   strokeWidth: 4,
 };
 </script>
+
 ```
 </TabItem>
 </Tabs>
 
+```

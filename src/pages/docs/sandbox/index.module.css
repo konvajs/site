@@ -1,0 +1,68 @@
+.gridItem {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) { /* Assuming mq-normal is a media query for normal screens */
+  .gridItem {
+    width: 50%;
+  }
+
+  .gridItem.small {
+    width: 33.333%;
+  }
+}
+
+.gridItem a {
+  overflow: hidden;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.25rem;
+}
+
+.gridItem a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px 0 rgba(0, 0, 0, 0.15);
+}
+
+.gridItem .preview {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding-top: 57.77777778%;
+  background-size: cover;
+  background-position: center center;
+  background-color: #272d37;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.gridItem.small .description {
+  min-height: 50px;
+}
+
+.gridItem .description {
+  box-sizing: border-box;
+  display: block;
+  padding: 20px;
+  min-height: 110px;
+}
+
+.gridItem h4 {
+  font-size: 15px;
+}
+
+.gridItem h5 {
+  font-size: 30px;
+}
+
+.gridItem p {
+  box-sizing: border-box;
+}

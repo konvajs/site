@@ -2,6 +2,7 @@
 title: Konva.Transformer
 sidebar_label: Transformer
 slug: Konva.Transformer.html
+
 ---
 
 # Transformer
@@ -46,7 +47,7 @@ Transformer constructor.  Transformer is a special type of group that allow you 
 
 ## Own Methods
 
-### attachTo()
+### attachTo() {#attachTo}
 
 alias to `tr.nodes([shape])`/ This method is deprecated and will be removed soon.
 
@@ -58,7 +59,7 @@ alias to `tr.nodes([shape])`/ This method is deprecated and will be removed soon
 transformer.attachTo(shape);
 ```
 
-### getActiveAnchor()
+### getActiveAnchor() {#getActiveAnchor}
 
 return the name of current active anchor
 
@@ -70,7 +71,7 @@ return the name of current active anchor
 transformer.getActiveAnchor();
 ```
 
-### detach()
+### detach() {#detach}
 
 detach transformer from an attached node
 
@@ -82,7 +83,7 @@ detach transformer from an attached node
 transformer.detach();
 ```
 
-### on(evtStr, handler)
+### on(evtStr, handler) {#on}
 
 bind events to the Transformer. You can use events: `transform`, `transformstart`, `transformend`, `dragstart`, `dragmove`, `dragend`
 
@@ -102,23 +103,23 @@ tr.on('transformstart', function() {
 });
 ```
 
-### forceUpdate()
+### forceUpdate() {#forceUpdate}
 
 force update of Konva.Transformer. Use it when you updated attached Konva.Group and now you need to reset transformer size
 
-### isTransforming()
+### isTransforming() {#isTransforming}
 
 determine if transformer is in active transform
 
 **Returns:** `Boolean` 
 
-### stopTransform()
+### stopTransform() {#stopTransform}
 
 Stop active transform action
 
 **Returns:** `Boolean` 
 
-### enabledAnchors(array)
+### enabledAnchors(array) {#enabledAnchors}
 
 get/set enabled handlers
 
@@ -138,7 +139,7 @@ var enabledAnchors = transformer.enabledAnchors();
 transformer.enabledAnchors(['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']);
 ```
 
-### flipEnabled(flag)
+### flipEnabled(flag) {#flipEnabled}
 
 get/set flip enabled
 
@@ -158,7 +159,7 @@ var flipEnabled = transformer.flipEnabled();
 transformer.flipEnabled(false);
 ```
 
-### resizeEnabled(enabled)
+### resizeEnabled(enabled) {#resizeEnabled}
 
 get/set resize ability. If false it will automatically hide resizing handlers
 
@@ -178,7 +179,7 @@ var resizeEnabled = transformer.resizeEnabled();
 transformer.resizeEnabled(false);
 ```
 
-### anchorSize(size)
+### anchorSize(size) {#anchorSize}
 
 get/set anchor size. Default is 10
 
@@ -198,7 +199,7 @@ var anchorSize = transformer.anchorSize();
 transformer.anchorSize(20)
 ```
 
-### rotateEnabled(enabled)
+### rotateEnabled(enabled) {#rotateEnabled}
 
 get/set ability to rotate.
 
@@ -218,7 +219,7 @@ var rotateEnabled = transformer.rotateEnabled();
 transformer.rotateEnabled(false);
 ```
 
-### rotateLineVisible(enabled)
+### rotateLineVisible(enabled) {#rotateLineVisible}
 
 get/set visibility of a little line that connects transformer and rotate anchor.
 
@@ -238,7 +239,7 @@ var rotateLineVisible = transformer.rotateLineVisible();
 transformer.rotateLineVisible(false);
 ```
 
-### rotationSnaps(array)
+### rotationSnaps(array) {#rotationSnaps}
 
 get/set rotation snaps angles.
 
@@ -258,7 +259,7 @@ var rotationSnaps = transformer.rotationSnaps();
 transformer.rotationSnaps([0, 90, 180, 270]);
 ```
 
-### rotateAnchorOffset(offset)
+### rotateAnchorOffset(offset) {#rotateAnchorOffset}
 
 get/set distance for rotation handler
 
@@ -278,7 +279,7 @@ var rotateAnchorOffset = transformer.rotateAnchorOffset();
 transformer.rotateAnchorOffset(100);
 ```
 
-### rotateAnchorCursor(cursorName)
+### rotateAnchorCursor(cursorName) {#rotateAnchorCursor}
 
 get/set rotation anchor cursor
 
@@ -298,7 +299,7 @@ var currentRotationAnchorCursor = transformer.rotateAnchorCursor();
 transformer.rotateAnchorCursor('grab');
 ```
 
-### rotationSnapTolerance(tolerance)
+### rotationSnapTolerance(tolerance) {#rotationSnapTolerance}
 
 get/set distance for rotation tolerance
 
@@ -318,7 +319,7 @@ var rotationSnapTolerance = transformer.rotationSnapTolerance();
 transformer.rotationSnapTolerance(100);
 ```
 
-### borderEnabled(enabled)
+### borderEnabled(enabled) {#borderEnabled}
 
 get/set visibility of border
 
@@ -338,7 +339,7 @@ var borderEnabled = transformer.borderEnabled();
 transformer.borderEnabled(false);
 ```
 
-### anchorStroke(strokeColor)
+### anchorStroke(strokeColor) {#anchorStroke}
 
 get/set anchor stroke color
 
@@ -358,7 +359,7 @@ var anchorStroke = transformer.anchorStroke();
 transformer.anchorStroke('red');
 ```
 
-### anchorStrokeWidth(anchorStrokeWidth)
+### anchorStrokeWidth(anchorStrokeWidth) {#anchorStrokeWidth}
 
 get/set anchor stroke width
 
@@ -378,7 +379,7 @@ var anchorStrokeWidth = transformer.anchorStrokeWidth();
 transformer.anchorStrokeWidth(3);
 ```
 
-### anchorFill(anchorFill)
+### anchorFill(anchorFill) {#anchorFill}
 
 get/set anchor fill color
 
@@ -398,7 +399,7 @@ var anchorFill = transformer.anchorFill();
 transformer.anchorFill('red');
 ```
 
-### anchorCornerRadius(radius)
+### anchorCornerRadius(radius) {#anchorCornerRadius}
 
 get/set anchor corner radius
 
@@ -418,7 +419,7 @@ var anchorCornerRadius = transformer.anchorCornerRadius();
 transformer.anchorCornerRadius(3);
 ```
 
-### borderStroke(enabled)
+### borderStroke(enabled) {#borderStroke}
 
 get/set border stroke color
 
@@ -438,7 +439,7 @@ var borderStroke = transformer.borderStroke();
 transformer.borderStroke('red');
 ```
 
-### borderStrokeWidth(strokeWidth)
+### borderStrokeWidth(strokeWidth) {#borderStrokeWidth}
 
 get/set border stroke width
 
@@ -458,7 +459,7 @@ var borderStrokeWidth = transformer.borderStrokeWidth();
 transformer.borderStrokeWidth(3);
 ```
 
-### borderDash(dash)
+### borderDash(dash) {#borderDash}
 
 get/set border dash array
 
@@ -478,7 +479,7 @@ var borderDash = transformer.borderDash();
 transformer.borderDash([2, 2]);
 ```
 
-### keepRatio(keepRatio)
+### keepRatio(keepRatio) {#keepRatio}
 
 get/set should we keep ratio while resize anchors at corners
 
@@ -498,7 +499,7 @@ var keepRatio = transformer.keepRatio();
 transformer.keepRatio(false);
 ```
 
-### shiftBehavior(shiftBehavior)
+### shiftBehavior(shiftBehavior) {#shiftBehavior}
 
 get/set how to react on skift key while resizing anchors at corners
 
@@ -518,7 +519,7 @@ var shiftBehavior = transformer.shiftBehavior();
 transformer.shiftBehavior('none');
 ```
 
-### centeredScaling(centeredScaling)
+### centeredScaling(centeredScaling) {#centeredScaling}
 
 get/set should we resize relative to node's center?
 
@@ -538,7 +539,7 @@ var centeredScaling = transformer.centeredScaling();
 transformer.centeredScaling(true);
 ```
 
-### ignoreStroke(ignoreStroke)
+### ignoreStroke(ignoreStroke) {#ignoreStroke}
 
 get/set should we think about stroke while resize? Good to use when a shape has strokeScaleEnabled = false default is false
 
@@ -558,7 +559,7 @@ var ignoreStroke = transformer.ignoreStroke();
 transformer.ignoreStroke(true);
 ```
 
-### padding(padding)
+### padding(padding) {#padding}
 
 get/set padding
 
@@ -578,7 +579,7 @@ var padding = transformer.padding();
 transformer.padding(10);
 ```
 
-### nodes()
+### nodes() {#nodes}
 
 get/set attached nodes of the Transformer. Transformer will adapt to their size and listen to their events
 
@@ -600,7 +601,7 @@ const newNodes = oldNodes.concat([newShape]);
 transformer.nodes(newNodes);
 ```
 
-### boundBoxFunc(func)
+### boundBoxFunc(func) {#boundBoxFunc}
 
 get/set bounding box function. **IMPORTANT!** boundBondFunc operates in absolute coordinates.
 
@@ -627,7 +628,7 @@ transformer.boundBoxFunc(function(oldBox, newBox) {
 });
 ```
 
-### anchorDragBoundFunc(func)
+### anchorDragBoundFunc(func) {#anchorDragBoundFunc}
 
 get/set dragging func for transformer anchors
 
@@ -652,7 +653,7 @@ transformer.anchorDragBoundFunc(function(oldAbsPos, newAbsPos, event) {
 });
 ```
 
-### anchorStyleFunc(func)
+### anchorStyleFunc(func) {#anchorStyleFunc}
 
 get/set styling function for transformer anchors to overwrite default styles
 
@@ -680,7 +681,7 @@ transformer.anchorStyleFunc(function(anchor) {
 });
 ```
 
-### shouldOverdrawWholeArea(shouldOverdrawWholeArea)
+### shouldOverdrawWholeArea(shouldOverdrawWholeArea) {#shouldOverdrawWholeArea}
 
 using this setting you can drag transformer group by dragging empty space between attached nodes shouldOverdrawWholeArea = true may temporary disable all events on attached nodes
 
@@ -700,7 +701,7 @@ var shouldOverdrawWholeArea = transformer.shouldOverdrawWholeArea();
 transformer.shouldOverdrawWholeArea(true);
 ```
 
-### useSingleNodeRotation(useSingleNodeRotation)
+### useSingleNodeRotation(useSingleNodeRotation) {#useSingleNodeRotation}
 
 If you have just one attached node to Transformer it will set its initial rotation to the rotation of that node. In some cases you may need to set a different rotation.
 
