@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Mask Image Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+
+      #slider {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <input id="slider" type="range" min="0" max="300" step="1" value="20" />
+    <script>
+      function loadImages(sources, callback) {
+        var images = {};
+        var loadedImages = 0;
+        var numImages = 0;
+        for (var src in sources) {
+          numImages++;
+        }
+        for (var src in sources) {
+          images[src] = new Image();
+          images[src].onload = function () {
+            if (++loadedImages >= numImages) {
+              callback(images);
+            }
+          };
+          images[src].src = sources[src];
+        }
+      }
+      function buildStage(images) {
+        var stage = new Konva.Stage({
+          container: 'container',
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+
+        var layer = new Konva.Layer();
+
+        var vader = new Konva.Image({
+          image: images.vader,
+          x: 80,
+          y: 30,
+          threshold: 20,
+          draggable: true,
+        });
+
+        vader.cache();
+        vader.filters([Konva.Filters.Mask]);
+        layer.add(vader);
+        stage.add(layer);
+        var slider = document.getElementById('slider');
+        slider.oninput = function () {
+          vader.threshold(parseInt(slider.value, 10));
+        };
+      }
+
+      var sources = {
+        vader: '/assets/darth-vader.jpg',
+      };
+
+      loadImages(sources, buildStage);
+    </script>
+  </body>
+</html>

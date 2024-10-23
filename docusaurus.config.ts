@@ -81,8 +81,7 @@ const config: Config = {
           label: 'Tutorials',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'demosSidebar',
+          to: 'docs/sandbox.html',
           position: 'left',
           label: 'Demos',
         },

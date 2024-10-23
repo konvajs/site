@@ -27,12 +27,17 @@ export const Vanilla = ({ code }) => {
   }} />
 }
 
-export const ReactKonva = ({ code }) => {
+export const ReactKonva = ({ code, metastring }) => {
+  const deps = {};
+  if (metastring.includes("use-image")) {
+    deps["use-image"] = "latest";
+  }
   return <Sandpack template="react" 
   customSetup={{ 
     dependencies: { 
       "react-konva": "latest",
-      "konva": "latest"
+      "konva": "latest",
+      ...deps
     }
   }}
   files={{
@@ -43,6 +48,7 @@ export const ReactKonva = ({ code }) => {
 }
 
 export const VueKonva = ({ code }) => {
+
   return <Sandpack template="vue" 
   customSetup={{ 
     dependencies: { 
@@ -87,7 +93,7 @@ const withLiveEditor = (Component) => {
       return <Vanilla {...props} code={props.children}/>;
     }
     if (props.live && props.metastring.includes("react")) {
-      return <ReactKonva {...props} code={props.children}/>;
+      return <ReactKonva {...props} code={props.children} metastring={props.metastring}/>;
     }
     if (props.live && props.metastring.includes("vue")) {
       return <VueKonva {...props} code={props.children}/>;

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Transparency for several Shapes Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #f0f0f0;
+        background: linear-gradient(
+              115deg,
+              transparent 75%,
+              rgba(255, 255, 255, 0.8) 75%
+            )
+            0 0,
+          linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%)
+            0 0,
+          linear-gradient(115deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%)
+            7px -15px,
+          linear-gradient(245deg, transparent 75%, rgba(255, 255, 255, 0.8) 75%)
+            7px -15px,
+          #f0f0f0;
+        background-size: 15px 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      // lets create default group with two overlapping shapes
+      var group1 = new Konva.Group({
+        opacity: 0.5,
+        x: 50,
+        y: 50,
+        draggable: true,
+      });
+      group1.add(
+        new Konva.Rect({
+          width: 100,
+          height: 100,
+          fill: 'red',
+        })
+      );
+      group1.add(
+        new Konva.Circle({
+          x: 100,
+          y: 100,
+          radius: 70,
+          fill: 'greed',
+        })
+      );
+      layer.add(group1);
+
+      // lets create the second group
+      var group2 = group1.clone({ x: 250 });
+      layer.add(group2);
+
+      // to change opacity behavior we have to fix whole group
+      group2.cache();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Custom Filter Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      // lets define a custom filter:
+      var OpacityFilter = function (imageData) {
+        // make all pixels opaque 100%
+        var nPixels = imageData.data.length;
+        for (var i = 3; i < nPixels; i += 4) {
+          imageData.data[i] = 255;
+        }
+      };
+
+      Konva.Image.fromURL('/assets/lion.png', function (image) {
+        layer.add(image);
+        image.setAttrs({
+          x: 80,
+          y: 30,
+          borderSize: 5,
+          borderColor: 'red',
+        });
+
+        image.filters([OpacityFilter]);
+        image.cache();
+      });
+    </script>
+  </body>
+</html>

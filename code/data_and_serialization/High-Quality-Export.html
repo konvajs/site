@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva High Quality Export Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+
+      #buttons {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+      }
+
+      #buttons > input {
+        padding: 10px;
+        display: block;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <div id="buttons"><button id="save">Save as image</button></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var box = new Konva.Rect({
+        x: stage.width() / 2 - 50,
+        y: stage.height() / 2 - 25,
+        width: 100,
+        height: 50,
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 4,
+        draggable: true,
+      });
+      layer.add(box);
+
+      var circle = new Konva.Circle({
+        x: stage.width() - 50,
+        y: stage.height() - 50,
+        radius: 50,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 4,
+        draggable: true,
+      });
+      layer.add(circle);
+
+      // function from https://stackoverflow.com/a/15832662/512042
+      function downloadURI(uri, name) {
+        var link = document.createElement('a');
+        link.download = name;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        delete link;
+      }
+
+      document.getElementById('save').addEventListener(
+        'click',
+        function () {
+          var dataURL = stage.toDataURL({ pixelRatio: 3 });
+          downloadURI(dataURL, 'stage.png');
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
