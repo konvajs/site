@@ -91,10 +91,39 @@ const config: Config = {
           position: 'left',
           label: 'API Reference',
         },
+        {
+          type: 'dropdown',
+          label: 'Frameworks',
+          position: 'left',
+          items: [
+            {
+              label: 'React',
+              to: '/docs/react/index.html',
+            },
+            {
+              label: 'Vue',
+              to: '/docs/vue/index.html',
+            },
+            {
+              label: 'Svelte',
+              to: '/docs/svelte/index.html',
+            },
+          ],
+        },
         {to: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', label: 'Price', position: 'left'},
         {
           href: 'https://github.com/konvajs/konva',
-          label: 'GitHub',
+          className: 'header-github-link',
+          position: 'right',
+        },
+        {
+          href: 'https://discord.gg/8FqZwVT',
+          label: 'Discord',
+          position: 'right',
+        },
+        {
+          href: 'https://twitter.com/lavrton',
+          label: 'Twitter',
           position: 'right',
         },
       ],
