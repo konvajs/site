@@ -2,7 +2,7 @@
 title: HTML5 Canvas Set Fill Tutorial
 sidebar_label: Fill
 hide_table_of_contents: true
-slug: /docs/styling/Fill.html
+slug: Fill.html
 ---
 
 To fill a shape with Konva, we can set the fill property when we instantiate a shape, or we can use the `fill()` method.
