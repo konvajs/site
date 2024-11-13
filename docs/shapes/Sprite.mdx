@@ -1,1 +1,162 @@
- 
+---
+title: HTML5 canvas Sprite Tutorial
+sidebar_label: Sprite
+hide_table_of_contents: true
+slug: /docs/shapes/Sprite.html
+---
+
+To create an animated sprite with `Konva`, we can instantiate a `Konva.Sprite()` object.
+
+For full list of properties and methods, see the [Sprite API Reference](/docs/api/Konva.Sprite.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const imageObj = new Image();
+imageObj.onload = function() {
+  const sprite = new Konva.Sprite({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    animation: 'idle',
+    animations: {
+      idle: [
+        0, 0, 50, 50,    // x, y, width, height (frame 1)
+        50, 0, 50, 50,   // frame 2
+        100, 0, 50, 50,  // frame 3
+        150, 0, 50, 50,  // frame 4
+      ]
+    },
+    frameRate: 7,
+    frameIndex: 0
+  });
+
+  layer.add(sprite);
+  sprite.start();
+};
+imageObj.src = '/assets/character-sprite.png';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Sprite } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const spriteRef = useRef(null);
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      setImage(imageObj);
+    };
+    imageObj.src = '/assets/character-sprite.png';
+  }, []);
+
+  useEffect(() => {
+    if (spriteRef.current) {
+      spriteRef.current.start();
+    }
+  }, [image]);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {image && (
+          <Sprite
+            ref={spriteRef}
+            x={50}
+            y={50}
+            image={image}
+            animation="idle"
+            animations={{
+              idle: [
+                0, 0, 50, 50,    // frame 1
+                50, 0, 50, 50,   // frame 2
+                100, 0, 50, 50,  // frame 3
+                150, 0, 50, 50,  // frame 4
+              ]
+            }}
+            frameRate={7}
+            frameIndex={0}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-sprite
+        v-if="image"
+        :config="spriteConfig"
+        @mounted="handleSpriteMounted"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const image = ref(null);
+
+onMounted(() => {
+  const imageObj = new Image();
+  imageObj.onload = () => {
+    image.value = imageObj;
+  };
+  imageObj.src = '/assets/character-sprite.png';
+});
+
+const spriteConfig = {
+  x: 50,
+  y: 50,
+  image: image,
+  animation: 'idle',
+  animations: {
+    idle: [
+      0, 0, 50, 50,    // frame 1
+      50, 0, 50, 50,   // frame 2
+      100, 0, 50, 50,  // frame 3
+      150, 0, 50, 50,  // frame 4
+    ]
+  },
+  frameRate: 7,
+  frameIndex: 0
+};
+
+const handleSpriteMounted = (node) => {
+  node.start();
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Regular Polygon Tutorial
-sidebar_label: Regular Polygon
+title: HTML5 canvas Blob Tutorial
+sidebar_label: Line - Blob
 hide_table_of_contents: true
-slug: /docs/shapes/RegularPolygon.html
+slug: /docs/shapes/Line_-_Blob.html
 ---
 
-To create a regular polygon shape with `Konva`, we can instantiate a `Konva.RegularPolygon()` object.
+To create a blob with `Konva`, we can instantiate a `Konva.Line()` object with both `closed` and `tension` properties.
 
-For full list of properties and methods, see the [RegularPolygon API Reference](/docs/api/Konva.RegularPolygon.html).
+For full list of properties and methods, see the [Line API Reference](/docs/api/Konva.Line.html).
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,35 +26,33 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-const hexagon = new Konva.RegularPolygon({
-  x: stage.width() / 2,
-  y: stage.height() / 2,
-  sides: 6,
-  radius: 70,
-  fill: 'red',
+const blob = new Konva.Line({
+  points: [23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93],
+  fill: '#00D2FF',
   stroke: 'black',
-  strokeWidth: 4
+  strokeWidth: 5,
+  closed: true,
+  tension: 0.3
 });
 
-layer.add(hexagon);
+layer.add(blob);
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { Stage, Layer, RegularPolygon } from 'react-konva';
+import { Stage, Layer, Line } from 'react-konva';
 
 const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <RegularPolygon
-          x={window.innerWidth / 2}
-          y={window.innerHeight / 2}
-          sides={6}
-          radius={70}
-          fill="red"
+        <Line
+          points={[23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93]}
+          fill="#00D2FF"
           stroke="black"
-          strokeWidth={4}
+          strokeWidth={5}
+          closed
+          tension={0.3}
         />
       </Layer>
     </Stage>
@@ -69,7 +67,7 @@ export default App;
 <template>
   <v-stage :config="stageSize">
     <v-layer>
-      <v-regular-polygon :config="polygonConfig" />
+      <v-line :config="blobConfig" />
     </v-layer>
   </v-stage>
 </template>
@@ -80,16 +78,15 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const polygonConfig = {
-  x: window.innerWidth / 2,
-  y: window.innerHeight / 2,
-  sides: 6,
-  radius: 70,
-  fill: 'red',
+const blobConfig = {
+  points: [23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93],
+  fill: '#00D2FF',
   stroke: 'black',
-  strokeWidth: 4
+  strokeWidth: 5,
+  closed: true,
+  tension: 0.3
 };
 </script>
 ```
   </TabItem>
-</Tabs>
+</Tabs> 

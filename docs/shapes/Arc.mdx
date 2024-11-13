@@ -18,7 +18,7 @@ import TabItem from "@theme/TabItem";
 import Konva from 'konva';
 
 const stage = new Konva.Stage({
-  container: 'container', // id of container <div>
+  container: 'container',
   width: window.innerWidth,
   height: window.innerHeight
 });
@@ -26,7 +26,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-var arc = new Konva.Arc({
+const arc = new Konva.Arc({
   x: stage.width() / 2,
   y: stage.height() / 2,
   innerRadius: 40,
@@ -34,26 +34,23 @@ var arc = new Konva.Arc({
   angle: 60,
   fill: 'yellow',
   stroke: 'black',
-  strokeWidth: 4,
+  strokeWidth: 4
 });
 
 layer.add(arc);
-````
-
-</TabItem>
-<TabItem value="React">
+```
+  </TabItem>
+  <TabItem value="React">
 ```js live react
 import { Stage, Layer, Arc } from 'react-konva';
 
 const App = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
   return (
-    <Stage width={width} height={height}>
+    <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Arc
-          x={width / 2}
-          y={height / 2}
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
           innerRadius={40}
           outerRadius={70}
           angle={60}
@@ -67,38 +64,37 @@ const App = () => {
 };
 
 export default App;
-````
-
-</TabItem>
-<TabItem value="Vue">
+```
+  </TabItem>
+  <TabItem value="Vue">
 ```js live vue
 <template>
-  <v-stage :config="{ width, height }">
+  <v-stage :config="stageSize">
     <v-layer>
-      <v-arc :config="arcConfig">
-      </v-arc>
+      <v-arc :config="arcConfig" />
     </v-layer>
   </v-stage>
 </template>
 
 <script setup>
-const width = window.innerWidth;
-const height = window.innerHeight;
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
 
 const arcConfig = {
-  x: width / 2,
-  y: height / 2,
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
   innerRadius: 40,
   outerRadius: 70,
   angle: 60,
   fill: 'yellow',
   stroke: 'black',
-  strokeWidth: 4,
+  strokeWidth: 4
 };
 </script>
-
 ```
-</TabItem>
+  </TabItem>
 </Tabs>
 
 ```

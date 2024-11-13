@@ -7,8 +7,10 @@ slug: /docs/shapes/Ellipse.html
 
 To create an ellipse shape with `Konva`, we can instantiate a `Konva.Ellipse()` object.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+For full list of properties and methods, see the [Ellipse API Reference](/docs/api/Konva.Ellipse.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 <Tabs>
   <TabItem value="Vanilla" default>
@@ -36,8 +38,8 @@ const ellipse = new Konva.Ellipse({
 
 layer.add(ellipse);
 ```
-</TabItem>
-<TabItem value="React">
+  </TabItem>
+  <TabItem value="React">
 ```js live react
 import { Stage, Layer, Ellipse } from 'react-konva';
 
@@ -61,8 +63,8 @@ const App = () => {
 
 export default App;
 ```
-</TabItem>
-<TabItem value="Vue">
+  </TabItem>
+  <TabItem value="Vue">
 ```js live vue
 <template>
   <v-stage :config="stageSize">
@@ -89,5 +91,5 @@ const ellipseConfig = {
 };
 </script>
 ```
-</TabItem>
+  </TabItem>
 </Tabs>
