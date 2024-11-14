@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Ellipse Tutorial
-sidebar_label: Ellipse
+title: HTML5 canvas Star Tutorial
+sidebar_label: Star
 hide_table_of_contents: true
-slug: /docs/shapes/Ellipse.html
+slug: /docs/shapes/Star.html
 ---
 
-To create an ellipse shape with `Konva`, we can instantiate a `Konva.Ellipse()` object.
+To create a star with `Konva`, you can use the `Konva.Star()` object.
 
-For full list of properties and methods, see the [Ellipse API Reference](/api/Konva.Ellipse.html).
+For full list of properties and methods, see the [Star API Reference](/api/Konva.Star.html).
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,32 +26,34 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-const ellipse = new Konva.Ellipse({
+const star = new Konva.Star({
   x: stage.width() / 2,
   y: stage.height() / 2,
-  radiusX: 100,
-  radiusY: 50,
+  numPoints: 5,
+  innerRadius: 30,
+  outerRadius: 70,
   fill: 'yellow',
   stroke: 'black',
   strokeWidth: 4
 });
 
-layer.add(ellipse);
+layer.add(star);
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { Stage, Layer, Ellipse } from 'react-konva';
+import { Stage, Layer, Star } from 'react-konva';
 
 const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Ellipse
+        <Star
           x={window.innerWidth / 2}
           y={window.innerHeight / 2}
-          radiusX={100}
-          radiusY={50}
+          numPoints={5}
+          innerRadius={30}
+          outerRadius={70}
           fill="yellow"
           stroke="black"
           strokeWidth={4}
@@ -69,7 +71,7 @@ export default App;
 <template>
   <v-stage :config="stageSize">
     <v-layer>
-      <v-ellipse :config="ellipseConfig" />
+      <v-star :config="starConfig" />
     </v-layer>
   </v-stage>
 </template>
@@ -80,11 +82,12 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const ellipseConfig = {
+const starConfig = {
   x: window.innerWidth / 2,
   y: window.innerHeight / 2,
-  radiusX: 100,
-  radiusY: 50,
+  numPoints: 5,
+  innerRadius: 30,
+  outerRadius: 70,
   fill: 'yellow',
   stroke: 'black',
   strokeWidth: 4
@@ -92,4 +95,4 @@ const ellipseConfig = {
 </script>
 ```
   </TabItem>
-</Tabs>
+</Tabs> 

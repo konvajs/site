@@ -7,7 +7,7 @@ slug: /docs/shapes/Sprite.html
 
 To create an animated sprite with `Konva`, we can instantiate a `Konva.Sprite()` object.
 
-For full list of properties and methods, see the [Sprite API Reference](/docs/api/Konva.Sprite.html).
+For full list of properties and methods, see the [Sprite API Reference](/api/Konva.Sprite.html).
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,6 +26,20 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
+const animations = {
+  idle: [
+    2, 2, 70, 119,      // frame 1
+    71, 2, 74, 119,     // frame 2
+    146, 2, 81, 119,    // frame 3
+    226, 2, 76, 119,    // frame 4
+  ],
+  punch: [
+    2, 138, 74, 122,    // frame 1
+    76, 138, 84, 122,   // frame 2
+    346, 138, 120, 122, // frame 3
+  ],
+};
+
 const imageObj = new Image();
 imageObj.onload = function() {
   const sprite = new Konva.Sprite({
@@ -33,39 +47,66 @@ imageObj.onload = function() {
     y: 50,
     image: imageObj,
     animation: 'idle',
-    animations: {
-      idle: [
-        0, 0, 50, 50,    // x, y, width, height (frame 1)
-        50, 0, 50, 50,   // frame 2
-        100, 0, 50, 50,  // frame 3
-        150, 0, 50, 50,  // frame 4
-      ]
-    },
+    animations: animations,
     frameRate: 7,
     frameIndex: 0
   });
 
   layer.add(sprite);
   sprite.start();
+
+  // Add punch button functionality
+  const button = document.createElement('button');
+  button.textContent = 'Punch';
+  button.style.position = 'absolute';
+  button.style.top = '0';
+  button.style.left = '0';
+  document.body.appendChild(button);
+
+  button.addEventListener('click', () => {
+    sprite.animation('punch');
+    sprite.on('frameIndexChange.button', function() {
+      if (this.frameIndex() === 2) {
+        setTimeout(() => {
+          sprite.animation('idle');
+          sprite.off('.button');
+        }, 1000 / sprite.frameRate());
+      }
+    });
+  });
 };
-imageObj.src = '/assets/character-sprite.png';
+imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Sprite } from 'react-konva';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const App = () => {
   const spriteRef = useRef(null);
   const [image, setImage] = useState(null);
+
+  const animations = {
+    idle: [
+      2, 2, 70, 119,      // frame 1
+      71, 2, 74, 119,     // frame 2
+      146, 2, 81, 119,    // frame 3
+      226, 2, 76, 119,    // frame 4
+    ],
+    punch: [
+      2, 138, 74, 122,    // frame 1
+      76, 138, 84, 122,   // frame 2
+      346, 138, 120, 122, // frame 3
+    ],
+  };
 
   useEffect(() => {
     const imageObj = new Image();
     imageObj.onload = () => {
       setImage(imageObj);
     };
-    imageObj.src = '/assets/character-sprite.png';
+    imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
   }, []);
 
   useEffect(() => {
@@ -74,30 +115,46 @@ const App = () => {
     }
   }, [image]);
 
+  const handlePunch = () => {
+    if (spriteRef.current) {
+      const sprite = spriteRef.current;
+      sprite.animation('punch');
+      sprite.on('frameIndexChange.button', function() {
+        if (this.frameIndex() === 2) {
+          setTimeout(() => {
+            sprite.animation('idle');
+            sprite.off('.button');
+          }, 1000 / sprite.frameRate());
+        }
+      });
+    }
+  };
+
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
-      <Layer>
-        {image && (
-          <Sprite
-            ref={spriteRef}
-            x={50}
-            y={50}
-            image={image}
-            animation="idle"
-            animations={{
-              idle: [
-                0, 0, 50, 50,    // frame 1
-                50, 0, 50, 50,   // frame 2
-                100, 0, 50, 50,  // frame 3
-                150, 0, 50, 50,  // frame 4
-              ]
-            }}
-            frameRate={7}
-            frameIndex={0}
-          />
-        )}
-      </Layer>
-    </Stage>
+    <>
+      <button 
+        onClick={handlePunch}
+        style={{ position: 'absolute', top: 0, left: 0 }}
+      >
+        Punch
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {image && (
+            <Sprite
+              ref={spriteRef}
+              x={50}
+              y={50}
+              image={image}
+              animation="idle"
+              animations={animations}
+              frameRate={7}
+              frameIndex={0}
+            />
+          )}
+        </Layer>
+      </Stage>
+    </>
   );
 };
 
@@ -107,15 +164,22 @@ export default App;
   <TabItem value="Vue">
 ```js live vue
 <template>
-  <v-stage :config="stageSize">
-    <v-layer>
-      <v-sprite
-        v-if="image"
-        :config="spriteConfig"
-        @mounted="handleSpriteMounted"
-      />
-    </v-layer>
-  </v-stage>
+  <div>
+    <button
+      @click="handlePunch"
+      style="position: absolute; top: 0; left: 0"
+    >
+      Punch
+    </button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-sprite
+          :config="spriteConfig"
+          ref="spriteRef"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
 </template>
 
 <script setup>
@@ -126,35 +190,57 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const image = ref(null);
+const spriteRef = ref(null);
+
+const animations = {
+  idle: [
+    2, 2, 70, 119,      // frame 1
+    71, 2, 74, 119,     // frame 2
+    146, 2, 81, 119,    // frame 3
+    226, 2, 76, 119,    // frame 4
+  ],
+  punch: [
+    2, 138, 74, 122,    // frame 1
+    76, 138, 84, 122,   // frame 2
+    346, 138, 120, 122, // frame 3
+  ],
+};
+
+const spriteConfig = ref({
+  x: 50,
+  y: 50,
+  image: undefined,
+  animation: 'idle',
+  animations: animations,
+  frameRate: 7,
+  frameIndex: 0
+});
 
 onMounted(() => {
   const imageObj = new Image();
   imageObj.onload = () => {
-    image.value = imageObj;
+    spriteConfig.value.image = imageObj;
+    handleSpriteMounted();
   };
-  imageObj.src = '/assets/character-sprite.png';
+  imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
 });
 
-const spriteConfig = {
-  x: 50,
-  y: 50,
-  image: image,
-  animation: 'idle',
-  animations: {
-    idle: [
-      0, 0, 50, 50,    // frame 1
-      50, 0, 50, 50,   // frame 2
-      100, 0, 50, 50,  // frame 3
-      150, 0, 50, 50,  // frame 4
-    ]
-  },
-  frameRate: 7,
-  frameIndex: 0
+const handleSpriteMounted = () => {
+  const sprite = spriteRef.value.getNode();
+  sprite.start();
 };
 
-const handleSpriteMounted = (node) => {
-  node.start();
+const handlePunch = () => {
+  const sprite = spriteRef.value.getNode();
+  sprite.animation('punch');
+  sprite.on('frameIndexChange.button', function() {
+    if (this.frameIndex() === 2) {
+      setTimeout(() => {
+        sprite.animation('idle');
+        sprite.off('.button');
+      }, 1000 / sprite.frameRate());
+    }
+  });
 };
 </script>
 ```

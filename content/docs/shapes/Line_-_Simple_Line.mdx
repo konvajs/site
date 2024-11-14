@@ -7,7 +7,7 @@ slug: /docs/shapes/Line_-_Simple_Line.html
 
 To create a simple line with `Konva`, we can instantiate a `Konva.Line()` object.
 
-For full list of properties and methods, see the [Line API Reference](/docs/api/Konva.Line.html).
+For full list of properties and methods, see the [Line API Reference](/api/Konva.Line.html).
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -34,7 +34,7 @@ const redLine = new Konva.Line({
   lineJoin: 'round'
 });
 
-// dashed line
+// line segments with a length of 33px with a gap of 10px
 const greenLine = new Konva.Line({
   points: [5, 70, 140, 23, 250, 60, 300, 20],
   stroke: 'green',
@@ -43,8 +43,22 @@ const greenLine = new Konva.Line({
   dash: [33, 10]
 });
 
-greenLine.y(50);
-layer.add(redLine, greenLine);
+// line segments with a length of 29px with a gap of 20px
+// followed by a dot (0.001px) and another gap of 20px
+const blueLine = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'blue',
+  strokeWidth: 10,
+  lineCap: 'round',
+  lineJoin: 'round',
+  dash: [29, 20, 0.001, 20]
+});
+
+redLine.move({ x: 0, y: 5 });
+greenLine.move({ x: 0, y: 55 });
+blueLine.move({ x: 0, y: 105 });
+
+layer.add(redLine, greenLine, blueLine);
 ```
   </TabItem>
   <TabItem value="React">
@@ -61,6 +75,7 @@ const App = () => {
           strokeWidth={15}
           lineCap="round"
           lineJoin="round"
+          y={5}
         />
         <Line
           points={[5, 70, 140, 23, 250, 60, 300, 20]}
@@ -68,7 +83,16 @@ const App = () => {
           strokeWidth={2}
           lineJoin="round"
           dash={[33, 10]}
-          y={50}
+          y={55}
+        />
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="blue"
+          strokeWidth={10}
+          lineCap="round"
+          lineJoin="round"
+          dash={[29, 20, 0.001, 20]}
+          y={105}
         />
       </Layer>
     </Stage>
@@ -85,6 +109,7 @@ export default App;
     <v-layer>
       <v-line :config="redLineConfig" />
       <v-line :config="greenLineConfig" />
+      <v-line :config="blueLineConfig" />
     </v-layer>
   </v-stage>
 </template>
@@ -100,7 +125,8 @@ const redLineConfig = {
   stroke: 'red',
   strokeWidth: 15,
   lineCap: 'round',
-  lineJoin: 'round'
+  lineJoin: 'round',
+  y: 5
 };
 
 const greenLineConfig = {
@@ -109,7 +135,17 @@ const greenLineConfig = {
   strokeWidth: 2,
   lineJoin: 'round',
   dash: [33, 10],
-  y: 50
+  y: 55
+};
+
+const blueLineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'blue',
+  strokeWidth: 10,
+  lineCap: 'round',
+  lineJoin: 'round',
+  dash: [29, 20, 0.001, 20],
+  y: 105
 };
 </script>
 ```

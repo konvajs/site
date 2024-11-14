@@ -1,13 +1,13 @@
 ---
-title: HTML5 canvas Polygon Tutorial
-sidebar_label: Polygon
+title: HTML5 canvas Ring Tutorial
+sidebar_label: Ring
 hide_table_of_contents: true
-slug: /docs/shapes/Polygon.html
+slug: /docs/shapes/Ring.html
 ---
 
-To create a polygon shape with `Konva`, we can instantiate a `Konva.Line()` object with `closed` property set to `true`.
+To create a ring with `Konva`, you can use the `Konva.Ring()` object.
 
-For full list of properties and methods, see the [Line API Reference](/docs/api/Konva.Line.html).
+For full list of properties and methods, see the [Ring API Reference](/api/Konva.Ring.html).
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -26,31 +26,35 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-const polygon = new Konva.Line({
-  points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
-  fill: '#00D2FF',
+const ring = new Konva.Ring({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
   stroke: 'black',
-  strokeWidth: 5,
-  closed: true
+  strokeWidth: 4
 });
 
-layer.add(polygon);
+layer.add(ring);
 ```
   </TabItem>
   <TabItem value="React">
-```jsx live react
-import { Stage, Layer, Line } from 'react-konva';
+```js live react
+import { Stage, Layer, Ring } from 'react-konva';
 
 const App = () => {
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Line
-          points={[73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93]}
-          fill="#00D2FF"
+        <Ring
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          innerRadius={40}
+          outerRadius={70}
+          fill="yellow"
           stroke="black"
-          strokeWidth={5}
-          closed
+          strokeWidth={4}
         />
       </Layer>
     </Stage>
@@ -61,11 +65,11 @@ export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
-```vue live vue
+```js live vue
 <template>
   <v-stage :config="stageSize">
     <v-layer>
-      <v-line :config="polygonConfig" />
+      <v-ring :config="ringConfig" />
     </v-layer>
   </v-stage>
 </template>
@@ -76,14 +80,16 @@ const stageSize = {
   height: window.innerHeight
 };
 
-const polygonConfig = {
-  points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
-  fill: '#00D2FF',
+const ringConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
   stroke: 'black',
-  strokeWidth: 5,
-  closed: true
+  strokeWidth: 4
 };
 </script>
 ```
   </TabItem>
-</Tabs>
+</Tabs> 

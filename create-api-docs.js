@@ -23,12 +23,12 @@ function processDescription(description) {
 
 // Add this function after the processDescription function
 function createMethodLink(className, methodName) {
-  return `[${className}#${methodName}](/docs/api/${className}.html#${methodName.toLowerCase()})`;
+  return `[${className}#${methodName}](/api/${className}.html#${methodName.toLowerCase()})`;
 }
 
 // Add this function near the top of the file, after the imports
 function createClassLink(className) {
-  return `[${className}](/docs/api/${className}.html)`;
+  return `[${className}](/api/${className}.html)`;
 }
 
 const data = await jsdoc.explain({ files: ['konva.js'], cache: true })
@@ -37,10 +37,10 @@ fs.writeFile(`./data.json`, JSON.stringify(data, null, 2));
 
 
 // Remove ./docs/api if it exists
-if (existsSync("./docs/api")) {
-  await rm("./docs/api", { recursive: true, force: true });
+if (existsSync("./content/api")) {
+  await rm("./content/api", { recursive: true, force: true });
 }
-await mkdir("./docs/api", { recursive: true });
+await mkdir("./content/api", { recursive: true });
 
 // Object to store documentation for each class/namespace
 const docs = {};
@@ -155,7 +155,7 @@ ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
       markdown += `## Classes\n\n`;
       docItem.classes.forEach(className => {
         const classDoc = docs[className];
-        markdown += `- [${classDoc.name}](/docs/api/${className}.html)\n`;
+        markdown += `- [${classDoc.name}](/api/${className}.html)\n`;
       });
       markdown += '\n';
     }
@@ -184,7 +184,7 @@ ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
       markdown += `## Namespaces\n\n`;
       docItem.namespaces.forEach(namespaceName => {
         const namespaceDoc = docs[namespaceName];
-        markdown += `- [${namespaceDoc.name}](/docs/api/${namespaceName}.html)\n`;
+        markdown += `- [${namespaceDoc.name}](/api/${namespaceName}.html)\n`;
       });
       markdown += '\n';
     }
@@ -223,7 +223,7 @@ ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
   }
   
   // Write markdown file
-  const filename = path.join('docs', 'api', `${longname}.mdx`);
+  const filename = path.join('content', 'api', `${longname}.mdx`);
   fs.writeFile(filename, markdown);
 }
 
