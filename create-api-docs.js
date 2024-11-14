@@ -133,7 +133,7 @@ for (const [longname, docItem] of Object.entries(docs)) {
   let markdown = `---
 title: ${docItem.longname}
 sidebar_label: ${docItem.name}
-slug: ${docItem.longname}.html
+slug: /api/${docItem.longname}.html
 ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
 ---
 

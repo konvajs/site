@@ -1,9 +1,0 @@
-title: HTML5 Canvas Konva Stop Animation Tutorial
----
-
-To stop an animation with Konva, we can use the `stop()` method.
-To restart the animation, we can again call the `start()`.
-
-Instructions: Click on "Start" to start the animation and "Stop" to stop the animation.
-
-For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).

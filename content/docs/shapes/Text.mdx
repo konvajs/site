@@ -1,0 +1,109 @@
+---
+title: HTML5 canvas Text Tutorial
+sidebar_label: Text
+hide_table_of_contents: true
+slug: /docs/shapes/Text.html
+---
+
+To create text with `Konva`, we can instantiate a `Konva.Text()` object.
+
+For full list of properties and methods, see the [Text API Reference](/docs/api/Konva.Text.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const text = new Konva.Text({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  text: 'Hello World!',
+  fontSize: 50,
+  fontFamily: 'Arial',
+  fill: 'green',
+  align: 'center',
+  padding: 20,
+  draggable: true
+});
+
+// center text position
+text.offsetX(text.width() / 2);
+text.offsetY(text.height() / 2);
+
+layer.add(text);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          text="Hello World!"
+          fontSize={50}
+          fontFamily="Arial"
+          fill="green"
+          align="center"
+          padding={20}
+          draggable
+          offsetX={100}  // Approximate half width
+          offsetY={45}   // Approximate half height
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  text: 'Hello World!',
+  fontSize: 50,
+  fontFamily: 'Arial',
+  fill: 'green',
+  align: 'center',
+  padding: 20,
+  draggable: true,
+  offsetX: 100,  // Approximate half width
+  offsetY: 45    // Approximate half height
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

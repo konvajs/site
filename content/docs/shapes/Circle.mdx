@@ -1,0 +1,92 @@
+---
+title: HTML5 canvas Circle Tutorial
+sidebar_label: Circle
+hide_table_of_contents: true
+slug: /docs/shapes/Circle.html
+---
+
+To create a circle shape with `Konva`, we can instantiate a `Konva.Circle()` object.
+
+For full list of properties and methods, see the [Circle API Reference](/docs/api/Konva.Circle.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+layer.add(circle);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle :config="circleConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+</script>
+```
+  </TabItem>
+</Tabs>

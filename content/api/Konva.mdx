@@ -1,0 +1,172 @@
+---
+title: Konva
+sidebar_label: Konva
+slug: /api/Konva.html
+sidebar_position: 1
+---
+
+# Konva
+
+## Classes
+
+- [Transform](/docs/api/Konva.Transform.html)
+- [Context](/docs/api/Konva.Context.html)
+- [Canvas](/docs/api/Konva.Canvas.html)
+- [Node](/docs/api/Konva.Node.html)
+- [Container](/docs/api/Konva.Container.html)
+- [Stage](/docs/api/Konva.Stage.html)
+- [Shape](/docs/api/Konva.Shape.html)
+- [Layer](/docs/api/Konva.Layer.html)
+- [FastLayer](/docs/api/Konva.FastLayer.html)
+- [Group](/docs/api/Konva.Group.html)
+- [Animation](/docs/api/Konva.Animation.html)
+- [Tween](/docs/api/Konva.Tween.html)
+- [Arc](/docs/api/Konva.Arc.html)
+- [Line](/docs/api/Konva.Line.html)
+- [Path](/docs/api/Konva.Path.html)
+- [Arrow](/docs/api/Konva.Arrow.html)
+- [Circle](/docs/api/Konva.Circle.html)
+- [Ellipse](/docs/api/Konva.Ellipse.html)
+- [Image](/docs/api/Konva.Image.html)
+- [Label](/docs/api/Konva.Label.html)
+- [Tag](/docs/api/Konva.Tag.html)
+- [Rect](/docs/api/Konva.Rect.html)
+- [RegularPolygon](/docs/api/Konva.RegularPolygon.html)
+- [Ring](/docs/api/Konva.Ring.html)
+- [Sprite](/docs/api/Konva.Sprite.html)
+- [Star](/docs/api/Konva.Star.html)
+- [Text](/docs/api/Konva.Text.html)
+- [TextPath](/docs/api/Konva.TextPath.html)
+- [Transformer](/docs/api/Konva.Transformer.html)
+- [Wedge](/docs/api/Konva.Wedge.html)
+
+## Namespaces
+
+- [Util](/docs/api/Konva.Util.html)
+- [Easings](/docs/api/Konva.Easings.html)
+- [Filters](/docs/api/Konva.Filters.html)
+
+## Properties
+
+### static autoDrawEnabled
+
+Should Konva automatically update canvas on any changes. Default is true.
+
+**Default value:** `true`
+
+**Example:**
+
+```javascript
+Konva.autoDrawEnabled = true;
+```
+
+### static hitOnDragEnabled
+
+Should we enable hit detection while dragging? For performance reasons, by default it is false. But on some rare cases you want to see hit graph and check intersections. Just set it to true.
+
+**Default value:** `false`
+
+**Example:**
+
+```javascript
+Konva.hitOnDragEnabled = true;
+```
+
+### static capturePointerEventsEnabled
+
+Should we capture touch events and bind them to the touchstart target? That is how it works on DOM elements. The case: we touchstart on div1, then touchmove out of that element into another element div2. DOM will continue trigger touchmove events on div1 (not div2). Because events are "captured" into initial target. By default Konva do not do that and will trigger touchmove on another element, while pointer is moving.
+
+**Default value:** `false`
+
+**Example:**
+
+```javascript
+Konva.capturePointerEventsEnabled = true;
+```
+
+### static pixelRatio
+
+Global pixel ratio configuration. KonvaJS automatically detect pixel ratio of current device. But you may override such property, if you want to use your value. Set this value before any components initializations.
+
+**Default value:** `undefined`
+
+**Example:**
+
+```javascript
+// before any Konva code:
+Konva.pixelRatio = 1;
+```
+
+### static dragDistance
+
+Drag distance property. If you start to drag a node you may want to wait until pointer is moved to some distance from start point, only then start dragging. Default is 3px.
+
+**Default value:** `0`
+
+**Example:**
+
+```javascript
+Konva.dragDistance = 10;
+```
+
+### static angleDeg
+
+Use degree values for angle properties. You may set this property to false if you want to use radian values.
+
+**Default value:** `true`
+
+**Example:**
+
+```javascript
+node.rotation(45); // 45 degrees
+Konva.angleDeg = false;
+node.rotation(Math.PI / 2); // PI/2 radian
+```
+
+### static showWarnings
+
+Show different warnings about errors or wrong API usage
+
+**Default value:** `true`
+
+**Example:**
+
+```javascript
+Konva.showWarnings = false;
+```
+
+### static dragButtons
+
+Configure what mouse buttons can be used for drag and drop. Default value is [0] - only left mouse button.
+
+**Default value:** `true`
+
+**Example:**
+
+```javascript
+// enable left and right mouse buttons
+Konva.dragButtons = [0, 2];
+```
+
+### static releaseCanvasOnDestroy
+
+Should Konva release canvas elements on destroy. Default is true. Useful to avoid memory leak issues in Safari on macOS/iOS.
+
+**Default value:** `true`
+
+**Example:**
+
+```javascript
+Konva.releaseCanvasOnDestroy = true;
+```
+
+## Own Methods
+
+### isDragging() {#isDragging}
+
+returns whether or not drag and drop is currently active
+
+### isDragReady() {#isDragReady}
+
+returns whether or not a drag and drop operation is ready, but may  not necessarily have started
+

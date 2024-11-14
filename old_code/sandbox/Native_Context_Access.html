@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Native Context Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      // if you want to make something with native 2d canvas
+      //we can create it and use it for Konva.Image
+
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+
+      var image = new Konva.Image({
+        image: canvas,
+        draggable: true,
+      });
+      layer.add(image);
+
+      // make manual drawings
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(5, 5, canvas.width - 10, canvas.height / 2);
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+      ctx.fill();
+
+      // such as canvas is updated we need to redraw the layer
+
+      layer.batchDraw();
+    </script>
+  </body>
+</html>

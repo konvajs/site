@@ -1,0 +1,120 @@
+---
+title: Konva.Transform
+sidebar_label: Transform
+slug: /api/Konva.Transform.html
+
+---
+
+# Transform
+
+```javascript
+new Konva.Transform(config)
+```
+
+Transform constructor. In most of the cases you don't need to use it in your app. Because it is for internal usage in Konva core. But there is a documentation for that class in case you still want to make some manual calculations.
+
+## Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| m (optional) | `Array` | Optional six-element matrix |
+
+## Own Methods
+
+### copy() {#copy}
+
+Copy Konva.Transform object
+
+**Returns:** `Konva.Transform` 
+
+**Example:**
+
+```javascript
+const tr = shape.getTransform().copy()
+```
+
+### point(point) {#point}
+
+Transform point
+
+**Parameters:**
+
+- `point` (Object): 2D point(x, y)
+
+**Returns:** `Object` <code>2D point(x, y)</code>
+
+### translate(x, y) {#translate}
+
+Apply translation
+
+**Parameters:**
+
+- `x` (Number)
+- `y` (Number)
+
+**Returns:** `Konva.Transform` 
+
+### scale(sx, sy) {#scale}
+
+Apply scale
+
+**Parameters:**
+
+- `sx` (Number)
+- `sy` (Number)
+
+**Returns:** `Konva.Transform` 
+
+### rotate(rad) {#rotate}
+
+Apply rotation
+
+**Parameters:**
+
+- `rad` (Number): Angle in radians
+
+**Returns:** `Konva.Transform` 
+
+### getTranslation() {#getTranslation}
+
+Returns the translation
+
+**Returns:** `Object` <code>2D point(x, y)</code>
+
+### skew(sx, sy) {#skew}
+
+Apply skew
+
+**Parameters:**
+
+- `sx` (Number)
+- `sy` (Number)
+
+**Returns:** `Konva.Transform` 
+
+### multiply(matrix) {#multiply}
+
+Transform multiplication
+
+**Parameters:**
+
+- `matrix` (Konva.Transform)
+
+**Returns:** `Konva.Transform` 
+
+### invert() {#invert}
+
+Invert the matrix
+
+**Returns:** `Konva.Transform` 
+
+### getMatrix() {#getMatrix}
+
+return matrix
+
+### decompose() {#decompose}
+
+convert transformation matrix back into node's attributes
+
+**Returns:** `Konva.Transform` 
+

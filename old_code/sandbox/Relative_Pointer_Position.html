@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Relative Pointer Position Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+        x: 20,
+        y: 50,
+      });
+
+      var layer = new Konva.Layer({
+        scaleX: 1.2,
+        scaleY: 0.8,
+        rotation: 5,
+      });
+      stage.add(layer);
+
+      var group = new Konva.Group({
+        x: 30,
+        rotation: 10,
+        scaleX: 1.5,
+      });
+      layer.add(group);
+
+      var text = new Konva.Text({
+        text: 'Click on the canvas to draw a circle',
+        fontSize: 20,
+      });
+      group.add(text);
+
+      stage.on('click', function () {
+        var pos = group.getRelativePointerPosition();
+        var shape = new Konva.Circle({
+          x: pos.x,
+          y: pos.y,
+          fill: 'red',
+          radius: 20,
+        });
+
+        group.add(shape);
+      });
+    </script>
+  </body>
+</html>

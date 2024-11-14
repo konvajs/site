@@ -1,0 +1,297 @@
+---
+title: Konva.Filters
+sidebar_label: Filters
+slug: /api/Konva.Filters.html
+
+---
+
+# Filters
+
+## Own Methods
+
+### Blur(imageData) {#Blur}
+
+Blur Filter
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Blur]);
+node.blurRadius(10);
+```
+
+### Brighten(imageData) {#Brighten}
+
+Brighten Filter.
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Brighten]);
+node.brightness(0.8);
+```
+
+### Contrast(imageData) {#Contrast}
+
+Contrast Filter.
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Contrast]);
+node.contrast(10);
+```
+
+### Emboss(imageData) {#Emboss}
+
+Emboss Filter. Pixastic Lib - Emboss filter - v0.1.0 Copyright (c) 2008 Jacob Seidelin, jseidelin@nihilogic.dk, http://blog.nihilogic.dk/ License: [http://www.pixastic.com/lib/license.txt]
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Emboss]);
+node.embossStrength(0.8);
+node.embossWhiteLevel(0.3);
+node.embossDirection('right');
+node.embossBlend(true);
+```
+
+### Enhance(imageData) {#Enhance}
+
+Enhance Filter. Adjusts the colors so that they span the widest  possible range (ie 0-255). Performs w*h pixel reads and w*h pixel  writes.
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Enhance]);
+node.enhance(0.4);
+```
+
+### Grayscale(imageData) {#Grayscale}
+
+Grayscale Filter
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Grayscale]);
+```
+
+### HSL(imageData) {#HSL}
+
+HSL Filter. Adjusts the hue, saturation and luminance (or lightness)
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+image.filters([Konva.Filters.HSL]);
+image.luminance(0.2);
+```
+
+### HSV(imageData) {#HSV}
+
+HSV Filter. Adjusts the hue, saturation and value
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+image.filters([Konva.Filters.HSV]);
+image.value(200);
+```
+
+### Invert(imageData) {#Invert}
+
+Invert Filter
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Invert]);
+```
+
+### Mask(imageData) {#Mask}
+
+Mask Filter
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Mask]);
+node.threshold(200);
+```
+
+### Noise(imageData) {#Noise}
+
+Noise Filter. Randomly adds or substracts to the color channels
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Noise]);
+node.noise(0.8);
+```
+
+### Pixelate(imageData) {#Pixelate}
+
+Pixelate Filter. Averages groups of pixels and redraws  them as larger pixels
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Pixelate]);
+node.pixelSize(10);
+```
+
+### Posterize(imageData) {#Posterize}
+
+Posterize Filter. Adjusts the channels so that there are no more  than n different values for that channel. This is also applied  to the alpha channel.
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Posterize]);
+node.levels(0.8); // between 0 and 1
+```
+
+### RGB(imageData) {#RGB}
+
+RGB Filter
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.RGB]);
+node.blue(120);
+node.green(200);
+```
+
+### RGBA(imageData) {#RGBA}
+
+RGBA Filter
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.RGBA]);
+node.blue(120);
+node.green(200);
+node.alpha(0.3);
+```
+
+### Sepia(imageData) {#Sepia}
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Sepia]);
+```
+
+### Solarize(imageData) {#Solarize}
+
+Solarize Filter Pixastic Lib - Solarize filter - v0.1.0 Copyright (c) 2008 Jacob Seidelin, jseidelin@nihilogic.dk, http://blog.nihilogic.dk/ License: [http://www.pixastic.com/lib/license.txt]
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Solarize]);
+```
+
+### Threshold(imageData) {#Threshold}
+
+Threshold Filter. Pushes any value above the mid point to  the max and any value below the mid point to the min.  This affects the alpha channel.
+
+**Parameters:**
+
+- `imageData` (Object)
+
+**Example:**
+
+```javascript
+node.cache();
+node.filters([Konva.Filters.Threshold]);
+node.threshold(0.1);
+```
+

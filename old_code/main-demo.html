@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Main demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+      #desc {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <div id="desc">Try to drag a star</div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var tween = null;
+
+      function addStar(layer, stage) {
+        var scale = Math.random();
+
+        var star = new Konva.Star({
+          x: Math.random() * stage.getWidth(),
+          y: Math.random() * stage.getHeight(),
+          numPoints: 5,
+          innerRadius: 30,
+          outerRadius: 50,
+          fill: '#89b717',
+          opacity: 0.8,
+          draggable: true,
+          scale: {
+            x: scale,
+            y: scale,
+          },
+          rotation: Math.random() * 180,
+          shadowColor: 'black',
+          shadowBlur: 10,
+          shadowOffset: {
+            x: 5,
+            y: 5,
+          },
+          shadowOpacity: 0.6,
+          // custom attribute
+        });
+
+        layer.add(star);
+      }
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      var layer = new Konva.Layer();
+
+      for (var n = 0; n < 30; n++) {
+        addStar(layer, stage);
+      }
+
+      var tr = new Konva.Transformer({
+        nodes: [],
+        keepRatio: true,
+      });
+      layer.add(tr);
+
+      stage.add(layer);
+
+      stage.on('dragstart', function (evt) {
+        var shape = evt.target;
+        if (tr.nodes().length) {
+          return;
+        }
+        if (evt.target === tr) {
+          return;
+        }
+
+        var text = new Konva.Text({
+          width: stage.width(),
+          align: 'center',
+          y: 50,
+          text: 'Say hello to the Konva Framework!',
+          fontFamily: 'Arial',
+          fontSize: 25,
+          opacity: 0,
+          fill: 'rgba(0,0,0,0.8)',
+        });
+        layer.add(text);
+        text.to({
+          opacity: 1,
+        });
+
+        shape.moveToTop();
+
+        shape.to({
+          duration: 0.5,
+          shadowOffsetX: 15,
+          shadowOffsetX: 15,
+          scaleX: shape.scaleX() * 1.2,
+          scaleY: shape.scaleY() * 1.2,
+          rotation: tr.nodes().length ? 0 : 360,
+          onFinish: () => {
+            tr.nodes([shape]);
+            tr.moveToTop();
+          },
+        });
+
+        stage.find('Star').forEach((star) => {
+          if (star !== evt.target) {
+            star.to({
+              duration: 1,
+              x: stage.width() / 2,
+              y: stage.height() / 2,
+              scaleX: 0,
+              scaleY: 0,
+              onFinish: () => {
+                star.destroy();
+              },
+            });
+          }
+        });
+      });
+
+      stage.on('dragend', function (evt) {
+        var shape = evt.target;
+        if (evt.target === tr) {
+          return;
+        }
+        shape.to({
+          duration: 0.5,
+          easing: Konva.Easings.ElasticEaseOut,
+          scaleX: shape.scaleX() / 1.2,
+          scaleY: shape.scaleY() / 1.2,
+          shadowOffsetX: 5,
+          shadowOffsetY: 5,
+        });
+      });
+    </script>
+  </body>
+</html>
