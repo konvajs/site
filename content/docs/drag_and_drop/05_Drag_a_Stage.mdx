@@ -1,0 +1,130 @@
+---
+title: HTML5 Canvas Drag and Drop the Stage
+sidebar_label: Drag a Stage
+hide_table_of_contents: true
+slug: Drag_a_Stage.html
+---
+
+To drag and drop a stage with Konva, we can set the `draggable` property
+of the config object to `true` when the group is instantiated, or we can use the `draggable()` method.
+
+Unlike drag and drop for other nodes, such as shapes, groups, and layers,
+we can drag the entire stage by dragging any portion of the stage.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+  draggable: true
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create circle
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+// create text
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'Drag the stage anywhere',
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'black'
+});
+
+layer.add(circle);
+layer.add(text);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      draggable
+    >
+      <Layer>
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+        />
+        <Text
+          x={10}
+          y={10}
+          text="Drag the stage anywhere"
+          fontSize={20}
+          fontFamily="Calibri"
+          fill="black"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-circle :config="circleConfig" />
+      <v-text :config="textConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  draggable: true
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const textConfig = {
+  x: 10,
+  y: 10,
+  text: 'Drag the stage anywhere',
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'black'
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

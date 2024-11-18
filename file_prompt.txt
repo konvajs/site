@@ -90,3 +90,5 @@ make sure demos are as consistent as possible, so they produce identical visial 
 but every of them should follow vanilla, react and vue code structure.
 If you insert a code from old_code folder, make sure it keep it as close as possible to the original code.
 If you see `Instructions` section, make sure to make it bold.
+In React and Vue when setting cursor style, try to use style property on stage if possible. If not, use `e.target.getStage().container().style.cursor = ...`.
+In React and Vue, if you have draggable nodes make sure to use state to set the position of the node and update it in `onDragEnd` event handler.

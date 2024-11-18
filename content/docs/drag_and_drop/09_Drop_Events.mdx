@@ -1,0 +1,264 @@
+---
+title: HTML5 Canvas Drop Events
+sidebar_label: Drop Events
+hide_table_of_contents: true
+slug: Drop_Events.html
+---
+
+Konva does not support drop events. But you can write your own drop events detections.
+To detect drop target shape you have to move dragging object into another layer.
+
+In this example you can see implementation of `drop`, `dragenter`, `dragleave`, `dragover` events.
+
+**Instructions:** drag one shape over another. Or drag and drop one shape into another.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const shapesLayer = new Konva.Layer();
+const dragLayer = new Konva.Layer();
+
+stage.add(shapesLayer);
+stage.add(dragLayer);
+
+const target = new Konva.Circle({
+  x: 200,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+const draggable = new Konva.Circle({
+  x: 50,
+  y: 100,
+  radius: 30,
+  fill: 'blue',
+  draggable: true,
+});
+
+shapesLayer.add(target);
+shapesLayer.add(draggable);
+
+let dragShape = null;
+let isDragging = false;
+let isTargetHovered = false;
+
+draggable.on('dragstart', (e) => {
+  isDragging = true;
+  dragShape = e.target;
+  dragShape.moveTo(dragLayer);
+  shapesLayer.draw();
+  dragLayer.draw();
+});
+
+draggable.on('dragend', (e) => {
+  isDragging = false;
+  dragShape.moveTo(shapesLayer);
+  dragShape = null;
+  shapesLayer.draw();
+  dragLayer.draw();
+
+  if (isTargetHovered) {
+    console.log('drop!');
+  }
+});
+
+draggable.on('dragmove', () => {
+  const pos = stage.getPointerPosition();
+  const shape = shapesLayer.getIntersection(pos);
+
+  if (shape === target) {
+    if (!isTargetHovered) {
+      isTargetHovered = true;
+      target.fill('green');
+      shapesLayer.draw();
+      console.log('dragenter');
+    }
+    console.log('dragover');
+  } else {
+    if (isTargetHovered) {
+      isTargetHovered = false;
+      target.fill('red');
+      shapesLayer.draw();
+      console.log('dragleave');
+    }
+  }
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useState, useRef } from 'react';
+
+const App = () => {
+  const [targetColor, setTargetColor] = useState('red');
+  const dragLayerRef = useRef(null);
+  const shapesLayerRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    const shape = e.target;
+    shape.moveTo(dragLayerRef.current);
+  };
+
+  const handleDragEnd = (e) => {
+    setIsDragging(false);
+    const shape = e.target;
+    shape.moveTo(shapesLayerRef.current);
+  };
+
+  const handleDragMove = (e) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    const shape = shapesLayerRef.current.getIntersection(pos);
+
+    if (shape && shape.attrs.id === 'target') {
+      setTargetColor('green');
+    } else {
+      setTargetColor('red');
+    }
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer ref={shapesLayerRef}>
+        <Circle
+          id="target"
+          x={200}
+          y={100}
+          radius={50}
+          fill={targetColor}
+          stroke="black"
+          strokeWidth={4}
+        />
+        {!isDragging && (
+          <Circle
+            x={50}
+            y={100}
+            radius={30}
+            fill="blue"
+            draggable
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragMove={handleDragMove}
+          />
+        )}
+      </Layer>
+      <Layer ref={dragLayerRef}>
+        {isDragging && (
+          <Circle
+            x={50}
+            y={100}
+            radius={30}
+            fill="blue"
+            draggable
+            onDragEnd={handleDragEnd}
+            onDragMove={handleDragMove}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="shapesLayer">
+      <v-circle :config="targetConfig" />
+      <v-circle
+        v-if="!isDragging"
+        :config="draggableConfig"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+        @dragmove="handleDragMove"
+      />
+    </v-layer>
+    <v-layer ref="dragLayer">
+      <v-circle
+        v-if="isDragging"
+        :config="draggableConfig"
+        @dragend="handleDragEnd"
+        @dragmove="handleDragMove"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const targetColor = ref('red');
+const isDragging = ref(false);
+const shapesLayer = ref(null);
+const dragLayer = ref(null);
+
+const targetConfig = {
+  id: 'target',
+  x: 200,
+  y: 100,
+  radius: 50,
+  fill: targetColor,
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const draggableConfig = {
+  x: 50,
+  y: 100,
+  radius: 30,
+  fill: 'blue',
+  draggable: true
+};
+
+const handleDragStart = (e) => {
+  isDragging.value = true;
+  const shape = e.target;
+  shape.moveTo(dragLayer.value.getNode());
+};
+
+const handleDragEnd = (e) => {
+  isDragging.value = false;
+  const shape = e.target;
+  shape.moveTo(shapesLayer.value.getNode());
+};
+
+const handleDragMove = (e) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  const shape = shapesLayer.value.getNode().getIntersection(pos);
+
+  if (shape && shape.attrs.id === 'target') {
+    targetColor.value = 'green';
+  } else {
+    targetColor.value = 'red';
+  }
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

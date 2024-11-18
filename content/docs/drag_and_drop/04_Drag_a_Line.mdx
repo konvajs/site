@@ -1,0 +1,144 @@
+---
+title: HTML5 Canvas Drag and Drop a Line
+sidebar_label: Drag a Line
+hide_table_of_contents: true
+slug: Drag_a_Line.html
+---
+
+To drag and drop a line with Konva, we can set the `draggable` property
+of the config object to `true` when the line is instantiated, or we can use the `draggable()` method.
+
+**Note: (!) dragging a line will NOT change the `points` property. Instead `x` and `y` properties of the line are changed.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+
+const redLine = new Konva.Line({
+  x: 50,
+  y: 50,
+  points: [0, 0, 150, 0],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  draggable: true,
+});
+
+// add cursor styling
+redLine.on('mouseover', function () {
+  document.body.style.cursor = 'pointer';
+});
+redLine.on('mouseout', function () {
+  document.body.style.cursor = 'default';
+});
+
+layer.add(redLine);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Line } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          x={position.x}
+          y={position.y}
+          points={[0, 0, 150, 0]}
+          stroke="red"
+          strokeWidth={15}
+          lineCap="round"
+          lineJoin="round"
+          draggable
+          onDragEnd={(e) => {
+            setPosition({
+              x: e.target.x(),
+              y: e.target.y(),
+            });
+          }}
+          onMouseEnter={(e) => {
+            document.body.style.cursor = 'pointer';
+          }}
+          onMouseLeave={(e) => {
+            document.body.style.cursor = 'default';
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line
+        :config="lineConfig"
+        @dragend="handleDragEnd"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const position = reactive({ x: 50, y: 50 });
+
+const lineConfig = {
+  x: position.x,
+  y: position.y,
+  points: [0, 0, 150, 0],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  draggable: true
+};
+
+const handleDragEnd = (e) => {
+  position.x = e.target.x();
+  position.y = e.target.y();
+};
+
+const handleMouseEnter = () => {
+  document.body.style.cursor = 'pointer';
+};
+
+const handleMouseLeave = () => {
+  document.body.style.cursor = 'default';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

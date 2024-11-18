@@ -67,11 +67,13 @@ fontFamily: 'Calibri',
 text: 'bound below',
 fill: 'black',
 padding: 10,
+width: 150,
+align: 'center',
 });
 
 const blueRect = new Konva.Rect({
-width: blueText.width(),
-height: blueText.height(),
+width: 150,
+height: 72,
 fill: '#aaf',
 stroke: 'black',
 strokeWidth: 4,
@@ -83,11 +85,13 @@ fontFamily: 'Calibri',
 text: 'bound in circle',
 fill: 'black',
 padding: 10,
+width: 150,
+align: 'center',
 });
 
 const yellowRect = new Konva.Rect({
-width: yellowText.width(),
-height: yellowText.height(),
+width: 150,
+height:72,
 fill: 'yellow',
 stroke: 'black',
 strokeWidth: 4,
@@ -129,8 +133,8 @@ const App = () => {
       <Layer>
         <Group x={30} y={70} draggable onDragMove={handleBlueDragMove}>
           <Rect
-            width={120}
-            height={46}
+            width={150}
+            height={72}
             fill="#aaf"
             stroke="black"
             strokeWidth={4}
@@ -141,6 +145,8 @@ const App = () => {
             fontFamily="Calibri"
             fill="black"
             padding={10}
+            width={150}
+            align="center"
           />
         </Group>
         <Group
@@ -150,8 +156,8 @@ const App = () => {
           onDragMove={handleYellowDragMove}
         >
           <Rect
-            width={140}
-            height={46}
+            width={150}
+            height={72}
             fill="yellow"
             stroke="black"
             strokeWidth={4}
@@ -162,6 +168,8 @@ const App = () => {
             fontFamily="Calibri"
             fill="black"
             padding={10}
+            width={150}
+            align="center"
           />
         </Group>
       </Layer>
@@ -174,7 +182,7 @@ export default App;
 
   </TabItem>
   <TabItem value="Vue">
-```vue live
+```vue live vue
 <template>
   <v-stage :config="stageSize">
     <v-layer>
@@ -215,16 +223,16 @@ const yellowGroupConfig = {
 };
 
 const blueRectConfig = {
-  width: 120,
-  height: 46,
+  width: 150,
+  height: 72,
   fill: '#aaf',
   stroke: 'black',
   strokeWidth: 4
 };
 
 const yellowRectConfig = {
-  width: 140,
-  height: 46,
+  width: 150,
+  height: 72,
   fill: 'yellow',
   stroke: 'black',
   strokeWidth: 4
@@ -235,7 +243,9 @@ const blueTextConfig = {
   fontSize: 26,
   fontFamily: 'Calibri',
   fill: 'black',
-  padding: 10
+  padding: 10,
+  width: 150,
+  align: 'center'
 };
 
 const yellowTextConfig = {
@@ -243,7 +253,9 @@ const yellowTextConfig = {
   fontSize: 26,
   fontFamily: 'Calibri',
   fill: 'black',
-  padding: 10
+  padding: 10,
+  width: 150,
+  align: 'center'
 };
 
 const handleBlueDragMove = (e) => {

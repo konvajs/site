@@ -1,0 +1,5 @@
+Iterate over every file in @drag_and_drop  . Make sure to rename every file into mdx extension.
+
+Fill content of every file according to @file_prompt.txt 
+
+Make sure to write all demo codes. Don't put placeholders or TODOs

@@ -36,11 +36,11 @@ const pentagon1 = new Konva.RegularPolygon({
   strokeWidth: 4,
 });
 
-pentagon1.on('mouseover', function () {
-  document.body.style.cursor = 'pointer';
+pentagon1.on('mouseover', function (e) {
+  e.target.getStage().container().style.cursor = 'pointer';
 });
-pentagon1.on('mouseout', function () {
-  document.body.style.cursor = 'default';
+pentagon1.on('mouseout', function (e) {
+  e.target.getStage().container().style.cursor = 'default';
 });
 
 const pentagon2 = new Konva.RegularPolygon({
@@ -53,11 +53,11 @@ const pentagon2 = new Konva.RegularPolygon({
   strokeWidth: 4,
 });
 
-pentagon2.on('mouseover', function () {
-  document.body.style.cursor = 'crosshair';
+pentagon2.on('mouseover', function (e) {
+  e.target.getStage().container().style.cursor = 'crosshair';
 });
-pentagon2.on('mouseout', function () {
-  document.body.style.cursor = 'default';
+pentagon2.on('mouseout', function (e) {
+  e.target.getStage().container().style.cursor = 'default';
 });
 
 const pentagon3 = new Konva.RegularPolygon({
@@ -70,11 +70,11 @@ const pentagon3 = new Konva.RegularPolygon({
   strokeWidth: 4,
 });
 
-pentagon3.on('mouseover', function () {
-  document.body.style.cursor = 'move';
+pentagon3.on('mouseover', function (e) {
+  e.target.getStage().container().style.cursor = 'move';
 });
-pentagon3.on('mouseout', function () {
-  document.body.style.cursor = 'default';
+pentagon3.on('mouseout', function (e) {
+  e.target.getStage().container().style.cursor = 'default';
 });
 
 layer.add(pentagon1);
@@ -85,29 +85,48 @@ layer.add(pentagon3);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, RegularPolygon } from 'react-konva';
+import { useState } from 'react';
 
-const App = () => {
-  const handleMouseOver = (cursor) => {
-    document.body.style.cursor = cursor;
+// Separate component for polygon that changes cursor directly
+const SpecialPolygon = ({ x, y }) => {
+  // We use e.target approach here because this component doesn't have
+  // access to the Stage's cursor state from the parent component
+  const handleMouseOver = (e) => {
+    e.target.getStage().container().style.cursor = 'pointer';
   };
 
-  const handleMouseOut = () => {
-    document.body.style.cursor = 'default';
+  const handleMouseOut = (e) => {
+    e.target.getStage().container().style.cursor = 'default';
   };
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <RegularPolygon
+      x={x}
+      y={y}
+      sides={5}
+      radius={30}
+      fill="red"
+      stroke="black"
+      strokeWidth={4}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    />
+  );
+};
+
+const App = () => {
+  const [cursor, setCursor] = useState('default');
+
+  return (
+    <Stage 
+      width={window.innerWidth} 
+      height={window.innerHeight}
+      style={{ cursor }}
+    >
       <Layer>
-        <RegularPolygon
+        <SpecialPolygon
           x={80}
           y={window.innerHeight / 2}
-          sides={5}
-          radius={30}
-          fill="red"
-          stroke="black"
-          strokeWidth={4}
-          onMouseOver={() => handleMouseOver('pointer')}
-          onMouseOut={handleMouseOut}
         />
         <RegularPolygon
           x={180}
@@ -117,8 +136,8 @@ const App = () => {
           fill="green"
           stroke="black"
           strokeWidth={4}
-          onMouseOver={() => handleMouseOver('crosshair')}
-          onMouseOut={handleMouseOut}
+          onMouseOver={() => setCursor('crosshair')}
+          onMouseOut={() => setCursor('default')}
         />
         <RegularPolygon
           x={280}
@@ -128,8 +147,8 @@ const App = () => {
           fill="blue"
           stroke="black"
           strokeWidth={4}
-          onMouseOver={() => handleMouseOver('move')}
-          onMouseOut={handleMouseOut}
+          onMouseOver={() => setCursor('move')}
+          onMouseOut={() => setCursor('default')}
         />
       </Layer>
     </Stage>
@@ -148,7 +167,7 @@ export default App;
         v-for="(pentagon, i) in pentagons"
         :key="i"
         :config="pentagon"
-        @mouseover="handleMouseOver(pentagon.cursor)"
+        @mouseover="handleMouseOver($event, pentagon.cursor)"
         @mouseout="handleMouseOut"
       />
     </v-layer>
@@ -194,12 +213,12 @@ const pentagons = [
   }
 ];
 
-const handleMouseOver = (cursor) => {
-  document.body.style.cursor = cursor;
+const handleMouseOver = (e, cursor) => {
+  e.target.getStage().container().style.cursor = cursor;
 };
 
-const handleMouseOut = () => {
-  document.body.style.cursor = 'default';
+const handleMouseOut = (e) => {
+  e.target.getStage().container().style.cursor = 'default';
 };
 </script>
 ```
