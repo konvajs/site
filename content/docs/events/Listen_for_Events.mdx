@@ -1,0 +1,191 @@
+---
+title: HTML5 Canvas Listen or Don't Listen to Events with Konva
+sidebar_label: Listen for Events
+hide_table_of_contents: true
+slug: Listen_for_Events.html
+---
+
+To listen or don't listen to events with Konva, we can set the listening
+property of the config object to true or false when a shape is instantiated,
+or we can set the listening property with the `setListening()` method.
+Once we've set the listening property for one or more nodes, we'll also need
+to redraw the hit graph for each affected layer with the `drawHit()` method.
+
+**Instructions: Mouseover the oval to observe that the event handler is not executed.
+Click on "Listen" to start listening for events and observe that the event handler is now executed.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: '',
+  fill: 'black',
+});
+layer.add(text);
+
+const oval = new Konva.Ellipse({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radiusX: 100,
+  radiusY: 50,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  listening: false,
+});
+
+oval.on('mouseover', function () {
+  writeMessage('Mouseover oval');
+});
+oval.on('mouseout', function () {
+  writeMessage('');
+});
+
+function writeMessage(message) {
+  text.text(message);
+  layer.draw();
+}
+
+layer.add(oval);
+
+// add button to toggle listening
+const button = document.createElement('button');
+button.innerHTML = 'Listen';
+document.body.appendChild(button);
+button.addEventListener('click', () => {
+  const listening = !oval.listening();
+  oval.listening(listening);
+  button.innerHTML = listening ? 'Stop listening' : 'Listen';
+  layer.drawHit();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Ellipse, Text } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [message, setMessage] = useState('');
+  const [listening, setListening] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setListening(!listening)}>
+        {listening ? 'Stop listening' : 'Listen'}
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Text
+            x={10}
+            y={10}
+            fontFamily="Calibri"
+            fontSize={24}
+            text={message}
+            fill="black"
+          />
+          <Ellipse
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            radiusX={100}
+            radiusY={50}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+            listening={listening}
+            onMouseover={() => setMessage('Mouseover oval')}
+            onMouseout={() => setMessage('')}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <div>
+    <button @click="toggleListening">
+      {{ listening ? 'Stop listening' : 'Listen' }}
+    </button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-text :config="textConfig" />
+        <v-ellipse
+          :config="ovalConfig"
+          @mouseover="handleMouseover"
+          @mouseout="handleMouseout"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const message = ref('');
+const listening = ref(false);
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'black'
+}));
+
+const ovalConfig = computed(() => ({
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radiusX: 100,
+  radiusY: 50,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  listening: listening.value
+}));
+
+const handleMouseover = () => {
+  message.value = 'Mouseover oval';
+};
+
+const handleMouseout = () => {
+  message.value = '';
+};
+
+const toggleListening = () => {
+  listening.value = !listening.value;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

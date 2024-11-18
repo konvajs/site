@@ -1,0 +1,207 @@
+---
+title: HTML5 Canvas Keyboard events with Konva
+sidebar_label: Keyboard Events
+hide_table_of_contents: true
+slug: Keyboard_Events.html
+---
+
+There are no built-in keyboard events like `keydown` or `keyup` in Konva.
+
+### But how to listen keydown or keyup events on canvas?
+
+You can easily add them by two ways:
+
+1. Listen global events on `window` object
+2. Or make stage container focusable with `tabIndex` property and listen events on it.
+
+**Instructions: click on stage to focus it, move a shape with arrows**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+layer.add(circle);
+
+// make stage container focusable
+stage.container().tabIndex = 1;
+// focus it
+// also stage will be in focus on its click
+stage.container().focus();
+
+const DELTA = 4;
+
+// add keyboard events
+stage.container().addEventListener('keydown', (e) => {
+  if (e.keyCode === 37) {
+    circle.x(circle.x() - DELTA);
+  } else if (e.keyCode === 38) {
+    circle.y(circle.y() - DELTA);
+  } else if (e.keyCode === 39) {
+    circle.x(circle.x() + DELTA);
+  } else if (e.keyCode === 40) {
+    circle.y(circle.y() + DELTA);
+  } else {
+    return;
+  }
+  e.preventDefault();
+  layer.batchDraw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useRef, useEffect, useState } from 'react';
+
+const App = () => {
+  const stageRef = useRef();
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
+
+  useEffect(() => {
+    const container = stageRef.current.container();
+    // make it focusable
+    container.tabIndex = 1;
+    // focus it
+    container.focus();
+  }, []);
+
+  const handleKeyDown = (e) => {
+    const DELTA = 4;
+    
+    switch (e.keyCode) {
+      case 37: // left
+        setPosition(pos => ({ ...pos, x: pos.x - DELTA }));
+        break;
+      case 38: // up
+        setPosition(pos => ({ ...pos, y: pos.y - DELTA }));
+        break;
+      case 39: // right
+        setPosition(pos => ({ ...pos, x: pos.x + DELTA }));
+        break;
+      case 40: // down
+        setPosition(pos => ({ ...pos, y: pos.y + DELTA }));
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+  };
+
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      ref={stageRef}
+      onKeyDown={handleKeyDown}
+    >
+      <Layer>
+        <Circle
+          x={position.x}
+          y={position.y}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage
+    :config="stageSize"
+    ref="stageRef"
+    @keydown="handleKeyDown"
+  >
+    <v-layer>
+      <v-circle :config="circleConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+
+const stageRef = ref(null);
+const position = ref({
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+});
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = computed(() => ({
+  x: position.value.x,
+  y: position.value.y,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+}));
+
+onMounted(() => {
+  const container = stageRef.value.getNode().container();
+  // make it focusable
+  container.tabIndex = 1;
+  // focus it
+  container.focus();
+});
+
+const handleKeyDown = (e) => {
+  const DELTA = 4;
+  
+  switch (e.keyCode) {
+    case 37: // left
+      position.value.x -= DELTA;
+      break;
+    case 38: // up
+      position.value.y -= DELTA;
+      break;
+    case 39: // right
+      position.value.x += DELTA;
+      break;
+    case 40: // down
+      position.value.y += DELTA;
+      break;
+    default:
+      return;
+  }
+  e.preventDefault();
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

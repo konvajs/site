@@ -1,0 +1,207 @@
+---
+title: HTML5 Canvas Change Mouse Cursor Style
+sidebar_label: Mouse Cursor
+hide_table_of_contents: true
+slug: Mouse_Cursor.html
+---
+
+To change mouse cursor with Konva framework you just need to listen events, where do you need to change the cursor, and apply new styles manually for Stage container.
+
+**Instructions:** Mouseover each pentagon and see how cursor is changing
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const pentagon1 = new Konva.RegularPolygon({
+  x: 80,
+  y: stage.height() / 2,
+  sides: 5,
+  radius: 30,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+pentagon1.on('mouseover', function () {
+  document.body.style.cursor = 'pointer';
+});
+pentagon1.on('mouseout', function () {
+  document.body.style.cursor = 'default';
+});
+
+const pentagon2 = new Konva.RegularPolygon({
+  x: 180,
+  y: stage.height() / 2,
+  sides: 5,
+  radius: 30,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+pentagon2.on('mouseover', function () {
+  document.body.style.cursor = 'crosshair';
+});
+pentagon2.on('mouseout', function () {
+  document.body.style.cursor = 'default';
+});
+
+const pentagon3 = new Konva.RegularPolygon({
+  x: 280,
+  y: stage.height() / 2,
+  sides: 5,
+  radius: 30,
+  fill: 'blue',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+pentagon3.on('mouseover', function () {
+  document.body.style.cursor = 'move';
+});
+pentagon3.on('mouseout', function () {
+  document.body.style.cursor = 'default';
+});
+
+layer.add(pentagon1);
+layer.add(pentagon2);
+layer.add(pentagon3);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+
+const App = () => {
+  const handleMouseOver = (cursor) => {
+    document.body.style.cursor = cursor;
+  };
+
+  const handleMouseOut = () => {
+    document.body.style.cursor = 'default';
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <RegularPolygon
+          x={80}
+          y={window.innerHeight / 2}
+          sides={5}
+          radius={30}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onMouseOver={() => handleMouseOver('pointer')}
+          onMouseOut={handleMouseOut}
+        />
+        <RegularPolygon
+          x={180}
+          y={window.innerHeight / 2}
+          sides={5}
+          radius={30}
+          fill="green"
+          stroke="black"
+          strokeWidth={4}
+          onMouseOver={() => handleMouseOver('crosshair')}
+          onMouseOut={handleMouseOut}
+        />
+        <RegularPolygon
+          x={280}
+          y={window.innerHeight / 2}
+          sides={5}
+          radius={30}
+          fill="blue"
+          stroke="black"
+          strokeWidth={4}
+          onMouseOver={() => handleMouseOver('move')}
+          onMouseOut={handleMouseOut}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-regular-polygon
+        v-for="(pentagon, i) in pentagons"
+        :key="i"
+        :config="pentagon"
+        @mouseover="handleMouseOver(pentagon.cursor)"
+        @mouseout="handleMouseOut"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const pentagons = [
+  {
+    x: 80,
+    y: window.innerHeight / 2,
+    sides: 5,
+    radius: 30,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    cursor: 'pointer'
+  },
+  {
+    x: 180,
+    y: window.innerHeight / 2,
+    sides: 5,
+    radius: 30,
+    fill: 'green',
+    stroke: 'black',
+    strokeWidth: 4,
+    cursor: 'crosshair'
+  },
+  {
+    x: 280,
+    y: window.innerHeight / 2,
+    sides: 5,
+    radius: 30,
+    fill: 'blue',
+    stroke: 'black',
+    strokeWidth: 4,
+    cursor: 'move'
+  }
+];
+
+const handleMouseOver = (cursor) => {
+  document.body.style.cursor = cursor;
+};
+
+const handleMouseOut = () => {
+  document.body.style.cursor = 'default';
+};
+</script>
+```
+  </TabItem>
+</Tabs>

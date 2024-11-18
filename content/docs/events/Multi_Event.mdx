@@ -1,0 +1,158 @@
+---
+title: HTML5 Canvas Canvas Multi-Event Binding Tutorial
+sidebar_label: Multi Event
+hide_table_of_contents: true
+slug: Multi_Event.html
+---
+
+To bind multiple events to a single handler with Konva, we can use the `on()` method and pass in a space delimited string containing multiple event types.
+
+```js
+shape.on('mouseover mousedown mouseup', function (e) {
+  console.log('events: ' + e.type);
+});
+```
+
+**Instructions: Mouseover, mousedown, and mouseup over the circle to observe that the function bound to the circle is executed for each event.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: '',
+  fill: 'black',
+});
+layer.add(text);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+function writeMessage(message) {
+  text.text(message);
+  layer.draw();
+}
+
+circle.on('mouseover mousedown mouseup', function (evt) {
+  writeMessage('event: ' + evt.type);
+});
+
+layer.add(circle);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [message, setMessage] = useState('');
+
+  const handleMultiEvent = (e) => {
+    setMessage('event: ' + e.type);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={10}
+          y={10}
+          fontFamily="Calibri"
+          fontSize={24}
+          text={message}
+          fill="black"
+        />
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onMouseover={handleMultiEvent}
+          onMousedown={handleMultiEvent}
+          onMouseup={handleMultiEvent}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-circle
+        :config="circleConfig"
+        @mouseover="handleMultiEvent"
+        @mousedown="handleMultiEvent"
+        @mouseup="handleMultiEvent"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const message = ref('');
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'black'
+}));
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handleMultiEvent = (e) => {
+  message.value = 'event: ' + e.type;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,145 @@
+---
+title: HTML5 Canvas Remove Event Listener with Konva
+sidebar_label: Remove Event
+hide_table_of_contents: true
+slug: Remove_Event.html
+---
+
+To remove an event listener with Konva, we can use the `off()` method of
+a shape object which requires an event type such as click or mousedown.
+
+**Instructions: Click on the circle to see an alert triggered from the onclick
+event binding. Remove the event listener by clicking on the button and again
+click on the circle to observe that the event binding has been removed.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+// add click listener
+circle.on('click', function () {
+  alert('you clicked the circle');
+});
+
+layer.add(circle);
+
+// add button to remove listener
+const button = document.createElement('button');
+button.style.position = 'absolute';
+button.style.top = '10px';
+button.style.left = '10px';
+button.innerHTML = 'Remove click listener';
+document.body.appendChild(button);
+button.addEventListener('click', () => {
+  // remove click listener
+  circle.off('click');
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [hasListener, setHasListener] = useState(true);
+
+  return (
+    <>
+      <button onClick={() => setHasListener(false)}>
+        Remove click listener
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Circle
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            onClick={hasListener ? () => alert('you clicked the circle') : null}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <div>
+    <button @click="removeListener">Remove click listener</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <!-- 
+          Note: Vue-Konva doesn't support conditional event binding like @click="condition ? handler : null"
+          Instead, we keep the click handler attached and check the condition inside the handler function
+        -->
+        <v-circle
+          :config="circleConfig"
+          @click="handleClick"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const hasListener = ref(true);
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handleClick = () => {
+  if (hasListener.value) {
+    alert('you clicked the circle');
+  }
+};
+
+const removeListener = () => {
+  hasListener.value = false;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

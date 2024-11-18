@@ -1,0 +1,172 @@
+---
+title: HTML5 Canvas Pointer Events Tutorial
+sidebar_label: Pointer Events
+hide_table_of_contents: true
+slug: Pointer_Events.html
+---
+
+Pointer events can be useful to handle both mobile and desktop events with one handler.
+
+To bind pointer event handlers to shapes with Konva, we can use the `on()` method.
+The `on()` method requires an event type and a function to be executed when the event occurs.
+Konva supports `pointerdown`, `pointermove`, `pointerup`, `pointercancel`, `pointerover`, `pointerenter`, `pointerout`, `pointerleave`, `pointerclick`, `pointerdblclick` events.
+
+_Note: This example works on both mobile and desktop devices._
+
+**Instructions: move your mouse/finger across the triangle to see pointer coordinates.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: '',
+  fill: 'black',
+});
+
+const triangle = new Konva.RegularPolygon({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  sides: 3,
+  radius: 80,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+function writeMessage(message) {
+  text.text(message);
+  layer.draw();
+}
+
+triangle.on('pointermove', function () {
+  const pos = stage.getPointerPosition();
+  writeMessage('x: ' + pos.x + ', y: ' + pos.y);
+});
+
+triangle.on('pointerout', function () {
+  writeMessage('');
+});
+
+layer.add(triangle);
+layer.add(text);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, RegularPolygon, Text } from 'react-konva';
+import { useState, useRef } from 'react';
+
+const App = () => {
+  const [message, setMessage] = useState('');
+  const stageRef = useRef();
+
+  const handlePointerMove = () => {
+    const pos = stageRef.current.getPointerPosition();
+    setMessage(`x: ${pos.x}, y: ${pos.y}`);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight} ref={stageRef}>
+      <Layer>
+        <Text
+          x={10}
+          y={10}
+          fontFamily="Calibri"
+          fontSize={24}
+          text={message}
+          fill="black"
+        />
+        <RegularPolygon
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          sides={3}
+          radius={80}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={4}
+          onPointermove={handlePointerMove}
+          onPointerout={() => setMessage('')}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize" ref="stageRef">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-regular-polygon
+        :config="triangleConfig"
+        @pointermove="handlePointerMove"
+        @pointerout="handlePointerOut"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageRef = ref(null);
+const message = ref('');
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'black'
+}));
+
+const triangleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  sides: 3,
+  radius: 80,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handlePointerMove = () => {
+  const pos = stageRef.value.getNode().getPointerPosition();
+  message.value = `x: ${pos.x}, y: ${pos.y}`;
+};
+
+const handlePointerOut = () => {
+  message.value = '';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

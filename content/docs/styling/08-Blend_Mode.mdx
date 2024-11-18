@@ -1,0 +1,131 @@
+---
+title: HTML5 Canvas Blend mode with globalCompositeOperation Tutorial
+sidebar_label: Blend Mode
+hide_table_of_contents: true
+slug: Blend_Mode.html
+---
+
+[globalCompositeOperation Documentation](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation).
+
+With Konva framework you can set globalCompositeOperation or blending mode operations with `globalCompositeOperation` property.
+
+**Instructions**: Drag the red rectangle over the green text to see the XOR blending effect.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+
+const text = new Konva.Text({
+  text: 'Text Shadow!',
+  fontFamily: 'Calibri',
+  fontSize: 40,
+  x: 20,
+  y: 20,
+  fill: 'green',
+  shadowColor: 'white',
+  shadowOffset: { x: 10, y: 10 }
+});
+layer.add(text);
+
+const rect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  draggable: true,
+  globalCompositeOperation: 'xor'
+});
+
+layer.add(rect);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text, Rect } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          text="Text Shadow!"
+          fontFamily="Calibri"
+          fontSize={40}
+          x={20}
+          y={20}
+          fill="green"
+          shadowColor="white"
+          shadowOffset={{ x: 10, y: 10 }}
+        />
+        <Rect
+          x={50}
+          y={50}
+          width={100}
+          height={100}
+          fill="red"
+          draggable={true}
+          globalCompositeOperation="xor"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-rect :config="rectConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = {
+  text: 'Text Shadow!',
+  fontFamily: 'Calibri',
+  fontSize: 40,
+  x: 20,
+  y: 20,
+  fill: 'green',
+  shadowColor: 'white',
+  shadowOffset: { x: 10, y: 10 }
+};
+
+const rectConfig = {
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  draggable: true,
+  globalCompositeOperation: 'xor'
+};
+</script>
+```
+  </TabItem>
+</Tabs>

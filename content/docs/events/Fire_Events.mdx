@@ -1,0 +1,147 @@
+---
+title: HTML5 Canvas Fire Event with Konva
+sidebar_label: Fire Events
+hide_table_of_contents: true
+slug: Fire_Events.html
+---
+
+To fire events with Konva, we can use the `fire()` method.
+This enables us to programmatically fire events like `click`, `mouseover`,
+`mousemove`, etc., and also fire custom events, like foo and bar.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+// add shape event listener
+circle.on('customEvent', function (evt) {
+  alert('custom event fired');
+});
+
+// add button to trigger custom event
+const button = document.createElement('button');
+button.innerHTML = 'Fire Custom Event';
+document.body.appendChild(button);
+button.addEventListener('click', () => {
+  // fire custom event
+  circle.fire('customEvent', {
+    bubbles: true,
+  });
+});
+
+layer.add(circle);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useRef } from 'react';
+
+const App = () => {
+  const circleRef = useRef();
+
+  const handleCustomEvent = () => {
+    alert('custom event fired');
+  };
+
+  const fireCustomEvent = () => {
+    circleRef.current.fire('customEvent', {
+      bubbles: true,
+    });
+  };
+
+  return (
+    <>
+      <button onClick={fireCustomEvent}>Fire Custom Event</button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Circle
+            ref={circleRef}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            onCustomEvent={handleCustomEvent}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <div>
+    <button @click="fireCustomEvent">Fire Custom Event</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-circle
+          ref="circleRef"
+          :config="circleConfig"
+          @customEvent="handleCustomEvent"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const circleRef = ref(null);
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handleCustomEvent = () => {
+  alert('custom event fired');
+};
+
+const fireCustomEvent = () => {
+  circleRef.value.getNode().fire('customEvent', {
+    bubbles: true,
+  });
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

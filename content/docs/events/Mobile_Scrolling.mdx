@@ -1,0 +1,135 @@
+---
+title: HTML5 Canvas Mobile Scrolling and Native Events with Konva
+sidebar_label: Mobile Scrolling
+hide_table_of_contents: true
+slug: Mobile_Scrolling.html
+---
+
+By default `Konva` will prevent default behaviour of all pointer interactions with a stage.
+That will prevent unexpected scrolling of a page when you are trying to drag&drop a shape on a mobile device.
+
+But in some cases you may want to keep default behaviour of browser events. In that case you may set `preventDefault` property of a shape to `false`.
+
+**Instructions: if you are on mobile device try to scroll a page by each rectangle.
+Green - should prevent default behaviour (no page scrolling).
+Red - will keep default behaviour (scrolling should work).**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// green rectangle - will prevent scrolling
+const greenRect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+layer.add(greenRect);
+
+// red rectangle - will NOT prevent scrolling
+const redRect = new Konva.Rect({
+  x: 200,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  preventDefault: false,
+});
+layer.add(redRect);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Rect } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect
+          x={50}
+          y={50}
+          width={100}
+          height={600}
+          fill="green"
+          stroke="black"
+          strokeWidth={4}
+        />
+        <Rect
+          x={200}
+          y={50}
+          width={100}
+          height={600}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          preventDefault={false}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-rect :config="greenRectConfig" />
+      <v-rect :config="redRectConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const greenRectConfig = {
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const redRectConfig = {
+  x: 200,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  preventDefault: false
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

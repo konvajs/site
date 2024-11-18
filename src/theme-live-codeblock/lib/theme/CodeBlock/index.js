@@ -52,7 +52,7 @@ export const VueKonva = ({ code }) => {
   return <Sandpack template="vue" 
   customSetup={{ 
     dependencies: { 
-      "vue-konva": "latest",
+      "vue-konva": "3.1.4",
       "konva": "latest"
     }
   }}

@@ -1,0 +1,164 @@
+---
+title: HTML5 Canvas Desktop and Mobile Events Support Tutorial
+sidebar_label: Desktop and Mobile
+hide_table_of_contents: true
+slug: Desktop_and_Mobile.html
+---
+
+_Note: this demo may be outdate, because modern browsers support pointer events. And you can use pointer events in Konva too. See [Pointer Events Demo](/docs/events/Pointer_Events.html). But if you prefer not to use pointer events, keep reading..._
+
+To add event handlers to shapes that work for both desktop and mobile applications with Konva, we can use the `on()` method and pass in paired events.
+For example, in order for the `mousedown` event to be triggered on desktop and mobile applications, we can use the `"mousedown touchstart"` event pair to cover both mediums.
+In order for the `mouseup` event to be triggered on both desktop and mobile applications, we can use the `"mouseup touchend"` event pair.
+We can also use the `"dblclick dbltap"` event pair to bind a double click event that works for both desktop and mobile devices.
+
+**Instructions: Mousedown, mouseup, touchstart, or touchend the circle on either a desktop or mobile device to observe the same functionality.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: '',
+  fill: 'black',
+});
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+function writeMessage(message) {
+  text.text(message);
+  layer.draw();
+}
+
+// desktop and mobile events
+circle.on('mousedown touchstart', function () {
+  writeMessage('Mousedown or touchstart');
+});
+
+circle.on('mouseup touchend', function () {
+  writeMessage('Mouseup or touchend');
+});
+
+layer.add(circle);
+layer.add(text);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [message, setMessage] = useState('');
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={10}
+          y={10}
+          fontFamily="Calibri"
+          fontSize={24}
+          text={message}
+          fill="black"
+        />
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onMousedown={() => setMessage('Mousedown or touchstart')}
+          onTouchstart={() => setMessage('Mousedown or touchstart')}
+          onMouseup={() => setMessage('Mouseup or touchend')}
+          onTouchend={() => setMessage('Mouseup or touchend')}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-circle
+        :config="circleConfig"
+        @mousedown="handleStart"
+        @touchstart="handleStart"
+        @mouseup="handleEnd"
+        @touchend="handleEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const message = ref('');
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'black'
+}));
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handleStart = () => {
+  message.value = 'Mousedown or touchstart';
+};
+
+const handleEnd = () => {
+  message.value = 'Mouseup or touchend';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 
