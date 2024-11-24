@@ -81,11 +81,12 @@ imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Sprite } from 'react-konva';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import useImage from 'use-image';
 
 const App = () => {
   const spriteRef = useRef(null);
-  const [image, setImage] = useState(null);
+  const [image] = useImage('https://konvajs.org/assets/blob-sprite.png');
 
   const animations = {
     idle: [
@@ -100,14 +101,6 @@ const App = () => {
       346, 138, 120, 122, // frame 3
     ],
   };
-
-  useEffect(() => {
-    const imageObj = new Image();
-    imageObj.onload = () => {
-      setImage(imageObj);
-    };
-    imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
-  }, []);
 
   useEffect(() => {
     if (spriteRef.current) {
@@ -140,18 +133,16 @@ const App = () => {
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          {image && (
-            <Sprite
-              ref={spriteRef}
-              x={50}
-              y={50}
-              image={image}
-              animation="idle"
-              animations={animations}
-              frameRate={7}
-              frameIndex={0}
-            />
-          )}
+          <Sprite
+            ref={spriteRef}
+            x={50}
+            y={50}
+            image={image}
+            animation="idle"
+            animations={animations}
+            frameRate={7}
+            frameIndex={0}
+          />
         </Layer>
       </Stage>
     </>
@@ -183,7 +174,8 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
+import { useImage } from 'vue-konva';
 
 const stageSize = {
   width: window.innerWidth,
@@ -191,6 +183,7 @@ const stageSize = {
 };
 
 const spriteRef = ref(null);
+const [image] = useImage('https://konvajs.org/assets/blob-sprite.png');
 
 const animations = {
   idle: [
@@ -209,26 +202,19 @@ const animations = {
 const spriteConfig = ref({
   x: 50,
   y: 50,
-  image: undefined,
+  image: image,
   animation: 'idle',
   animations: animations,
   frameRate: 7,
   frameIndex: 0
 });
 
-onMounted(() => {
-  const imageObj = new Image();
-  imageObj.onload = () => {
-    spriteConfig.value.image = imageObj;
-    handleSpriteMounted();
-  };
-  imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
+watch(image, (newImage) => {
+  if (newImage) {
+    const sprite = spriteRef.value.getNode();
+    sprite.start();
+  }
 });
-
-const handleSpriteMounted = () => {
-  const sprite = spriteRef.value.getNode();
-  sprite.start();
-};
 
 const handlePunch = () => {
   const sprite = spriteRef.value.getNode();

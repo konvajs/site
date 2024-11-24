@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import Playground from '@theme/Playground';
-import ReactLiveScope from '@theme/ReactLiveScope';
 import CodeBlock from '@theme-init/CodeBlock';
 import { Sandpack } from "@codesandbox/sandpack-react";
 
@@ -30,13 +28,14 @@ export const Vanilla = ({ code }) => {
 export const ReactKonva = ({ code, metastring }) => {
   const deps = {};
   if (metastring.includes("use-image")) {
-    deps["use-image"] = "latest";
+    // deps["use-image"] = "latest";
   }
   return <Sandpack template="react" 
   customSetup={{ 
     dependencies: { 
       "react-konva": "latest",
       "konva": "latest",
+      "use-image": "latest",
       ...deps
     }
   }}
@@ -52,7 +51,7 @@ export const VueKonva = ({ code }) => {
   return <Sandpack template="vue" 
   customSetup={{ 
     dependencies: { 
-      "vue-konva": "3.1.4",
+      "vue-konva": "3.2.0",
       "konva": "latest"
     }
   }}

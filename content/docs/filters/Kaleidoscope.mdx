@@ -1,0 +1,248 @@
+---
+title: HTML5 Canvas Kaleidoscope Image Filter Tutorial
+sidebar_label: Kaleidoscope
+hide_table_of_contents: true
+slug: Kaleidoscope.html
+---
+
+To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
+function. Then apply filter with `filters()` function.
+
+To create a kaleidoscope with Konva, we can use the `Konva.Filters.Kaleidoscope`
+filter and set the `kaleidoscopePower` and `kaleidoscopeAngle` properties.
+
+**Instructions**: Slide the controls to adjust the kaleidoscope power and angle.
+
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const imageObj = new Image();
+imageObj.onload = () => {
+  const image = new Konva.Image({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    draggable: true,
+  });
+
+  layer.add(image);
+
+  image.cache();
+  image.filters([Konva.Filters.Kaleidoscope]);
+  image.kaleidoscopePower(3);
+  image.kaleidoscopeAngle(0);
+
+  // create sliders
+  const createSlider = (label, min, max, defaultValue, property) => {
+    const container = document.createElement('div');
+    container.style.position = 'absolute';
+    container.style.left = '20px';
+    
+    const text = document.createElement('span');
+    text.textContent = `${label}: `;
+    container.appendChild(text);
+    
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = min;
+    slider.max = max;
+    slider.step = property === 'kaleidoscopePower' ? '1' : '0.1';
+    slider.value = defaultValue;
+    slider.style.width = '200px';
+    
+    slider.addEventListener('input', (e) => {
+      const value = parseFloat(e.target.value);
+      image[property](value);
+      layer.batchDraw();
+    });
+    
+    container.appendChild(slider);
+    return container;
+  };
+
+  const powerSlider = createSlider('Power', 2, 8, 3, 'kaleidoscopePower');
+  powerSlider.style.top = '20px';
+  document.body.appendChild(powerSlider);
+
+  const angleSlider = createSlider('Angle', 0, 360, 0, 'kaleidoscopeAngle');
+  angleSlider.style.top = '45px';
+  document.body.appendChild(angleSlider);
+};
+imageObj.src = '/images/lion.png';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const App = () => {
+  const [image, setImage] = useState(null);
+  const [power, setPower] = useState(3);
+  const [angle, setAngle] = useState(0);
+
+  useEffect(() => {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      setImage(imageObj);
+    };
+    imageObj.src = '/images/lion.png';
+  }, []);
+
+  const SliderControl = ({ label, value, onChange, min, max, step = 0.1 }) => (
+    <div style={{ margin: '10px' }}>
+      <label>{label}: </label>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        style={{ width: '200px' }}
+      />
+    </div>
+  );
+
+  return (
+    <>
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <SliderControl
+          label="Power"
+          value={power}
+          onChange={setPower}
+          min={2}
+          max={8}
+          step={1}
+        />
+        <SliderControl
+          label="Angle"
+          value={angle}
+          onChange={setAngle}
+          min={0}
+          max={360}
+        />
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {image && (
+            <Image
+              x={50}
+              y={50}
+              image={image}
+              draggable
+              filters={[Konva.Filters.Kaleidoscope]}
+              kaleidoscopePower={power}
+              kaleidoscopeAngle={angle}
+            />
+          )}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="position: absolute; top: 20px; left: 20px">
+      <div v-for="control in controls" :key="control.label" style="margin: 10px">
+        <label>{{ control.label }}: </label>
+        <input
+          type="range"
+          :min="control.min"
+          :max="control.max"
+          :step="control.step"
+          :value="control.value"
+          @input="(e) => updateValue(control.prop, parseFloat(e.target.value))"
+          style="width: 200px"
+        />
+      </div>
+    </div>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          v-if="image"
+          :config="{
+            x: 50,
+            y: 50,
+            image: image,
+            draggable: true,
+            filters: [Konva.Filters.Kaleidoscope],
+            kaleidoscopePower: kaleidoscopeValues.power,
+            kaleidoscopeAngle: kaleidoscopeValues.angle,
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const image = ref(null);
+const kaleidoscopeValues = ref({
+  power: 3,
+  angle: 0,
+});
+
+const controls = computed(() => [
+  { 
+    label: 'Power',
+    prop: 'power',
+    min: 2,
+    max: 8,
+    step: 1,
+    value: kaleidoscopeValues.value.power 
+  },
+  { 
+    label: 'Angle',
+    prop: 'angle',
+    min: 0,
+    max: 360,
+    step: 0.1,
+    value: kaleidoscopeValues.value.angle 
+  },
+]);
+
+const updateValue = (prop, value) => {
+  kaleidoscopeValues.value[prop] = value;
+};
+
+onMounted(() => {
+  const imageObj = new Image();
+  imageObj.onload = () => {
+    image.value = imageObj;
+  };
+  imageObj.src = '/images/lion.png';
+});
+</script>
+```
+  </TabItem>
+</Tabs>

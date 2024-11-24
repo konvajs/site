@@ -1,0 +1,177 @@
+---
+title: HTML5 Canvas Enhance Image Filter Tutorial
+sidebar_label: Enhance
+hide_table_of_contents: true
+slug: Enhance.html
+---
+
+To apply filter to an `Konva.Image`, we have to cache it first with `cache()`
+function. Then apply filter with `filters()` function.
+
+To enhance an image with Konva, we can use the `Konva.Filters.Enhance` filter
+and set the enhance amount with the `enhance` property.
+
+**Instructions**: Slide the control to adjust the enhance value.
+
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const imageObj = new Image();
+imageObj.onload = () => {
+  const image = new Konva.Image({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    draggable: true,
+  });
+
+  layer.add(image);
+
+  image.cache();
+  image.filters([Konva.Filters.Enhance]);
+  image.enhance(0.4);
+
+  const slider = document.createElement('input');
+  slider.type = 'range';
+  slider.min = '-1';
+  slider.max = '1';
+  slider.step = '0.1';
+  slider.value = image.enhance();
+
+  slider.style.position = 'absolute';
+  slider.style.top = '20px';
+  slider.style.left = '20px';
+
+  slider.addEventListener('input', (e) => {
+    const value = parseFloat(e.target.value);
+    image.enhance(value);
+    layer.batchDraw();
+  });
+
+  document.body.appendChild(slider);
+};
+imageObj.src = '/images/lion.png';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const App = () => {
+  const [image, setImage] = useState(null);
+  const [enhance, setEnhance] = useState(0.4);
+
+  useEffect(() => {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      setImage(imageObj);
+    };
+    imageObj.src = '/images/lion.png';
+  }, []);
+
+  return (
+    <>
+      <input
+        type="range"
+        min="-1"
+        max="1"
+        step="0.1"
+        value={enhance}
+        onChange={(e) => setEnhance(parseFloat(e.target.value))}
+        style={{ position: 'absolute', top: '20px', left: '20px' }}
+      />
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {image && (
+            <Image
+              x={50}
+              y={50}
+              image={image}
+              draggable
+              filters={[Konva.Filters.Enhance]}
+              enhance={enhance}
+            />
+          )}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <input
+      type="range"
+      min="-1"
+      max="1"
+      step="0.1"
+      :value="enhance"
+      @input="handleSlider"
+      style="position: absolute; top: 20px; left: 20px"
+    />
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          v-if="image"
+          :config="{
+            x: 50,
+            y: 50,
+            image: image,
+            draggable: true,
+            filters: [Konva.Filters.Enhance],
+            enhance: enhance,
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const image = ref(null);
+const enhance = ref(0.4);
+
+const handleSlider = (e) => {
+  enhance.value = parseFloat(e.target.value);
+};
+
+onMounted(() => {
+  const imageObj = new Image();
+  imageObj.onload = () => {
+    image.value = imageObj;
+  };
+  imageObj.src = '/images/lion.png';
+});
+</script>
+```
+  </TabItem>
+</Tabs>

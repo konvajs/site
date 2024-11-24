@@ -112,6 +112,10 @@ const config: Config = {
             },
           ],
         },
+        {
+          label: 'Kai',
+          to: '/chat',
+        },
         {to: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', label: 'Price', position: 'left'},
         {
           href: 'https://github.com/konvajs/konva',

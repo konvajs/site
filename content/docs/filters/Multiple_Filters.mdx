@@ -1,0 +1,308 @@
+---
+title: HTML5 Canvas Multiple Filters Tutorial
+sidebar_label: Multiple Filters
+hide_table_of_contents: true
+slug: Multiple_Filters.html
+---
+
+To apply multiple filters to an `Konva.Image`, we have to cache it first with `cache()`
+function. Then apply filters with `filters()` function.
+
+**Instructions**: Use the checkboxes to toggle different filters and adjust their values with the sliders.
+
+For all available filters go to [Filters Documentation](/api/Konva.Filters.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const imageObj = new Image();
+imageObj.onload = () => {
+  const image = new Konva.Image({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    draggable: true,
+  });
+
+  layer.add(image);
+  image.cache();
+
+  // Create controls container
+  const container = document.createElement('div');
+  container.style.position = 'absolute';
+  container.style.top = '20px';
+  container.style.left = '20px';
+  document.body.appendChild(container);
+
+  // Filter states
+  const filterStates = {
+    blur: false,
+    brightness: false,
+    contrast: false,
+  };
+
+  const filterValues = {
+    blur: 10,
+    brightness: 0.3,
+    contrast: 50,
+  };
+
+  // Create filter controls
+  const createFilterControl = (name, min, max, step, defaultValue) => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '10px';
+    
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = name;
+    checkbox.checked = filterStates[name];
+    
+    const label = document.createElement('label');
+    label.htmlFor = name;
+    label.textContent = ` ${name.charAt(0).toUpperCase() + name.slice(1)}: `;
+    
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = min;
+    slider.max = max;
+    slider.step = step;
+    slider.value = defaultValue;
+    slider.style.width = '200px';
+    slider.disabled = !filterStates[name];
+    
+    div.appendChild(checkbox);
+    div.appendChild(label);
+    div.appendChild(slider);
+    
+    checkbox.addEventListener('change', (e) => {
+      filterStates[name] = e.target.checked;
+      slider.disabled = !e.target.checked;
+      updateFilters();
+    });
+    
+    slider.addEventListener('input', (e) => {
+      filterValues[name] = parseFloat(e.target.value);
+      updateFilters();
+    });
+    
+    return div;
+  };
+
+  // Add controls
+  container.appendChild(createFilterControl('blur', 0, 40, 1, filterValues.blur));
+  container.appendChild(createFilterControl('brightness', -1, 1, 0.1, filterValues.brightness));
+  container.appendChild(createFilterControl('contrast', -100, 100, 1, filterValues.contrast));
+
+  function updateFilters() {
+    const activeFilters = [];
+    
+    if (filterStates.blur) {
+      activeFilters.push(Konva.Filters.Blur);
+      image.blurRadius(filterValues.blur);
+    }
+    if (filterStates.brightness) {
+      activeFilters.push(Konva.Filters.Brighten);
+      image.brightness(filterValues.brightness);
+    }
+    if (filterStates.contrast) {
+      activeFilters.push(Konva.Filters.Contrast);
+      image.contrast(filterValues.contrast);
+    }
+    
+    image.filters(activeFilters);
+    layer.batchDraw();
+  }
+};
+imageObj.src = '/images/lion.png';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const App = () => {
+  const [image, setImage] = useState(null);
+  const [filters, setFilters] = useState({
+    blur: { active: false, value: 10 },
+    brightness: { active: false, value: 0.3 },
+    contrast: { active: false, value: 50 },
+  });
+
+  useEffect(() => {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      setImage(imageObj);
+    };
+    imageObj.src = '/images/lion.png';
+  }, []);
+
+  const FilterControl = ({ name, min, max, step }) => {
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+    return (
+      <div style={{ marginBottom: '10px' }}>
+        <input
+          type="checkbox"
+          id={name}
+          checked={filters[name].active}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              [name]: { ...filters[name], active: e.target.checked },
+            });
+          }}
+        />
+        <label htmlFor={name}> {capitalizedName}: </label>
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={filters[name].value}
+          disabled={!filters[name].active}
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              [name]: { ...filters[name], value: parseFloat(e.target.value) },
+            });
+          }}
+          style={{ width: '200px' }}
+        />
+      </div>
+    );
+  };
+
+  const activeFilters = [];
+  if (filters.blur.active) activeFilters.push(Konva.Filters.Blur);
+  if (filters.brightness.active) activeFilters.push(Konva.Filters.Brighten);
+  if (filters.contrast.active) activeFilters.push(Konva.Filters.Contrast);
+
+  return (
+    <>
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <FilterControl name="blur" min={0} max={40} step={1} />
+        <FilterControl name="brightness" min={-1} max={1} step={0.1} />
+        <FilterControl name="contrast" min={-100} max={100} step={1} />
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {image && (
+            <Image
+              x={50}
+              y={50}
+              image={image}
+              draggable
+              filters={activeFilters}
+              blurRadius={filters.blur.value}
+              brightness={filters.brightness.value}
+              contrast={filters.contrast.value}
+            />
+          )}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="position: absolute; top: 20px; left: 20px">
+      <div v-for="(filter, name) in filters" :key="name" style="marginBottom: 10px">
+        <input
+          type="checkbox"
+          :id="name"
+          v-model="filter.active"
+        />
+        <label :for="name"> {{ capitalize(name) }}: </label>
+        <input
+          type="range"
+          :min="filterRanges[name].min"
+          :max="filterRanges[name].max"
+          :step="filterRanges[name].step"
+          v-model="filter.value"
+          :disabled="!filter.active"
+          style="width: 200px"
+        />
+      </div>
+    </div>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          v-if="image"
+          :config="{
+            x: 50,
+            y: 50,
+            image: image,
+            draggable: true,
+            filters: activeFilters,
+            blurRadius: filters.blur.value,
+            brightness: filters.brightness.value,
+            contrast: filters.contrast.value,
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const image = ref(null);
+const filters = ref({
+  blur: { active: false, value: 10 },
+  brightness: { active: false, value: 0.3 },
+  contrast: { active: false, value: 50 },
+});
+
+const filterRanges = {
+  blur: { min: 0, max: 40, step: 1 },
+  brightness: { min: -1, max: 1, step: 0.1 },
+  contrast: { min: -100, max: 100, step: 1 },
+};
+
+const activeFilters = computed(() => {
+  const active = [];
+  if (filters.value.blur.active) active.push(Konva.Filters.Blur);
+  if (filters.value.brightness.active) active.push(Konva.Filters.Brighten);
+  if (filters.value.contrast.active) active.push(Konva.Filters.Contrast);
+  return active;
+});
+
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+onMounted(() => {
+  const imageObj = new Image();
+  imageObj.onload = () => {
+    image.value = imageObj;
+  };
+  imageObj.src = '/images/lion.png';
+});
+</script>
+```
+  </TabItem>
+</Tabs>
