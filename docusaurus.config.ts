@@ -31,6 +31,15 @@ const config: Config = {
     locales: ['en'],
   },
 
+  scripts: [
+    {
+      src: 'https://plausible.io/js/plausible.js',
+      async: true,
+      defer: true,
+      'data-domain': 'new.konvajs.org',
+    },
+  ],
+
   presets: [
     [
       'classic',
