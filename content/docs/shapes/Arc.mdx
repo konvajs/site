@@ -66,6 +66,7 @@ const App = () => {
 export default App;
 ```
   </TabItem>
+
   <TabItem value="Vue">
 ```js live vue
 <template>
@@ -95,6 +96,17 @@ const arcConfig = {
 </script>
 ```
   </TabItem>
-</Tabs>
+  <TabItem value="Svelte">
+```js live svelte
+<script>
+  import { Stage, Layer, Rect } from 'svelte-konva';
+</script>
 
+<Stage config={{ width: 1000, height: 1000 }}>
+  <Layer>
+    <Rect config={{ x: 100, y: 100, width: 400, height: 200, fill: 'blue' }} />
+  </Layer>
+</Stage>
 ```
+  </TabItem>
+</Tabs>

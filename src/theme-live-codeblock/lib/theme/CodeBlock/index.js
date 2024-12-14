@@ -92,6 +92,7 @@ const SvelteKonva = ({ code }) => {
         dependencies: {
           'svelte-konva': 'latest',
           konva: 'latest',
+          svelte: '^4.0.0',
         },
       }}
       files={{
