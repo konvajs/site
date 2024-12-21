@@ -58,3 +58,7 @@
 .header-twitter-link:hover::before {
   background-color: var(--ifm-navbar-link-hover-color);
 }
+
+.hidden {
+  display: none !important;
+}

@@ -4,7 +4,7 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 6rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -21,4 +21,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.frameworkWrapper {
+  display: inline-block;
+  min-width: 150px;
+  position: relative;
+}
+
+.framework {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.framework svg {
+  width: 17px;
+  height: 17px;
+  margin-right: 4px;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
+.animatedSubtitle {
+  min-height: 60px;
 }
