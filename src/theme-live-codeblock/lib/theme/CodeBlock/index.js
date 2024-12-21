@@ -39,9 +39,9 @@ export const ReactKonva = ({ code, metastring }) => {
       template="react"
       customSetup={{
         dependencies: {
-          react: '^19.0.0',
-          'react-dom': '^19.0.0',
-          'react-konva': '^19.0.1',
+          react: '^18',
+          'react-dom': '^18',
+          'react-konva': '^18',
           konva: 'latest',
           'use-image': 'latest',
           ...deps,

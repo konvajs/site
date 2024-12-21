@@ -1,0 +1,233 @@
+---
+title: Simple Easings Tutorial
+sidebar_label: Common Easings
+hide_table_of_contents: true
+slug: Common_Easings.html
+---
+
+To create a non-linear easing tween with Konva, we can set the `easing` property to an easing function. Other than `Konva.Easings.Linear`, the other most common easings are:
+
+- `Konva.Easings.EaseIn`
+- `Konva.Easings.EaseInOut`
+- `Konva.Easings.EaseOut`
+
+For all available easings go to [Easings Documentation](/api/Konva.Easings.html).
+
+**Instructions: Mouseover or touchstart the boxes to tween them with different easing functions.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+const easings = ['Linear', 'EaseIn', 'EaseOut', 'EaseInOut'];
+const boxes = [];
+
+easings.forEach((easing, i) => {
+const box = new Konva.Rect({
+x: 50,
+y: 50 + i \* 80,
+width: 100,
+height: 50,
+fill: '#00D2FF',
+stroke: 'black',
+strokeWidth: 4,
+});
+layer.add(box);
+boxes.push(box);
+
+const text = new Konva.Text({
+x: 160,
+y: 65 + i \* 80,
+text: easing,
+fontSize: 16,
+fontFamily: 'Calibri',
+fill: 'black',
+});
+layer.add(text);
+
+box.on('mouseenter touchstart', () => {
+const tween = new Konva.Tween({
+node: box,
+duration: 1,
+x: width - 150,
+easing: Konva.Easings[easing],
+}).play();
+});
+
+box.on('mouseleave touchend', () => {
+const tween = new Konva.Tween({
+node: box,
+duration: 1,
+x: 50,
+easing: Konva.Easings[easing],
+}).play();
+});
+});
+
+stage.add(layer);
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect, Text } from 'react-konva';
+import { useRef } from 'react';
+
+const Box = ({ easing, y }) => {
+  const boxRef = useRef();
+
+  const handleMouseEnter = () => {
+    new Konva.Tween({
+      node: boxRef.current,
+      duration: 1,
+      x: window.innerWidth - 150,
+      easing: Konva.Easings[easing],
+    }).play();
+  };
+
+  const handleMouseLeave = () => {
+    new Konva.Tween({
+      node: boxRef.current,
+      duration: 1,
+      x: 50,
+      easing: Konva.Easings[easing],
+    }).play();
+  };
+
+  return (
+    <>
+      <Rect
+        ref={boxRef}
+        x={50}
+        y={y}
+        width={100}
+        height={50}
+        fill="#00D2FF"
+        stroke="black"
+        strokeWidth={4}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleMouseEnter}
+        onTouchEnd={handleMouseLeave}
+      />
+      <Text
+        x={160}
+        y={y + 15}
+        text={easing}
+        fontSize={16}
+        fontFamily="Calibri"
+        fill="black"
+      />
+    </>
+  );
+};
+
+const App = () => {
+  const easings = ['Linear', 'EaseIn', 'EaseOut', 'EaseInOut'];
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {easings.map((easing, i) => (
+          <Box key={i} easing={easing} y={50 + i * 80} />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <template v-for="(easing, i) in easings" :key="i">
+        <v-rect
+          :config="getRectConfig(i)"
+          @mouseenter="handleMouseEnter($event, easing)"
+          @mouseleave="handleMouseLeave($event, easing)"
+          @touchstart="handleMouseEnter($event, easing)"
+          @touchend="handleMouseLeave($event, easing)"
+          ref="rectRefs"
+        />
+        <v-text :config="getTextConfig(easing, i)" />
+      </template>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const easings = ['Linear', 'EaseIn', 'EaseOut', 'EaseInOut'];
+const rectRefs = ref([]);
+
+const getRectConfig = (i) => ({
+  x: 50,
+  y: 50 + i * 80,
+  width: 100,
+  height: 50,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const getTextConfig = (easing, i) => ({
+  x: 160,
+  y: 65 + i * 80,
+  text: easing,
+  fontSize: 16,
+  fontFamily: 'Calibri',
+  fill: 'black'
+});
+
+const handleMouseEnter = (e, easing) => {
+  new Konva.Tween({
+    node: e.target,
+    duration: 1,
+    x: window.innerWidth - 150,
+    easing: Konva.Easings[easing]
+  }).play();
+};
+
+const handleMouseLeave = (e, easing) => {
+  new Konva.Tween({
+    node: e.target,
+    duration: 1,
+    x: 50,
+    easing: Konva.Easings[easing]
+  }).play();
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

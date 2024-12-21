@@ -1,0 +1,207 @@
+---
+title: Shape Layering
+sidebar_label: Layering
+hide_table_of_contents: true
+slug: Layering.html
+---
+
+To layer shapes with Konva, we can use one of the following layering methods:
+`moveToTop()`, `moveToBottom()`, `moveUp()`, `moveDown()`, or `zIndex()`.
+You can also layer groups and layers.
+
+**Instructions: Drag and drop the boxes to move them around, and then use the buttons on the left to reorder the yellow box.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+const yellowBox = new Konva.Rect({
+x: 50,
+y: 50,
+width: 100,
+height: 100,
+fill: 'yellow',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+const redBox = new Konva.Rect({
+x: 100,
+y: 100,
+width: 100,
+height: 100,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+layer.add(yellowBox);
+layer.add(redBox);
+stage.add(layer);
+
+// create buttons
+const toTopBtn = document.createElement('button');
+toTopBtn.textContent = 'Move yellow box to top';
+toTopBtn.addEventListener('click', () => {
+yellowBox.moveToTop();
+layer.draw();
+});
+
+const toBottomBtn = document.createElement('button');
+toBottomBtn.textContent = 'Move yellow box to bottom';
+toBottomBtn.addEventListener('click', () => {
+yellowBox.moveToBottom();
+layer.draw();
+});
+
+document.body.appendChild(toTopBtn);
+document.body.appendChild(toBottomBtn);
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [yellowOnTop, setYellowOnTop] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setYellowOnTop(true)}>
+        Move yellow box to top
+      </button>
+      <button onClick={() => setYellowOnTop(false)}>
+        Move yellow box to bottom
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {!yellowOnTop && (
+            <Rect
+              x={100}
+              y={100}
+              width={100}
+              height={100}
+              fill="red"
+              stroke="black"
+              strokeWidth={4}
+              draggable
+            />
+          )}
+          <Rect
+            x={50}
+            y={50}
+            width={100}
+            height={100}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+          />
+          {yellowOnTop && (
+            <Rect
+              x={100}
+              y={100}
+              width={100}
+              height={100}
+              fill="red"
+              stroke="black"
+              strokeWidth={4}
+              draggable
+            />
+          )}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="moveYellowToTop">Move yellow box to top</button>
+    <button @click="moveYellowToBottom">Move yellow box to bottom</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <template v-if="!yellowOnTop">
+          <v-rect :config="redBoxConfig" />
+        </template>
+        <v-rect :config="yellowBoxConfig" />
+        <template v-if="yellowOnTop">
+          <v-rect :config="redBoxConfig" />
+        </template>
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const yellowOnTop = ref(false);
+
+const yellowBoxConfig = {
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+};
+
+const redBoxConfig = {
+  x: 100,
+  y: 100,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+};
+
+const moveYellowToTop = () => {
+  yellowOnTop.value = true;
+};
+
+const moveYellowToBottom = () => {
+  yellowOnTop.value = false;
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

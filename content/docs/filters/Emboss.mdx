@@ -121,27 +121,28 @@ imageObj.onload = () => {
   document.body.appendChild(whiteLevelLabel);
   document.body.appendChild(blendLabel);
 };
-imageObj.src = '/images/lion.png';
+imageObj.src = 'https://new.konvajs.org/assets/lion.png';
+imageObj.crossOrigin = 'anonymous';
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Image } from 'react-konva';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import useImage from 'use-image';
 
 const App = () => {
-  const [image, setImage] = useState(null);
   const [strength, setStrength] = useState(0.5);
   const [whiteLevel, setWhiteLevel] = useState(0.5);
   const [blend, setBlend] = useState(0.5);
+  const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
+  const imageRef = useRef(null);
 
   useEffect(() => {
-    const imageObj = new Image();
-    imageObj.onload = () => {
-      setImage(imageObj);
-    };
-    imageObj.src = '/images/lion.png';
-  }, []);
+    if (image) {
+      imageRef.current.cache();
+    }
+  }, [image]);
 
   return (
     <>
@@ -182,81 +183,57 @@ const App = () => {
       </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          {image && (
-            <Image
-              x={50}
-              y={50}
-              image={image}
-              draggable
-              filters={[Konva.Filters.Emboss]}
-              embossStrength={strength}
-              embossWhiteLevel={whiteLevel}
-              embossDirection="top-left"
-              embossBlend={blend}
-            />
-          )}
+          <Image
+            ref={imageRef}
+            x={50}
+            y={50}
+            image={image}
+            draggable
+            filters={[Konva.Filters.Emboss]}
+            embossStrength={strength}
+            embossWhiteLevel={whiteLevel}
+            embossDirection="top-left"
+            embossBlend={blend}
+          />
         </Layer>
       </Stage>
     </>
   );
 };
-
-export default App;
 ```
   </TabItem>
   <TabItem value="Vue">
 ```js live vue
 <template>
   <div>
-    <div style="position: absolute; top: 20px; left: 20px">
-      <div>
-        <label>Strength: </label>
+    <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+      <div v-for="control in controls" :key="control.label" style="margin: 10px">
+        <label>{{ control.label }}: </label>
         <input
           type="range"
           min="0"
           max="1"
           step="0.1"
-          :value="strength"
-          @input="handleStrength"
-        />
-      </div>
-      <div style="margin-top: 10px">
-        <label>White Level: </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          :value="whiteLevel"
-          @input="handleWhiteLevel"
-        />
-      </div>
-      <div style="margin-top: 10px">
-        <label>Blend: </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          :value="blend"
-          @input="handleBlend"
+          :value="control.value"
+          @input="(e) => updateValue(control.prop, parseFloat(e.target.value))"
+          style="width: 200px"
         />
       </div>
     </div>
     <v-stage :config="stageSize">
       <v-layer>
         <v-image
-          v-if="image"
+          ref="imageNode"
           :config="{
             x: 50,
             y: 50,
             image: image,
             draggable: true,
             filters: [Konva.Filters.Emboss],
-            embossStrength: strength,
-            embossWhiteLevel: whiteLevel,
+            embossStrength: embossValues.strength,
+            embossWhiteLevel: embossValues.whiteLevel,
             embossDirection: 'top-left',
-            embossBlend: blend,
+            embossBlend: embossValues.blend,
           }"
         />
       </v-layer>
@@ -265,36 +242,39 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
+import { useImage } from 'vue-konva';
+import Konva from 'konva';
 
 const stageSize = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 
-const image = ref(null);
-const strength = ref(0.5);
-const whiteLevel = ref(0.5);
-const blend = ref(0.5);
+const imageNode = ref(null);
+const [image] = useImage('https://new.konvajs.org/assets/lion.png', 'anonymous');
 
-const handleStrength = (e) => {
-  strength.value = parseFloat(e.target.value);
+const embossValues = ref({
+  strength: 0.5,
+  whiteLevel: 0.5,
+  blend: 0.5,
+});
+
+const controls = computed(() => [
+  { label: 'Strength', prop: 'strength', value: embossValues.value.strength },
+  { label: 'White Level', prop: 'whiteLevel', value: embossValues.value.whiteLevel },
+  { label: 'Blend', prop: 'blend', value: embossValues.value.blend },
+]);
+
+const updateValue = (prop, value) => {
+  embossValues.value[prop] = value;
 };
 
-const handleWhiteLevel = (e) => {
-  whiteLevel.value = parseFloat(e.target.value);
-};
-
-const handleBlend = (e) => {
-  blend.value = parseFloat(e.target.value);
-};
-
-onMounted(() => {
-  const imageObj = new Image();
-  imageObj.onload = () => {
-    image.value = imageObj;
-  };
-  imageObj.src = '/images/lion.png';
+watch(image, async (newImage) => {
+  if (newImage) {
+    await nextTick();
+    imageNode.value.getNode().cache();
+  }
 });
 </script>
 ```

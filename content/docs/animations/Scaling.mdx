@@ -1,0 +1,304 @@
+---
+title: HTML5 Canvas Konva Scale Animation Tutorial
+sidebar_label: Scaling
+hide_table_of_contents: true
+slug: Scaling.html
+---
+
+To animate a shape's scale with Konva, we can create a new animation with
+`Konva.Animation`, and define a function which modifies the shape's scale with each animation frame.
+
+In this tutorial, we'll scale the x and y component of a blue hexagon, the y component
+of a yellow hexagon, and the x component of a red hexagon about an axis positioned on the right side of the shape.
+
+**Instructions:** drag and drop the hexagons as they animate
+
+For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+container: 'container',
+width: window.innerWidth,
+height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// blue hexagon - scale x and y
+const blueHex = new Konva.RegularPolygon({
+x: 50,
+y: 50,
+sides: 6,
+radius: 20,
+fill: '#00D2FF',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true
+});
+
+// yellow hexagon - scale y only
+const yellowHex = new Konva.RegularPolygon({
+x: 150,
+y: 50,
+sides: 6,
+radius: 20,
+fill: 'yellow',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true
+});
+
+// red hexagon - scale x only
+const redHex = new Konva.RegularPolygon({
+x: 250,
+y: 50,
+sides: 6,
+radius: 20,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true
+});
+
+layer.add(blueHex);
+layer.add(yellowHex);
+layer.add(redHex);
+
+const period = 2000;
+
+const anim = new Konva.Animation(function(frame) {
+const scale = Math.sin(frame.time _ 2 _ Math.PI / period) + 2;
+
+// blue hex - scale x and y
+blueHex.scale({ x: scale, y: scale });
+
+// yellow hex - scale y only
+yellowHex.scaleY(scale);
+
+// red hex - scale x only
+redHex.scaleX(scale);
+}, layer);
+
+anim.start();
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+
+const App = () => {
+  const blueHexRef = useRef(null);
+  const yellowHexRef = useRef(null);
+  const redHexRef = useRef(null);
+
+  const [positions, setPositions] = useState({
+    blue: { x: 50, y: 50 },
+    yellow: { x: 150, y: 50 },
+    red: { x: 250, y: 50 }
+  });
+
+  useEffect(() => {
+    const period = 2000;
+    const anim = new Konva.Animation((frame) => {
+      const scale = Math.sin(frame.time * 2 * Math.PI / period) + 2;
+
+      // blue hex - scale x and y
+      blueHexRef.current.scale({ x: scale, y: scale });
+
+      // yellow hex - scale y only
+      yellowHexRef.current.scaleY(scale);
+
+      // red hex - scale x only
+      redHexRef.current.scaleX(scale);
+    }, blueHexRef.current.getLayer());
+
+    anim.start();
+
+    return () => {
+      anim.stop();
+    };
+  }, []);
+
+  const handleDragEnd = (e, color) => {
+    setPositions(prev => ({
+      ...prev,
+      [color]: { x: e.target.x(), y: e.target.y() }
+    }));
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <RegularPolygon
+          ref={blueHexRef}
+          x={positions.blue.x}
+          y={positions.blue.y}
+          sides={6}
+          radius={20}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={4}
+          draggable
+          onDragEnd={(e) => handleDragEnd(e, 'blue')}
+        />
+        <RegularPolygon
+          ref={yellowHexRef}
+          x={positions.yellow.x}
+          y={positions.yellow.y}
+          sides={6}
+          radius={20}
+          fill="yellow"
+          stroke="black"
+          strokeWidth={4}
+          draggable
+          onDragEnd={(e) => handleDragEnd(e, 'yellow')}
+        />
+        <RegularPolygon
+          ref={redHexRef}
+          x={positions.red.x}
+          y={positions.red.y}
+          sides={6}
+          radius={20}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          draggable
+          onDragEnd={(e) => handleDragEnd(e, 'red')}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <v-regular-polygon
+        ref="blueHexRef"
+        :config="blueHexConfig"
+        @dragend="handleDragEnd('blue', $event)"
+      />
+      <v-regular-polygon
+        ref="yellowHexRef"
+        :config="yellowHexConfig"
+        @dragend="handleDragEnd('yellow', $event)"
+      />
+      <v-regular-polygon
+        ref="redHexRef"
+        :config="redHexConfig"
+        @dragend="handleDragEnd('red', $event)"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const positions = ref({
+  blue: { x: 50, y: 50 },
+  yellow: { x: 150, y: 50 },
+  red: { x: 250, y: 50 }
+});
+
+const blueHexConfig = ref({
+  x: positions.value.blue.x,
+  y: positions.value.blue.y,
+  sides: 6,
+  radius: 20,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+const yellowHexConfig = ref({
+  x: positions.value.yellow.x,
+  y: positions.value.yellow.y,
+  sides: 6,
+  radius: 20,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+const redHexConfig = ref({
+  x: positions.value.red.x,
+  y: positions.value.red.y,
+  sides: 6,
+  radius: 20,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+const layerRef = ref(null);
+const blueHexRef = ref(null);
+const yellowHexRef = ref(null);
+const redHexRef = ref(null);
+let anim = null;
+
+const handleDragEnd = (color, e) => {
+  const newPos = e.target.position();
+  positions.value[color] = { x: newPos.x, y: newPos.y };
+  if (color === 'blue') blueHexConfig.value.x = newPos.x;
+  if (color === 'blue') blueHexConfig.value.y = newPos.y;
+  if (color === 'yellow') yellowHexConfig.value.x = newPos.x;
+  if (color === 'yellow') yellowHexConfig.value.y = newPos.y;
+  if (color === 'red') redHexConfig.value.x = newPos.x;
+  if (color === 'red') redHexConfig.value.y = newPos.y;
+};
+
+onMounted(() => {
+  const period = 2000;
+  anim = new Konva.Animation((frame) => {
+    const scale = Math.sin(frame.time * 2 * Math.PI / period) + 2;
+    
+    // blue hex - scale x and y
+    blueHexRef.value.getNode().scale({ x: scale, y: scale });
+    
+    // yellow hex - scale y only
+    yellowHexRef.value.getNode().scaleY(scale);
+    
+    // red hex - scale x only
+    redHexRef.value.getNode().scaleX(scale);
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```

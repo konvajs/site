@@ -1,0 +1,203 @@
+---
+title: HTML5 Canvas Force Update Tutorial
+sidebar_label: Force Update
+hide_table_of_contents: true
+slug: Force_Update.html
+---
+
+`Konva.Transformer` automatically tracks properties of attached nodes.
+So it will adopt its own properties automatically.
+
+But in some cases `Konva.Transformer` can't do this. Currently `Konva.Transformer` can not track deep changes inside `Konva.Group` node. In this case you will need to use `forceUpdate` method to reset transforming tools.
+
+**Instructions: Click the button. See how transformer is changed.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const group = new Konva.Group({
+x: 50,
+y: 50,
+draggable: true,
+});
+layer.add(group);
+
+const text = new Konva.Text({
+text: 'Some text here',
+fontSize: 24,
+});
+group.add(text);
+
+const rect = new Konva.Rect({
+width: text.width(),
+height: text.height(),
+fill: 'yellow',
+});
+group.add(rect);
+
+// add the shape to the layer
+rect.moveToBottom();
+
+const tr = new Konva.Transformer({
+nodes: [group],
+padding: 5,
+// enable only one anchor
+enabledAnchors: ['middle-left', 'middle-right'],
+});
+layer.add(tr);
+
+const button = document.createElement('button');
+button.innerHTML = 'Change text';
+document.body.appendChild(button);
+button.addEventListener('click', () => {
+text.text('Something else is here');
+rect.width(text.width());
+// we need to update transformer manually
+tr.forceUpdate();
+});
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text, Rect, Group, Transformer } from 'react-konva';
+import { useState, useRef, useEffect } from 'react';
+
+const App = () => {
+  const [text, setText] = useState('Some text here');
+  const groupRef = useRef();
+  const trRef = useRef();
+
+  const handleClick = () => {
+    setText('Something else is here');
+  };
+
+  useEffect(() => {
+    if (trRef.current) {
+      trRef.current.nodes([groupRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, []);
+
+  return (
+    <>
+      <button onClick={handleClick}>Change text</button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Group
+            x={50}
+            y={50}
+            draggable
+            ref={groupRef}
+          >
+            <Rect
+              width={text.length * 10}
+              height={30}
+              fill="yellow"
+            />
+            <Text
+              text={text}
+              fontSize={24}
+            />
+          </Group>
+          <Transformer
+            ref={trRef}
+            padding={5}
+            enabledAnchors={['middle-left', 'middle-right']}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="changeText">Change text</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-group :config="groupConfig" ref="groupRef">
+          <v-rect :config="rectConfig" />
+          <v-text :config="textConfig" />
+        </v-group>
+        <v-transformer :config="transformerConfig" ref="transformerRef" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const text = ref('Some text here');
+const groupRef = ref(null);
+const transformerRef = ref(null);
+
+const groupConfig = {
+  x: 50,
+  y: 50,
+  draggable: true
+};
+
+const textConfig = computed(() => ({
+  text: text.value,
+  fontSize: 24
+}));
+
+const rectConfig = computed(() => ({
+  width: text.value.length * 10,
+  height: 30,
+  fill: 'yellow'
+}));
+
+const transformerConfig = {
+  padding: 5,
+  enabledAnchors: ['middle-left', 'middle-right']
+};
+
+const changeText = () => {
+  text.value = 'Something else is here';
+};
+
+onMounted(() => {
+  if (transformerRef.value && groupRef.value) {
+    transformerRef.value.getNode().nodes([groupRef.value.getNode()]);
+    transformerRef.value.getNode().getLayer().batchDraw();
+  }
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

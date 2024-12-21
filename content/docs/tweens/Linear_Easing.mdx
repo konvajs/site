@@ -1,0 +1,159 @@
+---
+title: Basic Tweening Tutorial
+sidebar_label: Linear Easing
+hide_table_of_contents: true
+slug: Linear_Easing.html
+---
+
+To tween properties with Konva, we can instantiate a `Konva.Tween` object and then start the tween by calling `play()`.
+Any numeric property of a `Shape`, `Group`, `Layer`, or `Stage` can be transitioned, such as:
+
+- `x`, `y` (position)
+- `rotation`
+- `width`, `height`, `radius`
+- `strokeWidth`
+- `opacity`
+- `scaleX`, `scaleY`
+- `offsetX`, `offsetY`
+
+For a full list of attributes and methods, check out the [Konva.Tween documentation](/api/Konva.Tween.html).
+
+**Instructions: Click the circle to start a simple linear animation.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+const circle = new Konva.Circle({
+x: 100,
+y: height / 2,
+radius: 70,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+});
+
+layer.add(circle);
+stage.add(layer);
+
+circle.on('click tap', () => {
+// simple tween
+const tween = new Konva.Tween({
+node: circle,
+duration: 1,
+x: width - 100,
+easing: Konva.Easings.Linear,
+});
+tween.play();
+});
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useRef } from 'react';
+
+const App = () => {
+  const circleRef = useRef();
+
+  const handleClick = () => {
+    const tween = new Konva.Tween({
+      node: circleRef.current,
+      duration: 1,
+      x: window.innerWidth - 100,
+      easing: Konva.Easings.Linear,
+    });
+    tween.play();
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          ref={circleRef}
+          x={100}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onClick={handleClick}
+          onTap={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle
+        :config="circleConfig"
+        @click="handleClick"
+        @tap="handleClick"
+        ref="circleRef"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: 100,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const circleRef = ref(null);
+
+const handleClick = () => {
+  const tween = new Konva.Tween({
+    node: circleRef.value.getNode(),
+    duration: 1,
+    x: window.innerWidth - 100,
+    easing: Konva.Easings.Linear,
+  });
+  tween.play();
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

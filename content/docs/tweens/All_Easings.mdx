@@ -1,0 +1,252 @@
+---
+title: More Easing Functions Tutorial
+sidebar_label: All Easings
+hide_table_of_contents: true
+slug: All_Easings.html
+---
+
+This tutorial demonstrates all of the easing function sets provided by Konva, including:
+
+- `Linear`
+- `Ease`
+- `Back`
+- `Elastic`
+- `Bounce`
+- `Strong`
+
+For all available easings go to [Easings Documentation](/api/Konva.Easing.html).
+
+**Instructions: Press "Play" to transition all of the text nodes with different easing functions.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+const easings = [
+'Linear',
+'EaseIn',
+'EaseOut',
+'EaseInOut',
+'BackEaseIn',
+'BackEaseOut',
+'BackEaseInOut',
+'ElasticEaseIn',
+'ElasticEaseOut',
+'ElasticEaseInOut',
+'BounceEaseIn',
+'BounceEaseOut',
+'BounceEaseInOut',
+'StrongEaseIn',
+'StrongEaseOut',
+'StrongEaseInOut',
+];
+
+const tweens = [];
+
+easings.forEach((easing, i) => {
+const text = new Konva.Text({
+x: 50,
+y: 30 + i \* 25,
+text: easing,
+fontSize: 16,
+fontFamily: 'Calibri',
+fill: 'black',
+});
+layer.add(text);
+
+tweens.push(
+new Konva.Tween({
+node: text,
+duration: 2,
+x: width - 200,
+easing: Konva.Easings[easing],
+})
+);
+});
+
+stage.add(layer);
+
+// create button
+const button = document.createElement('button');
+button.textContent = 'Play';
+button.addEventListener('click', () => {
+tweens.forEach((tween) => {
+tween.reset();
+tween.play();
+});
+});
+document.body.appendChild(button);
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const tweensRef = useRef([]);
+  const textsRef = useRef([]);
+
+  const easings = [
+    'Linear',
+    'EaseIn',
+    'EaseOut',
+    'EaseInOut',
+    'BackEaseIn',
+    'BackEaseOut',
+    'BackEaseInOut',
+    'ElasticEaseIn',
+    'ElasticEaseOut',
+    'ElasticEaseInOut',
+    'BounceEaseIn',
+    'BounceEaseOut',
+    'BounceEaseInOut',
+    'StrongEaseIn',
+    'StrongEaseOut',
+    'StrongEaseInOut',
+  ];
+
+  useEffect(() => {
+    tweensRef.current = textsRef.current.map((text, i) => {
+      return new Konva.Tween({
+        node: text,
+        duration: 2,
+        x: window.innerWidth - 200,
+        easing: Konva.Easings[easings[i]],
+      });
+    });
+  }, []);
+
+  const handlePlay = () => {
+    tweensRef.current.forEach((tween) => {
+      tween.reset();
+      tween.play();
+    });
+  };
+
+  return (
+    <>
+      <button onClick={handlePlay}>Play</button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {easings.map((easing, i) => (
+            <Text
+              key={i}
+              ref={(node) => (textsRef.current[i] = node)}
+              x={50}
+              y={30 + i * 25}
+              text={easing}
+              fontSize={16}
+              fontFamily="Calibri"
+              fill="black"
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handlePlay">Play</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-text
+          v-for="(easing, i) in easings"
+          :key="i"
+          :config="getTextConfig(easing, i)"
+          :ref="el => textRefs[i] = el"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const easings = [
+  'Linear',
+  'EaseIn',
+  'EaseOut',
+  'EaseInOut',
+  'BackEaseIn',
+  'BackEaseOut',
+  'BackEaseInOut',
+  'ElasticEaseIn',
+  'ElasticEaseOut',
+  'ElasticEaseInOut',
+  'BounceEaseIn',
+  'BounceEaseOut',
+  'BounceEaseInOut',
+  'StrongEaseIn',
+  'StrongEaseOut',
+  'StrongEaseInOut',
+];
+
+const textRefs = ref([]);
+let tweens = [];
+
+const getTextConfig = (easing, i) => ({
+  x: 50,
+  y: 30 + i * 25,
+  text: easing,
+  fontSize: 16,
+  fontFamily: 'Calibri',
+  fill: 'black'
+});
+
+onMounted(() => {
+  tweens = textRefs.value.map((ref, i) => {
+    return new Konva.Tween({
+      node: ref.getNode(),
+      duration: 2,
+      x: window.innerWidth - 200,
+      easing: Konva.Easings[easings[i]]
+    });
+  });
+});
+
+const handlePlay = () => {
+  tweens.forEach(tween => {
+    tween.reset();
+    tween.play();
+  });
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

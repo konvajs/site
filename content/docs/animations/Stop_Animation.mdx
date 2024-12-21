@@ -1,0 +1,205 @@
+---
+title: HTML5 Canvas Konva Stop Animation Tutorial
+sidebar_label: Stop Animation
+hide_table_of_contents: true
+slug: Stop_Animation.html
+---
+
+To stop an animation with Konva, we can use the `stop()` method.
+To restart the animation, we can again call the `start()`.
+
+**Instructions:** Click on "Start" to start the animation and "Stop" to stop the animation.
+
+For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+container: 'container',
+width: window.innerWidth,
+height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+x: stage.width() / 2,
+y: stage.height() / 2,
+radius: 30,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+});
+layer.add(circle);
+
+// add buttons
+const startBtn = document.createElement('button');
+startBtn.textContent = 'Start Animation';
+document.body.appendChild(startBtn);
+
+const stopBtn = document.createElement('button');
+stopBtn.textContent = 'Stop Animation';
+document.body.appendChild(stopBtn);
+
+const anim = new Konva.Animation(function(frame) {
+circle.x(
+amplitude _ Math.sin((frame.time _ 2 \* Math.PI) / period) +
+stage.width() / 2
+);
+}, layer);
+
+const amplitude = 100;
+const period = 2000;
+
+startBtn.addEventListener('click', () => anim.start());
+stopBtn.addEventListener('click', () => anim.stop());
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+
+const App = () => {
+  const circleRef = useRef(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animRef = useRef(null);
+
+  useEffect(() => {
+    const amplitude = 100;
+    const period = 2000;
+
+    animRef.current = new Konva.Animation((frame) => {
+      circleRef.current.x(
+        amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
+        window.innerWidth / 2
+      );
+    }, circleRef.current.getLayer());
+
+    return () => {
+      if (animRef.current) {
+        animRef.current.stop();
+      }
+    };
+  }, []);
+
+  const handleStart = () => {
+    animRef.current.start();
+    setIsAnimating(true);
+  };
+
+  const handleStop = () => {
+    animRef.current.stop();
+    setIsAnimating(false);
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={handleStart} disabled={isAnimating}>Start Animation</button>
+        <button onClick={handleStop} disabled={!isAnimating}>Stop Animation</button>
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Circle
+            ref={circleRef}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            radius={30}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="margin-bottom: 10px">
+      <button @click="handleStart" :disabled="isAnimating">Start Animation</button>
+      <button @click="handleStop" :disabled="!isAnimating">Stop Animation</button>
+    </div>
+    <v-stage :config="stageSize">
+      <v-layer ref="layerRef">
+        <v-circle
+          ref="circleRef"
+          :config="circleConfig"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = ref({
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 30,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const layerRef = ref(null);
+const circleRef = ref(null);
+const isAnimating = ref(false);
+let anim = null;
+
+const handleStart = () => {
+  anim.start();
+  isAnimating.value = true;
+};
+
+const handleStop = () => {
+  anim.stop();
+  isAnimating.value = false;
+};
+
+onMounted(() => {
+  const amplitude = 100;
+  const period = 2000;
+
+  anim = new Konva.Animation((frame) => {
+    circleRef.value.getNode().x(
+      amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
+      window.innerWidth / 2
+    );
+  }, layerRef.value.getNode());
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```

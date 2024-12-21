@@ -1,0 +1,197 @@
+---
+title: HTML5 Canvas to Data URL Tutorial
+sidebar_label: Stage Data URL
+hide_table_of_contents: true
+slug: Stage_Data_URL.html
+---
+
+To get the data URL of the stage with `Konva`, we can use the `toDataURL()`
+method which requires a callback function for `Stage` (for other nodes callback is not required).
+In addition, we can also pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
+We can also get the data URLs of specific nodes, including layers, groups, and shapes.
+
+*Note: The `toDataURL()` method requires that any images drawn onto the canvas
+are hosted on a web server with the same domain as the code executing it.
+If this condition is not met, a SECURITY_ERR exception is thrown.*
+
+**Instructions:** Drag and drop the rectangle and then click on the save button to get the composite data url and open the resulting image in a new window.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 400
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create draggable rectangle
+const rect = new Konva.Rect({
+  x: 100,
+  y: 100,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+layer.add(rect);
+
+// add button
+const button = document.createElement('button');
+button.textContent = 'Save as Image';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  // get data URL with default settings
+  const dataURL = stage.toDataURL();
+  
+  // open in new window
+  const win = window.open();
+  win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
+  
+  // you can also save with different settings
+  const jpegURL = stage.toDataURL({
+    mimeType: 'image/jpeg',
+    quality: 0.8
+  });
+  console.log('JPEG URL:', jpegURL);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+import { useRef, useState } from 'react';
+
+const App = () => {
+  const stageRef = useRef(null);
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+
+  const handleExport = () => {
+    // get data URL with default settings
+    const dataURL = stageRef.current.toDataURL();
+    
+    // open in new window
+    const win = window.open();
+    win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
+    
+    // you can also save with different settings
+    const jpegURL = stageRef.current.toDataURL({
+      mimeType: 'image/jpeg',
+      quality: 0.8
+    });
+    console.log('JPEG URL:', jpegURL);
+  };
+
+  const handleDragEnd = (e) => {
+    setPosition({
+      x: e.target.x(),
+      y: e.target.y()
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={handleExport} style={{ marginBottom: '10px' }}>
+        Save as Image
+      </button>
+      <Stage width={400} height={400} ref={stageRef}>
+        <Layer>
+          <Rect
+            x={position.x}
+            y={position.y}
+            width={100}
+            height={100}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            onDragEnd={handleDragEnd}
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handleExport" style="margin-bottom: 10px">
+      Save as Image
+    </button>
+    <v-stage ref="stageRef" :config="stageSize">
+      <v-layer>
+        <v-rect
+          :config="rectConfig"
+          @dragend="handleDragEnd"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+const position = ref({ x: 100, y: 100 });
+
+const rectConfig = ref({
+  x: position.value.x,
+  y: position.value.y,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+const stageRef = ref(null);
+
+const handleExport = () => {
+  // get data URL with default settings
+  const dataURL = stageRef.value.getNode().toDataURL();
+  
+  // open in new window
+  const win = window.open();
+  win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
+  
+  // you can also save with different settings
+  const jpegURL = stageRef.value.getNode().toDataURL({
+    mimeType: 'image/jpeg',
+    quality: 0.8
+  });
+  console.log('JPEG URL:', jpegURL);
+};
+
+const handleDragEnd = (e) => {
+  const newPos = e.target.position();
+  position.value = newPos;
+  rectConfig.value.x = newPos.x;
+  rectConfig.value.y = newPos.y;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,174 @@
+---
+title: HTML5 Canvas Konva Animation Tutorial
+sidebar_label: Create Animation
+hide_table_of_contents: true
+slug: Create_an_Animation.html
+---
+
+To create custom animations with Konva, we can use the `Konva.Animation`
+constructor which takes two arguments, the required update function and
+an optional layer, or array of layers, that will be updated with each animation frame.
+The animation function is passed a `frame` object which contains a `time` property which is the number
+of milliseconds that the animation has been running, a `timeDiff` property which
+is the number of milliseconds that have passed since the last frame,
+and a `frameRate` property which is the current frame rate in frames per second.
+
+The update function should never redraw the stage or a layer because the animation
+engine will intelligently handle that for us.
+The update function should only contain logic that updates Node properties,
+such as `position`, `rotation`, `scale`, `width`, `height`, `radius`, `colors`, etc.
+Once the animation has been created, we can start it at anytime with the `start()` method.
+
+For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+container: 'container',
+width: window.innerWidth,
+height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rect = new Konva.Rect({
+x: 50,
+y: 50,
+width: 50,
+height: 50,
+fill: 'green',
+});
+layer.add(rect);
+
+const anim = new Konva.Animation(function(frame) {
+const time = frame.time;
+const timeDiff = frame.timeDiff;
+const frameRate = frame.frameRate;
+
+// Example: move rectangle in a circle
+const radius = 50;
+const x = radius * Math.cos(frame.time * 2 * Math.PI / 2000) + 100;
+const y = radius * Math.sin(frame.time * 2 * Math.PI / 2000) + 100;
+rect.position({ x, y });
+}, layer);
+
+anim.start();
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const rectRef = useRef(null);
+
+  useEffect(() => {
+    const anim = new Konva.Animation((frame) => {
+      const time = frame.time;
+      const timeDiff = frame.timeDiff;
+      const frameRate = frame.frameRate;
+
+      // Example: move rectangle in a circle
+      const radius = 50;
+      const x = radius * Math.cos(frame.time * 2 * Math.PI / 2000) + 100;
+      const y = radius * Math.sin(frame.time * 2 * Math.PI / 2000) + 100;
+      rectRef.current.position({ x, y });
+    }, rectRef.current.getLayer());
+
+    anim.start();
+
+    return () => {
+      anim.stop();
+    };
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect
+          ref={rectRef}
+          x={50}
+          y={50}
+          width={50}
+          height={50}
+          fill="green"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <v-rect
+        ref="rectRef"
+        :config="rectConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = ref({
+  x: 50,
+  y: 50,
+  width: 50,
+  height: 50,
+  fill: 'green'
+});
+
+const layerRef = ref(null);
+const rectRef = ref(null);
+let anim = null;
+
+onMounted(() => {
+  anim = new Konva.Animation((frame) => {
+    const time = frame.time;
+    const timeDiff = frame.timeDiff;
+    const frameRate = frame.frameRate;
+    
+    // Example: move rectangle in a circle
+    const radius = 50;
+    const x = radius * Math.cos(frame.time * 2 * Math.PI / 2000) + 100;
+    const y = radius * Math.sin(frame.time * 2 * Math.PI / 2000) + 100;
+    rectRef.value.getNode().position({ x, y });
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```

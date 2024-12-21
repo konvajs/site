@@ -1,0 +1,113 @@
+---
+title: Load HTML5 Canvas Stage from JSON Tutorial
+sidebar_label: Complex Load
+hide_table_of_contents: true
+slug: Complex_Load.html
+---
+
+To load a complex stage that originally contained images and event bindings using Konva,
+we need to create a stage node using `Konva.Node.create()`, and then set the
+images and event handlers with the help of selectors using the `find()` method.
+Images and event handlers must be manually set because they aren't serializable.
+
+**That methods works for small apps. For more complex cases take a look into [Best Practices](/docs/data_and_serialization/Best_Practices.html)**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// JSON string from a previous save
+const json = '{"attrs":{"width":578,"height":200},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4},"className":"RegularPolygon"}]}]}';
+
+// create node using json string
+const stage = Konva.Node.create(json, 'container');
+
+// get reference to the hexagon
+const hexagon = stage.findOne('RegularPolygon');
+
+// bind events
+hexagon.on('click', () => {
+  hexagon.fill(Konva.Util.getRandomColor());
+  stage.find('Layer').first().draw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [color, setColor] = useState('red');
+
+  const handleClick = () => {
+    setColor(Konva.Util.getRandomColor());
+  };
+
+  return (
+    <Stage width={578} height={200}>
+      <Layer>
+        <RegularPolygon
+          x={100}
+          y={100}
+          sides={6}
+          radius={70}
+          fill={color}
+          stroke="black"
+          strokeWidth={4}
+          onClick={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-regular-polygon
+        :config="hexagonConfig"
+        @click="handleClick"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: 578,
+  height: 200
+};
+
+const hexagonConfig = ref({
+  x: 100,
+  y: 100,
+  sides: 6,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const handleClick = () => {
+  hexagonConfig.value = {
+    ...hexagonConfig.value,
+    fill: Konva.Util.getRandomColor()
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

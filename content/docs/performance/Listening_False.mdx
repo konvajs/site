@@ -1,0 +1,236 @@
+---
+title: HTML5 Canvas Listening False Performance Tip
+sidebar_label: Listening False
+hide_table_of_contents: true
+slug: Listening_False.html
+---
+
+If you have a lot of shapes on the canvas and you don't need to detect events for some of them,
+you can set `listening` to `false` to improve performance.
+
+When `listening = false`, the shape will be ignored from event detection (like mouseover, drag and drop, click, etc).
+This can significantly improve performance for complex applications.
+
+Below is a demo showing the performance difference between listening and non-listening shapes:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create many circles with listening enabled
+for (let i = 0; i < 100; i++) {
+  const circle = new Konva.Circle({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    radius: 20,
+    fill: 'blue',
+    opacity: 0.5,
+    // Enable event detection (default)
+    listening: true,
+  });
+  
+  // Add hover effect
+  circle.on('mouseover', function() {
+    this.fill('red');
+    layer.draw();
+  });
+  
+  circle.on('mouseout', function() {
+    this.fill('blue');
+    layer.draw();
+  });
+  
+  layer.add(circle);
+}
+
+// Create many circles with listening disabled
+for (let i = 0; i < 1000; i++) {
+  const circle = new Konva.Circle({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    radius: 20,
+    fill: 'green',
+    opacity: 0.5,
+    // Disable event detection for better performance
+    listening: false,
+  });
+  layer.add(circle);
+}
+
+// Add text explanation
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'Blue circles (100) have event listeners (hover them)\nGreen circles (1000) have no listeners (better performance)',
+  fontSize: 16,
+  fill: 'black',
+});
+layer.add(text);
+
+layer.draw();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [hoveredId, setHoveredId] = useState(null);
+  
+  // Generate circles data
+  const listeningCircles = Array.from({ length: 100 }, (_, i) => ({
+    id: i,
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+  }));
+  
+  const nonListeningCircles = Array.from({ length: 1000 }, (_, i) => ({
+    id: i + 100,
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+  }));
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {/* Circles with event listeners */}
+        {listeningCircles.map((circle) => (
+          <Circle
+            key={circle.id}
+            x={circle.x}
+            y={circle.y}
+            radius={20}
+            fill={hoveredId === circle.id ? 'red' : 'blue'}
+            opacity={0.5}
+            onMouseEnter={() => setHoveredId(circle.id)}
+            onMouseLeave={() => setHoveredId(null)}
+          />
+        ))}
+        
+        {/* Circles without event listeners */}
+        {nonListeningCircles.map((circle) => (
+          <Circle
+            key={circle.id}
+            x={circle.x}
+            y={circle.y}
+            radius={20}
+            fill="green"
+            opacity={0.5}
+            listening={false}
+          />
+        ))}
+        
+        <Text
+          x={10}
+          y={10}
+          text="Blue circles (100) have event listeners (hover them)\nGreen circles (1000) have no listeners (better performance)"
+          fontSize={16}
+          fill="black"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <!-- Circles with event listeners -->
+      <v-circle
+        v-for="circle in listeningCircles"
+        :key="circle.id"
+        :config="getListeningCircleConfig(circle)"
+        @mouseenter="handleMouseEnter(circle.id)"
+        @mouseleave="handleMouseLeave"
+      />
+      
+      <!-- Circles without event listeners -->
+      <v-circle
+        v-for="circle in nonListeningCircles"
+        :key="circle.id"
+        :config="getNonListeningCircleConfig(circle)"
+      />
+      
+      <v-text :config="textConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const hoveredId = ref(null);
+
+// Generate circles data
+const listeningCircles = Array.from({ length: 100 }, (_, i) => ({
+  id: i,
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+}));
+
+const nonListeningCircles = Array.from({ length: 1000 }, (_, i) => ({
+  id: i + 100,
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+}));
+
+const getListeningCircleConfig = (circle) => ({
+  x: circle.x,
+  y: circle.y,
+  radius: 20,
+  fill: hoveredId.value === circle.id ? 'red' : 'blue',
+  opacity: 0.5,
+});
+
+const getNonListeningCircleConfig = (circle) => ({
+  x: circle.x,
+  y: circle.y,
+  radius: 20,
+  fill: 'green',
+  opacity: 0.5,
+  listening: false,
+});
+
+const textConfig = {
+  x: 10,
+  y: 10,
+  text: 'Blue circles (100) have event listeners (hover them)\nGreen circles (1000) have no listeners (better performance)',
+  fontSize: 16,
+  fill: 'black',
+};
+
+const handleMouseEnter = (id) => {
+  hoveredId.value = id;
+};
+
+const handleMouseLeave = () => {
+  hoveredId.value = null;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

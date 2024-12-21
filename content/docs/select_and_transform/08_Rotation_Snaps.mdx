@@ -1,0 +1,147 @@
+---
+title: HTML5 Canvas Shape Snap Rotation
+sidebar_label: Rotation Snaps
+hide_table_of_contents: true
+slug: Rotation_Snaps.html
+---
+
+In some applications, you may want to snap rotation near some values. Snapping makes a shape "sticky" near provided values and works like rounding.
+
+Most common snaps are 0, 45, 90, 135, 180, etc degrees. Snaps allow simpler setting of rotation to exactly these values.
+
+For instance, if you have snap point at 45 deg, a user will not be able to set rotation to 43 deg. It will be rounded to 45 deg. But a user still will be able to set rotation to 35 deg, as it is too far from 45 so it will not be snapped.
+
+**Instructions: Try to rotate a shape. See snapping at 0, 90, 180 and 270 deg.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rect = new Konva.Rect({
+x: 50,
+y: 50,
+width: 100,
+height: 50,
+fill: 'yellow',
+stroke: 'black',
+draggable: true,
+});
+layer.add(rect);
+
+const tr = new Konva.Transformer({
+nodes: [rect],
+rotationSnaps: [0, 90, 180, 270],
+rotationSnapTolerance: 30,
+});
+layer.add(tr);
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
+import { useRef, useEffect } from 'react';
+
+const App = () => {
+  const rectRef = useRef();
+  const trRef = useRef();
+
+  useEffect(() => {
+    trRef.current.nodes([rectRef.current]);
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect
+          x={50}
+          y={50}
+          width={100}
+          height={50}
+          fill="yellow"
+          stroke="black"
+          draggable
+          ref={rectRef}
+        />
+        <Transformer
+          ref={trRef}
+          rotationSnaps={[0, 90, 180, 270]}
+          rotationSnapTolerance={30}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-rect
+        :config="rectConfig"
+        ref="rectRef"
+      />
+      <v-transformer
+        :config="transformerConfig"
+        ref="transformerRef"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = {
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 50,
+  fill: 'yellow',
+  stroke: 'black',
+  draggable: true
+};
+
+const transformerConfig = {
+  rotationSnaps: [0, 90, 180, 270],
+  rotationSnapTolerance: 30
+};
+
+const rectRef = ref(null);
+const transformerRef = ref(null);
+
+onMounted(() => {
+  transformerRef.value.getNode().nodes([rectRef.value.getNode()]);
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```

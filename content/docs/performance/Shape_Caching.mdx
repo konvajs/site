@@ -1,0 +1,316 @@
+---
+title: HTML5 Canvas Shape Caching Performance Tip
+sidebar_label: Shape Caching
+hide_table_of_contents: true
+slug: Shape_Caching.html
+---
+
+If you have a complex shape with many drawing operations, or if you're applying filters,
+you can improve performance by caching the shape. When you cache a shape, Konva will draw
+it onto an internal canvas buffer. After that, instead of redrawing the shape every time,
+Konva will simply use the cached version.
+
+This is particularly useful for:
+1. Complex shapes with many drawing operations
+2. Shapes with filters
+3. Shapes that don't change often but need to be redrawn frequently
+
+To cache a shape, simply call the `cache()` method. You can clear the cache with `clearCache()`.
+
+Below is a demo showing the performance difference between cached and non-cached complex shapes:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create a complex shape (star with blur filter)
+const createComplexShape = (x, isCached) => {
+  const star = new Konva.Star({
+    x: x,
+    y: 100,
+    numPoints: 20,
+    innerRadius: 40,
+    outerRadius: 70,
+    fill: 'yellow',
+    stroke: 'black',
+    strokeWidth: 4,
+  });
+
+  // Add blur filter
+  star.filters([Konva.Filters.Blur]);
+  star.blurRadius(5);
+
+  // Cache the shape if specified
+  if (isCached) {
+    star.cache();
+  }
+
+  return star;
+};
+
+// Create non-cached shape
+const nonCachedStar = createComplexShape(100, false);
+
+// Create cached shape
+const cachedStar = createComplexShape(250, true);
+
+// Add labels
+const nonCachedLabel = new Konva.Text({
+  x: 50,
+  y: 200,
+  text: 'Non-Cached Shape',
+  fontSize: 16,
+});
+
+const cachedLabel = new Konva.Text({
+  x: 200,
+  y: 200,
+  text: 'Cached Shape\n(Better Performance)',
+  fontSize: 16,
+});
+
+// Add FPS counter
+const fpsText = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'FPS: 0',
+  fontSize: 16,
+});
+
+layer.add(nonCachedStar);
+layer.add(cachedStar);
+layer.add(nonCachedLabel);
+layer.add(cachedLabel);
+layer.add(fpsText);
+
+// Create animation to demonstrate performance
+const anim = new Konva.Animation((frame) => {
+  nonCachedStar.rotation(frame.time * 0.1);
+  cachedStar.rotation(frame.time * 0.1);
+  
+  // Update FPS counter
+  fpsText.text('FPS: ' + frame.frameRate.toFixed(1));
+}, layer);
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Star, Text } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const nonCachedStarRef = useRef(null);
+  const cachedStarRef = useRef(null);
+  const fpsTextRef = useRef(null);
+
+  useEffect(() => {
+    // Add blur filter and cache to the cached star
+    if (cachedStarRef.current) {
+      cachedStarRef.current.cache();
+      cachedStarRef.current.filters([Konva.Filters.Blur]);
+      cachedStarRef.current.blurRadius(5);
+    }
+
+    // Add blur filter to non-cached star
+    if (nonCachedStarRef.current) {
+      nonCachedStarRef.current.filters([Konva.Filters.Blur]);
+      nonCachedStarRef.current.blurRadius(5);
+    }
+
+    const anim = new Konva.Animation((frame) => {
+      // Rotate stars
+      nonCachedStarRef.current.rotation(frame.time * 0.1);
+      cachedStarRef.current.rotation(frame.time * 0.1);
+      
+      // Update FPS counter
+      fpsTextRef.current.text('FPS: ' + frame.frameRate.toFixed(1));
+    }, nonCachedStarRef.current.getLayer());
+
+    anim.start();
+    return () => anim.stop();
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {/* Non-cached complex shape */}
+        <Star
+          ref={nonCachedStarRef}
+          x={100}
+          y={100}
+          numPoints={20}
+          innerRadius={40}
+          outerRadius={70}
+          fill="yellow"
+          stroke="black"
+          strokeWidth={4}
+        />
+        
+        {/* Cached complex shape */}
+        <Star
+          ref={cachedStarRef}
+          x={250}
+          y={100}
+          numPoints={20}
+          innerRadius={40}
+          outerRadius={70}
+          fill="yellow"
+          stroke="black"
+          strokeWidth={4}
+        />
+        
+        {/* Labels */}
+        <Text
+          x={50}
+          y={200}
+          text="Non-Cached Shape"
+          fontSize={16}
+        />
+        <Text
+          x={200}
+          y={200}
+          text="Cached Shape\n(Better Performance)"
+          fontSize={16}
+        />
+        
+        {/* FPS counter */}
+        <Text
+          ref={fpsTextRef}
+          x={10}
+          y={10}
+          text="FPS: 0"
+          fontSize={16}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <!-- Non-cached complex shape -->
+      <v-star
+        ref="nonCachedStarRef"
+        :config="starConfig"
+      />
+      
+      <!-- Cached complex shape -->
+      <v-star
+        ref="cachedStarRef"
+        :config="{ ...starConfig, x: 250 }"
+      />
+      
+      <!-- Labels -->
+      <v-text :config="nonCachedLabelConfig" />
+      <v-text :config="cachedLabelConfig" />
+      
+      <!-- FPS counter -->
+      <v-text
+        ref="fpsTextRef"
+        :config="fpsConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const starConfig = {
+  x: 100,
+  y: 100,
+  numPoints: 20,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const nonCachedLabelConfig = {
+  x: 50,
+  y: 200,
+  text: 'Non-Cached Shape',
+  fontSize: 16
+};
+
+const cachedLabelConfig = {
+  x: 200,
+  y: 200,
+  text: 'Cached Shape\n(Better Performance)',
+  fontSize: 16
+};
+
+const fpsConfig = ref({
+  x: 10,
+  y: 10,
+  text: 'FPS: 0',
+  fontSize: 16
+});
+
+const layerRef = ref(null);
+const nonCachedStarRef = ref(null);
+const cachedStarRef = ref(null);
+const fpsTextRef = ref(null);
+let anim = null;
+
+onMounted(() => {
+  // Add blur filter and cache to the cached star
+  const cachedStar = cachedStarRef.value.getNode();
+  cachedStar.cache();
+  cachedStar.filters([Konva.Filters.Blur]);
+  cachedStar.blurRadius(5);
+
+  // Add blur filter to non-cached star
+  const nonCachedStar = nonCachedStarRef.value.getNode();
+  nonCachedStar.filters([Konva.Filters.Blur]);
+  nonCachedStar.blurRadius(5);
+
+  anim = new Konva.Animation((frame) => {
+    // Rotate stars
+    nonCachedStar.rotation(frame.time * 0.1);
+    cachedStar.rotation(frame.time * 0.1);
+    
+    // Update FPS counter
+    fpsTextRef.value.getNode().text('FPS: ' + frame.frameRate.toFixed(1));
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs> 

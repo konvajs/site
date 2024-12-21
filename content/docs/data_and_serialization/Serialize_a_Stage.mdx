@@ -1,0 +1,136 @@
+---
+title: HTML5 Canvas Stage Serialization Tutorial
+sidebar_label: Serialize Stage
+hide_table_of_contents: true
+slug: Serialize_a_Stage.html
+---
+
+To serialize a stage with Konva, we can use the `toJSON()` method.
+The `toJSON()` method will return a JSON string that contains all of the node's attributes.
+Note that event handlers and images are not serializable.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 400
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create a shape
+const circle = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 3
+});
+
+layer.add(circle);
+
+// add button
+const button = document.createElement('button');
+button.textContent = 'Serialize Stage';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  // serialize the stage
+  const json = stage.toJSON();
+  
+  // show the result
+  console.log(json);
+  alert('Stage serialized! Check the console for the JSON string.');
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useRef } from 'react';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const handleSerialize = () => {
+    const json = stageRef.current.toJSON();
+    console.log(json);
+    alert('Stage serialized! Check the console for the JSON string.');
+  };
+
+  return (
+    <div>
+      <button onClick={handleSerialize} style={{ marginBottom: '10px' }}>
+        Serialize Stage
+      </button>
+      <Stage width={400} height={400} ref={stageRef}>
+        <Layer>
+          <Circle
+            x={100}
+            y={100}
+            radius={50}
+            fill="red"
+            stroke="black"
+            strokeWidth={3}
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handleSerialize" style="margin-bottom: 10px">
+      Serialize Stage
+    </button>
+    <v-stage ref="stageRef" :config="stageSize">
+      <v-layer>
+        <v-circle :config="circleConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+const circleConfig = {
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 3
+};
+
+const stageRef = ref(null);
+
+const handleSerialize = () => {
+  const json = stageRef.value.getNode().toJSON();
+  console.log(json);
+  alert('Stage serialized! Check the console for the JSON string.');
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

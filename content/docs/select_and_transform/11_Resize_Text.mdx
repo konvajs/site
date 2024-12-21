@@ -1,0 +1,165 @@
+---
+title: How to resize text on canvas?
+sidebar_label: Resize Text
+hide_table_of_contents: true
+slug: Resize_Text.html
+---
+
+Remember, that `Konva.Transformer` is changing `scaleX` and `scaleY` properties of a node.
+If you want to change width of the text, without changing its size, you should reset scale of a text back to 1 and adjust `width` accordingly.
+
+You can use `transform` event to update text's properties as you need it.
+
+**Instructions: Try to resize a text.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const text = new Konva.Text({
+x: 50,
+y: 50,
+text: 'Hello from Konva! Try to resize me.',
+fontSize: 24,
+draggable: true,
+width: 200,
+});
+layer.add(text);
+
+const tr = new Konva.Transformer({
+nodes: [text],
+// enable only one anchor to see better what is happening
+// we are changing width only
+enabledAnchors: ['middle-left', 'middle-right'],
+});
+layer.add(tr);
+
+text.on('transform', function () {
+// reset scale on transform
+text.setAttrs({
+width: text.width() \* text.scaleX(),
+scaleX: 1,
+});
+});
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text, Transformer } from 'react-konva';
+import { useRef, useEffect, useState } from 'react';
+
+const App = () => {
+  const [textWidth, setTextWidth] = useState(200);
+  const textRef = useRef();
+  const trRef = useRef();
+
+  useEffect(() => {
+    trRef.current.nodes([textRef.current]);
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={50}
+          y={50}
+          text="Hello from Konva! Try to resize me."
+          fontSize={24}
+          draggable
+          width={textWidth}
+          ref={textRef}
+          onTransform={() => {
+            const node = textRef.current;
+            setTextWidth(node.width() * node.scaleX());
+            node.scaleX(1);
+          }}
+        />
+        <Transformer
+          ref={trRef}
+          enabledAnchors={['middle-left', 'middle-right']}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text
+        :config="textConfig"
+        @transform="handleTransform"
+        ref="textRef"
+      />
+      <v-transformer
+        :config="transformerConfig"
+        ref="transformerRef"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textWidth = ref(200);
+
+const textConfig = computed(() => ({
+  x: 50,
+  y: 50,
+  text: 'Hello from Konva! Try to resize me.',
+  fontSize: 24,
+  draggable: true,
+  width: textWidth.value
+}));
+
+const transformerConfig = {
+  enabledAnchors: ['middle-left', 'middle-right']
+};
+
+const textRef = ref(null);
+const transformerRef = ref(null);
+
+const handleTransform = () => {
+  const node = textRef.value.getNode();
+  textWidth.value = node.width() * node.scaleX();
+  node.scaleX(1);
+};
+
+onMounted(() => {
+  transformerRef.value.getNode().nodes([textRef.value.getNode()]);
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```

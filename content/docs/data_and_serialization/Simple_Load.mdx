@@ -1,0 +1,105 @@
+---
+title: Load Simple HTML5 Canvas Stage from JSON Tutorial
+sidebar_label: Simple Load
+hide_table_of_contents: true
+slug: Simple_Load.html
+---
+
+To load a simple stage from JSON with Konva, we can use the `Konva.Node.create()` method.
+The `create()` method accepts a JSON string and container id as arguments.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// JSON string from a previous save
+const json = '{"attrs":{"width":400,"height":400},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"radius":50,"fill":"red","stroke":"black","strokeWidth":3},"className":"Circle"}]}]}';
+
+// create node using json string
+const stage = Konva.Node.create(json, 'container');
+
+// you can keep adding events, etc
+const circle = stage.findOne('Circle');
+circle.on('click', () => {
+  circle.fill(Konva.Util.getRandomColor());
+  stage.find('Layer').first().draw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [color, setColor] = useState('red');
+
+  const handleClick = () => {
+    setColor(Konva.Util.getRandomColor());
+  };
+
+  return (
+    <Stage width={400} height={400}>
+      <Layer>
+        <Circle
+          x={100}
+          y={100}
+          radius={50}
+          fill={color}
+          stroke="black"
+          strokeWidth={3}
+          onClick={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle
+        :config="circleConfig"
+        @click="handleClick"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+const circleConfig = ref({
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 3
+});
+
+const handleClick = () => {
+  circleConfig.value = {
+    ...circleConfig.value,
+    fill: Konva.Util.getRandomColor()
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,207 @@
+---
+title: HTML5 Canvas Disable Perfect Drawing Tip
+sidebar_label: Disable Perfect Draw
+hide_table_of_contents: true
+slug: Disable_Perfect_Draw.html
+---
+
+In some cases drawing on canvas has unexpected results.
+For example, let's draw a shape with fill, stroke and opacity.
+As strokes are drawn on top of fill, there's a line of half the size of the stroke inside the shape which is darker
+because it's the intersection of the fill and the stroke.
+
+Probably that is not expected for you. So `Konva` fixes such behavior with using buffer canvas.
+
+In this case `Konva` is doing these steps:
+
+1. Draw shape on buffer canvas
+2. Fill and stroke it WITHOUT opacity
+3. Apply opacity on layer's canvas
+4. Then draw on layer canvas result from buffer
+
+But using buffer canvas might drop performance. So you can disable such fixing:
+
+```javascript
+shape.perfectDrawEnabled(false);
+```
+
+See difference here:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// With perfect drawing (default)
+const perfectCircle = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5,
+});
+
+// Without perfect drawing
+const nonPerfectCircle = new Konva.Circle({
+  x: 250,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5,
+  perfectDrawEnabled: false,
+});
+
+// Add labels
+const perfectLabel = new Konva.Text({
+  x: 50,
+  y: 170,
+  text: 'Perfect Drawing',
+  fontSize: 16,
+});
+
+const nonPerfectLabel = new Konva.Text({
+  x: 200,
+  y: 170,
+  text: 'Perfect Drawing Disabled',
+  fontSize: 16,
+});
+
+layer.add(perfectCircle);
+layer.add(nonPerfectCircle);
+layer.add(perfectLabel);
+layer.add(nonPerfectLabel);
+layer.draw();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {/* With perfect drawing (default) */}
+        <Circle
+          x={100}
+          y={100}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={10}
+          opacity={0.5}
+        />
+        
+        {/* Without perfect drawing */}
+        <Circle
+          x={250}
+          y={100}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={10}
+          opacity={0.5}
+          perfectDrawEnabled={false}
+        />
+        
+        {/* Labels */}
+        <Text
+          x={50}
+          y={170}
+          text="Perfect Drawing"
+          fontSize={16}
+        />
+        <Text
+          x={200}
+          y={170}
+          text="Perfect Drawing Disabled"
+          fontSize={16}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <!-- With perfect drawing (default) -->
+      <v-circle :config="perfectCircleConfig" />
+      
+      <!-- Without perfect drawing -->
+      <v-circle :config="nonPerfectCircleConfig" />
+      
+      <!-- Labels -->
+      <v-text :config="perfectLabelConfig" />
+      <v-text :config="nonPerfectLabelConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const perfectCircleConfig = {
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5
+};
+
+const nonPerfectCircleConfig = {
+  x: 250,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5,
+  perfectDrawEnabled: false
+};
+
+const perfectLabelConfig = {
+  x: 50,
+  y: 170,
+  text: 'Perfect Drawing',
+  fontSize: 16
+};
+
+const nonPerfectLabelConfig = {
+  x: 200,
+  y: 170,
+  text: 'Perfect Drawing Disabled',
+  fontSize: 16
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

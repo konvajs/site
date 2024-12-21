@@ -1,0 +1,176 @@
+---
+title: HTML5 Canvas Select Shape by Type Tutorial
+sidebar_label: Select by Type
+hide_table_of_contents: true
+slug: Select_by_Type.html
+---
+
+To select shapes by type with Konva, we can use the `find()` method with the name of the type or class name.
+The `find()` method returns an array of nodes that match the selector string.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create shapes of different types
+const circle1 = new Konva.Circle({
+  x: 50,
+  y: stage.height() / 2,
+  radius: 30,
+  fill: 'red'
+});
+
+const circle2 = new Konva.Circle({
+  x: 150,
+  y: stage.height() / 2,
+  radius: 30,
+  fill: 'green'
+});
+
+const rect = new Konva.Rect({
+  x: 250,
+  y: stage.height() / 2 - 25,
+  width: 50,
+  height: 50,
+  fill: 'blue'
+});
+
+layer.add(circle1);
+layer.add(circle2);
+layer.add(rect);
+
+// find all circles by type
+const circles = layer.find('Circle');
+circles.forEach(circle => {
+  // add animation to circles only
+  circle.to({
+    duration: 1,
+    scale: { x: 1.5, y: 1.5 },
+    easing: Konva.Easings.EaseInOut
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Rect } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const layerRef = useRef(null);
+  
+  useEffect(() => {
+    // find all circles by type and animate them
+    const circles = layerRef.current.find('Circle');
+    circles.forEach(circle => {
+      circle.to({
+        duration: 1,
+        scale: { x: 1.5, y: 1.5 },
+        easing: Konva.Easings.EaseInOut
+      });
+    });
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer ref={layerRef}>
+        <Circle
+          x={50}
+          y={window.innerHeight / 2}
+          radius={30}
+          fill="red"
+        />
+        <Circle
+          x={150}
+          y={window.innerHeight / 2}
+          radius={30}
+          fill="green"
+        />
+        <Rect
+          x={250}
+          y={window.innerHeight / 2 - 25}
+          width={50}
+          height={50}
+          fill="blue"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <v-circle :config="circle1Config" />
+      <v-circle :config="circle2Config" />
+      <v-rect :config="rectConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circle1Config = {
+  x: 50,
+  y: window.innerHeight / 2,
+  radius: 30,
+  fill: 'red'
+};
+
+const circle2Config = {
+  x: 150,
+  y: window.innerHeight / 2,
+  radius: 30,
+  fill: 'green'
+};
+
+const rectConfig = {
+  x: 250,
+  y: window.innerHeight / 2 - 25,
+  width: 50,
+  height: 50,
+  fill: 'blue'
+};
+
+const layerRef = ref(null);
+
+onMounted(() => {
+  // find all circles by type and animate them
+  const circles = layerRef.value.getNode().find('Circle');
+  circles.forEach(circle => {
+    circle.to({
+      duration: 1,
+      scale: { x: 1.5, y: 1.5 },
+      easing: Konva.Easings.EaseInOut
+    });
+  });
+});
+</script>
+```
+  </TabItem>
+</Tabs> 

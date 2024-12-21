@@ -1,4 +1,4 @@
 [[headers]]
-  for = "/*"
+  for = "/*" # Apply to all files
   [headers.values]
-    access-control-allow-origin = "*"
+    Access-Control-Allow-Origin = "*"

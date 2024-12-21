@@ -1,0 +1,160 @@
+---
+title: Animate Position Tutorial
+sidebar_label: Moving
+hide_table_of_contents: true
+slug: Moving.html
+---
+
+To animate a shape's position with Konva, we can create a new animation with `Konva.Animation`
+which modifies the shape's position with each animation frame.
+
+For a full list of attributes and methods, check out the [Konva.Animation documentation](/api/Konva.Animation.html).
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+container: 'container',
+width: window.innerWidth,
+height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+x: 50,
+y: window.innerHeight / 2,
+radius: 30,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+});
+layer.add(circle);
+
+const amplitude = 100;
+const period = 2000; // in milliseconds
+
+const anim = new Konva.Animation(function(frame) {
+circle.x(
+amplitude _ Math.sin((frame.time _ 2 \* Math.PI) / period) +
+window.innerWidth / 2
+);
+}, layer);
+
+anim.start();
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const circleRef = useRef(null);
+
+  useEffect(() => {
+    const amplitude = 100;
+    const period = 2000; // in milliseconds
+
+    const anim = new Konva.Animation((frame) => {
+      circleRef.current.x(
+        amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
+        window.innerWidth / 2
+      );
+    }, circleRef.current.getLayer());
+
+    anim.start();
+
+    return () => {
+      anim.stop();
+    };
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          ref={circleRef}
+          x={50}
+          y={window.innerHeight / 2}
+          radius={30}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <v-circle
+        ref="circleRef"
+        :config="circleConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = ref({
+  x: 50,
+  y: window.innerHeight / 2,
+  radius: 30,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const layerRef = ref(null);
+const circleRef = ref(null);
+let anim = null;
+
+onMounted(() => {
+  const amplitude = 100;
+  const period = 2000; // in milliseconds
+
+  anim = new Konva.Animation((frame) => {
+    circleRef.value.getNode().x(
+      amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
+      window.innerWidth / 2
+    );
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```

@@ -1,0 +1,306 @@
+---
+title: HTML5 Canvas Optimize Strokes Performance Tip
+sidebar_label: Optimize Strokes
+hide_table_of_contents: true
+slug: Optimize_Strokes.html
+---
+
+When drawing shapes with strokes and shadows in Konva, there's an extra internal drawing step that occurs.
+This is because Konva needs to ensure that the stroke's shadow is drawn correctly.
+However, this can impact performance, especially when dealing with many shapes.
+
+To optimize performance, you can disable the stroke shadow by setting `shadowForStrokeEnabled(false)`.
+This is particularly useful when you don't need the stroke to cast a shadow.
+
+Below is a demo showing the performance difference with and without stroke shadows:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create shape with shadow for stroke (default)
+const circleWithShadow = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  shadowColor: 'black',
+  shadowBlur: 10,
+  shadowOffset: { x: 5, y: 5 },
+  shadowOpacity: 0.5,
+});
+
+// Create shape without shadow for stroke (optimized)
+const circleOptimized = new Konva.Circle({
+  x: 250,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  shadowColor: 'black',
+  shadowBlur: 10,
+  shadowOffset: { x: 5, y: 5 },
+  shadowOpacity: 0.5,
+  shadowForStrokeEnabled: false,
+});
+
+// Add labels
+const defaultLabel = new Konva.Text({
+  x: 50,
+  y: 170,
+  text: 'With Stroke Shadow',
+  fontSize: 16,
+});
+
+const optimizedLabel = new Konva.Text({
+  x: 200,
+  y: 170,
+  text: 'Without Stroke Shadow\n(Better Performance)',
+  fontSize: 16,
+});
+
+// Add FPS counter
+const fpsText = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'FPS: 0',
+  fontSize: 16,
+});
+
+layer.add(circleWithShadow);
+layer.add(circleOptimized);
+layer.add(defaultLabel);
+layer.add(optimizedLabel);
+layer.add(fpsText);
+
+// Create animation to demonstrate performance
+const anim = new Konva.Animation((frame) => {
+  circleWithShadow.rotation(frame.time * 0.1);
+  circleOptimized.rotation(frame.time * 0.1);
+  
+  // Update FPS counter
+  fpsText.text('FPS: ' + frame.frameRate.toFixed(1));
+}, layer);
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const circleWithShadowRef = useRef(null);
+  const circleOptimizedRef = useRef(null);
+  const fpsTextRef = useRef(null);
+
+  useEffect(() => {
+    const anim = new Konva.Animation((frame) => {
+      // Rotate circles
+      circleWithShadowRef.current.rotation(frame.time * 0.1);
+      circleOptimizedRef.current.rotation(frame.time * 0.1);
+      
+      // Update FPS counter
+      fpsTextRef.current.text('FPS: ' + frame.frameRate.toFixed(1));
+    }, circleWithShadowRef.current.getLayer());
+
+    anim.start();
+    return () => anim.stop();
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {/* Circle with shadow for stroke (default) */}
+        <Circle
+          ref={circleWithShadowRef}
+          x={100}
+          y={100}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          shadowColor="black"
+          shadowBlur={10}
+          shadowOffset={{ x: 5, y: 5 }}
+          shadowOpacity={0.5}
+        />
+        
+        {/* Circle without shadow for stroke (optimized) */}
+        <Circle
+          ref={circleOptimizedRef}
+          x={250}
+          y={100}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          shadowColor="black"
+          shadowBlur={10}
+          shadowOffset={{ x: 5, y: 5 }}
+          shadowOpacity={0.5}
+          shadowForStrokeEnabled={false}
+        />
+        
+        {/* Labels */}
+        <Text
+          x={50}
+          y={170}
+          text="With Stroke Shadow"
+          fontSize={16}
+        />
+        <Text
+          x={200}
+          y={170}
+          text="Without Stroke Shadow\n(Better Performance)"
+          fontSize={16}
+        />
+        
+        {/* FPS counter */}
+        <Text
+          ref={fpsTextRef}
+          x={10}
+          y={10}
+          text="FPS: 0"
+          fontSize={16}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <!-- Circle with shadow for stroke (default) -->
+      <v-circle
+        ref="circleWithShadowRef"
+        :config="circleWithShadowConfig"
+      />
+      
+      <!-- Circle without shadow for stroke (optimized) -->
+      <v-circle
+        ref="circleOptimizedRef"
+        :config="circleOptimizedConfig"
+      />
+      
+      <!-- Labels -->
+      <v-text :config="defaultLabelConfig" />
+      <v-text :config="optimizedLabelConfig" />
+      
+      <!-- FPS counter -->
+      <v-text
+        ref="fpsTextRef"
+        :config="fpsConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleWithShadowConfig = {
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  shadowColor: 'black',
+  shadowBlur: 10,
+  shadowOffset: { x: 5, y: 5 },
+  shadowOpacity: 0.5
+};
+
+const circleOptimizedConfig = {
+  x: 250,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  shadowColor: 'black',
+  shadowBlur: 10,
+  shadowOffset: { x: 5, y: 5 },
+  shadowOpacity: 0.5,
+  shadowForStrokeEnabled: false
+};
+
+const defaultLabelConfig = {
+  x: 50,
+  y: 170,
+  text: 'With Stroke Shadow',
+  fontSize: 16
+};
+
+const optimizedLabelConfig = {
+  x: 200,
+  y: 170,
+  text: 'Without Stroke Shadow\n(Better Performance)',
+  fontSize: 16
+};
+
+const fpsConfig = ref({
+  x: 10,
+  y: 10,
+  text: 'FPS: 0',
+  fontSize: 16
+});
+
+const layerRef = ref(null);
+const circleWithShadowRef = ref(null);
+const circleOptimizedRef = ref(null);
+const fpsTextRef = ref(null);
+let anim = null;
+
+onMounted(() => {
+  anim = new Konva.Animation((frame) => {
+    // Rotate circles
+    circleWithShadowRef.value.getNode().rotation(frame.time * 0.1);
+    circleOptimizedRef.value.getNode().rotation(frame.time * 0.1);
+    
+    // Update FPS counter
+    fpsTextRef.value.getNode().text('FPS: ' + frame.frameRate.toFixed(1));
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs> 

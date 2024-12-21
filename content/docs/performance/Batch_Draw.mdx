@@ -1,0 +1,156 @@
+---
+title: HTML5 Canvas Batch Draw Tip
+sidebar_label: Batch Draw
+hide_table_of_contents: true
+slug: Batch_Draw.html
+---
+
+**Update: this demo is not relevant with the new `konva@8`. In the new version, `Konva` is doing all batching draws automatically on any changes on canvas.**
+
+The demo may be still relevant if you use `Konva.autoDrawEnabled = false`.
+
+In some situations, we may want to update a Konva shape as fast as possible,
+but without causing too many redraws. For example, if we want to update an
+element on the stage via mousemove, we don't want to redraw the layer with the
+`draw()` method, because the mousemove event could be fired hundreds of times per
+second, which would result in a forced frame rate of over a hundred frames per second.
+Often times this can cause jumpy animations because browsers simply can't handle excessive redraws.
+
+For situations like this, it's much better to use the `batchDraw()` method
+which automatically hooks redraws into the Konva animation engine.
+No matter how many times you call `batchDraw()`, Konva will automatically
+limit the number of redraws per second based on the maximum number of frames
+per second that the browser can handle at any given point in time.
+
+**Instructions:** Move your mouse over the stage to spin the rectangle
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// For demo purposes, disable auto draw
+Konva.autoDrawEnabled = false;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rect = new Konva.Rect({
+  x: stage.width() / 2 - 50,
+  y: stage.height() / 2 - 25,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+layer.add(rect);
+layer.draw();
+
+stage.on('mousemove', () => {
+  // rotate rectangle on mouse move
+  rect.rotate(5);
+  // use batchDraw instead of draw for better performance
+  layer.batchDraw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+import { useRef, useEffect } from 'react';
+
+// For demo purposes, disable auto draw
+Konva.autoDrawEnabled = false;
+
+const App = () => {
+  const rectRef = useRef(null);
+  const layerRef = useRef(null);
+
+  useEffect(() => {
+    const stage = rectRef.current.getStage();
+    
+    stage.on('mousemove', () => {
+      // rotate rectangle on mouse move
+      rectRef.current.rotate(5);
+      // use batchDraw instead of draw for better performance
+      layerRef.current.getLayer().batchDraw();
+    });
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer ref={layerRef}>
+        <Rect
+          ref={rectRef}
+          x={window.innerWidth / 2 - 50}
+          y={window.innerHeight / 2 - 25}
+          width={100}
+          height={50}
+          fill="green"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize" @mousemove="handleMouseMove">
+    <v-layer ref="layerRef">
+      <v-rect :config="rectConfig" ref="rectRef" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+// For demo purposes, disable auto draw
+Konva.autoDrawEnabled = false;
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = ref({
+  x: window.innerWidth / 2 - 50,
+  y: window.innerHeight / 2 - 25,
+  width: 100,
+  height: 50,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const layerRef = ref(null);
+const rectRef = ref(null);
+
+const handleMouseMove = () => {
+  // rotate rectangle on mouse move
+  rectRef.value.getNode().rotate(5);
+  // use batchDraw instead of draw for better performance
+  layerRef.value.getNode().batchDraw();
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

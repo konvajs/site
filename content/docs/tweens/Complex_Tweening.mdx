@@ -1,0 +1,260 @@
+---
+title: Complex Tweening Tutorial
+sidebar_label: Complex Tweening
+hide_table_of_contents: true
+slug: Complex_Tweening.html
+---
+
+For more complex animations, you can use [GreenSock Konva Plugin](https://github.com/konvajs/greensock-plugin).
+GreenSock tweens are more powerful than Konva's built-in tweens.
+
+This demo demonstrates tweening the `fillLinearGradientColorStops` property with GreenSock.
+
+**Instructions: Click the shape to start the complex animation with gradient changes.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+const circle = new Konva.Circle({
+x: width / 2,
+y: height / 2,
+radius: 70,
+fillLinearGradientStartPoint: { x: -50, y: -50 },
+fillLinearGradientEndPoint: { x: 50, y: 50 },
+fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+layer.add(circle);
+stage.add(layer);
+
+circle.on('click tap', () => {
+// using regular Konva tween
+const tween = new Konva.Tween({
+node: circle,
+duration: 1,
+scaleX: 1.5,
+scaleY: 1.5,
+easing: Konva.Easings.EaseInOut,
+onFinish: () => {
+// scale back with another tween
+const tween2 = new Konva.Tween({
+node: circle,
+duration: 1,
+scaleX: 1,
+scaleY: 1,
+easing: Konva.Easings.Bounce.EaseOut,
+});
+tween2.play();
+},
+});
+tween.play();
+
+// manually update gradient
+let ratio = 0;
+const anim = new Konva.Animation((frame) => {
+ratio += frame.timeDiff / 1000;
+if (ratio > 1) {
+ratio = 0;
+}
+circle.fillLinearGradientColorStops([
+0,
+'red',
+ratio,
+'yellow',
+1,
+'blue',
+]);
+}, layer);
+anim.start();
+setTimeout(() => anim.stop(), 2000);
+});
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useRef } from 'react';
+
+const App = () => {
+  const circleRef = useRef();
+
+  const handleClick = () => {
+    const circle = circleRef.current;
+
+    // using regular Konva tween
+    const tween = new Konva.Tween({
+      node: circle,
+      duration: 1,
+      scaleX: 1.5,
+      scaleY: 1.5,
+      easing: Konva.Easings.EaseInOut,
+      onFinish: () => {
+        // scale back with another tween
+        const tween2 = new Konva.Tween({
+          node: circle,
+          duration: 1,
+          scaleX: 1,
+          scaleY: 1,
+          easing: Konva.Easings.Bounce.EaseOut,
+        });
+        tween2.play();
+      },
+    });
+    tween.play();
+
+    // manually update gradient
+    let ratio = 0;
+    const anim = new Konva.Animation((frame) => {
+      ratio += frame.timeDiff / 1000;
+      if (ratio > 1) {
+        ratio = 0;
+      }
+      circle.fillLinearGradientColorStops([
+        0,
+        'red',
+        ratio,
+        'yellow',
+        1,
+        'blue',
+      ]);
+    }, circle.getLayer());
+    anim.start();
+    setTimeout(() => anim.stop(), 2000);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          ref={circleRef}
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+          fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+          fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+          stroke="black"
+          strokeWidth={4}
+          draggable
+          onClick={handleClick}
+          onTap={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <v-circle
+        :config="circleConfig"
+        @click="handleClick"
+        @tap="handleClick"
+        ref="circleRef"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fillLinearGradientStartPoint: { x: -50, y: -50 },
+  fillLinearGradientEndPoint: { x: 50, y: 50 },
+  fillLinearGradientColorStops: [0, 'red', 1, 'yellow'],
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+};
+
+const circleRef = ref(null);
+const layerRef = ref(null);
+
+const handleClick = () => {
+  const circle = circleRef.value.getNode();
+  
+  // using regular Konva tween
+  const tween = new Konva.Tween({
+    node: circle,
+    duration: 1,
+    scaleX: 1.5,
+    scaleY: 1.5,
+    easing: Konva.Easings.EaseInOut,
+    onFinish: () => {
+      // scale back with another tween
+      const tween2 = new Konva.Tween({
+        node: circle,
+        duration: 1,
+        scaleX: 1,
+        scaleY: 1,
+        easing: Konva.Easings.Bounce.EaseOut,
+      });
+      tween2.play();
+    },
+  });
+  tween.play();
+
+  // manually update gradient
+  let ratio = 0;
+  const anim = new Konva.Animation((frame) => {
+    ratio += frame.timeDiff / 1000;
+    if (ratio > 1) {
+      ratio = 0;
+    }
+    circle.fillLinearGradientColorStops([
+      0,
+      'red',
+      ratio,
+      'yellow',
+      1,
+      'blue',
+    ]);
+  }, layerRef.value.getNode());
+  anim.start();
+  setTimeout(() => anim.stop(), 2000);
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

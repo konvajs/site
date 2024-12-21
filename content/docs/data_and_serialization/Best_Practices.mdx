@@ -1,0 +1,396 @@
+---
+title: Save and Load HTML5 Canvas Stage Best Practices
+sidebar_label: Best Practices
+hide_table_of_contents: true
+slug: Best_Practices.html
+---
+
+## What is the best way to save/load full stage content and how to implement undo/redo?
+
+If you want to save/load simple canvas content you can use the built-in `Konva` methods: `node.toJSON()` and `Node.create(json)`.
+See [simple](/docs/data_and_serialization/Simple_Load.html) and [complex](/docs/data_and_serialization/Complex_Load.html) demos.
+
+But those methods are useful only in very small apps. In bigger apps it is VERY hard to use those methods. Why? Because the tree structure is usually very complex in larger apps, you may have a lot of event listeners, images, filters, etc. That data is not serializable into JSON (or it is very hard to do that).
+
+Also it is very common that nodes in a tree have a lot information that is not directly related to the state of your app, but just used to describe visual view of your app.
+
+For instance, let's think we have a game, that draws several balls in canvas. The balls are not just circles, but the complex visual groups of objects with shadows and texts inside them (like "Made in China"). Now let's think you want to serialize state of your app and use it somewhere else. Like send to another computer or implement undo/redo. Almost all the visual information (shadows, texts, sizes) is not critical and may be you don't need to save it. Because all balls have the same shadows, sizes, etc. But what is critical? In that case it is just a number of balls and their coordinates. You need to save/load only that information. It will be just a simple array:
+
+```javascript
+var state = [{x: 10, y: 10}, { x: 160, y: 1041}]
+```
+
+Now when you have that information, you need to have a function, that can create the whole canvas structure.
+If you want to update your canvas, for instance, you want to create a new ball, you don't need to create a new canvas node directly (like creating new instance of `Konva.Circle`), you just need to push a new object into a state and update (or recreate) canvas.
+
+In that case you don't need to care about image loading, filters, event listeners, etc in saving/loading phases. Because you do all these actions in your `create` or `update` functions.
+
+You would better understand what I am talking about if you know how many modern frameworks work (like `React`, `Vue`, `Angular` and many other).
+
+Also take a look into these demos to have a better idea:
+1. [Undo/redo with react](/docs/react/Undo-Redo.html)
+1. [Save/load with Vue](/docs/vue/Save-Load.html)
+
+How to implement that `create` and `update` functions? It depends. From my point of view it will be easier to use frameworks that can do that job for you, like [react-konva](/docs/react/).
+
+If you don't want to use such frameworks you need to think in terms of your own app. Here I will try to make a small demo to give you an idea.
+
+The super naive method is to implement just one function `create(state)` that will do all the complex job of loading.
+If you have some changes in your app you just need to destroy the canvas and create a new one. But the drawback of such approach is possibly a bad performance.
+
+A bit smarter implementation is to create two functions `create(state)` and `update(state)`. `create` will make instances of all required objects, attach events and load images. `update` will update properties of nodes. If number of objects is changed - destroy all and create from scratch. If only some properties changed - call `update`.
+
+**Instructions:** In that demo we will have a bunch of images with filters, and you can add more, move them, apply a new filter by clicking on images and use undo/redo.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Initial state
+let state = {
+  images: [
+    { x: 50, y: 50, filter: 'none' },
+    { x: 150, y: 50, filter: 'blur' }
+  ]
+};
+
+// History for undo/redo
+const history = [JSON.stringify(state)];
+let historyStep = 0;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create UI buttons
+const addButton = document.createElement('button');
+addButton.textContent = 'Add Image';
+document.body.appendChild(addButton);
+
+const undoButton = document.createElement('button');
+undoButton.textContent = 'Undo';
+document.body.appendChild(undoButton);
+
+const redoButton = document.createElement('button');
+redoButton.textContent = 'Redo';
+document.body.appendChild(redoButton);
+
+// Load image
+const imageObj = new Image();
+imageObj.src = '/assets/lion.png';
+
+function createImage(imageConfig) {
+  const image = new Konva.Image({
+    image: imageObj,
+    x: imageConfig.x,
+    y: imageConfig.y,
+    width: 100,
+    height: 100,
+    draggable: true
+  });
+
+  if (imageConfig.filter === 'blur') {
+    image.filters([Konva.Filters.Blur]);
+    image.blurRadius(10);
+  }
+
+  return image;
+}
+
+function create(state) {
+  layer.destroyChildren();
+  
+  state.images.forEach(imgConfig => {
+    const image = createImage(imgConfig);
+    
+    image.on('dragend', () => {
+      const pos = image.position();
+      const index = layer.children.indexOf(image);
+      state.images[index] = {
+        ...state.images[index],
+        x: pos.x,
+        y: pos.y
+      };
+      saveHistory();
+    });
+
+    image.on('click', () => {
+      const index = layer.children.indexOf(image);
+      state.images[index] = {
+        ...state.images[index],
+        filter: state.images[index].filter === 'none' ? 'blur' : 'none'
+      };
+      saveHistory();
+      create(state);
+    });
+
+    layer.add(image);
+  });
+
+  layer.draw();
+}
+
+function saveHistory() {
+  historyStep++;
+  history.length = historyStep;
+  history.push(JSON.stringify(state));
+}
+
+addButton.addEventListener('click', () => {
+  state.images.push({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    filter: 'none'
+  });
+  saveHistory();
+  create(state);
+});
+
+undoButton.addEventListener('click', () => {
+  if (historyStep === 0) return;
+  historyStep--;
+  state = JSON.parse(history[historyStep]);
+  create(state);
+});
+
+redoButton.addEventListener('click', () => {
+  if (historyStep === history.length - 1) return;
+  historyStep++;
+  state = JSON.parse(history[historyStep]);
+  create(state);
+});
+
+imageObj.onload = () => {
+  create(state);
+};
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useState, useEffect, useRef } from 'react';
+
+const App = () => {
+  const [images, setImages] = useState([
+    { x: 50, y: 50, filter: 'none' },
+    { x: 150, y: 50, filter: 'blur' }
+  ]);
+  const [history, setHistory] = useState([]);
+  const [historyStep, setHistoryStep] = useState(0);
+  const imageObj = useRef(null);
+
+  useEffect(() => {
+    imageObj.current = new window.Image();
+    imageObj.current.src = '/assets/lion.png';
+    imageObj.current.onload = () => {
+      setHistory([JSON.stringify(images)]);
+    };
+  }, []);
+
+  const handleDragEnd = (index, e) => {
+    const newImages = [...images];
+    newImages[index] = {
+      ...newImages[index],
+      x: e.target.x(),
+      y: e.target.y()
+    };
+    setImages(newImages);
+    saveHistory(newImages);
+  };
+
+  const handleClick = (index) => {
+    const newImages = [...images];
+    newImages[index] = {
+      ...newImages[index],
+      filter: newImages[index].filter === 'none' ? 'blur' : 'none'
+    };
+    setImages(newImages);
+    saveHistory(newImages);
+  };
+
+  const saveHistory = (newImages) => {
+    const newHistory = history.slice(0, historyStep + 1);
+    newHistory.push(JSON.stringify(newImages));
+    setHistory(newHistory);
+    setHistoryStep(newHistory.length - 1);
+  };
+
+  const handleAdd = () => {
+    const newImages = [...images, {
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      filter: 'none'
+    }];
+    setImages(newImages);
+    saveHistory(newImages);
+  };
+
+  const handleUndo = () => {
+    if (historyStep === 0) return;
+    const newStep = historyStep - 1;
+    setHistoryStep(newStep);
+    setImages(JSON.parse(history[newStep]));
+  };
+
+  const handleRedo = () => {
+    if (historyStep === history.length - 1) return;
+    const newStep = historyStep + 1;
+    setHistoryStep(newStep);
+    setImages(JSON.parse(history[newStep]));
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={handleAdd}>Add Image</button>
+        <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleRedo}>Redo</button>
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {imageObj.current && images.map((img, i) => (
+            <Image
+              key={i}
+              image={imageObj.current}
+              x={img.x}
+              y={img.y}
+              width={100}
+              height={100}
+              draggable
+              filters={img.filter === 'blur' ? [Konva.Filters.Blur] : []}
+              blurRadius={img.filter === 'blur' ? 10 : 0}
+              onDragEnd={(e) => handleDragEnd(i, e)}
+              onClick={() => handleClick(i)}
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="margin-bottom: 10px">
+      <button @click="handleAdd">Add Image</button>
+      <button @click="handleUndo">Undo</button>
+      <button @click="handleRedo">Redo</button>
+    </div>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          v-for="(img, i) in images"
+          :key="i"
+          :config="getImageConfig(img)"
+          @dragend="handleDragEnd(i, $event)"
+          @click="handleClick(i)"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const images = ref([
+  { x: 50, y: 50, filter: 'none' },
+  { x: 150, y: 50, filter: 'blur' }
+]);
+const history = ref([]);
+const historyStep = ref(0);
+const imageObj = ref(null);
+
+onMounted(() => {
+  imageObj.value = new Image();
+  imageObj.value.src = '/assets/lion.png';
+  imageObj.value.onload = () => {
+    history.value = [JSON.stringify(images.value)];
+  };
+});
+
+const getImageConfig = (img) => ({
+  image: imageObj.value,
+  x: img.x,
+  y: img.y,
+  width: 100,
+  height: 100,
+  draggable: true,
+  filters: img.filter === 'blur' ? [Konva.Filters.Blur] : [],
+  blurRadius: img.filter === 'blur' ? 10 : 0
+});
+
+const saveHistory = (newImages) => {
+  const newHistory = history.value.slice(0, historyStep.value + 1);
+  newHistory.push(JSON.stringify(newImages));
+  history.value = newHistory;
+  historyStep.value = newHistory.length - 1;
+};
+
+const handleDragEnd = (index, e) => {
+  const newImages = [...images.value];
+  const pos = e.target.position();
+  newImages[index] = {
+    ...newImages[index],
+    x: pos.x,
+    y: pos.y
+  };
+  images.value = newImages;
+  saveHistory(newImages);
+};
+
+const handleClick = (index) => {
+  const newImages = [...images.value];
+  newImages[index] = {
+    ...newImages[index],
+    filter: newImages[index].filter === 'none' ? 'blur' : 'none'
+  };
+  images.value = newImages;
+  saveHistory(newImages);
+};
+
+const handleAdd = () => {
+  const newImages = [...images.value, {
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    filter: 'none'
+  }];
+  images.value = newImages;
+  saveHistory(newImages);
+};
+
+const handleUndo = () => {
+  if (historyStep.value === 0) return;
+  historyStep.value--;
+  images.value = JSON.parse(history.value[historyStep.value]);
+};
+
+const handleRedo = () => {
+  if (historyStep.value === history.value.length - 1) return;
+  historyStep.value++;
+  images.value = JSON.parse(history.value[historyStep.value]);
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,202 @@
+---
+title: All Tween Controls Tutorial
+sidebar_label: All Controls
+hide_table_of_contents: true
+slug: All_Controls.html
+---
+
+To control tweens with Konva, we can use the following methods:
+
+- `play()` - Start or resume the tween
+- `pause()` - Pause the tween
+- `reverse()` - Reverse the tween direction
+- `reset()` - Reset to initial state
+- `finish()` - Jump to final state
+- `seek()` - Jump to specific position
+
+**Instructions: Use the buttons to control the tween animation of the circle.**
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+const circle = new Konva.Circle({
+x: 100,
+y: height / 2,
+radius: 70,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+});
+
+layer.add(circle);
+stage.add(layer);
+
+const tween = new Konva.Tween({
+node: circle,
+duration: 2,
+x: width - 100,
+easing: Konva.Easings.EaseInOut,
+});
+
+// create buttons
+const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
+controls.forEach(control => {
+const button = document.createElement('button');
+button.textContent = control;
+button.addEventListener('click', () => {
+tween[control]();
+});
+document.body.appendChild(button);
+});
+
+// seek control
+const seekBtn = document.createElement('button');
+seekBtn.textContent = 'Seek to 50%';
+seekBtn.addEventListener('click', () => {
+tween.seek(1); // seek to 1 second
+});
+document.body.appendChild(seekBtn);
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const circleRef = useRef();
+  const tweenRef = useRef();
+
+  useEffect(() => {
+    if (!circleRef.current) return;
+
+    tweenRef.current = new Konva.Tween({
+      node: circleRef.current,
+      duration: 2,
+      x: window.innerWidth - 100,
+      easing: Konva.Easings.EaseInOut,
+    });
+  }, []);
+
+  const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
+
+  return (
+    <>
+      {controls.map(control => (
+        <button
+          key={control}
+          onClick={() => tweenRef.current[control]()}
+        >
+          {control}
+        </button>
+      ))}
+      <button onClick={() => tweenRef.current.seek(1)}>
+        Seek to 50%
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Circle
+            ref={circleRef}
+            x={100}
+            y={window.innerHeight / 2}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button
+      v-for="control in controls"
+      :key="control"
+      @click="handleControl(control)"
+    >
+      {{ control }}
+    </button>
+    <button @click="handleSeek">Seek to 50%</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-circle
+          :config="circleConfig"
+          ref="circleRef"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: 100,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
+const circleRef = ref(null);
+let tween = null;
+
+onMounted(() => {
+  tween = new Konva.Tween({
+    node: circleRef.value.getNode(),
+    duration: 2,
+    x: window.innerWidth - 100,
+    easing: Konva.Easings.EaseInOut,
+  });
+});
+
+const handleControl = (control) => {
+  tween[control]();
+};
+
+const handleSeek = () => {
+  tween.seek(1);
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>
+```
+
+</rewritten_file>

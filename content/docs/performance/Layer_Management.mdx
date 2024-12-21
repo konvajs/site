@@ -1,0 +1,203 @@
+---
+title: HTML5 Canvas Layer Management Performance Tip
+sidebar_label: Layer Management
+hide_table_of_contents: true
+slug: Layer_Management.html
+---
+
+When creating Konva applications, the most important thing to consider,
+in regards to performance, is layer management. One of the things that makes
+Konva stand out from other canvas libraries is that it enables us to create
+individual layers, each with their own canvas elements. This means that we can
+animate, transition, or update some stage elements, while not redrawing others.
+If we inspect the DOM of a Konva stage, we'll see that there is actually one
+canvas element per layer.
+
+This tutorial has two layers, one layer that's animated, and another static layer
+that contains text. Since there's no reason to continually redraw the text, it's placed in its own layer.
+
+**Note: Do not create too many layers. Usually 3-5 is max.**
+
+Below is a demo showing efficient layer management:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+// Static layer for text
+const textLayer = new Konva.Layer();
+stage.add(textLayer);
+
+// Animated layer for shapes
+const animLayer = new Konva.Layer();
+stage.add(animLayer);
+
+// Add static text
+const text = new Konva.Text({
+  x: 20,
+  y: 20,
+  text: 'This text is in a static layer.\nThe circle below is in an animated layer.',
+  fontSize: 16,
+  fill: 'black'
+});
+textLayer.add(text);
+
+// Add animated circle
+const circle = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 30,
+  fill: 'red',
+});
+animLayer.add(circle);
+
+// Draw both layers initially
+textLayer.draw();
+animLayer.draw();
+
+// Create animation
+const anim = new Konva.Animation((frame) => {
+  // Move circle in a figure-8 pattern
+  const scale = 100;
+  const centerX = stage.width() / 2;
+  const centerY = stage.height() / 2;
+  
+  circle.x(centerX + Math.sin(frame.time / 1000) * scale);
+  circle.y(centerY + Math.sin(frame.time / 2000) * scale);
+}, animLayer);
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text, Circle } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const circleRef = useRef(null);
+
+  useEffect(() => {
+    const anim = new Konva.Animation((frame) => {
+      const scale = 100;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      
+      circleRef.current.x(centerX + Math.sin(frame.time / 1000) * scale);
+      circleRef.current.y(centerY + Math.sin(frame.time / 2000) * scale);
+    }, circleRef.current.getLayer());
+
+    anim.start();
+    return () => anim.stop();
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      {/* Static layer for text */}
+      <Layer>
+        <Text
+          x={20}
+          y={20}
+          text="This text is in a static layer.\nThe circle below is in an animated layer."
+          fontSize={16}
+          fill="black"
+        />
+      </Layer>
+      
+      {/* Animated layer for shapes */}
+      <Layer>
+        <Circle
+          ref={circleRef}
+          x={100}
+          y={100}
+          radius={30}
+          fill="red"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <!-- Static layer for text -->
+    <v-layer>
+      <v-text :config="textConfig" />
+    </v-layer>
+    
+    <!-- Animated layer for shapes -->
+    <v-layer ref="animLayerRef">
+      <v-circle
+        ref="circleRef"
+        :config="circleConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = {
+  x: 20,
+  y: 20,
+  text: 'This text is in a static layer.\nThe circle below is in an animated layer.',
+  fontSize: 16,
+  fill: 'black'
+};
+
+const circleConfig = ref({
+  x: 100,
+  y: 100,
+  radius: 30,
+  fill: 'red'
+});
+
+const animLayerRef = ref(null);
+const circleRef = ref(null);
+let anim = null;
+
+onMounted(() => {
+  anim = new Konva.Animation((frame) => {
+    const scale = 100;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    const circle = circleRef.value.getNode();
+    circle.x(centerX + Math.sin(frame.time / 1000) * scale);
+    circle.y(centerY + Math.sin(frame.time / 2000) * scale);
+  }, animLayerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs> 

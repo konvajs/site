@@ -1,0 +1,182 @@
+---
+title: HTML5 Canvas Select Shape by id Tutorial
+sidebar_label: Select by id
+hide_table_of_contents: true
+slug: Select_by_id.html
+---
+
+To select a shape by id with Konva, we can use the `find()` method using the # selector.
+The `find()` method always returns an array of elements, even if we are expecting it to return one element.
+if you need only one element you can use `findOne()` method.
+The `find()` method works for any node, including the stage, layers, groups, and shapes.
+
+**Instructions:** press the "Activate Rectangle" button to select the rectangle by id and perform a transition. You can also drag and drop the rectangle.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create a rectangle with id
+const rect = new Konva.Rect({
+  x: stage.width() / 2 - 25,
+  y: stage.height() / 2 - 25,
+  width: 50,
+  height: 50,
+  fill: 'red',
+  id: 'myRect',
+  draggable: true
+});
+
+layer.add(rect);
+
+// add button
+const button = document.createElement('button');
+button.textContent = 'Activate Rectangle';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  // find rectangle by id and animate it
+  const rectangle = layer.findOne('#myRect');
+  rectangle.to({
+    duration: 1,
+    rotation: 360,
+    fill: 'blue',
+    easing: Konva.Easings.EaseInOut
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect } from 'react-konva';
+import { useRef, useState } from 'react';
+
+const App = () => {
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2 - 25,
+    y: window.innerHeight / 2 - 25
+  });
+  const layerRef = useRef(null);
+
+  const handleClick = () => {
+    // find rectangle by id and animate it
+    const rectangle = layerRef.current.findOne('#myRect');
+    rectangle.to({
+      duration: 1,
+      rotation: 360,
+      fill: 'blue',
+      easing: Konva.Easings.EaseInOut
+    });
+  };
+
+  const handleDragEnd = (e) => {
+    setPosition({
+      x: e.target.x(),
+      y: e.target.y()
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick} style={{ marginBottom: '10px' }}>
+        Activate Rectangle
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer ref={layerRef}>
+          <Rect
+            x={position.x}
+            y={position.y}
+            width={50}
+            height={50}
+            fill="red"
+            id="myRect"
+            draggable
+            onDragEnd={handleDragEnd}
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handleClick" style="margin-bottom: 10px">
+      Activate Rectangle
+    </button>
+    <v-stage :config="stageSize">
+      <v-layer ref="layerRef">
+        <v-rect
+          :config="rectConfig"
+          @dragend="handleDragEnd"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const position = ref({
+  x: window.innerWidth / 2 - 25,
+  y: window.innerHeight / 2 - 25
+});
+
+const rectConfig = ref({
+  x: position.value.x,
+  y: position.value.y,
+  width: 50,
+  height: 50,
+  fill: 'red',
+  id: 'myRect',
+  draggable: true
+});
+
+const layerRef = ref(null);
+
+const handleClick = () => {
+  // find rectangle by id and animate it
+  const rectangle = layerRef.value.getNode().findOne('#myRect');
+  rectangle.to({
+    duration: 1,
+    rotation: 360,
+    fill: 'blue',
+    easing: Konva.Easings.EaseInOut
+  });
+};
+
+const handleDragEnd = (e) => {
+  const newPos = e.target.position();
+  position.value = newPos;
+  rectConfig.value.x = newPos.x;
+  rectConfig.value.y = newPos.y;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 
