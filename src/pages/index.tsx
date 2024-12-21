@@ -56,6 +56,29 @@ export const frameworksList = [
   },
 ];
 
+export const companyList = [
+  {
+    name: 'Meta',
+    logo: 'img/companies/meta.svg',
+    width: 140,
+  },
+  {
+    name: 'Microsoft',
+    logo: 'img/companies/microsoft.svg',
+    width: 160,
+  },
+  // {
+  //   name: 'Vista',
+  //   logo: 'img/companies/vista.svg',
+  //   width: 130,
+  // },
+  {
+    name: 'Polotno',
+    logo: 'img/companies/polotno.svg',
+    width: 140,
+  },
+];
+
 function AnimatedSubtitle() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -203,6 +226,34 @@ function HomepageHeader() {
   );
 }
 
+function CompaniesSection() {
+  return (
+    <section className={styles.companiesSection}>
+      <div className="container">
+        <div className={styles.companiesHeader}>
+          <h2>Trusted by teams worldwide</h2>
+          <p>Join thousands of developers and companies already using Konva</p>
+        </div>
+        <div className={styles.companiesGrid}>
+          {companyList.map((company) => (
+            <div key={company.name} className={styles.companyItem}>
+              <div className={styles.companyLogo}>
+                <img
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  width={30}
+                  loading="lazy"
+                />
+              </div>
+              <div className={styles.companyName}>{company.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -212,6 +263,7 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <main>
+        <CompaniesSection />
         <HomepageFeatures />
       </main>
     </Layout>

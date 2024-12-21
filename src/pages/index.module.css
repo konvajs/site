@@ -50,3 +50,64 @@
 .animatedSubtitle {
   min-height: 60px;
 }
+
+.companiesSection {
+  padding: 4rem 0;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.companiesHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.companiesHeader h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.companiesHeader p {
+  font-size: 1.2rem;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0;
+}
+
+.companiesGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.companyItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.companyLogo {
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.companyItem:hover .companyLogo {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.companyName {
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+@media (max-width: 768px) {
+  .companiesGrid {
+    gap: 2rem;
+  }
+}
