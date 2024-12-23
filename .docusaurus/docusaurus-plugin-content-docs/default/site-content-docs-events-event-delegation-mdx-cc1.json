@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Event_Delegation",
+  "title": "HTML5 Canvas Event Delegation with Konva",
+  "description": "To get the event target with Konva, we can access the target property",
+  "source": "@site/content/docs/events/Event_Delegation.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Event_Delegation.html",
+  "permalink": "/docs/events/Event_Delegation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Event_Delegation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Event Delegation with Konva",
+    "sidebar_label": "Event Delegation",
+    "hide_table_of_contents": true,
+    "slug": "Event_Delegation.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Desktop and Mobile",
+    "permalink": "/docs/events/Desktop_and_Mobile.html"
+  },
+  "next": {
+    "title": "Fire Events",
+    "permalink": "/docs/events/Fire_Events.html"
+  }
+}

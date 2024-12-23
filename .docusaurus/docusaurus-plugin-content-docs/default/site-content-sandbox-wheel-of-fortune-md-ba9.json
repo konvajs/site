@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Wheel_of_Fortune",
+  "title": "Wheel_of_Fortune",
+  "description": "title: Wheel of Fortune HTML5 Canvas Game",
+  "source": "@site/content/sandbox/Wheel_of_Fortune.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Wheel_of_Fortune",
+  "permalink": "/sandbox/Wheel_of_Fortune",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Wheel_of_Fortune.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Web_Worker",
+    "permalink": "/sandbox/Web_Worker"
+  },
+  "next": {
+    "title": "Window_Frame_Designer",
+    "permalink": "/sandbox/Window_Frame_Designer"
+  }
+}

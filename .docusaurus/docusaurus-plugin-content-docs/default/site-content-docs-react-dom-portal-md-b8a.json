@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/DOM_Portal",
+  "title": "DOM_Portal",
+  "description": "title: Render DOM elements inside a canvas stage",
+  "source": "@site/content/docs/react/DOM_Portal.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/DOM_Portal",
+  "permalink": "/docs/react/DOM_Portal",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/DOM_Portal.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Custom_Shape",
+    "permalink": "/docs/react/Custom_Shape"
+  },
+  "next": {
+    "title": "Drag_And_Drop",
+    "permalink": "/docs/react/Drag_And_Drop"
+  }
+}

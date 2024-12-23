@@ -1,0 +1,21 @@
+{
+  "id": "styling/Shadow",
+  "title": "HTML5 Canvas Shadows Tutorial",
+  "description": "To apply shadows with Konva, we can set the shadowColor, shadowOffset, shadowBlur, and shadowOpacity properties when we instantiate a shape.",
+  "source": "@site/content/styling/04-Shadow.md",
+  "sourceDirName": "styling",
+  "slug": "/styling/Shadow.html",
+  "permalink": "/styling/Shadow.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/styling/04-Shadow.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "title": "HTML5 Canvas Shadows Tutorial",
+    "sidebar_label": "Shadow",
+    "hide_table_of_contents": true,
+    "slug": "Shadow.html"
+  }
+}

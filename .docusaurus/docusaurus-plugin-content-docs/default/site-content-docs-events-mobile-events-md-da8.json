@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Mobile_Events",
+  "title": "Mobile_Events",
+  "description": "title: HTML5 Canvas Mobile Touch Events Tutorial",
+  "source": "@site/content/docs/events/Mobile_Events.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Mobile_Events",
+  "permalink": "/docs/events/Mobile_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Mobile_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Listen for Events",
+    "permalink": "/docs/events/Listen_for_Events.html"
+  },
+  "next": {
+    "title": "Mobile Events",
+    "permalink": "/docs/events/Mobile_Events.html"
+  }
+}

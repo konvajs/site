@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/All_Performance_Tips",
+  "title": "HTML5 Canvas All Konva performance tips list",
+  "description": "Don't want to spend your time with performance issues? Request a performance review.",
+  "source": "@site/content/docs/performance/All_Performance_Tips.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/All_Performance_Tips.html",
+  "permalink": "/docs/performance/All_Performance_Tips.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/All_Performance_Tips.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas All Konva performance tips list",
+    "sidebar_label": "All Performance Tips",
+    "hide_table_of_contents": true,
+    "slug": "All_Performance_Tips.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stage Data URL",
+    "permalink": "/docs/data_and_serialization/Stage_Data_URL.html"
+  },
+  "next": {
+    "title": "Avoid Memory Leaks",
+    "permalink": "/docs/performance/Avoid_Memory_Leaks.html"
+  }
+}

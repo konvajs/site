@@ -1,0 +1,15 @@
+{
+  "id": "animations/Scaling",
+  "title": "Scaling",
+  "description": "title: HTML5 Canvas Konva Scale Animation Tutorial",
+  "source": "@site/content/animations/Scaling.md",
+  "sourceDirName": "animations",
+  "slug": "/animations/Scaling",
+  "permalink": "/animations/Scaling",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/animations/Scaling.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

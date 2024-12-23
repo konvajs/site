@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Star",
+  "title": "Konva.Star",
+  "description": "Star constructor",
+  "source": "@site/docs/api/Konva.Star.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Star.html",
+  "permalink": "/api/Konva.Star.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Star.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Star",
+    "sidebar_label": "Star",
+    "slug": "/api/Konva.Star.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Stage",
+    "permalink": "/api/Konva.Stage.html"
+  },
+  "next": {
+    "title": "Tag",
+    "permalink": "/api/Konva.Tag.html"
+  }
+}

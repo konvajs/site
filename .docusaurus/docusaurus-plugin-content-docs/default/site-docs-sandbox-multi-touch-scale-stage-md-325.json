@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Multi-touch_Scale_Stage",
+  "title": "Multi-touch_Scale_Stage",
+  "description": "title: Multi-touch Canvas scale with pinch zoom",
+  "source": "@site/docs/sandbox/Multi-touch_Scale_Stage.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Multi-touch_Scale_Stage",
+  "permalink": "/sandbox/Multi-touch_Scale_Stage",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Multi-touch_Scale_Stage.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Multi-touch_Scale_Shape",
+    "permalink": "/sandbox/Multi-touch_Scale_Shape"
+  },
+  "next": {
+    "title": "Native_Context_Access",
+    "permalink": "/sandbox/Native_Context_Access"
+  }
+}

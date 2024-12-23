@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/index",
+  "title": "index",
+  "description": "title: Getting started with react and canvas via Konva",
+  "source": "@site/content/docs/react/index.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/",
+  "permalink": "/docs/react/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Undo-Redo",
+    "permalink": "/docs/react/Undo-Redo"
+  },
+  "next": {
+    "title": "zIndex",
+    "permalink": "/docs/react/zIndex"
+  }
+}

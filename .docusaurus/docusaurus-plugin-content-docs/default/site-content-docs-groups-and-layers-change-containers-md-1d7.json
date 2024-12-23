@@ -1,0 +1,29 @@
+{
+  "id": "docs/groups_and_layers/Change_Containers",
+  "title": "Move Shape to Another Container",
+  "description": "To move a shape from one container into another with Konva, we can use the moveTo() method which requires a container as a parameter.",
+  "source": "@site/content/docs/groups_and_layers/Change_Containers.md",
+  "sourceDirName": "docs/groups_and_layers",
+  "slug": "/docs/groups_and_layers/Change_Containers.html",
+  "permalink": "/docs/groups_and_layers/Change_Containers.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/groups_and_layers/Change_Containers.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Move Shape to Another Container",
+    "sidebar_label": "Change Containers",
+    "hide_table_of_contents": true,
+    "slug": "Change_Containers.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stage_Data_URL",
+    "permalink": "/docs/data_and_serialization/Stage_Data_URL"
+  },
+  "next": {
+    "title": "Groups",
+    "permalink": "/docs/groups_and_layers/Groups.html"
+  }
+}

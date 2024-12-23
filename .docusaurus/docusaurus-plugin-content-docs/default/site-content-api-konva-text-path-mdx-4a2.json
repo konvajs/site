@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.TextPath",
+  "title": "Konva.TextPath",
+  "description": "Path constructor.",
+  "source": "@site/content/api/Konva.TextPath.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.TextPath.html",
+  "permalink": "/api/Konva.TextPath.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.TextPath.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.TextPath",
+    "sidebar_label": "TextPath",
+    "slug": "/api/Konva.TextPath.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Text",
+    "permalink": "/api/Konva.Text.html"
+  },
+  "next": {
+    "title": "Transform",
+    "permalink": "/api/Konva.Transform.html"
+  }
+}

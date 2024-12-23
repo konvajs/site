@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Remove_Event",
+  "title": "Remove_Event",
+  "description": "title: HTML5 Canvas Remove Event Listener with Konva",
+  "source": "@site/content/docs/events/Remove_Event.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Remove_Event",
+  "permalink": "/docs/events/Remove_Event",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Remove_Event.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Pointer Events",
+    "permalink": "/docs/events/Pointer_Events.html"
+  },
+  "next": {
+    "title": "Remove Event",
+    "permalink": "/docs/events/Remove_Event.html"
+  }
+}

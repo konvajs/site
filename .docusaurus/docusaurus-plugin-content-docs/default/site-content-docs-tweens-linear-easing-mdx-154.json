@@ -1,0 +1,29 @@
+{
+  "id": "docs/tweens/Linear_Easing",
+  "title": "Basic Tweening Tutorial",
+  "description": "To tween properties with Konva, we can instantiate a Konva.Tween object and then start the tween by calling play().",
+  "source": "@site/content/docs/tweens/Linear_Easing.mdx",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/Linear_Easing.html",
+  "permalink": "/docs/tweens/Linear_Easing.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/Linear_Easing.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Basic Tweening Tutorial",
+    "sidebar_label": "Linear Easing",
+    "hide_table_of_contents": true,
+    "slug": "Linear_Easing.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Finish_Event",
+    "permalink": "/docs/tweens/Finish_Event"
+  },
+  "next": {
+    "title": "Filter Tweening",
+    "permalink": "/docs/tweens/Tween_Filter.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Objects_Snapping",
+  "title": "Objects_Snapping",
+  "description": "title: How to snap shapes positions on dragging with Konva?",
+  "source": "@site/content/docs/sandbox/Objects_Snapping.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Objects_Snapping",
+  "permalink": "/docs/sandbox/Objects_Snapping",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Objects_Snapping.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Native_Context_Access",
+    "permalink": "/docs/sandbox/Native_Context_Access"
+  },
+  "next": {
+    "title": "Physics_Simulator",
+    "permalink": "/docs/sandbox/Physics_Simulator"
+  }
+}

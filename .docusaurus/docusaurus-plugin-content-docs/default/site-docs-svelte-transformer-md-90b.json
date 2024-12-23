@@ -1,0 +1,24 @@
+{
+  "id": "svelte/Transformer",
+  "title": "Transformer",
+  "description": "title: How to resize and rotate canvas shapes with Svelte and Konva?",
+  "source": "@site/docs/svelte/Transformer.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Transformer",
+  "permalink": "/svelte/Transformer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/svelte/Transformer.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "SvelteKit",
+    "permalink": "/svelte/SvelteKit"
+  },
+  "next": {
+    "title": "zIndex",
+    "permalink": "/svelte/zIndex"
+  }
+}

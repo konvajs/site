@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Text",
+  "title": "Konva.Text",
+  "description": "Text constructor",
+  "source": "@site/docs/api/Konva.Text.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Text.html",
+  "permalink": "/api/Konva.Text.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Text.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Text",
+    "sidebar_label": "Text",
+    "slug": "/api/Konva.Text.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Tag",
+    "permalink": "/api/Konva.Tag.html"
+  },
+  "next": {
+    "title": "TextPath",
+    "permalink": "/api/Konva.TextPath.html"
+  }
+}

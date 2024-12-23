@@ -1,0 +1,15 @@
+{
+  "id": "data_and_serialization/Serialize_a_Stage",
+  "title": "Serialize_a_Stage",
+  "description": "title: Save HTML5 Canvas Stage as JSON String",
+  "source": "@site/content/data_and_serialization/Serialize_a_Stage.md",
+  "sourceDirName": "data_and_serialization",
+  "slug": "/data_and_serialization/Serialize_a_Stage",
+  "permalink": "/data_and_serialization/Serialize_a_Stage",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/data_and_serialization/Serialize_a_Stage.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

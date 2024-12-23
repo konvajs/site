@@ -1,0 +1,16 @@
+{
+  "id": "styling/Mouse_Cursor",
+  "title": "Mouse_Cursor",
+  "description": "title: HTML5 Canvas Change Mouse Cursor Style",
+  "source": "@site/content/styling/07-Mouse_Cursor.md",
+  "sourceDirName": "styling",
+  "slug": "/styling/Mouse_Cursor",
+  "permalink": "/styling/Mouse_Cursor",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/styling/07-Mouse_Cursor.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {}
+}

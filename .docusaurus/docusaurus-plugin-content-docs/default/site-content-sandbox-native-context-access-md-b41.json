@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Native_Context_Access",
+  "title": "Native_Context_Access",
+  "description": "title: How to access native 2d context",
+  "source": "@site/content/sandbox/Native_Context_Access.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Native_Context_Access",
+  "permalink": "/sandbox/Native_Context_Access",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Native_Context_Access.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Multi-touch_Scale_Stage",
+    "permalink": "/sandbox/Multi-touch_Scale_Stage"
+  },
+  "next": {
+    "title": "Objects_Snapping",
+    "permalink": "/sandbox/Objects_Snapping"
+  }
+}

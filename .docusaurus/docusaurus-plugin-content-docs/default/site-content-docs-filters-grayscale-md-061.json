@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Grayscale",
+  "title": "Grayscale",
+  "description": "title: HTML5 Canvas Grayscale Image Filter Tutorial",
+  "source": "@site/content/docs/filters/Grayscale.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Grayscale",
+  "permalink": "/docs/filters/Grayscale",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Grayscale.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Enhance",
+    "permalink": "/docs/filters/Enhance"
+  },
+  "next": {
+    "title": "HSL",
+    "permalink": "/docs/filters/HSL"
+  }
+}

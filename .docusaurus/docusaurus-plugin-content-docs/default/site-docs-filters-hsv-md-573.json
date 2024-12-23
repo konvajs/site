@@ -1,0 +1,24 @@
+{
+  "id": "filters/HSV",
+  "title": "HSV",
+  "description": "title: HTML5 Canvas Hue, Saturation and Value filter Image Tutorial",
+  "source": "@site/docs/filters/HSV.md",
+  "sourceDirName": "filters",
+  "slug": "/filters/HSV",
+  "permalink": "/filters/HSV",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/filters/HSV.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "HSL",
+    "permalink": "/filters/HSL"
+  },
+  "next": {
+    "title": "Invert",
+    "permalink": "/filters/Invert"
+  }
+}

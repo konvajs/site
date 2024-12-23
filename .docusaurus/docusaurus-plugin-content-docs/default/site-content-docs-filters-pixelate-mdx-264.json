@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Pixelate",
+  "title": "HTML5 Canvas Pixelate filter Image Tutorial",
+  "description": "To apply filter to an Konva.Node, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Pixelate.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Pixelate.html",
+  "permalink": "/docs/filters/Pixelate.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Pixelate.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Pixelate filter Image Tutorial",
+    "sidebar_label": "Pixelate",
+    "hide_table_of_contents": true,
+    "slug": "Pixelate.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Noise",
+    "permalink": "/docs/filters/Noise.html"
+  },
+  "next": {
+    "title": "RGB",
+    "permalink": "/docs/filters/RGB.html"
+  }
+}

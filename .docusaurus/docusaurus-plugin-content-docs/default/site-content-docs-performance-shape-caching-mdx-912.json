@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Shape_Caching",
+  "title": "HTML5 Canvas Shape Caching Performance Tip",
+  "description": "If you have a complex shape with many drawing operations, or if you're applying filters,",
+  "source": "@site/content/docs/performance/Shape_Caching.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Shape_Caching.html",
+  "permalink": "/docs/performance/Shape_Caching.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Shape_Caching.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Caching Performance Tip",
+    "sidebar_label": "Shape Caching",
+    "hide_table_of_contents": true,
+    "slug": "Shape_Caching.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Optimize Strokes",
+    "permalink": "/docs/performance/Optimize_Strokes.html"
+  },
+  "next": {
+    "title": "Access_Konva_Nodes",
+    "permalink": "/docs/react/Access_Konva_Nodes"
+  }
+}

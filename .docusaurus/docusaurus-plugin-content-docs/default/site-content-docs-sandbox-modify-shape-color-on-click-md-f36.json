@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Modify_Shape_Color_on_Click",
+  "title": "Modify_Shape_Color_on_Click",
+  "description": "title: Modify Shape Color on Click",
+  "source": "@site/content/docs/sandbox/Modify_Shape_Color_on_Click.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Modify_Shape_Color_on_Click",
+  "permalink": "/docs/sandbox/Modify_Shape_Color_on_Click",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Modify_Shape_Color_on_Click.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Modify_Curves_with_Anchor_Points",
+    "permalink": "/docs/sandbox/Modify_Curves_with_Anchor_Points"
+  },
+  "next": {
+    "title": "Multi-touch_Scale_Shape",
+    "permalink": "/docs/sandbox/Multi-touch_Scale_Shape"
+  }
+}

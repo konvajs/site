@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/Events",
+  "title": "Events",
+  "description": "title: How to listen to an event on a canvas shape with Svelte and Konva?",
+  "source": "@site/content/docs/svelte/Events.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/Events",
+  "permalink": "/docs/svelte/Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag_And_Drop",
+    "permalink": "/docs/svelte/Drag_And_Drop"
+  },
+  "next": {
+    "title": "Filters",
+    "permalink": "/docs/svelte/Filters"
+  }
+}

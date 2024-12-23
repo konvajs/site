@@ -1,0 +1,29 @@
+{
+  "id": "docs/data_and_serialization/High-Quality-Export",
+  "title": "HTML5 Canvas Export to High Quality Image Tutorial",
+  "description": "If you need to export a stage as an image or as base64 then you can use the stage.toDataURL() or stage.toImage() methods.",
+  "source": "@site/content/docs/data_and_serialization/High-Quality-Export.mdx",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/High-Quality-Export.html",
+  "permalink": "/docs/data_and_serialization/High-Quality-Export.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/High-Quality-Export.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Export to High Quality Image Tutorial",
+    "sidebar_label": "High Quality Export",
+    "hide_table_of_contents": true,
+    "slug": "High-Quality-Export.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Complex Load",
+    "permalink": "/docs/data_and_serialization/Complex_Load.html"
+  },
+  "next": {
+    "title": "Serialize Stage",
+    "permalink": "/docs/data_and_serialization/Serialize_a_Stage.html"
+  }
+}

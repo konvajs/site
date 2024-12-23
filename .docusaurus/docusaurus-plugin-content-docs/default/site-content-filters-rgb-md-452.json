@@ -1,0 +1,15 @@
+{
+  "id": "filters/RGB",
+  "title": "RGB",
+  "description": "title: HTML5 Canvas RGB filter Image Tutorial",
+  "source": "@site/content/filters/RGB.md",
+  "sourceDirName": "filters",
+  "slug": "/filters/RGB",
+  "permalink": "/filters/RGB",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/filters/RGB.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

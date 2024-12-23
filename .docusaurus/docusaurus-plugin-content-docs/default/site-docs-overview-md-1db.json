@@ -1,0 +1,30 @@
+{
+  "id": "overview",
+  "title": "Konva Framework Overview",
+  "description": "What's Konva?",
+  "source": "@site/docs/overview.md",
+  "sourceDirName": ".",
+  "slug": "/overview.html",
+  "permalink": "/overview.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/overview.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2,
+    "title": "Konva Framework Overview",
+    "sidebar_label": "Overview",
+    "slug": "overview.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Intro",
+    "permalink": "/index.html"
+  },
+  "next": {
+    "title": "Support",
+    "permalink": "/support.html"
+  }
+}

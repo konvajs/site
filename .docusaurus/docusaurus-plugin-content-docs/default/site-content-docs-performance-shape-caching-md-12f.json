@@ -1,0 +1,24 @@
+{
+  "id": "docs/performance/Shape_Caching",
+  "title": "Shape_Caching",
+  "description": "title: HTML5 Canvas Shape Caching Performance Tip",
+  "source": "@site/content/docs/performance/Shape_Caching.md",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Shape_Caching",
+  "permalink": "/docs/performance/Shape_Caching",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Shape_Caching.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Optimize Strokes",
+    "permalink": "/docs/performance/Optimize_Strokes.html"
+  },
+  "next": {
+    "title": "Shape Caching",
+    "permalink": "/docs/performance/Shape_Caching.html"
+  }
+}

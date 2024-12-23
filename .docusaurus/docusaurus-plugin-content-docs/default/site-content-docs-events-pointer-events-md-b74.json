@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Pointer_Events",
+  "title": "Pointer_Events",
+  "description": "title: HTML5 Canvas Pointer Events Tutorial",
+  "source": "@site/content/docs/events/Pointer_Events.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Pointer_Events",
+  "permalink": "/docs/events/Pointer_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Pointer_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Multi Event",
+    "permalink": "/docs/events/Multi_Event.html"
+  },
+  "next": {
+    "title": "Pointer Events",
+    "permalink": "/docs/events/Pointer_Events.html"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Sepia",
+  "title": "HTML5 Canvas Sepia filter Image Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Sepia.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Sepia.html",
+  "permalink": "/docs/filters/Sepia.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Sepia.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Sepia filter Image Tutorial",
+    "sidebar_label": "Sepia",
+    "hide_table_of_contents": true,
+    "slug": "Sepia.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "RGB",
+    "permalink": "/docs/filters/RGB.html"
+  },
+  "next": {
+    "title": "Solarize",
+    "permalink": "/docs/filters/Solarize.html"
+  }
+}

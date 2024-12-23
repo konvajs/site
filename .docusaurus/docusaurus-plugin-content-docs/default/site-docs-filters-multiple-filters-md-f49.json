@@ -1,0 +1,24 @@
+{
+  "id": "filters/Multiple_Filters",
+  "title": "Multiple_Filters",
+  "description": "title: HTML5 Canvas Multiple Filters Tutorial",
+  "source": "@site/docs/filters/Multiple_Filters.md",
+  "sourceDirName": "filters",
+  "slug": "/filters/Multiple_Filters",
+  "permalink": "/filters/Multiple_Filters",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/filters/Multiple_Filters.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mask",
+    "permalink": "/filters/Mask"
+  },
+  "next": {
+    "title": "Noise",
+    "permalink": "/filters/Noise"
+  }
+}

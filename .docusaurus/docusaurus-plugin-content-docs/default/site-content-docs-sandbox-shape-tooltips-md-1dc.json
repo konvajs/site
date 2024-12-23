@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Shape_Tooltips",
+  "title": "Shape_Tooltips",
+  "description": "title: Shape Tooltips",
+  "source": "@site/content/docs/sandbox/Shape_Tooltips.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Shape_Tooltips",
+  "permalink": "/docs/sandbox/Shape_Tooltips",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Shape_Tooltips.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Shape_Tango",
+    "permalink": "/docs/sandbox/Shape_Tango"
+  },
+  "next": {
+    "title": "Simple_Window_Frame",
+    "permalink": "/docs/sandbox/Simple_Window_Frame"
+  }
+}

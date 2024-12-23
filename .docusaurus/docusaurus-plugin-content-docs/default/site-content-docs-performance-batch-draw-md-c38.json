@@ -1,0 +1,24 @@
+{
+  "id": "docs/performance/Batch_Draw",
+  "title": "Batch_Draw",
+  "description": "title: HTML5 Canvas Batch Draw Tip",
+  "source": "@site/content/docs/performance/Batch_Draw.md",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Batch_Draw",
+  "permalink": "/docs/performance/Batch_Draw",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Batch_Draw.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Avoid Memory Leaks",
+    "permalink": "/docs/performance/Avoid_Memory_Leaks.html"
+  },
+  "next": {
+    "title": "Batch Draw",
+    "permalink": "/docs/performance/Batch_Draw.html"
+  }
+}

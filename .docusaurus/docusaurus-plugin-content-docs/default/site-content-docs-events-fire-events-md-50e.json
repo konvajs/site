@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Fire_Events",
+  "title": "Fire_Events",
+  "description": "title: HTML5 Canvas Fire Event with Konva",
+  "source": "@site/content/docs/events/Fire_Events.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Fire_Events",
+  "permalink": "/docs/events/Fire_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Fire_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Event Delegation",
+    "permalink": "/docs/events/Event_Delegation.html"
+  },
+  "next": {
+    "title": "Fire Events",
+    "permalink": "/docs/events/Fire_Events.html"
+  }
+}

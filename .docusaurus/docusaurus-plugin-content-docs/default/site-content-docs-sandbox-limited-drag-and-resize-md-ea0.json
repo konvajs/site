@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Limited_Drag_And_Resize",
+  "title": "Limited_Drag_And_Resize",
+  "description": "title: How to limit dragging and resizing of shapes by canvas stage?",
+  "source": "@site/content/docs/sandbox/Limited_Drag_And_Resize.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Limited_Drag_And_Resize",
+  "permalink": "/docs/sandbox/Limited_Drag_And_Resize",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Limited_Drag_And_Resize.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Jumping_Bunnies",
+    "permalink": "/docs/sandbox/Jumping_Bunnies"
+  },
+  "next": {
+    "title": "Mirror_Canvas_Shape",
+    "permalink": "/docs/sandbox/Mirror_Canvas_Shape"
+  }
+}

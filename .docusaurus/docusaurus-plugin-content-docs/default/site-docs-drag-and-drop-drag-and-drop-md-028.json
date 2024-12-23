@@ -1,0 +1,24 @@
+{
+  "id": "drag_and_drop/Drag_and_Drop",
+  "title": "Drag_and_Drop",
+  "description": "title: HTML5 Canvas Drag and Drop Tutorial",
+  "source": "@site/docs/drag_and_drop/Drag_and_Drop.md",
+  "sourceDirName": "drag_and_drop",
+  "slug": "/drag_and_drop/",
+  "permalink": "/drag_and_drop/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/drag_and_drop/Drag_and_Drop.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stage_Data_URL",
+    "permalink": "/data_and_serialization/Stage_Data_URL"
+  },
+  "next": {
+    "title": "Complex_Drag_and_Drop",
+    "permalink": "/drag_and_drop/Complex_Drag_and_Drop"
+  }
+}

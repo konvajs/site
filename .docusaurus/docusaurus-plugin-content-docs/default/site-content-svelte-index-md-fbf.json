@@ -1,0 +1,15 @@
+{
+  "id": "svelte/index",
+  "title": "index",
+  "description": "title: Getting started with Svelte and canvas via Konva",
+  "source": "@site/content/svelte/index.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/",
+  "permalink": "/svelte/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

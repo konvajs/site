@@ -1,0 +1,24 @@
+{
+  "id": "data_and_serialization/Best_Practices",
+  "title": "Best_Practices",
+  "description": "title: Save and Load HTML5 Canvas Stage Best Practices",
+  "source": "@site/docs/data_and_serialization/Best_Practices.md",
+  "sourceDirName": "data_and_serialization",
+  "slug": "/data_and_serialization/Best_Practices",
+  "permalink": "/data_and_serialization/Best_Practices",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/data_and_serialization/Best_Practices.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Clipping_Regions",
+    "permalink": "/clipping/Clipping_Regions"
+  },
+  "next": {
+    "title": "Complex_Load",
+    "permalink": "/data_and_serialization/Complex_Load"
+  }
+}

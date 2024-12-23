@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Image_Resize",
+  "title": "Image_Resize",
+  "description": "title: HTML5 Canvas Drag, Drop, and Resize Images Demo",
+  "source": "@site/content/sandbox/Image_Resize.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Image_Resize",
+  "permalink": "/sandbox/Image_Resize",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Image_Resize.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Image_Labeling",
+    "permalink": "/sandbox/Image_Labeling"
+  },
+  "next": {
+    "title": "Interactive_Building_Map",
+    "permalink": "/sandbox/Interactive_Building_Map"
+  }
+}

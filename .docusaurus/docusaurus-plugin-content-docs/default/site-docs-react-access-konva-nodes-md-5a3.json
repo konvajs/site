@@ -1,0 +1,24 @@
+{
+  "id": "react/Access_Konva_Nodes",
+  "title": "Access_Konva_Nodes",
+  "description": "title: How to access Konva nodes from react-konva?",
+  "source": "@site/docs/react/Access_Konva_Nodes.md",
+  "sourceDirName": "react",
+  "slug": "/react/Access_Konva_Nodes",
+  "permalink": "/react/Access_Konva_Nodes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/Access_Konva_Nodes.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "index",
+    "permalink": "/react/"
+  },
+  "next": {
+    "title": "Canvas_Export",
+    "permalink": "/react/Canvas_Export"
+  }
+}

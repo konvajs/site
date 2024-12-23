@@ -1,0 +1,24 @@
+{
+  "id": "events/Binding_Events",
+  "title": "Binding_Events",
+  "description": "title: HTML5 Canvas Shape Events",
+  "source": "@site/docs/events/Binding_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Binding_Events",
+  "permalink": "/events/Binding_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/events/Binding_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Simple_Drag_Bounds",
+    "permalink": "/drag_and_drop/Simple_Drag_Bounds"
+  },
+  "next": {
+    "title": "Cancel_Propagation",
+    "permalink": "/events/Cancel_Propagation"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Canvas_Background",
+  "title": "Canvas_Background",
+  "description": "title: How to add background to canvas?",
+  "source": "@site/content/sandbox/Canvas_Background.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Canvas_Background",
+  "permalink": "/sandbox/Canvas_Background",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Canvas_Background.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Animation_Stress_Test",
+    "permalink": "/sandbox/Animation_Stress_Test"
+  },
+  "next": {
+    "title": "Canvas_Context_Menu",
+    "permalink": "/sandbox/Canvas_Context_Menu"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/tweens/All_Easings",
+  "title": "More Easing Functions Tutorial",
+  "description": "This tutorial demonstrates all of the easing function sets provided by Konva, including:",
+  "source": "@site/content/docs/tweens/All_Easings.md",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/All_Easings.html",
+  "permalink": "/docs/tweens/All_Easings.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/All_Easings.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "More Easing Functions Tutorial",
+    "sidebar_label": "All Easings",
+    "hide_table_of_contents": true,
+    "slug": "All_Easings.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "All Controls",
+    "permalink": "/docs/tweens/All_Controls.html"
+  },
+  "next": {
+    "title": "Common_Easings",
+    "permalink": "/docs/tweens/Common_Easings"
+  }
+}

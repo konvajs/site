@@ -1,0 +1,30 @@
+{
+  "id": "docs/drag_and_drop/Simple_Drag_Bounds",
+  "title": "HTML5 Canvas Simple Drag Bounds Tutorial",
+  "description": "To restrict the movement of shapes being dragged and dropped with Konva,",
+  "source": "@site/content/docs/drag_and_drop/07_Simple_Drag_Bounds.mdx",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Simple_Drag_Bounds.html",
+  "permalink": "/docs/drag_and_drop/Simple_Drag_Bounds.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/07_Simple_Drag_Bounds.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "title": "HTML5 Canvas Simple Drag Bounds Tutorial",
+    "sidebar_label": "Simple Drag Bounds",
+    "hide_table_of_contents": true,
+    "slug": "Simple_Drag_Bounds.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag Events",
+    "permalink": "/docs/drag_and_drop/Drag_Events.html"
+  },
+  "next": {
+    "title": "Complex Drag and Drop",
+    "permalink": "/docs/drag_and_drop/Complex_Drag_and_Drop.html"
+  }
+}

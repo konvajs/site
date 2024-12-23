@@ -1,0 +1,29 @@
+{
+  "id": "docs/animations/Create_an_Animation",
+  "title": "HTML5 Canvas Konva Animation Tutorial",
+  "description": "To create custom animations with Konva, we can use the Konva.Animation",
+  "source": "@site/content/docs/animations/Create_an_Animation.mdx",
+  "sourceDirName": "docs/animations",
+  "slug": "/docs/animations/Create_an_Animation.html",
+  "permalink": "/docs/animations/Create_an_Animation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/animations/Create_an_Animation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Konva Animation Tutorial",
+    "sidebar_label": "Create Animation",
+    "hide_table_of_contents": true,
+    "slug": "Create_an_Animation.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Filter Tweening",
+    "permalink": "/docs/tweens/Tween_Filter.html"
+  },
+  "next": {
+    "title": "Moving",
+    "permalink": "/docs/animations/Moving.html"
+  }
+}

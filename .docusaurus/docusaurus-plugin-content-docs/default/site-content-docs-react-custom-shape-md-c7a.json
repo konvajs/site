@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Custom_Shape",
+  "title": "Custom_Shape",
+  "description": "title: How to draw custom shapes with React?",
+  "source": "@site/content/docs/react/Custom_Shape.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Custom_Shape",
+  "permalink": "/docs/react/Custom_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Custom_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Complex_Animations",
+    "permalink": "/docs/react/Complex_Animations"
+  },
+  "next": {
+    "title": "DOM_Portal",
+    "permalink": "/docs/react/DOM_Portal"
+  }
+}

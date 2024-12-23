@@ -1,0 +1,15 @@
+{
+  "id": "data_and_serialization/Best_Practices",
+  "title": "Best_Practices",
+  "description": "title: Save and Load HTML5 Canvas Stage Best Practices",
+  "source": "@site/content/data_and_serialization/Best_Practices.md",
+  "sourceDirName": "data_and_serialization",
+  "slug": "/data_and_serialization/Best_Practices",
+  "permalink": "/data_and_serialization/Best_Practices",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/data_and_serialization/Best_Practices.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

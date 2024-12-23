@@ -1,0 +1,24 @@
+{
+  "id": "vue/Filters",
+  "title": "Filters",
+  "description": "title: How to apply canvas filters with vue and konva?",
+  "source": "@site/docs/vue/Filters.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Filters",
+  "permalink": "/vue/Filters",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/vue/Filters.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Events",
+    "permalink": "/vue/Events"
+  },
+  "next": {
+    "title": "Images",
+    "permalink": "/vue/Images"
+  }
+}

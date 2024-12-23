@@ -1,0 +1,29 @@
+{
+  "id": "docs/data_and_serialization/Serialize_a_Stage",
+  "title": "HTML5 Canvas Stage Serialization Tutorial",
+  "description": "To serialize a stage with Konva, we can use the toJSON() method.",
+  "source": "@site/content/docs/data_and_serialization/Serialize_a_Stage.mdx",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/Serialize_a_Stage.html",
+  "permalink": "/docs/data_and_serialization/Serialize_a_Stage.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/Serialize_a_Stage.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Stage Serialization Tutorial",
+    "sidebar_label": "Serialize Stage",
+    "hide_table_of_contents": true,
+    "slug": "Serialize_a_Stage.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "High Quality Export",
+    "permalink": "/docs/data_and_serialization/High-Quality-Export.html"
+  },
+  "next": {
+    "title": "Simple Load",
+    "permalink": "/docs/data_and_serialization/Simple_Load.html"
+  }
+}

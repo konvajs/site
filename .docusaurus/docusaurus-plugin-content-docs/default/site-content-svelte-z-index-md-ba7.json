@@ -1,0 +1,15 @@
+{
+  "id": "svelte/zIndex",
+  "title": "zIndex",
+  "description": "title: How to change the zIndex of nodes with svelte-konva?",
+  "source": "@site/content/svelte/zIndex.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/zIndex",
+  "permalink": "/svelte/zIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/zIndex.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,29 @@
+{
+  "id": "shapes/TextPath",
+  "title": "HTML5 canvas TextPath Tutorial",
+  "description": "To create text that follows a path with Konva, we can instantiate a Konva.TextPath() object.",
+  "source": "@site/docs/shapes/TextPath.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/TextPath.html",
+  "permalink": "/docs/shapes/TextPath.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/shapes/TextPath.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas TextPath Tutorial",
+    "sidebar_label": "TextPath",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/TextPath.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Text",
+    "permalink": "/docs/shapes/Text.html"
+  },
+  "next": {
+    "title": "Wedge",
+    "permalink": "/docs/shapes/Wedge.html"
+  }
+}

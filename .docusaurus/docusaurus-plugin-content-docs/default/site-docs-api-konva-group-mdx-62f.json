@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Group",
+  "title": "Konva.Group",
+  "description": "Group constructor.  Groups are used to contain shapes or other groups.",
+  "source": "@site/docs/api/Konva.Group.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Group.html",
+  "permalink": "/api/Konva.Group.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Group.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Group",
+    "sidebar_label": "Group",
+    "slug": "/api/Konva.Group.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Filters",
+    "permalink": "/api/Konva.Filters.html"
+  },
+  "next": {
+    "title": "Image",
+    "permalink": "/api/Konva.Image.html"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "selectors/Select_by_Type",
+  "title": "Select_by_Type",
+  "description": "title: HTML5 Canvas Select Shape by Type Tutorial",
+  "source": "@site/content/selectors/Select_by_Type.md",
+  "sourceDirName": "selectors",
+  "slug": "/selectors/Select_by_Type",
+  "permalink": "/selectors/Select_by_Type",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/selectors/Select_by_Type.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

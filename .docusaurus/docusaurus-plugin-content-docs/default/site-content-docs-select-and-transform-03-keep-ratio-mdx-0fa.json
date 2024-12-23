@@ -1,0 +1,30 @@
+{
+  "id": "docs/select_and_transform/Keep_Ratio",
+  "title": "HTML5 Canvas Shape Resize With Ratio Preserved",
+  "description": "By default when you resize with corner anchors (top-left, top-right, bottom-left or bottom-right) Transformer will save ratio of a node.",
+  "source": "@site/content/docs/select_and_transform/03_Keep_Ratio.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Keep_Ratio.html",
+  "permalink": "/docs/select_and_transform/Keep_Ratio.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/03_Keep_Ratio.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Resize With Ratio Preserved",
+    "sidebar_label": "Keep Ratio",
+    "hide_table_of_contents": true,
+    "slug": "Keep_Ratio.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Centered Scaling",
+    "permalink": "/docs/select_and_transform/Centered_Scaling.html"
+  },
+  "next": {
+    "title": "Styling",
+    "permalink": "/docs/select_and_transform/Transformer_Styling.html"
+  }
+}

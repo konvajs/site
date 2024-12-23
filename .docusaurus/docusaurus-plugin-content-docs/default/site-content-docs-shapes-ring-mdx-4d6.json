@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Ring",
+  "title": "HTML5 canvas Ring Tutorial",
+  "description": "To create a ring with Konva, you can use the Konva.Ring() object.",
+  "source": "@site/content/docs/shapes/Ring.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Ring.html",
+  "permalink": "/docs/shapes/Ring.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Ring.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Ring Tutorial",
+    "sidebar_label": "Ring",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Ring.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Regular Polygon",
+    "permalink": "/docs/shapes/RegularPolygon.html"
+  },
+  "next": {
+    "title": "Sprite",
+    "permalink": "/docs/shapes/Sprite.html"
+  }
+}

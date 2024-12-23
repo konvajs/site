@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Zoom_Layer_On_hover",
+  "title": "Zoom_Layer_On_hover",
+  "description": "title: Zoom Image on Hover",
+  "source": "@site/content/sandbox/Zoom_Layer_On_hover.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Zoom_Layer_On_hover",
+  "permalink": "/sandbox/Zoom_Layer_On_hover",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Zoom_Layer_On_hover.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Window_Frame_Designer",
+    "permalink": "/sandbox/Window_Frame_Designer"
+  },
+  "next": {
+    "title": "Zooming_Relative_To_Pointer",
+    "permalink": "/sandbox/Zooming_Relative_To_Pointer"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Desktop_and_Mobile",
+  "title": "HTML5 Canvas Desktop and Mobile Events Support Tutorial",
+  "description": "Note: this demo may be outdate, because modern browsers support pointer events. And you can use pointer events in Konva too. See Pointer Events Demo. But if you prefer not to use pointer events, keep reading..._",
+  "source": "@site/content/docs/events/Desktop_and_Mobile.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Desktop_and_Mobile.html",
+  "permalink": "/docs/events/Desktop_and_Mobile.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Desktop_and_Mobile.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Desktop and Mobile Events Support Tutorial",
+    "sidebar_label": "Desktop and Mobile",
+    "hide_table_of_contents": true,
+    "slug": "Desktop_and_Mobile.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Custom Hit Region",
+    "permalink": "/docs/events/Custom_Hit_Region.html"
+  },
+  "next": {
+    "title": "Event Delegation",
+    "permalink": "/docs/events/Event_Delegation.html"
+  }
+}

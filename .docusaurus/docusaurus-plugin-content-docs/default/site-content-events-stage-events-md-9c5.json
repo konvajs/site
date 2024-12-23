@@ -1,0 +1,15 @@
+{
+  "id": "events/Stage_Events",
+  "title": "Stage_Events",
+  "description": "title: HTML5 Canvas Special Stage Events Konva",
+  "source": "@site/content/events/Stage_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Stage_Events",
+  "permalink": "/events/Stage_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Stage_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

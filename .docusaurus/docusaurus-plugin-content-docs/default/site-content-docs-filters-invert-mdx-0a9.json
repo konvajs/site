@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Invert",
+  "title": "HTML5 Canvas Invert Image Filter Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache() function. Then apply filter with filters() function.",
+  "source": "@site/content/docs/filters/Invert.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Invert.html",
+  "permalink": "/docs/filters/Invert.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Invert.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Invert Image Filter Tutorial",
+    "sidebar_label": "Invert",
+    "hide_table_of_contents": true,
+    "slug": "Invert.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "HSV",
+    "permalink": "/docs/filters/HSV.html"
+  },
+  "next": {
+    "title": "Kaleidoscope",
+    "permalink": "/docs/filters/Kaleidoscope.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "react/Canvas_Export",
+  "title": "Canvas_Export",
+  "description": "title: How to export a canvas into an image from react-konva?",
+  "source": "@site/docs/react/Canvas_Export.md",
+  "sourceDirName": "react",
+  "slug": "/react/Canvas_Export",
+  "permalink": "/react/Canvas_Export",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/Canvas_Export.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Access_Konva_Nodes",
+    "permalink": "/react/Access_Konva_Nodes"
+  },
+  "next": {
+    "title": "Canvas_Portal",
+    "permalink": "/react/Canvas_Portal"
+  }
+}

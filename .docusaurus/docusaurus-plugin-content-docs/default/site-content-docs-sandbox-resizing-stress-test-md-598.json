@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Resizing_Stress_Test",
+  "title": "Resizing_Stress_Test",
+  "description": "title: Resizing Stress Test with Konva",
+  "source": "@site/content/docs/sandbox/Resizing_Stress_Test.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Resizing_Stress_Test",
+  "permalink": "/docs/sandbox/Resizing_Stress_Test",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Resizing_Stress_Test.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Relative_Pointer_Position",
+    "permalink": "/docs/sandbox/Relative_Pointer_Position"
+  },
+  "next": {
+    "title": "Responsive_Canvas",
+    "permalink": "/docs/sandbox/Responsive_Canvas"
+  }
+}

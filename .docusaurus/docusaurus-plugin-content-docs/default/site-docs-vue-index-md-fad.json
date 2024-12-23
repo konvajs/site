@@ -1,0 +1,24 @@
+{
+  "id": "vue/index",
+  "title": "index",
+  "description": "title: Getting started with vue and canvas via Konva",
+  "source": "@site/docs/vue/index.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/",
+  "permalink": "/vue/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/vue/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Tween_Filter",
+    "permalink": "/tweens/Tween_Filter"
+  },
+  "next": {
+    "title": "Cache",
+    "permalink": "/vue/Cache"
+  }
+}

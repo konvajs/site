@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Binding_Events",
+  "title": "HTML5 Canvas Shape Events",
+  "description": "To detect shape events with Konva, we can use the on() method to bind event handlers to a node.",
+  "source": "@site/content/docs/events/Binding_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Binding_Events.html",
+  "permalink": "/docs/events/Binding_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Binding_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Events",
+    "sidebar_label": "Binding Events",
+    "hide_table_of_contents": true,
+    "slug": "Binding_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Fill and stroke order",
+    "permalink": "/docs/styling/Fill_Stroke_Order.html"
+  },
+  "next": {
+    "title": "Cancel Propagation",
+    "permalink": "/docs/events/Cancel_Propagation.html"
+  }
+}

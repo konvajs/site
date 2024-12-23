@@ -1,0 +1,15 @@
+{
+  "id": "events/Fire_Events",
+  "title": "Fire_Events",
+  "description": "title: HTML5 Canvas Fire Event with Konva",
+  "source": "@site/content/events/Fire_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Fire_Events",
+  "permalink": "/events/Fire_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Fire_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

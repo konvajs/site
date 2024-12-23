@@ -1,0 +1,24 @@
+{
+  "id": "svelte/Labels",
+  "title": "Labels",
+  "description": "title: Using labels with Svelte",
+  "source": "@site/docs/svelte/Labels.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Labels",
+  "permalink": "/svelte/Labels",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/svelte/Labels.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Konva_Node",
+    "permalink": "/svelte/Konva_Node"
+  },
+  "next": {
+    "title": "Save_Load",
+    "permalink": "/svelte/Save_Load"
+  }
+}

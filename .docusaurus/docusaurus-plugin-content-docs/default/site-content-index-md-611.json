@@ -1,0 +1,22 @@
+{
+  "id": "index",
+  "title": "Starting with Konva",
+  "description": "What's Konva?",
+  "source": "@site/content/index.md",
+  "sourceDirName": ".",
+  "slug": "/index.html",
+  "permalink": "/index.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/index.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1,
+    "title": "Starting with Konva",
+    "sidebar_label": "Intro",
+    "hide_table_of_contents": true,
+    "slug": "index.html"
+  }
+}

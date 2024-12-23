@@ -1,0 +1,15 @@
+{
+  "id": "tweens/All_Controls",
+  "title": "All_Controls",
+  "description": "title: HTML5 Canvas All Tween Controls Tutorial",
+  "source": "@site/content/tweens/All_Controls.md",
+  "sourceDirName": "tweens",
+  "slug": "/tweens/All_Controls",
+  "permalink": "/tweens/All_Controls",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/tweens/All_Controls.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

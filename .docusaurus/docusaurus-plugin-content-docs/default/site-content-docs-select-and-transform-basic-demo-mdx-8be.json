@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Basic_demo",
+  "title": "HTML5 Canvas Shape select, resize and rotate",
+  "description": "Transformer is a special kind of Konva.Group. It allows you easily resize and rotate any node or set of nodes.",
+  "source": "@site/content/docs/select_and_transform/Basic_demo.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Basic_demo.html",
+  "permalink": "/docs/select_and_transform/Basic_demo.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Basic_demo.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape select, resize and rotate",
+    "sidebar_label": "Basic demo",
+    "hide_table_of_contents": true,
+    "slug": "Basic_demo.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drop Events",
+    "permalink": "/docs/drag_and_drop/Drop_Events.html"
+  },
+  "next": {
+    "title": "Centered Scaling",
+    "permalink": "/docs/select_and_transform/Centered_Scaling.html"
+  }
+}

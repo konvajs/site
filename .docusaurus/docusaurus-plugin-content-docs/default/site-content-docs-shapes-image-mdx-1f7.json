@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Image",
+  "title": "HTML5 canvas Image Tutorial",
+  "description": "To create an image with Konva, you can use the Konva.Image() object.",
+  "source": "@site/content/docs/shapes/Image.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Image.html",
+  "permalink": "/docs/shapes/Image.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Image.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Image Tutorial",
+    "sidebar_label": "Image",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Image.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Group",
+    "permalink": "/docs/shapes/Group.html"
+  },
+  "next": {
+    "title": "Label",
+    "permalink": "/docs/shapes/Label.html"
+  }
+}

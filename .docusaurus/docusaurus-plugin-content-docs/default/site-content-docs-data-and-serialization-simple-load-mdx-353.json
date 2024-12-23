@@ -1,0 +1,29 @@
+{
+  "id": "docs/data_and_serialization/Simple_Load",
+  "title": "Load Simple HTML5 Canvas Stage from JSON Tutorial",
+  "description": "To load a simple stage from JSON with Konva, we can use the Konva.Node.create() method.",
+  "source": "@site/content/docs/data_and_serialization/Simple_Load.mdx",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/Simple_Load.html",
+  "permalink": "/docs/data_and_serialization/Simple_Load.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/Simple_Load.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Load Simple HTML5 Canvas Stage from JSON Tutorial",
+    "sidebar_label": "Simple Load",
+    "hide_table_of_contents": true,
+    "slug": "Simple_Load.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Serialize Stage",
+    "permalink": "/docs/data_and_serialization/Serialize_a_Stage.html"
+  },
+  "next": {
+    "title": "Stage Data URL",
+    "permalink": "/docs/data_and_serialization/Stage_Data_URL.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Canvas_Context_Menu",
+  "title": "Canvas_Context_Menu",
+  "description": "title: How to show a context menu for HTML5 canvas shape?",
+  "source": "@site/docs/sandbox/Canvas_Context_Menu.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Canvas_Context_Menu",
+  "permalink": "/sandbox/Canvas_Context_Menu",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Canvas_Context_Menu.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Canvas_Background",
+    "permalink": "/sandbox/Canvas_Background"
+  },
+  "next": {
+    "title": "Canvas_Editor",
+    "permalink": "/sandbox/Canvas_Editor"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Blur",
+  "title": "HTML5 Canvas Blur Image Filter Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Blur.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Blur.html",
+  "permalink": "/docs/filters/Blur.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Blur.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Blur Image Filter Tutorial",
+    "sidebar_label": "Blur",
+    "hide_table_of_contents": true,
+    "slug": "Blur.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "zIndex",
+    "permalink": "/docs/groups_and_layers/zIndex.html"
+  },
+  "next": {
+    "title": "Brighten",
+    "permalink": "/docs/filters/Brighten.html"
+  }
+}

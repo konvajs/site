@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Video_On_Canvas",
+  "title": "Video_On_Canvas",
+  "description": "title: How to display video on Canvas",
+  "source": "@site/content/docs/sandbox/Video_On_Canvas.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Video_On_Canvas",
+  "permalink": "/docs/sandbox/Video_On_Canvas",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Video_On_Canvas.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transparent_Group",
+    "permalink": "/docs/sandbox/Transparent_Group"
+  },
+  "next": {
+    "title": "Web_Worker",
+    "permalink": "/docs/sandbox/Web_Worker"
+  }
+}

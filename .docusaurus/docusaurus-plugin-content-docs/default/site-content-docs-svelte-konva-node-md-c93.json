@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/Konva_Node",
+  "title": "Konva_Node",
+  "description": "title: Accessing the Konva node",
+  "source": "@site/content/docs/svelte/Konva_Node.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/Konva_Node",
+  "permalink": "/docs/svelte/Konva_Node",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/Konva_Node.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Images",
+    "permalink": "/docs/svelte/Images"
+  },
+  "next": {
+    "title": "Labels",
+    "permalink": "/docs/svelte/Labels"
+  }
+}

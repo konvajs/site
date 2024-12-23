@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Label",
+  "title": "HTML5 canvas Label Tutorial",
+  "description": "To create a label with Konva, you can use the Konva.Label() object.",
+  "source": "@site/content/docs/shapes/Label.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Label.html",
+  "permalink": "/docs/shapes/Label.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Label.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Label Tutorial",
+    "sidebar_label": "Label",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Label.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Image",
+    "permalink": "/docs/shapes/Image.html"
+  },
+  "next": {
+    "title": "Line",
+    "permalink": "/docs/shapes/Line.html"
+  }
+}

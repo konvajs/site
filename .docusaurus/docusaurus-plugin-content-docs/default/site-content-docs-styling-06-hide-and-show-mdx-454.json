@@ -1,0 +1,30 @@
+{
+  "id": "docs/styling/Hide_and_Show",
+  "title": "HTML5 Canvas Hide and Show Shape Tutorial",
+  "description": "To hide and show a shape with Konva, we can set the visible property when we instantiate a shape, or we can use the hide() and show() methods.",
+  "source": "@site/content/docs/styling/06-Hide_and_Show.mdx",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/hide-and-show.html",
+  "permalink": "/docs/styling/hide-and-show.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/06-Hide_and_Show.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "title": "HTML5 Canvas Hide and Show Shape Tutorial",
+    "sidebar_label": "Hide and Show",
+    "hide_table_of_contents": true,
+    "slug": "hide-and-show.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Line Join",
+    "permalink": "/docs/styling/Line_Join.html"
+  },
+  "next": {
+    "title": "Mouse Cursor",
+    "permalink": "/docs/styling/Mouse_Cursor.html"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Ring",
+  "title": "Konva.Ring",
+  "description": "Ring constructor",
+  "source": "@site/docs/api/Konva.Ring.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Ring.html",
+  "permalink": "/api/Konva.Ring.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Ring.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Ring",
+    "sidebar_label": "Ring",
+    "slug": "/api/Konva.Ring.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "RegularPolygon",
+    "permalink": "/api/Konva.RegularPolygon.html"
+  },
+  "next": {
+    "title": "Shape",
+    "permalink": "/api/Konva.Shape.html"
+  }
+}

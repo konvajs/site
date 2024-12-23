@@ -1,0 +1,29 @@
+{
+  "id": "docs/animations/Stop_Animation",
+  "title": "HTML5 Canvas Konva Stop Animation Tutorial",
+  "description": "To stop an animation with Konva, we can use the stop() method.",
+  "source": "@site/content/docs/animations/Stop_Animation.mdx",
+  "sourceDirName": "docs/animations",
+  "slug": "/docs/animations/Stop_Animation.html",
+  "permalink": "/docs/animations/Stop_Animation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/animations/Stop_Animation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Konva Stop Animation Tutorial",
+    "sidebar_label": "Stop Animation",
+    "hide_table_of_contents": true,
+    "slug": "Stop_Animation.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Scaling",
+    "permalink": "/docs/animations/Scaling.html"
+  },
+  "next": {
+    "title": "Shapes_with_Tooltip",
+    "permalink": "/docs/sandbox/Shapes_with_Tooltip"
+  }
+}

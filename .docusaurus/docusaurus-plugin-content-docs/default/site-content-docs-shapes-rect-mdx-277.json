@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Rect",
+  "title": "HTML5 canvas Rectangle Tutorial",
+  "description": "To create a rectangle with Konva, we can instantiate a Konva.Rect() object.",
+  "source": "@site/content/docs/shapes/Rect.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Rect.html",
+  "permalink": "/docs/shapes/Rect.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Rect.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Rectangle Tutorial",
+    "sidebar_label": "Rectangle",
+    "hide_table_of_contents": true,
+    "slug": "Rect.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Path",
+    "permalink": "/docs/shapes/Path.html"
+  },
+  "next": {
+    "title": "Regular Polygon",
+    "permalink": "/docs/shapes/RegularPolygon.html"
+  }
+}

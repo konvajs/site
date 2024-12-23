@@ -1,0 +1,24 @@
+{
+  "id": "filters/Custom_Filter",
+  "title": "Custom_Filter",
+  "description": "title: HTML5 Canvas Custom Filter Tutorial",
+  "source": "@site/docs/filters/Custom_Filter.md",
+  "sourceDirName": "filters",
+  "slug": "/filters/Custom_Filter",
+  "permalink": "/filters/Custom_Filter",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/filters/Custom_Filter.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Contrast",
+    "permalink": "/filters/Contrast"
+  },
+  "next": {
+    "title": "Emboss",
+    "permalink": "/filters/Emboss"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "react/Undo-Redo",
+  "title": "Undo-Redo",
+  "description": "title: How to implement undo/redo on canvas with React?",
+  "source": "@site/docs/react/Undo-Redo.md",
+  "sourceDirName": "react",
+  "slug": "/react/Undo-Redo",
+  "permalink": "/react/Undo-Redo",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/Undo-Redo.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transformer",
+    "permalink": "/react/Transformer"
+  },
+  "next": {
+    "title": "zIndex",
+    "permalink": "/react/zIndex"
+  }
+}

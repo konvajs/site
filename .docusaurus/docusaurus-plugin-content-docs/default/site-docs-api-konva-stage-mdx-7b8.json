@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Stage",
+  "title": "Konva.Stage",
+  "description": "Stage constructor.  A stage is used to contain multiple layers",
+  "source": "@site/docs/api/Konva.Stage.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Stage.html",
+  "permalink": "/api/Konva.Stage.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Stage.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Stage",
+    "sidebar_label": "Stage",
+    "slug": "/api/Konva.Stage.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Sprite",
+    "permalink": "/api/Konva.Sprite.html"
+  },
+  "next": {
+    "title": "Star",
+    "permalink": "/api/Konva.Star.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Editable_Text",
+  "title": "Editable_Text",
+  "description": "title: Text editing in HTML5 canvas with Konva",
+  "source": "@site/content/docs/sandbox/Editable_Text.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Editable_Text",
+  "permalink": "/docs/sandbox/Editable_Text",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Editable_Text.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drop_DOM_Element",
+    "permalink": "/docs/sandbox/Drop_DOM_Element"
+  },
+  "next": {
+    "title": "Elastic_Stars",
+    "permalink": "/docs/sandbox/Elastic_Stars"
+  }
+}

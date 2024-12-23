@@ -1,0 +1,24 @@
+{
+  "id": "react/Filters",
+  "title": "Filters",
+  "description": "title: How to apply canvas filters with react and konva?",
+  "source": "@site/docs/react/Filters.md",
+  "sourceDirName": "react",
+  "slug": "/react/Filters",
+  "permalink": "/react/Filters",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/Filters.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Events",
+    "permalink": "/react/Events"
+  },
+  "next": {
+    "title": "Free_Drawing",
+    "permalink": "/react/Free_Drawing"
+  }
+}

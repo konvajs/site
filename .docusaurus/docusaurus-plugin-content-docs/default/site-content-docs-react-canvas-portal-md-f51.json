@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Canvas_Portal",
+  "title": "Canvas_Portal",
+  "description": "title: How to use portals in react-konva?",
+  "source": "@site/content/docs/react/Canvas_Portal.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Canvas_Portal",
+  "permalink": "/docs/react/Canvas_Portal",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Canvas_Portal.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Canvas_Export",
+    "permalink": "/docs/react/Canvas_Export"
+  },
+  "next": {
+    "title": "Complex_Animations",
+    "permalink": "/docs/react/Complex_Animations"
+  }
+}

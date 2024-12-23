@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Quantum_Squiggle",
+  "title": "Quantum_Squiggle",
+  "description": "title:  Oscillating Blobs",
+  "source": "@site/docs/sandbox/Quantum_Squiggle.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Quantum_Squiggle",
+  "permalink": "/sandbox/Quantum_Squiggle",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Quantum_Squiggle.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Planets_Image_Map",
+    "permalink": "/sandbox/Planets_Image_Map"
+  },
+  "next": {
+    "title": "Relative_Pointer_Position",
+    "permalink": "/sandbox/Relative_Pointer_Position"
+  }
+}

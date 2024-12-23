@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Collision_Detection",
+  "title": "Collision_Detection",
+  "description": "title: Drag and Drop Collision Detection Demo",
+  "source": "@site/content/docs/sandbox/Collision_Detection.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Collision_Detection",
+  "permalink": "/docs/sandbox/Collision_Detection",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Collision_Detection.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Canvas_to_PDF",
+    "permalink": "/docs/sandbox/Canvas_to_PDF"
+  },
+  "next": {
+    "title": "Connected_Objects",
+    "permalink": "/docs/sandbox/Connected_Objects"
+  }
+}

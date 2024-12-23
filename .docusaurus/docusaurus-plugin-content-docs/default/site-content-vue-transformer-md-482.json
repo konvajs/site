@@ -1,0 +1,15 @@
+{
+  "id": "vue/Transformer",
+  "title": "Transformer",
+  "description": "title: How to resize and rotate canvas shapes with vue and konva?",
+  "source": "@site/content/vue/Transformer.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Transformer",
+  "permalink": "/vue/Transformer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/vue/Transformer.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Planets_Image_Map",
+  "title": "Planets_Image_Map",
+  "description": "title: Planets Image Map",
+  "source": "@site/content/docs/sandbox/Planets_Image_Map.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Planets_Image_Map",
+  "permalink": "/docs/sandbox/Planets_Image_Map",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Planets_Image_Map.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Physics_Simulator",
+    "permalink": "/docs/sandbox/Physics_Simulator"
+  },
+  "next": {
+    "title": "Quantum_Squiggle",
+    "permalink": "/docs/sandbox/Quantum_Squiggle"
+  }
+}

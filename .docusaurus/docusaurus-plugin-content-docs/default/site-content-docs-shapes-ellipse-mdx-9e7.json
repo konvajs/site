@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Ellipse",
+  "title": "HTML5 canvas Ellipse Tutorial",
+  "description": "To create an ellipse shape with Konva, we can instantiate a Konva.Ellipse() object.",
+  "source": "@site/content/docs/shapes/Ellipse.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Ellipse.html",
+  "permalink": "/docs/shapes/Ellipse.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Ellipse.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Ellipse Tutorial",
+    "sidebar_label": "Ellipse",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Ellipse.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Custom Shape",
+    "permalink": "/docs/shapes/Custom.html"
+  },
+  "next": {
+    "title": "Group",
+    "permalink": "/docs/shapes/Group.html"
+  }
+}

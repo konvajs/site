@@ -1,0 +1,24 @@
+{
+  "id": "posts/Position_vs_Offset",
+  "title": "Position_vs_Offset",
+  "description": "title: What is the difference between position and offset in Konva",
+  "source": "@site/docs/posts/Position_vs_Offset.md",
+  "sourceDirName": "posts",
+  "slug": "/posts/Position_vs_Offset",
+  "permalink": "/posts/Position_vs_Offset",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/posts/Position_vs_Offset.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Shape_Redraw",
+    "permalink": "/performance/Shape_Redraw"
+  },
+  "next": {
+    "title": "Tainted_Canvas",
+    "permalink": "/posts/Tainted_Canvas"
+  }
+}

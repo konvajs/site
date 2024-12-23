@@ -1,0 +1,15 @@
+{
+  "id": "react/Shapes",
+  "title": "Shapes",
+  "description": "title: Drawing canvas shapes with React",
+  "source": "@site/content/react/Shapes.md",
+  "sourceDirName": "react",
+  "slug": "/react/Shapes",
+  "permalink": "/react/Shapes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/react/Shapes.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

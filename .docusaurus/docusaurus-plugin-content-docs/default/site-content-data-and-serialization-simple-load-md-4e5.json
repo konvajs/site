@@ -1,0 +1,15 @@
+{
+  "id": "data_and_serialization/Simple_Load",
+  "title": "Simple_Load",
+  "description": "title: Load Stage with JSON String",
+  "source": "@site/content/data_and_serialization/Simple_Load.md",
+  "sourceDirName": "data_and_serialization",
+  "slug": "/data_and_serialization/Simple_Load",
+  "permalink": "/data_and_serialization/Simple_Load",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/data_and_serialization/Simple_Load.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

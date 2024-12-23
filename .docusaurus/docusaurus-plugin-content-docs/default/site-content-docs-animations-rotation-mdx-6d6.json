@@ -1,0 +1,29 @@
+{
+  "id": "docs/animations/Rotation",
+  "title": "Rotation Animation tutorial",
+  "description": "To animate a shape's rotation with Konva, we can create a new animation with",
+  "source": "@site/content/docs/animations/Rotation.mdx",
+  "sourceDirName": "docs/animations",
+  "slug": "/docs/animations/Rotation.html",
+  "permalink": "/docs/animations/Rotation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/animations/Rotation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Rotation Animation tutorial",
+    "sidebar_label": "Rotation",
+    "hide_table_of_contents": true,
+    "slug": "Rotation.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Moving",
+    "permalink": "/docs/animations/Moving.html"
+  },
+  "next": {
+    "title": "Scaling",
+    "permalink": "/docs/animations/Scaling.html"
+  }
+}

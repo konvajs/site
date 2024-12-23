@@ -1,0 +1,29 @@
+{
+  "id": "docs/selectors/Select_by_id",
+  "title": "HTML5 Canvas Select Shape by id Tutorial",
+  "description": "To select a shape by id with Konva, we can use the find() method using the # selector.",
+  "source": "@site/content/docs/selectors/Select_by_id.mdx",
+  "sourceDirName": "docs/selectors",
+  "slug": "/docs/selectors/Select_by_id.html",
+  "permalink": "/docs/selectors/Select_by_id.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/selectors/Select_by_id.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Select Shape by id Tutorial",
+    "sidebar_label": "Select by id",
+    "hide_table_of_contents": true,
+    "slug": "Select_by_id.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Select by Type",
+    "permalink": "/docs/selectors/Select_by_Type.html"
+  },
+  "next": {
+    "title": "Best Practices",
+    "permalink": "/docs/data_and_serialization/Best_Practices.html"
+  }
+}

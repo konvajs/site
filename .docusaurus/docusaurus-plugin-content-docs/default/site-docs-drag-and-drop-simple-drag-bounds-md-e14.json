@@ -1,0 +1,24 @@
+{
+  "id": "drag_and_drop/Simple_Drag_Bounds",
+  "title": "Simple_Drag_Bounds",
+  "description": "title: HTML5 Canvas Simple Drag Bounds Tutorial",
+  "source": "@site/docs/drag_and_drop/Simple_Drag_Bounds.md",
+  "sourceDirName": "drag_and_drop",
+  "slug": "/drag_and_drop/Simple_Drag_Bounds",
+  "permalink": "/drag_and_drop/Simple_Drag_Bounds",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/drag_and_drop/Simple_Drag_Bounds.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drop_Events",
+    "permalink": "/drag_and_drop/Drop_Events"
+  },
+  "next": {
+    "title": "Binding_Events",
+    "permalink": "/events/Binding_Events"
+  }
+}

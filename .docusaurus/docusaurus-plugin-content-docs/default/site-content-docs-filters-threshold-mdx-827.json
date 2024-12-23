@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Threshold",
+  "title": "HTML5 Canvas Threshold filter Image Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Threshold.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Threshold.html",
+  "permalink": "/docs/filters/Threshold.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Threshold.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Threshold filter Image Tutorial",
+    "sidebar_label": "Threshold",
+    "hide_table_of_contents": true,
+    "slug": "Threshold.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Solarize",
+    "permalink": "/docs/filters/Solarize.html"
+  },
+  "next": {
+    "title": "All Controls",
+    "permalink": "/docs/tweens/All_Controls.html"
+  }
+}

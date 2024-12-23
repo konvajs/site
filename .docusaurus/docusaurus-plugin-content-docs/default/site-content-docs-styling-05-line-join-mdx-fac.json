@@ -1,0 +1,30 @@
+{
+  "id": "docs/styling/Line_Join",
+  "title": "HTML5 Canvas Line Join Tutorial",
+  "description": "To set the line join for a shape with Konva, we can set the lineJoin property when we instantiate a shape, or we can use the lineJoin() method.",
+  "source": "@site/content/docs/styling/05-Line_Join.mdx",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Line_Join.html",
+  "permalink": "/docs/styling/Line_Join.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/05-Line_Join.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "title": "HTML5 Canvas Line Join Tutorial",
+    "sidebar_label": "Line Join",
+    "hide_table_of_contents": true,
+    "slug": "Line_Join.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Shadow",
+    "permalink": "/docs/styling/Shadow.html"
+  },
+  "next": {
+    "title": "Hide and Show",
+    "permalink": "/docs/styling/hide-and-show.html"
+  }
+}

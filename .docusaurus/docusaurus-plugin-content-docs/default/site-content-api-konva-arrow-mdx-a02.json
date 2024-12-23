@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Arrow",
+  "title": "Konva.Arrow",
+  "description": "Arrow constructor",
+  "source": "@site/content/api/Konva.Arrow.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Arrow.html",
+  "permalink": "/api/Konva.Arrow.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Arrow.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Arrow",
+    "sidebar_label": "Arrow",
+    "slug": "/api/Konva.Arrow.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Arc",
+    "permalink": "/api/Konva.Arc.html"
+  },
+  "next": {
+    "title": "Canvas",
+    "permalink": "/api/Konva.Canvas.html"
+  }
+}

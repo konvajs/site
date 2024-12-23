@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Pointer_Events",
+  "title": "HTML5 Canvas Pointer Events Tutorial",
+  "description": "Pointer events can be useful to handle both mobile and desktop events with one handler.",
+  "source": "@site/content/docs/events/Pointer_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Pointer_Events.html",
+  "permalink": "/docs/events/Pointer_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Pointer_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Pointer Events Tutorial",
+    "sidebar_label": "Pointer Events",
+    "hide_table_of_contents": true,
+    "slug": "Pointer_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Multi Event",
+    "permalink": "/docs/events/Multi_Event.html"
+  },
+  "next": {
+    "title": "Remove Event",
+    "permalink": "/docs/events/Remove_Event.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "performance/Optimize_Animation",
+  "title": "Optimize_Animation",
+  "description": "title: HTML5 Canvas Optimize Animation Performance Tip",
+  "source": "@site/docs/performance/Optimize_Animation.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Optimize_Animation",
+  "permalink": "/performance/Optimize_Animation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/performance/Optimize_Animation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Listening_False",
+    "permalink": "/performance/Listening_False"
+  },
+  "next": {
+    "title": "Optimize_Strokes",
+    "permalink": "/performance/Optimize_Strokes"
+  }
+}

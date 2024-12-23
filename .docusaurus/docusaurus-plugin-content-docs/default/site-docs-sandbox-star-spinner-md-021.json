@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Star_Spinner",
+  "title": "Star_Spinner",
+  "description": "title: Star Spinner",
+  "source": "@site/docs/sandbox/Star_Spinner.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Star_Spinner",
+  "permalink": "/sandbox/Star_Spinner",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Star_Spinner.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Stage_Preview",
+    "permalink": "/sandbox/Stage_Preview"
+  },
+  "next": {
+    "title": "Transparent_Group",
+    "permalink": "/sandbox/Transparent_Group"
+  }
+}

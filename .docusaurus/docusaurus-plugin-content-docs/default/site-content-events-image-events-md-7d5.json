@@ -1,0 +1,15 @@
+{
+  "id": "events/Image_Events",
+  "title": "Image_Events",
+  "description": "title: HTML5 Canvas Image Events with Konva",
+  "source": "@site/content/events/Image_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Image_Events",
+  "permalink": "/events/Image_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Image_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

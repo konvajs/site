@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Custom_Hit_Region",
+  "title": "HTML5 Canvas Custom Hit Detection Function Tutorial",
+  "description": "There are two ways to change hit region of the shape: hitFunc and hitStrokeWidth properties.",
+  "source": "@site/content/docs/events/Custom_Hit_Region.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Custom_Hit_Region.html",
+  "permalink": "/docs/events/Custom_Hit_Region.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Custom_Hit_Region.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Custom Hit Detection Function Tutorial",
+    "sidebar_label": "Custom Hit Region",
+    "hide_table_of_contents": true,
+    "slug": "Custom_Hit_Region.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Cancel Propagation",
+    "permalink": "/docs/events/Cancel_Propagation.html"
+  },
+  "next": {
+    "title": "Desktop and Mobile",
+    "permalink": "/docs/events/Desktop_and_Mobile.html"
+  }
+}

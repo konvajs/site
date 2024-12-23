@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Custom_Shape",
+  "title": "Custom_Shape",
+  "description": "title: How to draw custom canvas shape with Svelte?",
+  "source": "@site/content/svelte/Custom_Shape.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Custom_Shape",
+  "permalink": "/svelte/Custom_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Custom_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

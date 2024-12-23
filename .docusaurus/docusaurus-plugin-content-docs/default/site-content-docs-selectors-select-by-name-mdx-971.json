@@ -1,0 +1,29 @@
+{
+  "id": "docs/selectors/Select_by_Name",
+  "title": "HTML5 Canvas Select Shape by Name Tutorial",
+  "description": "To select shapes by name with Konva, we can use the find() method using the . selector.",
+  "source": "@site/content/docs/selectors/Select_by_Name.mdx",
+  "sourceDirName": "docs/selectors",
+  "slug": "/docs/selectors/Select_by_Name.html",
+  "permalink": "/docs/selectors/Select_by_Name.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/selectors/Select_by_Name.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Select Shape by Name Tutorial",
+    "sidebar_label": "Select by Name",
+    "hide_table_of_contents": true,
+    "slug": "Select_by_Name.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Zooming_Relative_To_Pointer",
+    "permalink": "/docs/sandbox/Zooming_Relative_To_Pointer"
+  },
+  "next": {
+    "title": "Select by Type",
+    "permalink": "/docs/selectors/Select_by_Type.html"
+  }
+}

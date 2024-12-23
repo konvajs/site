@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Layer",
+  "title": "Konva.Layer",
+  "description": "Layer constructor.  Layers are tied to their own canvas element and are used to contain groups or shapes.",
+  "source": "@site/content/api/Konva.Layer.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Layer.html",
+  "permalink": "/api/Konva.Layer.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Layer.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Layer",
+    "sidebar_label": "Layer",
+    "slug": "/api/Konva.Layer.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Label",
+    "permalink": "/api/Konva.Label.html"
+  },
+  "next": {
+    "title": "Line",
+    "permalink": "/api/Konva.Line.html"
+  }
+}

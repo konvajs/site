@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Web_Worker",
+  "title": "Web_Worker",
+  "description": "title: Offscreen canvas inside Web Worker",
+  "source": "@site/content/docs/sandbox/Web_Worker.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Web_Worker",
+  "permalink": "/docs/sandbox/Web_Worker",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Web_Worker.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Video_On_Canvas",
+    "permalink": "/docs/sandbox/Video_On_Canvas"
+  },
+  "next": {
+    "title": "Wheel_of_Fortune",
+    "permalink": "/docs/sandbox/Wheel_of_Fortune"
+  }
+}

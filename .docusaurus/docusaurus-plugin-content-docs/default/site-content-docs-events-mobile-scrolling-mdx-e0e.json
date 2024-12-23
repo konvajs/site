@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Mobile_Scrolling",
+  "title": "HTML5 Canvas Mobile Scrolling and Native Events with Konva",
+  "description": "By default Konva will prevent default behaviour of all pointer interactions with a stage.",
+  "source": "@site/content/docs/events/Mobile_Scrolling.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Mobile_Scrolling.html",
+  "permalink": "/docs/events/Mobile_Scrolling.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Mobile_Scrolling.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Mobile Scrolling and Native Events with Konva",
+    "sidebar_label": "Mobile Scrolling",
+    "hide_table_of_contents": true,
+    "slug": "Mobile_Scrolling.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mobile Events",
+    "permalink": "/docs/events/Mobile_Events.html"
+  },
+  "next": {
+    "title": "Multi Event",
+    "permalink": "/docs/events/Multi_Event.html"
+  }
+}

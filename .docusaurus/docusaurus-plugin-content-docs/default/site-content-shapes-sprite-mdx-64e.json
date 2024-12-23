@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Sprite",
+  "title": "HTML5 canvas Sprite Tutorial",
+  "description": "To create an animated sprite with Konva, we can instantiate a Konva.Sprite() object.",
+  "source": "@site/content/shapes/Sprite.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Sprite.html",
+  "permalink": "/docs/shapes/Sprite.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Sprite.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Sprite Tutorial",
+    "sidebar_label": "Sprite",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Sprite.html"
+  }
+}

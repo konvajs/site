@@ -1,0 +1,25 @@
+{
+  "id": "docs/styling/Line_Join",
+  "title": "Line_Join",
+  "description": "title: HTML5 Canvas Line Join Tutorial",
+  "source": "@site/content/docs/styling/05-Line_Join.md",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Line_Join",
+  "permalink": "/docs/styling/Line_Join",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/05-Line_Join.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Shadow",
+    "permalink": "/docs/styling/Shadow.html"
+  },
+  "next": {
+    "title": "Hide_and_Show",
+    "permalink": "/docs/styling/Hide_and_Show"
+  }
+}

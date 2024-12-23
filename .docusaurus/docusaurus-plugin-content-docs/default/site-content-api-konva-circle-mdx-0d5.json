@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Circle",
+  "title": "Konva.Circle",
+  "description": "Circle constructor",
+  "source": "@site/content/api/Konva.Circle.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Circle.html",
+  "permalink": "/api/Konva.Circle.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Circle.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Circle",
+    "sidebar_label": "Circle",
+    "slug": "/api/Konva.Circle.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Canvas",
+    "permalink": "/api/Konva.Canvas.html"
+  },
+  "next": {
+    "title": "Container",
+    "permalink": "/api/Konva.Container.html"
+  }
+}

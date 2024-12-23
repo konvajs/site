@@ -1,0 +1,15 @@
+{
+  "id": "svelte/SvelteKit",
+  "title": "SvelteKit",
+  "description": "title: How to use svelte-konva with SvelteKit?",
+  "source": "@site/content/svelte/SvelteKit.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/SvelteKit",
+  "permalink": "/svelte/SvelteKit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/SvelteKit.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

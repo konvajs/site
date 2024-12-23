@@ -1,0 +1,15 @@
+{
+  "id": "filters/Multiple_Filters",
+  "title": "Multiple_Filters",
+  "description": "title: HTML5 Canvas Multiple Filters Tutorial",
+  "source": "@site/content/filters/Multiple_Filters.md",
+  "sourceDirName": "filters",
+  "slug": "/filters/Multiple_Filters",
+  "permalink": "/filters/Multiple_Filters",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/filters/Multiple_Filters.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

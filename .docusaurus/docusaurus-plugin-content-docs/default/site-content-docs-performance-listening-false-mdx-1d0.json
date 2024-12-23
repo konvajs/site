@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Listening_False",
+  "title": "HTML5 Canvas Listening False Performance Tip",
+  "description": "If you have a lot of shapes on the canvas and you don't need to detect events for some of them,",
+  "source": "@site/content/docs/performance/Listening_False.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Listening_False.html",
+  "permalink": "/docs/performance/Listening_False.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Listening_False.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Listening False Performance Tip",
+    "sidebar_label": "Listening False",
+    "hide_table_of_contents": true,
+    "slug": "Listening_False.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Layer Management",
+    "permalink": "/docs/performance/Layer_Management.html"
+  },
+  "next": {
+    "title": "Optimize Animation",
+    "permalink": "/docs/performance/Optimize_Animation.html"
+  }
+}

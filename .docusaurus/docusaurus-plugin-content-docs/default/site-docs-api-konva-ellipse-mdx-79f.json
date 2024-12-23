@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Ellipse",
+  "title": "Konva.Ellipse",
+  "description": "Ellipse constructor",
+  "source": "@site/docs/api/Konva.Ellipse.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Ellipse.html",
+  "permalink": "/api/Konva.Ellipse.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Ellipse.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Ellipse",
+    "sidebar_label": "Ellipse",
+    "slug": "/api/Konva.Ellipse.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Easings",
+    "permalink": "/api/Konva.Easings.html"
+  },
+  "next": {
+    "title": "FastLayer",
+    "permalink": "/api/Konva.FastLayer.html"
+  }
+}

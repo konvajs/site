@@ -1,0 +1,24 @@
+{
+  "id": "drag_and_drop/Drag_an_Image",
+  "title": "Drag_an_Image",
+  "description": "title: HTML5 Canvas Drag and Drop an Image",
+  "source": "@site/docs/drag_and_drop/Drag_an_Image.md",
+  "sourceDirName": "drag_and_drop",
+  "slug": "/drag_and_drop/Drag_an_Image",
+  "permalink": "/drag_and_drop/Drag_an_Image",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/drag_and_drop/Drag_an_Image.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag_a_Stage",
+    "permalink": "/drag_and_drop/Drag_a_Stage"
+  },
+  "next": {
+    "title": "Drop_Events",
+    "permalink": "/drag_and_drop/Drop_Events"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "performance/Listening_False",
+  "title": "Listening_False",
+  "description": "title: Disable Listening Shapes Tip",
+  "source": "@site/docs/performance/Listening_False.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Listening_False",
+  "permalink": "/performance/Listening_False",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/performance/Listening_False.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Layer_Management",
+    "permalink": "/performance/Layer_Management"
+  },
+  "next": {
+    "title": "Optimize_Animation",
+    "permalink": "/performance/Optimize_Animation"
+  }
+}

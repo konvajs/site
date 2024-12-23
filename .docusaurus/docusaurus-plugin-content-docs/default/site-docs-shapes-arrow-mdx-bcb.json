@@ -1,0 +1,29 @@
+{
+  "id": "shapes/Arrow",
+  "title": "HTML5 canvas Arrow Tutorial",
+  "description": "To create an arrow shape with Konva, we can instantiate a Konva.Arrow() object.",
+  "source": "@site/docs/shapes/Arrow.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Arrow.html",
+  "permalink": "/docs/shapes/Arrow.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/shapes/Arrow.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Arrow Tutorial",
+    "sidebar_label": "Arrow",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Arrow.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Arc",
+    "permalink": "/docs/shapes/Arc.html"
+  },
+  "next": {
+    "title": "Circle",
+    "permalink": "/docs/shapes/Circle.html"
+  }
+}

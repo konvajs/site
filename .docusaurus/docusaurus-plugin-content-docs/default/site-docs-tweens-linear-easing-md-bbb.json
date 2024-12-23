@@ -1,0 +1,24 @@
+{
+  "id": "tweens/Linear_Easing",
+  "title": "Linear_Easing",
+  "description": "title: HTML5 Canvas Tweening Tutorial",
+  "source": "@site/docs/tweens/Linear_Easing.md",
+  "sourceDirName": "tweens",
+  "slug": "/tweens/Linear_Easing",
+  "permalink": "/tweens/Linear_Easing",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/tweens/Linear_Easing.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Finish_Event",
+    "permalink": "/tweens/Finish_Event"
+  },
+  "next": {
+    "title": "Tween_Filter",
+    "permalink": "/tweens/Tween_Filter"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "shapes/Line_-_Spline",
+  "title": "HTML5 canvas Spline Tutorial",
+  "description": "To create a spline (curved line) with Konva, we can instantiate a Konva.Line() object with the tension property.",
+  "source": "@site/docs/shapes/Line_-_Spline.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Line_-_Spline.html",
+  "permalink": "/docs/shapes/Line_-_Spline.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/shapes/Line_-_Spline.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Spline Tutorial",
+    "sidebar_label": "Line - Spline",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Line_-_Spline.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Line - Simple Line",
+    "permalink": "/docs/shapes/Line_-_Simple_Line.html"
+  },
+  "next": {
+    "title": "Path",
+    "permalink": "/docs/shapes/Path.html"
+  }
+}

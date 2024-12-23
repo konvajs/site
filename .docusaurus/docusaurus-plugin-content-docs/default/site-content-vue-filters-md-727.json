@@ -1,0 +1,15 @@
+{
+  "id": "vue/Filters",
+  "title": "Filters",
+  "description": "title: How to apply canvas filters with vue and konva?",
+  "source": "@site/content/vue/Filters.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Filters",
+  "permalink": "/vue/Filters",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/vue/Filters.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Centered_Scaling",
+  "title": "HTML5 Canvas Shape Resize Relative to Center",
+  "description": "To resize a node into both sides at the same time you can set centeredScaling to true or hold ALT key while moving an anchor (even if centeredScaling is false).",
+  "source": "@site/content/docs/select_and_transform/Centered_Scaling.md",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Centered_Scaling.html",
+  "permalink": "/docs/select_and_transform/Centered_Scaling.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Centered_Scaling.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Resize Relative to Center",
+    "sidebar_label": "Centered Scaling",
+    "hide_table_of_contents": true,
+    "slug": "Centered_Scaling.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transform and Select",
+    "permalink": "/docs/select_and_transform/Basic_demo.html"
+  },
+  "next": {
+    "title": "Force Update",
+    "permalink": "/docs/select_and_transform/Force_Update.html"
+  }
+}

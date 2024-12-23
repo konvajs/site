@@ -1,0 +1,15 @@
+{
+  "id": "events/Keyboard_Events",
+  "title": "Keyboard_Events",
+  "description": "title: HTML5 Canvas Keyboard events with Konva",
+  "source": "@site/content/events/Keyboard_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Keyboard_Events",
+  "permalink": "/events/Keyboard_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Keyboard_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

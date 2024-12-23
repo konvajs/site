@@ -1,0 +1,24 @@
+{
+  "id": "svelte/SvelteKit",
+  "title": "SvelteKit",
+  "description": "title: How to use svelte-konva with SvelteKit?",
+  "source": "@site/docs/svelte/SvelteKit.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/SvelteKit",
+  "permalink": "/svelte/SvelteKit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/svelte/SvelteKit.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Simple_Animations",
+    "permalink": "/svelte/Simple_Animations"
+  },
+  "next": {
+    "title": "Transformer",
+    "permalink": "/svelte/Transformer"
+  }
+}

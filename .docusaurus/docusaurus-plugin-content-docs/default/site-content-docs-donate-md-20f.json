@@ -1,0 +1,30 @@
+{
+  "id": "docs/donate",
+  "title": "How to support and donate to Konva project?",
+  "description": "Hello, my name is Anton. I am core maintainer of Konva framework.",
+  "source": "@site/content/docs/donate.md",
+  "sourceDirName": "docs",
+  "slug": "/docs/donate.html",
+  "permalink": "/docs/donate.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/donate.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4,
+    "title": "How to support and donate to Konva project?",
+    "sidebar_label": "Donate",
+    "slug": "donate.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Support",
+    "permalink": "/docs/support.html"
+  },
+  "next": {
+    "title": "Shapes",
+    "permalink": "/category/shapes"
+  }
+}

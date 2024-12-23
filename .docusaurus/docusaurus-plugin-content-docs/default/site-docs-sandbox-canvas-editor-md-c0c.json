@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Canvas_Editor",
+  "title": "Canvas_Editor",
+  "description": "title: Canvas Designer Editor for JavaScript",
+  "source": "@site/docs/sandbox/Canvas_Editor.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Canvas_Editor",
+  "permalink": "/sandbox/Canvas_Editor",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Canvas_Editor.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Canvas_Context_Menu",
+    "permalink": "/sandbox/Canvas_Context_Menu"
+  },
+  "next": {
+    "title": "Canvas_Scrolling",
+    "permalink": "/sandbox/Canvas_Scrolling"
+  }
+}

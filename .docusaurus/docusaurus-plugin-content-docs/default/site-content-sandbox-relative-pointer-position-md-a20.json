@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Relative_Pointer_Position",
+  "title": "Relative_Pointer_Position",
+  "description": "title: How to find relative mouse position?",
+  "source": "@site/content/sandbox/Relative_Pointer_Position.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Relative_Pointer_Position",
+  "permalink": "/sandbox/Relative_Pointer_Position",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Relative_Pointer_Position.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Quantum_Squiggle",
+    "permalink": "/sandbox/Quantum_Squiggle"
+  },
+  "next": {
+    "title": "Resizing_Stress_Test",
+    "permalink": "/sandbox/Resizing_Stress_Test"
+  }
+}

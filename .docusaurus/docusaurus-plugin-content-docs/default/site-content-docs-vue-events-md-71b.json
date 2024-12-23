@@ -1,0 +1,24 @@
+{
+  "id": "docs/vue/Events",
+  "title": "Events",
+  "description": "title: How to listen to an event on a canvas shape with Vue and Konva?",
+  "source": "@site/content/docs/vue/Events.md",
+  "sourceDirName": "docs/vue",
+  "slug": "/docs/vue/Events",
+  "permalink": "/docs/vue/Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/vue/Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag_And_Drop",
+    "permalink": "/docs/vue/Drag_And_Drop"
+  },
+  "next": {
+    "title": "Filters",
+    "permalink": "/docs/vue/Filters"
+  }
+}

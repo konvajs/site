@@ -1,0 +1,24 @@
+{
+  "id": "docs/data_and_serialization/High-Quality-Export",
+  "title": "High-Quality-Export",
+  "description": "title: HTML5 Canvas Export to High Quality Image Tutorial",
+  "source": "@site/content/docs/data_and_serialization/High-Quality-Export.md",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/High-Quality-Export",
+  "permalink": "/docs/data_and_serialization/High-Quality-Export",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/High-Quality-Export.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Complex Load",
+    "permalink": "/docs/data_and_serialization/Complex_Load.html"
+  },
+  "next": {
+    "title": "High Quality Export",
+    "permalink": "/docs/data_and_serialization/High-Quality-Export.html"
+  }
+}

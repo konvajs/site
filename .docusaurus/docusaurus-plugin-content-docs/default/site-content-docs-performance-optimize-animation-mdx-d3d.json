@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Optimize_Animation",
+  "title": "HTML5 Canvas Optimize Animation Performance Tip",
+  "description": "When creating animations with Konva, it's important to optimize them for better performance.",
+  "source": "@site/content/docs/performance/Optimize_Animation.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Optimize_Animation.html",
+  "permalink": "/docs/performance/Optimize_Animation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Optimize_Animation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Optimize Animation Performance Tip",
+    "sidebar_label": "Optimize Animation",
+    "hide_table_of_contents": true,
+    "slug": "Optimize_Animation.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Listening False",
+    "permalink": "/docs/performance/Listening_False.html"
+  },
+  "next": {
+    "title": "Optimize Strokes",
+    "permalink": "/docs/performance/Optimize_Strokes.html"
+  }
+}

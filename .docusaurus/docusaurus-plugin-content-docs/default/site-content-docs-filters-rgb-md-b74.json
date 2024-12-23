@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/RGB",
+  "title": "RGB",
+  "description": "title: HTML5 Canvas RGB filter Image Tutorial",
+  "source": "@site/content/docs/filters/RGB.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/RGB",
+  "permalink": "/docs/filters/RGB",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/RGB.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Pixelate",
+    "permalink": "/docs/filters/Pixelate"
+  },
+  "next": {
+    "title": "RGBA",
+    "permalink": "/docs/filters/RGBA"
+  }
+}

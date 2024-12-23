@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Shape_Tango",
+  "title": "Shape_Tango",
+  "description": "title: HTML5 Canvas Shape Tango with Konva",
+  "source": "@site/content/docs/sandbox/Shape_Tango.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Shape_Tango",
+  "permalink": "/docs/sandbox/Shape_Tango",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Shape_Tango.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Seats_Reservation",
+    "permalink": "/docs/sandbox/Seats_Reservation"
+  },
+  "next": {
+    "title": "Shape_Tooltips",
+    "permalink": "/docs/sandbox/Shape_Tooltips"
+  }
+}

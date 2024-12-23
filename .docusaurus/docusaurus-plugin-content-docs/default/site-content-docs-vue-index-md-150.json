@@ -1,0 +1,24 @@
+{
+  "id": "docs/vue/index",
+  "title": "index",
+  "description": "title: Getting started with vue and canvas via Konva",
+  "source": "@site/content/docs/vue/index.md",
+  "sourceDirName": "docs/vue",
+  "slug": "/docs/vue/",
+  "permalink": "/docs/vue/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/vue/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transformer",
+    "permalink": "/docs/vue/Transformer"
+  },
+  "next": {
+    "title": "zIndex",
+    "permalink": "/docs/vue/zIndex"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/HSL",
+  "title": "HSL",
+  "description": "title: HTML5 Canvas Hue, Saturation and Luminance filter Image Tutorial",
+  "source": "@site/content/docs/filters/HSL.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/HSL",
+  "permalink": "/docs/filters/HSL",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/HSL.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Grayscale",
+    "permalink": "/docs/filters/Grayscale"
+  },
+  "next": {
+    "title": "HSV",
+    "permalink": "/docs/filters/HSV"
+  }
+}

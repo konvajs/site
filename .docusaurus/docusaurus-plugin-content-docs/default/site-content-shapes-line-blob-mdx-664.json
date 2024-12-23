@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Line_-_Blob",
+  "title": "HTML5 canvas Blob Tutorial",
+  "description": "To create a blob with Konva, we can instantiate a Konva.Line() object with both closed and tension properties.",
+  "source": "@site/content/shapes/Line_-_Blob.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Line_-_Blob.html",
+  "permalink": "/docs/shapes/Line_-_Blob.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Line_-_Blob.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Blob Tutorial",
+    "sidebar_label": "Line - Blob",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Line_-_Blob.html"
+  }
+}

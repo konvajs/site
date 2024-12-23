@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Optimize_Strokes",
+  "title": "HTML5 Canvas Optimize Strokes Performance Tip",
+  "description": "When drawing shapes with strokes and shadows in Konva, there's an extra internal drawing step that occurs.",
+  "source": "@site/content/docs/performance/Optimize_Strokes.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Optimize_Strokes.html",
+  "permalink": "/docs/performance/Optimize_Strokes.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Optimize_Strokes.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Optimize Strokes Performance Tip",
+    "sidebar_label": "Optimize Strokes",
+    "hide_table_of_contents": true,
+    "slug": "Optimize_Strokes.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Optimize Animation",
+    "permalink": "/docs/performance/Optimize_Animation.html"
+  },
+  "next": {
+    "title": "Shape Caching",
+    "permalink": "/docs/performance/Shape_Caching.html"
+  }
+}

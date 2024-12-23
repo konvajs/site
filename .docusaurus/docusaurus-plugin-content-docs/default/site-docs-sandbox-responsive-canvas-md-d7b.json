@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Responsive_Canvas",
+  "title": "Responsive_Canvas",
+  "description": "title: Responsive Canvas Stage Demo",
+  "source": "@site/docs/sandbox/Responsive_Canvas.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Responsive_Canvas",
+  "permalink": "/sandbox/Responsive_Canvas",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Responsive_Canvas.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Resizing_Stress_Test",
+    "permalink": "/sandbox/Resizing_Stress_Test"
+  },
+  "next": {
+    "title": "Rich_Text",
+    "permalink": "/sandbox/Rich_Text"
+  }
+}

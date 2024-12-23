@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Custom_Hit_Region",
+  "title": "Custom_Hit_Region",
+  "description": "title: HTML5 Canvas Custom Hit Detection Function Tutorial",
+  "source": "@site/content/docs/events/Custom_Hit_Region.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Custom_Hit_Region",
+  "permalink": "/docs/events/Custom_Hit_Region",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Custom_Hit_Region.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Cancel Propagation",
+    "permalink": "/docs/events/Cancel_Propagation.html"
+  },
+  "next": {
+    "title": "Custom Hit Region",
+    "permalink": "/docs/events/Custom_Hit_Region.html"
+  }
+}

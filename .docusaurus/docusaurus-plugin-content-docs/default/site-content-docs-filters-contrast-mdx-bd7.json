@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Contrast",
+  "title": "HTML5 Canvas Contrast filter Image Tutorial",
+  "description": "To apply filter to an Konva.Node, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Contrast.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Contrast.html",
+  "permalink": "/docs/filters/Contrast.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Contrast.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Contrast filter Image Tutorial",
+    "sidebar_label": "Contrast",
+    "hide_table_of_contents": true,
+    "slug": "Contrast.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Brighten",
+    "permalink": "/docs/filters/Brighten.html"
+  },
+  "next": {
+    "title": "Custom Filter",
+    "permalink": "/docs/filters/Custom_Filter.html"
+  }
+}

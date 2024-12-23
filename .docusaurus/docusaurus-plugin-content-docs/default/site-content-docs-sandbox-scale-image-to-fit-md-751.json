@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Scale_Image_To_Fit",
+  "title": "Scale_Image_To_Fit",
+  "description": "title: Scaling image to fit a fixed area on canvas",
+  "source": "@site/content/docs/sandbox/Scale_Image_To_Fit.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Scale_Image_To_Fit",
+  "permalink": "/docs/sandbox/Scale_Image_To_Fit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Scale_Image_To_Fit.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "SVG_On_Canvas",
+    "permalink": "/docs/sandbox/SVG_On_Canvas"
+  },
+  "next": {
+    "title": "Scroll_By_Edge_Drag",
+    "permalink": "/docs/sandbox/Scroll_By_Edge_Drag"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Line",
+  "title": "HTML5 canvas Line Tutorial",
+  "description": "To create line shapes with Konva, we can instantiate a Konva.Line() object. Lines can be configured in different ways to create various shapes like simple lines, splines, blobs, and polygons.",
+  "source": "@site/content/docs/shapes/Line.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Line.html",
+  "permalink": "/docs/shapes/Line.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Line.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Line Tutorial",
+    "sidebar_label": "Line",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Line.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Label",
+    "permalink": "/docs/shapes/Label.html"
+  },
+  "next": {
+    "title": "Line - Blob",
+    "permalink": "/docs/shapes/Line_-_Blob.html"
+  }
+}

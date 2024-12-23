@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Kaleidoscope",
+  "title": "Kaleidoscope",
+  "description": "title: HTML5 Canvas Kaleidoscope Image Filter Tutorial",
+  "source": "@site/content/docs/filters/Kaleidoscope.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Kaleidoscope",
+  "permalink": "/docs/filters/Kaleidoscope",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Kaleidoscope.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Invert",
+    "permalink": "/docs/filters/Invert"
+  },
+  "next": {
+    "title": "Mask",
+    "permalink": "/docs/filters/Mask"
+  }
+}

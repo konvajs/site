@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Transform",
+  "title": "Konva.Transform",
+  "description": "Transform constructor. In most of the cases you don't need to use it in your app. Because it is for internal usage in Konva core. But there is a documentation for that class in case you still want to make some manual calculations.",
+  "source": "@site/docs/api/Konva.Transform.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Transform.html",
+  "permalink": "/api/Konva.Transform.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Transform.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Transform",
+    "sidebar_label": "Transform",
+    "slug": "/api/Konva.Transform.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "TextPath",
+    "permalink": "/api/Konva.TextPath.html"
+  },
+  "next": {
+    "title": "Transformer",
+    "permalink": "/api/Konva.Transformer.html"
+  }
+}

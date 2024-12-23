@@ -1,0 +1,29 @@
+{
+  "id": "docs/data_and_serialization/Best_Practices",
+  "title": "Save and Load HTML5 Canvas Stage Best Practices",
+  "description": "What is the best way to save/load full stage content and how to implement undo/redo?",
+  "source": "@site/content/docs/data_and_serialization/Best_Practices.mdx",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/Best_Practices.html",
+  "permalink": "/docs/data_and_serialization/Best_Practices.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/Best_Practices.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Save and Load HTML5 Canvas Stage Best Practices",
+    "sidebar_label": "Best Practices",
+    "hide_table_of_contents": true,
+    "slug": "Best_Practices.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Select by id",
+    "permalink": "/docs/selectors/Select_by_id.html"
+  },
+  "next": {
+    "title": "Complex Load",
+    "permalink": "/docs/data_and_serialization/Complex_Load.html"
+  }
+}

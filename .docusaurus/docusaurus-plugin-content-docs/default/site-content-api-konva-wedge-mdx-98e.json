@@ -1,0 +1,24 @@
+{
+  "id": "api/Konva.Wedge",
+  "title": "Konva.Wedge",
+  "description": "Wedge constructor",
+  "source": "@site/content/api/Konva.Wedge.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Wedge.html",
+  "permalink": "/api/Konva.Wedge.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Wedge.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Wedge",
+    "sidebar_label": "Wedge",
+    "slug": "/api/Konva.Wedge.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Util",
+    "permalink": "/api/Konva.Util.html"
+  }
+}

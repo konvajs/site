@@ -1,0 +1,25 @@
+{
+  "id": "docs/styling/Hide_and_Show",
+  "title": "Hide_and_Show",
+  "description": "title: HTML5 Canvas Hide and Show Shape Tutorial",
+  "source": "@site/content/docs/styling/06-Hide_and_Show.md",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Hide_and_Show",
+  "permalink": "/docs/styling/Hide_and_Show",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/06-Hide_and_Show.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Line_Join",
+    "permalink": "/docs/styling/Line_Join"
+  },
+  "next": {
+    "title": "Mouse_Cursor",
+    "permalink": "/docs/styling/Mouse_Cursor"
+  }
+}

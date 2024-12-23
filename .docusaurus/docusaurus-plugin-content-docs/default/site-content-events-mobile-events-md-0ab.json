@@ -1,0 +1,15 @@
+{
+  "id": "events/Mobile_Events",
+  "title": "Mobile_Events",
+  "description": "title: HTML5 Canvas Mobile Touch Events Tutorial",
+  "source": "@site/content/events/Mobile_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Mobile_Events",
+  "permalink": "/events/Mobile_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Mobile_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

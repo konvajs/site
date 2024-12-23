@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Solarize",
+  "title": "HTML5 Canvas Solarize filter Image Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Solarize.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Solarize.html",
+  "permalink": "/docs/filters/Solarize.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Solarize.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Solarize filter Image Tutorial",
+    "sidebar_label": "Solarize",
+    "hide_table_of_contents": true,
+    "slug": "Solarize.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Sepia",
+    "permalink": "/docs/filters/Sepia.html"
+  },
+  "next": {
+    "title": "Threshold",
+    "permalink": "/docs/filters/Threshold.html"
+  }
+}

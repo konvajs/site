@@ -1,0 +1,15 @@
+{
+  "id": "groups_and_layers/Groups",
+  "title": "Groups",
+  "description": "title: HTML5 Canvas Shape Groups",
+  "source": "@site/content/groups_and_layers/Groups.md",
+  "sourceDirName": "groups_and_layers",
+  "slug": "/groups_and_layers/Groups",
+  "permalink": "/groups_and_layers/Groups",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/groups_and_layers/Groups.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

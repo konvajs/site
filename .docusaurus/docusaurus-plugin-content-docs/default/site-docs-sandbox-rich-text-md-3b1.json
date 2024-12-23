@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Rich_Text",
+  "title": "Rich_Text",
+  "description": "title: How to show rich html on canvas with Konva",
+  "source": "@site/docs/sandbox/Rich_Text.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Rich_Text",
+  "permalink": "/sandbox/Rich_Text",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Rich_Text.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Responsive_Canvas",
+    "permalink": "/sandbox/Responsive_Canvas"
+  },
+  "next": {
+    "title": "SVG_On_Canvas",
+    "permalink": "/sandbox/SVG_On_Canvas"
+  }
+}

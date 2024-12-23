@@ -1,0 +1,29 @@
+{
+  "id": "docs/drag_and_drop/Complex_Drag_and_Drop",
+  "title": "HTML5 Canvas Complex Drag and Drop Bounds",
+  "description": "To bound the movement of nodes being dragged and dropped inside regions with",
+  "source": "@site/content/docs/drag_and_drop/Complex_Drag_and_Drop.mdx",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Complex_Drag_and_Drop.html",
+  "permalink": "/docs/drag_and_drop/Complex_Drag_and_Drop.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/Complex_Drag_and_Drop.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Complex Drag and Drop Bounds",
+    "sidebar_label": "Complex Drag and Drop",
+    "hide_table_of_contents": true,
+    "slug": "Complex_Drag_and_Drop.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Simple Drag Bounds",
+    "permalink": "/docs/drag_and_drop/Simple_Drag_Bounds.html"
+  },
+  "next": {
+    "title": "Drop Events",
+    "permalink": "/docs/drag_and_drop/Drop_Events.html"
+  }
+}

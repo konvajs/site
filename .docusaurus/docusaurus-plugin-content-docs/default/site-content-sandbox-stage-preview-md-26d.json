@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Stage_Preview",
+  "title": "Stage_Preview",
+  "description": "title: How to preview large stage on canvas with Konva?",
+  "source": "@site/content/sandbox/Stage_Preview.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Stage_Preview",
+  "permalink": "/sandbox/Stage_Preview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Stage_Preview.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Simple_Window_Frame",
+    "permalink": "/sandbox/Simple_Window_Frame"
+  },
+  "next": {
+    "title": "Star_Spinner",
+    "permalink": "/sandbox/Star_Spinner"
+  }
+}

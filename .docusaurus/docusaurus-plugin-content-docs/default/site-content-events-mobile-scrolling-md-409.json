@@ -1,0 +1,15 @@
+{
+  "id": "events/Mobile_Scrolling",
+  "title": "Mobile_Scrolling",
+  "description": "title: HTML5 Canvas Mobile Scrolling and Native Events with Konva",
+  "source": "@site/content/events/Mobile_Scrolling.md",
+  "sourceDirName": "events",
+  "slug": "/events/Mobile_Scrolling",
+  "permalink": "/events/Mobile_Scrolling",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Mobile_Scrolling.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

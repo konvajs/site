@@ -1,0 +1,16 @@
+{
+  "id": "styling/Blend_Mode",
+  "title": "Blend_Mode",
+  "description": "title: HTML5 Canvas Blend mode with globalCompositeOperation Tutorial",
+  "source": "@site/content/styling/08-Blend_Mode.md",
+  "sourceDirName": "styling",
+  "slug": "/styling/Blend_Mode",
+  "permalink": "/styling/Blend_Mode",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/styling/08-Blend_Mode.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {}
+}

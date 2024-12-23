@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/Shapes",
+  "title": "Shapes",
+  "description": "title: Drawing canvas shapes with Svelte",
+  "source": "@site/content/docs/svelte/Shapes.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/Shapes",
+  "permalink": "/docs/svelte/Shapes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/Shapes.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Save_Load",
+    "permalink": "/docs/svelte/Save_Load"
+  },
+  "next": {
+    "title": "Simple_Animations",
+    "permalink": "/docs/svelte/Simple_Animations"
+  }
+}

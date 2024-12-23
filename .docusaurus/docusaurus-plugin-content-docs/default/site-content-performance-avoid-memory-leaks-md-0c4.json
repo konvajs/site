@@ -1,0 +1,15 @@
+{
+  "id": "performance/Avoid_Memory_Leaks",
+  "title": "Avoid_Memory_Leaks",
+  "description": "title: HTML5 Canvas How to avoid Memory leaks Tip",
+  "source": "@site/content/performance/Avoid_Memory_Leaks.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Avoid_Memory_Leaks",
+  "permalink": "/performance/Avoid_Memory_Leaks",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/performance/Avoid_Memory_Leaks.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

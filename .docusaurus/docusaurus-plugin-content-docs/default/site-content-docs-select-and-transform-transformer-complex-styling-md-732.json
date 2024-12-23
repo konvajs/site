@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Transformer_Complex_Styling",
+  "title": "Deep Style Konva Transformer",
+  "description": "You can use anchorStyleFunc property of Konva.Transformer to have deeper control on styling of anchors.",
+  "source": "@site/content/docs/select_and_transform/Transformer_Complex_Styling.md",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Transformer_Complex_Styling.html",
+  "permalink": "/docs/select_and_transform/Transformer_Complex_Styling.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Transformer_Complex_Styling.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Deep Style Konva Transformer",
+    "sidebar_label": "Complex Transformer Styling",
+    "hide_table_of_contents": true,
+    "slug": "Transformer_Complex_Styling.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transform Events",
+    "permalink": "/docs/select_and_transform/Transform_Events.html"
+  },
+  "next": {
+    "title": "Transformer_Styling",
+    "permalink": "/docs/select_and_transform/Transformer_Styling"
+  }
+}

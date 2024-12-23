@@ -1,0 +1,30 @@
+{
+  "id": "docs/select_and_transform/Resize_Snaps",
+  "title": "HTML5 Canvas Shape Resize Snapping",
+  "description": "In some applications, you may want to snap resizing near some values. Snapping makes a shape \"sticky\" near provided values and works like rounding.",
+  "source": "@site/content/docs/select_and_transform/08_Resize_Snaps.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Resize_Snaps.html",
+  "permalink": "/docs/select_and_transform/Resize_Snaps.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/08_Resize_Snaps.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Resize Snapping",
+    "sidebar_label": "Resize Snaps",
+    "hide_table_of_contents": true,
+    "slug": "Resize_Snaps.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Resize Limits",
+    "permalink": "/docs/select_and_transform/Resize_Limits.html"
+  },
+  "next": {
+    "title": "Rotation Snaps",
+    "permalink": "/docs/select_and_transform/Rotation_Snaps.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "react/Drop_Image",
+  "title": "Drop_Image",
+  "description": "title: How to drop image elements into a canvas with React?",
+  "source": "@site/docs/react/Drop_Image.md",
+  "sourceDirName": "react",
+  "slug": "/react/Drop_Image",
+  "permalink": "/react/Drop_Image",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/Drop_Image.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag_And_Drop",
+    "permalink": "/react/Drag_And_Drop"
+  },
+  "next": {
+    "title": "Events",
+    "permalink": "/react/Events"
+  }
+}

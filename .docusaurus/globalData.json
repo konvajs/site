@@ -1,0 +1,1395 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/",
+          "mainDocId": "docs/tools",
+          "docs": [
+            {
+              "id": "api/Konva",
+              "path": "/api/Konva.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Animation",
+              "path": "/api/Konva.Animation.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Arc",
+              "path": "/api/Konva.Arc.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Arrow",
+              "path": "/api/Konva.Arrow.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Canvas",
+              "path": "/api/Konva.Canvas.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Circle",
+              "path": "/api/Konva.Circle.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Container",
+              "path": "/api/Konva.Container.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Context",
+              "path": "/api/Konva.Context.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Easings",
+              "path": "/api/Konva.Easings.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Ellipse",
+              "path": "/api/Konva.Ellipse.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.FastLayer",
+              "path": "/api/Konva.FastLayer.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Filters",
+              "path": "/api/Konva.Filters.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Group",
+              "path": "/api/Konva.Group.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Image",
+              "path": "/api/Konva.Image.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Label",
+              "path": "/api/Konva.Label.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Layer",
+              "path": "/api/Konva.Layer.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Line",
+              "path": "/api/Konva.Line.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Node",
+              "path": "/api/Konva.Node.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Path",
+              "path": "/api/Konva.Path.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Rect",
+              "path": "/api/Konva.Rect.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.RegularPolygon",
+              "path": "/api/Konva.RegularPolygon.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Ring",
+              "path": "/api/Konva.Ring.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Shape",
+              "path": "/api/Konva.Shape.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Sprite",
+              "path": "/api/Konva.Sprite.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Stage",
+              "path": "/api/Konva.Stage.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Star",
+              "path": "/api/Konva.Star.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Tag",
+              "path": "/api/Konva.Tag.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Text",
+              "path": "/api/Konva.Text.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.TextPath",
+              "path": "/api/Konva.TextPath.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Transform",
+              "path": "/api/Konva.Transform.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Transformer",
+              "path": "/api/Konva.Transformer.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Tween",
+              "path": "/api/Konva.Tween.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Util",
+              "path": "/api/Konva.Util.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "api/Konva.Wedge",
+              "path": "/api/Konva.Wedge.html",
+              "sidebar": "apiSidebar"
+            },
+            {
+              "id": "docs/animations/Create_an_Animation",
+              "path": "/docs/animations/Create_an_Animation.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/animations/Moving",
+              "path": "/docs/animations/Moving.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/animations/Rotation",
+              "path": "/docs/animations/Rotation.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/animations/Scaling",
+              "path": "/docs/animations/Scaling.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/animations/Stop_Animation",
+              "path": "/docs/animations/Stop_Animation.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/clipping/Clipping_Function",
+              "path": "/docs/clipping/Clipping_Function.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/clipping/Clipping_Regions",
+              "path": "/docs/clipping/Clipping_Regions.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/data_and_serialization/Best_Practices",
+              "path": "/docs/data_and_serialization/Best_Practices.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/data_and_serialization/Complex_Load",
+              "path": "/docs/data_and_serialization/Complex_Load.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/data_and_serialization/High-Quality-Export",
+              "path": "/docs/data_and_serialization/High-Quality-Export.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/data_and_serialization/Serialize_a_Stage",
+              "path": "/docs/data_and_serialization/Serialize_a_Stage.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/data_and_serialization/Simple_Load",
+              "path": "/docs/data_and_serialization/Simple_Load.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/data_and_serialization/Stage_Data_URL",
+              "path": "/docs/data_and_serialization/Stage_Data_URL.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/donate",
+              "path": "/docs/donate.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Complex_Drag_and_Drop",
+              "path": "/docs/drag_and_drop/Complex_Drag_and_Drop.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drag_a_Group",
+              "path": "/docs/drag_and_drop/Drag_a_Group.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drag_a_Line",
+              "path": "/docs/drag_and_drop/Drag_a_Line.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drag_a_Stage",
+              "path": "/docs/drag_and_drop/Drag_a_Stage.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drag_an_Image",
+              "path": "/docs/drag_and_drop/Drag_an_Image.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drag_and_Drop",
+              "path": "/docs/drag_and_drop/Drag_and_Drop.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drag_Events",
+              "path": "/docs/drag_and_drop/Drag_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Drop_Events",
+              "path": "/docs/drag_and_drop/Drop_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/drag_and_drop/Simple_Drag_Bounds",
+              "path": "/docs/drag_and_drop/Simple_Drag_Bounds.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Binding_Events",
+              "path": "/docs/events/Binding_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Cancel_Propagation",
+              "path": "/docs/events/Cancel_Propagation.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Custom_Hit_Region",
+              "path": "/docs/events/Custom_Hit_Region.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Desktop_and_Mobile",
+              "path": "/docs/events/Desktop_and_Mobile.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Event_Delegation",
+              "path": "/docs/events/Event_Delegation.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Fire_Events",
+              "path": "/docs/events/Fire_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Image_Events",
+              "path": "/docs/events/Image_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Keyboard_Events",
+              "path": "/docs/events/Keyboard_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Listen_for_Events",
+              "path": "/docs/events/Listen_for_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Mobile_Events",
+              "path": "/docs/events/Mobile_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Mobile_Scrolling",
+              "path": "/docs/events/Mobile_Scrolling.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Multi_Event",
+              "path": "/docs/events/Multi_Event.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Pointer_Events",
+              "path": "/docs/events/Pointer_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Remove_by_Name",
+              "path": "/docs/events/Remove_by_Name.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Remove_Event",
+              "path": "/docs/events/Remove_Event.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/events/Stage_Events",
+              "path": "/docs/events/Stage_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Blur",
+              "path": "/docs/filters/Blur.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Brighten",
+              "path": "/docs/filters/Brighten.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Contrast",
+              "path": "/docs/filters/Contrast.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Custom_Filter",
+              "path": "/docs/filters/Custom_Filter.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Emboss",
+              "path": "/docs/filters/Emboss.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Enhance",
+              "path": "/docs/filters/Enhance.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Grayscale",
+              "path": "/docs/filters/Grayscale.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/HSL",
+              "path": "/docs/filters/HSL.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/HSV",
+              "path": "/docs/filters/HSV.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Invert",
+              "path": "/docs/filters/Invert.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Kaleidoscope",
+              "path": "/docs/filters/Kaleidoscope.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Mask",
+              "path": "/docs/filters/Mask.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Multiple_Filters",
+              "path": "/docs/filters/Multiple_Filters",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Multiple_Filters",
+              "path": "/docs/filters/Multiple_Filters.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Noise",
+              "path": "/docs/filters/Noise.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Pixelate",
+              "path": "/docs/filters/Pixelate.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/RGB",
+              "path": "/docs/filters/RGB.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Sepia",
+              "path": "/docs/filters/Sepia.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Solarize",
+              "path": "/docs/filters/Solarize.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/filters/Threshold",
+              "path": "/docs/filters/Threshold.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/groups_and_layers/Change_Containers",
+              "path": "/docs/groups_and_layers/Change_Containers.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/groups_and_layers/Groups",
+              "path": "/docs/groups_and_layers/Groups.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/groups_and_layers/Layering",
+              "path": "/docs/groups_and_layers/Layering.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/groups_and_layers/zIndex",
+              "path": "/docs/groups_and_layers/zIndex.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/index",
+              "path": "/docs/index.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/overview",
+              "path": "/docs/overview.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/All_Performance_Tips",
+              "path": "/docs/performance/All_Performance_Tips.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Avoid_Memory_Leaks",
+              "path": "/docs/performance/Avoid_Memory_Leaks.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Batch_Draw",
+              "path": "/docs/performance/Batch_Draw.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Disable_Perfect_Draw",
+              "path": "/docs/performance/Disable_Perfect_Draw.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Layer_Management",
+              "path": "/docs/performance/Layer_Management.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Listening_False",
+              "path": "/docs/performance/Listening_False.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Optimize_Animation",
+              "path": "/docs/performance/Optimize_Animation.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Optimize_Strokes",
+              "path": "/docs/performance/Optimize_Strokes.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/performance/Shape_Caching",
+              "path": "/docs/performance/Shape_Caching.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/posts/Position_vs_Offset",
+              "path": "/docs/posts/Position_vs_Offset",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/posts/Tainted_Canvas",
+              "path": "/docs/posts/Tainted_Canvas",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Access_Konva_Nodes",
+              "path": "/docs/react/Access_Konva_Nodes",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Canvas_Export",
+              "path": "/docs/react/Canvas_Export",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Canvas_Portal",
+              "path": "/docs/react/Canvas_Portal",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Complex_Animations",
+              "path": "/docs/react/Complex_Animations",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Custom_Shape",
+              "path": "/docs/react/Custom_Shape",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/DOM_Portal",
+              "path": "/docs/react/DOM_Portal",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Drag_And_Drop",
+              "path": "/docs/react/Drag_And_Drop",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Drop_Image",
+              "path": "/docs/react/Drop_Image",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Events",
+              "path": "/docs/react/Events",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Filters",
+              "path": "/docs/react/Filters",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Free_Drawing",
+              "path": "/docs/react/Free_Drawing",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Images",
+              "path": "/docs/react/Images",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/index",
+              "path": "/docs/react/",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Intro",
+              "path": "/docs/react/Intro",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Shapes",
+              "path": "/docs/react/Shapes",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Simple_Animations",
+              "path": "/docs/react/Simple_Animations",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Transformer",
+              "path": "/docs/react/Transformer",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/Undo-Redo",
+              "path": "/docs/react/Undo-Redo",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/react/zIndex",
+              "path": "/docs/react/zIndex",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Animals_on_the_Beach_Game",
+              "path": "/docs/sandbox/Animals_on_the_Beach_Game",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Animation_Stress_Test",
+              "path": "/docs/sandbox/Animation_Stress_Test",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Canvas_Background",
+              "path": "/docs/sandbox/Canvas_Background",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Canvas_Context_Menu",
+              "path": "/docs/sandbox/Canvas_Context_Menu",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Canvas_Editor",
+              "path": "/docs/sandbox/Canvas_Editor",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Canvas_Scrolling",
+              "path": "/docs/sandbox/Canvas_Scrolling",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Canvas_to_PDF",
+              "path": "/docs/sandbox/Canvas_to_PDF",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Collision_Detection",
+              "path": "/docs/sandbox/Collision_Detection",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Connected_Objects",
+              "path": "/docs/sandbox/Connected_Objects",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Custom_Font",
+              "path": "/docs/sandbox/Custom_Font",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Drag_and_Drop_Multiple_Shapes",
+              "path": "/docs/sandbox/Drag_and_Drop_Multiple_Shapes",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Drag_and_Drop_Stress_Test",
+              "path": "/docs/sandbox/Drag_and_Drop_Stress_Test",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Drop_DOM_Element",
+              "path": "/docs/sandbox/Drop_DOM_Element",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Editable_Text",
+              "path": "/docs/sandbox/Editable_Text",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Elastic_Stars",
+              "path": "/docs/sandbox/Elastic_Stars",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Expand_Images_on_Hover",
+              "path": "/docs/sandbox/Expand_Images_on_Hover",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Free_Drawing",
+              "path": "/docs/sandbox/Free_Drawing",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Gestures",
+              "path": "/docs/sandbox/Gestures",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/GIF_On_Canvas",
+              "path": "/docs/sandbox/GIF_On_Canvas",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Image_Border",
+              "path": "/docs/sandbox/Image_Border",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Image_Border_Highlighting",
+              "path": "/docs/sandbox/Image_Border_Highlighting",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Image_Labeling",
+              "path": "/docs/sandbox/Image_Labeling",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Image_Resize",
+              "path": "/docs/sandbox/Image_Resize",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Interactive_Building_Map",
+              "path": "/docs/sandbox/Interactive_Building_Map",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Jumping_Bunnies",
+              "path": "/docs/sandbox/Jumping_Bunnies",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Limited_Drag_And_Resize",
+              "path": "/docs/sandbox/Limited_Drag_And_Resize",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Mirror_Canvas_Shape",
+              "path": "/docs/sandbox/Mirror_Canvas_Shape",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Modify_Curves_with_Anchor_Points",
+              "path": "/docs/sandbox/Modify_Curves_with_Anchor_Points",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Modify_Shape_Color_on_Click",
+              "path": "/docs/sandbox/Modify_Shape_Color_on_Click",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Multi-touch_Scale_Shape",
+              "path": "/docs/sandbox/Multi-touch_Scale_Shape",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Multi-touch_Scale_Stage",
+              "path": "/docs/sandbox/Multi-touch_Scale_Stage",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Native_Context_Access",
+              "path": "/docs/sandbox/Native_Context_Access",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Nodes",
+              "path": "/docs/sandbox/Nodes",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Objects_Snapping",
+              "path": "/docs/sandbox/Objects_Snapping",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Physics_Simulator",
+              "path": "/docs/sandbox/Physics_Simulator",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Planets_Image_Map",
+              "path": "/docs/sandbox/Planets_Image_Map",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Quantum_Squiggle",
+              "path": "/docs/sandbox/Quantum_Squiggle",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Relative_Pointer_Position",
+              "path": "/docs/sandbox/Relative_Pointer_Position",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Resizing_Stress_Test",
+              "path": "/docs/sandbox/Resizing_Stress_Test",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Responsive_Canvas",
+              "path": "/docs/sandbox/Responsive_Canvas",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Rich_Text",
+              "path": "/docs/sandbox/Rich_Text",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Scale_Image_To_Fit",
+              "path": "/docs/sandbox/Scale_Image_To_Fit",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Scroll_By_Edge_Drag",
+              "path": "/docs/sandbox/Scroll_By_Edge_Drag",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Seats_Reservation",
+              "path": "/docs/sandbox/Seats_Reservation",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Shape_Tango",
+              "path": "/docs/sandbox/Shape_Tango",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Shape_Tooltips",
+              "path": "/docs/sandbox/Shape_Tooltips",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Shapes_with_Tooltip",
+              "path": "/docs/sandbox/Shapes_with_Tooltip",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Simple_Window_Frame",
+              "path": "/docs/sandbox/Simple_Window_Frame",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Stage_Preview",
+              "path": "/docs/sandbox/Stage_Preview",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Star_Spinner",
+              "path": "/docs/sandbox/Star_Spinner",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/SVG_On_Canvas",
+              "path": "/docs/sandbox/SVG_On_Canvas",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Transparent_Group",
+              "path": "/docs/sandbox/Transparent_Group",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Video_On_Canvas",
+              "path": "/docs/sandbox/Video_On_Canvas",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Web_Worker",
+              "path": "/docs/sandbox/Web_Worker",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Wheel_of_Fortune",
+              "path": "/docs/sandbox/Wheel_of_Fortune",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Window_Frame_Designer",
+              "path": "/docs/sandbox/Window_Frame_Designer",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Zoom_Layer_On_hover",
+              "path": "/docs/sandbox/Zoom_Layer_On_hover",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/sandbox/Zooming_Relative_To_Pointer",
+              "path": "/docs/sandbox/Zooming_Relative_To_Pointer",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Basic_demo",
+              "path": "/docs/select_and_transform/Basic_demo.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Centered_Scaling",
+              "path": "/docs/select_and_transform/Centered_Scaling.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Force_Update",
+              "path": "/docs/select_and_transform/Force_Update.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Ignore_Stroke_On_Transform",
+              "path": "/docs/select_and_transform/Ignore_Stroke_On_Transform.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Keep_Ratio",
+              "path": "/docs/select_and_transform/Keep_Ratio.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Resize_Limits",
+              "path": "/docs/select_and_transform/Resize_Limits.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Resize_Snaps",
+              "path": "/docs/select_and_transform/Resize_Snaps.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Resize_Text",
+              "path": "/docs/select_and_transform/Resize_Text.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Rotation_Snaps",
+              "path": "/docs/select_and_transform/Rotation_Snaps.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Stop_Transform",
+              "path": "/docs/select_and_transform/Stop_Transform.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Transform_Events",
+              "path": "/docs/select_and_transform/Transform_Events.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Transformer_Complex_Styling",
+              "path": "/docs/select_and_transform/Transformer_Complex_Styling.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/select_and_transform/Transformer_Styling",
+              "path": "/docs/select_and_transform/Transformer_Styling.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/selectors/Select_by_id",
+              "path": "/docs/selectors/Select_by_id.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/selectors/Select_by_Name",
+              "path": "/docs/selectors/Select_by_Name.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/selectors/Select_by_Type",
+              "path": "/docs/selectors/Select_by_Type.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Arc",
+              "path": "/docs/shapes/Arc.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Arrow",
+              "path": "/docs/shapes/Arrow.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Circle",
+              "path": "/docs/shapes/Circle.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Custom",
+              "path": "/docs/shapes/Custom.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Ellipse",
+              "path": "/docs/shapes/Ellipse.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Group",
+              "path": "/docs/shapes/Group.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Image",
+              "path": "/docs/shapes/Image.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Label",
+              "path": "/docs/shapes/Label.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Line",
+              "path": "/docs/shapes/Line.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Line_-_Blob",
+              "path": "/docs/shapes/Line_-_Blob.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Line_-_Polygon",
+              "path": "/docs/shapes/Line_-_Polygon.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Line_-_Simple_Line",
+              "path": "/docs/shapes/Line_-_Simple_Line.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Line_-_Spline",
+              "path": "/docs/shapes/Line_-_Spline.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Path",
+              "path": "/docs/shapes/Path.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Rect",
+              "path": "/docs/shapes/Rect.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/RegularPolygon",
+              "path": "/docs/shapes/RegularPolygon.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Ring",
+              "path": "/docs/shapes/Ring.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Sprite",
+              "path": "/docs/shapes/Sprite.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Star",
+              "path": "/docs/shapes/Star.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Text",
+              "path": "/docs/shapes/Text.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/TextPath",
+              "path": "/docs/shapes/TextPath.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/shapes/Wedge",
+              "path": "/docs/shapes/Wedge.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Blend_Mode",
+              "path": "/docs/styling/Blend_Mode.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Fill",
+              "path": "/docs/styling/Fill.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Fill_Stroke_Order",
+              "path": "/docs/styling/Fill_Stroke_Order.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Hide_and_Show",
+              "path": "/docs/styling/hide-and-show.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Line_Join",
+              "path": "/docs/styling/Line_Join.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Mouse_Cursor",
+              "path": "/docs/styling/Mouse_Cursor.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Opacity",
+              "path": "/docs/styling/Opacity.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Shadow",
+              "path": "/docs/styling/Shadow.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/styling/Stroke",
+              "path": "/docs/styling/Stroke.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/support",
+              "path": "/docs/support.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Bindings",
+              "path": "/docs/svelte/Bindings",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Cache",
+              "path": "/docs/svelte/Cache",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Custom_Shape",
+              "path": "/docs/svelte/Custom_Shape",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Drag_And_Drop",
+              "path": "/docs/svelte/Drag_And_Drop",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Events",
+              "path": "/docs/svelte/Events",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Filters",
+              "path": "/docs/svelte/Filters",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Images",
+              "path": "/docs/svelte/Images",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/index",
+              "path": "/docs/svelte/",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Konva_Node",
+              "path": "/docs/svelte/Konva_Node",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Labels",
+              "path": "/docs/svelte/Labels",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Save_Load",
+              "path": "/docs/svelte/Save_Load",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Shapes",
+              "path": "/docs/svelte/Shapes",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Simple_Animations",
+              "path": "/docs/svelte/Simple_Animations",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/SvelteKit",
+              "path": "/docs/svelte/SvelteKit",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/Transformer",
+              "path": "/docs/svelte/Transformer",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/svelte/zIndex",
+              "path": "/docs/svelte/zIndex",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tools",
+              "path": "/docs/tools.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/All_Controls",
+              "path": "/docs/tweens/All_Controls.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/All_Easings",
+              "path": "/docs/tweens/All_Easings.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/Common_Easings",
+              "path": "/docs/tweens/Common_Easings.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/Complex_Tweening",
+              "path": "/docs/tweens/Complex_Tweening.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/Finish_Event",
+              "path": "/docs/tweens/Finish_Event",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/Linear_Easing",
+              "path": "/docs/tweens/Linear_Easing.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/tweens/Tween_Filter",
+              "path": "/docs/tweens/Tween_Filter.html",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Cache",
+              "path": "/docs/vue/Cache",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Custom_Shape",
+              "path": "/docs/vue/Custom_Shape",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Drag_And_Drop",
+              "path": "/docs/vue/Drag_And_Drop",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Events",
+              "path": "/docs/vue/Events",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Filters",
+              "path": "/docs/vue/Filters",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Images",
+              "path": "/docs/vue/Images",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/index",
+              "path": "/docs/vue/",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Save-Load",
+              "path": "/docs/vue/Save-Load",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Shapes",
+              "path": "/docs/vue/Shapes",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Simple_Animations",
+              "path": "/docs/vue/Simple_Animations",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/Transformer",
+              "path": "/docs/vue/Transformer",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "docs/vue/zIndex",
+              "path": "/docs/vue/zIndex",
+              "sidebar": "tutorialsSidebar"
+            },
+            {
+              "id": "/category/shapes",
+              "path": "/category/shapes",
+              "sidebar": "tutorialsSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialsSidebar": {
+              "link": {
+                "path": "/docs/tools.html",
+                "label": "Tools"
+              }
+            },
+            "apiSidebar": {
+              "link": {
+                "path": "/api/Konva.html",
+                "label": "Konva"
+              }
+            },
+            "demosSidebar": {}
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

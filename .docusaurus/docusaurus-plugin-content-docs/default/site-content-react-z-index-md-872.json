@@ -1,0 +1,15 @@
+{
+  "id": "react/zIndex",
+  "title": "zIndex",
+  "description": "title: How to change the zIndex of nodes with React?",
+  "source": "@site/content/react/zIndex.md",
+  "sourceDirName": "react",
+  "slug": "/react/zIndex",
+  "permalink": "/react/zIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/react/zIndex.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

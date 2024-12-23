@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Line_-_Polygon",
+  "title": "HTML5 canvas Polygon Tutorial",
+  "description": "To create a polygon with Konva, we can instantiate a Konva.Line() object with the closed property set to true.",
+  "source": "@site/content/shapes/Line_-_Polygon.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Line_-_Polygon.html",
+  "permalink": "/docs/shapes/Line_-_Polygon.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Line_-_Polygon.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Polygon Tutorial",
+    "sidebar_label": "Line - Polygon",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Line_-_Polygon.html"
+  }
+}

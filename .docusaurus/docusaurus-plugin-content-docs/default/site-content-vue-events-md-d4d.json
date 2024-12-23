@@ -1,0 +1,15 @@
+{
+  "id": "vue/Events",
+  "title": "Events",
+  "description": "title: How to listen to an event on a canvas shape with Vue and Konva?",
+  "source": "@site/content/vue/Events.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Events",
+  "permalink": "/vue/Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/vue/Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

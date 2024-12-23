@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Custom_Filter",
+  "title": "HTML5 Canvas Custom Filter Tutorial",
+  "description": "How apply custom filter for Konva nodes?",
+  "source": "@site/content/docs/filters/Custom_Filter.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Custom_Filter.html",
+  "permalink": "/docs/filters/Custom_Filter.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Custom_Filter.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Custom Filter Tutorial",
+    "sidebar_label": "Custom Filter",
+    "hide_table_of_contents": true,
+    "slug": "Custom_Filter.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Contrast",
+    "permalink": "/docs/filters/Contrast.html"
+  },
+  "next": {
+    "title": "Emboss",
+    "permalink": "/docs/filters/Emboss.html"
+  }
+}

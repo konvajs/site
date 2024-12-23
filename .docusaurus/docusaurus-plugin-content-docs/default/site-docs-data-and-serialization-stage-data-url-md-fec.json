@@ -1,0 +1,24 @@
+{
+  "id": "data_and_serialization/Stage_Data_URL",
+  "title": "Stage_Data_URL",
+  "description": "title: HTML5 Canvas to Data URL Tutorial",
+  "source": "@site/docs/data_and_serialization/Stage_Data_URL.md",
+  "sourceDirName": "data_and_serialization",
+  "slug": "/data_and_serialization/Stage_Data_URL",
+  "permalink": "/data_and_serialization/Stage_Data_URL",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/data_and_serialization/Stage_Data_URL.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Simple_Load",
+    "permalink": "/data_and_serialization/Simple_Load"
+  },
+  "next": {
+    "title": "Drag_and_Drop",
+    "permalink": "/drag_and_drop/"
+  }
+}

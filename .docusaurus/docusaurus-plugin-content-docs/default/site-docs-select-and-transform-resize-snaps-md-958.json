@@ -1,0 +1,24 @@
+{
+  "id": "select_and_transform/Resize_Snaps",
+  "title": "Resize_Snaps",
+  "description": "title: HTML5 Canvas Shape Resize Snapping",
+  "source": "@site/docs/select_and_transform/Resize_Snaps.md",
+  "sourceDirName": "select_and_transform",
+  "slug": "/select_and_transform/Resize_Snaps",
+  "permalink": "/select_and_transform/Resize_Snaps",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/select_and_transform/Resize_Snaps.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Resize_Limits",
+    "permalink": "/select_and_transform/Resize_Limits"
+  },
+  "next": {
+    "title": "Resize_Text",
+    "permalink": "/select_and_transform/Resize_Text"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Enhance",
+  "title": "Enhance",
+  "description": "title: HTML5 Canvas Enhance Image Filter Tutorial",
+  "source": "@site/content/docs/filters/Enhance.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Enhance",
+  "permalink": "/docs/filters/Enhance",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Enhance.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Emboss",
+    "permalink": "/docs/filters/Emboss"
+  },
+  "next": {
+    "title": "Grayscale",
+    "permalink": "/docs/filters/Grayscale"
+  }
+}

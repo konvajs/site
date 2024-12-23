@@ -1,0 +1,24 @@
+{
+  "id": "animations/Rotation",
+  "title": "Rotation",
+  "description": "title: Rotation Animation tutorial",
+  "source": "@site/docs/animations/Rotation.md",
+  "sourceDirName": "animations",
+  "slug": "/animations/Rotation",
+  "permalink": "/animations/Rotation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/animations/Rotation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Moving",
+    "permalink": "/animations/Moving"
+  },
+  "next": {
+    "title": "Scaling",
+    "permalink": "/animations/Scaling"
+  }
+}

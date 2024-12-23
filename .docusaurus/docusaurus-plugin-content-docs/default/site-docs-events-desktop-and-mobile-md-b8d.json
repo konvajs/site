@@ -1,0 +1,24 @@
+{
+  "id": "events/Desktop_and_Mobile",
+  "title": "Desktop_and_Mobile",
+  "description": "title: HTML5 Canvas Desktop and Mobile Events Support Tutorial",
+  "source": "@site/docs/events/Desktop_and_Mobile.md",
+  "sourceDirName": "events",
+  "slug": "/events/Desktop_and_Mobile",
+  "permalink": "/events/Desktop_and_Mobile",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/events/Desktop_and_Mobile.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Custom_Hit_Region",
+    "permalink": "/events/Custom_Hit_Region"
+  },
+  "next": {
+    "title": "Event_Delegation",
+    "permalink": "/events/Event_Delegation"
+  }
+}

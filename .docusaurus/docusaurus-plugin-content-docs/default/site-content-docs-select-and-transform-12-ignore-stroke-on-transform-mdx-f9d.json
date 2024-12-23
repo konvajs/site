@@ -1,0 +1,30 @@
+{
+  "id": "docs/select_and_transform/Ignore_Stroke_On_Transform",
+  "title": "How to resize shape on canvas without changing its stroke size?",
+  "description": "Remember, that Konva.Transformer is changing scaleX and scaleY properties of a node.",
+  "source": "@site/content/docs/select_and_transform/12_Ignore_Stroke_On_Transform.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Ignore_Stroke_On_Transform.html",
+  "permalink": "/docs/select_and_transform/Ignore_Stroke_On_Transform.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/12_Ignore_Stroke_On_Transform.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 12,
+  "frontMatter": {
+    "title": "How to resize shape on canvas without changing its stroke size?",
+    "sidebar_label": "Ignore Stroke",
+    "hide_table_of_contents": true,
+    "slug": "Ignore_Stroke_On_Transform.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Resize Text",
+    "permalink": "/docs/select_and_transform/Resize_Text.html"
+  },
+  "next": {
+    "title": "Clipping Functions",
+    "permalink": "/docs/clipping/Clipping_Function.html"
+  }
+}

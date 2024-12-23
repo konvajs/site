@@ -1,0 +1,30 @@
+{
+  "id": "docs/styling/Mouse_Cursor",
+  "title": "HTML5 Canvas Change Mouse Cursor Style",
+  "description": "To change mouse cursor with Konva framework you just need to listen events, where do you need to change the cursor, and apply new styles manually for Stage container.",
+  "source": "@site/content/docs/styling/07-Mouse_Cursor.mdx",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Mouse_Cursor.html",
+  "permalink": "/docs/styling/Mouse_Cursor.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/07-Mouse_Cursor.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "title": "HTML5 Canvas Change Mouse Cursor Style",
+    "sidebar_label": "Mouse Cursor",
+    "hide_table_of_contents": true,
+    "slug": "Mouse_Cursor.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Hide and Show",
+    "permalink": "/docs/styling/hide-and-show.html"
+  },
+  "next": {
+    "title": "Blend Mode",
+    "permalink": "/docs/styling/Blend_Mode.html"
+  }
+}

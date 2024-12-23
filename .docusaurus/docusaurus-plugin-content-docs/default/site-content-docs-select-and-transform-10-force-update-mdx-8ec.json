@@ -1,0 +1,30 @@
+{
+  "id": "docs/select_and_transform/Force_Update",
+  "title": "HTML5 Canvas Force Update Tutorial",
+  "description": "Konva.Transformer automatically tracks properties of attached nodes.",
+  "source": "@site/content/docs/select_and_transform/10_Force_Update.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Force_Update.html",
+  "permalink": "/docs/select_and_transform/Force_Update.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/10_Force_Update.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "title": "HTML5 Canvas Force Update Tutorial",
+    "sidebar_label": "Force Update",
+    "hide_table_of_contents": true,
+    "slug": "Force_Update.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stop Transform",
+    "permalink": "/docs/select_and_transform/Stop_Transform.html"
+  },
+  "next": {
+    "title": "Resize Text",
+    "permalink": "/docs/select_and_transform/Resize_Text.html"
+  }
+}

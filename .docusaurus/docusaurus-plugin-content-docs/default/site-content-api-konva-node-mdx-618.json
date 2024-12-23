@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Node",
+  "title": "Konva.Node",
+  "description": "Node constructor. Nodes are entities that can be transformed, layered, and have bound events. The stage, layers, groups, and shapes all extend Node.",
+  "source": "@site/content/api/Konva.Node.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Node.html",
+  "permalink": "/api/Konva.Node.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Node.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Node",
+    "sidebar_label": "Node",
+    "slug": "/api/Konva.Node.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Line",
+    "permalink": "/api/Konva.Line.html"
+  },
+  "next": {
+    "title": "Path",
+    "permalink": "/api/Konva.Path.html"
+  }
+}

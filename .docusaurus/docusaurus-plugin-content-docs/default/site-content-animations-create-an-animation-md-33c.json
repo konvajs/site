@@ -1,0 +1,15 @@
+{
+  "id": "animations/Create_an_Animation",
+  "title": "Create_an_Animation",
+  "description": "title: HTML5 Canvas Konva Animation Tutorial",
+  "source": "@site/content/animations/Create_an_Animation.md",
+  "sourceDirName": "animations",
+  "slug": "/animations/Create_an_Animation",
+  "permalink": "/animations/Create_an_Animation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/animations/Create_an_Animation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

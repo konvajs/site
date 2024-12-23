@@ -1,0 +1,30 @@
+{
+  "id": "docs/drag_and_drop/Drag_a_Group",
+  "title": "HTML5 Canvas Drag and Drop a Group Tutorial",
+  "description": "To drag and drop groups with Konva, we can set the draggable property",
+  "source": "@site/content/docs/drag_and_drop/03_Drag_a_Group.mdx",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drag_a_Group.html",
+  "permalink": "/docs/drag_and_drop/Drag_a_Group.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/03_Drag_a_Group.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "HTML5 Canvas Drag and Drop a Group Tutorial",
+    "sidebar_label": "Drag a Group",
+    "hide_table_of_contents": true,
+    "slug": "Drag_a_Group.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag an Image",
+    "permalink": "/docs/drag_and_drop/Drag_an_Image.html"
+  },
+  "next": {
+    "title": "Drag a Line",
+    "permalink": "/docs/drag_and_drop/Drag_a_Line.html"
+  }
+}

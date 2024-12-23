@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Konva_Node",
+  "title": "Konva_Node",
+  "description": "title: Accessing the Konva node",
+  "source": "@site/content/svelte/Konva_Node.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Konva_Node",
+  "permalink": "/svelte/Konva_Node",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Konva_Node.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Tag",
+  "title": "Konva.Tag",
+  "description": "Tag constructor.&nbsp; A Tag can be configured  to have a pointer element that points up, right, down, or left",
+  "source": "@site/content/api/Konva.Tag.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Tag.html",
+  "permalink": "/api/Konva.Tag.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Tag.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Tag",
+    "sidebar_label": "Tag",
+    "slug": "/api/Konva.Tag.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Star",
+    "permalink": "/api/Konva.Star.html"
+  },
+  "next": {
+    "title": "Text",
+    "permalink": "/api/Konva.Text.html"
+  }
+}

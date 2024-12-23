@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Grayscale",
+  "title": "HTML5 Canvas Grayscale Image Filter Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache() function. Then apply filter with filters() function.",
+  "source": "@site/content/docs/filters/Grayscale.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Grayscale.html",
+  "permalink": "/docs/filters/Grayscale.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Grayscale.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Grayscale Image Filter Tutorial",
+    "sidebar_label": "Grayscale",
+    "hide_table_of_contents": true,
+    "slug": "Grayscale.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Enhance",
+    "permalink": "/docs/filters/Enhance.html"
+  },
+  "next": {
+    "title": "HSL",
+    "permalink": "/docs/filters/HSL.html"
+  }
+}

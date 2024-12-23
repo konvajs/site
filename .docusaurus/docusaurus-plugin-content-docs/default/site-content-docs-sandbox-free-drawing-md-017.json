@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Free_Drawing",
+  "title": "Free_Drawing",
+  "description": "title: Free Drawing Konva Demo",
+  "source": "@site/content/docs/sandbox/Free_Drawing.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Free_Drawing",
+  "permalink": "/docs/sandbox/Free_Drawing",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Free_Drawing.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Expand_Images_on_Hover",
+    "permalink": "/docs/sandbox/Expand_Images_on_Hover"
+  },
+  "next": {
+    "title": "GIF_On_Canvas",
+    "permalink": "/docs/sandbox/GIF_On_Canvas"
+  }
+}

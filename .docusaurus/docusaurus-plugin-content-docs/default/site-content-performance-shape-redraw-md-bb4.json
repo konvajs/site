@@ -1,0 +1,15 @@
+{
+  "id": "performance/Shape_Redraw",
+  "title": "Shape_Redraw",
+  "description": "title: HTML5 Canvas Shape Redraw Performance Tip",
+  "source": "@site/content/performance/Shape_Redraw.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Shape_Redraw",
+  "permalink": "/performance/Shape_Redraw",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/performance/Shape_Redraw.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

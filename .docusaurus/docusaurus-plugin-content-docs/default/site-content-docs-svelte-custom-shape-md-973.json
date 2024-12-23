@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/Custom_Shape",
+  "title": "Custom_Shape",
+  "description": "title: How to draw custom canvas shape with Svelte?",
+  "source": "@site/content/docs/svelte/Custom_Shape.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/Custom_Shape",
+  "permalink": "/docs/svelte/Custom_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/Custom_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Cache",
+    "permalink": "/docs/svelte/Cache"
+  },
+  "next": {
+    "title": "Drag_And_Drop",
+    "permalink": "/docs/svelte/Drag_And_Drop"
+  }
+}

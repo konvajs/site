@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Drop_DOM_Element",
+  "title": "Drop_DOM_Element",
+  "description": "title: How to drag and drop DOM image into the canvas",
+  "source": "@site/content/sandbox/Drop_DOM_Element.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Drop_DOM_Element",
+  "permalink": "/sandbox/Drop_DOM_Element",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Drop_DOM_Element.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Drag_and_Drop_Stress_Test",
+    "permalink": "/sandbox/Drag_and_Drop_Stress_Test"
+  },
+  "next": {
+    "title": "Editable_Text",
+    "permalink": "/sandbox/Editable_Text"
+  }
+}

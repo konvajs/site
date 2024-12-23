@@ -1,0 +1,29 @@
+{
+  "id": "docs/drag_and_drop/Drag_an_Image",
+  "title": "HTML5 Canvas Drag and Drop an Image",
+  "description": "To drag and drop an image with Konva, we can set the draggable property",
+  "source": "@site/content/docs/drag_and_drop/Drag_an_Image.mdx",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drag_an_Image.html",
+  "permalink": "/docs/drag_and_drop/Drag_an_Image.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/Drag_an_Image.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Drag and Drop an Image",
+    "sidebar_label": "Drag an Image",
+    "hide_table_of_contents": true,
+    "slug": "Drag_an_Image.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag a Stage",
+    "permalink": "/docs/drag_and_drop/Drag_a_Stage.html"
+  },
+  "next": {
+    "title": "Drop Events",
+    "permalink": "/docs/drag_and_drop/Drop_Events.html"
+  }
+}

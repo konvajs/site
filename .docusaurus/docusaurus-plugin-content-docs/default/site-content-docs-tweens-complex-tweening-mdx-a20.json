@@ -1,0 +1,29 @@
+{
+  "id": "docs/tweens/Complex_Tweening",
+  "title": "Complex Tweening Tutorial",
+  "description": "For more complex animations, you can use GreenSock Konva Plugin.",
+  "source": "@site/content/docs/tweens/Complex_Tweening.mdx",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/Complex_Tweening.html",
+  "permalink": "/docs/tweens/Complex_Tweening.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/Complex_Tweening.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Complex Tweening Tutorial",
+    "sidebar_label": "Complex Tweening",
+    "hide_table_of_contents": true,
+    "slug": "Complex_Tweening.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Common Easings",
+    "permalink": "/docs/tweens/Common_Easings.html"
+  },
+  "next": {
+    "title": "Finish_Event",
+    "permalink": "/docs/tweens/Finish_Event"
+  }
+}

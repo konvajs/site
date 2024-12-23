@@ -1,0 +1,24 @@
+{
+  "id": "docs/drag_and_drop/Drag_a_Group",
+  "title": "Drag_a_Group",
+  "description": "title: HTML5 Canvas Drag and Drop a Group Tutorial",
+  "source": "@site/content/docs/drag_and_drop/Drag_a_Group.md",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drag_a_Group",
+  "permalink": "/docs/drag_and_drop/Drag_a_Group",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/Drag_a_Group.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag Events",
+    "permalink": "/docs/drag_and_drop/Drag_Events.html"
+  },
+  "next": {
+    "title": "Drag a Group",
+    "permalink": "/docs/drag_and_drop/Drag_a_Group.html"
+  }
+}

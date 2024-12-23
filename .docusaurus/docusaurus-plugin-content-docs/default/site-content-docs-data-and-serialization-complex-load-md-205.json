@@ -1,0 +1,24 @@
+{
+  "id": "docs/data_and_serialization/Complex_Load",
+  "title": "Complex_Load",
+  "description": "title: Load HTML5 Canvas Stage from JSON Tutorial",
+  "source": "@site/content/docs/data_and_serialization/Complex_Load.md",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/Complex_Load",
+  "permalink": "/docs/data_and_serialization/Complex_Load",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/Complex_Load.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Best Practices",
+    "permalink": "/docs/data_and_serialization/Best_Practices.html"
+  },
+  "next": {
+    "title": "Complex Load",
+    "permalink": "/docs/data_and_serialization/Complex_Load.html"
+  }
+}

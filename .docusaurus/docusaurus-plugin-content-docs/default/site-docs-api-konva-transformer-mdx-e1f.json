@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Transformer",
+  "title": "Konva.Transformer",
+  "description": "Transformer constructor.  Transformer is a special type of group that allow you transform Konva primitives and shapes. Transforming tool is not changing width and height properties of nodes when you resize them. Instead it changes scaleX and scaleY properties.",
+  "source": "@site/docs/api/Konva.Transformer.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Transformer.html",
+  "permalink": "/api/Konva.Transformer.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Transformer.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Transformer",
+    "sidebar_label": "Transformer",
+    "slug": "/api/Konva.Transformer.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Transform",
+    "permalink": "/api/Konva.Transform.html"
+  },
+  "next": {
+    "title": "Tween",
+    "permalink": "/api/Konva.Tween.html"
+  }
+}

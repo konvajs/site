@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Stop_Transform",
+  "title": "HTML5 Canvas Stop Shape Transform",
+  "description": "If you need to stop transforming immediately you can use stopTransform method of Konva.Transformer instance.",
+  "source": "@site/content/docs/select_and_transform/Stop_Transform.md",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Stop_Transform.html",
+  "permalink": "/docs/select_and_transform/Stop_Transform.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Stop_Transform.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Stop Shape Transform",
+    "sidebar_label": "Stop Transform",
+    "hide_table_of_contents": true,
+    "slug": "Stop_Transform.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Rotation Snaps",
+    "permalink": "/docs/select_and_transform/Rotation_Snaps.html"
+  },
+  "next": {
+    "title": "Transform_Events",
+    "permalink": "/docs/select_and_transform/Transform_Events"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Transformer",
+  "title": "Transformer",
+  "description": "title: How to resize and rotate canvas shapes with react and konva?",
+  "source": "@site/content/docs/react/Transformer.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Transformer",
+  "permalink": "/docs/react/Transformer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Transformer.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Simple_Animations",
+    "permalink": "/docs/react/Simple_Animations"
+  },
+  "next": {
+    "title": "Undo-Redo",
+    "permalink": "/docs/react/Undo-Redo"
+  }
+}

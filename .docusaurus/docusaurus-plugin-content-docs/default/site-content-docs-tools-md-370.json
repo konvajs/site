@@ -1,0 +1,27 @@
+{
+  "id": "docs/tools",
+  "title": "Konva.js Tools and Plugins",
+  "description": "- Konva + React",
+  "source": "@site/content/docs/tools.md",
+  "sourceDirName": "docs",
+  "slug": "/docs/tools.html",
+  "permalink": "/docs/tools.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tools.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0,
+    "title": "Konva.js Tools and Plugins",
+    "sidebar_label": "Tools",
+    "slug": "tools.html",
+    "sidebar_class_name": "hidden"
+  },
+  "sidebar": "tutorialsSidebar",
+  "next": {
+    "title": "Intro",
+    "permalink": "/docs/index.html"
+  }
+}

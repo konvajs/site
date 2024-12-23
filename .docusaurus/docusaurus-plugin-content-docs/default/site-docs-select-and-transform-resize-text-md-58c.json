@@ -1,0 +1,24 @@
+{
+  "id": "select_and_transform/Resize_Text",
+  "title": "Resize_Text",
+  "description": "title: How to resize text on canvas?",
+  "source": "@site/docs/select_and_transform/Resize_Text.md",
+  "sourceDirName": "select_and_transform",
+  "slug": "/select_and_transform/Resize_Text",
+  "permalink": "/select_and_transform/Resize_Text",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/select_and_transform/Resize_Text.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Resize_Snaps",
+    "permalink": "/select_and_transform/Resize_Snaps"
+  },
+  "next": {
+    "title": "Rotation_Snaps",
+    "permalink": "/select_and_transform/Rotation_Snaps"
+  }
+}

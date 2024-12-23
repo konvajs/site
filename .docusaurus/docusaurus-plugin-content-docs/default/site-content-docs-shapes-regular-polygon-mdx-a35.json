@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/RegularPolygon",
+  "title": "HTML5 canvas Regular Polygon Tutorial",
+  "description": "To create a regular polygon shape with Konva, we can instantiate a Konva.RegularPolygon() object.",
+  "source": "@site/content/docs/shapes/RegularPolygon.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/RegularPolygon.html",
+  "permalink": "/docs/shapes/RegularPolygon.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/RegularPolygon.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Regular Polygon Tutorial",
+    "sidebar_label": "Regular Polygon",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/RegularPolygon.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Rectangle",
+    "permalink": "/docs/shapes/Rect.html"
+  },
+  "next": {
+    "title": "Ring",
+    "permalink": "/docs/shapes/Ring.html"
+  }
+}

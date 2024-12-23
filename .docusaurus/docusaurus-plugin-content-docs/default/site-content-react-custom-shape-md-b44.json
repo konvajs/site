@@ -1,0 +1,15 @@
+{
+  "id": "react/Custom_Shape",
+  "title": "Custom_Shape",
+  "description": "title: How to draw custom shapes with React?",
+  "source": "@site/content/react/Custom_Shape.md",
+  "sourceDirName": "react",
+  "slug": "/react/Custom_Shape",
+  "permalink": "/react/Custom_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/react/Custom_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,15 @@
+{
+  "id": "react/Drag_And_Drop",
+  "title": "Drag_And_Drop",
+  "description": "title: Drag and drop canvas shapes",
+  "source": "@site/content/react/Drag_And_Drop.md",
+  "sourceDirName": "react",
+  "slug": "/react/Drag_And_Drop",
+  "permalink": "/react/Drag_And_Drop",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/react/Drag_And_Drop.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Group",
+  "title": "HTML5 canvas Group Tutorial",
+  "description": "To create a group of shapes with Konva, we can instantiate a Konva.Group() object.",
+  "source": "@site/content/shapes/Group.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Group.html",
+  "permalink": "/docs/shapes/Group.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Group.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Group Tutorial",
+    "sidebar_label": "Group",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Group.html"
+  }
+}

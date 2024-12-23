@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Event_Delegation",
+  "title": "Event_Delegation",
+  "description": "title: HTML5 Canvas Event Delegation with Konva",
+  "source": "@site/content/docs/events/Event_Delegation.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Event_Delegation",
+  "permalink": "/docs/events/Event_Delegation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Event_Delegation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Desktop and Mobile",
+    "permalink": "/docs/events/Desktop_and_Mobile.html"
+  },
+  "next": {
+    "title": "Event Delegation",
+    "permalink": "/docs/events/Event_Delegation.html"
+  }
+}

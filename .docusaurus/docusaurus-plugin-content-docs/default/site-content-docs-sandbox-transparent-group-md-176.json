@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Transparent_Group",
+  "title": "Transparent_Group",
+  "description": "title: How to apply transparency for several shapes at once?",
+  "source": "@site/content/docs/sandbox/Transparent_Group.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Transparent_Group",
+  "permalink": "/docs/sandbox/Transparent_Group",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Transparent_Group.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Star_Spinner",
+    "permalink": "/docs/sandbox/Star_Spinner"
+  },
+  "next": {
+    "title": "Video_On_Canvas",
+    "permalink": "/docs/sandbox/Video_On_Canvas"
+  }
+}

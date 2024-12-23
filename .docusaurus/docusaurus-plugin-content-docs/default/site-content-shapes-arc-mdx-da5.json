@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Arc",
+  "title": "HTML5 canvas Arc Tutorial",
+  "description": "To create an arc shape with Konva, we can instantiate a Konva.Arc() object.",
+  "source": "@site/content/shapes/Arc.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/shapes/Arc.html",
+  "permalink": "/shapes/Arc.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Arc.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Arc Tutorial",
+    "sidebar_label": "Arc",
+    "hide_table_of_contents": true,
+    "slug": "Arc.html"
+  }
+}

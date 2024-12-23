@@ -1,0 +1,29 @@
+{
+  "id": "docs/clipping/Clipping_Function",
+  "title": "Clipping Functions Tutorial",
+  "description": "How to clip nodes in the layer?",
+  "source": "@site/content/docs/clipping/Clipping_Function.mdx",
+  "sourceDirName": "docs/clipping",
+  "slug": "/docs/clipping/Clipping_Function.html",
+  "permalink": "/docs/clipping/Clipping_Function.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/clipping/Clipping_Function.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Clipping Functions Tutorial",
+    "sidebar_label": "Clipping Functions",
+    "hide_table_of_contents": true,
+    "slug": "Clipping_Function.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Ignore Stroke",
+    "permalink": "/docs/select_and_transform/Ignore_Stroke_On_Transform.html"
+  },
+  "next": {
+    "title": "Simple Clipping",
+    "permalink": "/docs/clipping/Clipping_Regions.html"
+  }
+}

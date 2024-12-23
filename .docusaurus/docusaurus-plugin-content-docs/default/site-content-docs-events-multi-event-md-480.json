@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Multi_Event",
+  "title": "Multi_Event",
+  "description": "title: HTML5 Canvas Canvas Multi-Event Binding Tutorial",
+  "source": "@site/content/docs/events/Multi_Event.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Multi_Event",
+  "permalink": "/docs/events/Multi_Event",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Multi_Event.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mobile Scrolling",
+    "permalink": "/docs/events/Mobile_Scrolling.html"
+  },
+  "next": {
+    "title": "Multi Event",
+    "permalink": "/docs/events/Multi_Event.html"
+  }
+}

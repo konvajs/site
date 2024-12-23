@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Shape",
+  "title": "Konva.Shape",
+  "description": "Shape constructor.  Shapes are primitive objects such as rectangles,  circles, text, lines, etc.",
+  "source": "@site/docs/api/Konva.Shape.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Shape.html",
+  "permalink": "/api/Konva.Shape.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Shape.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Shape",
+    "sidebar_label": "Shape",
+    "slug": "/api/Konva.Shape.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Ring",
+    "permalink": "/api/Konva.Ring.html"
+  },
+  "next": {
+    "title": "Sprite",
+    "permalink": "/api/Konva.Sprite.html"
+  }
+}

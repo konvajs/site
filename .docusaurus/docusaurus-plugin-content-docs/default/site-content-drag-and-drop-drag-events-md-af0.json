@@ -1,0 +1,15 @@
+{
+  "id": "drag_and_drop/Drag_Events",
+  "title": "Drag_Events",
+  "description": "title: HTML5 Canvas Drag and Drop Events",
+  "source": "@site/content/drag_and_drop/Drag_Events.md",
+  "sourceDirName": "drag_and_drop",
+  "slug": "/drag_and_drop/Drag_Events",
+  "permalink": "/drag_and_drop/Drag_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/drag_and_drop/Drag_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

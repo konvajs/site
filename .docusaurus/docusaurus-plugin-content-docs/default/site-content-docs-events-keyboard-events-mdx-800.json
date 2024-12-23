@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Keyboard_Events",
+  "title": "HTML5 Canvas Keyboard events with Konva",
+  "description": "There are no built-in keyboard events like keydown or keyup in Konva.",
+  "source": "@site/content/docs/events/Keyboard_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Keyboard_Events.html",
+  "permalink": "/docs/events/Keyboard_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Keyboard_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Keyboard events with Konva",
+    "sidebar_label": "Keyboard Events",
+    "hide_table_of_contents": true,
+    "slug": "Keyboard_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Image Events",
+    "permalink": "/docs/events/Image_Events.html"
+  },
+  "next": {
+    "title": "Listen for Events",
+    "permalink": "/docs/events/Listen_for_Events.html"
+  }
+}

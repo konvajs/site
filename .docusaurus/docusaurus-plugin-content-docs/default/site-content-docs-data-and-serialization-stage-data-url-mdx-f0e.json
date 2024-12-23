@@ -1,0 +1,29 @@
+{
+  "id": "docs/data_and_serialization/Stage_Data_URL",
+  "title": "HTML5 Canvas to Data URL Tutorial",
+  "description": "To get the data URL of the stage with Konva, we can use the toDataURL()",
+  "source": "@site/content/docs/data_and_serialization/Stage_Data_URL.mdx",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/Stage_Data_URL.html",
+  "permalink": "/docs/data_and_serialization/Stage_Data_URL.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/Stage_Data_URL.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas to Data URL Tutorial",
+    "sidebar_label": "Stage Data URL",
+    "hide_table_of_contents": true,
+    "slug": "Stage_Data_URL.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Simple Load",
+    "permalink": "/docs/data_and_serialization/Simple_Load.html"
+  },
+  "next": {
+    "title": "All Performance Tips",
+    "permalink": "/docs/performance/All_Performance_Tips.html"
+  }
+}

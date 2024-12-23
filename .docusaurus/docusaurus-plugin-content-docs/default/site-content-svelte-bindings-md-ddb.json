@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Bindings",
+  "title": "Bindings",
+  "description": "title: Binding the config prop",
+  "source": "@site/content/svelte/Bindings.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Bindings",
+  "permalink": "/svelte/Bindings",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Bindings.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

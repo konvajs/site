@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Mobile_Events",
+  "title": "HTML5 Canvas Mobile Touch Events Tutorial",
+  "description": "To bind event handlers to shapes on a mobile device with Konva, we can use the on() method.",
+  "source": "@site/content/docs/events/Mobile_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Mobile_Events.html",
+  "permalink": "/docs/events/Mobile_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Mobile_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Mobile Touch Events Tutorial",
+    "sidebar_label": "Mobile Events",
+    "hide_table_of_contents": true,
+    "slug": "Mobile_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Listen for Events",
+    "permalink": "/docs/events/Listen_for_Events.html"
+  },
+  "next": {
+    "title": "Mobile Scrolling",
+    "permalink": "/docs/events/Mobile_Scrolling.html"
+  }
+}

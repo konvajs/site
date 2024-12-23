@@ -1,0 +1,29 @@
+{
+  "id": "docs/tweens/All_Controls",
+  "title": "All Tween Controls Tutorial",
+  "description": "To control tweens with Konva, we can use the following methods:",
+  "source": "@site/content/docs/tweens/All_Controls.md",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/All_Controls.html",
+  "permalink": "/docs/tweens/All_Controls.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/All_Controls.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "All Tween Controls Tutorial",
+    "sidebar_label": "All Controls",
+    "hide_table_of_contents": true,
+    "slug": "All_Controls.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Threshold",
+    "permalink": "/docs/filters/Threshold.html"
+  },
+  "next": {
+    "title": "All_Easings",
+    "permalink": "/docs/tweens/All_Easings"
+  }
+}

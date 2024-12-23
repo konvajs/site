@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Animation_Stress_Test",
+  "title": "Animation_Stress_Test",
+  "description": "title: Animation Stress Test",
+  "source": "@site/content/docs/sandbox/Animation_Stress_Test.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Animation_Stress_Test",
+  "permalink": "/docs/sandbox/Animation_Stress_Test",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Animation_Stress_Test.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Animals_on_the_Beach_Game",
+    "permalink": "/docs/sandbox/Animals_on_the_Beach_Game"
+  },
+  "next": {
+    "title": "Canvas_Background",
+    "permalink": "/docs/sandbox/Canvas_Background"
+  }
+}

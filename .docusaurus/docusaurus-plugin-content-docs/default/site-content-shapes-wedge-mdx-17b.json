@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Wedge",
+  "title": "HTML5 canvas Wedge Tutorial",
+  "description": "To create a wedge (pie piece) shape with Konva, we can instantiate a Konva.Wedge() object.",
+  "source": "@site/content/shapes/Wedge.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Wedge.html",
+  "permalink": "/docs/shapes/Wedge.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Wedge.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Wedge Tutorial",
+    "sidebar_label": "Wedge",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Wedge.html"
+  }
+}

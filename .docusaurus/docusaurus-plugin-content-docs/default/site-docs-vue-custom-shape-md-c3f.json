@@ -1,0 +1,24 @@
+{
+  "id": "vue/Custom_Shape",
+  "title": "Custom_Shape",
+  "description": "title: How to draw custom canvas shape with Vue?",
+  "source": "@site/docs/vue/Custom_Shape.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Custom_Shape",
+  "permalink": "/vue/Custom_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/vue/Custom_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Cache",
+    "permalink": "/vue/Cache"
+  },
+  "next": {
+    "title": "Drag_And_Drop",
+    "permalink": "/vue/Drag_And_Drop"
+  }
+}

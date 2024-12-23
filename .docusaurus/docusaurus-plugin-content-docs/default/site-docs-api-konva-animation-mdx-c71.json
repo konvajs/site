@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Animation",
+  "title": "Konva.Animation",
+  "description": "Animation constructor.",
+  "source": "@site/docs/api/Konva.Animation.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Animation.html",
+  "permalink": "/api/Konva.Animation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Animation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Animation",
+    "sidebar_label": "Animation",
+    "slug": "/api/Konva.Animation.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Konva",
+    "permalink": "/api/Konva.html"
+  },
+  "next": {
+    "title": "Arc",
+    "permalink": "/api/Konva.Arc.html"
+  }
+}

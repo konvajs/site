@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Sprite",
+  "title": "Konva.Sprite",
+  "description": "Sprite constructor",
+  "source": "@site/docs/api/Konva.Sprite.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Sprite.html",
+  "permalink": "/api/Konva.Sprite.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Sprite.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Sprite",
+    "sidebar_label": "Sprite",
+    "slug": "/api/Konva.Sprite.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Shape",
+    "permalink": "/api/Konva.Shape.html"
+  },
+  "next": {
+    "title": "Stage",
+    "permalink": "/api/Konva.Stage.html"
+  }
+}

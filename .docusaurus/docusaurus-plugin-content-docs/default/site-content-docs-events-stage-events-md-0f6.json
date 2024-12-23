@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Stage_Events",
+  "title": "Stage_Events",
+  "description": "title: HTML5 Canvas Special Stage Events Konva",
+  "source": "@site/content/docs/events/Stage_Events.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Stage_Events",
+  "permalink": "/docs/events/Stage_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Stage_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Remove by Name",
+    "permalink": "/docs/events/Remove_by_Name.html"
+  },
+  "next": {
+    "title": "Stage Events",
+    "permalink": "/docs/events/Stage_Events.html"
+  }
+}

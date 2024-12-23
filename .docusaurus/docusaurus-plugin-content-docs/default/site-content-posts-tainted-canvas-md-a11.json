@@ -1,0 +1,15 @@
+{
+  "id": "posts/Tainted_Canvas",
+  "title": "Tainted_Canvas",
+  "description": "title: Resolving \"Tainted canvases may not be exported\" with Konva",
+  "source": "@site/content/posts/Tainted_Canvas.md",
+  "sourceDirName": "posts",
+  "slug": "/posts/Tainted_Canvas",
+  "permalink": "/posts/Tainted_Canvas",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/posts/Tainted_Canvas.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

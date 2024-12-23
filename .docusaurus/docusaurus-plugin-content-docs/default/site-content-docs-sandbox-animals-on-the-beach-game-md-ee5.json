@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Animals_on_the_Beach_Game",
+  "title": "Animals_on_the_Beach_Game",
+  "description": "title: Animals on the Beach Game",
+  "source": "@site/content/docs/sandbox/Animals_on_the_Beach_Game.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Animals_on_the_Beach_Game",
+  "permalink": "/docs/sandbox/Animals_on_the_Beach_Game",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Animals_on_the_Beach_Game.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Nodes",
+    "permalink": "/docs/sandbox/Nodes"
+  },
+  "next": {
+    "title": "Animation_Stress_Test",
+    "permalink": "/docs/sandbox/Animation_Stress_Test"
+  }
+}

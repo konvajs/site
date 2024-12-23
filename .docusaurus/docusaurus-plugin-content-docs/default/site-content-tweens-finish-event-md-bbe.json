@@ -1,0 +1,15 @@
+{
+  "id": "tweens/Finish_Event",
+  "title": "Finish_Event",
+  "description": "title: HTML5 Canvas Tween Finish Event Tutorial",
+  "source": "@site/content/tweens/Finish_Event.md",
+  "sourceDirName": "tweens",
+  "slug": "/tweens/Finish_Event",
+  "permalink": "/tweens/Finish_Event",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/tweens/Finish_Event.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

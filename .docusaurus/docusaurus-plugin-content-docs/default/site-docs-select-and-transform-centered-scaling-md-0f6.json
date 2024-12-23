@@ -1,0 +1,24 @@
+{
+  "id": "select_and_transform/Centered_Scaling",
+  "title": "Centered_Scaling",
+  "description": "title: HTML5 Canvas Shape Resize Relative to Center",
+  "source": "@site/docs/select_and_transform/Centered_Scaling.md",
+  "sourceDirName": "select_and_transform",
+  "slug": "/select_and_transform/Centered_Scaling",
+  "permalink": "/select_and_transform/Centered_Scaling",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/select_and_transform/Centered_Scaling.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Basic_demo",
+    "permalink": "/select_and_transform/Basic_demo"
+  },
+  "next": {
+    "title": "Force_Update",
+    "permalink": "/select_and_transform/Force_Update"
+  }
+}

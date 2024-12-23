@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Multi_Event",
+  "title": "HTML5 Canvas Canvas Multi-Event Binding Tutorial",
+  "description": "To bind multiple events to a single handler with Konva, we can use the on() method and pass in a space delimited string containing multiple event types.",
+  "source": "@site/content/docs/events/Multi_Event.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Multi_Event.html",
+  "permalink": "/docs/events/Multi_Event.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Multi_Event.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Canvas Multi-Event Binding Tutorial",
+    "sidebar_label": "Multi Event",
+    "hide_table_of_contents": true,
+    "slug": "Multi_Event.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mobile Scrolling",
+    "permalink": "/docs/events/Mobile_Scrolling.html"
+  },
+  "next": {
+    "title": "Pointer Events",
+    "permalink": "/docs/events/Pointer_Events.html"
+  }
+}

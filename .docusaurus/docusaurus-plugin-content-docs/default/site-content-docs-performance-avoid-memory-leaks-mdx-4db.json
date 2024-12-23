@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Avoid_Memory_Leaks",
+  "title": "HTML5 Canvas How to avoid Memory leaks Tip",
+  "description": "Deleting shapes",
+  "source": "@site/content/docs/performance/Avoid_Memory_Leaks.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Avoid_Memory_Leaks.html",
+  "permalink": "/docs/performance/Avoid_Memory_Leaks.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Avoid_Memory_Leaks.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas How to avoid Memory leaks Tip",
+    "sidebar_label": "Avoid Memory Leaks",
+    "hide_table_of_contents": true,
+    "slug": "Avoid_Memory_Leaks.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "All Performance Tips",
+    "permalink": "/docs/performance/All_Performance_Tips.html"
+  },
+  "next": {
+    "title": "Batch Draw",
+    "permalink": "/docs/performance/Batch_Draw.html"
+  }
+}

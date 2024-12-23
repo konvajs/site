@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Resize_Limits",
+  "title": "HTML5 Canvas Shape Resize and Transform Limits",
+  "description": "To limit or change resize and transform behavior you can use boundBoxFunc property.",
+  "source": "@site/content/docs/select_and_transform/Resize_Limits.md",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Resize_Limits.html",
+  "permalink": "/docs/select_and_transform/Resize_Limits.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Resize_Limits.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Resize and Transform Limits",
+    "sidebar_label": "Resize Limits",
+    "hide_table_of_contents": true,
+    "slug": "Resize_Limits.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Keep Ratio",
+    "permalink": "/docs/select_and_transform/Keep_Ratio.html"
+  },
+  "next": {
+    "title": "Resize_Snaps",
+    "permalink": "/docs/select_and_transform/Resize_Snaps"
+  }
+}

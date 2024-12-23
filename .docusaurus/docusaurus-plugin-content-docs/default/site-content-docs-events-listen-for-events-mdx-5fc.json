@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Listen_for_Events",
+  "title": "HTML5 Canvas Listen or Don't Listen to Events with Konva",
+  "description": "To listen or don't listen to events with Konva, we can set the listening",
+  "source": "@site/content/docs/events/Listen_for_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Listen_for_Events.html",
+  "permalink": "/docs/events/Listen_for_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Listen_for_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Listen or Don't Listen to Events with Konva",
+    "sidebar_label": "Listen for Events",
+    "hide_table_of_contents": true,
+    "slug": "Listen_for_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Keyboard Events",
+    "permalink": "/docs/events/Keyboard_Events.html"
+  },
+  "next": {
+    "title": "Mobile Events",
+    "permalink": "/docs/events/Mobile_Events.html"
+  }
+}

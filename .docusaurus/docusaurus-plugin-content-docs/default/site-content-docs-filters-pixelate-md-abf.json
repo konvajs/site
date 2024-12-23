@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Pixelate",
+  "title": "Pixelate",
+  "description": "title: HTML5 Canvas Pixelate filter Image Tutorial",
+  "source": "@site/content/docs/filters/Pixelate.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Pixelate",
+  "permalink": "/docs/filters/Pixelate",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Pixelate.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Noise",
+    "permalink": "/docs/filters/Noise"
+  },
+  "next": {
+    "title": "RGB",
+    "permalink": "/docs/filters/RGB"
+  }
+}

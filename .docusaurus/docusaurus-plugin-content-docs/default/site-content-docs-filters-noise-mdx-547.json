@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Noise",
+  "title": "HTML5 Canvas Noise filter Image Tutorial",
+  "description": "To apply filter to an Konva.Node, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Noise.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Noise.html",
+  "permalink": "/docs/filters/Noise.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Noise.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Noise filter Image Tutorial",
+    "sidebar_label": "Noise",
+    "hide_table_of_contents": true,
+    "slug": "Noise.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Multiple Filters",
+    "permalink": "/docs/filters/Multiple_Filters.html"
+  },
+  "next": {
+    "title": "Pixelate",
+    "permalink": "/docs/filters/Pixelate.html"
+  }
+}

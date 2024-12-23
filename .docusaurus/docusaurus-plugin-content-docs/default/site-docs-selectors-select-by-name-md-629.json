@@ -1,0 +1,24 @@
+{
+  "id": "selectors/Select_by_Name",
+  "title": "Select_by_Name",
+  "description": "title: HTML5 Canvas Select Shape by Name Tutorial",
+  "source": "@site/docs/selectors/Select_by_Name.md",
+  "sourceDirName": "selectors",
+  "slug": "/selectors/Select_by_Name",
+  "permalink": "/selectors/Select_by_Name",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/selectors/Select_by_Name.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transformer_Styling",
+    "permalink": "/select_and_transform/Transformer_Styling"
+  },
+  "next": {
+    "title": "Select_by_Type",
+    "permalink": "/selectors/Select_by_Type"
+  }
+}

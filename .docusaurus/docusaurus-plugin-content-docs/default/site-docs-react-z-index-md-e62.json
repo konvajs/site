@@ -1,0 +1,24 @@
+{
+  "id": "react/zIndex",
+  "title": "zIndex",
+  "description": "title: How to change the zIndex of nodes with React?",
+  "source": "@site/docs/react/zIndex.md",
+  "sourceDirName": "react",
+  "slug": "/react/zIndex",
+  "permalink": "/react/zIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/zIndex.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Undo-Redo",
+    "permalink": "/react/Undo-Redo"
+  },
+  "next": {
+    "title": "Basic_demo",
+    "permalink": "/select_and_transform/Basic_demo"
+  }
+}

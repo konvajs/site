@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/Bindings",
+  "title": "Bindings",
+  "description": "title: Binding the config prop",
+  "source": "@site/content/docs/svelte/Bindings.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/Bindings",
+  "permalink": "/docs/svelte/Bindings",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/Bindings.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "zIndex",
+    "permalink": "/docs/vue/zIndex"
+  },
+  "next": {
+    "title": "Cache",
+    "permalink": "/docs/svelte/Cache"
+  }
+}

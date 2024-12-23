@@ -1,0 +1,25 @@
+{
+  "id": "sandbox/Nodes",
+  "title": "Nodes",
+  "description": "title: Interactive Scatter Plot with 20,000 Nodes",
+  "source": "@site/docs/sandbox/20000_Nodes.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Nodes",
+  "permalink": "/sandbox/Nodes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/20000_Nodes.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 20000,
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Shapes_with_Tooltip",
+    "permalink": "/sandbox/Shapes_with_Tooltip"
+  },
+  "next": {
+    "title": "Animals_on_the_Beach_Game",
+    "permalink": "/sandbox/Animals_on_the_Beach_Game"
+  }
+}

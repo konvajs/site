@@ -1,0 +1,31 @@
+{
+  "id": "docs/index",
+  "title": "Starting with Konva",
+  "description": "What's Konva?",
+  "source": "@site/content/docs/index.md",
+  "sourceDirName": "docs",
+  "slug": "/docs/index.html",
+  "permalink": "/docs/index.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/index.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1,
+    "title": "Starting with Konva",
+    "sidebar_label": "Intro",
+    "hide_table_of_contents": true,
+    "slug": "index.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Tools",
+    "permalink": "/docs/tools.html"
+  },
+  "next": {
+    "title": "Overview",
+    "permalink": "/docs/overview.html"
+  }
+}

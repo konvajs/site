@@ -1,0 +1,15 @@
+{
+  "id": "filters/Pixelate",
+  "title": "Pixelate",
+  "description": "title: HTML5 Canvas Pixelate filter Image Tutorial",
+  "source": "@site/content/filters/Pixelate.md",
+  "sourceDirName": "filters",
+  "slug": "/filters/Pixelate",
+  "permalink": "/filters/Pixelate",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/filters/Pixelate.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Label",
+  "title": "Konva.Label",
+  "description": "Label constructor.&nbsp; Labels are groups that contain a Text and Tag shape",
+  "source": "@site/content/api/Konva.Label.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Label.html",
+  "permalink": "/api/Konva.Label.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Label.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Label",
+    "sidebar_label": "Label",
+    "slug": "/api/Konva.Label.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Image",
+    "permalink": "/api/Konva.Image.html"
+  },
+  "next": {
+    "title": "Layer",
+    "permalink": "/api/Konva.Layer.html"
+  }
+}

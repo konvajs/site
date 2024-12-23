@@ -1,0 +1,30 @@
+{
+  "id": "styling/Fill",
+  "title": "HTML5 Canvas Set Fill Tutorial",
+  "description": "To fill a shape with Konva, we can set the fill property when we instantiate a shape, or we can use the fill() method.",
+  "source": "@site/docs/styling/01-Fill.md",
+  "sourceDirName": "styling",
+  "slug": "/styling/Fill.html",
+  "permalink": "/styling/Fill.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/styling/01-Fill.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "HTML5 Canvas Set Fill Tutorial",
+    "sidebar_label": "Fill",
+    "hide_table_of_contents": true,
+    "slug": "Fill.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Wedge",
+    "permalink": "/docs/shapes/Wedge.html"
+  },
+  "next": {
+    "title": "Stroke",
+    "permalink": "/styling/Stroke.html"
+  }
+}

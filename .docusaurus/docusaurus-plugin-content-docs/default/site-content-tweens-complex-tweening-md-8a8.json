@@ -1,0 +1,15 @@
+{
+  "id": "tweens/Complex_Tweening",
+  "title": "Complex_Tweening",
+  "description": "title: HTML5 Canvas Complex Tweening Tutorial",
+  "source": "@site/content/tweens/Complex_Tweening.md",
+  "sourceDirName": "tweens",
+  "slug": "/tweens/Complex_Tweening",
+  "permalink": "/tweens/Complex_Tweening",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/tweens/Complex_Tweening.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

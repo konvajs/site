@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Arc",
+  "title": "Konva.Arc",
+  "description": "Arc constructor",
+  "source": "@site/content/api/Konva.Arc.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Arc.html",
+  "permalink": "/api/Konva.Arc.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Arc.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Arc",
+    "sidebar_label": "Arc",
+    "slug": "/api/Konva.Arc.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Animation",
+    "permalink": "/api/Konva.Animation.html"
+  },
+  "next": {
+    "title": "Arrow",
+    "permalink": "/api/Konva.Arrow.html"
+  }
+}

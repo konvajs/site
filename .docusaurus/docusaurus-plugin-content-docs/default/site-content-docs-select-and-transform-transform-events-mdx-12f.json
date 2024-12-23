@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Transform_Events",
+  "title": "HTML5 Canvas Transform and Resize events",
+  "description": "Konva.Transformer object has special transform events that you can use in your app: transformstart, transform and transformend.",
+  "source": "@site/content/docs/select_and_transform/Transform_Events.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Transform_Events.html",
+  "permalink": "/docs/select_and_transform/Transform_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Transform_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Transform and Resize events",
+    "sidebar_label": "Transform Events",
+    "hide_table_of_contents": true,
+    "slug": "Transform_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stop Transform",
+    "permalink": "/docs/select_and_transform/Stop_Transform.html"
+  },
+  "next": {
+    "title": "Blur",
+    "permalink": "/docs/filters/Blur.html"
+  }
+}

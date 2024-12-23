@@ -1,0 +1,15 @@
+{
+  "id": "performance/Shape_Caching",
+  "title": "Shape_Caching",
+  "description": "title: HTML5 Canvas Shape Caching Performance Tip",
+  "source": "@site/content/performance/Shape_Caching.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Shape_Caching",
+  "permalink": "/performance/Shape_Caching",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/performance/Shape_Caching.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

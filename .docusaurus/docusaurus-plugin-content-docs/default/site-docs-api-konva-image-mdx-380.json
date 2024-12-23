@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Image",
+  "title": "Konva.Image",
+  "description": "Image constructor",
+  "source": "@site/docs/api/Konva.Image.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Image.html",
+  "permalink": "/api/Konva.Image.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Image.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Image",
+    "sidebar_label": "Image",
+    "slug": "/api/Konva.Image.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Group",
+    "permalink": "/api/Konva.Group.html"
+  },
+  "next": {
+    "title": "Label",
+    "permalink": "/api/Konva.Label.html"
+  }
+}

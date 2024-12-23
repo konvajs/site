@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Seats_Reservation",
+  "title": "Seats_Reservation",
+  "description": "title: Seats bookings widget for the website with canvas",
+  "source": "@site/content/sandbox/Seats_Reservation.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Seats_Reservation",
+  "permalink": "/sandbox/Seats_Reservation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Seats_Reservation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Scroll_By_Edge_Drag",
+    "permalink": "/sandbox/Scroll_By_Edge_Drag"
+  },
+  "next": {
+    "title": "Shape_Tango",
+    "permalink": "/sandbox/Shape_Tango"
+  }
+}

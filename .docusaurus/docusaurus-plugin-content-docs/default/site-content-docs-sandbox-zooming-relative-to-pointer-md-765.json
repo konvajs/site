@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Zooming_Relative_To_Pointer",
+  "title": "Zooming_Relative_To_Pointer",
+  "description": "title: Zooming stage relative to pointer position",
+  "source": "@site/content/docs/sandbox/Zooming_Relative_To_Pointer.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Zooming_Relative_To_Pointer",
+  "permalink": "/docs/sandbox/Zooming_Relative_To_Pointer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Zooming_Relative_To_Pointer.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Zoom_Layer_On_hover",
+    "permalink": "/docs/sandbox/Zoom_Layer_On_hover"
+  },
+  "next": {
+    "title": "Select by Name",
+    "permalink": "/docs/selectors/Select_by_Name.html"
+  }
+}

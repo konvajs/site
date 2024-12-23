@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Text",
+  "title": "HTML5 canvas Text Tutorial",
+  "description": "To create text with Konva, we can instantiate a Konva.Text() object.",
+  "source": "@site/content/docs/shapes/Text.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Text.html",
+  "permalink": "/docs/shapes/Text.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Text.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Text Tutorial",
+    "sidebar_label": "Text",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Text.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Star",
+    "permalink": "/docs/shapes/Star.html"
+  },
+  "next": {
+    "title": "TextPath",
+    "permalink": "/docs/shapes/TextPath.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Mirror_Canvas_Shape",
+  "title": "Mirror_Canvas_Shape",
+  "description": "title: How to flip shapes or image on canvas?",
+  "source": "@site/content/sandbox/Mirror_Canvas_Shape.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Mirror_Canvas_Shape",
+  "permalink": "/sandbox/Mirror_Canvas_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Mirror_Canvas_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Limited_Drag_And_Resize",
+    "permalink": "/sandbox/Limited_Drag_And_Resize"
+  },
+  "next": {
+    "title": "Modify_Curves_with_Anchor_Points",
+    "permalink": "/sandbox/Modify_Curves_with_Anchor_Points"
+  }
+}

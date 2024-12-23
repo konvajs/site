@@ -1,0 +1,24 @@
+{
+  "id": "performance/All_Performance_Tips",
+  "title": "All_Performance_Tips",
+  "description": "title: HTML5 Canvas All Konva performance tips list",
+  "source": "@site/docs/performance/All_Performance_Tips.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/All_Performance_Tips",
+  "permalink": "/performance/All_Performance_Tips",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/performance/All_Performance_Tips.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "zIndex",
+    "permalink": "/groups_and_layers/zIndex"
+  },
+  "next": {
+    "title": "Avoid_Memory_Leaks",
+    "permalink": "/performance/Avoid_Memory_Leaks"
+  }
+}

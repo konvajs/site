@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Invert",
+  "title": "Invert",
+  "description": "title: HTML5 Canvas Invert Image Filter Tutorial",
+  "source": "@site/content/docs/filters/Invert.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Invert",
+  "permalink": "/docs/filters/Invert",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Invert.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "HSV",
+    "permalink": "/docs/filters/HSV"
+  },
+  "next": {
+    "title": "Kaleidoscope",
+    "permalink": "/docs/filters/Kaleidoscope"
+  }
+}

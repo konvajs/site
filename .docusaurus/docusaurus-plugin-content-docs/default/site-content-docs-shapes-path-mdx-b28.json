@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Path",
+  "title": "HTML5 canvas Path Tutorial",
+  "description": "To create a custom path shape with Konva, we can instantiate a Konva.Path() object.",
+  "source": "@site/content/docs/shapes/Path.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Path.html",
+  "permalink": "/docs/shapes/Path.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Path.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Path Tutorial",
+    "sidebar_label": "Path",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Path.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Line - Spline",
+    "permalink": "/docs/shapes/Line_-_Spline.html"
+  },
+  "next": {
+    "title": "Rectangle",
+    "permalink": "/docs/shapes/Rect.html"
+  }
+}

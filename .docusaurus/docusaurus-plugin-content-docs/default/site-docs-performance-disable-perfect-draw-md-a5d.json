@@ -1,0 +1,24 @@
+{
+  "id": "performance/Disable_Perfect_Draw",
+  "title": "Disable_Perfect_Draw",
+  "description": "title: HTML5 Canvas Disable Perfect Drawing Tip",
+  "source": "@site/docs/performance/Disable_Perfect_Draw.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Disable_Perfect_Draw",
+  "permalink": "/performance/Disable_Perfect_Draw",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/performance/Disable_Perfect_Draw.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Batch_Draw",
+    "permalink": "/performance/Batch_Draw"
+  },
+  "next": {
+    "title": "Layer_Management",
+    "permalink": "/performance/Layer_Management"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Events",
+  "title": "Events",
+  "description": "title: How to listen to an event on a canvas shape with Svelte and Konva?",
+  "source": "@site/content/svelte/Events.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Events",
+  "permalink": "/svelte/Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

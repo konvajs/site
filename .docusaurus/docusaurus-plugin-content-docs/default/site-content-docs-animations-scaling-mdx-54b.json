@@ -1,0 +1,29 @@
+{
+  "id": "docs/animations/Scaling",
+  "title": "HTML5 Canvas Konva Scale Animation Tutorial",
+  "description": "To animate a shape's scale with Konva, we can create a new animation with",
+  "source": "@site/content/docs/animations/Scaling.mdx",
+  "sourceDirName": "docs/animations",
+  "slug": "/docs/animations/Scaling.html",
+  "permalink": "/docs/animations/Scaling.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/animations/Scaling.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Konva Scale Animation Tutorial",
+    "sidebar_label": "Scaling",
+    "hide_table_of_contents": true,
+    "slug": "Scaling.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Rotation",
+    "permalink": "/docs/animations/Rotation.html"
+  },
+  "next": {
+    "title": "Stop Animation",
+    "permalink": "/docs/animations/Stop_Animation.html"
+  }
+}

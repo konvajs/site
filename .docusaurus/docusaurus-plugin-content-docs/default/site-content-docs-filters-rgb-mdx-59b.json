@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/RGB",
+  "title": "HTML5 Canvas RGB filter Image Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/RGB.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/RGB.html",
+  "permalink": "/docs/filters/RGB.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/RGB.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas RGB filter Image Tutorial",
+    "sidebar_label": "RGB",
+    "hide_table_of_contents": true,
+    "slug": "RGB.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Pixelate",
+    "permalink": "/docs/filters/Pixelate.html"
+  },
+  "next": {
+    "title": "Sepia",
+    "permalink": "/docs/filters/Sepia.html"
+  }
+}

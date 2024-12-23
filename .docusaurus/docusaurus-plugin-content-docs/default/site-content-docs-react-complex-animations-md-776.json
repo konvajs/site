@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Complex_Animations",
+  "title": "Complex_Animations",
+  "description": "title: How to apply canvas animations with react and konva?",
+  "source": "@site/content/docs/react/Complex_Animations.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Complex_Animations",
+  "permalink": "/docs/react/Complex_Animations",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Complex_Animations.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Canvas_Portal",
+    "permalink": "/docs/react/Canvas_Portal"
+  },
+  "next": {
+    "title": "Custom_Shape",
+    "permalink": "/docs/react/Custom_Shape"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/vue/Shapes",
+  "title": "Shapes",
+  "description": "title: Drawing canvas shapes with Vue",
+  "source": "@site/content/docs/vue/Shapes.md",
+  "sourceDirName": "docs/vue",
+  "slug": "/docs/vue/Shapes",
+  "permalink": "/docs/vue/Shapes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/vue/Shapes.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Save-Load",
+    "permalink": "/docs/vue/Save-Load"
+  },
+  "next": {
+    "title": "Simple_Animations",
+    "permalink": "/docs/vue/Simple_Animations"
+  }
+}

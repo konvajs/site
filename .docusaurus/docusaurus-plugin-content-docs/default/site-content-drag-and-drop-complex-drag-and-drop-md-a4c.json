@@ -1,0 +1,15 @@
+{
+  "id": "drag_and_drop/Complex_Drag_and_Drop",
+  "title": "Complex_Drag_and_Drop",
+  "description": "title: HTML5 Canvas Complex Drag and Drop Bounds",
+  "source": "@site/content/drag_and_drop/Complex_Drag_and_Drop.md",
+  "sourceDirName": "drag_and_drop",
+  "slug": "/drag_and_drop/Complex_Drag_and_Drop",
+  "permalink": "/drag_and_drop/Complex_Drag_and_Drop",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/drag_and_drop/Complex_Drag_and_Drop.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

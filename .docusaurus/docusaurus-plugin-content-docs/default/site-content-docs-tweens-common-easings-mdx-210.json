@@ -1,0 +1,29 @@
+{
+  "id": "docs/tweens/Common_Easings",
+  "title": "Simple Easings Tutorial",
+  "description": "To create a non-linear easing tween with Konva, we can set the easing property to an easing function. Other than Konva.Easings.Linear, the other most common easings are:",
+  "source": "@site/content/docs/tweens/Common_Easings.mdx",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/Common_Easings.html",
+  "permalink": "/docs/tweens/Common_Easings.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/Common_Easings.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Simple Easings Tutorial",
+    "sidebar_label": "Common Easings",
+    "hide_table_of_contents": true,
+    "slug": "Common_Easings.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "All Easings",
+    "permalink": "/docs/tweens/All_Easings.html"
+  },
+  "next": {
+    "title": "Complex Tweening",
+    "permalink": "/docs/tweens/Complex_Tweening.html"
+  }
+}

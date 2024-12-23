@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Simple_Animations",
+  "title": "Simple_Animations",
+  "description": "title: How to apply canvas animations with Svelte and Konva?",
+  "source": "@site/content/svelte/Simple_Animations.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Simple_Animations",
+  "permalink": "/svelte/Simple_Animations",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Simple_Animations.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

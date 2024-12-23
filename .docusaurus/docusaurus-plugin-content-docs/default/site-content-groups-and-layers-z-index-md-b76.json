@@ -1,0 +1,15 @@
+{
+  "id": "groups_and_layers/zIndex",
+  "title": "zIndex",
+  "description": "title: How to set correct order of nodes using zIndex?",
+  "source": "@site/content/groups_and_layers/zIndex.md",
+  "sourceDirName": "groups_and_layers",
+  "slug": "/groups_and_layers/zIndex",
+  "permalink": "/groups_and_layers/zIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/groups_and_layers/zIndex.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

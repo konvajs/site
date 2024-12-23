@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Line_-_Simple_Line",
+  "title": "HTML5 canvas Line Tutorial",
+  "description": "To create a simple line with Konva, we can instantiate a Konva.Line() object.",
+  "source": "@site/content/docs/shapes/Line_-_Simple_Line.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Line_-_Simple_Line.html",
+  "permalink": "/docs/shapes/Line_-_Simple_Line.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Line_-_Simple_Line.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Line Tutorial",
+    "sidebar_label": "Line - Simple Line",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Line_-_Simple_Line.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Line - Polygon",
+    "permalink": "/docs/shapes/Line_-_Polygon.html"
+  },
+  "next": {
+    "title": "Line - Spline",
+    "permalink": "/docs/shapes/Line_-_Spline.html"
+  }
+}

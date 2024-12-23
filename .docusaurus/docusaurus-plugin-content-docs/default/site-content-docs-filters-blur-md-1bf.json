@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Blur",
+  "title": "Blur",
+  "description": "title: HTML5 Canvas Blur Image Filter Tutorial",
+  "source": "@site/content/docs/filters/Blur.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Blur",
+  "permalink": "/docs/filters/Blur",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Blur.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stage_Data_URL",
+    "permalink": "/docs/data_and_serialization/Stage_Data_URL"
+  },
+  "next": {
+    "title": "Brighten",
+    "permalink": "/docs/filters/Brighten"
+  }
+}

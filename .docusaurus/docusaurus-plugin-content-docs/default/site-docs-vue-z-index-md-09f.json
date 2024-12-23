@@ -1,0 +1,20 @@
+{
+  "id": "vue/zIndex",
+  "title": "zIndex",
+  "description": "title: How to change the zIndex of nodes with Vue?",
+  "source": "@site/docs/vue/zIndex.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/zIndex",
+  "permalink": "/vue/zIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/vue/zIndex.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transformer",
+    "permalink": "/vue/Transformer"
+  }
+}

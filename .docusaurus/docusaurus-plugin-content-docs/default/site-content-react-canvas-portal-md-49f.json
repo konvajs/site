@@ -1,0 +1,15 @@
+{
+  "id": "react/Canvas_Portal",
+  "title": "Canvas_Portal",
+  "description": "title: How to use portals in react-konva?",
+  "source": "@site/content/react/Canvas_Portal.md",
+  "sourceDirName": "react",
+  "slug": "/react/Canvas_Portal",
+  "permalink": "/react/Canvas_Portal",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/react/Canvas_Portal.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

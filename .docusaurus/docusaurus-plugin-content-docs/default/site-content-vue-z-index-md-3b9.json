@@ -1,0 +1,15 @@
+{
+  "id": "vue/zIndex",
+  "title": "zIndex",
+  "description": "title: How to change the zIndex of nodes with Vue?",
+  "source": "@site/content/vue/zIndex.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/zIndex",
+  "permalink": "/vue/zIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/vue/zIndex.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

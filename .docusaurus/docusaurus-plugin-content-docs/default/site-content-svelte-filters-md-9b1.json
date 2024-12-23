@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Filters",
+  "title": "Filters",
+  "description": "title: How to apply canvas filters with Svelte and Konva?",
+  "source": "@site/content/svelte/Filters.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Filters",
+  "permalink": "/svelte/Filters",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Filters.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

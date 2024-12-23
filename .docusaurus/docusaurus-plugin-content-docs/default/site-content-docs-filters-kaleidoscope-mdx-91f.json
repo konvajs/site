@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Kaleidoscope",
+  "title": "HTML5 Canvas Kaleidoscope Image Filter Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Kaleidoscope.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Kaleidoscope.html",
+  "permalink": "/docs/filters/Kaleidoscope.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Kaleidoscope.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Kaleidoscope Image Filter Tutorial",
+    "sidebar_label": "Kaleidoscope",
+    "hide_table_of_contents": true,
+    "slug": "Kaleidoscope.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Invert",
+    "permalink": "/docs/filters/Invert.html"
+  },
+  "next": {
+    "title": "Mask",
+    "permalink": "/docs/filters/Mask.html"
+  }
+}

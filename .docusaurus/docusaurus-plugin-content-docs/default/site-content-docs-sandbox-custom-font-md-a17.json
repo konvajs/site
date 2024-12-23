@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Custom_Font",
+  "title": "Custom_Font",
+  "description": "title: How to use custom font for HTML5 canvas?",
+  "source": "@site/content/docs/sandbox/Custom_Font.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Custom_Font",
+  "permalink": "/docs/sandbox/Custom_Font",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Custom_Font.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Connected_Objects",
+    "permalink": "/docs/sandbox/Connected_Objects"
+  },
+  "next": {
+    "title": "Drag_and_Drop_Multiple_Shapes",
+    "permalink": "/docs/sandbox/Drag_and_Drop_Multiple_Shapes"
+  }
+}

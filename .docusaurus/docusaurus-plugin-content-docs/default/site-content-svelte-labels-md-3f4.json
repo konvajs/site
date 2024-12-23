@@ -1,0 +1,15 @@
+{
+  "id": "svelte/Labels",
+  "title": "Labels",
+  "description": "title: Using labels with Svelte",
+  "source": "@site/content/svelte/Labels.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Labels",
+  "permalink": "/svelte/Labels",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/svelte/Labels.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

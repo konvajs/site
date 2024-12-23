@@ -1,0 +1,24 @@
+{
+  "id": "docs/events/Remove_by_Name",
+  "title": "Remove_by_Name",
+  "description": "title: HTML5 Canvas Remove Event Listener by Name with Konva",
+  "source": "@site/content/docs/events/Remove_by_Name.md",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Remove_by_Name",
+  "permalink": "/docs/events/Remove_by_Name",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Remove_by_Name.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Remove Event",
+    "permalink": "/docs/events/Remove_Event.html"
+  },
+  "next": {
+    "title": "Remove by Name",
+    "permalink": "/docs/events/Remove_by_Name.html"
+  }
+}

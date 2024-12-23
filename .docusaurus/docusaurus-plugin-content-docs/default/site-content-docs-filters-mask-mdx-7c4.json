@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Mask",
+  "title": "HTML5 Canvas Mask Image Filter Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache() function. Then apply filter with filters() function.",
+  "source": "@site/content/docs/filters/Mask.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Mask.html",
+  "permalink": "/docs/filters/Mask.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Mask.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Mask Image Filter Tutorial",
+    "sidebar_label": "Mask",
+    "hide_table_of_contents": true,
+    "slug": "Mask.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Kaleidoscope",
+    "permalink": "/docs/filters/Kaleidoscope.html"
+  },
+  "next": {
+    "title": "Multiple Filters",
+    "permalink": "/docs/filters/Multiple_Filters.html"
+  }
+}

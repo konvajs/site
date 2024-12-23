@@ -1,0 +1,30 @@
+{
+  "id": "docs/select_and_transform/Resize_Text",
+  "title": "How to resize text on canvas?",
+  "description": "Remember, that Konva.Transformer is changing scaleX and scaleY properties of a node.",
+  "source": "@site/content/docs/select_and_transform/11_Resize_Text.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Resize_Text.html",
+  "permalink": "/docs/select_and_transform/Resize_Text.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/11_Resize_Text.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 11,
+  "frontMatter": {
+    "title": "How to resize text on canvas?",
+    "sidebar_label": "Resize Text",
+    "hide_table_of_contents": true,
+    "slug": "Resize_Text.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Force Update",
+    "permalink": "/docs/select_and_transform/Force_Update.html"
+  },
+  "next": {
+    "title": "Ignore Stroke",
+    "permalink": "/docs/select_and_transform/Ignore_Stroke_On_Transform.html"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Container",
+  "title": "Konva.Container",
+  "description": "Container constructor.&nbsp; Containers are used to contain nodes or other containers",
+  "source": "@site/docs/api/Konva.Container.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Container.html",
+  "permalink": "/api/Konva.Container.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/api/Konva.Container.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Container",
+    "sidebar_label": "Container",
+    "slug": "/api/Konva.Container.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Circle",
+    "permalink": "/api/Konva.Circle.html"
+  },
+  "next": {
+    "title": "Context",
+    "permalink": "/api/Konva.Context.html"
+  }
+}

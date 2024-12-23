@@ -1,0 +1,21 @@
+{
+  "id": "sandbox/Shapes_with_Tooltip",
+  "title": "Shapes_with_Tooltip",
+  "description": "title: 10,000 Shapes with Tooltips Stress Test with Konva",
+  "source": "@site/docs/sandbox/10000_Shapes_with_Tooltip.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Shapes_with_Tooltip",
+  "permalink": "/sandbox/Shapes_with_Tooltip",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/10000_Shapes_with_Tooltip.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10000,
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "next": {
+    "title": "Nodes",
+    "permalink": "/sandbox/Nodes"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Multiple_Filters",
+  "title": "HTML5 Canvas Multiple Filters Tutorial",
+  "description": "To apply multiple filters to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Multiple_Filters.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Multiple_Filters.html",
+  "permalink": "/docs/filters/Multiple_Filters.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Multiple_Filters.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Multiple Filters Tutorial",
+    "sidebar_label": "Multiple Filters",
+    "hide_table_of_contents": true,
+    "slug": "Multiple_Filters.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mask",
+    "permalink": "/docs/filters/Mask.html"
+  },
+  "next": {
+    "title": "Multiple Filters",
+    "permalink": "/docs/filters/Multiple_Filters.html"
+  }
+}

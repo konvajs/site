@@ -1,0 +1,30 @@
+{
+  "id": "docs/drag_and_drop/Drag_a_Line",
+  "title": "HTML5 Canvas Drag and Drop a Line",
+  "description": "To drag and drop a line with Konva, we can set the draggable property",
+  "source": "@site/content/docs/drag_and_drop/04_Drag_a_Line.mdx",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drag_a_Line.html",
+  "permalink": "/docs/drag_and_drop/Drag_a_Line.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/04_Drag_a_Line.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "title": "HTML5 Canvas Drag and Drop a Line",
+    "sidebar_label": "Drag a Line",
+    "hide_table_of_contents": true,
+    "slug": "Drag_a_Line.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag a Group",
+    "permalink": "/docs/drag_and_drop/Drag_a_Group.html"
+  },
+  "next": {
+    "title": "Drag a Stage",
+    "permalink": "/docs/drag_and_drop/Drag_a_Stage.html"
+  }
+}

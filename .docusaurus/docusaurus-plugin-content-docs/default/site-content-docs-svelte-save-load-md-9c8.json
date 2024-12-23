@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/Save_Load",
+  "title": "Save_Load",
+  "description": "title: Saving and loading canvas with Svelte and Konva",
+  "source": "@site/content/docs/svelte/Save_Load.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/Save_Load",
+  "permalink": "/docs/svelte/Save_Load",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/Save_Load.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Labels",
+    "permalink": "/docs/svelte/Labels"
+  },
+  "next": {
+    "title": "Shapes",
+    "permalink": "/docs/svelte/Shapes"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "support",
+  "title": "Need help with Konva library?",
+  "description": "Looking for a help with Konva framework?",
+  "source": "@site/docs/support.md",
+  "sourceDirName": ".",
+  "slug": "/support.html",
+  "permalink": "/support.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/support.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3,
+    "title": "Need help with Konva library?",
+    "sidebar_label": "Support",
+    "slug": "support.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Overview",
+    "permalink": "/overview.html"
+  },
+  "next": {
+    "title": "Donate",
+    "permalink": "/donate.html"
+  }
+}

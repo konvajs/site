@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Multi-touch_Scale_Shape",
+  "title": "Multi-touch_Scale_Shape",
+  "description": "title: Multi-touch Scale Shape",
+  "source": "@site/content/docs/sandbox/Multi-touch_Scale_Shape.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Multi-touch_Scale_Shape",
+  "permalink": "/docs/sandbox/Multi-touch_Scale_Shape",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Multi-touch_Scale_Shape.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Modify_Shape_Color_on_Click",
+    "permalink": "/docs/sandbox/Modify_Shape_Color_on_Click"
+  },
+  "next": {
+    "title": "Multi-touch_Scale_Stage",
+    "permalink": "/docs/sandbox/Multi-touch_Scale_Stage"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "animations/Scaling",
+  "title": "Scaling",
+  "description": "title: HTML5 Canvas Konva Scale Animation Tutorial",
+  "source": "@site/docs/animations/Scaling.md",
+  "sourceDirName": "animations",
+  "slug": "/animations/Scaling",
+  "permalink": "/animations/Scaling",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/animations/Scaling.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Rotation",
+    "permalink": "/animations/Rotation"
+  },
+  "next": {
+    "title": "Stop_Animation",
+    "permalink": "/animations/Stop_Animation"
+  }
+}

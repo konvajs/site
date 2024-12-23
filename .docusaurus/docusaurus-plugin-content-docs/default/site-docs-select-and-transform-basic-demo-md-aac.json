@@ -1,0 +1,24 @@
+{
+  "id": "select_and_transform/Basic_demo",
+  "title": "Basic_demo",
+  "description": "title: HTML5 Canvas Shape select, resize and rotate",
+  "source": "@site/docs/select_and_transform/Basic_demo.md",
+  "sourceDirName": "select_and_transform",
+  "slug": "/select_and_transform/Basic_demo",
+  "permalink": "/select_and_transform/Basic_demo",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/select_and_transform/Basic_demo.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "zIndex",
+    "permalink": "/react/zIndex"
+  },
+  "next": {
+    "title": "Centered_Scaling",
+    "permalink": "/select_and_transform/Centered_Scaling"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Util",
+  "title": "Konva.Util",
+  "description": "Own Methods",
+  "source": "@site/content/api/Konva.Util.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Util.html",
+  "permalink": "/api/Konva.Util.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Util.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Util",
+    "sidebar_label": "Util",
+    "slug": "/api/Konva.Util.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Tween",
+    "permalink": "/api/Konva.Tween.html"
+  },
+  "next": {
+    "title": "Wedge",
+    "permalink": "/api/Konva.Wedge.html"
+  }
+}

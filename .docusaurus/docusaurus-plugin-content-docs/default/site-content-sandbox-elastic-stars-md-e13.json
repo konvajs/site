@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Elastic_Stars",
+  "title": "Elastic_Stars",
+  "description": "title: Elastic Stars",
+  "source": "@site/content/sandbox/Elastic_Stars.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Elastic_Stars",
+  "permalink": "/sandbox/Elastic_Stars",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Elastic_Stars.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Editable_Text",
+    "permalink": "/sandbox/Editable_Text"
+  },
+  "next": {
+    "title": "Expand_Images_on_Hover",
+    "permalink": "/sandbox/Expand_Images_on_Hover"
+  }
+}

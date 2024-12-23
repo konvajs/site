@@ -1,0 +1,24 @@
+{
+  "id": "vue/Drag_And_Drop",
+  "title": "Drag_And_Drop",
+  "description": "title: Drag and drop canvas shapes with vue",
+  "source": "@site/docs/vue/Drag_And_Drop.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Drag_And_Drop",
+  "permalink": "/vue/Drag_And_Drop",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/vue/Drag_And_Drop.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Custom_Shape",
+    "permalink": "/vue/Custom_Shape"
+  },
+  "next": {
+    "title": "Events",
+    "permalink": "/vue/Events"
+  }
+}

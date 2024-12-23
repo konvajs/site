@@ -1,0 +1,29 @@
+{
+  "id": "docs/select_and_transform/Rotation_Snaps",
+  "title": "HTML5 Canvas Shape Snap Rotation",
+  "description": "In some applications, you may want to snap rotation near some values. Snapping makes a shape \"sticky\" near provided values and works like rounding.",
+  "source": "@site/content/docs/select_and_transform/Rotation_Snaps.md",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Rotation_Snaps.html",
+  "permalink": "/docs/select_and_transform/Rotation_Snaps.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/Rotation_Snaps.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Shape Snap Rotation",
+    "sidebar_label": "Rotation Snaps",
+    "hide_table_of_contents": true,
+    "slug": "Rotation_Snaps.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Resize Text",
+    "permalink": "/docs/select_and_transform/Resize_Text.html"
+  },
+  "next": {
+    "title": "Stop_Transform",
+    "permalink": "/docs/select_and_transform/Stop_Transform"
+  }
+}

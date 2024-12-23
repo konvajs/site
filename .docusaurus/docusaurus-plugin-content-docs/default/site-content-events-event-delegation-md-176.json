@@ -1,0 +1,15 @@
+{
+  "id": "events/Event_Delegation",
+  "title": "Event_Delegation",
+  "description": "title: HTML5 Canvas Event Delegation with Konva",
+  "source": "@site/content/events/Event_Delegation.md",
+  "sourceDirName": "events",
+  "slug": "/events/Event_Delegation",
+  "permalink": "/events/Event_Delegation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Event_Delegation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

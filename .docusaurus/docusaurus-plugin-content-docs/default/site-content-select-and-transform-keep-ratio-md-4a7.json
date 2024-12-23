@@ -1,0 +1,15 @@
+{
+  "id": "select_and_transform/Keep_Ratio",
+  "title": "Keep_Ratio",
+  "description": "title: HTML5 Canvas Shape Resize With Ratio Preserved",
+  "source": "@site/content/select_and_transform/Keep_Ratio.md",
+  "sourceDirName": "select_and_transform",
+  "slug": "/select_and_transform/Keep_Ratio",
+  "permalink": "/select_and_transform/Keep_Ratio",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/select_and_transform/Keep_Ratio.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

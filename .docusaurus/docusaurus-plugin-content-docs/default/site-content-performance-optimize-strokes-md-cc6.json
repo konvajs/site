@@ -1,0 +1,15 @@
+{
+  "id": "performance/Optimize_Strokes",
+  "title": "Optimize_Strokes",
+  "description": "title: HTML5 Canvas Optimizing Strokes Performance Tip",
+  "source": "@site/content/performance/Optimize_Strokes.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Optimize_Strokes",
+  "permalink": "/performance/Optimize_Strokes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/performance/Optimize_Strokes.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

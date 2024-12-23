@@ -1,0 +1,15 @@
+{
+  "id": "animations/Rotation",
+  "title": "Rotation",
+  "description": "title: Rotation Animation tutorial",
+  "source": "@site/content/animations/Rotation.md",
+  "sourceDirName": "animations",
+  "slug": "/animations/Rotation",
+  "permalink": "/animations/Rotation",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/animations/Rotation.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

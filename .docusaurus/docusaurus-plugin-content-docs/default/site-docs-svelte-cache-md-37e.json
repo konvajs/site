@@ -1,0 +1,24 @@
+{
+  "id": "svelte/Cache",
+  "title": "Cache",
+  "description": "title: How to cache canvas shapes with Svelte",
+  "source": "@site/docs/svelte/Cache.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Cache",
+  "permalink": "/svelte/Cache",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/svelte/Cache.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Bindings",
+    "permalink": "/svelte/Bindings"
+  },
+  "next": {
+    "title": "Custom_Shape",
+    "permalink": "/svelte/Custom_Shape"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/drag_and_drop/Drag_a_Stage",
+  "title": "HTML5 Canvas Drag and Drop the Stage",
+  "description": "To drag and drop a stage with Konva, we can set the draggable property",
+  "source": "@site/content/docs/drag_and_drop/Drag_a_Stage.mdx",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drag_a_Stage.html",
+  "permalink": "/docs/drag_and_drop/Drag_a_Stage.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/Drag_a_Stage.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Drag and Drop the Stage",
+    "sidebar_label": "Drag a Stage",
+    "hide_table_of_contents": true,
+    "slug": "Drag_a_Stage.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag Events",
+    "permalink": "/docs/drag_and_drop/Drag_Events.html"
+  },
+  "next": {
+    "title": "Drop Events",
+    "permalink": "/docs/drag_and_drop/Drop_Events.html"
+  }
+}

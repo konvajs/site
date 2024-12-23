@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Brighten",
+  "title": "Brighten",
+  "description": "title: HTML5 Canvas Brighten Image Filter Tutorial",
+  "source": "@site/content/docs/filters/Brighten.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Brighten",
+  "permalink": "/docs/filters/Brighten",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Brighten.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Blur",
+    "permalink": "/docs/filters/Blur"
+  },
+  "next": {
+    "title": "Contrast",
+    "permalink": "/docs/filters/Contrast"
+  }
+}

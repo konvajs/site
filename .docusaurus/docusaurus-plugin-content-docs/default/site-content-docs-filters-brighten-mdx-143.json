@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/Brighten",
+  "title": "HTML5 Canvas Brighten Image Filter Tutorial",
+  "description": "To apply filter to an Konva.Image, we have to cache it first with cache()",
+  "source": "@site/content/docs/filters/Brighten.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Brighten.html",
+  "permalink": "/docs/filters/Brighten.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Brighten.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Brighten Image Filter Tutorial",
+    "sidebar_label": "Brighten",
+    "hide_table_of_contents": true,
+    "slug": "Brighten.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Blur",
+    "permalink": "/docs/filters/Blur.html"
+  },
+  "next": {
+    "title": "Contrast",
+    "permalink": "/docs/filters/Contrast.html"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "styling/Stroke",
+  "title": "HTML5 Canvas Set Shape Stroke Color and Width Tutorial",
+  "description": "To set a shape stroke and stroke width with Konva, we can set the stroke and strokeWidth properties when we instantiate a shape, or we can use the stroke() and strokeWidth() methods.",
+  "source": "@site/docs/styling/02-Stroke.md",
+  "sourceDirName": "styling",
+  "slug": "/styling/Stroke.html",
+  "permalink": "/styling/Stroke.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/styling/02-Stroke.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "title": "HTML5 Canvas Set Shape Stroke Color and Width Tutorial",
+    "sidebar_label": "Stroke",
+    "hide_table_of_contents": true,
+    "slug": "Stroke.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Fill",
+    "permalink": "/styling/Fill.html"
+  },
+  "next": {
+    "title": "Opacity",
+    "permalink": "/styling/Opacity.html"
+  }
+}

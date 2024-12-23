@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Circle",
+  "title": "HTML5 canvas Circle Tutorial",
+  "description": "To create a circle shape with Konva, we can instantiate a Konva.Circle() object.",
+  "source": "@site/content/shapes/Circle.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Circle.html",
+  "permalink": "/docs/shapes/Circle.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Circle.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Circle Tutorial",
+    "sidebar_label": "Circle",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Circle.html"
+  }
+}

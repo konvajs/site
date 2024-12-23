@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Interactive_Building_Map",
+  "title": "Interactive_Building_Map",
+  "description": "title: Interactive Building Map",
+  "source": "@site/docs/sandbox/Interactive_Building_Map.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Interactive_Building_Map",
+  "permalink": "/sandbox/Interactive_Building_Map",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/sandbox/Interactive_Building_Map.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Image_Resize",
+    "permalink": "/sandbox/Image_Resize"
+  },
+  "next": {
+    "title": "Jumping_Bunnies",
+    "permalink": "/sandbox/Jumping_Bunnies"
+  }
+}

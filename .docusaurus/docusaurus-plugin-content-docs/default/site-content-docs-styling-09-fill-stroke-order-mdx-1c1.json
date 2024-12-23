@@ -1,0 +1,30 @@
+{
+  "id": "docs/styling/Fill_Stroke_Order",
+  "title": "Fill and stroke order demo",
+  "description": "If a shape has both fill and stroke, by default, Konva will draw filling first then stroke on top of it. That is the best behavior for most of the applications.",
+  "source": "@site/content/docs/styling/09-Fill_Stroke_Order.mdx",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Fill_Stroke_Order.html",
+  "permalink": "/docs/styling/Fill_Stroke_Order.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/09-Fill_Stroke_Order.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "title": "Fill and stroke order demo",
+    "sidebar_label": "Fill and stroke order",
+    "hide_table_of_contents": true,
+    "slug": "Fill_Stroke_Order.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Blend Mode",
+    "permalink": "/docs/styling/Blend_Mode.html"
+  },
+  "next": {
+    "title": "Binding Events",
+    "permalink": "/docs/events/Binding_Events.html"
+  }
+}

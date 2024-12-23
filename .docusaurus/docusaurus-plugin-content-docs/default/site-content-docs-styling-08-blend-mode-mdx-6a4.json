@@ -1,0 +1,30 @@
+{
+  "id": "docs/styling/Blend_Mode",
+  "title": "HTML5 Canvas Blend mode with globalCompositeOperation Tutorial",
+  "description": "globalCompositeOperation Documentation.",
+  "source": "@site/content/docs/styling/08-Blend_Mode.mdx",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Blend_Mode.html",
+  "permalink": "/docs/styling/Blend_Mode.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/08-Blend_Mode.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "title": "HTML5 Canvas Blend mode with globalCompositeOperation Tutorial",
+    "sidebar_label": "Blend Mode",
+    "hide_table_of_contents": true,
+    "slug": "Blend_Mode.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mouse Cursor",
+    "permalink": "/docs/styling/Mouse_Cursor.html"
+  },
+  "next": {
+    "title": "Fill and stroke order",
+    "permalink": "/docs/styling/Fill_Stroke_Order.html"
+  }
+}

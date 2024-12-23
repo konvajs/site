@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Intro",
+  "title": "Intro",
+  "description": "title: react-konva - declarative canvas components for React",
+  "source": "@site/content/docs/react/Intro.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Intro",
+  "permalink": "/docs/react/Intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Intro.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Images",
+    "permalink": "/docs/react/Images"
+  },
+  "next": {
+    "title": "Shapes",
+    "permalink": "/docs/react/Shapes"
+  }
+}

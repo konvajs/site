@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Batch_Draw",
+  "title": "HTML5 Canvas Batch Draw Tip",
+  "description": "Update: this demo is not relevant with the new konva@8. In the new version, Konva is doing all batching draws automatically on any changes on canvas.",
+  "source": "@site/content/docs/performance/Batch_Draw.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Batch_Draw.html",
+  "permalink": "/docs/performance/Batch_Draw.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Batch_Draw.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Batch Draw Tip",
+    "sidebar_label": "Batch Draw",
+    "hide_table_of_contents": true,
+    "slug": "Batch_Draw.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Avoid Memory Leaks",
+    "permalink": "/docs/performance/Avoid_Memory_Leaks.html"
+  },
+  "next": {
+    "title": "Disable Perfect Draw",
+    "permalink": "/docs/performance/Disable_Perfect_Draw.html"
+  }
+}

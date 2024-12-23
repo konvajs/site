@@ -1,0 +1,29 @@
+{
+  "id": "docs/filters/HSV",
+  "title": "HTML5 Canvas Hue, Saturation and Value filter Image Tutorial",
+  "description": "To apply filter to an Konva.Node, we have to cache it first with cache() function. Then apply filter with filters() function.",
+  "source": "@site/content/docs/filters/HSV.mdx",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/HSV.html",
+  "permalink": "/docs/filters/HSV.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/HSV.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Hue, Saturation and Value filter Image Tutorial",
+    "sidebar_label": "HSV",
+    "hide_table_of_contents": true,
+    "slug": "HSV.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "HSL",
+    "permalink": "/docs/filters/HSL.html"
+  },
+  "next": {
+    "title": "Invert",
+    "permalink": "/docs/filters/Invert.html"
+  }
+}

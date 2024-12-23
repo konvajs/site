@@ -1,0 +1,29 @@
+{
+  "id": "docs/clipping/Clipping_Regions",
+  "title": "HTML5 Canvas Simple Clipping tutorial",
+  "description": "To draw things inside of clipping regions with Konva, we can set the clip",
+  "source": "@site/content/docs/clipping/Clipping_Regions.mdx",
+  "sourceDirName": "docs/clipping",
+  "slug": "/docs/clipping/Clipping_Regions.html",
+  "permalink": "/docs/clipping/Clipping_Regions.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/clipping/Clipping_Regions.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Simple Clipping tutorial",
+    "sidebar_label": "Simple Clipping",
+    "hide_table_of_contents": true,
+    "slug": "Clipping_Regions.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Clipping Functions",
+    "permalink": "/docs/clipping/Clipping_Function.html"
+  },
+  "next": {
+    "title": "Change Containers",
+    "permalink": "/docs/groups_and_layers/Change_Containers.html"
+  }
+}

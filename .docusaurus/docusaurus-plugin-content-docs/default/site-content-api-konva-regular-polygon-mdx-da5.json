@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.RegularPolygon",
+  "title": "Konva.RegularPolygon",
+  "description": "RegularPolygon constructor. Examples include triangles, squares, pentagons, hexagons, etc.",
+  "source": "@site/content/api/Konva.RegularPolygon.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.RegularPolygon.html",
+  "permalink": "/api/Konva.RegularPolygon.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.RegularPolygon.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.RegularPolygon",
+    "sidebar_label": "RegularPolygon",
+    "slug": "/api/Konva.RegularPolygon.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Rect",
+    "permalink": "/api/Konva.Rect.html"
+  },
+  "next": {
+    "title": "Ring",
+    "permalink": "/api/Konva.Ring.html"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Cancel_Propagation",
+  "title": "HTML5 Canvas Cancel Event Bubble Propagation with Konva",
+  "description": "To cancel event bubble propagation with Konva, we can set the cancelBubble",
+  "source": "@site/content/docs/events/Cancel_Propagation.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Cancel_Propagation.html",
+  "permalink": "/docs/events/Cancel_Propagation.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Cancel_Propagation.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Cancel Event Bubble Propagation with Konva",
+    "sidebar_label": "Cancel Propagation",
+    "hide_table_of_contents": true,
+    "slug": "Cancel_Propagation.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Binding Events",
+    "permalink": "/docs/events/Binding_Events.html"
+  },
+  "next": {
+    "title": "Custom Hit Region",
+    "permalink": "/docs/events/Custom_Hit_Region.html"
+  }
+}

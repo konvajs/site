@@ -1,0 +1,29 @@
+{
+  "id": "docs/tweens/Tween_Filter",
+  "title": "Tween Blur Filter Tutorial",
+  "description": "To tween a filter using Konva, we can simply tween the properties associated with the filter.",
+  "source": "@site/content/docs/tweens/Tween_Filter.mdx",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/Tween_Filter.html",
+  "permalink": "/docs/tweens/Tween_Filter.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/Tween_Filter.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Tween Blur Filter Tutorial",
+    "sidebar_label": "Filter Tweening",
+    "hide_table_of_contents": true,
+    "slug": "Tween_Filter.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Linear Easing",
+    "permalink": "/docs/tweens/Linear_Easing.html"
+  },
+  "next": {
+    "title": "Create Animation",
+    "permalink": "/docs/animations/Create_an_Animation.html"
+  }
+}

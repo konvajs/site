@@ -1,0 +1,24 @@
+{
+  "id": "docs/svelte/index",
+  "title": "index",
+  "description": "title: Getting started with Svelte and canvas via Konva",
+  "source": "@site/content/docs/svelte/index.md",
+  "sourceDirName": "docs/svelte",
+  "slug": "/docs/svelte/",
+  "permalink": "/docs/svelte/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/svelte/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Transformer",
+    "permalink": "/docs/svelte/Transformer"
+  },
+  "next": {
+    "title": "zIndex",
+    "permalink": "/docs/svelte/zIndex"
+  }
+}

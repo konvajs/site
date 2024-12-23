@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Fire_Events",
+  "title": "HTML5 Canvas Fire Event with Konva",
+  "description": "To fire events with Konva, we can use the fire() method.",
+  "source": "@site/content/docs/events/Fire_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Fire_Events.html",
+  "permalink": "/docs/events/Fire_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Fire_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Fire Event with Konva",
+    "sidebar_label": "Fire Events",
+    "hide_table_of_contents": true,
+    "slug": "Fire_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Event Delegation",
+    "permalink": "/docs/events/Event_Delegation.html"
+  },
+  "next": {
+    "title": "Image Events",
+    "permalink": "/docs/events/Image_Events.html"
+  }
+}

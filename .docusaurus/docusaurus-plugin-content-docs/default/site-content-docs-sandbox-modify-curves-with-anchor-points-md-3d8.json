@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Modify_Curves_with_Anchor_Points",
+  "title": "Modify_Curves_with_Anchor_Points",
+  "description": "title: Modify Curves with Anchor Points",
+  "source": "@site/content/docs/sandbox/Modify_Curves_with_Anchor_Points.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Modify_Curves_with_Anchor_Points",
+  "permalink": "/docs/sandbox/Modify_Curves_with_Anchor_Points",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Modify_Curves_with_Anchor_Points.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Mirror_Canvas_Shape",
+    "permalink": "/docs/sandbox/Mirror_Canvas_Shape"
+  },
+  "next": {
+    "title": "Modify_Shape_Color_on_Click",
+    "permalink": "/docs/sandbox/Modify_Shape_Color_on_Click"
+  }
+}

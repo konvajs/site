@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Physics_Simulator",
+  "title": "Physics_Simulator",
+  "description": "title: Physics Simulator with Curve Detection",
+  "source": "@site/content/docs/sandbox/Physics_Simulator.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Physics_Simulator",
+  "permalink": "/docs/sandbox/Physics_Simulator",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Physics_Simulator.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Objects_Snapping",
+    "permalink": "/docs/sandbox/Objects_Snapping"
+  },
+  "next": {
+    "title": "Planets_Image_Map",
+    "permalink": "/docs/sandbox/Planets_Image_Map"
+  }
+}

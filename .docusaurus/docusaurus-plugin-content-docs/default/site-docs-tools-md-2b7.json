@@ -1,0 +1,30 @@
+{
+  "id": "tools",
+  "title": "Konva.js Tools and Plugins",
+  "description": "- Konva + React",
+  "source": "@site/docs/tools.md",
+  "sourceDirName": ".",
+  "slug": "/tools.html",
+  "permalink": "/tools.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/tools.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5,
+    "title": "Konva.js Tools and Plugins",
+    "sidebar_label": "Tools",
+    "slug": "tools.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Donate",
+    "permalink": "/donate.html"
+  },
+  "next": {
+    "title": "Shapes",
+    "permalink": "/category/shapes"
+  }
+}

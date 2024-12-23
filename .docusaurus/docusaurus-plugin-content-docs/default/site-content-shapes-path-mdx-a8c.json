@@ -1,0 +1,20 @@
+{
+  "id": "shapes/Path",
+  "title": "HTML5 canvas Path Tutorial",
+  "description": "To create a custom path shape with Konva, we can instantiate a Konva.Path() object.",
+  "source": "@site/content/shapes/Path.mdx",
+  "sourceDirName": "shapes",
+  "slug": "/docs/shapes/Path.html",
+  "permalink": "/docs/shapes/Path.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/shapes/Path.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Path Tutorial",
+    "sidebar_label": "Path",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Path.html"
+  }
+}

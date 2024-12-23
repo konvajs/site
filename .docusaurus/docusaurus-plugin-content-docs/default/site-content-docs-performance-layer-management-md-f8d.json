@@ -1,0 +1,24 @@
+{
+  "id": "docs/performance/Layer_Management",
+  "title": "Layer_Management",
+  "description": "title: HTML5 Canvas Layer Management Performance Tip",
+  "source": "@site/content/docs/performance/Layer_Management.md",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Layer_Management",
+  "permalink": "/docs/performance/Layer_Management",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Layer_Management.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Disable Perfect Draw",
+    "permalink": "/docs/performance/Disable_Perfect_Draw.html"
+  },
+  "next": {
+    "title": "Layer Management",
+    "permalink": "/docs/performance/Layer_Management.html"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "styling/Fill_Stroke_Order",
+  "title": "Fill_Stroke_Order",
+  "description": "title: Fill and stroke order demo",
+  "source": "@site/content/styling/09-Fill_Stroke_Order.md",
+  "sourceDirName": "styling",
+  "slug": "/styling/Fill_Stroke_Order",
+  "permalink": "/styling/Fill_Stroke_Order",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/styling/09-Fill_Stroke_Order.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {}
+}

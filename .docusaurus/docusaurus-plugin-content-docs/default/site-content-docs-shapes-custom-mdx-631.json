@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Custom",
+  "title": "HTML5 canvas Custom Shape Tutorial",
+  "description": "To create a custom shape with Konva, you can use the Konva.Shape() object and define a custom drawing function.",
+  "source": "@site/content/docs/shapes/Custom.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Custom.html",
+  "permalink": "/docs/shapes/Custom.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Custom.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Custom Shape Tutorial",
+    "sidebar_label": "Custom Shape",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Custom.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Circle",
+    "permalink": "/docs/shapes/Circle.html"
+  },
+  "next": {
+    "title": "Ellipse",
+    "permalink": "/docs/shapes/Ellipse.html"
+  }
+}

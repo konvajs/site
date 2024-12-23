@@ -1,0 +1,24 @@
+{
+  "id": "select_and_transform/Resize_Limits",
+  "title": "Resize_Limits",
+  "description": "title: HTML5 Canvas Shape Resize and Transform Limits",
+  "source": "@site/docs/select_and_transform/Resize_Limits.md",
+  "sourceDirName": "select_and_transform",
+  "slug": "/select_and_transform/Resize_Limits",
+  "permalink": "/select_and_transform/Resize_Limits",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/select_and_transform/Resize_Limits.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Keep_Ratio",
+    "permalink": "/select_and_transform/Keep_Ratio"
+  },
+  "next": {
+    "title": "Resize_Snaps",
+    "permalink": "/select_and_transform/Resize_Snaps"
+  }
+}

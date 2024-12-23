@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/Contrast",
+  "title": "Contrast",
+  "description": "title: HTML5 Canvas Contrast filter Image Tutorial",
+  "source": "@site/content/docs/filters/Contrast.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/Contrast",
+  "permalink": "/docs/filters/Contrast",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/Contrast.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Brighten",
+    "permalink": "/docs/filters/Brighten"
+  },
+  "next": {
+    "title": "Custom_Filter",
+    "permalink": "/docs/filters/Custom_Filter"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "performance/Listening_False",
+  "title": "Listening_False",
+  "description": "title: Disable Listening Shapes Tip",
+  "source": "@site/content/performance/Listening_False.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Listening_False",
+  "permalink": "/performance/Listening_False",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/performance/Listening_False.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

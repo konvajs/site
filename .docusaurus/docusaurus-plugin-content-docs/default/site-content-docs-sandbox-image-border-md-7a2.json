@@ -1,0 +1,24 @@
+{
+  "id": "docs/sandbox/Image_Border",
+  "title": "Image_Border",
+  "description": "title: Border for Image around Non Transparent parts",
+  "source": "@site/content/docs/sandbox/Image_Border.md",
+  "sourceDirName": "docs/sandbox",
+  "slug": "/docs/sandbox/Image_Border",
+  "permalink": "/docs/sandbox/Image_Border",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/sandbox/Image_Border.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Gestures",
+    "permalink": "/docs/sandbox/Gestures"
+  },
+  "next": {
+    "title": "Image_Border_Highlighting",
+    "permalink": "/docs/sandbox/Image_Border_Highlighting"
+  }
+}

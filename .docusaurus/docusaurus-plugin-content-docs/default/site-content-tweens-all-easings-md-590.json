@@ -1,0 +1,15 @@
+{
+  "id": "tweens/All_Easings",
+  "title": "All_Easings",
+  "description": "title: More Easing Functions Tutorial",
+  "source": "@site/content/tweens/All_Easings.md",
+  "sourceDirName": "tweens",
+  "slug": "/tweens/All_Easings",
+  "permalink": "/tweens/All_Easings",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/tweens/All_Easings.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

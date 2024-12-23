@@ -1,0 +1,29 @@
+{
+  "id": "docs/events/Image_Events",
+  "title": "HTML5 Canvas Image Events with Konva",
+  "description": "To only detect events for non transparent pixels in an image with Konva, we can use the drawHitFromCache() method to generate a more precise image hit region.",
+  "source": "@site/content/docs/events/Image_Events.mdx",
+  "sourceDirName": "docs/events",
+  "slug": "/docs/events/Image_Events.html",
+  "permalink": "/docs/events/Image_Events.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/events/Image_Events.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Image Events with Konva",
+    "sidebar_label": "Image Events",
+    "hide_table_of_contents": true,
+    "slug": "Image_Events.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Fire Events",
+    "permalink": "/docs/events/Fire_Events.html"
+  },
+  "next": {
+    "title": "Keyboard Events",
+    "permalink": "/docs/events/Keyboard_Events.html"
+  }
+}

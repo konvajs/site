@@ -1,0 +1,30 @@
+{
+  "id": "docs/styling/Opacity",
+  "title": "HTML5 Canvas Set Shape Opacity Tutorial",
+  "description": "To set a shape opacity with Konva, we can set the opacity property when we instantiate the node, or we can use the opacity() method.",
+  "source": "@site/content/docs/styling/03-Opacity.md",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Opacity.html",
+  "permalink": "/docs/styling/Opacity.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/03-Opacity.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "title": "HTML5 Canvas Set Shape Opacity Tutorial",
+    "sidebar_label": "Opacity",
+    "hide_table_of_contents": true,
+    "slug": "Opacity.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stroke",
+    "permalink": "/docs/styling/Stroke.html"
+  },
+  "next": {
+    "title": "Shadow",
+    "permalink": "/docs/styling/Shadow.html"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Canvas",
+  "title": "Konva.Canvas",
+  "description": "Canvas Renderer constructor. It is a wrapper around native canvas element. Usually you don't need to use it manually.",
+  "source": "@site/content/api/Konva.Canvas.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Canvas.html",
+  "permalink": "/api/Konva.Canvas.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Canvas.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Canvas",
+    "sidebar_label": "Canvas",
+    "slug": "/api/Konva.Canvas.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Arrow",
+    "permalink": "/api/Konva.Arrow.html"
+  },
+  "next": {
+    "title": "Circle",
+    "permalink": "/api/Konva.Circle.html"
+  }
+}

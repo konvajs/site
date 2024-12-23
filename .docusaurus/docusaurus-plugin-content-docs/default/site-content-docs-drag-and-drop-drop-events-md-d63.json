@@ -1,0 +1,24 @@
+{
+  "id": "docs/drag_and_drop/Drop_Events",
+  "title": "Drop_Events",
+  "description": "title: HTML5 Canvas Drop Events",
+  "source": "@site/content/docs/drag_and_drop/Drop_Events.md",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drop_Events",
+  "permalink": "/docs/drag_and_drop/Drop_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/Drop_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Basic Drag and Drop",
+    "permalink": "/docs/drag_and_drop/Drag_and_Drop.html"
+  },
+  "next": {
+    "title": "Drop Events",
+    "permalink": "/docs/drag_and_drop/Drop_Events.html"
+  }
+}

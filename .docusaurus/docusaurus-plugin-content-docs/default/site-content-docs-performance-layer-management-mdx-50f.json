@@ -1,0 +1,29 @@
+{
+  "id": "docs/performance/Layer_Management",
+  "title": "HTML5 Canvas Layer Management Performance Tip",
+  "description": "When creating Konva applications, the most important thing to consider,",
+  "source": "@site/content/docs/performance/Layer_Management.mdx",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/Layer_Management.html",
+  "permalink": "/docs/performance/Layer_Management.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/Layer_Management.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 Canvas Layer Management Performance Tip",
+    "sidebar_label": "Layer Management",
+    "hide_table_of_contents": true,
+    "slug": "Layer_Management.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Disable Perfect Draw",
+    "permalink": "/docs/performance/Disable_Perfect_Draw.html"
+  },
+  "next": {
+    "title": "Listening False",
+    "permalink": "/docs/performance/Listening_False.html"
+  }
+}

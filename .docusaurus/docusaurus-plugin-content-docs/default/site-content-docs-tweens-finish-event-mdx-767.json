@@ -1,0 +1,24 @@
+{
+  "id": "docs/tweens/Finish_Event",
+  "title": "Finish_Event",
+  "description": "title: HTML5 Canvas Tween Finish Event Tutorial",
+  "source": "@site/content/docs/tweens/Finish_Event.mdx",
+  "sourceDirName": "docs/tweens",
+  "slug": "/docs/tweens/Finish_Event",
+  "permalink": "/docs/tweens/Finish_Event",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/tweens/Finish_Event.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Complex Tweening",
+    "permalink": "/docs/tweens/Complex_Tweening.html"
+  },
+  "next": {
+    "title": "Linear Easing",
+    "permalink": "/docs/tweens/Linear_Easing.html"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/filters/RGBA",
+  "title": "RGBA",
+  "description": "title: HTML5 Canvas RGBA filter Image Tutorial",
+  "source": "@site/content/docs/filters/RGBA.md",
+  "sourceDirName": "docs/filters",
+  "slug": "/docs/filters/RGBA",
+  "permalink": "/docs/filters/RGBA",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/filters/RGBA.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "RGB",
+    "permalink": "/docs/filters/RGB"
+  },
+  "next": {
+    "title": "Change_Containers",
+    "permalink": "/docs/groups_and_layers/Change_Containers"
+  }
+}

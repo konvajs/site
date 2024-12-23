@@ -1,0 +1,24 @@
+{
+  "id": "groups_and_layers/Layering",
+  "title": "Layering",
+  "description": "title: HTML5 Canvas Shape Layering",
+  "source": "@site/docs/groups_and_layers/Layering.md",
+  "sourceDirName": "groups_and_layers",
+  "slug": "/groups_and_layers/Layering",
+  "permalink": "/groups_and_layers/Layering",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/groups_and_layers/Layering.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Groups",
+    "permalink": "/groups_and_layers/Groups"
+  },
+  "next": {
+    "title": "zIndex",
+    "permalink": "/groups_and_layers/zIndex"
+  }
+}

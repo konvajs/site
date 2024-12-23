@@ -1,0 +1,15 @@
+{
+  "id": "animations/Moving",
+  "title": "Moving",
+  "description": "title: Animate Position Tutorial",
+  "source": "@site/content/animations/Moving.md",
+  "sourceDirName": "animations",
+  "slug": "/animations/Moving",
+  "permalink": "/animations/Moving",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/animations/Moving.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

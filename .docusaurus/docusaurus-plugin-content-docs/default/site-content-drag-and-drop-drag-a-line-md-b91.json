@@ -1,0 +1,15 @@
+{
+  "id": "drag_and_drop/Drag_a_Line",
+  "title": "Drag_a_Line",
+  "description": "title: Drag and Drop a Line",
+  "source": "@site/content/drag_and_drop/Drag_a_Line.md",
+  "sourceDirName": "drag_and_drop",
+  "slug": "/drag_and_drop/Drag_a_Line",
+  "permalink": "/drag_and_drop/Drag_a_Line",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/drag_and_drop/Drag_a_Line.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

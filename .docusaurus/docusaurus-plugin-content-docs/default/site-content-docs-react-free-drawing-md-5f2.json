@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Free_Drawing",
+  "title": "Free_Drawing",
+  "description": "title: How to implement free drawing on canvas with react?",
+  "source": "@site/content/docs/react/Free_Drawing.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Free_Drawing",
+  "permalink": "/docs/react/Free_Drawing",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Free_Drawing.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Filters",
+    "permalink": "/docs/react/Filters"
+  },
+  "next": {
+    "title": "Images",
+    "permalink": "/docs/react/Images"
+  }
+}

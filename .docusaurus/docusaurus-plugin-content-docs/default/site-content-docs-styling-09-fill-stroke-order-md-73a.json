@@ -1,0 +1,25 @@
+{
+  "id": "docs/styling/Fill_Stroke_Order",
+  "title": "Fill_Stroke_Order",
+  "description": "title: Fill and stroke order demo",
+  "source": "@site/content/docs/styling/09-Fill_Stroke_Order.md",
+  "sourceDirName": "docs/styling",
+  "slug": "/docs/styling/Fill_Stroke_Order",
+  "permalink": "/docs/styling/Fill_Stroke_Order",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/styling/09-Fill_Stroke_Order.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Blend_Mode",
+    "permalink": "/docs/styling/Blend_Mode"
+  },
+  "next": {
+    "title": "Shapes_with_Tooltip",
+    "permalink": "/docs/sandbox/Shapes_with_Tooltip"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "docs/drag_and_drop/Drag_a_Stage",
+  "title": "Drag_a_Stage",
+  "description": "title: HTML5 Canvas Drag and Drop the Stage",
+  "source": "@site/content/docs/drag_and_drop/Drag_a_Stage.md",
+  "sourceDirName": "docs/drag_and_drop",
+  "slug": "/docs/drag_and_drop/Drag_a_Stage",
+  "permalink": "/docs/drag_and_drop/Drag_a_Stage",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/drag_and_drop/Drag_a_Stage.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Drag a Line",
+    "permalink": "/docs/drag_and_drop/Drag_a_Line.html"
+  },
+  "next": {
+    "title": "Drag a Stage",
+    "permalink": "/docs/drag_and_drop/Drag_a_Stage.html"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "react/Events",
+  "title": "Events",
+  "description": "title: How to listen to an event on a canvas shape with React and Konva?",
+  "source": "@site/content/react/Events.md",
+  "sourceDirName": "react",
+  "slug": "/react/Events",
+  "permalink": "/react/Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/react/Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

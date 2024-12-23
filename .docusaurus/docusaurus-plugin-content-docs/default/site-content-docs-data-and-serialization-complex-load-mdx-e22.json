@@ -1,0 +1,29 @@
+{
+  "id": "docs/data_and_serialization/Complex_Load",
+  "title": "Load HTML5 Canvas Stage from JSON Tutorial",
+  "description": "To load a complex stage that originally contained images and event bindings using Konva,",
+  "source": "@site/content/docs/data_and_serialization/Complex_Load.mdx",
+  "sourceDirName": "docs/data_and_serialization",
+  "slug": "/docs/data_and_serialization/Complex_Load.html",
+  "permalink": "/docs/data_and_serialization/Complex_Load.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/data_and_serialization/Complex_Load.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Load HTML5 Canvas Stage from JSON Tutorial",
+    "sidebar_label": "Complex Load",
+    "hide_table_of_contents": true,
+    "slug": "Complex_Load.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Best Practices",
+    "permalink": "/docs/data_and_serialization/Best_Practices.html"
+  },
+  "next": {
+    "title": "High Quality Export",
+    "permalink": "/docs/data_and_serialization/High-Quality-Export.html"
+  }
+}

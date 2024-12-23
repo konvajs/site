@@ -1,0 +1,15 @@
+{
+  "id": "vue/Cache",
+  "title": "Cache",
+  "description": "title: How to cache canvas shapes with Vue",
+  "source": "@site/content/vue/Cache.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Cache",
+  "permalink": "/vue/Cache",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/vue/Cache.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

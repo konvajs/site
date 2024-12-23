@@ -1,0 +1,29 @@
+{
+  "id": "docs/shapes/Star",
+  "title": "HTML5 canvas Star Tutorial",
+  "description": "To create a star with Konva, you can use the Konva.Star() object.",
+  "source": "@site/content/docs/shapes/Star.mdx",
+  "sourceDirName": "docs/shapes",
+  "slug": "/docs/shapes/Star.html",
+  "permalink": "/docs/shapes/Star.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/shapes/Star.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "HTML5 canvas Star Tutorial",
+    "sidebar_label": "Star",
+    "hide_table_of_contents": true,
+    "slug": "/docs/shapes/Star.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Sprite",
+    "permalink": "/docs/shapes/Sprite.html"
+  },
+  "next": {
+    "title": "Text",
+    "permalink": "/docs/shapes/Text.html"
+  }
+}

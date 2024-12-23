@@ -1,0 +1,15 @@
+{
+  "id": "selectors/Select_by_id",
+  "title": "Select_by_id",
+  "description": "title: HTML5 Canvas Select Shape by id Tutorial",
+  "source": "@site/content/selectors/Select_by_id.md",
+  "sourceDirName": "selectors",
+  "slug": "/selectors/Select_by_id",
+  "permalink": "/selectors/Select_by_id",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/selectors/Select_by_id.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

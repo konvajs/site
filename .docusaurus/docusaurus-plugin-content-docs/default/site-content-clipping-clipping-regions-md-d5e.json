@@ -1,0 +1,15 @@
+{
+  "id": "clipping/Clipping_Regions",
+  "title": "Clipping_Regions",
+  "description": "title: HTML5 Canvas Simple Clipping tutorial",
+  "source": "@site/content/clipping/Clipping_Regions.md",
+  "sourceDirName": "clipping",
+  "slug": "/clipping/Clipping_Regions",
+  "permalink": "/clipping/Clipping_Regions",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/clipping/Clipping_Regions.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

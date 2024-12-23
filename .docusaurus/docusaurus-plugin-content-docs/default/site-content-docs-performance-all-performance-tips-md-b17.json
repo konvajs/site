@@ -1,0 +1,24 @@
+{
+  "id": "docs/performance/All_Performance_Tips",
+  "title": "All_Performance_Tips",
+  "description": "title: HTML5 Canvas All Konva performance tips list",
+  "source": "@site/content/docs/performance/All_Performance_Tips.md",
+  "sourceDirName": "docs/performance",
+  "slug": "/docs/performance/All_Performance_Tips",
+  "permalink": "/docs/performance/All_Performance_Tips",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/performance/All_Performance_Tips.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Stage Data URL",
+    "permalink": "/docs/data_and_serialization/Stage_Data_URL.html"
+  },
+  "next": {
+    "title": "All Performance Tips",
+    "permalink": "/docs/performance/All_Performance_Tips.html"
+  }
+}

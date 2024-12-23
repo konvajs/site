@@ -1,0 +1,29 @@
+{
+  "id": "docs/groups_and_layers/Groups",
+  "title": "Shape Groups",
+  "description": "To group multiple shapes together with Konva, we can instantiate a Konva.Group() object and then add shapes to it with the add() method.",
+  "source": "@site/content/docs/groups_and_layers/Groups.md",
+  "sourceDirName": "docs/groups_and_layers",
+  "slug": "/docs/groups_and_layers/Groups.html",
+  "permalink": "/docs/groups_and_layers/Groups.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/groups_and_layers/Groups.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Shape Groups",
+    "sidebar_label": "Groups",
+    "hide_table_of_contents": true,
+    "slug": "Groups.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Change Containers",
+    "permalink": "/docs/groups_and_layers/Change_Containers.html"
+  },
+  "next": {
+    "title": "Layering",
+    "permalink": "/docs/groups_and_layers/Layering"
+  }
+}

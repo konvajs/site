@@ -1,0 +1,24 @@
+{
+  "id": "svelte/Images",
+  "title": "Images",
+  "description": "title: How to draw image on canvas with Svelte?",
+  "source": "@site/docs/svelte/Images.md",
+  "sourceDirName": "svelte",
+  "slug": "/svelte/Images",
+  "permalink": "/svelte/Images",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/svelte/Images.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Filters",
+    "permalink": "/svelte/Filters"
+  },
+  "next": {
+    "title": "Konva_Node",
+    "permalink": "/svelte/Konva_Node"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "sandbox/Scroll_By_Edge_Drag",
+  "title": "Scroll_By_Edge_Drag",
+  "description": "title: How to automatically scroll stage by edge drag?",
+  "source": "@site/content/sandbox/Scroll_By_Edge_Drag.md",
+  "sourceDirName": "sandbox",
+  "slug": "/sandbox/Scroll_By_Edge_Drag",
+  "permalink": "/sandbox/Scroll_By_Edge_Drag",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/sandbox/Scroll_By_Edge_Drag.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "demosSidebar",
+  "previous": {
+    "title": "Scale_Image_To_Fit",
+    "permalink": "/sandbox/Scale_Image_To_Fit"
+  },
+  "next": {
+    "title": "Seats_Reservation",
+    "permalink": "/sandbox/Seats_Reservation"
+  }
+}

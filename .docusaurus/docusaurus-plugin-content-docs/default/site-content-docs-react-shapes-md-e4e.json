@@ -1,0 +1,24 @@
+{
+  "id": "docs/react/Shapes",
+  "title": "Shapes",
+  "description": "title: Drawing canvas shapes with React",
+  "source": "@site/content/docs/react/Shapes.md",
+  "sourceDirName": "docs/react",
+  "slug": "/docs/react/Shapes",
+  "permalink": "/docs/react/Shapes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/react/Shapes.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Intro",
+    "permalink": "/docs/react/Intro"
+  },
+  "next": {
+    "title": "Simple_Animations",
+    "permalink": "/docs/react/Simple_Animations"
+  }
+}

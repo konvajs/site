@@ -1,0 +1,15 @@
+{
+  "id": "events/Binding_Events",
+  "title": "Binding_Events",
+  "description": "title: HTML5 Canvas Shape Events",
+  "source": "@site/content/events/Binding_Events.md",
+  "sourceDirName": "events",
+  "slug": "/events/Binding_Events",
+  "permalink": "/events/Binding_Events",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/events/Binding_Events.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

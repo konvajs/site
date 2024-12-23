@@ -1,0 +1,15 @@
+{
+  "id": "performance/Batch_Draw",
+  "title": "Batch_Draw",
+  "description": "title: HTML5 Canvas Batch Draw Tip",
+  "source": "@site/content/performance/Batch_Draw.md",
+  "sourceDirName": "performance",
+  "slug": "/performance/Batch_Draw",
+  "permalink": "/performance/Batch_Draw",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/performance/Batch_Draw.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

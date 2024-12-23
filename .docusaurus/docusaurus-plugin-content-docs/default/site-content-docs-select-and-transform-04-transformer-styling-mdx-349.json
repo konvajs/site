@@ -1,0 +1,30 @@
+{
+  "id": "docs/select_and_transform/Transformer_Styling",
+  "title": "Style Konva Transformer",
+  "description": "You can adjust styles of Konva.Transformer for your web app. You can change stroke, size and fill of all anchors.",
+  "source": "@site/content/docs/select_and_transform/04_Transformer_Styling.mdx",
+  "sourceDirName": "docs/select_and_transform",
+  "slug": "/docs/select_and_transform/Transformer_Styling.html",
+  "permalink": "/docs/select_and_transform/Transformer_Styling.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/docs/select_and_transform/04_Transformer_Styling.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "title": "Style Konva Transformer",
+    "sidebar_label": "Styling",
+    "hide_table_of_contents": true,
+    "slug": "Transformer_Styling.html"
+  },
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Keep Ratio",
+    "permalink": "/docs/select_and_transform/Keep_Ratio.html"
+  },
+  "next": {
+    "title": "Complex Transformer Styling",
+    "permalink": "/docs/select_and_transform/Transformer_Complex_Styling.html"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "api/Konva.Rect",
+  "title": "Konva.Rect",
+  "description": "Rect constructor",
+  "source": "@site/content/api/Konva.Rect.mdx",
+  "sourceDirName": "api",
+  "slug": "/api/Konva.Rect.html",
+  "permalink": "/api/Konva.Rect.html",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/api/Konva.Rect.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "Konva.Rect",
+    "sidebar_label": "Rect",
+    "slug": "/api/Konva.Rect.html"
+  },
+  "sidebar": "apiSidebar",
+  "previous": {
+    "title": "Path",
+    "permalink": "/api/Konva.Path.html"
+  },
+  "next": {
+    "title": "RegularPolygon",
+    "permalink": "/api/Konva.RegularPolygon.html"
+  }
+}

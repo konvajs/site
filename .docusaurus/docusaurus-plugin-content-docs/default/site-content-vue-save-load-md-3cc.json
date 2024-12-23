@@ -1,0 +1,15 @@
+{
+  "id": "vue/Save-Load",
+  "title": "Save-Load",
+  "description": "title: Saving and loading canvas with Vue and Konva",
+  "source": "@site/content/vue/Save-Load.md",
+  "sourceDirName": "vue",
+  "slug": "/vue/Save-Load",
+  "permalink": "/vue/Save-Load",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/content/vue/Save-Load.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

@@ -1,0 +1,24 @@
+{
+  "id": "react/index",
+  "title": "index",
+  "description": "title: Getting started with react and canvas via Konva",
+  "source": "@site/docs/react/index.md",
+  "sourceDirName": "react",
+  "slug": "/react/",
+  "permalink": "/react/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/konvajs/site/tree/new/docs/react/index.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialsSidebar",
+  "previous": {
+    "title": "Tainted_Canvas",
+    "permalink": "/posts/Tainted_Canvas"
+  },
+  "next": {
+    "title": "Access_Konva_Nodes",
+    "permalink": "/react/Access_Konva_Nodes"
+  }
+}
