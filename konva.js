@@ -5,7 +5,7 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.17
+   * Konva JavaScript Framework v9.3.18
    * http://konvajs.org/
    * Licensed under the MIT
    * Date: Mon Dec 23 2024
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.17',
+      version: '9.3.18',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -14157,11 +14157,16 @@
       return [...string].reduce((acc, char, index, array) => {
           // Handle emoji with skin tone modifiers and ZWJ sequences
           if (/\p{Emoji}/u.test(char)) {
-              if (acc.length > 0 && /\p{Emoji}/u.test(acc[acc.length - 1])) {
-                  // Combine with previous emoji if it's part of a sequence
-                  acc[acc.length - 1] += char;
+              // Check if next character is a modifier or ZWJ sequence
+              const nextChar = array[index + 1];
+              if (nextChar && /\p{Emoji_Modifier}|\u200D/u.test(nextChar)) {
+                  // If we have a modifier, combine with current emoji
+                  acc.push(char + nextChar);
+                  // Skip the next character since we've used it
+                  array[index + 1] = '';
               }
               else {
+                  // No modifier - treat as separate emoji
                   acc.push(char);
               }
           }
@@ -14174,7 +14179,8 @@
               acc[acc.length - 1] += char;
           }
           // Handle other characters
-          else {
+          else if (char) {
+              // Only push if not an empty string (skipped modifier)
               acc.push(char);
           }
           return acc;
@@ -14599,9 +14605,12 @@
                        * use binary search to find the longest substring that
                        * that would fit in the specified width
                        */
-                      let low = 0, high = line.length, match = '', matchWidth = 0;
+                      let low = 0, high = stringToArray(line).length, // Convert to array for proper emoji handling
+                      match = '', matchWidth = 0;
                       while (low < high) {
-                          const mid = (low + high) >>> 1, substr = line.slice(0, mid + 1), substrWidth = this._getTextWidth(substr) + additionalWidth;
+                          const mid = (low + high) >>> 1, 
+                          // Convert array indices to string
+                          lineArray = stringToArray(line), substr = lineArray.slice(0, mid + 1).join(''), substrWidth = this._getTextWidth(substr) + additionalWidth;
                           if (substrWidth <= maxWidth) {
                               low = mid + 1;
                               match = substr;
@@ -14620,21 +14629,23 @@
                           // a fitting substring was found
                           if (wrapAtWord) {
                               // try to find a space or dash where wrapping could be done
-                              var wrapIndex;
-                              const nextChar = line[match.length];
+                              const lineArray = stringToArray(line);
+                              const matchArray = stringToArray(match);
+                              const nextChar = lineArray[matchArray.length];
                               const nextIsSpaceOrDash = nextChar === SPACE || nextChar === DASH;
+                              let wrapIndex;
                               if (nextIsSpaceOrDash && matchWidth <= maxWidth) {
-                                  wrapIndex = match.length;
+                                  wrapIndex = matchArray.length;
                               }
                               else {
-                                  wrapIndex =
-                                      Math.max(match.lastIndexOf(SPACE), match.lastIndexOf(DASH)) +
-                                          1;
+                                  // Find last space or dash in the array
+                                  const lastSpaceIndex = matchArray.lastIndexOf(SPACE);
+                                  const lastDashIndex = matchArray.lastIndexOf(DASH);
+                                  wrapIndex = Math.max(lastSpaceIndex, lastDashIndex) + 1;
                               }
                               if (wrapIndex > 0) {
-                                  // re-cut the substring found at the space/dash position
                                   low = wrapIndex;
-                                  match = match.slice(0, low);
+                                  match = lineArray.slice(0, low).join('');
                                   matchWidth = this._getTextWidth(match);
                               }
                           }
@@ -14653,13 +14664,12 @@
                                */
                               break;
                           }
-                          line = line.slice(low);
-                          line = line.trimLeft();
+                          // Convert remaining text using array operations
+                          const lineArray = stringToArray(line);
+                          line = lineArray.slice(low).join('').trimLeft();
                           if (line.length > 0) {
-                              // Check if the remaining text would fit on one line
                               lineWidth = this._getTextWidth(line);
                               if (lineWidth <= maxWidth) {
-                                  // if it does, add the line and break out of the loop
                                   this._addTextLine(line);
                                   currentHeightPx += lineHeightPx;
                                   textWidth = Math.max(textWidth, lineWidth);
