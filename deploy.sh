@@ -12,6 +12,7 @@ git push
 
 cd public
 git init
+git checkout -b master
 git add .
 git commit -am 'Update docs'
 git push git@github.com:konvajs/konvajs.github.io.git master --force
