@@ -1,0 +1,285 @@
+---
+title: Shape Tooltips
+sidebar_label: Shape Tooltips
+hide_table_of_contents: true
+slug: Shape_Tooltips.html
+---
+
+## HTML5 Canvas Shape Tooltips with Konva
+
+This demo shows how to create tooltips that follow the mouse cursor when hovering over shapes. It demonstrates:
+1. Creating custom shapes using the sceneFunc
+2. Handling mouse events (mousemove, mouseout)
+3. Using multiple layers for better organization
+4. Creating dynamic tooltips that follow the cursor
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const shapesLayer = new Konva.Layer();
+const tooltipLayer = new Konva.Layer();
+
+// Create custom triangle shape
+const triangle = new Konva.Shape({
+  stroke: 'black',
+  fill: '#00D2FF',
+  strokeWidth: 1,
+  sceneFunc: function (context) {
+    context.beginPath();
+    context.moveTo(120, 50);
+    context.lineTo(250, 80);
+    context.lineTo(150, 170);
+    context.closePath();
+    context.fillStrokeShape(this);
+  },
+});
+
+// Create circle
+const circle = new Konva.Circle({
+  x: 250,
+  y: stage.height() / 2,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  radius: 70,
+});
+
+// Create tooltip
+const tooltip = new Konva.Text({
+  text: '',
+  fontFamily: 'Calibri',
+  fontSize: 12,
+  padding: 5,
+  textFill: 'white',
+  fill: 'black',
+  alpha: 0.75,
+  visible: false,
+});
+
+// Add event listeners for triangle
+triangle.on('mousemove', () => {
+  const mousePos = stage.getPointerPosition();
+  tooltip.position({
+    x: mousePos.x + 5,
+    y: mousePos.y + 5,
+  });
+  tooltip.text('Cyan Triangle');
+  tooltip.show();
+});
+
+triangle.on('mouseout', () => {
+  tooltip.hide();
+});
+
+// Add event listeners for circle
+circle.on('mousemove', () => {
+  const mousePos = stage.getPointerPosition();
+  tooltip.position({
+    x: mousePos.x + 5,
+    y: mousePos.y + 5,
+  });
+  tooltip.text('Red Circle');
+  tooltip.show();
+});
+
+circle.on('mouseout', () => {
+  tooltip.hide();
+});
+
+// Add shapes and tooltip to layers
+shapesLayer.add(triangle);
+shapesLayer.add(circle);
+tooltipLayer.add(tooltip);
+
+// Add layers to stage
+stage.add(shapesLayer);
+stage.add(tooltipLayer);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Shape, Circle, Text } from 'react-konva';
+
+const CustomShape = ({ onMouseMove, onMouseOut }) => {
+  return (
+    <Shape
+      stroke="black"
+      fill="#00D2FF"
+      strokeWidth={1}
+      sceneFunc={(context, shape) => {
+        context.beginPath();
+        context.moveTo(120, 50);
+        context.lineTo(250, 80);
+        context.lineTo(150, 170);
+        context.closePath();
+        context.fillStrokeShape(shape);
+      }}
+      onMouseMove={onMouseMove}
+      onMouseOut={onMouseOut}
+    />
+  );
+};
+
+const App = () => {
+  const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 });
+  const [tooltipText, setTooltipText] = React.useState('');
+  const [isTooltipVisible, setTooltipVisible] = React.useState(false);
+
+  const handleMouseMove = (e, text) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    setTooltipPos({
+      x: pos.x + 5,
+      y: pos.y + 5,
+    });
+    setTooltipText(text);
+    setTooltipVisible(true);
+  };
+
+  const handleMouseOut = () => {
+    setTooltipVisible(false);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <CustomShape
+          onMouseMove={(e) => handleMouseMove(e, 'Cyan Triangle')}
+          onMouseOut={handleMouseOut}
+        />
+        <Circle
+          x={250}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onMouseMove={(e) => handleMouseMove(e, 'Red Circle')}
+          onMouseOut={handleMouseOut}
+        />
+      </Layer>
+      <Layer>
+        <Text
+          x={tooltipPos.x}
+          y={tooltipPos.y}
+          text={tooltipText}
+          fontFamily="Calibri"
+          fontSize={12}
+          padding={5}
+          textFill="white"
+          fill="black"
+          alpha={0.75}
+          visible={isTooltipVisible}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-shape
+        :config="{
+          stroke: 'black',
+          fill: '#00D2FF',
+          strokeWidth: 1,
+          sceneFunc: drawTriangle,
+        }"
+        @mousemove="(e) => handleMouseMove(e, 'Cyan Triangle')"
+        @mouseout="handleMouseOut"
+      />
+      <v-circle
+        :config="{
+          x: 250,
+          y: stageConfig.height / 2,
+          radius: 70,
+          fill: 'red',
+          stroke: 'black',
+          strokeWidth: 4,
+        }"
+        @mousemove="(e) => handleMouseMove(e, 'Red Circle')"
+        @mouseout="handleMouseOut"
+      />
+    </v-layer>
+    <v-layer>
+      <v-text
+        :config="{
+          ...tooltipConfig,
+          visible: isTooltipVisible,
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const tooltipPos = ref({ x: 0, y: 0 });
+const tooltipText = ref('');
+const isTooltipVisible = ref(false);
+
+const tooltipConfig = computed(() => ({
+  x: tooltipPos.value.x,
+  y: tooltipPos.value.y,
+  text: tooltipText.value,
+  fontFamily: 'Calibri',
+  fontSize: 12,
+  padding: 5,
+  textFill: 'white',
+  fill: 'black',
+  alpha: 0.75,
+}));
+
+const drawTriangle = (context, shape) => {
+  context.beginPath();
+  context.moveTo(120, 50);
+  context.lineTo(250, 80);
+  context.lineTo(150, 170);
+  context.closePath();
+  context.fillStrokeShape(shape);
+};
+
+const handleMouseMove = (e, text) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  tooltipPos.value = {
+    x: pos.x + 5,
+    y: pos.y + 5,
+  };
+  tooltipText.value = text;
+  isTooltipVisible.value = true;
+};
+
+const handleMouseOut = () => {
+  isTooltipVisible.value = false;
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Move your mouse over the shapes to see tooltips appear. The tooltips will follow your cursor and display information about each shape. 

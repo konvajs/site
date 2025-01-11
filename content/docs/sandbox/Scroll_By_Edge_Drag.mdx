@@ -1,0 +1,280 @@
+---
+title: How to automatically scroll stage by edge drag?
+sidebar_label: Scroll by Edge Drag
+hide_table_of_contents: true
+slug: Scroll_By_Edge_Drag.html
+---
+
+## How to automatically scroll stage by edge drag?
+
+If you're looking to enhance your Konva.js application's user experience, implementing an auto-scroll feature is a great way to go. This functionality is especially useful in interactive UIs where users need to drag items or navigate large canvases. By enabling the scroll to automatically move when a user drags an item to the bottom or right edge of the viewport, you create a smoother and more intuitive interaction.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const NUMBER = 100;
+
+function generateNode() {
+  return new Konva.Circle({
+    x: stage.width() * (Math.random() * 2 - 1),
+    y: stage.height() * (Math.random() * 2 - 1),
+    radius: 40,
+    fill: 'red',
+    stroke: 'black',
+    draggable: true,
+  });
+}
+
+for (let i = 0; i < NUMBER; i++) {
+  layer.add(generateNode());
+}
+
+let scrollInterval = null;
+
+stage.on('dragstart', (e) => {
+  const duration = 1000 / 60;
+  scrollInterval = setInterval(() => {
+    const pos = stage.getPointerPosition();
+    const offset = 100;
+    
+    const isNearLeft = pos.x < offset;
+    if (isNearLeft) {
+      stage.x(stage.x() + 2);
+      e.target.x(e.target.x() - 2);
+    }
+    
+    const isNearRight = pos.x > stage.width() - offset;
+    if (isNearRight) {
+      stage.x(stage.x() - 2);
+      e.target.x(e.target.x() + 2);
+    }
+    
+    const isNearTop = pos.y < offset;
+    if (isNearTop) {
+      stage.y(stage.y() + 2);
+      e.target.y(e.target.y() - 2);
+    }
+    
+    const isNearBottom = pos.y > stage.height() - offset;
+    if (isNearBottom) {
+      stage.y(stage.y() - 2);
+      e.target.y(e.target.y() + 2);
+    }
+  }, duration);
+});
+
+stage.on('dragend', () => {
+  clearInterval(scrollInterval);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const NUMBER = 100;
+
+const generateNodes = (width, height) => {
+  return Array.from({ length: NUMBER }, () => ({
+    x: width * (Math.random() * 2 - 1),
+    y: height * (Math.random() * 2 - 1),
+  }));
+};
+
+const App = () => {
+  const [stagePos, setStagePos] = React.useState({ x: 0, y: 0 });
+  const [nodes, setNodes] = React.useState([]);
+  const scrollInterval = React.useRef(null);
+  const stageRef = React.useRef(null);
+
+  React.useEffect(() => {
+    setNodes(generateNodes(window.innerWidth, window.innerHeight));
+  }, []);
+
+  const handleDragStart = React.useCallback(() => {
+    const duration = 1000 / 60;
+    scrollInterval.current = setInterval(() => {
+      const stage = stageRef.current;
+      if (!stage) return;
+
+      const pos = stage.getPointerPosition();
+      if (!pos) return;
+
+      const offset = 100;
+      let newX = stagePos.x;
+      let newY = stagePos.y;
+
+      if (pos.x < offset) {
+        newX += 2;
+      } else if (pos.x > stage.width() - offset) {
+        newX -= 2;
+      }
+
+      if (pos.y < offset) {
+        newY += 2;
+      } else if (pos.y > stage.height() - offset) {
+        newY -= 2;
+      }
+
+      setStagePos({ x: newX, y: newY });
+    }, duration);
+  }, [stagePos]);
+
+  const handleDragEnd = React.useCallback(() => {
+    if (scrollInterval.current) {
+      clearInterval(scrollInterval.current);
+      scrollInterval.current = null;
+    }
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      if (scrollInterval.current) {
+        clearInterval(scrollInterval.current);
+      }
+    };
+  }, []);
+
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      x={stagePos.x}
+      y={stagePos.y}
+      ref={stageRef}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <Layer>
+        {nodes.map((node, i) => (
+          <Circle
+            key={i}
+            x={node.x}
+            y={node.y}
+            radius={40}
+            fill="red"
+            stroke="black"
+            draggable
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage
+    :config="stageConfig"
+    ref="stageRef"
+    @dragstart="handleDragStart"
+    @dragend="handleDragEnd"
+  >
+    <v-layer>
+      <v-circle
+        v-for="(node, i) in nodes"
+        :key="i"
+        :config="{
+          x: node.x,
+          y: node.y,
+          radius: 40,
+          fill: 'red',
+          stroke: 'black',
+          draggable: true,
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+
+const NUMBER = 100;
+const stageRef = ref(null);
+const stagePos = ref({ x: 0, y: 0 });
+const nodes = ref([]);
+let scrollInterval = null;
+
+const stageConfig = computed(() => ({
+  width: window.innerWidth,
+  height: window.innerHeight,
+  x: stagePos.value.x,
+  y: stagePos.value.y,
+}));
+
+function generateNodes() {
+  return Array.from({ length: NUMBER }, () => ({
+    x: window.innerWidth * (Math.random() * 2 - 1),
+    y: window.innerHeight * (Math.random() * 2 - 1),
+  }));
+}
+
+const handleDragStart = () => {
+  const duration = 1000 / 60;
+  scrollInterval = setInterval(() => {
+    const stage = stageRef.value.getNode();
+    const pos = stage.getPointerPosition();
+    if (!pos) return;
+
+    const offset = 100;
+    let newX = stagePos.value.x;
+    let newY = stagePos.value.y;
+
+    if (pos.x < offset) {
+      newX += 2;
+    } else if (pos.x > stage.width() - offset) {
+      newX -= 2;
+    }
+
+    if (pos.y < offset) {
+      newY += 2;
+    } else if (pos.y > stage.height() - offset) {
+      newY -= 2;
+    }
+
+    stagePos.value = { x: newX, y: newY };
+  }, duration);
+};
+
+const handleDragEnd = () => {
+  if (scrollInterval) {
+    clearInterval(scrollInterval);
+    scrollInterval = null;
+  }
+};
+
+onMounted(() => {
+  nodes.value = generateNodes();
+});
+
+onUnmounted(() => {
+  if (scrollInterval) {
+    clearInterval(scrollInterval);
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Start dragging any shape. When you drag it near the edge of the stage, the stage will automatically scroll in that direction. This creates a smooth, infinite scrolling experience. 

@@ -1,0 +1,967 @@
+---
+title: HTML5 Large Canvas Scrolling Demo
+sidebar_label: Canvas Scrolling
+hide_table_of_contents: true
+slug: Canvas_Scrolling.html
+---
+
+Imagine we have this scenario. There are a very large stage 3000x3000 with many nodes inside.
+User wants to take a look into all nodes, but they are not visible at once.
+
+## How to display and scroll a very big html5 canvas?
+
+Lets think you have a very large canvas and you want to add ability to navigate on it.
+
+I will show your 4 different approaches to achieve that:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+### 1. Just make large stage
+
+This is the simplest approach. But it is very slow, because large canvases are slow.
+User will be able to scroll with native scrollbars.
+
+Pros:
+* Simple implementation
+
+Cons:
+* Slow
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: WIDTH,
+  height: HEIGHT,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+function generateNode() {
+  return new Konva.Circle({
+    x: WIDTH * Math.random(),
+    y: HEIGHT * Math.random(),
+    radius: 50,
+    fill: 'red',
+    stroke: 'black',
+  });
+}
+
+for (let i = 0; i < NUMBER; i++) {
+  layer.add(generateNode());
+}
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+const App = () => {
+  const [nodes] = React.useState(() => 
+    Array(NUMBER).fill().map(() => ({
+      x: WIDTH * Math.random(),
+      y: HEIGHT * Math.random(),
+    }))
+  );
+
+  return (
+    <Stage width={WIDTH} height={HEIGHT}>
+      <Layer>
+        {nodes.map((node, i) => (
+          <Circle
+            key={i}
+            x={node.x}
+            y={node.y}
+            radius={50}
+            fill="red"
+            stroke="black"
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-circle
+        v-for="(node, i) in nodes"
+        :key="i"
+        :config="{
+          x: node.x,
+          y: node.y,
+          radius: 50,
+          fill: 'red',
+          stroke: 'black'
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+const stageConfig = {
+  width: WIDTH,
+  height: HEIGHT
+};
+
+const nodes = Array(NUMBER).fill().map(() => ({
+  x: WIDTH * Math.random(),
+  y: HEIGHT * Math.random()
+}));
+</script>
+```
+  </TabItem>
+</Tabs>
+
+### 2. Make stage draggable (navigate with drag&drop)
+
+That one is better because stage is much smaller.
+
+Pros:
+* Simple implementation
+* Fast
+
+Cons:
+* Sometimes drag&drop navigation is not the best UX
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  draggable: true,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+function generateNode() {
+  return new Konva.Circle({
+    x: WIDTH * Math.random(),
+    y: HEIGHT * Math.random(),
+    radius: 50,
+    fill: 'red',
+    stroke: 'black',
+  });
+}
+
+for (let i = 0; i < NUMBER; i++) {
+  layer.add(generateNode());
+}
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+const App = () => {
+  const [nodes] = React.useState(() => 
+    Array(NUMBER).fill().map(() => ({
+      x: WIDTH * Math.random(),
+      y: HEIGHT * Math.random(),
+    }))
+  );
+
+  return (
+    <Stage 
+      width={window.innerWidth} 
+      height={window.innerHeight}
+      draggable
+    >
+      <Layer>
+        {nodes.map((node, i) => (
+          <Circle
+            key={i}
+            x={node.x}
+            y={node.y}
+            radius={50}
+            fill="red"
+            stroke="black"
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-circle
+        v-for="(node, i) in nodes"
+        :key="i"
+        :config="{
+          x: node.x,
+          y: node.y,
+          radius: 50,
+          fill: 'red',
+          stroke: 'black'
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+const stageConfig = {
+  width: WIDTH,
+  height: HEIGHT
+};
+
+const nodes = Array(NUMBER).fill().map(() => ({
+  x: WIDTH * Math.random(),
+  y: HEIGHT * Math.random()
+}));
+</script>
+```
+  </TabItem>
+</Tabs>
+
+### 3. Emulate scrollbars
+
+You will have to draw them manually and implement all moving functionality.
+That is quite a lot of work. But works good for many apps.
+
+**Instructions**: try to scroll with bars.
+
+Pros:
+- Works ok
+- Intuitive scroll
+- Fast
+
+Cons:
+- Scrollbars are not native, so you have to implement many things manually (like scroll with keyboard)
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+function generateNode() {
+  return new Konva.Circle({
+    x: WIDTH * Math.random(),
+    y: HEIGHT * Math.random(),
+    radius: 50,
+    fill: 'red',
+    stroke: 'black',
+  });
+}
+
+for (let i = 0; i < NUMBER; i++) {
+  layer.add(generateNode());
+}
+
+// now draw our bars
+const scrollLayers = new Konva.Layer();
+stage.add(scrollLayers);
+
+const PADDING = 5;
+
+const verticalBar = new Konva.Rect({
+  width: 10,
+  height: 100,
+  fill: 'grey',
+  opacity: 0.8,
+  x: stage.width() - PADDING - 10,
+  y: PADDING,
+  draggable: true,
+  dragBoundFunc: function (pos) {
+    pos.x = stage.width() - PADDING - 10;
+    pos.y = Math.max(
+      Math.min(pos.y, stage.height() - this.height() - PADDING),
+      PADDING
+    );
+    return pos;
+  },
+});
+scrollLayers.add(verticalBar);
+
+verticalBar.on('dragmove', function () {
+  // delta in %
+  const availableHeight =
+    stage.height() - PADDING * 2 - verticalBar.height();
+  const delta = (verticalBar.y() - PADDING) / availableHeight;
+
+  layer.y(-(HEIGHT - stage.height()) * delta);
+});
+
+const horizontalBar = new Konva.Rect({
+  width: 100,
+  height: 10,
+  fill: 'grey',
+  opacity: 0.8,
+  x: PADDING,
+  y: stage.height() - PADDING - 10,
+  draggable: true,
+  dragBoundFunc: function (pos) {
+    pos.x = Math.max(
+      Math.min(pos.x, stage.width() - this.width() - PADDING),
+      PADDING
+    );
+    pos.y = stage.height() - PADDING - 10;
+
+    return pos;
+  },
+});
+scrollLayers.add(horizontalBar);
+
+horizontalBar.on('dragmove', function () {
+  // delta in %
+  const availableWidth =
+    stage.width() - PADDING * 2 - horizontalBar.width();
+  const delta = (horizontalBar.x() - PADDING) / availableWidth;
+
+  layer.x(-(WIDTH - stage.width()) * delta);
+});
+
+stage.on('wheel', function (e) {
+  // prevent parent scrolling
+  e.evt.preventDefault();
+  const dx = e.evt.deltaX;
+  const dy = e.evt.deltaY;
+
+  const minX = -(WIDTH - stage.width());
+  const maxX = 0;
+
+  const x = Math.max(minX, Math.min(layer.x() - dx, maxX));
+
+  const minY = -(HEIGHT - stage.height());
+  const maxY = 0;
+
+  const y = Math.max(minY, Math.min(layer.y() - dy, maxY));
+  layer.position({ x, y });
+
+  const availableHeight =
+    stage.height() - PADDING * 2 - verticalBar.height();
+  const vy =
+    (layer.y() / (-HEIGHT + stage.height())) * availableHeight + PADDING;
+  verticalBar.y(vy);
+
+  const availableWidth =
+    stage.width() - PADDING * 2 - horizontalBar.width();
+
+  const hx =
+    (layer.x() / (-WIDTH + stage.width())) * availableWidth + PADDING;
+  horizontalBar.x(hx);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle, Rect } from 'react-konva';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+const PADDING = 5;
+
+const App = () => {
+  const [nodes] = React.useState(() => 
+    Array(NUMBER).fill().map(() => ({
+      x: WIDTH * Math.random(),
+      y: HEIGHT * Math.random(),
+    }))
+  );
+  const [position, setPosition] = React.useState({ x: 0, y: 0 });
+  const [scrollBars, setScrollBars] = React.useState(() => ({
+    vertical: { x: window.innerWidth - PADDING - 10, y: PADDING },
+    horizontal: { x: PADDING, y: window.innerHeight - PADDING - 10 }
+  }));
+
+  const handleVerticalDrag = (e) => {
+    const pos = e.target.position();
+    const availableHeight = window.innerHeight - PADDING * 2 - 100;
+    const delta = (pos.y - PADDING) / availableHeight;
+    
+    setPosition(prev => ({ ...prev, y: -(HEIGHT - window.innerHeight) * delta }));
+    setScrollBars(prev => ({ ...prev, vertical: pos }));
+  };
+
+  const handleHorizontalDrag = (e) => {
+    const pos = e.target.position();
+    const availableWidth = window.innerWidth - PADDING * 2 - 100;
+    const delta = (pos.x - PADDING) / availableWidth;
+    
+    setPosition(prev => ({ ...prev, x: -(WIDTH - window.innerWidth) * delta }));
+    setScrollBars(prev => ({ ...prev, horizontal: pos }));
+  };
+
+  const handleWheel = (e) => {
+    e.evt.preventDefault();
+    const dx = e.evt.deltaX;
+    const dy = e.evt.deltaY;
+
+    const minX = -(WIDTH - window.innerWidth);
+    const maxX = 0;
+    const x = Math.max(minX, Math.min(position.x - dx, maxX));
+
+    const minY = -(HEIGHT - window.innerHeight);
+    const maxY = 0;
+    const y = Math.max(minY, Math.min(position.y - dy, maxY));
+
+    setPosition({ x, y });
+
+    const availableHeight = window.innerHeight - PADDING * 2 - 100;
+    const vy = (y / (-HEIGHT + window.innerHeight)) * availableHeight + PADDING;
+
+    const availableWidth = window.innerWidth - PADDING * 2 - 100;
+    const hx = (x / (-WIDTH + window.innerWidth)) * availableWidth + PADDING;
+
+    setScrollBars({
+      vertical: { x: window.innerWidth - PADDING - 10, y: vy },
+      horizontal: { x: hx, y: window.innerHeight - PADDING - 10 }
+    });
+  };
+
+  return (
+    <Stage 
+      width={window.innerWidth} 
+      height={window.innerHeight}
+      onWheel={handleWheel}
+    >
+      <Layer x={position.x} y={position.y}>
+        {nodes.map((node, i) => (
+          <Circle
+            key={i}
+            x={node.x}
+            y={node.y}
+            radius={50}
+            fill="red"
+            stroke="black"
+          />
+        ))}
+      </Layer>
+      <Layer>
+        <Rect
+          width={10}
+          height={100}
+          fill="grey"
+          opacity={0.8}
+          x={scrollBars.vertical.x}
+          y={scrollBars.vertical.y}
+          draggable
+          onDragMove={handleVerticalDrag}
+          dragBoundFunc={(pos) => ({
+            x: window.innerWidth - PADDING - 10,
+            y: Math.max(
+              Math.min(pos.y, window.innerHeight - 100 - PADDING),
+              PADDING
+            ),
+          })}
+        />
+        <Rect
+          width={100}
+          height={10}
+          fill="grey"
+          opacity={0.8}
+          x={scrollBars.horizontal.x}
+          y={scrollBars.horizontal.y}
+          draggable
+          onDragMove={handleHorizontalDrag}
+          dragBoundFunc={(pos) => ({
+            x: Math.max(
+              Math.min(pos.x, window.innerWidth - 100 - PADDING),
+              PADDING
+            ),
+            y: window.innerHeight - PADDING - 10,
+          })}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig" @wheel="handleWheel">
+    <v-layer :config="layerConfig">
+      <v-circle
+        v-for="(node, i) in nodes"
+        :key="i"
+        :config="{
+          x: node.x,
+          y: node.y,
+          radius: 50,
+          fill: 'red',
+          stroke: 'black'
+        }"
+      />
+    </v-layer>
+    <v-layer>
+      <v-rect
+        :config="{
+          width: 10,
+          height: 100,
+          fill: 'grey',
+          opacity: 0.8,
+          x: scrollBars.vertical.x,
+          y: scrollBars.vertical.y,
+          draggable: true,
+          dragBoundFunc: verticalDragBound
+        }"
+        @dragmove="handleVerticalDrag"
+      />
+      <v-rect
+        :config="{
+          width: 100,
+          height: 10,
+          fill: 'grey',
+          opacity: 0.8,
+          x: scrollBars.horizontal.x,
+          y: scrollBars.horizontal.y,
+          draggable: true,
+          dragBoundFunc: horizontalDragBound
+        }"
+        @dragmove="handleHorizontalDrag"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+const PADDING = 5;
+
+const position = ref({ x: 0, y: 0 });
+const scrollBars = ref({
+  vertical: { x: window.innerWidth - PADDING - 10, y: PADDING },
+  horizontal: { x: PADDING, y: window.innerHeight - PADDING - 10 }
+});
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const layerConfig = computed(() => ({
+  x: position.value.x,
+  y: position.value.y
+}));
+
+const nodes = Array(NUMBER).fill().map(() => ({
+  x: WIDTH * Math.random(),
+  y: HEIGHT * Math.random()
+}));
+
+const verticalDragBound = (pos) => ({
+  x: window.innerWidth - PADDING - 10,
+  y: Math.max(
+    Math.min(pos.y, window.innerHeight - 100 - PADDING),
+    PADDING
+  )
+});
+
+const horizontalDragBound = (pos) => ({
+  x: Math.max(
+    Math.min(pos.x, window.innerWidth - 100 - PADDING),
+    PADDING
+  ),
+  y: window.innerHeight - PADDING - 10
+});
+
+const handleVerticalDrag = (e) => {
+  const pos = e.target.position();
+  const availableHeight = window.innerHeight - PADDING * 2 - 100;
+  const delta = (pos.y - PADDING) / availableHeight;
+  
+  position.value.y = -(HEIGHT - window.innerHeight) * delta;
+  scrollBars.value.vertical = pos;
+};
+
+const handleHorizontalDrag = (e) => {
+  const pos = e.target.position();
+  const availableWidth = window.innerWidth - PADDING * 2 - 100;
+  const delta = (pos.x - PADDING) / availableWidth;
+  
+  position.value.x = -(WIDTH - window.innerWidth) * delta;
+  scrollBars.value.horizontal = pos;
+};
+
+const handleWheel = (e) => {
+  e.evt.preventDefault();
+  const dx = e.evt.deltaX;
+  const dy = e.evt.deltaY;
+
+  const minX = -(WIDTH - window.innerWidth);
+  const maxX = 0;
+  const x = Math.max(minX, Math.min(position.value.x - dx, maxX));
+
+  const minY = -(HEIGHT - window.innerHeight);
+  const maxY = 0;
+  const y = Math.max(minY, Math.min(position.value.y - dy, maxY));
+
+  position.value = { x, y };
+
+  const availableHeight = window.innerHeight - PADDING * 2 - 100;
+  const vy = (y / (-HEIGHT + window.innerHeight)) * availableHeight + PADDING;
+
+  const availableWidth = window.innerWidth - PADDING * 2 - 100;
+  const hx = (x / (-WIDTH + window.innerWidth)) * availableWidth + PADDING;
+
+  scrollBars.value = {
+    vertical: { x: window.innerWidth - PADDING - 10, y: vy },
+    horizontal: { x: hx, y: window.innerHeight - PADDING - 10 }
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+### 4. Emulate screen moving with transform
+
+That demo works really good, but it may be tricky.
+The idea is:
+- We will use small canvas with the size of the screen
+- We will create container with required size (3000x3000), so native scrollbars will be visible
+- When user is trying to scroll, we will apply css transform for the stage container so it will be still in the center of user's screen
+- We will move all nodes so it looks like you scroll (by changing stage position)
+
+Props:
+- Works perfect and fast
+- Native scrolling
+
+Cons:
+- You have to understand what is going on.
+
+**Instructions**: try to scroll with native bars.
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// First we need to add required CSS
+const style = document.createElement('style');
+style.textContent = `
+  #large-container {
+    width: 3000px;
+    height: 3000px;
+    overflow: hidden;
+  }
+
+  #scroll-container {
+    width: calc(100% - 22px);
+    height: calc(100vh - 22px);
+    overflow: auto;
+    margin: 10px;
+    border: 1px solid grey;
+  }
+`;
+document.head.appendChild(style);
+
+// Then create required DOM structure
+const scrollContainer = document.createElement('div');
+scrollContainer.id = 'scroll-container';
+const largeContainer = document.createElement('div');
+largeContainer.id = 'large-container';
+const container = document.createElement('div');
+container.id = 'stage-container';
+
+scrollContainer.appendChild(largeContainer);
+largeContainer.appendChild(container);
+document.body.appendChild(scrollContainer);
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+
+// padding will increase the size of stage
+// so scrolling will look smoother
+const PADDING = 200;
+
+const stage = new Konva.Stage({
+  container: 'stage-container',
+  width: window.innerWidth + PADDING * 2,
+  height: window.innerHeight + PADDING * 2,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+function generateNode() {
+  return new Konva.Circle({
+    x: WIDTH * Math.random(),
+    y: HEIGHT * Math.random(),
+    radius: 50,
+    fill: 'red',
+    stroke: 'black',
+  });
+}
+
+for (let i = 0; i < NUMBER; i++) {
+  layer.add(generateNode());
+}
+
+function repositionStage() {
+  const dx = scrollContainer.scrollLeft - PADDING;
+  const dy = scrollContainer.scrollTop - PADDING;
+  stage.container().style.transform =
+    'translate(' + dx + 'px, ' + dy + 'px)';
+  stage.x(-dx);
+  stage.y(-dy);
+}
+scrollContainer.addEventListener('scroll', repositionStage);
+repositionStage();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+const PADDING = 500;
+
+const App = () => {
+  const [nodes] = React.useState(() => 
+    Array(NUMBER).fill().map(() => ({
+      x: WIDTH * Math.random(),
+      y: HEIGHT * Math.random(),
+    }))
+  );
+  const [position, setPosition] = React.useState({ x: 0, y: 0 });
+  const scrollContainerRef = React.useRef(null);
+  const containerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    function repositionStage() {
+      const dx = scrollContainer.scrollLeft - PADDING;
+      const dy = scrollContainer.scrollTop - PADDING;
+      if (containerRef.current) {
+        containerRef.current.style.transform = `translate(${dx}px, ${dy}px)`;
+      }
+      setPosition({ x: -dx, y: -dy });
+    }
+
+    scrollContainer.addEventListener('scroll', repositionStage);
+    repositionStage();
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', repositionStage);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={scrollContainerRef}
+      style={{
+        width: 'calc(100% - 22px)',
+        height: 'calc(100vh - 22px)',
+        overflow: 'auto',
+        margin: '10px',
+        border: '1px solid grey',
+      }}
+    >
+      <div
+        style={{
+          width: WIDTH + 'px',
+          height: HEIGHT + 'px',
+          overflow: 'hidden',
+        }}
+      >
+        <div ref={containerRef}>
+          <Stage
+            width={window.innerWidth + PADDING * 2}
+            height={window.innerHeight + PADDING * 2}
+            x={position.x}
+            y={position.y}
+          >
+            <Layer>
+              {nodes.map((node, i) => (
+                <Circle
+                  key={i}
+                  x={node.x}
+                  y={node.y}
+                  radius={50}
+                  fill="red"
+                  stroke="black"
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div
+    ref="scrollContainer"
+    class="scroll-container"
+  >
+    <div class="large-container">
+      <div ref="container">
+        <v-stage
+          :config="stageConfig"
+          :x="position.x"
+          :y="position.y"
+        >
+          <v-layer>
+            <v-circle
+              v-for="(node, i) in nodes"
+              :key="i"
+              :config="{
+                x: node.x,
+                y: node.y,
+                radius: 50,
+                fill: 'red',
+                stroke: 'black'
+              }"
+            />
+          </v-layer>
+        </v-stage>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const WIDTH = 3000;
+const HEIGHT = 3000;
+const NUMBER = 200;
+const PADDING = 500;
+
+const position = ref({ x: 0, y: 0 });
+const scrollContainer = ref(null);
+const container = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth + PADDING * 2,
+  height: window.innerHeight + PADDING * 2
+};
+
+const nodes = Array(NUMBER).fill().map(() => ({
+  x: WIDTH * Math.random(),
+  y: HEIGHT * Math.random()
+}));
+
+function repositionStage() {
+  if (!scrollContainer.value || !container.value) return;
+  
+  const dx = scrollContainer.value.scrollLeft - PADDING;
+  const dy = scrollContainer.value.scrollTop - PADDING;
+  container.value.style.transform = `translate(${dx}px, ${dy}px)`;
+  position.value = { x: -dx, y: -dy };
+}
+
+onMounted(() => {
+  if (scrollContainer.value) {
+    scrollContainer.value.addEventListener('scroll', repositionStage);
+    repositionStage();
+  }
+});
+
+onUnmounted(() => {
+  if (scrollContainer.value) {
+    scrollContainer.value.removeEventListener('scroll', repositionStage);
+  }
+});
+</script>
+
+<style scoped>
+.scroll-container {
+  width: calc(100% - 22px);
+  height: calc(100vh - 22px);
+  overflow: auto;
+  margin: 10px;
+  border: 1px solid grey;
+}
+
+.large-container {
+  width: 3000px;
+  height: 3000px;
+  overflow: hidden;
+}
+</style>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,227 @@
+---
+title: Responsive Canvas Stage Demo
+sidebar_label: Responsive Canvas
+hide_table_of_contents: true
+slug: Responsive_Canvas.html
+---
+
+## Do you need responsive/adaptive canvas for you desktop and mobile applications?
+
+So first of all, there are many ways to make your canvas stage "responsive".
+And you may need a different behavior for different applications.
+
+This demo will show you the simplest solution. We will fit a canvas stage into user window with scaling.
+In the demo we will care only about stage WIDTH. You may need to add extra logic if you need to fit height too.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// create container div
+const stageParent = document.createElement('div');
+stageParent.id = 'stage-parent';
+stageParent.style.width = '100%';
+document.body.appendChild(stageParent);
+
+const container = document.createElement('div');
+container.id = 'container';
+stageParent.appendChild(container);
+
+// let's think our scene virtual size will be 1000x1000px
+// but the real size will be different to fit user's page
+const sceneWidth = 1000;
+const sceneHeight = 1000;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  // first just set set as is
+  width: sceneWidth,
+  height: sceneHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// add circle into center
+const circle = new Konva.Circle({
+  radius: 50,
+  fill: 'red',
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+});
+layer.add(circle);
+
+// rectangle in bottom right of the stage
+const rect = new Konva.Rect({
+  fill: 'green',
+  x: stage.width() - 100,
+  y: stage.height() - 100,
+  width: 100,
+  height: 100,
+});
+layer.add(rect);
+
+function fitStageIntoParentContainer() {
+  const container = document.querySelector('#stage-parent');
+
+  // now we need to fit stage into parent container
+  const containerWidth = container.offsetWidth;
+
+  // but we also make the full scene visible
+  // so we need to scale all objects on canvas
+  const scale = containerWidth / sceneWidth;
+
+  stage.width(sceneWidth * scale);
+  stage.height(sceneHeight * scale);
+  stage.scale({ x: scale, y: scale });
+}
+
+fitStageIntoParentContainer();
+// adapt the stage on any window resize
+window.addEventListener('resize', fitStageIntoParentContainer);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle, Rect } from 'react-konva';
+
+const SCENE_WIDTH = 1000;
+const SCENE_HEIGHT = 1000;
+
+const App = () => {
+  const [scale, setScale] = React.useState(1);
+  const [stageSize, setStageSize] = React.useState({
+    width: SCENE_WIDTH,
+    height: SCENE_HEIGHT,
+  });
+  const containerRef = React.useRef(null);
+
+  const checkSize = React.useCallback(() => {
+    const containerWidth = containerRef.current.offsetWidth;
+    const newScale = containerWidth / SCENE_WIDTH;
+
+    setScale(newScale);
+    setStageSize({
+      width: SCENE_WIDTH * newScale,
+      height: SCENE_HEIGHT * newScale,
+    });
+  }, []);
+
+  React.useEffect(() => {
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, [checkSize]);
+
+  return (
+    <div ref={containerRef} style={{ width: '100%' }}>
+      <Stage
+        width={stageSize.width}
+        height={stageSize.height}
+        scaleX={scale}
+        scaleY={scale}
+      >
+        <Layer>
+          <Circle
+            radius={50}
+            fill="red"
+            x={SCENE_WIDTH / 2}
+            y={SCENE_HEIGHT / 2}
+          />
+          <Rect
+            fill="green"
+            x={SCENE_WIDTH - 100}
+            y={SCENE_HEIGHT - 100}
+            width={100}
+            height={100}
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div ref="containerRef" style="width: 100%">
+    <v-stage
+      :config="stageConfig"
+    >
+      <v-layer>
+        <v-circle :config="circleConfig" />
+        <v-rect :config="rectConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+
+const SCENE_WIDTH = 1000;
+const SCENE_HEIGHT = 1000;
+
+const scale = ref(1);
+const stageSize = ref({
+  width: SCENE_WIDTH,
+  height: SCENE_HEIGHT,
+});
+
+const containerRef = ref(null);
+
+const checkSize = () => {
+  const containerWidth = containerRef.value.offsetWidth;
+  const newScale = containerWidth / SCENE_WIDTH;
+
+  scale.value = newScale;
+  stageSize.value = {
+    width: SCENE_WIDTH * newScale,
+    height: SCENE_HEIGHT * newScale,
+  };
+};
+
+onMounted(() => {
+  checkSize();
+  window.addEventListener('resize', checkSize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkSize);
+});
+
+const stageConfig = computed(() => ({
+  width: stageSize.value.width,
+  height: stageSize.value.height,
+  scaleX: scale.value,
+  scaleY: scale.value,
+}));
+
+const circleConfig = {
+  radius: 50,
+  fill: 'red',
+  x: SCENE_WIDTH / 2,
+  y: SCENE_HEIGHT / 2,
+};
+
+const rectConfig = {
+  fill: 'green',
+  x: SCENE_WIDTH - 100,
+  y: SCENE_HEIGHT - 100,
+  width: 100,
+  height: 100,
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Try to resize your browser window to see how the stage adapts to the container size. 

@@ -1,0 +1,625 @@
+---
+title: HTML5 Canvas Simple Window Designer
+sidebar_label: Simple Window Frame
+hide_table_of_contents: true
+slug: Simple_Window_Frame.html
+---
+
+## HTML5 Canvas Simple Window Designer
+
+This demo shows how to create an interactive window frame designer. It demonstrates:
+1. Drawing complex shapes using Konva.Line and Konva.Shape
+2. Creating custom measurements and annotations
+3. Handling user input for dimensions
+4. Using groups to organize related shapes
+5. Drawing arrows and text labels
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create controls
+const controls = document.createElement('div');
+controls.style.position = 'absolute';
+controls.style.top = '4px';
+controls.style.left = '4px';
+
+const widthControl = document.createElement('div');
+widthControl.style.float = 'left';
+widthControl.style.padding = '10px';
+widthControl.innerHTML = 'Width: <input type="number" id="widthInput" value="500" />';
+
+const heightControl = document.createElement('div');
+heightControl.style.float = 'left';
+heightControl.style.padding = '10px';
+heightControl.innerHTML = 'Height: <input type="number" id="heightInput" value="300" />';
+
+controls.appendChild(widthControl);
+controls.appendChild(heightControl);
+document.body.appendChild(controls);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+function createFrame(frameWidth, frameHeight) {
+  const padding = 70;
+  const group = new Konva.Group();
+
+  // Create window frame parts
+  const top = new Konva.Line({
+    points: [0, 0, frameWidth, 0, frameWidth - padding, padding, padding, padding],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1,
+  });
+
+  const left = new Konva.Line({
+    points: [0, 0, padding, padding, padding, frameHeight - padding, 0, frameHeight],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1,
+  });
+
+  const bottom = new Konva.Line({
+    points: [
+      0, frameHeight,
+      padding, frameHeight - padding,
+      frameWidth - padding, frameHeight - padding,
+      frameWidth, frameHeight,
+    ],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1,
+  });
+
+  const right = new Konva.Line({
+    points: [
+      frameWidth, 0,
+      frameWidth, frameHeight,
+      frameWidth - padding, frameHeight - padding,
+      frameWidth - padding, padding,
+    ],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1,
+  });
+
+  const glass = new Konva.Rect({
+    x: padding,
+    y: padding,
+    width: frameWidth - padding * 2,
+    height: frameHeight - padding * 2,
+    fill: 'lightblue',
+  });
+
+  group.add(glass, top, left, bottom, right);
+  return group;
+}
+
+function createMeasurements(frameWidth, frameHeight) {
+  const offset = 20;
+  const arrowOffset = offset / 2;
+  const arrowSize = 5;
+  const group = new Konva.Group();
+
+  // Draw measurement lines
+  const lines = new Konva.Shape({
+    sceneFunc: function (context) {
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(-offset, 0);
+      context.moveTo(0, frameHeight);
+      context.lineTo(-offset, frameHeight);
+      context.moveTo(0, frameHeight);
+      context.lineTo(0, frameHeight + offset);
+      context.moveTo(frameWidth, frameHeight);
+      context.lineTo(frameWidth, frameHeight + offset);
+      context.strokeStyle = 'grey';
+      context.lineWidth = 0.5;
+      context.stroke();
+    },
+  });
+
+  // Draw arrows
+  const leftArrow = new Konva.Shape({
+    sceneFunc: function (context) {
+      context.beginPath();
+      // Top arrow
+      context.moveTo(-arrowOffset - arrowSize, arrowSize);
+      context.lineTo(-arrowOffset, 0);
+      context.lineTo(-arrowOffset + arrowSize, arrowSize);
+      // Line
+      context.moveTo(-arrowOffset, 0);
+      context.lineTo(-arrowOffset, frameHeight);
+      // Bottom arrow
+      context.moveTo(-arrowOffset - arrowSize, frameHeight - arrowSize);
+      context.lineTo(-arrowOffset, frameHeight);
+      context.lineTo(-arrowOffset + arrowSize, frameHeight - arrowSize);
+      context.strokeStyle = 'grey';
+      context.lineWidth = 0.5;
+      context.stroke();
+    },
+  });
+
+  const bottomArrow = new Konva.Shape({
+    sceneFunc: function (context) {
+      context.beginPath();
+      context.translate(0, frameHeight + arrowOffset);
+      // Left arrow
+      context.moveTo(arrowSize, -arrowSize);
+      context.lineTo(0, 0);
+      context.lineTo(arrowSize, arrowSize);
+      // Line
+      context.moveTo(0, 0);
+      context.lineTo(frameWidth, 0);
+      // Right arrow
+      context.moveTo(frameWidth - arrowSize, -arrowSize);
+      context.lineTo(frameWidth, 0);
+      context.lineTo(frameWidth - arrowSize, arrowSize);
+      context.strokeStyle = 'grey';
+      context.lineWidth = 0.5;
+      context.stroke();
+    },
+  });
+
+  // Add measurements text
+  const heightText = new Konva.Text({
+    x: -offset - 30,
+    y: frameHeight / 2 - 10,
+    text: frameHeight + 'mm',
+    fontSize: 12,
+    fill: 'black',
+    padding: 2,
+  });
+
+  const widthText = new Konva.Text({
+    x: frameWidth / 2 - 20,
+    y: frameHeight + offset,
+    text: frameWidth + 'mm',
+    fontSize: 12,
+    fill: 'black',
+    padding: 2,
+  });
+
+  group.add(lines, leftArrow, bottomArrow, heightText, widthText);
+  return group;
+}
+
+function updateWindow() {
+  const frameWidth = parseInt(widthInput.value) || 500;
+  const frameHeight = parseInt(heightInput.value) || 300;
+
+  layer.destroyChildren();
+  
+  const frame = createFrame(frameWidth, frameHeight);
+  const measurements = createMeasurements(frameWidth, frameHeight);
+  
+  frame.position({
+    x: stage.width() / 2 - frameWidth / 2,
+    y: stage.height() / 2 - frameHeight / 2,
+  });
+  measurements.position({
+    x: stage.width() / 2 - frameWidth / 2,
+    y: stage.height() / 2 - frameHeight / 2,
+  });
+
+  layer.add(frame, measurements);
+  layer.draw();
+}
+
+const widthInput = document.getElementById('widthInput');
+const heightInput = document.getElementById('heightInput');
+
+widthInput.addEventListener('change', updateWindow);
+heightInput.addEventListener('change', updateWindow);
+
+// Initial render
+updateWindow();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Line, Rect, Shape, Text, Group } from 'react-konva';
+
+const WindowFrame = ({ width, height, x, y }) => {
+  const padding = 70;
+
+  return (
+    <Group x={x} y={y}>
+      <Rect
+        x={padding}
+        y={padding}
+        width={width - padding * 2}
+        height={height - padding * 2}
+        fill="lightblue"
+      />
+      <Line
+        points={[0, 0, width, 0, width - padding, padding, padding, padding]}
+        fill="white"
+        closed
+        stroke="black"
+        strokeWidth={1}
+      />
+      <Line
+        points={[0, 0, padding, padding, padding, height - padding, 0, height]}
+        fill="white"
+        closed
+        stroke="black"
+        strokeWidth={1}
+      />
+      <Line
+        points={[
+          0, height,
+          padding, height - padding,
+          width - padding, height - padding,
+          width, height,
+        ]}
+        fill="white"
+        closed
+        stroke="black"
+        strokeWidth={1}
+      />
+      <Line
+        points={[
+          width, 0,
+          width, height,
+          width - padding, height - padding,
+          width - padding, padding,
+        ]}
+        fill="white"
+        closed
+        stroke="black"
+        strokeWidth={1}
+      />
+    </Group>
+  );
+};
+
+const Measurements = ({ width, height, x, y }) => {
+  const offset = 20;
+  const arrowOffset = offset / 2;
+  const arrowSize = 5;
+
+  return (
+    <Group x={x} y={y}>
+      <Shape
+        sceneFunc={(context, shape) => {
+          context.beginPath();
+          context.moveTo(0, 0);
+          context.lineTo(-offset, 0);
+          context.moveTo(0, height);
+          context.lineTo(-offset, height);
+          context.moveTo(0, height);
+          context.lineTo(0, height + offset);
+          context.moveTo(width, height);
+          context.lineTo(width, height + offset);
+          context.strokeStyle = 'grey';
+          context.lineWidth = 0.5;
+          context.stroke();
+        }}
+      />
+      <Shape
+        sceneFunc={(context, shape) => {
+          context.beginPath();
+          context.moveTo(-arrowOffset - arrowSize, arrowSize);
+          context.lineTo(-arrowOffset, 0);
+          context.lineTo(-arrowOffset + arrowSize, arrowSize);
+          context.moveTo(-arrowOffset, 0);
+          context.lineTo(-arrowOffset, height);
+          context.moveTo(-arrowOffset - arrowSize, height - arrowSize);
+          context.lineTo(-arrowOffset, height);
+          context.lineTo(-arrowOffset + arrowSize, height - arrowSize);
+          context.strokeStyle = 'grey';
+          context.lineWidth = 0.5;
+          context.stroke();
+        }}
+      />
+      <Shape
+        sceneFunc={(context, shape) => {
+          context.beginPath();
+          context.translate(0, height + arrowOffset);
+          context.moveTo(arrowSize, -arrowSize);
+          context.lineTo(0, 0);
+          context.lineTo(arrowSize, arrowSize);
+          context.moveTo(0, 0);
+          context.lineTo(width, 0);
+          context.moveTo(width - arrowSize, -arrowSize);
+          context.lineTo(width, 0);
+          context.lineTo(width - arrowSize, arrowSize);
+          context.strokeStyle = 'grey';
+          context.lineWidth = 0.5;
+          context.stroke();
+        }}
+      />
+      <Text
+        x={-offset - 30}
+        y={height / 2 - 10}
+        text={`${height}mm`}
+        fontSize={12}
+        fill="black"
+        padding={2}
+      />
+      <Text
+        x={width / 2 - 20}
+        y={height + offset}
+        text={`${width}mm`}
+        fontSize={12}
+        fill="black"
+        padding={2}
+      />
+    </Group>
+  );
+};
+
+const App = () => {
+  const [dimensions, setDimensions] = React.useState({ width: 500, height: 300 });
+  const stageSize = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+
+  const handleDimensionChange = (dimension, value) => {
+    setDimensions(prev => ({
+      ...prev,
+      [dimension]: parseInt(value) || prev[dimension],
+    }));
+  };
+
+  const position = {
+    x: stageSize.width / 2 - dimensions.width / 2,
+    y: stageSize.height / 2 - dimensions.height / 2,
+  };
+
+  return (
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          top: '4px',
+          left: '4px',
+          display: 'flex',
+          gap: '10px',
+        }}
+      >
+        <div style={{ padding: '10px' }}>
+          Width:{' '}
+          <input
+            type="number"
+            value={dimensions.width}
+            onChange={(e) => handleDimensionChange('width', e.target.value)}
+          />
+        </div>
+        <div style={{ padding: '10px' }}>
+          Height:{' '}
+          <input
+            type="number"
+            value={dimensions.height}
+            onChange={(e) => handleDimensionChange('height', e.target.value)}
+          />
+        </div>
+      </div>
+      <Stage width={stageSize.width} height={stageSize.height}>
+        <Layer>
+          <WindowFrame {...dimensions} {...position} />
+          <Measurements {...dimensions} {...position} />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div
+      style="position: absolute; top: 4px; left: 4px; display: flex; gap: 10px"
+    >
+      <div style="padding: 10px">
+        Width:
+        <input
+          type="number"
+          v-model.number="dimensions.width"
+        />
+      </div>
+      <div style="padding: 10px">
+        Height:
+        <input
+          type="number"
+          v-model.number="dimensions.height"
+        />
+      </div>
+    </div>
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-group :config="position">
+          <!-- Window Frame -->
+          <v-rect :config="glassConfig" />
+          <v-line
+            v-for="(line, i) in frameLines"
+            :key="i"
+            :config="line"
+          />
+        </v-group>
+        <v-group :config="position">
+          <!-- Measurements -->
+          <v-shape :config="{ sceneFunc: drawMeasurementLines }" />
+          <v-shape :config="{ sceneFunc: drawLeftArrow }" />
+          <v-shape :config="{ sceneFunc: drawBottomArrow }" />
+          <v-text
+            :config="heightTextConfig"
+          />
+          <v-text
+            :config="widthTextConfig"
+          />
+        </v-group>
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const dimensions = ref({
+  width: 500,
+  height: 300,
+});
+
+const padding = 70;
+const offset = 20;
+const arrowOffset = offset / 2;
+const arrowSize = 5;
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const position = computed(() => ({
+  x: stageConfig.width / 2 - dimensions.value.width / 2,
+  y: stageConfig.height / 2 - dimensions.value.height / 2,
+}));
+
+const glassConfig = computed(() => ({
+  x: padding,
+  y: padding,
+  width: dimensions.value.width - padding * 2,
+  height: dimensions.value.height - padding * 2,
+  fill: 'lightblue',
+}));
+
+const frameLines = computed(() => {
+  const { width, height } = dimensions.value;
+  return [
+    {
+      points: [0, 0, width, 0, width - padding, padding, padding, padding],
+      fill: 'white',
+      closed: true,
+      stroke: 'black',
+      strokeWidth: 1,
+    },
+    {
+      points: [0, 0, padding, padding, padding, height - padding, 0, height],
+      fill: 'white',
+      closed: true,
+      stroke: 'black',
+      strokeWidth: 1,
+    },
+    {
+      points: [
+        0, height,
+        padding, height - padding,
+        width - padding, height - padding,
+        width, height,
+      ],
+      fill: 'white',
+      closed: true,
+      stroke: 'black',
+      strokeWidth: 1,
+    },
+    {
+      points: [
+        width, 0,
+        width, height,
+        width - padding, height - padding,
+        width - padding, padding,
+      ],
+      fill: 'white',
+      closed: true,
+      stroke: 'black',
+      strokeWidth: 1,
+    },
+  ];
+});
+
+const drawMeasurementLines = (context) => {
+  const { width, height } = dimensions.value;
+  context.beginPath();
+  context.moveTo(0, 0);
+  context.lineTo(-offset, 0);
+  context.moveTo(0, height);
+  context.lineTo(-offset, height);
+  context.moveTo(0, height);
+  context.lineTo(0, height + offset);
+  context.moveTo(width, height);
+  context.lineTo(width, height + offset);
+  context.strokeStyle = 'grey';
+  context.lineWidth = 0.5;
+  context.stroke();
+};
+
+const drawLeftArrow = (context) => {
+  const { height } = dimensions.value;
+  context.beginPath();
+  context.moveTo(-arrowOffset - arrowSize, arrowSize);
+  context.lineTo(-arrowOffset, 0);
+  context.lineTo(-arrowOffset + arrowSize, arrowSize);
+  context.moveTo(-arrowOffset, 0);
+  context.lineTo(-arrowOffset, height);
+  context.moveTo(-arrowOffset - arrowSize, height - arrowSize);
+  context.lineTo(-arrowOffset, height);
+  context.lineTo(-arrowOffset + arrowSize, height - arrowSize);
+  context.strokeStyle = 'grey';
+  context.lineWidth = 0.5;
+  context.stroke();
+};
+
+const drawBottomArrow = (context) => {
+  const { width, height } = dimensions.value;
+  context.beginPath();
+  context.translate(0, height + arrowOffset);
+  context.moveTo(arrowSize, -arrowSize);
+  context.lineTo(0, 0);
+  context.lineTo(arrowSize, arrowSize);
+  context.moveTo(0, 0);
+  context.lineTo(width, 0);
+  context.moveTo(width - arrowSize, -arrowSize);
+  context.lineTo(width, 0);
+  context.lineTo(width - arrowSize, arrowSize);
+  context.strokeStyle = 'grey';
+  context.lineWidth = 0.5;
+  context.stroke();
+};
+
+const heightTextConfig = computed(() => ({
+  x: -offset - 30,
+  y: dimensions.value.height / 2 - 10,
+  text: `${dimensions.value.height}mm`,
+  fontSize: 12,
+  fill: 'black',
+  padding: 2,
+}));
+
+const widthTextConfig = computed(() => ({
+  x: dimensions.value.width / 2 - 20,
+  y: dimensions.value.height + offset,
+  text: `${dimensions.value.width}mm`,
+  fontSize: 12,
+  fill: 'black',
+  padding: 2,
+}));
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Enter different width and height values in the input fields to see the window frame update. The frame includes measurements and arrows showing the dimensions. 

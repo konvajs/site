@@ -1,0 +1,262 @@
+---
+title: HTML5 Canvas Shape Tango with Konva
+sidebar_label: Shape Tango
+hide_table_of_contents: true
+slug: Shape_Tango.html
+---
+
+## HTML5 Canvas Shape Tango with Konva
+
+This demo shows how to create animated shapes that dance around the canvas when triggered. It demonstrates:
+1. Creating random shapes with different properties
+2. Using Konva's tweening system for smooth animations
+3. Handling user interactions (drag and drop, button clicks)
+4. Managing multiple animations simultaneously
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create button
+const button = document.createElement('button');
+button.textContent = 'Tango!';
+button.style.position = 'absolute';
+button.style.top = '10px';
+button.style.left = '10px';
+button.style.padding = '10px';
+document.body.appendChild(button);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+function getRandomColor() {
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function tango(layer) {
+  layer.getChildren().forEach((shape) => {
+    const radius = Math.random() * 100 + 20;
+    
+    new Konva.Tween({
+      node: shape,
+      duration: 1,
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      rotation: Math.random() * 360,
+      radius: radius,
+      opacity: (radius - 20) / 100,
+      easing: Konva.Easings.EaseInOut,
+      fill: getRandomColor(),
+    }).play();
+  });
+}
+
+// Create initial shapes
+for (let n = 0; n < 10; n++) {
+  const radius = Math.random() * 100 + 20;
+  const shape = new Konva.RegularPolygon({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    sides: Math.ceil(Math.random() * 5 + 3),
+    radius: radius,
+    fill: getRandomColor(),
+    opacity: (radius - 20) / 100,
+    draggable: true,
+  });
+
+  layer.add(shape);
+}
+
+button.addEventListener('click', () => tango(layer));
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+const NUM_SHAPES = 10;
+
+const getRandomColor = () => COLORS[Math.floor(Math.random() * COLORS.length)];
+
+const getRandomShapeProps = (width, height) => {
+  const radius = Math.random() * 100 + 20;
+  return {
+    x: Math.random() * width,
+    y: Math.random() * height,
+    sides: Math.ceil(Math.random() * 5 + 3),
+    radius,
+    fill: getRandomColor(),
+    opacity: (radius - 20) / 100,
+  };
+};
+
+const Shape = ({ shapeRef, ...props }) => {
+  return (
+    <RegularPolygon
+      {...props}
+      ref={shapeRef}
+      draggable
+    />
+  );
+};
+
+const App = () => {
+  const [shapes, setShapes] = React.useState([]);
+  const shapeRefs = React.useRef([]);
+
+  React.useEffect(() => {
+    const initialShapes = Array.from({ length: NUM_SHAPES }, () =>
+      getRandomShapeProps(window.innerWidth, window.innerHeight)
+    );
+    setShapes(initialShapes);
+    shapeRefs.current = initialShapes.map(() => React.createRef());
+  }, []);
+
+  const handleTango = () => {
+    shapes.forEach((_, index) => {
+      const shape = shapeRefs.current[index].current;
+      if (!shape) return;
+
+      const radius = Math.random() * 100 + 20;
+      const node = shape.getNode();
+
+      node.to({
+        duration: 1,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        rotation: Math.random() * 360,
+        radius: radius,
+        opacity: (radius - 20) / 100,
+        easing: Konva.Easings.EaseInOut,
+        fill: getRandomColor(),
+      });
+    });
+  };
+
+  return (
+    <>
+      <button
+        onClick={handleTango}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          padding: '10px',
+        }}
+      >
+        Tango!
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {shapes.map((shape, i) => (
+            <Shape
+              key={i}
+              shapeRef={shapeRefs.current[i]}
+              {...shape}
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button
+      @click="handleTango"
+      style="position: absolute; top: 10px; left: 10px; padding: 10px"
+    >
+      Tango!
+    </button>
+    <v-stage :config="stageConfig">
+      <v-layer ref="layerRef">
+        <v-regular-polygon
+          v-for="(shape, i) in shapes"
+          :key="i"
+          :config="{ ...shape, draggable: true }"
+          :ref="(el) => (shapeRefs[i] = el)"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+const NUM_SHAPES = 10;
+
+const shapes = ref([]);
+const shapeRefs = ref([]);
+const layerRef = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const getRandomColor = () => COLORS[Math.floor(Math.random() * COLORS.length)];
+
+const getRandomShapeProps = () => {
+  const radius = Math.random() * 100 + 20;
+  return {
+    x: Math.random() * stageConfig.width,
+    y: Math.random() * stageConfig.height,
+    sides: Math.ceil(Math.random() * 5 + 3),
+    radius,
+    fill: getRandomColor(),
+    opacity: (radius - 20) / 100,
+  };
+};
+
+const handleTango = () => {
+  shapeRefs.value.forEach((shapeRef) => {
+    if (!shapeRef) return;
+
+    const radius = Math.random() * 100 + 20;
+    const node = shapeRef.getNode();
+
+    node.to({
+      duration: 1,
+      x: Math.random() * stageConfig.width,
+      y: Math.random() * stageConfig.height,
+      rotation: Math.random() * 360,
+      radius: radius,
+      opacity: (radius - 20) / 100,
+      easing: Konva.Easings.EaseInOut,
+      fill: getRandomColor(),
+    });
+  });
+};
+
+onMounted(() => {
+  shapes.value = Array.from({ length: NUM_SHAPES }, getRandomShapeProps);
+  shapeRefs.value = new Array(NUM_SHAPES);
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Drag and drop the shapes to position them, then click the "Tango!" button to make them dance around the canvas. Each shape will move to a random position, rotate, change size, and color. Refresh the page to generate new random shapes. 

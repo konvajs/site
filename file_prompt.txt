@@ -84,6 +84,8 @@ const arcConfig = {
 If you see a link like this:
 <!-- {% iframe /downloads/code/shapes/Arc.html %} -->
 We need to replace it will vanilla, react and vue code. To find the code look into old_code folder.
+If it is iframe, just keep it. Make sure it is valid for react.
+
 
 Several tips:
 make sure demos are as consistent as possible, so they produce identical visial result.
@@ -93,3 +95,4 @@ If you see `Instructions` section, make sure to make it bold.
 In React and Vue when setting cursor style, try to use style property on stage if possible. If not, use `e.target.getStage().container().style.cursor = ...`.
 In React and Vue, if you have draggable nodes make sure to use state to set the position of the node and update it in `onDragEnd` event handler.
 Change file type from md to mdx
+Do not add anything additional into the file in terms of the content. It should be the same.

@@ -1,0 +1,221 @@
+---
+title: How to draw SVG image on canvas with Konva
+sidebar_label: SVG on Canvas
+hide_table_of_contents: true
+slug: SVG_On_Canvas.html
+---
+
+## How to show SVG image on canvas?
+
+It has not always been possible for browsers to draw `*.svg` images onto the canvas. However, the situation has improved and you currently have several options available if you want to render a vector image with `Konva`:
+
+### Option 1: Use Konva.Image
+
+In most of the cases you can use `*.svg` image the same way as any other image such as `*.png` or `*.jpg`. You can use [Konva.Image](/docs/shapes/Text.html) shape.
+
+```js
+Konva.Image.fromURL('/image.svg', (image) => {
+  layer.add(image);
+});
+```
+
+This method works well in many cases, but is not fully cross-compatible. For example, some SVG may not be visible in the Firefox browser ([there is a workaround for that case](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)).
+
+### Option 2: Use Konva.Path
+
+Use [Konva.Path](/docs/shapes/Path.html). This method is good for simple path shapes. If you have a large SVG with many paths you, you may need to split it manually into several `Konva.Path` shapes.
+
+### Option 3: Use an external library to render SVG to canvas
+
+Use an external library (for example, [canvg](https://github.com/canvg/canvg)) to draw the SVG into the `<canvas>` element. And then use that canvas for [Konva.Image](/docs/shapes/Image.html).
+
+This method has been tested in at least one large production app, with proven reliability and rendering accuracy.
+
+### Demo
+
+Below is a demo that shows drawing natively and with a library.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Load canvg library
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
+document.head.appendChild(script);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const SOURCE = 'https://konvajs.org/assets/tiger.svg';
+
+// try to draw SVG natively
+Konva.Image.fromURL(SOURCE, (imageNode) => {
+  layer.add(imageNode);
+  imageNode.setAttrs({
+    width: 150,
+    height: 150,
+  });
+});
+
+// draw svg with external library
+script.onload = () => {
+  const canvas = document.createElement('canvas');
+  canvg(canvas, SOURCE, {
+    renderCallback: function () {
+      const image = new Konva.Image({
+        image: canvas,
+        x: 200,
+        width: 150,
+        height: 150,
+      });
+      layer.add(image);
+    },
+  });
+};
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+
+const SOURCE = '/assets/tiger.svg';
+
+const App = () => {
+  const [nativeImage, setNativeImage] = React.useState(null);
+  const [canvgImage, setCanvgImage] = React.useState(null);
+
+  React.useEffect(() => {
+    // Load native SVG
+    const image = new window.Image();
+    image.src = SOURCE;
+    image.onload = () => {
+      setNativeImage(image);
+    };
+
+    // Load canvg library and render SVG
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
+    script.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvg(canvas, SOURCE, {
+        renderCallback: function () {
+          setCanvgImage(canvas);
+        },
+      });
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {nativeImage && (
+          <Image
+            image={nativeImage}
+            width={150}
+            height={150}
+          />
+        )}
+        {canvgImage && (
+          <Image
+            image={canvgImage}
+            x={200}
+            width={150}
+            height={150}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-image
+        v-if="nativeImage"
+        :config="{
+          image: nativeImage,
+          width: 150,
+          height: 150
+        }"
+      />
+      <v-image
+        v-if="canvgImage"
+        :config="{
+          image: canvgImage,
+          x: 200,
+          width: 150,
+          height: 150
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const SOURCE = '/assets/tiger.svg';
+const nativeImage = ref(null);
+const canvgImage = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+onMounted(() => {
+  // Load native SVG
+  const image = new window.Image();
+  image.src = SOURCE;
+  image.onload = () => {
+    nativeImage.value = image;
+  };
+
+  // Load canvg library and render SVG
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
+  script.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvg(canvas, SOURCE, {
+      renderCallback: function () {
+        canvgImage.value = canvas;
+      },
+    });
+  };
+  document.head.appendChild(script);
+
+  return () => {
+    script.remove();
+  };
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: The demo shows two SVG images rendered in different ways:
+1. Left image: Native SVG rendering using Konva.Image
+2. Right image: SVG rendered using canvg library 

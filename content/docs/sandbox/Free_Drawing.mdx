@@ -1,0 +1,560 @@
+---
+title: Free Drawing Konva Demo
+sidebar_label: Free Drawing
+hide_table_of_contents: true
+slug: Free_Drawing.html
+---
+
+There are many ways to implement free drawing tools in Konva.
+
+I see two most common and simple ways:
+
+1. Konva-based vector graphics (simple)
+2. Manual drawing into 2d canvas (advanced)
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Free drawing with Konva nodes
+
+So the first and probably the simplest ways is:
+
+1. Start a new `Konva.Line` on `mousedown`/`touchstart`
+2. Add new point into the line while `mousemove`/`touchmove`
+
+That way works ok for many applications. Also it is simple to store the state of the drawing somewhere in vector representation (like React store or JSON saving into database).
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// create tool select
+const select = document.createElement('select');
+select.innerHTML = `
+  <option value="brush">Brush</option>
+  <option value="eraser">Eraser</option>
+`;
+document.body.appendChild(select);
+
+const width = window.innerWidth;
+const height = window.innerHeight - 25;
+
+// first we need Konva core things: stage and layer
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+let isPaint = false;
+let mode = 'brush';
+let lastLine;
+
+stage.on('mousedown touchstart', function (e) {
+  isPaint = true;
+  const pos = stage.getPointerPosition();
+  lastLine = new Konva.Line({
+    stroke: '#df4b26',
+    strokeWidth: 5,
+    globalCompositeOperation:
+      mode === 'brush' ? 'source-over' : 'destination-out',
+    // round cap for smoother lines
+    lineCap: 'round',
+    lineJoin: 'round',
+    // add point twice, so we have some drawings even on a simple click
+    points: [pos.x, pos.y, pos.x, pos.y],
+  });
+  layer.add(lastLine);
+});
+
+stage.on('mouseup touchend', function () {
+  isPaint = false;
+});
+
+// and core function - drawing
+stage.on('mousemove touchmove', function (e) {
+  if (!isPaint) {
+    return;
+  }
+
+  // prevent scrolling on touch devices
+  e.evt.preventDefault();
+
+  const pos = stage.getPointerPosition();
+  const newPoints = lastLine.points().concat([pos.x, pos.y]);
+  lastLine.points(newPoints);
+});
+
+select.addEventListener('change', function () {
+  mode = select.value;
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  const [tool, setTool] = React.useState('brush');
+  const [lines, setLines] = React.useState([]);
+  const isDrawing = React.useRef(false);
+
+  const handleMouseDown = (e) => {
+    isDrawing.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+  };
+
+  const handleMouseMove = (e) => {
+    // no drawing - skipping
+    if (!isDrawing.current) {
+      return;
+    }
+    const stage = e.target.getStage();
+    const point = stage.getPointerPosition();
+    
+    // To draw line
+    let lastLine = lines[lines.length - 1];
+    // add point
+    lastLine.points = lastLine.points.concat([point.x, point.y]);
+
+    // replace last
+    lines.splice(lines.length - 1, 1, lastLine);
+    setLines(lines.concat());
+  };
+
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  return (
+    <>
+      <select
+        value={tool}
+        onChange={(e) => {
+          setTool(e.target.value);
+        }}
+      >
+        <option value="brush">Brush</option>
+        <option value="eraser">Eraser</option>
+      </select>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight - 25}
+        onMouseDown={handleMouseDown}
+        onMousemove={handleMouseMove}
+        onMouseup={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Layer>
+          {lines.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke="#df4b26"
+              strokeWidth={5}
+              tension={0.5}
+              lineCap="round"
+              lineJoin="round"
+              globalCompositeOperation={
+                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+              }
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <select v-model="tool">
+      <option value="brush">Brush</option>
+      <option value="eraser">Eraser</option>
+    </select>
+    <v-stage
+      :config="stageConfig"
+      @mousedown="handleMouseDown"
+      @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
+      @touchstart="handleMouseDown"
+      @touchmove="handleMouseMove"
+      @touchend="handleMouseUp"
+    >
+      <v-layer>
+        <v-line
+          v-for="(line, i) in lines"
+          :key="i"
+          :config="{
+            points: line.points,
+            stroke: '#df4b26',
+            strokeWidth: 5,
+            tension: 0.5,
+            lineCap: 'round',
+            lineJoin: 'round',
+            globalCompositeOperation:
+              line.tool === 'eraser' ? 'destination-out' : 'source-over'
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const tool = ref('brush');
+const lines = ref([]);
+const isDrawing = ref(false);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight - 25
+};
+
+const handleMouseDown = (e) => {
+  isDrawing.value = true;
+  const pos = e.target.getStage().getPointerPosition();
+  lines.value.push({ tool: tool.value, points: [pos.x, pos.y] });
+};
+
+const handleMouseMove = (e) => {
+  if (!isDrawing.value) {
+    return;
+  }
+  const stage = e.target.getStage();
+  const point = stage.getPointerPosition();
+  
+  let lastLine = lines.value[lines.value.length - 1];
+  lastLine.points = lastLine.points.concat([point.x, point.y]);
+  lines.value.splice(lines.value.length - 1, 1, { ...lastLine });
+};
+
+const handleMouseUp = () => {
+  isDrawing.value = false;
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+## Free drawing manually
+
+The first approach has limitation if we want to use some low-level 2d canvas API directly. If you need advanced access to the canvas it is better to use [Native Context Access](/docs/sandbox/Native_Context_Access.html)
+
+We will create special offscreen canvas where we will add all drawings.
+With native access to the canvas we can use low-level 2d context functions.
+To display the canvas on the stage we will use `Konva.Image`.
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// create tool select
+const select = document.createElement('select');
+select.innerHTML = `
+  <option value="brush">Brush</option>
+  <option value="eraser">Eraser</option>
+`;
+document.body.appendChild(select);
+
+const width = window.innerWidth;
+const height = window.innerHeight - 25;
+
+// first we need Konva core things: stage and layer
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// then we are going to draw into special canvas element
+const canvas = document.createElement('canvas');
+canvas.width = stage.width();
+canvas.height = stage.height();
+
+// created canvas we can add to layer as "Konva.Image" element
+const image = new Konva.Image({
+  image: canvas,
+  x: 0,
+  y: 0,
+});
+layer.add(image);
+
+// Good. Now we need to get access to context element
+const context = canvas.getContext('2d');
+context.strokeStyle = '#df4b26';
+context.lineJoin = 'round';
+context.lineWidth = 5;
+
+let isPaint = false;
+let lastPointerPosition;
+let mode = 'brush';
+
+// now we need to bind some events
+// we need to start drawing on mousedown
+// and stop drawing on mouseup
+image.on('mousedown touchstart', function () {
+  isPaint = true;
+  lastPointerPosition = stage.getPointerPosition();
+});
+
+stage.on('mouseup touchend', function () {
+  isPaint = false;
+});
+
+// and core function - drawing
+stage.on('mousemove touchmove', function () {
+  if (!isPaint) {
+    return;
+  }
+
+  if (mode === 'brush') {
+    context.globalCompositeOperation = 'source-over';
+  }
+  if (mode === 'eraser') {
+    context.globalCompositeOperation = 'destination-out';
+  }
+  context.beginPath();
+
+  const localPos = {
+    x: lastPointerPosition.x - image.x(),
+    y: lastPointerPosition.y - image.y(),
+  };
+  context.moveTo(localPos.x, localPos.y);
+  const pos = stage.getPointerPosition();
+  const newLocalPos = {
+    x: pos.x - image.x(),
+    y: pos.y - image.y(),
+  };
+  context.lineTo(newLocalPos.x, newLocalPos.y);
+  context.closePath();
+  context.stroke();
+
+  lastPointerPosition = pos;
+  // redraw manually
+  layer.batchDraw();
+});
+
+select.addEventListener('change', function () {
+  mode = select.value;
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+
+const App = () => {
+  const [tool, setTool] = React.useState('brush');
+  const isDrawing = React.useRef(false);
+  const imageRef = React.useRef(null);
+  const lastPos = React.useRef(null);
+
+  const { canvas, context } = React.useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 25;
+    const context = canvas.getContext('2d');
+    context.strokeStyle = '#df4b26';
+    context.lineJoin = 'round';
+    context.lineWidth = 5;
+    return { canvas, context };
+  }, []);
+
+  const handleMouseDown = (e) => {
+    isDrawing.current = true;
+    lastPos.current = e.target.getStage().getPointerPosition();
+  };
+
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDrawing.current) {
+      return;
+    }
+
+    const image = imageRef.current;
+    const stage = e.target.getStage();
+
+    context.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over';
+    context.beginPath();
+
+    const localPos = {
+      x: lastPos.current.x - image.x(),
+      y: lastPos.current.y - image.y(),
+    };
+    context.moveTo(localPos.x, localPos.y);
+
+    const pos = stage.getPointerPosition();
+    const newLocalPos = {
+      x: pos.x - image.x(),
+      y: pos.y - image.y(),
+    };
+    context.lineTo(newLocalPos.x, newLocalPos.y);
+    context.closePath();
+    context.stroke();
+
+    lastPos.current = pos;
+    image.getLayer().batchDraw();
+  };
+
+  return (
+    <>
+      <select
+        value={tool}
+        onChange={(e) => {
+          setTool(e.target.value);
+        }}
+      >
+        <option value="brush">Brush</option>
+        <option value="eraser">Eraser</option>
+      </select>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight - 25}
+        onMouseDown={handleMouseDown}
+        onMousemove={handleMouseMove}
+        onMouseup={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Layer>
+          <Image
+            ref={imageRef}
+            image={canvas}
+            x={0}
+            y={0}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <select v-model="tool">
+      <option value="brush">Brush</option>
+      <option value="eraser">Eraser</option>
+    </select>
+    <v-stage
+      :config="stageConfig"
+      @mousedown="handleMouseDown"
+      @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
+      @touchstart="handleMouseDown"
+      @touchmove="handleMouseMove"
+      @touchend="handleMouseUp"
+    >
+      <v-layer ref="layerRef">
+        <v-image
+          ref="imageRef"
+          :config="imageConfig"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const tool = ref('brush');
+const isDrawing = ref(false);
+const lastPos = ref(null);
+const imageRef = ref(null);
+const layerRef = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight - 25
+};
+
+// create canvas element
+const canvas = document.createElement('canvas');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight - 25;
+
+// get context
+const context = canvas.getContext('2d');
+context.strokeStyle = '#df4b26';
+context.lineJoin = 'round';
+context.lineWidth = 5;
+
+const imageConfig = {
+  image: canvas,
+  x: 0,
+  y: 0
+};
+
+const handleMouseDown = (e) => {
+  isDrawing.value = true;
+  lastPos.value = e.target.getStage().getPointerPosition();
+};
+
+const handleMouseUp = () => {
+  isDrawing.value = false;
+};
+
+const handleMouseMove = (e) => {
+  if (!isDrawing.value) {
+    return;
+  }
+
+  const ctx = context;
+  const image = imageRef.value.getNode();
+  const stage = e.target.getStage();
+
+  ctx.globalCompositeOperation = tool.value === 'eraser' ? 'destination-out' : 'source-over';
+  ctx.beginPath();
+
+  const localPos = {
+    x: lastPos.value.x - image.x(),
+    y: lastPos.value.y - image.y(),
+  };
+  ctx.moveTo(localPos.x, localPos.y);
+
+  const pos = stage.getPointerPosition();
+  const newLocalPos = {
+    x: pos.x - image.x(),
+    y: pos.y - image.y(),
+  };
+  ctx.lineTo(newLocalPos.x, newLocalPos.y);
+  ctx.closePath();
+  ctx.stroke();
+
+  lastPos.value = pos;
+  layerRef.value.getNode().batchDraw();
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

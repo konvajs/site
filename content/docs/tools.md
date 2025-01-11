@@ -1,5 +1,5 @@
 ---
-sidebar_position: 0
+sidebar_position: 10000
 title: Konva.js Tools and Plugins
 sidebar_label: Tools
 slug: tools.html

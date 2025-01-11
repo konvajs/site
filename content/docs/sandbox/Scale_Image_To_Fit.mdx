@@ -1,0 +1,469 @@
+---
+title: Scaling image to fit a fixed area on canvas
+sidebar_label: Scale Image to Fit
+hide_table_of_contents: true
+slug: Scale_Image_To_Fit.html
+---
+
+## How to scale image to fit available area without its stretching?
+
+The demo demonstrates how to use [crop](/api/Konva.Image.html#crop) property of `Konva.Image` to emulate `object-fit: cover` of CSS.
+
+The [crop](https://konvajs.org/api/Konva.Image.html#crop) property allows you to use only specified area of source image to draw into the canvas. If you do the correct calculations, then the resulting image can be drawn without any stretching.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create select element for crop position
+const select = document.createElement('select');
+select.style.position = 'absolute';
+select.style.top = '4px';
+select.style.left = '4px';
+
+const positions = [
+  'left-top', 'center-top', 'right-top', '--',
+  'left-middle', 'center-middle', 'right-middle', '--',
+  'left-bottom', 'center-bottom', 'right-bottom'
+];
+
+positions.forEach(pos => {
+  const option = document.createElement('option');
+  option.value = pos;
+  option.text = pos;
+  if (pos === 'center-middle') option.selected = true;
+  select.appendChild(option);
+});
+
+document.body.appendChild(select);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// function to calculate crop values from source image, its visible size and a crop strategy
+function getCrop(image, size, clipPosition = 'center-middle') {
+  const width = size.width;
+  const height = size.height;
+  const aspectRatio = width / height;
+
+  let newWidth;
+  let newHeight;
+
+  const imageRatio = image.width / image.height;
+
+  if (aspectRatio >= imageRatio) {
+    newWidth = image.width;
+    newHeight = image.width / aspectRatio;
+  } else {
+    newWidth = image.height * aspectRatio;
+    newHeight = image.height;
+  }
+
+  let x = 0;
+  let y = 0;
+  if (clipPosition === 'left-top') {
+    x = 0;
+    y = 0;
+  } else if (clipPosition === 'left-middle') {
+    x = 0;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'left-bottom') {
+    x = 0;
+    y = image.height - newHeight;
+  } else if (clipPosition === 'center-top') {
+    x = (image.width - newWidth) / 2;
+    y = 0;
+  } else if (clipPosition === 'center-middle') {
+    x = (image.width - newWidth) / 2;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'center-bottom') {
+    x = (image.width - newWidth) / 2;
+    y = image.height - newHeight;
+  } else if (clipPosition === 'right-top') {
+    x = image.width - newWidth;
+    y = 0;
+  } else if (clipPosition === 'right-middle') {
+    x = image.width - newWidth;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'right-bottom') {
+    x = image.width - newWidth;
+    y = image.height - newHeight;
+  }
+
+  return {
+    cropX: x,
+    cropY: y,
+    cropWidth: newWidth,
+    cropHeight: newHeight,
+  };
+}
+
+// function to apply crop
+function applyCrop(img, pos) {
+  img.setAttr('lastCropUsed', pos);
+  const crop = getCrop(
+    img.image(),
+    { width: img.width(), height: img.height() },
+    pos
+  );
+  img.setAttrs(crop);
+}
+
+Konva.Image.fromURL('https://new.konvajs.org/assets/darth-vader.jpg', (img) => {
+  img.setAttrs({
+    width: 300,
+    height: 100,
+    x: 80,
+    y: 100,
+    name: 'image',
+    draggable: true,
+  });
+  layer.add(img);
+  // apply default center-middle crop
+  applyCrop(img, 'center-middle');
+
+  const tr = new Konva.Transformer({
+    nodes: [img],
+    keepRatio: false,
+    flipEnabled: false,
+    boundBoxFunc: (oldBox, newBox) => {
+      if (Math.abs(newBox.width) < 10 || Math.abs(newBox.height) < 10) {
+        return oldBox;
+      }
+      return newBox;
+    },
+  });
+
+  layer.add(tr);
+
+  img.on('transform', () => {
+    // reset scale on transform
+    img.setAttrs({
+      scaleX: 1,
+      scaleY: 1,
+      width: img.width() * img.scaleX(),
+      height: img.height() * img.scaleY(),
+    });
+    applyCrop(img, img.getAttr('lastCropUsed'));
+  });
+});
+
+select.addEventListener('change', (e) => {
+  const img = layer.findOne('.image');
+  applyCrop(img, e.target.value);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Image, Transformer } from 'react-konva';
+
+const positions = [
+  'left-top', 'center-top', 'right-top', '--',
+  'left-middle', 'center-middle', 'right-middle', '--',
+  'left-bottom', 'center-bottom', 'right-bottom'
+];
+
+function getCrop(image, size, clipPosition = 'center-middle') {
+  const width = size.width;
+  const height = size.height;
+  const aspectRatio = width / height;
+
+  let newWidth;
+  let newHeight;
+
+  const imageRatio = image.width / image.height;
+
+  if (aspectRatio >= imageRatio) {
+    newWidth = image.width;
+    newHeight = image.width / aspectRatio;
+  } else {
+    newWidth = image.height * aspectRatio;
+    newHeight = image.height;
+  }
+
+  let x = 0;
+  let y = 0;
+  if (clipPosition === 'left-top') {
+    x = 0;
+    y = 0;
+  } else if (clipPosition === 'left-middle') {
+    x = 0;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'left-bottom') {
+    x = 0;
+    y = image.height - newHeight;
+  } else if (clipPosition === 'center-top') {
+    x = (image.width - newWidth) / 2;
+    y = 0;
+  } else if (clipPosition === 'center-middle') {
+    x = (image.width - newWidth) / 2;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'center-bottom') {
+    x = (image.width - newWidth) / 2;
+    y = image.height - newHeight;
+  } else if (clipPosition === 'right-top') {
+    x = image.width - newWidth;
+    y = 0;
+  } else if (clipPosition === 'right-middle') {
+    x = image.width - newWidth;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'right-bottom') {
+    x = image.width - newWidth;
+    y = image.height - newHeight;
+  }
+
+  return {
+    cropX: x,
+    cropY: y,
+    cropWidth: newWidth,
+    cropHeight: newHeight,
+  };
+}
+
+const App = () => {
+  const [image] = React.useState(new window.Image());
+  const [position, setPosition] = React.useState('center-middle');
+  const [size, setSize] = React.useState({ width: 300, height: 100 });
+  const imageRef = React.useRef(null);
+  const trRef = React.useRef(null);
+
+  React.useEffect(() => {
+    image.src = '/assets/darth-vader.jpg';
+    image.onload = () => {
+      imageRef.current.getLayer().batchDraw();
+    };
+  }, [image]);
+
+  const handleTransform = () => {
+    const node = imageRef.current;
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
+
+    node.scaleX(1);
+    node.scaleY(1);
+    setSize({
+      width: Math.max(5, node.width() * scaleX),
+      height: Math.max(5, node.height() * scaleY),
+    });
+  };
+
+  const crop = React.useMemo(() => {
+    if (!image) return null;
+    return getCrop(image, size, position);
+  }, [image, size, position]);
+
+  return (
+    <>
+      <select
+        style={{ position: 'absolute', top: '4px', left: '4px' }}
+        value={position}
+        onChange={(e) => setPosition(e.target.value)}
+      >
+        {positions.map((pos) => (
+          <option key={pos} value={pos}>
+            {pos}
+          </option>
+        ))}
+      </select>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Image
+            ref={imageRef}
+            image={image}
+            x={80}
+            y={100}
+            width={size.width}
+            height={size.height}
+            {...crop}
+            draggable
+            onTransform={handleTransform}
+          />
+          <Transformer
+            ref={trRef}
+            boundBoxFunc={(oldBox, newBox) => {
+              if (Math.abs(newBox.width) < 10 || Math.abs(newBox.height) < 10) {
+                return oldBox;
+              }
+              return newBox;
+            }}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <select
+      style="position: absolute; top: 4px; left: 4px"
+      v-model="position"
+    >
+      <option
+        v-for="pos in positions"
+        :key="pos"
+        :value="pos"
+      >
+        {{ pos }}
+      </option>
+    </select>
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-image
+          ref="imageRef"
+          :config="{
+            image: image,
+            x: 80,
+            y: 100,
+            width: size.width,
+            height: size.height,
+            draggable: true,
+            ...crop,
+          }"
+          @transform="handleTransform"
+        />
+        <v-transformer
+          ref="transformerRef"
+          :config="{
+            boundBoxFunc: boundBoxFunc
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue';
+
+const positions = [
+  'left-top', 'center-top', 'right-top', '--',
+  'left-middle', 'center-middle', 'right-middle', '--',
+  'left-bottom', 'center-bottom', 'right-bottom'
+];
+
+const position = ref('center-middle');
+const size = ref({ width: 300, height: 100 });
+const image = ref(new window.Image());
+const imageRef = ref(null);
+const transformerRef = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+function getCrop(image, size, clipPosition = 'center-middle') {
+  const width = size.width;
+  const height = size.height;
+  const aspectRatio = width / height;
+
+  let newWidth;
+  let newHeight;
+
+  const imageRatio = image.width / image.height;
+
+  if (aspectRatio >= imageRatio) {
+    newWidth = image.width;
+    newHeight = image.width / aspectRatio;
+  } else {
+    newWidth = image.height * aspectRatio;
+    newHeight = image.height;
+  }
+
+  let x = 0;
+  let y = 0;
+  if (clipPosition === 'left-top') {
+    x = 0;
+    y = 0;
+  } else if (clipPosition === 'left-middle') {
+    x = 0;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'left-bottom') {
+    x = 0;
+    y = image.height - newHeight;
+  } else if (clipPosition === 'center-top') {
+    x = (image.width - newWidth) / 2;
+    y = 0;
+  } else if (clipPosition === 'center-middle') {
+    x = (image.width - newWidth) / 2;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'center-bottom') {
+    x = (image.width - newWidth) / 2;
+    y = image.height - newHeight;
+  } else if (clipPosition === 'right-top') {
+    x = image.width - newWidth;
+    y = 0;
+  } else if (clipPosition === 'right-middle') {
+    x = image.width - newWidth;
+    y = (image.height - newHeight) / 2;
+  } else if (clipPosition === 'right-bottom') {
+    x = image.width - newWidth;
+    y = image.height - newHeight;
+  }
+
+  return {
+    cropX: x,
+    cropY: y,
+    cropWidth: newWidth,
+    cropHeight: newHeight,
+  };
+}
+
+const crop = computed(() => {
+  if (!image.value) return {};
+  return getCrop(image.value, size.value, position.value);
+});
+
+const boundBoxFunc = (oldBox, newBox) => {
+  if (Math.abs(newBox.width) < 10 || Math.abs(newBox.height) < 10) {
+    return oldBox;
+  }
+  return newBox;
+};
+
+const handleTransform = () => {
+  const node = imageRef.value.getNode();
+  const scaleX = node.scaleX();
+  const scaleY = node.scaleY();
+
+  node.scaleX(1);
+  node.scaleY(1);
+  size.value = {
+    width: Math.max(5, node.width() * scaleX),
+    height: Math.max(5, node.height() * scaleY),
+  };
+};
+
+onMounted(() => {
+  image.value.src = '/assets/darth-vader.jpg';
+  image.value.onload = () => {
+    const transformer = transformerRef.value.getNode();
+    const imageNode = imageRef.value.getNode();
+    transformer.nodes([imageNode]);
+    imageNode.getLayer().batchDraw();
+  };
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Try to resize the image or change the crop strategy using the dropdown menu at the top. The image will maintain its aspect ratio while fitting into the specified dimensions. 

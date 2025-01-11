@@ -1,0 +1,344 @@
+---
+title: How to show rich html on canvas with Konva
+sidebar_label: Rich Text
+hide_table_of_contents: true
+slug: Rich_Text.html
+---
+
+## How to show complex styles (like bold) and enable rich text editing features?
+
+Canvas's text API is very limited. [Konva.Text](/docs/shapes/Text.html) allows you to add many different styles, support multiline text, etc. But at the current moment it has limitations. You can't use different styles for different parts of `Konva.Text`. For that case you have to use several `Konva.Text` instances.
+
+If you want show complex styles on canvas we can do a hacky workaround. The idea is simple:
+
+1. Create DOM element and put styled text in it
+2. Convert DOM element into image with [html2canvas](https://html2canvas.hertzen.com/).
+3. Use that image for `Konva.Image`.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// First we need to load Quill and html2canvas
+const loadScript = (src) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
+
+const loadCSS = (href) => {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.head.appendChild(link);
+};
+
+// Create editor container
+const editorContainer = document.createElement('div');
+editorContainer.id = 'editor-container';
+editorContainer.style.height = '80px';
+editorContainer.innerHTML = `
+  That is <u>some</u> <span style="color: red"> styled text</span> on
+  <strong>canvas</strong>!
+  <h2>What do you think about it?</h2>
+`;
+document.body.appendChild(editorContainer);
+
+// Load dependencies
+Promise.all([
+  loadScript('https://cdn.quilljs.com/1.3.6/quill.js'),
+  loadScript('https://html2canvas.hertzen.com/dist/html2canvas.min.js'),
+]).then(() => {
+  loadCSS('https://cdn.quilljs.com/1.3.6/quill.snow.css');
+
+  const quill = new Quill('#editor-container', {
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['image', 'code-block'],
+      ],
+    },
+    placeholder: 'Compose an epic...',
+    theme: 'snow',
+  });
+
+  const stage = new Konva.Stage({
+    container: 'container',
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const layer = new Konva.Layer();
+  stage.add(layer);
+
+  const shape = new Konva.Image({
+    x: 10,
+    y: 10,
+    draggable: true,
+    stroke: 'red',
+    scaleX: 1 / window.devicePixelRatio,
+    scaleY: 1 / window.devicePixelRatio,
+  });
+  layer.add(shape);
+
+  function renderText() {
+    // convert DOM into image
+    html2canvas(document.querySelector('.ql-editor'), {
+      backgroundColor: 'rgba(0,0,0,0)',
+    }).then((canvas) => {
+      // show it inside Konva.Image
+      shape.image(canvas);
+    });
+  }
+
+  // batch updates, so we don't render text too frequently
+  let timeout = null;
+  function requestTextUpdate() {
+    if (timeout) {
+      return;
+    }
+    timeout = setTimeout(function () {
+      timeout = null;
+      renderText();
+    }, 500);
+  }
+
+  // render text on all changes
+  quill.on('text-change', requestTextUpdate);
+  // make initial rendering
+  renderText();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+
+const App = () => {
+  const [quill, setQuill] = React.useState(null);
+  const [image, setImage] = React.useState(null);
+  const timeoutRef = React.useRef(null);
+
+  React.useEffect(() => {
+    // Load Quill and html2canvas
+    const loadDependencies = async () => {
+      await Promise.all([
+        import('https://cdn.quilljs.com/1.3.6/quill.js'),
+        import('https://html2canvas.hertzen.com/dist/html2canvas.min.js'),
+      ]);
+
+      // Add Quill CSS
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
+      document.head.appendChild(link);
+
+      // Initialize Quill
+      const quill = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            ['image', 'code-block'],
+          ],
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow',
+      });
+
+      setQuill(quill);
+    };
+
+    loadDependencies();
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const renderText = React.useCallback(() => {
+    if (!quill) return;
+
+    html2canvas(document.querySelector('.ql-editor'), {
+      backgroundColor: 'rgba(0,0,0,0)',
+    }).then((canvas) => {
+      setImage(canvas);
+    });
+  }, [quill]);
+
+  const requestTextUpdate = React.useCallback(() => {
+    if (timeoutRef.current) {
+      return;
+    }
+    timeoutRef.current = setTimeout(() => {
+      timeoutRef.current = null;
+      renderText();
+    }, 500);
+  }, [renderText]);
+
+  React.useEffect(() => {
+    if (!quill) return;
+
+    quill.on('text-change', requestTextUpdate);
+    renderText();
+
+    return () => {
+      quill.off('text-change', requestTextUpdate);
+    };
+  }, [quill, requestTextUpdate, renderText]);
+
+  return (
+    <>
+      <div
+        id="editor"
+        style={{ height: '80px' }}
+        dangerouslySetInnerHTML={{
+          __html: `
+            That is <u>some</u> <span style="color: red"> styled text</span> on
+            <strong>canvas</strong>!
+            <h2>What do you think about it?</h2>
+          `,
+        }}
+      />
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Image
+            image={image}
+            x={10}
+            y={10}
+            draggable
+            stroke="red"
+            scaleX={1 / window.devicePixelRatio}
+            scaleY={1 / window.devicePixelRatio}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div
+      id="editor"
+      style="height: 80px"
+      v-html="initialContent"
+    />
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-image
+          v-if="image"
+          :config="{
+            image,
+            x: 10,
+            y: 10,
+            draggable: true,
+            stroke: 'red',
+            scaleX: 1 / window.devicePixelRatio,
+            scaleY: 1 / window.devicePixelRatio
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const quill = ref(null);
+const image = ref(null);
+let timeoutId = null;
+
+const initialContent = `
+  That is <u>some</u> <span style="color: red"> styled text</span> on
+  <strong>canvas</strong>!
+  <h2>What do you think about it?</h2>
+`;
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const renderText = () => {
+  if (!quill.value) return;
+
+  html2canvas(document.querySelector('.ql-editor'), {
+    backgroundColor: 'rgba(0,0,0,0)',
+  }).then((canvas) => {
+    image.value = canvas;
+  });
+};
+
+const requestTextUpdate = () => {
+  if (timeoutId) {
+    return;
+  }
+  timeoutId = setTimeout(() => {
+    timeoutId = null;
+    renderText();
+  }, 500);
+};
+
+onMounted(async () => {
+  // Load dependencies
+  await Promise.all([
+    import('https://cdn.quilljs.com/1.3.6/quill.js'),
+    import('https://html2canvas.hertzen.com/dist/html2canvas.min.js'),
+  ]);
+
+  // Add Quill CSS
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
+  document.head.appendChild(link);
+
+  // Initialize Quill
+  quill.value = new Quill('#editor', {
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['image', 'code-block'],
+      ],
+    },
+    placeholder: 'Compose an epic...',
+    theme: 'snow',
+  });
+
+  quill.value.on('text-change', requestTextUpdate);
+  renderText();
+});
+
+onUnmounted(() => {
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+  if (quill.value) {
+    quill.value.off('text-change', requestTextUpdate);
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Try to type and format text in the editor above. The formatted text will be rendered on the canvas below as an image. You can drag the rendered text around. 
