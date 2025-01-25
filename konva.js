@@ -5,10 +5,10 @@
 })(this, (function () { 'use strict';
 
   /*
-   * Konva JavaScript Framework v9.3.15
+   * Konva JavaScript Framework v9.3.18
    * http://konvajs.org/
    * Licensed under the MIT
-   * Date: Mon Sep 09 2024
+   * Date: Fri Jan 24 2025
    *
    * Original work Copyright (C) 2011 - 2013 by Eric Rowell (KineticJS)
    * Modified work Copyright (C) 2014 - present by Anton Lavrenov (Konva)
@@ -35,7 +35,7 @@
               : {};
   const Konva$2 = {
       _global: glob,
-      version: '9.3.15',
+      version: '9.3.18',
       isBrowser: detectBrowser(),
       isUnminified: /param/.test(function (param) { }.toString()),
       dblClickWindow: 400,
@@ -151,7 +151,7 @@
       },
       isTransforming() {
           var _a;
-          return (_a = Konva$2['Transformer']) === null || _a === void 0 ? void 0 : _a.isTransforming();
+          return (_a = Konva$2['Transformer']) === null || _a === undefined ? undefined : _a.isTransforming();
       },
       /**
        * returns whether or not a drag and drop operation is ready, but may
@@ -249,7 +249,7 @@
        * @returns {Object} 2D point(x, y)
        */
       point(point) {
-          var m = this.m;
+          const m = this.m;
           return {
               x: m[0] * point.x + m[2] * point.y + m[4],
               y: m[1] * point.x + m[3] * point.y + m[5],
@@ -291,12 +291,12 @@
        * @returns {Konva.Transform}
        */
       rotate(rad) {
-          var c = Math.cos(rad);
-          var s = Math.sin(rad);
-          var m11 = this.m[0] * c + this.m[2] * s;
-          var m12 = this.m[1] * c + this.m[3] * s;
-          var m21 = this.m[0] * -s + this.m[2] * c;
-          var m22 = this.m[1] * -s + this.m[3] * c;
+          const c = Math.cos(rad);
+          const s = Math.sin(rad);
+          const m11 = this.m[0] * c + this.m[2] * s;
+          const m12 = this.m[1] * c + this.m[3] * s;
+          const m21 = this.m[0] * -s + this.m[2] * c;
+          const m22 = this.m[1] * -s + this.m[3] * c;
           this.m[0] = m11;
           this.m[1] = m12;
           this.m[2] = m21;
@@ -324,10 +324,10 @@
        * @returns {Konva.Transform}
        */
       skew(sx, sy) {
-          var m11 = this.m[0] + this.m[2] * sy;
-          var m12 = this.m[1] + this.m[3] * sy;
-          var m21 = this.m[2] + this.m[0] * sx;
-          var m22 = this.m[3] + this.m[1] * sx;
+          const m11 = this.m[0] + this.m[2] * sy;
+          const m12 = this.m[1] + this.m[3] * sy;
+          const m21 = this.m[2] + this.m[0] * sx;
+          const m22 = this.m[3] + this.m[1] * sx;
           this.m[0] = m11;
           this.m[1] = m12;
           this.m[2] = m21;
@@ -342,12 +342,12 @@
        * @returns {Konva.Transform}
        */
       multiply(matrix) {
-          var m11 = this.m[0] * matrix.m[0] + this.m[2] * matrix.m[1];
-          var m12 = this.m[1] * matrix.m[0] + this.m[3] * matrix.m[1];
-          var m21 = this.m[0] * matrix.m[2] + this.m[2] * matrix.m[3];
-          var m22 = this.m[1] * matrix.m[2] + this.m[3] * matrix.m[3];
-          var dx = this.m[0] * matrix.m[4] + this.m[2] * matrix.m[5] + this.m[4];
-          var dy = this.m[1] * matrix.m[4] + this.m[3] * matrix.m[5] + this.m[5];
+          const m11 = this.m[0] * matrix.m[0] + this.m[2] * matrix.m[1];
+          const m12 = this.m[1] * matrix.m[0] + this.m[3] * matrix.m[1];
+          const m21 = this.m[0] * matrix.m[2] + this.m[2] * matrix.m[3];
+          const m22 = this.m[1] * matrix.m[2] + this.m[3] * matrix.m[3];
+          const dx = this.m[0] * matrix.m[4] + this.m[2] * matrix.m[5] + this.m[4];
+          const dy = this.m[1] * matrix.m[4] + this.m[3] * matrix.m[5] + this.m[5];
           this.m[0] = m11;
           this.m[1] = m12;
           this.m[2] = m21;
@@ -363,13 +363,13 @@
        * @returns {Konva.Transform}
        */
       invert() {
-          var d = 1 / (this.m[0] * this.m[3] - this.m[1] * this.m[2]);
-          var m0 = this.m[3] * d;
-          var m1 = -this.m[1] * d;
-          var m2 = -this.m[2] * d;
-          var m3 = this.m[0] * d;
-          var m4 = d * (this.m[2] * this.m[5] - this.m[3] * this.m[4]);
-          var m5 = d * (this.m[1] * this.m[4] - this.m[0] * this.m[5]);
+          const d = 1 / (this.m[0] * this.m[3] - this.m[1] * this.m[2]);
+          const m0 = this.m[3] * d;
+          const m1 = -this.m[1] * d;
+          const m2 = -this.m[2] * d;
+          const m3 = this.m[0] * d;
+          const m4 = d * (this.m[2] * this.m[5] - this.m[3] * this.m[4]);
+          const m5 = d * (this.m[1] * this.m[4] - this.m[0] * this.m[5]);
           this.m[0] = m0;
           this.m[1] = m1;
           this.m[2] = m2;
@@ -393,14 +393,14 @@
        * @returns {Konva.Transform}
        */
       decompose() {
-          var a = this.m[0];
-          var b = this.m[1];
-          var c = this.m[2];
-          var d = this.m[3];
-          var e = this.m[4];
-          var f = this.m[5];
-          var delta = a * d - b * c;
-          let result = {
+          const a = this.m[0];
+          const b = this.m[1];
+          const c = this.m[2];
+          const d = this.m[3];
+          const e = this.m[4];
+          const f = this.m[5];
+          const delta = a * d - b * c;
+          const result = {
               x: e,
               y: f,
               rotation: 0,
@@ -411,7 +411,7 @@
           };
           // Apply the QR-like decomposition.
           if (a != 0 || b != 0) {
-              var r = Math.sqrt(a * a + b * b);
+              const r = Math.sqrt(a * a + b * b);
               result.rotation = b > 0 ? Math.acos(a / r) : -Math.acos(a / r);
               result.scaleX = r;
               result.scaleY = delta / r;
@@ -419,7 +419,7 @@
               result.skewY = 0;
           }
           else if (c != 0 || d != 0) {
-              var s = Math.sqrt(c * c + d * d);
+              const s = Math.sqrt(c * c + d * d);
               result.rotation =
                   Math.PI / 2 - (d > 0 ? Math.acos(-c / s) : -Math.acos(c / s));
               result.scaleX = delta / s;
@@ -433,7 +433,7 @@
       }
   }
   // CONSTANTS
-  var OBJECT_ARRAY = '[object Array]', OBJECT_NUMBER = '[object Number]', OBJECT_STRING = '[object String]', OBJECT_BOOLEAN = '[object Boolean]', PI_OVER_DEG180 = Math.PI / 180, DEG180_OVER_PI = 180 / Math.PI, HASH$1 = '#', EMPTY_STRING$1 = '', ZERO = '0', KONVA_WARNING = 'Konva warning: ', KONVA_ERROR = 'Konva error: ', RGB_PAREN = 'rgb(', COLORS = {
+  const OBJECT_ARRAY = '[object Array]', OBJECT_NUMBER = '[object Number]', OBJECT_STRING = '[object String]', OBJECT_BOOLEAN = '[object Boolean]', PI_OVER_DEG180 = Math.PI / 180, DEG180_OVER_PI = 180 / Math.PI, HASH$1 = '#', EMPTY_STRING$1 = '', ZERO = '0', KONVA_WARNING = 'Konva warning: ', KONVA_ERROR = 'Konva error: ', RGB_PAREN = 'rgb(', COLORS = {
       aliceblue: [240, 248, 255],
       antiquewhite: [250, 235, 215],
       aqua: [0, 255, 255],
@@ -583,7 +583,8 @@
       whitesmoke: [245, 245, 245],
       yellow: [255, 255, 0],
       yellowgreen: [154, 205, 5],
-  }, RGB_REGEX = /rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/, animQueue = [];
+  }, RGB_REGEX = /rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)/;
+  let animQueue = [];
   const req = (typeof requestAnimationFrame !== 'undefined' && requestAnimationFrame) ||
       function (f) {
           setTimeout(f, 60);
@@ -627,7 +628,7 @@
           if (typeof selector !== 'string') {
               return false;
           }
-          var firstChar = selector[0];
+          const firstChar = selector[0];
           return (firstChar === '#' ||
               firstChar === '.' ||
               firstChar === firstChar.toUpperCase());
@@ -658,7 +659,7 @@
           }
       },
       createCanvasElement() {
-          var canvas = document.createElement('canvas');
+          const canvas = document.createElement('canvas');
           // on some environments canvas.style is readonly
           try {
               canvas.style = canvas.style || {};
@@ -682,7 +683,7 @@
        */
       _urlToImage(url, callback) {
           // if arg is a string, then it's a data url
-          var imageObj = Util.createImageElement();
+          const imageObj = Util.createImageElement();
           imageObj.onload = function () {
               callback(imageObj);
           };
@@ -693,7 +694,7 @@
       },
       _hexToRgb(hex) {
           hex = hex.replace(HASH$1, EMPTY_STRING$1);
-          var bigint = parseInt(hex, 16);
+          const bigint = parseInt(hex, 16);
           return {
               r: (bigint >> 16) & 255,
               g: (bigint >> 8) & 255,
@@ -708,7 +709,7 @@
        * shape.fill(Konva.Util.getRandomColor());
        */
       getRandomColor() {
-          var randColor = ((Math.random() * 0xffffff) << 0).toString(16);
+          let randColor = ((Math.random() * 0xffffff) << 0).toString(16);
           while (randColor.length < 6) {
               randColor = ZERO + randColor;
           }
@@ -726,7 +727,7 @@
        * var rgb = Konva.Util.getRGB('rgb(0,0,255)');
        */
       getRGB(color) {
-          var rgb;
+          let rgb;
           // color string
           if (color in COLORS) {
               rgb = COLORS[color];
@@ -773,7 +774,7 @@
       },
       // Parse named css color. Like "green"
       _namedColorToRBA(str) {
-          var c = COLORS[str.toLowerCase()];
+          const c = COLORS[str.toLowerCase()];
           if (!c) {
               return null;
           }
@@ -788,7 +789,7 @@
       _rgbColorToRGBA(str) {
           if (str.indexOf('rgb(') === 0) {
               str = str.match(/rgb\(([^)]+)\)/)[1];
-              var parts = str.split(/ *, */).map(Number);
+              const parts = str.split(/ *, */).map(Number);
               return {
                   r: parts[0],
                   g: parts[1],
@@ -801,7 +802,7 @@
       _rgbaColorToRGBA(str) {
           if (str.indexOf('rgba(') === 0) {
               str = str.match(/rgba\(([^)]+)\)/)[1];
-              var parts = str.split(/ *, */).map((n, index) => {
+              const parts = str.split(/ *, */).map((n, index) => {
                   if (n.slice(-1) === '%') {
                       return index === 3 ? parseInt(n) / 100 : (parseInt(n) / 100) * 255;
                   }
@@ -934,8 +935,8 @@
               r2.y + r2.height < r1.y);
       },
       cloneObject(obj) {
-          var retObj = {};
-          for (var key in obj) {
+          const retObj = {};
+          for (const key in obj) {
               if (this._isPlainObject(obj[key])) {
                   retObj[key] = this.cloneObject(obj[key]);
               }
@@ -984,7 +985,7 @@
           console.warn(KONVA_WARNING + str);
       },
       each(obj, func) {
-          for (var key in obj) {
+          for (const key in obj) {
               func(key, obj[key]);
           }
       },
@@ -992,15 +993,15 @@
           return left <= val && val < right;
       },
       _getProjectionToSegment(x1, y1, x2, y2, x3, y3) {
-          var x, y, dist;
-          var pd2 = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+          let x, y, dist;
+          const pd2 = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
           if (pd2 == 0) {
               x = x1;
               y = y1;
               dist = (x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2);
           }
           else {
-              var u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / pd2;
+              const u = ((x3 - x1) * (x2 - x1) + (y3 - y1) * (y2 - y1)) / pd2;
               if (u < 0) {
                   x = x1;
                   y = y1;
@@ -1022,15 +1023,15 @@
       // line as array of points.
       // line might be closed
       _getProjectionToLine(pt, line, isClosed) {
-          var pc = Util.cloneObject(pt);
-          var dist = Number.MAX_VALUE;
+          const pc = Util.cloneObject(pt);
+          let dist = Number.MAX_VALUE;
           line.forEach(function (p1, i) {
               if (!isClosed && i === line.length - 1) {
                   return;
               }
-              var p2 = line[(i + 1) % line.length];
-              var proj = Util._getProjectionToSegment(p1.x, p1.y, p2.x, p2.y, pt.x, pt.y);
-              var px = proj[0], py = proj[1], pdist = proj[2];
+              const p2 = line[(i + 1) % line.length];
+              const proj = Util._getProjectionToSegment(p1.x, p1.y, p2.x, p2.y, pt.x, pt.y);
+              const px = proj[0], py = proj[1], pdist = proj[2];
               if (pdist < dist) {
                   pc.x = px;
                   pc.y = py;
@@ -1040,36 +1041,36 @@
           return pc;
       },
       _prepareArrayForTween(startArray, endArray, isClosed) {
-          var n, start = [], end = [];
+          const start = [], end = [];
           if (startArray.length > endArray.length) {
-              var temp = endArray;
+              const temp = endArray;
               endArray = startArray;
               startArray = temp;
           }
-          for (n = 0; n < startArray.length; n += 2) {
+          for (let n = 0; n < startArray.length; n += 2) {
               start.push({
                   x: startArray[n],
                   y: startArray[n + 1],
               });
           }
-          for (n = 0; n < endArray.length; n += 2) {
+          for (let n = 0; n < endArray.length; n += 2) {
               end.push({
                   x: endArray[n],
                   y: endArray[n + 1],
               });
           }
-          var newStart = [];
+          const newStart = [];
           end.forEach(function (point) {
-              var pr = Util._getProjectionToLine(point, start, isClosed);
+              const pr = Util._getProjectionToLine(point, start, isClosed);
               newStart.push(pr.x);
               newStart.push(pr.y);
           });
           return newStart;
       },
       _prepareToStringify(obj) {
-          var desc;
+          let desc;
           obj.visitedByCircularReferenceRemoval = true;
-          for (var key in obj) {
+          for (const key in obj) {
               if (!(obj.hasOwnProperty(key) && obj[key] && typeof obj[key] == 'object')) {
                   continue;
               }
@@ -1097,7 +1098,7 @@
       },
       // very simplified version of Object.assign
       _assign(target, source) {
-          for (var key in source) {
+          for (const key in source) {
               target[key] = source[key];
           }
           return target;
@@ -1233,7 +1234,7 @@
           return function (val, attr) {
               const isString = Util._isString(val);
               const isGradient = Object.prototype.toString.call(val) === '[object CanvasGradient]' ||
-                  (val && val.addColorStop);
+                  (val && val['addColorStop']);
               if (!(isString || isGradient)) {
                   Util.warn(_formatValue(val) +
                       ' is a not valid value for "' +
@@ -1307,7 +1308,8 @@
       }
   }
 
-  var GET = 'get', SET$1 = 'set';
+  const GET = 'get';
+  const SET$1 = 'set';
   const Factory = {
       addGetterSetter(constructor, attr, def, validator, after) {
           Factory.addGetter(constructor, attr, def);
@@ -1319,7 +1321,7 @@
           constructor.prototype[method] =
               constructor.prototype[method] ||
                   function () {
-                      var val = this.attrs[attr];
+                      const val = this.attrs[attr];
                       return val === undefined ? def : val;
                   };
       },
@@ -1343,27 +1345,27 @@
           };
       },
       addComponentsGetterSetter(constructor, attr, components, validator, after) {
-          var len = components.length, capitalize = Util._capitalize, getter = GET + capitalize(attr), setter = SET$1 + capitalize(attr), n, component;
+          const len = components.length, capitalize = Util._capitalize, getter = GET + capitalize(attr), setter = SET$1 + capitalize(attr);
           // getter
           constructor.prototype[getter] = function () {
-              var ret = {};
-              for (n = 0; n < len; n++) {
-                  component = components[n];
+              const ret = {};
+              for (let n = 0; n < len; n++) {
+                  const component = components[n];
                   ret[component] = this.getAttr(attr + capitalize(component));
               }
               return ret;
           };
-          var basicValidator = getComponentValidator(components);
+          const basicValidator = getComponentValidator(components);
           // setter
           constructor.prototype[setter] = function (val) {
-              var oldVal = this.attrs[attr], key;
+              const oldVal = this.attrs[attr];
               if (validator) {
-                  val = validator.call(this, val);
+                  val = validator.call(this, val, attr);
               }
               if (basicValidator) {
                   basicValidator.call(this, val, attr);
               }
-              for (key in val) {
+              for (const key in val) {
                   if (!val.hasOwnProperty(key)) {
                       continue;
                   }
@@ -1396,12 +1398,12 @@
       },
       addDeprecatedGetterSetter(constructor, attr, def, validator) {
           Util.error('Adding deprecated ' + attr);
-          var method = GET + Util._capitalize(attr);
-          var message = attr +
+          const method = GET + Util._capitalize(attr);
+          const message = attr +
               ' property is deprecated and will be removed soon. Look at Konva change log for more information.';
           constructor.prototype[method] = function () {
               Util.error(message);
-              var val = this.attrs[attr];
+              const val = this.attrs[attr];
               return val === undefined ? def : val;
           };
           Factory.addSetter(constructor, attr, validator, function () {
@@ -1411,9 +1413,9 @@
       },
       backCompat(constructor, methods) {
           Util.each(methods, function (oldMethodName, newMethodName) {
-              var method = constructor.prototype[newMethodName];
-              var oldGetter = GET + Util._capitalize(oldMethodName);
-              var oldSetter = SET$1 + Util._capitalize(oldMethodName);
+              const method = constructor.prototype[newMethodName];
+              const oldGetter = GET + Util._capitalize(oldMethodName);
+              const oldSetter = SET$1 + Util._capitalize(oldMethodName);
               function deprecated() {
                   method.apply(this, arguments);
                   Util.error('"' +
@@ -1433,9 +1435,9 @@
   };
 
   function simplifyArray(arr) {
-      var retArr = [], len = arr.length, util = Util, n, val;
-      for (n = 0; n < len; n++) {
-          val = arr[n];
+      const retArr = [], len = arr.length, util = Util;
+      for (let n = 0; n < len; n++) {
+          let val = arr[n];
           if (util._isNumber(val)) {
               val = Math.round(val * 1000) / 1000;
           }
@@ -1446,7 +1448,7 @@
       }
       return retArr;
   }
-  var COMMA = ',', OPEN_PAREN = '(', CLOSE_PAREN = ')', OPEN_PAREN_BRACKET = '([', CLOSE_BRACKET_PAREN = '])', SEMICOLON = ';', DOUBLE_PAREN = '()', 
+  const COMMA = ',', OPEN_PAREN = '(', CLOSE_PAREN = ')', OPEN_PAREN_BRACKET = '([', CLOSE_BRACKET_PAREN = '])', SEMICOLON = ';', DOUBLE_PAREN = '()', 
   // EMPTY_STRING = '',
   EQUALS = '=', 
   // SET = 'set',
@@ -1484,7 +1486,7 @@
       'transform',
       'translate',
   ];
-  var CONTEXT_PROPERTIES = [
+  const CONTEXT_PROPERTIES = [
       'fillStyle',
       'strokeStyle',
       'shadowColor',
@@ -1581,7 +1583,7 @@
           }
       }
       getTrace(relaxed, rounded) {
-          var traceArr = this.traceArr, len = traceArr.length, str = '', n, trace, method, args;
+          let traceArr = this.traceArr, len = traceArr.length, str = '', n, trace, method, args;
           for (n = 0; n < len; n++) {
               trace = traceArr[n];
               method = trace.method;
@@ -1619,7 +1621,7 @@
           this.traceArr = [];
       }
       _trace(str) {
-          var traceArr = this.traceArr, len;
+          let traceArr = this.traceArr, len;
           traceArr.push(str);
           len = traceArr.length;
           if (len >= traceArrMax) {
@@ -1632,7 +1634,7 @@
        * @name Konva.Context#reset
        */
       reset() {
-          var pixelRatio = this.getCanvas().getPixelRatio();
+          const pixelRatio = this.getCanvas().getPixelRatio();
           this.setTransform(1 * pixelRatio, 0, 0, 1 * pixelRatio, 0, 0);
       }
       /**
@@ -1655,7 +1657,7 @@
        * @param {Number} [bounds.height]
        */
       clear(bounds) {
-          var canvas = this.getCanvas();
+          const canvas = this.getCanvas();
           if (bounds) {
               this.clearRect(bounds.x || 0, bounds.y || 0, bounds.width || 0, bounds.height || 0);
           }
@@ -1670,7 +1672,7 @@
           }
       }
       _applyOpacity(shape) {
-          var absOpacity = shape.getAbsoluteOpacity();
+          const absOpacity = shape.getAbsoluteOpacity();
           if (absOpacity !== 1) {
               this.setAttr('globalAlpha', absOpacity);
           }
@@ -1742,7 +1744,7 @@
        * @name Konva.Context#createImageData
        */
       createImageData(width, height) {
-          var a = arguments;
+          const a = arguments;
           if (a.length === 2) {
               return this._context.createImageData(width, height);
           }
@@ -1781,7 +1783,7 @@
        */
       drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
           // this._context.drawImage(...arguments);
-          var a = arguments, _context = this._context;
+          const a = arguments, _context = this._context;
           if (a.length === 3) {
               _context.drawImage(image, sx, sy);
           }
@@ -2014,10 +2016,10 @@
           this._context.translate(x, y);
       }
       _enableTrace() {
-          var that = this, len = CONTEXT_METHODS.length, origSetter = this.setAttr, n, args;
+          let that = this, len = CONTEXT_METHODS.length, origSetter = this.setAttr, n, args;
           // to prevent creating scope function at each loop
-          var func = function (methodName) {
-              var origMethod = that[methodName], ret;
+          const func = function (methodName) {
+              let origMethod = that[methodName], ret;
               that[methodName] = function () {
                   args = simplifyArray(Array.prototype.slice.call(arguments, 0));
                   ret = origMethod.apply(that, arguments);
@@ -2035,8 +2037,8 @@
           // attrs
           that.setAttr = function () {
               origSetter.apply(that, arguments);
-              var prop = arguments[0];
-              var val = arguments[1];
+              const prop = arguments[0];
+              let val = arguments[1];
               if (prop === 'shadowOffsetX' ||
                   prop === 'shadowOffsetY' ||
                   prop === 'shadowBlur') {
@@ -2050,7 +2052,7 @@
       }
       _applyGlobalCompositeOperation(node) {
           const op = node.attrs.globalCompositeOperation;
-          var def = !op || op === 'source-over';
+          const def = !op || op === 'source-over';
           if (!def) {
               this.setAttr('globalCompositeOperation', op);
           }
@@ -2074,7 +2076,7 @@
           });
       }
       _fillColor(shape) {
-          var fill = shape.fill();
+          const fill = shape.fill();
           this.setAttr('fillStyle', fill);
           shape._fillFunc(this);
       }
@@ -2083,7 +2085,7 @@
           shape._fillFunc(this);
       }
       _fillLinearGradient(shape) {
-          var grd = shape._getLinearGradient();
+          const grd = shape._getLinearGradient();
           if (grd) {
               this.setAttr('fillStyle', grd);
               shape._fillFunc(this);
@@ -2136,20 +2138,20 @@
           const start = shape.getStrokeLinearGradientStartPoint(), end = shape.getStrokeLinearGradientEndPoint(), colorStops = shape.getStrokeLinearGradientColorStops(), grd = this.createLinearGradient(start.x, start.y, end.x, end.y);
           if (colorStops) {
               // build color stops
-              for (var n = 0; n < colorStops.length; n += 2) {
+              for (let n = 0; n < colorStops.length; n += 2) {
                   grd.addColorStop(colorStops[n], colorStops[n + 1]);
               }
               this.setAttr('strokeStyle', grd);
           }
       }
       _stroke(shape) {
-          var dash = shape.dash(), 
+          const dash = shape.dash(), 
           // ignore strokeScaleEnabled for Text
           strokeScaleEnabled = shape.getStrokeScaleEnabled();
           if (shape.hasStroke()) {
               if (!strokeScaleEnabled) {
                   this.save();
-                  var pixelRatio = this.getCanvas().getPixelRatio();
+                  const pixelRatio = this.getCanvas().getPixelRatio();
                   this.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
               }
               this._applyLineCap(shape);
@@ -2161,7 +2163,7 @@
               if (!shape.getShadowForStrokeEnabled()) {
                   this.setAttr('shadowColor', 'rgba(0,0,0,0)');
               }
-              var hasLinearGradient = shape.getStrokeLinearGradientColorStops();
+              const hasLinearGradient = shape.getStrokeLinearGradientColorStops();
               if (hasLinearGradient) {
                   this._strokeLinearGradient(shape);
               }
@@ -2176,7 +2178,7 @@
       }
       _applyShadow(shape) {
           var _a, _b, _c;
-          var color = (_a = shape.getShadowRGBA()) !== null && _a !== void 0 ? _a : 'black', blur = (_b = shape.getShadowBlur()) !== null && _b !== void 0 ? _b : 5, offset = (_c = shape.getShadowOffset()) !== null && _c !== void 0 ? _c : {
+          const color = (_a = shape.getShadowRGBA()) !== null && _a !== undefined ? _a : 'black', blur = (_b = shape.getShadowBlur()) !== null && _b !== undefined ? _b : 5, offset = (_c = shape.getShadowOffset()) !== null && _c !== undefined ? _c : {
               x: 0,
               y: 0,
           }, scale = shape.getAbsoluteScale(), ratio = this.canvas.getPixelRatio(), scaleX = scale.x * ratio, scaleY = scale.y * ratio;
@@ -2210,12 +2212,12 @@
               const strokeScaleEnabled = shape.getStrokeScaleEnabled();
               if (!strokeScaleEnabled) {
                   this.save();
-                  var pixelRatio = this.getCanvas().getPixelRatio();
+                  const pixelRatio = this.getCanvas().getPixelRatio();
                   this.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
               }
               this._applyLineCap(shape);
-              var hitStrokeWidth = shape.hitStrokeWidth();
-              var strokeWidth = hitStrokeWidth === 'auto' ? shape.strokeWidth() : hitStrokeWidth;
+              const hitStrokeWidth = shape.hitStrokeWidth();
+              const strokeWidth = hitStrokeWidth === 'auto' ? shape.strokeWidth() : hitStrokeWidth;
               this.setAttr('lineWidth', strokeWidth);
               this.setAttr('strokeStyle', shape.colorKey);
               shape._strokeFuncHit(this);
@@ -2227,15 +2229,15 @@
   }
 
   // calculate pixel ratio
-  var _pixelRatio;
+  let _pixelRatio;
   function getDevicePixelRatio() {
       if (_pixelRatio) {
           return _pixelRatio;
       }
-      var canvas = Util.createCanvasElement();
-      var context = canvas.getContext('2d');
+      const canvas = Util.createCanvasElement();
+      const context = canvas.getContext('2d');
       _pixelRatio = (function () {
-          var devicePixelRatio = Konva$2._global.devicePixelRatio || 1, backingStoreRatio = context.webkitBackingStorePixelRatio ||
+          const devicePixelRatio = Konva$2._global.devicePixelRatio || 1, backingStoreRatio = context.webkitBackingStorePixelRatio ||
               context.mozBackingStorePixelRatio ||
               context.msBackingStorePixelRatio ||
               context.oBackingStorePixelRatio ||
@@ -2263,8 +2265,8 @@
           this.width = 0;
           this.height = 0;
           this.isCache = false;
-          var conf = config || {};
-          var pixelRatio = conf.pixelRatio || Konva$2.pixelRatio || getDevicePixelRatio();
+          const conf = config || {};
+          const pixelRatio = conf.pixelRatio || Konva$2.pixelRatio || getDevicePixelRatio();
           this.pixelRatio = pixelRatio;
           this._canvas = Util.createCanvasElement();
           // set inline styles
@@ -2289,7 +2291,7 @@
           return this.pixelRatio;
       }
       setPixelRatio(pixelRatio) {
-          var previousRatio = this.pixelRatio;
+          const previousRatio = this.pixelRatio;
           this.pixelRatio = pixelRatio;
           this.setSize(this.getWidth() / previousRatio, this.getHeight() / previousRatio);
       }
@@ -2297,14 +2299,14 @@
           // take into account pixel ratio
           this.width = this._canvas.width = width * this.pixelRatio;
           this._canvas.style.width = width + 'px';
-          var pixelRatio = this.pixelRatio, _context = this.getContext()._context;
+          const pixelRatio = this.pixelRatio, _context = this.getContext()._context;
           _context.scale(pixelRatio, pixelRatio);
       }
       setHeight(height) {
           // take into account pixel ratio
           this.height = this._canvas.height = height * this.pixelRatio;
           this._canvas.style.height = height + 'px';
-          var pixelRatio = this.pixelRatio, _context = this.getContext()._context;
+          const pixelRatio = this.pixelRatio, _context = this.getContext()._context;
           _context.scale(pixelRatio, pixelRatio);
       }
       getWidth() {
@@ -2385,7 +2387,7 @@
 
   const DD = {
       get isDragging() {
-          var flag = false;
+          let flag = false;
           DD._dragElements.forEach((elem) => {
               if (elem.dragStatus === 'dragging') {
                   flag = true;
@@ -2396,7 +2398,7 @@
       justDragged: false,
       get node() {
           // return first dragging node
-          var node;
+          let node;
           DD._dragElements.forEach((elem) => {
               node = elem.node;
           });
@@ -2422,8 +2424,8 @@
                   return;
               }
               if (elem.dragStatus !== 'dragging') {
-                  var dragDistance = node.dragDistance();
-                  var distance = Math.max(Math.abs(pos.x - elem.startPointerPos.x), Math.abs(pos.y - elem.startPointerPos.y));
+                  const dragDistance = node.dragDistance();
+                  const distance = Math.max(Math.abs(pos.x - elem.startPointerPos.x), Math.abs(pos.y - elem.startPointerPos.y));
                   if (distance < dragDistance) {
                       return;
                   }
@@ -2500,14 +2502,17 @@
   if (Konva$2.isBrowser) {
       window.addEventListener('mouseup', DD._endDragBefore, true);
       window.addEventListener('touchend', DD._endDragBefore, true);
+      // add touchcancel to fix this: https://github.com/konvajs/konva/issues/1843
+      window.addEventListener('touchcancel', DD._endDragBefore, true);
       window.addEventListener('mousemove', DD._drag);
       window.addEventListener('touchmove', DD._drag);
       window.addEventListener('mouseup', DD._endDragAfter, false);
       window.addEventListener('touchend', DD._endDragAfter, false);
+      window.addEventListener('touchcancel', DD._endDragAfter, false);
   }
 
   // CONSTANTS
-  var ABSOLUTE_OPACITY = 'absoluteOpacity', ALL_LISTENERS = 'allEventListeners', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CANVAS = 'canvas', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER$1 = 'mouseenter', MOUSELEAVE$1 = 'mouseleave', SET = 'set', SHAPE = 'Shape', SPACE$1 = ' ', STAGE$1 = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', TRANSFORM_CHANGE_STR$1 = [
+  const ABSOLUTE_OPACITY = 'absoluteOpacity', ALL_LISTENERS = 'allEventListeners', ABSOLUTE_TRANSFORM = 'absoluteTransform', ABSOLUTE_SCALE = 'absoluteScale', CANVAS = 'canvas', CHANGE = 'Change', CHILDREN = 'children', KONVA = 'konva', LISTENING = 'listening', MOUSEENTER$1 = 'mouseenter', MOUSELEAVE$1 = 'mouseleave', SET = 'set', SHAPE = 'Shape', SPACE$1 = ' ', STAGE$1 = 'stage', TRANSFORM = 'transform', UPPER_STAGE = 'Stage', VISIBLE = 'visible', TRANSFORM_CHANGE_STR$1 = [
       'xChange.konva',
       'yChange.konva',
       'scaleXChange.konva',
@@ -2590,11 +2595,11 @@
           }
       }
       _getCache(attr, privateGetter) {
-          var cache = this._cache.get(attr);
+          let cache = this._cache.get(attr);
           // for transform the cache can be NOT empty
           // but we still need to recalculate it if it is dirty
-          var isTransform = attr === TRANSFORM || attr === ABSOLUTE_TRANSFORM;
-          var invalid = cache === undefined || (isTransform && cache.dirty === true);
+          const isTransform = attr === TRANSFORM || attr === ABSOLUTE_TRANSFORM;
+          const invalid = cache === undefined || (isTransform && cache.dirty === true);
           // if not cached, we need to set it using the private getter method.
           if (invalid) {
               cache = privateGetter.call(this);
@@ -2692,8 +2697,8 @@
        * });
        */
       cache(config) {
-          var conf = config || {};
-          var rect = {};
+          const conf = config || {};
+          let rect = {};
           // don't call getClientRect if we have all attributes
           // it means call it only if have one undefined
           if (conf.x === undefined ||
@@ -2705,7 +2710,7 @@
                   relativeTo: this.getParent() || undefined,
               });
           }
-          var width = Math.ceil(conf.width || rect.width), height = Math.ceil(conf.height || rect.height), pixelRatio = conf.pixelRatio, x = conf.x === undefined ? Math.floor(rect.x) : conf.x, y = conf.y === undefined ? Math.floor(rect.y) : conf.y, offset = conf.offset || 0, drawBorder = conf.drawBorder || false, hitCanvasPixelRatio = conf.hitCanvasPixelRatio || 1;
+          let width = Math.ceil(conf.width || rect.width), height = Math.ceil(conf.height || rect.height), pixelRatio = conf.pixelRatio, x = conf.x === undefined ? Math.floor(rect.x) : conf.x, y = conf.y === undefined ? Math.floor(rect.y) : conf.y, offset = conf.offset || 0, drawBorder = conf.drawBorder || false, hitCanvasPixelRatio = conf.hitCanvasPixelRatio || 1;
           if (!width || !height) {
               Util.error('Can not cache the node. Width or height of the node equals 0. Caching is skipped.');
               return;
@@ -2728,7 +2733,7 @@
           //   // height += 1;
           // }
           // console.log({ x, y, width, height }, rect);
-          var cachedSceneCanvas = new SceneCanvas({
+          const cachedSceneCanvas = new SceneCanvas({
               pixelRatio: pixelRatio,
               width: width,
               height: height,
@@ -2795,7 +2800,7 @@
           return this._cache.has(CANVAS);
       }
       /**
-       * Return client rectangle `{x, y, width, height}` of node. This rectangle also include all styling (strokes, shadows, etc).
+       * Return client rectangle {x, y, width, height} of node. This rectangle also include all styling (strokes, shadows, etc).
        * The purpose of the method is similar to getBoundingClientRect API of the DOM.
        * @method
        * @name Konva.Node#getClientRect
@@ -2804,7 +2809,7 @@
        * @param {Boolean} [config.skipShadow] should we apply shadow to the node for calculating bound box?
        * @param {Boolean} [config.skipStroke] should we apply stroke to the node for calculating bound box?
        * @param {Object} [config.relativeTo] calculate client rect relative to one of the parents
-       * @returns {Object} rect with `{x, y, width, height}` properties
+       * @returns {Object} rect with {x, y, width, height} properties
        * @example
        * var rect = new Konva.Rect({
        *      width : 100,
@@ -2836,16 +2841,16 @@
           throw new Error('abstract "getClientRect" method call');
       }
       _transformedRect(rect, top) {
-          var points = [
+          const points = [
               { x: rect.x, y: rect.y },
               { x: rect.x + rect.width, y: rect.y },
               { x: rect.x + rect.width, y: rect.y + rect.height },
               { x: rect.x, y: rect.y + rect.height },
           ];
-          var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-          var trans = this.getAbsoluteTransform(top);
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          const trans = this.getAbsoluteTransform(top);
           points.forEach(function (point) {
-              var transformed = trans.point(point);
+              const transformed = trans.point(point);
               if (minX === undefined) {
                   minX = maxX = transformed.x;
                   minY = maxY = transformed.y;
@@ -2868,23 +2873,23 @@
           context._applyGlobalCompositeOperation(this);
           const canvasCache = this._getCanvasCache();
           context.translate(canvasCache.x, canvasCache.y);
-          var cacheCanvas = this._getCachedSceneCanvas();
-          var ratio = cacheCanvas.pixelRatio;
+          const cacheCanvas = this._getCachedSceneCanvas();
+          const ratio = cacheCanvas.pixelRatio;
           context.drawImage(cacheCanvas._canvas, 0, 0, cacheCanvas.width / ratio, cacheCanvas.height / ratio);
           context.restore();
       }
       _drawCachedHitCanvas(context) {
-          var canvasCache = this._getCanvasCache(), hitCanvas = canvasCache.hit;
+          const canvasCache = this._getCanvasCache(), hitCanvas = canvasCache.hit;
           context.save();
           context.translate(canvasCache.x, canvasCache.y);
           context.drawImage(hitCanvas._canvas, 0, 0, hitCanvas.width / hitCanvas.pixelRatio, hitCanvas.height / hitCanvas.pixelRatio);
           context.restore();
       }
       _getCachedSceneCanvas() {
-          var filters = this.filters(), cachedCanvas = this._getCanvasCache(), sceneCanvas = cachedCanvas.scene, filterCanvas = cachedCanvas.filter, filterContext = filterCanvas.getContext(), len, imageData, n, filter;
+          let filters = this.filters(), cachedCanvas = this._getCanvasCache(), sceneCanvas = cachedCanvas.scene, filterCanvas = cachedCanvas.filter, filterContext = filterCanvas.getContext(), len, imageData, n, filter;
           if (filters) {
               if (!this._filterUpToDate) {
-                  var ratio = sceneCanvas.pixelRatio;
+                  const ratio = sceneCanvas.pixelRatio;
                   filterCanvas.setSize(sceneCanvas.width / sceneCanvas.pixelRatio, sceneCanvas.height / sceneCanvas.pixelRatio);
                   try {
                       len = filters.length;
@@ -2982,7 +2987,7 @@
           if (arguments.length === 3) {
               return this._delegate.apply(this, arguments);
           }
-          var events = evtStr.split(SPACE$1), len = events.length, n, event, parts, baseEvent, name;
+          let events = evtStr.split(SPACE$1), len = events.length, n, event, parts, baseEvent, name;
           /*
            * loop through types and attach event listeners to
            * each one.  eg. 'click mouseover.namespace mouseout'
@@ -3026,7 +3031,7 @@
        * node.off('click.foo');
        */
       off(evtStr, callback) {
-          var events = (evtStr || '').split(SPACE$1), len = events.length, n, t, event, parts, baseEvent, name;
+          let events = (evtStr || '').split(SPACE$1), len = events.length, n, t, event, parts, baseEvent, name;
           this._cache && this._cache.delete(ALL_LISTENERS);
           if (!evtStr) {
               // remove all events
@@ -3054,7 +3059,7 @@
       }
       // some event aliases for third party integration like HammerJS
       dispatchEvent(evt) {
-          var e = {
+          const e = {
               target: this,
               type: evt.type,
               evt: evt,
@@ -3075,10 +3080,10 @@
       }
       // like node.on
       _delegate(event, selector, handler) {
-          var stopNode = this;
+          const stopNode = this;
           this.on(event, function (evt) {
-              var targets = evt.target.findAncestors(selector, true, stopNode);
-              for (var i = 0; i < targets.length; i++) {
+              const targets = evt.target.findAncestors(selector, true, stopNode);
+              for (let i = 0; i < targets.length; i++) {
                   evt = Util.cloneObject(evt);
                   evt.currentTarget = targets[i];
                   handler.call(targets[i], evt);
@@ -3115,7 +3120,7 @@
           // every cached attr that is calculated via node tree
           // traversal must be cleared when removing a node
           this._clearCaches();
-          var parent = this.getParent();
+          const parent = this.getParent();
           if (parent && parent.children) {
               parent.children.splice(this.index, 1);
               parent._setChildrenIndices();
@@ -3145,7 +3150,7 @@
        * var x = node.getAttr('x');
        */
       getAttr(attr) {
-          var method = 'get' + Util._capitalize(attr);
+          const method = 'get' + Util._capitalize(attr);
           if (Util._isFunction(this[method])) {
               return this[method]();
           }
@@ -3163,7 +3168,7 @@
        * })
        */
       getAncestors() {
-          var parent = this.getParent(), ancestors = [];
+          let parent = this.getParent(), ancestors = [];
           while (parent) {
               ancestors.push(parent);
               parent = parent.getParent();
@@ -3193,7 +3198,7 @@
        */
       setAttrs(config) {
           this._batchTransformChanges(() => {
-              var key, method;
+              let key, method;
               if (!config) {
                   return this;
               }
@@ -3279,8 +3284,8 @@
           if (top) {
               return this._isVisible(top) && this._isListening(top);
           }
-          var layer = this.getLayer();
-          var layerUnderDrag = false;
+          const layer = this.getLayer();
+          let layerUnderDrag = false;
           DD._dragElements.forEach((elem) => {
               if (elem.dragStatus !== 'dragging') {
                   return;
@@ -3292,7 +3297,7 @@
                   layerUnderDrag = true;
               }
           });
-          var dragSkip = !skipDragCheck &&
+          const dragSkip = !skipDragCheck &&
               !Konva$2.hitOnDragEnabled &&
               (layerUnderDrag || Konva$2.isTransforming());
           return this.isListening() && this.isVisible() && !dragSkip;
@@ -3328,7 +3333,7 @@
        * @returns {Integer}
        */
       getAbsoluteZIndex() {
-          var depth = this.getDepth(), that = this, index = 0, nodes, len, n, child;
+          let depth = this.getDepth(), that = this, index = 0, nodes, len, n, child;
           function addChildren(children) {
               nodes = [];
               len = children.length;
@@ -3361,7 +3366,7 @@
        * @returns {Integer}
        */
       getDepth() {
-          var depth = 0, parent = this.parent;
+          let depth = 0, parent = this.parent;
           while (parent) {
               depth++;
               parent = parent.parent;
@@ -3413,11 +3418,11 @@
               return null;
           }
           // get pointer (say mouse or touch) position
-          var pos = stage.getPointerPosition();
+          const pos = stage.getPointerPosition();
           if (!pos) {
               return null;
           }
-          var transform = this.getAbsoluteTransform().copy();
+          const transform = this.getAbsoluteTransform().copy();
           // to detect relative position we need to invert transform
           transform.invert();
           // now we can find relative point
@@ -3453,7 +3458,7 @@
               // "true" is not a node, but it will just allow skip all caching
               top = true;
           }
-          var absoluteMatrix = this.getAbsoluteTransform(top).getMatrix(), absoluteTransform = new Transform(), offset = this.offset();
+          const absoluteMatrix = this.getAbsoluteTransform(top).getMatrix(), absoluteTransform = new Transform(), offset = this.offset();
           // clone the matrix array
           absoluteTransform.m = absoluteMatrix.slice();
           absoluteTransform.translate(offset.x, offset.y);
@@ -3466,7 +3471,7 @@
           this.attrs.y = y;
           // important, use non cached value
           this._clearCache(TRANSFORM);
-          var it = this._getAbsoluteTransform().copy();
+          const it = this._getAbsoluteTransform().copy();
           it.invert();
           it.translate(pos.x, pos.y);
           pos = {
@@ -3480,7 +3485,7 @@
           return this;
       }
       _setTransform(trans) {
-          var key;
+          let key;
           for (key in trans) {
               this.attrs[key] = trans[key];
           }
@@ -3488,7 +3493,7 @@
           // this._clearSelfAndDescendantCache(ABSOLUTE_TRANSFORM);
       }
       _clearTransform() {
-          var trans = {
+          const trans = {
               x: this.x(),
               y: this.y(),
               rotation: this.rotation(),
@@ -3527,7 +3532,7 @@
        * });
        */
       move(change) {
-          var changeX = change.x, changeY = change.y, x = this.x(), y = this.y();
+          let changeX = change.x, changeY = change.y, x = this.x(), y = this.y();
           if (changeX !== undefined) {
               x += changeX;
           }
@@ -3538,7 +3543,7 @@
           return this;
       }
       _eachAncestorReverse(func, top) {
-          var family = [], parent = this.getParent(), len, n;
+          let family = [], parent = this.getParent(), len, n;
           // if top node is defined, and this node is top node,
           // there's no need to build a family tree.  just execute
           // func with this because it will be the only node
@@ -3578,7 +3583,7 @@
               Util.warn('Node has no parent. moveToTop function is ignored.');
               return false;
           }
-          var index = this.index, len = this.parent.getChildren().length;
+          const index = this.index, len = this.parent.getChildren().length;
           if (index < len - 1) {
               this.parent.children.splice(index, 1);
               this.parent.children.push(this);
@@ -3598,7 +3603,7 @@
               Util.warn('Node has no parent. moveUp function is ignored.');
               return false;
           }
-          var index = this.index, len = this.parent.getChildren().length;
+          const index = this.index, len = this.parent.getChildren().length;
           if (index < len - 1) {
               this.parent.children.splice(index, 1);
               this.parent.children.splice(index + 1, 0, this);
@@ -3618,7 +3623,7 @@
               Util.warn('Node has no parent. moveDown function is ignored.');
               return false;
           }
-          var index = this.index;
+          const index = this.index;
           if (index > 0) {
               this.parent.children.splice(index, 1);
               this.parent.children.splice(index - 1, 0, this);
@@ -3638,7 +3643,7 @@
               Util.warn('Node has no parent. moveToBottom function is ignored.');
               return false;
           }
-          var index = this.index;
+          const index = this.index;
           if (index > 0) {
               this.parent.children.splice(index, 1);
               this.parent.children.unshift(this);
@@ -3659,7 +3664,7 @@
                   (this.parent.children.length - 1) +
                   '.');
           }
-          var index = this.index;
+          const index = this.index;
           this.parent.children.splice(index, 1);
           this.parent.children.splice(zIndex, 0, this);
           this.parent._setChildrenIndices();
@@ -3675,8 +3680,8 @@
           return this._getCache(ABSOLUTE_OPACITY, this._getAbsoluteOpacity);
       }
       _getAbsoluteOpacity() {
-          var absOpacity = this.opacity();
-          var parent = this.getParent();
+          let absOpacity = this.opacity();
+          const parent = this.getParent();
           if (parent && !parent._isUnderCache) {
               absOpacity *= parent.getAbsoluteOpacity();
           }
@@ -3707,7 +3712,7 @@
        * @returns {Object}
        */
       toObject() {
-          var attrs = this.getAttrs(), key, val, getter, defaultValue, nonPlainObject;
+          let attrs = this.getAttrs(), key, val, getter, defaultValue, nonPlainObject;
           const obj = {
               attrs: {},
               className: this.getClassName(),
@@ -3764,11 +3769,11 @@
        * var parentGroups = node.findAncestors('Group');
        */
       findAncestors(selector, includeSelf, stopNode) {
-          var res = [];
+          const res = [];
           if (includeSelf && this._isMatch(selector)) {
               res.push(this);
           }
-          var ancestor = this.parent;
+          let ancestor = this.parent;
           while (ancestor) {
               if (ancestor === stopNode) {
                   return res;
@@ -3806,7 +3811,7 @@
           if (typeof selector === 'function') {
               return selector(this);
           }
-          var selectorArr = selector.replace(/ /g, '').split(','), len = selectorArr.length, n, sel;
+          let selectorArr = selector.replace(/ /g, '').split(','), len = selectorArr.length, n, sel;
           for (n = 0; n < len; n++) {
               sel = selectorArr[n];
               if (!Util.isValidSelector(sel)) {
@@ -3841,7 +3846,7 @@
        * @returns {Konva.Layer}
        */
       getLayer() {
-          var parent = this.getParent();
+          const parent = this.getParent();
           return parent ? parent.getLayer() : null;
       }
       /**
@@ -3854,7 +3859,7 @@
           return this._getCache(STAGE$1, this._getStage);
       }
       _getStage() {
-          var parent = this.getParent();
+          const parent = this.getParent();
           if (parent) {
               return parent.getStage();
           }
@@ -3916,13 +3921,13 @@
           }
       }
       _getAbsoluteTransform(top) {
-          var at;
+          let at;
           // we we need position relative to an ancestor, we will iterate for all
           if (top) {
               at = new Transform();
               // start with stage and traverse downwards to self
               this._eachAncestorReverse(function (node) {
-                  var transformsEnabled = node.transformsEnabled();
+                  const transformsEnabled = node.transformsEnabled();
                   if (transformsEnabled === 'all') {
                       at.multiply(node.getTransform());
                   }
@@ -3942,7 +3947,7 @@
               else {
                   at.reset();
               }
-              var transformsEnabled = this.transformsEnabled();
+              const transformsEnabled = this.transformsEnabled();
               if (transformsEnabled === 'all') {
                   at.multiply(this.getTransform());
               }
@@ -3972,7 +3977,7 @@
           // do not cache this calculations,
           // because it use cache transform
           // this is special logic for caching with some shapes with shadow
-          var parent = this;
+          let parent = this;
           while (parent) {
               if (parent._isUnderCache) {
                   top = parent;
@@ -4017,12 +4022,12 @@
       }
       _getTransform() {
           var _a, _b;
-          var m = this._cache.get(TRANSFORM) || new Transform();
+          const m = this._cache.get(TRANSFORM) || new Transform();
           m.reset();
           // I was trying to use attributes directly here
           // but it doesn't work for Transformer well
           // because it overwrite x,y getters
-          var x = this.x(), y = this.y(), rotation = Konva$2.getAngle(this.rotation()), scaleX = (_a = this.attrs.scaleX) !== null && _a !== void 0 ? _a : 1, scaleY = (_b = this.attrs.scaleY) !== null && _b !== void 0 ? _b : 1, skewX = this.attrs.skewX || 0, skewY = this.attrs.skewY || 0, offsetX = this.attrs.offsetX || 0, offsetY = this.attrs.offsetY || 0;
+          const x = this.x(), y = this.y(), rotation = Konva$2.getAngle(this.rotation()), scaleX = (_a = this.attrs.scaleX) !== null && _a !== undefined ? _a : 1, scaleY = (_b = this.attrs.scaleY) !== null && _b !== undefined ? _b : 1, skewX = this.attrs.skewX || 0, skewY = this.attrs.skewY || 0, offsetX = this.attrs.offsetX || 0, offsetY = this.attrs.offsetY || 0;
           if (x !== 0 || y !== 0) {
               m.translate(x, y);
           }
@@ -4060,12 +4065,12 @@
        */
       clone(obj) {
           // instantiate new node
-          var attrs = Util.cloneObject(this.attrs), key, allListeners, len, n, listener;
+          let attrs = Util.cloneObject(this.attrs), key, allListeners, len, n, listener;
           // apply attr overrides
           for (key in obj) {
               attrs[key] = obj[key];
           }
-          var node = new this.constructor(attrs);
+          const node = new this.constructor(attrs);
           // copy over listeners
           for (key in this.eventListeners) {
               allListeners = this.eventListeners[key];
@@ -4089,8 +4094,8 @@
       }
       _toKonvaCanvas(config) {
           config = config || {};
-          var box = this.getClientRect();
-          var stage = this.getStage(), x = config.x !== undefined ? config.x : Math.floor(box.x), y = config.y !== undefined ? config.y : Math.floor(box.y), pixelRatio = config.pixelRatio || 1, canvas = new SceneCanvas({
+          const box = this.getClientRect();
+          const stage = this.getStage(), x = config.x !== undefined ? config.x : Math.floor(box.x), y = config.y !== undefined ? config.y : Math.floor(box.y), pixelRatio = config.pixelRatio || 1, canvas = new SceneCanvas({
               width: config.width || Math.ceil(box.width) || (stage ? stage.width() : 0),
               height: config.height ||
                   Math.ceil(box.height) ||
@@ -4162,8 +4167,8 @@
        */
       toDataURL(config) {
           config = config || {};
-          var mimeType = config.mimeType || null, quality = config.quality || null;
-          var url = this._toKonvaCanvas(config).toDataURL(mimeType, quality);
+          const mimeType = config.mimeType || null, quality = config.quality || null;
+          const url = this._toKonvaCanvas(config).toDataURL(mimeType, quality);
           if (config.callback) {
               config.callback(url);
           }
@@ -4295,7 +4300,7 @@
           }
       }
       _off(type, name, callback) {
-          var evtListeners = this.eventListeners[type], i, evtName, handler;
+          let evtListeners = this.eventListeners[type], i, evtName, handler;
           for (i = 0; i < evtListeners.length; i++) {
               evtName = evtListeners[i].name;
               handler = evtListeners[i].handler;
@@ -4334,8 +4339,8 @@
        */
       addName(name) {
           if (!this.hasName(name)) {
-              var oldName = this.name();
-              var newName = oldName ? oldName + ' ' + name : name;
+              const oldName = this.name();
+              const newName = oldName ? oldName + ' ' + name : name;
               this.name(newName);
           }
           return this;
@@ -4361,7 +4366,7 @@
               return false;
           }
           // if name is '' the "names" will be [''], so I added extra check above
-          var names = (fullName || '').split(/\s/g);
+          const names = (fullName || '').split(/\s/g);
           return names.indexOf(name) !== -1;
       }
       /**
@@ -4377,8 +4382,8 @@
        * node.name(); // return 'red'
        */
       removeName(name) {
-          var names = (this.name() || '').split(/\s/g);
-          var index = names.indexOf(name);
+          const names = (this.name() || '').split(/\s/g);
+          const index = names.indexOf(name);
           if (index !== -1) {
               names.splice(index, 1);
               this.name(names.join(' '));
@@ -4396,7 +4401,7 @@
        * node.setAttr('x', 5);
        */
       setAttr(attr, val) {
-          var func = this[SET + Util._capitalize(attr)];
+          const func = this[SET + Util._capitalize(attr)];
           if (Util._isFunction(func)) {
               func.call(this, val);
           }
@@ -4409,11 +4414,11 @@
       _requestDraw() {
           if (Konva$2.autoDrawEnabled) {
               const drawNode = this.getLayer() || this.getStage();
-              drawNode === null || drawNode === void 0 ? void 0 : drawNode.batchDraw();
+              drawNode === null || drawNode === undefined ? undefined : drawNode.batchDraw();
           }
       }
       _setAttr(key, val) {
-          var oldVal = this.attrs[key];
+          const oldVal = this.attrs[key];
           if (oldVal === val && !Util.isObject(val)) {
               return;
           }
@@ -4429,7 +4434,7 @@
           this._requestDraw();
       }
       _setComponentAttr(key, component, val) {
-          var oldVal;
+          let oldVal;
           if (val !== undefined) {
               oldVal = this.attrs[key];
               if (!oldVal) {
@@ -4444,7 +4449,7 @@
           if (evt && this.nodeType === SHAPE) {
               evt.target = this;
           }
-          var shouldStop = (eventType === MOUSEENTER$1 || eventType === MOUSELEAVE$1) &&
+          const shouldStop = (eventType === MOUSEENTER$1 || eventType === MOUSELEAVE$1) &&
               ((compareShape &&
                   (this === compareShape ||
                       (this.isAncestorOf && this.isAncestorOf(compareShape)))) ||
@@ -4452,7 +4457,7 @@
           if (!shouldStop) {
               this._fire(eventType, evt);
               // simulate event bubbling
-              var stopBubble = (eventType === MOUSEENTER$1 || eventType === MOUSELEAVE$1) &&
+              const stopBubble = (eventType === MOUSEENTER$1 || eventType === MOUSELEAVE$1) &&
                   compareShape &&
                   compareShape.isAncestorOf &&
                   compareShape.isAncestorOf(this) &&
@@ -4472,14 +4477,14 @@
       }
       _getProtoListeners(eventType) {
           var _a, _b, _c;
-          const allListeners = (_a = this._cache.get(ALL_LISTENERS)) !== null && _a !== void 0 ? _a : {};
-          let events = allListeners === null || allListeners === void 0 ? void 0 : allListeners[eventType];
+          const allListeners = (_a = this._cache.get(ALL_LISTENERS)) !== null && _a !== undefined ? _a : {};
+          let events = allListeners === null || allListeners === undefined ? undefined : allListeners[eventType];
           if (events === undefined) {
               //recalculate cache
               events = [];
               let obj = Object.getPrototypeOf(this);
               while (obj) {
-                  const hierarchyEvents = (_c = (_b = obj.eventListeners) === null || _b === void 0 ? void 0 : _b[eventType]) !== null && _c !== void 0 ? _c : [];
+                  const hierarchyEvents = (_c = (_b = obj.eventListeners) === null || _b === undefined ? undefined : _b[eventType]) !== null && _c !== undefined ? _c : [];
                   events.push(...hierarchyEvents);
                   obj = Object.getPrototypeOf(obj);
               }
@@ -4521,13 +4526,13 @@
       }
       // drag & drop
       _createDragElement(evt) {
-          var pointerId = evt ? evt.pointerId : undefined;
-          var stage = this.getStage();
-          var ap = this.getAbsolutePosition();
+          const pointerId = evt ? evt.pointerId : undefined;
+          const stage = this.getStage();
+          const ap = this.getAbsolutePosition();
           if (!stage) {
               return;
           }
-          var pos = stage._getPointerById(pointerId) ||
+          const pos = stage._getPointerById(pointerId) ||
               stage._changedPointerPositions[0] ||
               ap;
           DD._dragElements.set(this._id, {
@@ -4565,11 +4570,11 @@
           if (!pos) {
               return;
           }
-          var newNodePos = {
+          let newNodePos = {
               x: pos.x - elem.offset.x,
               y: pos.y - elem.offset.y,
           };
-          var dbf = this.dragBoundFunc();
+          const dbf = this.dragBoundFunc();
           if (dbf !== undefined) {
               const bounded = dbf.call(this, newNodePos, evt);
               if (!bounded) {
@@ -4616,15 +4621,15 @@
       _listenDrag() {
           this._dragCleanup();
           this.on('mousedown.konva touchstart.konva', function (evt) {
-              var shouldCheckButton = evt.evt['button'] !== undefined;
-              var canDrag = !shouldCheckButton || Konva$2.dragButtons.indexOf(evt.evt['button']) >= 0;
+              const shouldCheckButton = evt.evt['button'] !== undefined;
+              const canDrag = !shouldCheckButton || Konva$2.dragButtons.indexOf(evt.evt['button']) >= 0;
               if (!canDrag) {
                   return;
               }
               if (this.isDragging()) {
                   return;
               }
-              var hasDraggingChild = false;
+              let hasDraggingChild = false;
               DD._dragElements.forEach((elem) => {
                   if (this.isAncestorOf(elem.node)) {
                       hasDraggingChild = true;
@@ -4649,7 +4654,7 @@
                * if this node is currently in
                * drag and drop mode
                */
-              var stage = this.getStage();
+              const stage = this.getStage();
               if (!stage) {
                   return;
               }
@@ -4716,7 +4721,7 @@
           return this._createNode(data, container);
       }
       static _createNode(obj, container) {
-          var className = Node.prototype.getClassName.call(obj), children = obj.children, no, len, n;
+          let className = Node.prototype.getClassName.call(obj), children = obj.children, no, len, n;
           // if container was passed in, add it to attrs
           if (container) {
               obj.attrs.container = container;
@@ -5057,7 +5062,7 @@
    * // set offset y
    * node.offsetY(3);
    */
-  addGetterSetter(Node, 'dragDistance', null, getNumberValidator());
+  addGetterSetter(Node, 'dragDistance', undefined, getNumberValidator());
   /**
    * get/set drag distance
    * @name Konva.Node#dragDistance
@@ -5141,7 +5146,7 @@
    * shape.preventDefault(false);
    */
   addGetterSetter(Node, 'preventDefault', true, getBooleanValidator());
-  addGetterSetter(Node, 'filters', null, function (val) {
+  addGetterSetter(Node, 'filters', undefined, function (val) {
       this._filterUpToDate = false;
       return val;
   });
@@ -5328,7 +5333,7 @@
               return this.children || [];
           }
           const children = this.children || [];
-          var results = [];
+          const results = [];
           children.forEach(function (child) {
               if (filterFunc(child)) {
                   results.push(child);
@@ -5399,7 +5404,7 @@
               return this;
           }
           if (children.length > 1) {
-              for (var i = 0; i < children.length; i++) {
+              for (let i = 0; i < children.length; i++) {
                   this.add(children[i]);
               }
               return this;
@@ -5492,11 +5497,11 @@
        * })
        */
       findOne(selector) {
-          var result = this._generalFind(selector, true);
+          const result = this._generalFind(selector, true);
           return result.length > 0 ? result[0] : undefined;
       }
       _generalFind(selector, findOne) {
-          var retArr = [];
+          const retArr = [];
           this._descendants((node) => {
               const valid = node._isMatch(selector);
               if (valid) {
@@ -5529,7 +5534,7 @@
       }
       // extenders
       toObject() {
-          var obj = Node.prototype.toObject.call(this);
+          const obj = Node.prototype.toObject.call(this);
           obj.children = [];
           this.getChildren().forEach((child) => {
               obj.children.push(child.toObject());
@@ -5544,7 +5549,7 @@
        * @param {Konva.Node} node
        */
       isAncestorOf(node) {
-          var parent = node.getParent();
+          let parent = node.getParent();
           while (parent) {
               if (parent._id === this._id) {
                   return true;
@@ -5555,7 +5560,7 @@
       }
       clone(obj) {
           // call super method
-          var node = Node.prototype.clone.call(this, obj);
+          const node = Node.prototype.clone.call(this, obj);
           this.getChildren().forEach(function (no) {
               node.add(no.clone());
           });
@@ -5575,7 +5580,7 @@
        * @returns {Array} array of shapes
        */
       getAllIntersections(pos) {
-          var arr = [];
+          const arr = [];
           this.find('Shape').forEach((shape) => {
               if (shape.isVisible() && shape.intersects(pos)) {
                   arr.push(shape);
@@ -5591,26 +5596,26 @@
           if (this.isCached()) {
               return;
           }
-          (_a = this.children) === null || _a === void 0 ? void 0 : _a.forEach(function (node) {
+          (_a = this.children) === null || _a === undefined ? undefined : _a.forEach(function (node) {
               node._clearSelfAndDescendantCache(attr);
           });
       }
       _setChildrenIndices() {
           var _a;
-          (_a = this.children) === null || _a === void 0 ? void 0 : _a.forEach(function (child, n) {
+          (_a = this.children) === null || _a === undefined ? undefined : _a.forEach(function (child, n) {
               child.index = n;
           });
           this._requestDraw();
       }
       drawScene(can, top, bufferCanvas) {
-          var layer = this.getLayer(), canvas = can || (layer && layer.getCanvas()), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedSceneCanvas = cachedCanvas && cachedCanvas.scene;
-          var caching = canvas && canvas.isCache;
+          const layer = this.getLayer(), canvas = can || (layer && layer.getCanvas()), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedSceneCanvas = cachedCanvas && cachedCanvas.scene;
+          const caching = canvas && canvas.isCache;
           if (!this.isVisible() && !caching) {
               return this;
           }
           if (cachedSceneCanvas) {
               context.save();
-              var m = this.getAbsoluteTransform(top).getMatrix();
+              const m = this.getAbsoluteTransform(top).getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               this._drawCachedSceneCanvas(context);
               context.restore();
@@ -5624,10 +5629,10 @@
           if (!this.shouldDrawHit(top)) {
               return this;
           }
-          var layer = this.getLayer(), canvas = can || (layer && layer.hitCanvas), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
+          const layer = this.getLayer(), canvas = can || (layer && layer.hitCanvas), context = canvas && canvas.getContext(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
           if (cachedHitCanvas) {
               context.save();
-              var m = this.getAbsoluteTransform(top).getMatrix();
+              const m = this.getAbsoluteTransform(top).getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               this._drawCachedHitCanvas(context);
               context.restore();
@@ -5639,13 +5644,13 @@
       }
       _drawChildren(drawMethod, canvas, top, bufferCanvas) {
           var _a;
-          var context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (typeof clipWidth === 'number' && typeof clipHeight === 'number') ||
+          const context = canvas && canvas.getContext(), clipWidth = this.clipWidth(), clipHeight = this.clipHeight(), clipFunc = this.clipFunc(), hasClip = (typeof clipWidth === 'number' && typeof clipHeight === 'number') ||
               clipFunc;
           const selfCache = top === this;
           if (hasClip) {
               context.save();
-              var transform = this.getAbsoluteTransform(top);
-              var m = transform.getMatrix();
+              const transform = this.getAbsoluteTransform(top);
+              let m = transform.getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               context.beginPath();
               let clipArgs;
@@ -5653,22 +5658,22 @@
                   clipArgs = clipFunc.call(this, context, this);
               }
               else {
-                  var clipX = this.clipX();
-                  var clipY = this.clipY();
+                  const clipX = this.clipX();
+                  const clipY = this.clipY();
                   context.rect(clipX || 0, clipY || 0, clipWidth, clipHeight);
               }
               context.clip.apply(context, clipArgs);
               m = transform.copy().invert().getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
           }
-          var hasComposition = !selfCache &&
+          const hasComposition = !selfCache &&
               this.globalCompositeOperation() !== 'source-over' &&
               drawMethod === 'drawScene';
           if (hasComposition) {
               context.save();
               context._applyGlobalCompositeOperation(this);
           }
-          (_a = this.children) === null || _a === void 0 ? void 0 : _a.forEach(function (child) {
+          (_a = this.children) === null || _a === undefined ? undefined : _a.forEach(function (child) {
               child[drawMethod](canvas, top, bufferCanvas);
           });
           if (hasComposition) {
@@ -5680,22 +5685,22 @@
       }
       getClientRect(config = {}) {
           var _a;
-          var skipTransform = config.skipTransform;
-          var relativeTo = config.relativeTo;
-          var minX, minY, maxX, maxY;
-          var selfRect = {
+          const skipTransform = config.skipTransform;
+          const relativeTo = config.relativeTo;
+          let minX, minY, maxX, maxY;
+          let selfRect = {
               x: Infinity,
               y: Infinity,
               width: 0,
               height: 0,
           };
-          var that = this;
-          (_a = this.children) === null || _a === void 0 ? void 0 : _a.forEach(function (child) {
+          const that = this;
+          (_a = this.children) === null || _a === undefined ? undefined : _a.forEach(function (child) {
               // skip invisible children
               if (!child.visible()) {
                   return;
               }
-              var rect = child.getClientRect({
+              const rect = child.getClientRect({
                   relativeTo: that,
                   skipShadow: config.skipShadow,
                   skipStroke: config.skipStroke,
@@ -5719,10 +5724,10 @@
               }
           });
           // if child is group we need to make sure it has visible shapes inside
-          var shapes = this.find('Shape');
-          var hasVisible = false;
-          for (var i = 0; i < shapes.length; i++) {
-              var shape = shapes[i];
+          const shapes = this.find('Shape');
+          let hasVisible = false;
+          for (let i = 0; i < shapes.length; i++) {
+              const shape = shapes[i];
               if (shape._isVisible(this)) {
                   hasVisible = true;
                   break;
@@ -5896,7 +5901,7 @@
   }
 
   // CONSTANTS
-  var STAGE = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', POINTERMOVE = 'pointermove', POINTERDOWN = 'pointerdown', POINTERUP = 'pointerup', POINTERCANCEL = 'pointercancel', LOSTPOINTERCAPTURE = 'lostpointercapture', POINTEROUT = 'pointerout', POINTERLEAVE = 'pointerleave', POINTEROVER = 'pointerover', POINTERENTER = 'pointerenter', CONTEXTMENU = 'contextmenu', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TOUCHMOVE = 'touchmove', TOUCHCANCEL = 'touchcancel', WHEEL = 'wheel', MAX_LAYERS_NUMBER = 5, EVENTS = [
+  const STAGE = 'Stage', STRING = 'string', PX = 'px', MOUSEOUT = 'mouseout', MOUSELEAVE = 'mouseleave', MOUSEOVER = 'mouseover', MOUSEENTER = 'mouseenter', MOUSEMOVE = 'mousemove', MOUSEDOWN = 'mousedown', MOUSEUP = 'mouseup', POINTERMOVE = 'pointermove', POINTERDOWN = 'pointerdown', POINTERUP = 'pointerup', POINTERCANCEL = 'pointercancel', LOSTPOINTERCAPTURE = 'lostpointercapture', POINTEROUT = 'pointerout', POINTERLEAVE = 'pointerleave', POINTEROVER = 'pointerover', POINTERENTER = 'pointerenter', CONTEXTMENU = 'contextmenu', TOUCHSTART = 'touchstart', TOUCHEND = 'touchend', TOUCHMOVE = 'touchmove', TOUCHCANCEL = 'touchcancel', WHEEL = 'wheel', MAX_LAYERS_NUMBER = 5, EVENTS = [
       [MOUSEENTER, '_pointerenter'],
       [MOUSEDOWN, '_pointerdown'],
       [MOUSEMOVE, '_pointermove'],
@@ -6055,7 +6060,7 @@
       setContainer(container) {
           if (typeof container === STRING) {
               if (container.charAt(0) === '.') {
-                  var className = container.slice(1);
+                  const className = container.slice(1);
                   container = document.getElementsByClassName(className)[0];
               }
               else {
@@ -6090,8 +6095,8 @@
        * @name Konva.Stage#clear
        */
       clear() {
-          var layers = this.children, len = layers.length, n;
-          for (n = 0; n < len; n++) {
+          const layers = this.children, len = layers.length;
+          for (let n = 0; n < len; n++) {
               layers[n].clear();
           }
           return this;
@@ -6106,11 +6111,11 @@
       }
       destroy() {
           super.destroy();
-          var content = this.content;
+          const content = this.content;
           if (content && Util._isInDocument(content)) {
               this.container().removeChild(content);
           }
-          var index = stages.indexOf(this);
+          const index = stages.indexOf(this);
           if (index > -1) {
               stages.splice(index, 1);
           }
@@ -6154,13 +6159,13 @@
           config.y = config.y || 0;
           config.width = config.width || this.width();
           config.height = config.height || this.height();
-          var canvas = new SceneCanvas({
+          const canvas = new SceneCanvas({
               width: config.width,
               height: config.height,
               pixelRatio: config.pixelRatio || 1,
           });
-          var _context = canvas.getContext()._context;
-          var layers = this.children;
+          const _context = canvas.getContext()._context;
+          const layers = this.children;
           if (config.x || config.y) {
               _context.translate(-1 * config.x, -1 * config.y);
           }
@@ -6168,7 +6173,7 @@
               if (!layer.isVisible()) {
                   return;
               }
-              var layerCanvas = layer._toKonvaCanvas(config);
+              const layerCanvas = layer._toKonvaCanvas(config);
               _context.drawImage(layerCanvas._canvas, config.x, config.y, layerCanvas.getWidth() / layerCanvas.getPixelRatio(), layerCanvas.getHeight() / layerCanvas.getPixelRatio());
           });
           return canvas;
@@ -6190,8 +6195,8 @@
           if (!pos) {
               return null;
           }
-          var layers = this.children, len = layers.length, end = len - 1, n;
-          for (n = end; n >= 0; n--) {
+          const layers = this.children, len = layers.length, end = len - 1;
+          for (let n = end; n >= 0; n--) {
               const shape = layers[n].getIntersection(pos);
               if (shape) {
                   return shape;
@@ -6200,8 +6205,8 @@
           return null;
       }
       _resizeDOM() {
-          var width = this.width();
-          var height = this.height();
+          const width = this.width();
+          const height = this.height();
           if (this.content) {
               // set content dimensions
               this.content.style.width = width + PX;
@@ -6217,13 +6222,13 @@
       }
       add(layer, ...rest) {
           if (arguments.length > 1) {
-              for (var i = 0; i < arguments.length; i++) {
+              for (let i = 0; i < arguments.length; i++) {
                   this.add(arguments[i]);
               }
               return this;
           }
           super.add(layer);
-          var length = this.children.length;
+          const length = this.children.length;
           if (length > MAX_LAYERS_NUMBER) {
               Util.warn('The stage has ' +
                   length +
@@ -6307,8 +6312,8 @@
               return;
           }
           this.setPointersPositions(evt);
-          var targetShape = this._getTargetShape(eventType);
-          var eventsEnabled = !(Konva$2.isDragging() || Konva$2.isTransforming()) || Konva$2.hitOnDragEnabled;
+          const targetShape = this._getTargetShape(eventType);
+          const eventsEnabled = !(Konva$2.isDragging() || Konva$2.isTransforming()) || Konva$2.hitOnDragEnabled;
           if (targetShape && eventsEnabled) {
               targetShape._fireAndBubble(events.pointerout, { evt: evt });
               targetShape._fireAndBubble(events.pointerleave, { evt: evt });
@@ -6341,9 +6346,9 @@
               return;
           }
           this.setPointersPositions(evt);
-          var triggeredOnShape = false;
+          let triggeredOnShape = false;
           this._changedPointerPositions.forEach((pos) => {
-              var shape = this.getIntersection(pos);
+              const shape = this.getIntersection(pos);
               DD.justDragged = false;
               // probably we are staring a click
               Konva$2['_' + eventType + 'ListenClick'] = true;
@@ -6389,19 +6394,19 @@
               evt.preventDefault();
           }
           this.setPointersPositions(evt);
-          var eventsEnabled = !(Konva$2.isDragging() || Konva$2.isTransforming()) || Konva$2.hitOnDragEnabled;
+          const eventsEnabled = !(Konva$2.isDragging() || Konva$2.isTransforming()) || Konva$2.hitOnDragEnabled;
           if (!eventsEnabled) {
               return;
           }
-          var processedShapesIds = {};
+          const processedShapesIds = {};
           let triggeredOnShape = false;
-          var targetShape = this._getTargetShape(eventType);
+          const targetShape = this._getTargetShape(eventType);
           this._changedPointerPositions.forEach((pos) => {
               const shape = (getCapturedShape(pos.id) ||
                   this.getIntersection(pos));
               const pointerId = pos.id;
               const event = { evt: evt, pointerId };
-              var differentTarget = targetShape !== shape;
+              const differentTarget = targetShape !== shape;
               if (differentTarget && targetShape) {
                   targetShape._fireAndBubble(events.pointerout, { ...event }, shape);
                   targetShape._fireAndBubble(events.pointerleave, { ...event }, shape);
@@ -6451,7 +6456,7 @@
           this.setPointersPositions(evt);
           const clickStartShape = this[eventType + 'ClickStartShape'];
           const clickEndShape = this[eventType + 'ClickEndShape'];
-          var processedShapesIds = {};
+          const processedShapesIds = {};
           let triggeredOnShape = false;
           this._changedPointerPositions.forEach((pos) => {
               const shape = (getCapturedShape(pos.id) ||
@@ -6526,13 +6531,13 @@
           // TODO: are we sure we need to prevent default at all?
           // do not call this function on mobile because it prevent "click" event on all parent containers
           // but apps may listen to it.
-          if (evt.cancelable && eventType !== 'touch') {
+          if (evt.cancelable && eventType !== 'touch' && eventType !== 'pointer') {
               evt.preventDefault();
           }
       }
       _contextmenu(evt) {
           this.setPointersPositions(evt);
-          var shape = this.getIntersection(this.getPointerPosition());
+          const shape = this.getIntersection(this.getPointerPosition());
           if (shape && shape.isListening()) {
               shape._fireAndBubble(CONTEXTMENU, { evt: evt });
           }
@@ -6546,7 +6551,7 @@
       }
       _wheel(evt) {
           this.setPointersPositions(evt);
-          var shape = this.getIntersection(this.getPointerPosition());
+          const shape = this.getIntersection(this.getPointerPosition());
           if (shape && shape.isListening()) {
               shape._fireAndBubble(WHEEL, { evt: evt });
           }
@@ -6585,7 +6590,8 @@
        * });
        */
       setPointersPositions(evt) {
-          var contentPosition = this._getContentPosition(), x = null, y = null;
+          const contentPosition = this._getContentPosition();
+          let x = null, y = null;
           evt = evt ? evt : window.event;
           // touch events
           if (evt.touches !== undefined) {
@@ -6635,7 +6641,7 @@
                   scaleY: 1,
               };
           }
-          var rect = this.content.getBoundingClientRect();
+          const rect = this.content.getBoundingClientRect();
           return {
               top: rect.top,
               left: rect.left,
@@ -6658,7 +6664,7 @@
           if (!Konva$2.isBrowser) {
               return;
           }
-          var container = this.container();
+          const container = this.container();
           if (!container) {
               throw 'Stage has no container. A container is required.';
           }
@@ -6722,11 +6728,11 @@
       });
   }
 
-  var HAS_SHADOW = 'hasShadow';
-  var SHADOW_RGBA = 'shadowRGBA';
-  var patternImage = 'patternImage';
-  var linearGradient = 'linearGradient';
-  var radialGradient = 'radialGradient';
+  const HAS_SHADOW = 'hasShadow';
+  const SHADOW_RGBA = 'shadowRGBA';
+  const patternImage = 'patternImage';
+  const linearGradient = 'linearGradient';
+  const radialGradient = 'radialGradient';
   let dummyContext$1;
   function getDummyContext$1() {
       if (dummyContext$1) {
@@ -6928,7 +6934,7 @@
       }
       __getFillPattern() {
           if (this.fillPatternImage()) {
-              var ctx = getDummyContext$1();
+              const ctx = getDummyContext$1();
               const pattern = ctx.createPattern(this.fillPatternImage(), this.fillPatternRepeat() || 'repeat');
               if (pattern && pattern.setTransform) {
                   const tr = new Transform();
@@ -6956,14 +6962,14 @@
           return this._getCache(linearGradient, this.__getLinearGradient);
       }
       __getLinearGradient() {
-          var colorStops = this.fillLinearGradientColorStops();
+          const colorStops = this.fillLinearGradientColorStops();
           if (colorStops) {
-              var ctx = getDummyContext$1();
-              var start = this.fillLinearGradientStartPoint();
-              var end = this.fillLinearGradientEndPoint();
-              var grd = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
+              const ctx = getDummyContext$1();
+              const start = this.fillLinearGradientStartPoint();
+              const end = this.fillLinearGradientEndPoint();
+              const grd = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
               // build color stops
-              for (var n = 0; n < colorStops.length; n += 2) {
+              for (let n = 0; n < colorStops.length; n += 2) {
                   grd.addColorStop(colorStops[n], colorStops[n + 1]);
               }
               return grd;
@@ -6973,14 +6979,14 @@
           return this._getCache(radialGradient, this.__getRadialGradient);
       }
       __getRadialGradient() {
-          var colorStops = this.fillRadialGradientColorStops();
+          const colorStops = this.fillRadialGradientColorStops();
           if (colorStops) {
-              var ctx = getDummyContext$1();
-              var start = this.fillRadialGradientStartPoint();
-              var end = this.fillRadialGradientEndPoint();
-              var grd = ctx.createRadialGradient(start.x, start.y, this.fillRadialGradientStartRadius(), end.x, end.y, this.fillRadialGradientEndRadius());
+              const ctx = getDummyContext$1();
+              const start = this.fillRadialGradientStartPoint();
+              const end = this.fillRadialGradientEndPoint();
+              const grd = ctx.createRadialGradient(start.x, start.y, this.fillRadialGradientStartRadius(), end.x, end.y, this.fillRadialGradientEndRadius());
               // build color stops
-              for (var n = 0; n < colorStops.length; n += 2) {
+              for (let n = 0; n < colorStops.length; n += 2) {
                   grd.addColorStop(colorStops[n], colorStops[n + 1]);
               }
               return grd;
@@ -6993,7 +6999,7 @@
           if (!this.hasShadow()) {
               return;
           }
-          var rgba = Util.colorToRGBA(this.shadowColor());
+          const rgba = Util.colorToRGBA(this.shadowColor());
           if (rgba) {
               return ('rgba(' +
                   rgba.r +
@@ -7076,7 +7082,7 @@
        * @returns {Boolean}
        */
       intersects(point) {
-          var stage = this.getStage();
+          const stage = this.getStage();
           if (!stage) {
               return false;
           }
@@ -7101,7 +7107,7 @@
           // it probably will be simpler, then copy/paste the code
           var _a;
           // force skip buffer canvas
-          const perfectDrawEnabled = (_a = this.attrs.perfectDrawEnabled) !== null && _a !== void 0 ? _a : true;
+          const perfectDrawEnabled = (_a = this.attrs.perfectDrawEnabled) !== null && _a !== undefined ? _a : true;
           if (!perfectDrawEnabled) {
               return false;
           }
@@ -7140,7 +7146,7 @@
        * This method are not taken into account transformation and styles.
        * @method
        * @name Konva.Shape#getSelfRect
-       * @returns {Object} rect with `{x, y, width, height}` properties
+       * @returns {Object} rect with {x, y, width, height} properties
        * @example
        *
        * rect.getSelfRect();  // return {x:0, y:0, width:rect.width(), height:rect.height()}
@@ -7148,7 +7154,7 @@
        *
        */
       getSelfRect() {
-          var size = this.size();
+          const size = this.size();
           return {
               x: this._centroid ? -size.width / 2 : 0,
               y: this._centroid ? -size.height / 2 : 0,
@@ -7204,17 +7210,17 @@
           // 1 - simple drawing when nothing is cached.
           // 2 - when we are caching current
           // 3 - when node is cached and we need to draw it into layer
-          var layer = this.getLayer();
-          var canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferContext;
-          var skipBuffer = canvas.isCache;
-          var cachingSelf = top === this;
+          const layer = this.getLayer();
+          let canvas = can || layer.getCanvas(), context = canvas.getContext(), cachedCanvas = this._getCanvasCache(), drawFunc = this.getSceneFunc(), hasShadow = this.hasShadow(), stage, bufferContext;
+          const skipBuffer = canvas.isCache;
+          const cachingSelf = top === this;
           if (!this.isVisible() && !cachingSelf) {
               return this;
           }
           // if node is cached we just need to draw from cache
           if (cachedCanvas) {
               context.save();
-              var m = this.getAbsoluteTransform(top).getMatrix();
+              const m = this.getAbsoluteTransform(top).getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               this._drawCachedSceneCanvas(context);
               context.restore();
@@ -7237,7 +7243,7 @@
               bufferContext.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
               drawFunc.call(this, bufferContext, this);
               bufferContext.restore();
-              var ratio = bc.pixelRatio;
+              const ratio = bc.pixelRatio;
               if (hasShadow) {
                   context._applyShadow(this);
               }
@@ -7265,13 +7271,13 @@
           if (!this.shouldDrawHit(top, skipDragCheck)) {
               return this;
           }
-          var layer = this.getLayer(), canvas = can || layer.hitCanvas, context = canvas && canvas.getContext(), drawFunc = this.hitFunc() || this.sceneFunc(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
+          const layer = this.getLayer(), canvas = can || layer.hitCanvas, context = canvas && canvas.getContext(), drawFunc = this.hitFunc() || this.sceneFunc(), cachedCanvas = this._getCanvasCache(), cachedHitCanvas = cachedCanvas && cachedCanvas.hit;
           if (!this.colorKey) {
               Util.warn('Looks like your canvas has a destroyed shape in it. Do not reuse shape after you destroyed it. If you want to reuse shape you should call remove() instead of destroy()');
           }
           if (cachedHitCanvas) {
               context.save();
-              var m = this.getAbsoluteTransform(top).getMatrix();
+              const m = this.getAbsoluteTransform(top).getMatrix();
               context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
               this._drawCachedHitCanvas(context);
               context.restore();
@@ -7284,7 +7290,7 @@
           context._applyLineJoin(this);
           const selfCache = this === top;
           if (!selfCache) {
-              var o = this.getAbsoluteTransform(top).getMatrix();
+              const o = this.getAbsoluteTransform(top).getMatrix();
               context.transform(o[0], o[1], o[2], o[3], o[4], o[5]);
           }
           drawFunc.call(this, context, this);
@@ -7304,17 +7310,17 @@
        * shape.drawHitFromCache();
        */
       drawHitFromCache(alphaThreshold = 0) {
-          var cachedCanvas = this._getCanvasCache(), sceneCanvas = this._getCachedSceneCanvas(), hitCanvas = cachedCanvas.hit, hitContext = hitCanvas.getContext(), hitWidth = hitCanvas.getWidth(), hitHeight = hitCanvas.getHeight(), hitImageData, hitData, len, rgbColorKey, i, alpha;
+          const cachedCanvas = this._getCanvasCache(), sceneCanvas = this._getCachedSceneCanvas(), hitCanvas = cachedCanvas.hit, hitContext = hitCanvas.getContext(), hitWidth = hitCanvas.getWidth(), hitHeight = hitCanvas.getHeight();
           hitContext.clear();
           hitContext.drawImage(sceneCanvas._canvas, 0, 0, hitWidth, hitHeight);
           try {
-              hitImageData = hitContext.getImageData(0, 0, hitWidth, hitHeight);
-              hitData = hitImageData.data;
-              len = hitData.length;
-              rgbColorKey = Util._hexToRgb(this.colorKey);
+              const hitImageData = hitContext.getImageData(0, 0, hitWidth, hitHeight);
+              const hitData = hitImageData.data;
+              const len = hitData.length;
+              const rgbColorKey = Util._hexToRgb(this.colorKey);
               // replace non transparent pixels with color key
-              for (i = 0; i < len; i += 4) {
-                  alpha = hitData[i + 3];
+              for (let i = 0; i < len; i += 4) {
+                  const alpha = hitData[i + 3];
                   if (alpha > alphaThreshold) {
                       hitData[i] = rgbColorKey.r;
                       hitData[i + 1] = rgbColorKey.g;
@@ -8368,7 +8374,7 @@
   });
 
   // constants
-  var HASH = '#', BEFORE_DRAW = 'beforeDraw', DRAW = 'draw', 
+  const HASH = '#', BEFORE_DRAW = 'beforeDraw', DRAW = 'draw', 
   /*
    * 2 - 3 - 4
    * |       |
@@ -8483,7 +8489,7 @@
       // extend Node.prototype.setZIndex
       setZIndex(index) {
           super.setZIndex(index);
-          var stage = this.getStage();
+          const stage = this.getStage();
           if (stage && stage.content) {
               stage.content.removeChild(this.getNativeCanvasElement());
               if (index < stage.children.length - 1) {
@@ -8497,7 +8503,7 @@
       }
       moveToTop() {
           Node.prototype.moveToTop.call(this);
-          var stage = this.getStage();
+          const stage = this.getStage();
           if (stage && stage.content) {
               stage.content.removeChild(this.getNativeCanvasElement());
               stage.content.appendChild(this.getNativeCanvasElement());
@@ -8505,11 +8511,11 @@
           return true;
       }
       moveUp() {
-          var moved = Node.prototype.moveUp.call(this);
+          const moved = Node.prototype.moveUp.call(this);
           if (!moved) {
               return false;
           }
-          var stage = this.getStage();
+          const stage = this.getStage();
           if (!stage || !stage.content) {
               return false;
           }
@@ -8525,9 +8531,9 @@
       // extend Node.prototype.moveDown
       moveDown() {
           if (Node.prototype.moveDown.call(this)) {
-              var stage = this.getStage();
+              const stage = this.getStage();
               if (stage) {
-                  var children = stage.children;
+                  const children = stage.children;
                   if (stage.content) {
                       stage.content.removeChild(this.getNativeCanvasElement());
                       stage.content.insertBefore(this.getNativeCanvasElement(), children[this.index + 1].getCanvas()._canvas);
@@ -8540,9 +8546,9 @@
       // extend Node.prototype.moveToBottom
       moveToBottom() {
           if (Node.prototype.moveToBottom.call(this)) {
-              var stage = this.getStage();
+              const stage = this.getStage();
               if (stage) {
-                  var children = stage.children;
+                  const children = stage.children;
                   if (stage.content) {
                       stage.content.removeChild(this.getNativeCanvasElement());
                       stage.content.insertBefore(this.getNativeCanvasElement(), children[1].getCanvas()._canvas);
@@ -8556,7 +8562,7 @@
           return this;
       }
       remove() {
-          var _canvas = this.getNativeCanvasElement();
+          const _canvas = this.getNativeCanvasElement();
           Node.prototype.remove.call(this);
           if (_canvas && _canvas.parentNode && Util._isInDocument(_canvas)) {
               _canvas.parentNode.removeChild(_canvas);
@@ -8573,7 +8579,7 @@
           return this;
       }
       _validateAdd(child) {
-          var type = child.getType();
+          const type = child.getType();
           if (type !== 'Group' && type !== 'Shape') {
               Util.throw('You may only add groups and shapes to a layer.');
           }
@@ -8670,8 +8676,8 @@
           }
           // in some cases antialiased area may be bigger than 1px
           // it is possible if we will cache node, then scale it a lot
-          var spiralSearchDistance = 1;
-          var continueSearch = false;
+          let spiralSearchDistance = 1;
+          let continueSearch = false;
           while (true) {
               for (let i = 0; i < INTERSECTION_OFFSETS_LEN; i++) {
                   const intersectionOffset = INTERSECTION_OFFSETS[i];
@@ -8727,7 +8733,7 @@
           return {};
       }
       drawScene(can, top) {
-          var layer = this.getLayer(), canvas = can || (layer && layer.getCanvas());
+          const layer = this.getLayer(), canvas = can || (layer && layer.getCanvas());
           this._fire(BEFORE_DRAW, {
               node: this,
           });
@@ -8741,7 +8747,7 @@
           return this;
       }
       drawHit(can, top) {
-          var layer = this.getLayer(), canvas = can || (layer && layer.hitCanvas);
+          const layer = this.getLayer(), canvas = can || (layer && layer.hitCanvas);
           if (layer && layer.clearBeforeDraw()) {
               layer.getHitCanvas().getContext().clear();
           }
@@ -8785,8 +8791,8 @@
           if (!this.parent || !this.parent['content']) {
               return;
           }
-          var parent = this.parent;
-          var added = !!this.hitCanvas._canvas.parentNode;
+          const parent = this.parent;
+          const added = !!this.hitCanvas._canvas.parentNode;
           if (added) {
               parent.content.removeChild(this.hitCanvas._canvas);
           }
@@ -8923,7 +8929,7 @@
    */
   class Group extends Container {
       _validateAdd(child) {
-          var type = child.getType();
+          const type = child.getType();
           if (type !== 'Group' && type !== 'Shape') {
               Util.throw('You may only add groups and shapes to groups.');
           }
@@ -9120,7 +9126,7 @@
                   }
               }
           }
-          for (let key in layerHash) {
+          for (const key in layerHash) {
               if (!layerHash.hasOwnProperty(key)) {
                   continue;
               }
@@ -9148,13 +9154,14 @@
   Animation.animIdCounter = 0;
   Animation.animRunning = false;
 
-  var blacklist = {
+  const blacklist = {
       node: 1,
       duration: 1,
       easing: 1,
       onFinish: 1,
       yoyo: 1,
-  }, PAUSED = 1, PLAYING = 2, REVERSING = 3, idCounter = 0, colorAttrs = ['fill', 'stroke', 'shadowColor'];
+  }, PAUSED = 1, PLAYING = 2, REVERSING = 3, colorAttrs = ['fill', 'stroke', 'shadowColor'];
+  let idCounter = 0;
   class TweenEngine {
       constructor(prop, propFunc, func, begin, finish, duration, yoyo) {
           this.prop = prop;
@@ -9174,7 +9181,7 @@
           this.pause();
       }
       fire(str) {
-          var handler = this[str];
+          const handler = this[str];
           if (handler) {
               handler();
           }
@@ -9253,7 +9260,7 @@
           this.fire('onUpdate');
       }
       onEnterFrame() {
-          var t = this.getTimer() - this._startTime;
+          const t = this.getTimer() - this._startTime;
           if (this.state === PLAYING) {
               this.setTime(t);
           }
@@ -9297,7 +9304,8 @@
    */
   class Tween {
       constructor(config) {
-          var that = this, node = config.node, nodeId = node._id, duration, easing = config.easing || Easings.Linear, yoyo = !!config.yoyo, key;
+          const that = this, node = config.node, nodeId = node._id, easing = config.easing || Easings.Linear, yoyo = !!config.yoyo;
+          let duration, key;
           if (typeof config.duration === 'undefined') {
               duration = 0.3;
           }
@@ -9310,7 +9318,7 @@
           }
           this.node = node;
           this._id = idCounter++;
-          var layers = node.getLayer() ||
+          const layers = node.getLayer() ||
               (node instanceof Konva$2['Stage'] ? node.getLayers() : null);
           if (!layers) {
               Util.error('Tween constructor have `node` that is not in a layer. Please add node into layer first.');
@@ -9345,14 +9353,15 @@
           this.onUpdate = config.onUpdate;
       }
       _addAttr(key, end) {
-          var node = this.node, nodeId = node._id, start, diff, tweenId, n, len, trueEnd, trueStart, endRGBA;
+          const node = this.node, nodeId = node._id;
+          let diff, len, trueEnd, trueStart, endRGBA;
           // remove conflict from tween map if it exists
-          tweenId = Tween.tweens[nodeId][key];
+          const tweenId = Tween.tweens[nodeId][key];
           if (tweenId) {
               delete Tween.attrs[nodeId][tweenId][key];
           }
           // add to tween map
-          start = node.getAttr(key);
+          let start = node.getAttr(key);
           if (Util._isArray(end)) {
               diff = [];
               len = Math.max(end.length, start.length);
@@ -9371,12 +9380,12 @@
                   }
               }
               if (key.indexOf('fill') === 0) {
-                  for (n = 0; n < len; n++) {
+                  for (let n = 0; n < len; n++) {
                       if (n % 2 === 0) {
                           diff.push(end[n] - start[n]);
                       }
                       else {
-                          var startRGBA = Util.colorToRGBA(start[n]);
+                          const startRGBA = Util.colorToRGBA(start[n]);
                           endRGBA = Util.colorToRGBA(end[n]);
                           start[n] = startRGBA;
                           diff.push({
@@ -9389,7 +9398,7 @@
                   }
               }
               else {
-                  for (n = 0; n < len; n++) {
+                  for (let n = 0; n < len; n++) {
                       diff.push(end[n] - start[n]);
                   }
               }
@@ -9417,7 +9426,8 @@
           Tween.tweens[nodeId][key] = this._id;
       }
       _tweenFunc(i) {
-          var node = this.node, attrs = Tween.attrs[node._id][this._id], key, attr, start, diff, newVal, n, len, end;
+          const node = this.node, attrs = Tween.attrs[node._id][this._id];
+          let key, attr, start, diff, newVal, n, len, end;
           for (key in attrs) {
               attr = attrs[key];
               start = attr.start;
@@ -9481,9 +9491,9 @@
               this.anim.stop();
           };
           this.tween.onFinish = () => {
-              var node = this.node;
+              const node = this.node;
               // after tweening  points of line we need to set original end
-              var attrs = Tween.attrs[node._id][this._id];
+              const attrs = Tween.attrs[node._id][this._id];
               if (attrs.points && attrs.points.trueEnd) {
                   node.setAttr('points', attrs.points.trueEnd);
               }
@@ -9492,9 +9502,9 @@
               }
           };
           this.tween.onReset = () => {
-              var node = this.node;
+              const node = this.node;
               // after tweening  points of line we need to set original start
-              var attrs = Tween.attrs[node._id][this._id];
+              const attrs = Tween.attrs[node._id][this._id];
               if (attrs.points && attrs.points.trueStart) {
                   node.points(attrs.points.trueStart);
               }
@@ -9575,9 +9585,9 @@
        * @name Konva.Tween#destroy
        */
       destroy() {
-          var nodeId = this.node._id, thisId = this._id, attrs = Tween.tweens[nodeId], key;
+          const nodeId = this.node._id, thisId = this._id, attrs = Tween.tweens[nodeId];
           this.pause();
-          for (key in attrs) {
+          for (const key in attrs) {
               delete Tween.tweens[nodeId][key];
           }
           delete Tween.attrs[nodeId][thisId];
@@ -9600,7 +9610,7 @@
    * });
    */
   Node.prototype.to = function (params) {
-      var onFinish = params.onFinish;
+      const onFinish = params.onFinish;
       params.node = this;
       params.onFinish = function () {
           this.destroy();
@@ -9608,7 +9618,7 @@
               onFinish();
           }
       };
-      var tween = new Tween(params);
+      const tween = new Tween(params);
       tween.play();
   };
   /*
@@ -9626,7 +9636,7 @@
        * @memberof Konva.Easings
        */
       BackEaseIn(t, b, c, d) {
-          var s = 1.70158;
+          const s = 1.70158;
           return c * (t /= d) * t * ((s + 1) * t - s) + b;
       },
       /**
@@ -9635,7 +9645,7 @@
        * @memberof Konva.Easings
        */
       BackEaseOut(t, b, c, d) {
-          var s = 1.70158;
+          const s = 1.70158;
           return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
       },
       /**
@@ -9644,7 +9654,7 @@
        * @memberof Konva.Easings
        */
       BackEaseInOut(t, b, c, d) {
-          var s = 1.70158;
+          let s = 1.70158;
           if ((t /= d / 2) < 1) {
               return (c / 2) * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
           }
@@ -9657,7 +9667,7 @@
        */
       ElasticEaseIn(t, b, c, d, a, p) {
           // added s = 0
-          var s = 0;
+          let s = 0;
           if (t === 0) {
               return b;
           }
@@ -9685,7 +9695,7 @@
        */
       ElasticEaseOut(t, b, c, d, a, p) {
           // added s = 0
-          var s = 0;
+          let s = 0;
           if (t === 0) {
               return b;
           }
@@ -9713,7 +9723,7 @@
        */
       ElasticEaseInOut(t, b, c, d, a, p) {
           // added s = 0
-          var s = 0;
+          let s = 0;
           if (t === 0) {
               return b;
           }
@@ -9967,7 +9977,7 @@
    */
   class Arc extends Shape {
       _sceneFunc(context) {
-          var angle = Konva$2.getAngle(this.angle()), clockwise = this.clockwise();
+          const angle = Konva$2.getAngle(this.angle()), clockwise = this.clockwise();
           context.beginPath();
           context.arc(0, 0, this.outerRadius(), 0, angle, clockwise);
           context.arc(0, 0, this.innerRadius(), angle, 0, !clockwise);
@@ -10073,13 +10083,13 @@
    */
 
   function getControlPoints(x0, y0, x1, y1, x2, y2, t) {
-      var d01 = Math.sqrt(Math.pow(x1 - x0, 2) + Math.pow(y1 - y0, 2)), d12 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)), fa = (t * d01) / (d01 + d12), fb = (t * d12) / (d01 + d12), p1x = x1 - fa * (x2 - x0), p1y = y1 - fa * (y2 - y0), p2x = x1 + fb * (x2 - x0), p2y = y1 + fb * (y2 - y0);
+      const d01 = Math.sqrt(Math.pow(x1 - x0, 2) + Math.pow(y1 - y0, 2)), d12 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)), fa = (t * d01) / (d01 + d12), fb = (t * d12) / (d01 + d12), p1x = x1 - fa * (x2 - x0), p1y = y1 - fa * (y2 - y0), p2x = x1 + fb * (x2 - x0), p2y = y1 + fb * (y2 - y0);
       return [p1x, p1y, p2x, p2y];
   }
   function expandPoints(p, tension) {
-      var len = p.length, allPoints = [], n, cp;
-      for (n = 2; n < len - 2; n += 2) {
-          cp = getControlPoints(p[n - 2], p[n - 1], p[n], p[n + 1], p[n + 2], p[n + 3], tension);
+      const len = p.length, allPoints = [];
+      for (let n = 2; n < len - 2; n += 2) {
+          const cp = getControlPoints(p[n - 2], p[n - 1], p[n], p[n + 1], p[n + 2], p[n + 3], tension);
           if (isNaN(cp[0])) {
               continue;
           }
@@ -10195,7 +10205,7 @@
           });
       }
       _sceneFunc(context) {
-          var points = this.points(), length = points.length, tension = this.tension(), closed = this.closed(), bezier = this.bezier(), tp, len, n;
+          let points = this.points(), length = points.length, tension = this.tension(), closed = this.closed(), bezier = this.bezier(), tp, len, n;
           if (!length) {
               return;
           }
@@ -10251,7 +10261,7 @@
           }
       }
       _getTensionPointsClosed() {
-          var p = this.points(), len = p.length, tension = this.tension(), firstControlPoints = getControlPoints(p[len - 2], p[len - 1], p[0], p[1], p[2], p[3], tension), lastControlPoints = getControlPoints(p[len - 4], p[len - 3], p[len - 2], p[len - 1], p[0], p[1], tension), middle = expandPoints(p, tension), tp = [firstControlPoints[2], firstControlPoints[3]]
+          const p = this.points(), len = p.length, tension = this.tension(), firstControlPoints = getControlPoints(p[len - 2], p[len - 1], p[0], p[1], p[2], p[3], tension), lastControlPoints = getControlPoints(p[len - 4], p[len - 3], p[len - 2], p[len - 1], p[0], p[1], tension), middle = expandPoints(p, tension), tp = [firstControlPoints[2], firstControlPoints[3]]
               .concat(middle)
               .concat([
               lastControlPoints[0],
@@ -10275,7 +10285,7 @@
       }
       // overload size detection
       getSelfRect() {
-          var points = this.points();
+          let points = this.points();
           if (points.length < 4) {
               return {
                   x: points[0] || 0,
@@ -10296,12 +10306,12 @@
           else {
               points = this.points();
           }
-          var minX = points[0];
-          var maxX = points[0];
-          var minY = points[1];
-          var maxY = points[1];
-          var x, y;
-          for (var i = 0; i < points.length / 2; i++) {
+          let minX = points[0];
+          let maxX = points[0];
+          let minY = points[1];
+          let maxY = points[1];
+          let x, y;
+          for (let i = 0; i < points.length / 2; i++) {
               x = points[i * 2];
               y = points[i * 2 + 1];
               minX = Math.min(minX, x);
@@ -10390,337 +10400,337 @@
       [],
       [],
       [
-          -0.5773502691896257645091487805019574556476,
+          -0.5773502691896257,
           0.5773502691896257645091487805019574556476,
       ],
       [
-          0, -0.7745966692414833770358530799564799221665,
+          0, -0.7745966692414834,
           0.7745966692414833770358530799564799221665,
       ],
       [
-          -0.3399810435848562648026657591032446872005,
+          -0.33998104358485626,
           0.3399810435848562648026657591032446872005,
-          -0.8611363115940525752239464888928095050957,
+          -0.8611363115940526,
           0.8611363115940525752239464888928095050957,
       ],
       [
-          0, -0.5384693101056830910363144207002088049672,
+          0, -0.5384693101056831,
           0.5384693101056830910363144207002088049672,
-          -0.9061798459386639927976268782993929651256,
+          -0.906179845938664,
           0.9061798459386639927976268782993929651256,
       ],
       [
           0.6612093864662645136613995950199053470064,
-          -0.6612093864662645136613995950199053470064,
-          -0.2386191860831969086305017216807119354186,
+          -0.6612093864662645,
+          -0.2386191860831969,
           0.2386191860831969086305017216807119354186,
-          -0.9324695142031520278123015544939946091347,
+          -0.932469514203152,
           0.9324695142031520278123015544939946091347,
       ],
       [
           0, 0.4058451513773971669066064120769614633473,
-          -0.4058451513773971669066064120769614633473,
-          -0.7415311855993944398638647732807884070741,
+          -0.4058451513773972,
+          -0.7415311855993945,
           0.7415311855993944398638647732807884070741,
-          -0.9491079123427585245261896840478512624007,
+          -0.9491079123427585,
           0.9491079123427585245261896840478512624007,
       ],
       [
-          -0.1834346424956498049394761423601839806667,
+          -0.1834346424956498,
           0.1834346424956498049394761423601839806667,
-          -0.5255324099163289858177390491892463490419,
+          -0.525532409916329,
           0.5255324099163289858177390491892463490419,
-          -0.7966664774136267395915539364758304368371,
+          -0.7966664774136267,
           0.7966664774136267395915539364758304368371,
-          -0.9602898564975362316835608685694729904282,
+          -0.9602898564975363,
           0.9602898564975362316835608685694729904282,
       ],
       [
-          0, -0.8360311073266357942994297880697348765441,
+          0, -0.8360311073266358,
           0.8360311073266357942994297880697348765441,
-          -0.9681602395076260898355762029036728700494,
+          -0.9681602395076261,
           0.9681602395076260898355762029036728700494,
-          -0.3242534234038089290385380146433366085719,
+          -0.3242534234038089,
           0.3242534234038089290385380146433366085719,
-          -0.6133714327005903973087020393414741847857,
+          -0.6133714327005904,
           0.6133714327005903973087020393414741847857,
       ],
       [
-          -0.1488743389816312108848260011297199846175,
+          -0.14887433898163122,
           0.1488743389816312108848260011297199846175,
-          -0.4333953941292471907992659431657841622,
+          -0.4333953941292472,
           0.4333953941292471907992659431657841622,
-          -0.6794095682990244062343273651148735757692,
+          -0.6794095682990244,
           0.6794095682990244062343273651148735757692,
-          -0.8650633666889845107320966884234930485275,
+          -0.8650633666889845,
           0.8650633666889845107320966884234930485275,
-          -0.9739065285171717200779640120844520534282,
+          -0.9739065285171717,
           0.9739065285171717200779640120844520534282,
       ],
       [
-          0, -0.2695431559523449723315319854008615246796,
+          0, -0.26954315595234496,
           0.2695431559523449723315319854008615246796,
-          -0.5190961292068118159257256694586095544802,
+          -0.5190961292068118,
           0.5190961292068118159257256694586095544802,
-          -0.7301520055740493240934162520311534580496,
+          -0.7301520055740494,
           0.7301520055740493240934162520311534580496,
-          -0.8870625997680952990751577693039272666316,
+          -0.8870625997680953,
           0.8870625997680952990751577693039272666316,
-          -0.9782286581460569928039380011228573907714,
+          -0.978228658146057,
           0.9782286581460569928039380011228573907714,
       ],
       [
-          -0.1252334085114689154724413694638531299833,
+          -0.1252334085114689,
           0.1252334085114689154724413694638531299833,
-          -0.3678314989981801937526915366437175612563,
+          -0.3678314989981802,
           0.3678314989981801937526915366437175612563,
-          -0.587317954286617447296702418940534280369,
+          -0.5873179542866175,
           0.587317954286617447296702418940534280369,
-          -0.7699026741943046870368938332128180759849,
+          -0.7699026741943047,
           0.7699026741943046870368938332128180759849,
-          -0.9041172563704748566784658661190961925375,
+          -0.9041172563704749,
           0.9041172563704748566784658661190961925375,
-          -0.9815606342467192506905490901492808229601,
+          -0.9815606342467192,
           0.9815606342467192506905490901492808229601,
       ],
       [
-          0, -0.2304583159551347940655281210979888352115,
+          0, -0.2304583159551348,
           0.2304583159551347940655281210979888352115,
-          -0.4484927510364468528779128521276398678019,
+          -0.44849275103644687,
           0.4484927510364468528779128521276398678019,
-          -0.6423493394403402206439846069955156500716,
+          -0.6423493394403402,
           0.6423493394403402206439846069955156500716,
-          -0.8015780907333099127942064895828598903056,
+          -0.8015780907333099,
           0.8015780907333099127942064895828598903056,
-          -0.9175983992229779652065478365007195123904,
+          -0.9175983992229779,
           0.9175983992229779652065478365007195123904,
-          -0.9841830547185881494728294488071096110649,
+          -0.9841830547185881,
           0.9841830547185881494728294488071096110649,
       ],
       [
-          -0.1080549487073436620662446502198347476119,
+          -0.10805494870734367,
           0.1080549487073436620662446502198347476119,
-          -0.3191123689278897604356718241684754668342,
+          -0.31911236892788974,
           0.3191123689278897604356718241684754668342,
-          -0.5152486363581540919652907185511886623088,
+          -0.5152486363581541,
           0.5152486363581540919652907185511886623088,
-          -0.6872929048116854701480198030193341375384,
+          -0.6872929048116855,
           0.6872929048116854701480198030193341375384,
-          -0.8272013150697649931897947426503949610397,
+          -0.827201315069765,
           0.8272013150697649931897947426503949610397,
-          -0.928434883663573517336391139377874264477,
+          -0.9284348836635735,
           0.928434883663573517336391139377874264477,
-          -0.986283808696812338841597266704052801676,
+          -0.9862838086968123,
           0.986283808696812338841597266704052801676,
       ],
       [
-          0, -0.2011940939974345223006283033945962078128,
+          0, -0.20119409399743451,
           0.2011940939974345223006283033945962078128,
-          -0.3941513470775633698972073709810454683627,
+          -0.3941513470775634,
           0.3941513470775633698972073709810454683627,
-          -0.5709721726085388475372267372539106412383,
+          -0.5709721726085388,
           0.5709721726085388475372267372539106412383,
-          -0.7244177313601700474161860546139380096308,
+          -0.7244177313601701,
           0.7244177313601700474161860546139380096308,
-          -0.8482065834104272162006483207742168513662,
+          -0.8482065834104272,
           0.8482065834104272162006483207742168513662,
-          -0.9372733924007059043077589477102094712439,
+          -0.937273392400706,
           0.9372733924007059043077589477102094712439,
-          -0.9879925180204854284895657185866125811469,
+          -0.9879925180204854,
           0.9879925180204854284895657185866125811469,
       ],
       [
-          -0.0950125098376374401853193354249580631303,
+          -0.09501250983763744,
           0.0950125098376374401853193354249580631303,
-          -0.281603550779258913230460501460496106486,
+          -0.2816035507792589,
           0.281603550779258913230460501460496106486,
-          -0.45801677765722738634241944298357757354,
+          -0.45801677765722737,
           0.45801677765722738634241944298357757354,
-          -0.6178762444026437484466717640487910189918,
+          -0.6178762444026438,
           0.6178762444026437484466717640487910189918,
-          -0.7554044083550030338951011948474422683538,
+          -0.755404408355003,
           0.7554044083550030338951011948474422683538,
-          -0.8656312023878317438804678977123931323873,
+          -0.8656312023878318,
           0.8656312023878317438804678977123931323873,
-          -0.9445750230732325760779884155346083450911,
+          -0.9445750230732326,
           0.9445750230732325760779884155346083450911,
-          -0.9894009349916499325961541734503326274262,
+          -0.9894009349916499,
           0.9894009349916499325961541734503326274262,
       ],
       [
-          0, -0.1784841814958478558506774936540655574754,
+          0, -0.17848418149584785,
           0.1784841814958478558506774936540655574754,
-          -0.3512317634538763152971855170953460050405,
+          -0.3512317634538763,
           0.3512317634538763152971855170953460050405,
-          -0.5126905370864769678862465686295518745829,
+          -0.5126905370864769,
           0.5126905370864769678862465686295518745829,
-          -0.6576711592166907658503022166430023351478,
+          -0.6576711592166907,
           0.6576711592166907658503022166430023351478,
-          -0.7815140038968014069252300555204760502239,
+          -0.7815140038968014,
           0.7815140038968014069252300555204760502239,
-          -0.8802391537269859021229556944881556926234,
+          -0.8802391537269859,
           0.8802391537269859021229556944881556926234,
-          -0.9506755217687677612227169578958030214433,
+          -0.9506755217687678,
           0.9506755217687677612227169578958030214433,
-          -0.9905754753144173356754340199406652765077,
+          -0.9905754753144174,
           0.9905754753144173356754340199406652765077,
       ],
       [
-          -0.0847750130417353012422618529357838117333,
+          -0.0847750130417353,
           0.0847750130417353012422618529357838117333,
-          -0.2518862256915055095889728548779112301628,
+          -0.2518862256915055,
           0.2518862256915055095889728548779112301628,
-          -0.4117511614628426460359317938330516370789,
+          -0.41175116146284263,
           0.4117511614628426460359317938330516370789,
-          -0.5597708310739475346078715485253291369276,
+          -0.5597708310739475,
           0.5597708310739475346078715485253291369276,
-          -0.6916870430603532078748910812888483894522,
+          -0.6916870430603532,
           0.6916870430603532078748910812888483894522,
-          -0.8037049589725231156824174550145907971032,
+          -0.8037049589725231,
           0.8037049589725231156824174550145907971032,
-          -0.8926024664975557392060605911271455154078,
+          -0.8926024664975557,
           0.8926024664975557392060605911271455154078,
-          -0.9558239495713977551811958929297763099728,
+          -0.9558239495713977,
           0.9558239495713977551811958929297763099728,
-          -0.9915651684209309467300160047061507702525,
+          -0.9915651684209309,
           0.9915651684209309467300160047061507702525,
       ],
       [
-          0, -0.1603586456402253758680961157407435495048,
+          0, -0.16035864564022537,
           0.1603586456402253758680961157407435495048,
-          -0.3165640999636298319901173288498449178922,
+          -0.31656409996362983,
           0.3165640999636298319901173288498449178922,
-          -0.4645707413759609457172671481041023679762,
+          -0.46457074137596094,
           0.4645707413759609457172671481041023679762,
-          -0.6005453046616810234696381649462392798683,
+          -0.600545304661681,
           0.6005453046616810234696381649462392798683,
-          -0.7209661773352293786170958608237816296571,
+          -0.7209661773352294,
           0.7209661773352293786170958608237816296571,
-          -0.8227146565371428249789224867127139017745,
+          -0.8227146565371428,
           0.8227146565371428249789224867127139017745,
-          -0.9031559036148179016426609285323124878093,
+          -0.9031559036148179,
           0.9031559036148179016426609285323124878093,
-          -0.960208152134830030852778840687651526615,
+          -0.96020815213483,
           0.960208152134830030852778840687651526615,
-          -0.9924068438435844031890176702532604935893,
+          -0.9924068438435844,
           0.9924068438435844031890176702532604935893,
       ],
       [
-          -0.0765265211334973337546404093988382110047,
+          -0.07652652113349734,
           0.0765265211334973337546404093988382110047,
-          -0.227785851141645078080496195368574624743,
+          -0.22778585114164507,
           0.227785851141645078080496195368574624743,
-          -0.3737060887154195606725481770249272373957,
+          -0.37370608871541955,
           0.3737060887154195606725481770249272373957,
-          -0.5108670019508270980043640509552509984254,
+          -0.5108670019508271,
           0.5108670019508270980043640509552509984254,
-          -0.6360536807265150254528366962262859367433,
+          -0.636053680726515,
           0.6360536807265150254528366962262859367433,
-          -0.7463319064601507926143050703556415903107,
+          -0.7463319064601508,
           0.7463319064601507926143050703556415903107,
-          -0.8391169718222188233945290617015206853296,
+          -0.8391169718222188,
           0.8391169718222188233945290617015206853296,
-          -0.9122344282513259058677524412032981130491,
+          -0.912234428251326,
           0.9122344282513259058677524412032981130491,
-          -0.963971927277913791267666131197277221912,
+          -0.9639719272779138,
           0.963971927277913791267666131197277221912,
-          -0.9931285991850949247861223884713202782226,
+          -0.9931285991850949,
           0.9931285991850949247861223884713202782226,
       ],
       [
-          0, -0.1455618541608950909370309823386863301163,
+          0, -0.1455618541608951,
           0.1455618541608950909370309823386863301163,
-          -0.288021316802401096600792516064600319909,
+          -0.2880213168024011,
           0.288021316802401096600792516064600319909,
-          -0.4243421202074387835736688885437880520964,
+          -0.4243421202074388,
           0.4243421202074387835736688885437880520964,
-          -0.551618835887219807059018796724313286622,
+          -0.5516188358872198,
           0.551618835887219807059018796724313286622,
-          -0.667138804197412319305966669990339162597,
+          -0.6671388041974123,
           0.667138804197412319305966669990339162597,
-          -0.7684399634756779086158778513062280348209,
+          -0.7684399634756779,
           0.7684399634756779086158778513062280348209,
-          -0.8533633645833172836472506385875676702761,
+          -0.8533633645833173,
           0.8533633645833172836472506385875676702761,
-          -0.9200993341504008287901871337149688941591,
+          -0.9200993341504008,
           0.9200993341504008287901871337149688941591,
-          -0.9672268385663062943166222149076951614246,
+          -0.9672268385663063,
           0.9672268385663062943166222149076951614246,
-          -0.9937521706203895002602420359379409291933,
+          -0.9937521706203895,
           0.9937521706203895002602420359379409291933,
       ],
       [
-          -0.0697392733197222212138417961186280818222,
+          -0.06973927331972223,
           0.0697392733197222212138417961186280818222,
-          -0.2078604266882212854788465339195457342156,
+          -0.20786042668822127,
           0.2078604266882212854788465339195457342156,
-          -0.3419358208920842251581474204273796195591,
+          -0.34193582089208424,
           0.3419358208920842251581474204273796195591,
-          -0.4693558379867570264063307109664063460953,
+          -0.469355837986757,
           0.4693558379867570264063307109664063460953,
-          -0.5876404035069115929588769276386473488776,
+          -0.5876404035069116,
           0.5876404035069115929588769276386473488776,
-          -0.6944872631866827800506898357622567712673,
+          -0.6944872631866827,
           0.6944872631866827800506898357622567712673,
-          -0.7878168059792081620042779554083515213881,
+          -0.7878168059792081,
           0.7878168059792081620042779554083515213881,
-          -0.8658125777203001365364256370193787290847,
+          -0.8658125777203002,
           0.8658125777203001365364256370193787290847,
-          -0.9269567721871740005206929392590531966353,
+          -0.926956772187174,
           0.9269567721871740005206929392590531966353,
-          -0.9700604978354287271239509867652687108059,
+          -0.9700604978354287,
           0.9700604978354287271239509867652687108059,
-          -0.994294585482399292073031421161298980393,
+          -0.9942945854823992,
           0.994294585482399292073031421161298980393,
       ],
       [
-          0, -0.1332568242984661109317426822417661370104,
+          0, -0.1332568242984661,
           0.1332568242984661109317426822417661370104,
-          -0.264135680970344930533869538283309602979,
+          -0.26413568097034495,
           0.264135680970344930533869538283309602979,
-          -0.390301038030290831421488872880605458578,
+          -0.3903010380302908,
           0.390301038030290831421488872880605458578,
-          -0.5095014778460075496897930478668464305448,
+          -0.5095014778460075,
           0.5095014778460075496897930478668464305448,
-          -0.6196098757636461563850973116495956533871,
+          -0.6196098757636461,
           0.6196098757636461563850973116495956533871,
-          -0.7186613631319501944616244837486188483299,
+          -0.7186613631319502,
           0.7186613631319501944616244837486188483299,
-          -0.8048884016188398921511184069967785579414,
+          -0.8048884016188399,
           0.8048884016188398921511184069967785579414,
-          -0.8767523582704416673781568859341456716389,
+          -0.8767523582704416,
           0.8767523582704416673781568859341456716389,
-          -0.9329710868260161023491969890384229782357,
+          -0.9329710868260161,
           0.9329710868260161023491969890384229782357,
-          -0.9725424712181152319560240768207773751816,
+          -0.9725424712181152,
           0.9725424712181152319560240768207773751816,
-          -0.9947693349975521235239257154455743605736,
+          -0.9947693349975522,
           0.9947693349975521235239257154455743605736,
       ],
       [
-          -0.0640568928626056260850430826247450385909,
+          -0.06405689286260563,
           0.0640568928626056260850430826247450385909,
-          -0.1911188674736163091586398207570696318404,
+          -0.1911188674736163,
           0.1911188674736163091586398207570696318404,
-          -0.3150426796961633743867932913198102407864,
+          -0.3150426796961634,
           0.3150426796961633743867932913198102407864,
-          -0.4337935076260451384870842319133497124524,
+          -0.4337935076260451,
           0.4337935076260451384870842319133497124524,
-          -0.5454214713888395356583756172183723700107,
+          -0.5454214713888396,
           0.5454214713888395356583756172183723700107,
-          -0.6480936519369755692524957869107476266696,
+          -0.6480936519369755,
           0.6480936519369755692524957869107476266696,
-          -0.7401241915785543642438281030999784255232,
+          -0.7401241915785544,
           0.7401241915785543642438281030999784255232,
-          -0.8200019859739029219539498726697452080761,
+          -0.820001985973903,
           0.8200019859739029219539498726697452080761,
-          -0.8864155270044010342131543419821967550873,
+          -0.8864155270044011,
           0.8864155270044010342131543419821967550873,
-          -0.9382745520027327585236490017087214496548,
+          -0.9382745520027328,
           0.9382745520027327585236490017087214496548,
-          -0.9747285559713094981983919930081690617411,
+          -0.9747285559713095,
           0.9747285559713094981983919930081690617411,
-          -0.9951872199970213601799974097007368118745,
+          -0.9951872199970213,
           0.9951872199970213601799974097007368118745,
       ],
   ];
@@ -11074,14 +11084,13 @@
   // LUT for binomial coefficient arrays per curve order 'n'
   const binomialCoefficients = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1]];
   const getCubicArcLength = (xs, ys, t) => {
-      let z;
       let sum;
       let correctedT;
       /*if (xs.length >= tValues.length) {
             throw new Error('too high n bezier');
           }*/
       const n = 20;
-      z = t / 2;
+      const z = t / 2;
       sum = 0;
       for (let i = 0; i < n; i++) {
           correctedT = z * tValues[n][i] + z;
@@ -11291,13 +11300,13 @@
           this.pathLength = Path.getPathLength(this.dataArray);
       }
       _sceneFunc(context) {
-          var ca = this.dataArray;
+          const ca = this.dataArray;
           // context position
           context.beginPath();
-          var isClosed = false;
-          for (var n = 0; n < ca.length; n++) {
-              var c = ca[n].command;
-              var p = ca[n].points;
+          let isClosed = false;
+          for (let n = 0; n < ca.length; n++) {
+              const c = ca[n].command;
+              const p = ca[n].points;
               switch (c) {
                   case 'L':
                       context.lineTo(p[0], p[1]);
@@ -11338,16 +11347,16 @@
           }
       }
       getSelfRect() {
-          var points = [];
+          let points = [];
           this.dataArray.forEach(function (data) {
               if (data.command === 'A') {
                   // Approximates by breaking curve into line segments
-                  var start = data.points[4];
+                  const start = data.points[4];
                   // 4 = theta
-                  var dTheta = data.points[5];
+                  const dTheta = data.points[5];
                   // 5 = dTheta
-                  var end = data.points[4] + dTheta;
-                  var inc = Math.PI / 180.0;
+                  const end = data.points[4] + dTheta;
+                  let inc = Math.PI / 180.0;
                   // 1 degree resolution
                   if (Math.abs(start - end) < inc) {
                       inc = Math.abs(start - end);
@@ -11379,12 +11388,12 @@
                   points = points.concat(data.points);
               }
           });
-          var minX = points[0];
-          var maxX = points[0];
-          var minY = points[1];
-          var maxY = points[1];
-          var x, y;
-          for (var i = 0; i < points.length / 2; i++) {
+          let minX = points[0];
+          let maxX = points[0];
+          let minY = points[1];
+          let maxY = points[1];
+          let x, y;
+          for (let i = 0; i < points.length / 2; i++) {
               x = points[i * 2];
               y = points[i * 2 + 1];
               // skip bad values
@@ -11420,7 +11429,7 @@
        * @method
        * @name Konva.Path#getPointAtLength
        * @param {Number} length length
-       * @returns {Object} point `{x,y}` point
+       * @returns {Object} point {x,y} point
        * @example
        * var point = path.getPointAtLength(10);
        */
@@ -11432,13 +11441,13 @@
       }
       static getPathLength(dataArray) {
           let pathLength = 0;
-          for (var i = 0; i < dataArray.length; ++i) {
+          for (let i = 0; i < dataArray.length; ++i) {
               pathLength += dataArray[i].pathLength;
           }
           return pathLength;
       }
       static getPointAtLengthOfDataArray(length, dataArray) {
-          var points, i = 0, ii = dataArray.length;
+          let points, i = 0, ii = dataArray.length;
           if (!ii) {
               return null;
           }
@@ -11460,8 +11469,8 @@
                   y: points[1],
               };
           }
-          var cp = dataArray[i];
-          var p = cp.points;
+          const cp = dataArray[i];
+          const p = cp.points;
           switch (cp.command) {
               case 'L':
                   return Path.getPointOnLine(length, cp.start.x, cp.start.y, p[0], p[1]);
@@ -11481,8 +11490,8 @@
           return null;
       }
       static getPointOnLine(dist, P1x, P1y, P2x, P2y, fromX, fromY) {
-          fromX = fromX !== null && fromX !== void 0 ? fromX : P1x;
-          fromY = fromY !== null && fromY !== void 0 ? fromY : P1y;
+          fromX = fromX !== null && fromX !== undefined ? fromX : P1x;
+          fromY = fromY !== null && fromY !== undefined ? fromY : P1y;
           const len = this.getLineLength(P1x, P1y, P2x, P2y);
           if (len < 1e-10) {
               return { x: P1x, y: P1y };
@@ -11519,8 +11528,8 @@
           function CB4(t) {
               return (1 - t) * (1 - t) * (1 - t);
           }
-          var x = P4x * CB1(pct) + P3x * CB2(pct) + P2x * CB3(pct) + P1x * CB4(pct);
-          var y = P4y * CB1(pct) + P3y * CB2(pct) + P2y * CB3(pct) + P1y * CB4(pct);
+          const x = P4x * CB1(pct) + P3x * CB2(pct) + P2x * CB3(pct) + P1x * CB4(pct);
+          const y = P4y * CB1(pct) + P3y * CB2(pct) + P2y * CB3(pct) + P1y * CB4(pct);
           return {
               x: x,
               y: y,
@@ -11536,16 +11545,16 @@
           function QB3(t) {
               return (1 - t) * (1 - t);
           }
-          var x = P3x * QB1(pct) + P2x * QB2(pct) + P1x * QB3(pct);
-          var y = P3y * QB1(pct) + P2y * QB2(pct) + P1y * QB3(pct);
+          const x = P3x * QB1(pct) + P2x * QB2(pct) + P1x * QB3(pct);
+          const y = P3y * QB1(pct) + P2y * QB2(pct) + P1y * QB3(pct);
           return {
               x: x,
               y: y,
           };
       }
       static getPointOnEllipticalArc(cx, cy, rx, ry, theta, psi) {
-          var cosPsi = Math.cos(psi), sinPsi = Math.sin(psi);
-          var pt = {
+          const cosPsi = Math.cos(psi), sinPsi = Math.sin(psi);
+          const pt = {
               x: rx * Math.cos(theta),
               y: ry * Math.sin(theta),
           };
@@ -11587,9 +11596,9 @@
               return [];
           }
           // command string
-          var cs = data;
+          let cs = data;
           // command chars
-          var cc = [
+          const cc = [
               'm',
               'M',
               'l',
@@ -11618,17 +11627,17 @@
               cs = cs.replace(new RegExp(cc[n], 'g'), '|' + cc[n]);
           }
           // create array
-          var arr = cs.split('|');
-          var ca = [];
-          var coords = [];
+          const arr = cs.split('|');
+          const ca = [];
+          const coords = [];
           // init context point
-          var cpx = 0;
-          var cpy = 0;
-          var re = /([-+]?((\d+\.\d+)|((\d+)|(\.\d+)))(?:e[-+]?\d+)?)/gi;
-          var match;
+          let cpx = 0;
+          let cpy = 0;
+          const re = /([-+]?((\d+\.\d+)|((\d+)|(\.\d+)))(?:e[-+]?\d+)?)/gi;
+          let match;
           for (n = 1; n < arr.length; n++) {
-              var str = arr[n];
-              var c = str.charAt(0);
+              let str = arr[n];
+              let c = str.charAt(0);
               str = str.slice(1);
               coords.length = 0;
               while ((match = re.exec(str))) {
@@ -11637,14 +11646,14 @@
               // while ((match = re.exec(str))) {
               //   coords.push(match[0]);
               // }
-              var p = [];
-              for (var j = 0, jlen = coords.length; j < jlen; j++) {
+              const p = [];
+              for (let j = 0, jlen = coords.length; j < jlen; j++) {
                   // extra case for merged flags
                   if (coords[j] === '00') {
                       p.push(0, 0);
                       continue;
                   }
-                  var parsed = parseFloat(coords[j]);
+                  const parsed = parseFloat(coords[j]);
                   if (!isNaN(parsed)) {
                       p.push(parsed);
                   }
@@ -11657,9 +11666,9 @@
                       // case for a trailing comma before next command
                       break;
                   }
-                  var cmd = '';
-                  var points = [];
-                  var startX = cpx, startY = cpy;
+                  let cmd = '';
+                  let points = [];
+                  const startX = cpx, startY = cpy;
                   // Move var from within the switch to up here (jshint)
                   var prevCmd, ctlPtx, ctlPty; // Ss, Tt
                   var rx, ry, psi, fa, fs, x1, y1; // Aa
@@ -11687,7 +11696,7 @@
                           // After closing the path move the current position
                           // to the the first point of the path (if any).
                           if (ca.length > 2 && ca[ca.length - 1].command === 'z') {
-                              for (var idx = ca.length - 2; idx >= 0; idx--) {
+                              for (let idx = ca.length - 2; idx >= 0; idx--) {
                                   if (ca[idx].command === 'M') {
                                       cpx = ca[idx].points[0] + dx;
                                       cpy = ca[idx].points[1] + dy;
@@ -11856,8 +11865,8 @@
           return ca;
       }
       static calcLength(x, y, cmd, points) {
-          var len, p1, p2, t;
-          var path = Path;
+          let len, p1, p2, t;
+          const path = Path;
           switch (cmd) {
               case 'L':
                   return path.getLineLength(x, y, points[0], points[1]);
@@ -11904,16 +11913,16 @@
       }
       static convertEndpointToCenterParameterization(x1, y1, x2, y2, fa, fs, rx, ry, psiDeg) {
           // Derived from: http://www.w3.org/TR/SVG/implnote.html#ArcImplementationNotes
-          var psi = psiDeg * (Math.PI / 180.0);
-          var xp = (Math.cos(psi) * (x1 - x2)) / 2.0 + (Math.sin(psi) * (y1 - y2)) / 2.0;
-          var yp = (-1 * Math.sin(psi) * (x1 - x2)) / 2.0 +
+          const psi = psiDeg * (Math.PI / 180.0);
+          const xp = (Math.cos(psi) * (x1 - x2)) / 2.0 + (Math.sin(psi) * (y1 - y2)) / 2.0;
+          const yp = (-1 * Math.sin(psi) * (x1 - x2)) / 2.0 +
               (Math.cos(psi) * (y1 - y2)) / 2.0;
-          var lambda = (xp * xp) / (rx * rx) + (yp * yp) / (ry * ry);
+          const lambda = (xp * xp) / (rx * rx) + (yp * yp) / (ry * ry);
           if (lambda > 1) {
               rx *= Math.sqrt(lambda);
               ry *= Math.sqrt(lambda);
           }
-          var f = Math.sqrt((rx * rx * (ry * ry) - rx * rx * (yp * yp) - ry * ry * (xp * xp)) /
+          let f = Math.sqrt((rx * rx * (ry * ry) - rx * rx * (yp * yp) - ry * ry * (xp * xp)) /
               (rx * rx * (yp * yp) + ry * ry * (xp * xp)));
           if (fa === fs) {
               f *= -1;
@@ -11921,23 +11930,23 @@
           if (isNaN(f)) {
               f = 0;
           }
-          var cxp = (f * rx * yp) / ry;
-          var cyp = (f * -ry * xp) / rx;
-          var cx = (x1 + x2) / 2.0 + Math.cos(psi) * cxp - Math.sin(psi) * cyp;
-          var cy = (y1 + y2) / 2.0 + Math.sin(psi) * cxp + Math.cos(psi) * cyp;
-          var vMag = function (v) {
+          const cxp = (f * rx * yp) / ry;
+          const cyp = (f * -ry * xp) / rx;
+          const cx = (x1 + x2) / 2.0 + Math.cos(psi) * cxp - Math.sin(psi) * cyp;
+          const cy = (y1 + y2) / 2.0 + Math.sin(psi) * cxp + Math.cos(psi) * cyp;
+          const vMag = function (v) {
               return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
           };
-          var vRatio = function (u, v) {
+          const vRatio = function (u, v) {
               return (u[0] * v[0] + u[1] * v[1]) / (vMag(u) * vMag(v));
           };
-          var vAngle = function (u, v) {
+          const vAngle = function (u, v) {
               return (u[0] * v[1] < u[1] * v[0] ? -1 : 1) * Math.acos(vRatio(u, v));
           };
-          var theta = vAngle([1, 0], [(xp - cxp) / rx, (yp - cyp) / ry]);
-          var u = [(xp - cxp) / rx, (yp - cyp) / ry];
-          var v = [(-1 * xp - cxp) / rx, (-1 * yp - cyp) / ry];
-          var dTheta = vAngle(u, v);
+          const theta = vAngle([1, 0], [(xp - cxp) / rx, (yp - cyp) / ry]);
+          const u = [(xp - cxp) / rx, (yp - cyp) / ry];
+          const v = [(-1 * xp - cxp) / rx, (-1 * yp - cyp) / ry];
+          let dTheta = vAngle(u, v);
           if (vRatio(u, v) <= -1) {
               dTheta = Math.PI;
           }
@@ -12073,16 +12082,16 @@
   class Arrow extends Line {
       _sceneFunc(ctx) {
           super._sceneFunc(ctx);
-          var PI2 = Math.PI * 2;
-          var points = this.points();
-          var tp = points;
-          var fromTension = this.tension() !== 0 && points.length > 4;
+          const PI2 = Math.PI * 2;
+          const points = this.points();
+          let tp = points;
+          const fromTension = this.tension() !== 0 && points.length > 4;
           if (fromTension) {
               tp = this.getTensionPoints();
           }
-          var length = this.pointerLength();
-          var n = points.length;
-          var dx, dy;
+          const length = this.pointerLength();
+          const n = points.length;
+          let dx, dy;
           if (fromTension) {
               const lp = [
                   tp[tp.length - 4],
@@ -12101,8 +12110,8 @@
               dx = points[n - 2] - points[n - 4];
               dy = points[n - 1] - points[n - 3];
           }
-          var radians = (Math.atan2(dy, dx) + PI2) % PI2;
-          var width = this.pointerWidth();
+          const radians = (Math.atan2(dy, dx) + PI2) % PI2;
+          const width = this.pointerWidth();
           if (this.pointerAtEnding()) {
               ctx.save();
               ctx.beginPath();
@@ -12139,7 +12148,7 @@
       __fillStroke(ctx) {
           // here is a tricky part
           // we need to disable dash for arrow pointers
-          var isDashEnabled = this.dashEnabled();
+          const isDashEnabled = this.dashEnabled();
           if (isDashEnabled) {
               // manually disable dash for head
               // it is better not to use setter here,
@@ -12157,9 +12166,9 @@
           const lineRect = super.getSelfRect();
           const offset = this.pointerWidth() / 2;
           return {
-              x: lineRect.x - offset,
+              x: lineRect.x,
               y: lineRect.y - offset,
-              width: lineRect.width + offset * 2,
+              width: lineRect.width,
               height: lineRect.height + offset * 2,
           };
       }
@@ -12449,7 +12458,7 @@
    */
   class Ellipse extends Shape {
       _sceneFunc(context) {
-          var rx = this.radiusX(), ry = this.radiusY();
+          const rx = this.radiusX(), ry = this.radiusY();
           context.beginPath();
           context.save();
           if (rx !== ry) {
@@ -12696,7 +12705,7 @@
           // If you need to draw later, you need to execute save/restore
       }
       _hitFunc(context) {
-          var width = this.width(), height = this.height(), cornerRadius = this.cornerRadius();
+          const width = this.width(), height = this.height(), cornerRadius = this.cornerRadius();
           context.beginPath();
           if (!cornerRadius) {
               context.rect(0, 0, width, height);
@@ -12709,11 +12718,11 @@
       }
       getWidth() {
           var _a, _b;
-          return (_a = this.attrs.width) !== null && _a !== void 0 ? _a : (_b = this.image()) === null || _b === void 0 ? void 0 : _b.width;
+          return (_a = this.attrs.width) !== null && _a !== undefined ? _a : (_b = this.image()) === null || _b === undefined ? undefined : _b.width;
       }
       getHeight() {
           var _a, _b;
-          return (_a = this.attrs.height) !== null && _a !== void 0 ? _a : (_b = this.image()) === null || _b === void 0 ? void 0 : _b.height;
+          return (_a = this.attrs.height) !== null && _a !== undefined ? _a : (_b = this.image()) === null || _b === undefined ? undefined : _b.height;
       }
       /**
        * load image from given url and create `Konva.Image` instance
@@ -12730,9 +12739,9 @@
        *  });
        */
       static fromURL(url, callback, onError = null) {
-          var img = Util.createImageElement();
+          const img = Util.createImageElement();
           img.onload = function () {
-              var image = new Image({
+              const image = new Image({
                   image: img,
               });
               callback(image);
@@ -12857,7 +12866,7 @@
    */
 
   // constants
-  var ATTR_CHANGE_LIST$2 = [
+  const ATTR_CHANGE_LIST$2 = [
       'fontFamily',
       'fontSize',
       'fontStyle',
@@ -12958,8 +12967,8 @@
           return this.find('Tag')[0];
       }
       _addListeners(text) {
-          var that = this, n;
-          var func = function () {
+          let that = this, n;
+          const func = function () {
               that._sync();
           };
           // update text data for certain attr changes
@@ -12974,7 +12983,7 @@
           return this.getText().height();
       }
       _sync() {
-          var text = this.getText(), tag = this.getTag(), width, height, pointerDirection, pointerWidth, x, y, pointerHeight;
+          let text = this.getText(), tag = this.getTag(), width, height, pointerDirection, pointerWidth, x, y, pointerHeight;
           if (text && tag) {
               width = text.width();
               height = text.height();
@@ -13030,7 +13039,7 @@
    */
   class Tag extends Shape {
       _sceneFunc(context) {
-          var width = this.width(), height = this.height(), pointerDirection = this.pointerDirection(), pointerWidth = this.pointerWidth(), pointerHeight = this.pointerHeight(), cornerRadius = this.cornerRadius();
+          const width = this.width(), height = this.height(), pointerDirection = this.pointerDirection(), pointerWidth = this.pointerWidth(), pointerHeight = this.pointerHeight(), cornerRadius = this.cornerRadius();
           let topLeft = 0;
           let topRight = 0;
           let bottomLeft = 0;
@@ -13082,7 +13091,7 @@
           context.fillStrokeShape(this);
       }
       getSelfRect() {
-          var x = 0, y = 0, pointerWidth = this.pointerWidth(), pointerHeight = this.pointerHeight(), direction = this.pointerDirection(), width = this.width(), height = this.height();
+          let x = 0, y = 0, pointerWidth = this.pointerWidth(), pointerHeight = this.pointerHeight(), direction = this.pointerDirection(), width = this.width(), height = this.height();
           if (direction === UP) {
               y -= pointerHeight;
               height += pointerHeight;
@@ -13245,7 +13254,7 @@
    */
   class Rect extends Shape {
       _sceneFunc(context) {
-          var cornerRadius = this.cornerRadius(), width = this.width(), height = this.height();
+          const cornerRadius = this.cornerRadius(), width = this.width(), height = this.height();
           context.beginPath();
           if (!cornerRadius) {
               // simple rect - don't bother doing all that complicated maths stuff.
@@ -13377,7 +13386,7 @@
           const points = this._getPoints();
           context.beginPath();
           context.moveTo(points[0].x, points[0].y);
-          for (var n = 1; n < points.length; n++) {
+          for (let n = 1; n < points.length; n++) {
               context.lineTo(points[n].x, points[n].y);
           }
           context.closePath();
@@ -13387,7 +13396,7 @@
           const sides = this.attrs.sides;
           const radius = this.attrs.radius || 0;
           const points = [];
-          for (var n = 0; n < sides; n++) {
+          for (let n = 0; n < sides; n++) {
               points.push({
                   x: radius * Math.sin((n * 2 * Math.PI) / sides),
                   y: -1 * radius * Math.cos((n * 2 * Math.PI) / sides),
@@ -13397,10 +13406,10 @@
       }
       getSelfRect() {
           const points = this._getPoints();
-          var minX = points[0].x;
-          var maxX = points[0].y;
-          var minY = points[0].x;
-          var maxY = points[0].y;
+          let minX = points[0].x;
+          let maxX = points[0].y;
+          let minY = points[0].x;
+          let maxY = points[0].y;
           points.forEach((point) => {
               minX = Math.min(minX, point.x);
               maxX = Math.max(maxX, point.x);
@@ -13460,7 +13469,7 @@
    */
   Factory.addGetterSetter(RegularPolygon, 'sides', 0, getNumberValidator());
 
-  var PIx2 = Math.PI * 2;
+  const PIx2 = Math.PI * 2;
   /**
    * Ring constructor
    * @constructor
@@ -13732,7 +13741,7 @@
           this._updated = true;
           this.anim = new Animation(() => {
               // if we don't need to redraw layer we should return false
-              var updated = this._updated;
+              const updated = this._updated;
               this._updated = false;
               return updated;
           });
@@ -13753,7 +13762,7 @@
           });
       }
       _sceneFunc(context) {
-          var anim = this.animation(), index = this.frameIndex(), ix4 = index * 4, set = this.animations()[anim], offsets = this.frameOffsets(), x = set[ix4 + 0], y = set[ix4 + 1], width = set[ix4 + 2], height = set[ix4 + 3], image = this.image();
+          const anim = this.animation(), index = this.frameIndex(), ix4 = index * 4, set = this.animations()[anim], offsets = this.frameOffsets(), x = set[ix4 + 0], y = set[ix4 + 1], width = set[ix4 + 2], height = set[ix4 + 3], image = this.image();
           if (this.hasFill() || this.hasStroke()) {
               context.beginPath();
               context.rect(0, 0, width, height);
@@ -13762,7 +13771,7 @@
           }
           if (image) {
               if (offsets) {
-                  var offset = offsets[anim], ix2 = index * 2;
+                  const offset = offsets[anim], ix2 = index * 2;
                   context.drawImage(image, x, y, width, height, offset[ix2 + 0], offset[ix2 + 1], width, height);
               }
               else {
@@ -13771,11 +13780,11 @@
           }
       }
       _hitFunc(context) {
-          var anim = this.animation(), index = this.frameIndex(), ix4 = index * 4, set = this.animations()[anim], offsets = this.frameOffsets(), width = set[ix4 + 2], height = set[ix4 + 3];
+          const anim = this.animation(), index = this.frameIndex(), ix4 = index * 4, set = this.animations()[anim], offsets = this.frameOffsets(), width = set[ix4 + 2], height = set[ix4 + 3];
           context.beginPath();
           if (offsets) {
-              var offset = offsets[anim];
-              var ix2 = index * 2;
+              const offset = offsets[anim];
+              const ix2 = index * 2;
               context.rect(offset[ix2 + 0], offset[ix2 + 1], width, height);
           }
           else {
@@ -13788,7 +13797,7 @@
           return super._useBufferCanvas(true);
       }
       _setInterval() {
-          var that = this;
+          const that = this;
           this.interval = setInterval(function () {
               that._updateIndex();
           }, 1000 / this.frameRate());
@@ -13802,7 +13811,7 @@
           if (this.isRunning()) {
               return;
           }
-          var layer = this.getLayer();
+          const layer = this.getLayer();
           /*
            * animation object has no executable function because
            *  the updates are done with a fixed FPS with the setInterval
@@ -13832,7 +13841,7 @@
           return this.anim.isRunning();
       }
       _updateIndex() {
-          var index = this.frameIndex(), animation = this.animation(), animations = this.animations(), anim = animations[animation], len = anim.length / 4;
+          const index = this.frameIndex(), animation = this.animation(), animations = this.animations(), anim = animations[animation], len = anim.length / 4;
           if (index < len - 1) {
               this.frameIndex(index + 1);
           }
@@ -14071,13 +14080,13 @@
    */
   class Star extends Shape {
       _sceneFunc(context) {
-          var innerRadius = this.innerRadius(), outerRadius = this.outerRadius(), numPoints = this.numPoints();
+          const innerRadius = this.innerRadius(), outerRadius = this.outerRadius(), numPoints = this.numPoints();
           context.beginPath();
           context.moveTo(0, 0 - outerRadius);
-          for (var n = 1; n < numPoints * 2; n++) {
-              var radius = n % 2 === 0 ? outerRadius : innerRadius;
-              var x = radius * Math.sin((n * Math.PI) / numPoints);
-              var y = -1 * radius * Math.cos((n * Math.PI) / numPoints);
+          for (let n = 1; n < numPoints * 2; n++) {
+              const radius = n % 2 === 0 ? outerRadius : innerRadius;
+              const x = radius * Math.sin((n * Math.PI) / numPoints);
+              const y = -1 * radius * Math.cos((n * Math.PI) / numPoints);
               context.lineTo(x, y);
           }
           context.closePath();
@@ -14146,9 +14155,20 @@
   function stringToArray(string) {
       // Use Unicode-aware splitting
       return [...string].reduce((acc, char, index, array) => {
-          // Handle emoji sequences (including ZWJ sequences)
-          if (/\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?(?:\u200D\p{Emoji_Presentation})+/u.test(char)) {
-              acc.push(char);
+          // Handle emoji with skin tone modifiers and ZWJ sequences
+          if (/\p{Emoji}/u.test(char)) {
+              // Check if next character is a modifier or ZWJ sequence
+              const nextChar = array[index + 1];
+              if (nextChar && /\p{Emoji_Modifier}|\u200D/u.test(nextChar)) {
+                  // If we have a modifier, combine with current emoji
+                  acc.push(char + nextChar);
+                  // Skip the next character since we've used it
+                  array[index + 1] = '';
+              }
+              else {
+                  // No modifier - treat as separate emoji
+                  acc.push(char);
+              }
           }
           // Handle regional indicator symbols (flags)
           else if (/\p{Regional_Indicator}{2}/u.test(char + (array[index + 1] || ''))) {
@@ -14159,14 +14179,15 @@
               acc[acc.length - 1] += char;
           }
           // Handle other characters
-          else {
+          else if (char) {
+              // Only push if not an empty string (skipped modifier)
               acc.push(char);
           }
           return acc;
       }, []);
   }
   // constants
-  var AUTO = 'auto', 
+  const AUTO = 'auto', 
   //CANVAS = 'canvas',
   CENTER = 'center', INHERIT = 'inherit', JUSTIFY = 'justify', CHANGE_KONVA = 'Change.konva', CONTEXT_2D = '2d', DASH = '-', LEFT = 'left', TEXT = 'text', TEXT_UPPER = 'Text', TOP = 'top', BOTTOM = 'bottom', MIDDLE = 'middle', NORMAL$1 = 'normal', PX_SPACE = 'px ', SPACE = ' ', RIGHT = 'right', RTL = 'rtl', WORD = 'word', CHAR = 'char', NONE = 'none', ELLIPSIS = '…', ATTR_CHANGE_LIST$1 = [
       'direction',
@@ -14201,7 +14222,7 @@
       })
           .join(', ');
   }
-  var dummyContext;
+  let dummyContext;
   function getDummyContext() {
       if (dummyContext) {
           return dummyContext;
@@ -14335,22 +14356,22 @@
           this._partialTextX = 0;
           this._partialTextY = 0;
           // update text data for certain attr changes
-          for (var n = 0; n < attrChangeListLen; n++) {
+          for (let n = 0; n < attrChangeListLen; n++) {
               this.on(ATTR_CHANGE_LIST$1[n] + CHANGE_KONVA, this._setTextData);
           }
           this._setTextData();
       }
       _sceneFunc(context) {
-          var textArr = this.textArr, textArrLen = textArr.length;
+          const textArr = this.textArr, textArrLen = textArr.length;
           if (!this.text()) {
               return;
           }
-          var padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), direction = this.direction(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
+          let padding = this.padding(), fontSize = this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, verticalAlign = this.verticalAlign(), direction = this.direction(), alignY = 0, align = this.align(), totalWidth = this.getWidth(), letterSpacing = this.letterSpacing(), fill = this.fill(), textDecoration = this.textDecoration(), shouldUnderline = textDecoration.indexOf('underline') !== -1, shouldLineThrough = textDecoration.indexOf('line-through') !== -1, n;
           direction = direction === INHERIT ? context.direction : direction;
-          var translateY = lineHeightPx / 2;
-          var baseline = MIDDLE;
+          let translateY = lineHeightPx / 2;
+          let baseline = MIDDLE;
           if (Konva$2._fixTextRendering) {
-              var metrics = this.measureSize('M'); // Use a sample character to get the ascent
+              const metrics = this.measureSize('M'); // Use a sample character to get the ascent
               baseline = 'alphabetic';
               translateY =
                   (metrics.fontBoundingBoxAscent - metrics.fontBoundingBoxDescent) / 2 +
@@ -14376,7 +14397,7 @@
           for (n = 0; n < textArrLen; n++) {
               var lineTranslateX = 0;
               var lineTranslateY = 0;
-              var obj = textArr[n], text = obj.text, width = obj.width, lastLine = obj.lastInParagraph, spacesNumber, oneWord, lineWidth;
+              var obj = textArr[n], text = obj.text, width = obj.width, lastLine = obj.lastInParagraph, spacesNumber, lineWidth;
               // horizontal alignment
               context.save();
               if (align === RIGHT) {
@@ -14388,14 +14409,13 @@
               if (shouldUnderline) {
                   context.save();
                   context.beginPath();
-                  let yOffset = Konva$2._fixTextRendering
+                  const yOffset = Konva$2._fixTextRendering
                       ? Math.round(fontSize / 4)
                       : Math.round(fontSize / 2);
                   const x = lineTranslateX;
                   const y = translateY + lineTranslateY + yOffset;
                   context.moveTo(x, y);
                   spacesNumber = text.split(' ').length - 1;
-                  oneWord = spacesNumber === 0;
                   lineWidth =
                       align === JUSTIFY && !lastLine ? totalWidth - padding * 2 : width;
                   context.lineTo(x + Math.round(lineWidth), y);
@@ -14410,14 +14430,11 @@
               if (shouldLineThrough) {
                   context.save();
                   context.beginPath();
-                  let yOffset = Konva$2._fixTextRendering ? -Math.round(fontSize / 4) : 0;
+                  const yOffset = Konva$2._fixTextRendering ? -Math.round(fontSize / 4) : 0;
                   context.moveTo(lineTranslateX, translateY + lineTranslateY + yOffset);
                   spacesNumber = text.split(' ').length - 1;
-                  oneWord = spacesNumber === 0;
                   lineWidth =
-                      align === JUSTIFY && lastLine && !oneWord
-                          ? totalWidth - padding * 2
-                          : width;
+                      align === JUSTIFY && !lastLine ? totalWidth - padding * 2 : width;
                   context.lineTo(lineTranslateX + Math.round(lineWidth), translateY + lineTranslateY + yOffset);
                   context.lineWidth = fontSize / 15;
                   const gradient = this._getLinearGradient();
@@ -14431,9 +14448,9 @@
               if (direction !== RTL && (letterSpacing !== 0 || align === JUSTIFY)) {
                   //   var words = text.split(' ');
                   spacesNumber = text.split(' ').length - 1;
-                  var array = stringToArray(text);
-                  for (var li = 0; li < array.length; li++) {
-                      var letter = array[li];
+                  const array = stringToArray(text);
+                  for (let li = 0; li < array.length; li++) {
+                      const letter = array[li];
                       // skip justify for the last line
                       if (letter === ' ' && !lastLine && align === JUSTIFY) {
                           lineTranslateX += (totalWidth - padding * 2 - width) / spacesNumber;
@@ -14465,14 +14482,14 @@
           }
       }
       _hitFunc(context) {
-          var width = this.getWidth(), height = this.getHeight();
+          const width = this.getWidth(), height = this.getHeight();
           context.beginPath();
           context.rect(0, 0, width, height);
           context.closePath();
           context.fillStrokeShape(this);
       }
       setText(text) {
-          var str = Util._isString(text)
+          const str = Util._isString(text)
               ? text
               : text === null || text === undefined
                   ? ''
@@ -14481,11 +14498,11 @@
           return this;
       }
       getWidth() {
-          var isAuto = this.attrs.width === AUTO || this.attrs.width === undefined;
+          const isAuto = this.attrs.width === AUTO || this.attrs.width === undefined;
           return isAuto ? this.getTextWidth() + this.padding() * 2 : this.attrs.width;
       }
       getHeight() {
-          var isAuto = this.attrs.height === AUTO || this.attrs.height === undefined;
+          const isAuto = this.attrs.height === AUTO || this.attrs.height === undefined;
           return isAuto
               ? this.fontSize() * this.textArr.length * this.lineHeight() +
                   this.padding() * 2
@@ -14514,7 +14531,7 @@
        */
       measureSize(text) {
           var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
-          var _context = getDummyContext(), fontSize = this.fontSize(), metrics;
+          let _context = getDummyContext(), fontSize = this.fontSize(), metrics;
           _context.save();
           _context.font = this._getContextFont();
           metrics = _context.measureText(text);
@@ -14523,17 +14540,17 @@
           const scaleFactor = fontSize / 100;
           // Note, fallback values are from chrome browser with 100px font size and font-family "Arial"
           return {
-              actualBoundingBoxAscent: (_a = metrics.actualBoundingBoxAscent) !== null && _a !== void 0 ? _a : 71.58203125 * scaleFactor,
-              actualBoundingBoxDescent: (_b = metrics.actualBoundingBoxDescent) !== null && _b !== void 0 ? _b : 0, // Remains zero as there is no descent in the provided metrics
-              actualBoundingBoxLeft: (_c = metrics.actualBoundingBoxLeft) !== null && _c !== void 0 ? _c : -7.421875 * scaleFactor,
-              actualBoundingBoxRight: (_d = metrics.actualBoundingBoxRight) !== null && _d !== void 0 ? _d : 75.732421875 * scaleFactor,
-              alphabeticBaseline: (_e = metrics.alphabeticBaseline) !== null && _e !== void 0 ? _e : 0, // Remains zero as it's typically relative to the baseline itself
-              emHeightAscent: (_f = metrics.emHeightAscent) !== null && _f !== void 0 ? _f : 100 * scaleFactor,
-              emHeightDescent: (_g = metrics.emHeightDescent) !== null && _g !== void 0 ? _g : -20 * scaleFactor,
-              fontBoundingBoxAscent: (_h = metrics.fontBoundingBoxAscent) !== null && _h !== void 0 ? _h : 91 * scaleFactor,
-              fontBoundingBoxDescent: (_j = metrics.fontBoundingBoxDescent) !== null && _j !== void 0 ? _j : 21 * scaleFactor,
-              hangingBaseline: (_k = metrics.hangingBaseline) !== null && _k !== void 0 ? _k : 72.80000305175781 * scaleFactor,
-              ideographicBaseline: (_l = metrics.ideographicBaseline) !== null && _l !== void 0 ? _l : -21 * scaleFactor,
+              actualBoundingBoxAscent: (_a = metrics.actualBoundingBoxAscent) !== null && _a !== undefined ? _a : 71.58203125 * scaleFactor,
+              actualBoundingBoxDescent: (_b = metrics.actualBoundingBoxDescent) !== null && _b !== undefined ? _b : 0, // Remains zero as there is no descent in the provided metrics
+              actualBoundingBoxLeft: (_c = metrics.actualBoundingBoxLeft) !== null && _c !== undefined ? _c : -7.421875 * scaleFactor,
+              actualBoundingBoxRight: (_d = metrics.actualBoundingBoxRight) !== null && _d !== undefined ? _d : 75.732421875 * scaleFactor,
+              alphabeticBaseline: (_e = metrics.alphabeticBaseline) !== null && _e !== undefined ? _e : 0, // Remains zero as it's typically relative to the baseline itself
+              emHeightAscent: (_f = metrics.emHeightAscent) !== null && _f !== undefined ? _f : 100 * scaleFactor,
+              emHeightDescent: (_g = metrics.emHeightDescent) !== null && _g !== undefined ? _g : -20 * scaleFactor,
+              fontBoundingBoxAscent: (_h = metrics.fontBoundingBoxAscent) !== null && _h !== undefined ? _h : 91 * scaleFactor,
+              fontBoundingBoxDescent: (_j = metrics.fontBoundingBoxDescent) !== null && _j !== undefined ? _j : 21 * scaleFactor,
+              hangingBaseline: (_k = metrics.hangingBaseline) !== null && _k !== undefined ? _k : 72.80000305175781 * scaleFactor,
+              ideographicBaseline: (_l = metrics.ideographicBaseline) !== null && _l !== undefined ? _l : -21 * scaleFactor,
               width: metrics.width,
               height: fontSize, // Typically set to the font size
           };
@@ -14552,7 +14569,7 @@
           if (align === JUSTIFY) {
               line = line.trim();
           }
-          var width = this._getTextWidth(line);
+          const width = this._getTextWidth(line);
           return this.textArr.push({
               text: line,
               width: width,
@@ -14560,21 +14577,24 @@
           });
       }
       _getTextWidth(text) {
-          var letterSpacing = this.letterSpacing();
-          var length = text.length;
-          return (getDummyContext().measureText(text).width +
-              (length ? letterSpacing * (length - 1) : 0));
+          const letterSpacing = this.letterSpacing();
+          const length = text.length;
+          // letterSpacing * length is the total letter spacing for the text
+          // previously we used letterSpacing * (length - 1) but it doesn't match DOM behavior
+          return getDummyContext().measureText(text).width + letterSpacing * length;
       }
       _setTextData() {
-          var lines = this.text().split('\n'), fontSize = +this.fontSize(), textWidth = 0, lineHeightPx = this.lineHeight() * fontSize, width = this.attrs.width, height = this.attrs.height, fixedWidth = width !== AUTO && width !== undefined, fixedHeight = height !== AUTO && height !== undefined, padding = this.padding(), maxWidth = width - padding * 2, maxHeightPx = height - padding * 2, currentHeightPx = 0, wrap = this.wrap(), 
+          let lines = this.text().split('\n'), fontSize = +this.fontSize(), textWidth = 0, lineHeightPx = this.lineHeight() * fontSize, width = this.attrs.width, height = this.attrs.height, fixedWidth = width !== AUTO && width !== undefined, fixedHeight = height !== AUTO && height !== undefined, padding = this.padding(), maxWidth = width - padding * 2, maxHeightPx = height - padding * 2, currentHeightPx = 0, wrap = this.wrap(), 
           // align = this.align(),
           shouldWrap = wrap !== NONE, wrapAtWord = wrap !== CHAR && shouldWrap, shouldAddEllipsis = this.ellipsis();
           this.textArr = [];
           getDummyContext().font = this._getContextFont();
-          var additionalWidth = shouldAddEllipsis ? this._getTextWidth(ELLIPSIS) : 0;
-          for (var i = 0, max = lines.length; i < max; ++i) {
-              var line = lines[i];
-              var lineWidth = this._getTextWidth(line);
+          const additionalWidth = shouldAddEllipsis
+              ? this._getTextWidth(ELLIPSIS)
+              : 0;
+          for (let i = 0, max = lines.length; i < max; ++i) {
+              let line = lines[i];
+              let lineWidth = this._getTextWidth(line);
               if (fixedWidth && lineWidth > maxWidth) {
                   /*
                    * if width is fixed and line does not fit entirely
@@ -14585,9 +14605,12 @@
                        * use binary search to find the longest substring that
                        * that would fit in the specified width
                        */
-                      var low = 0, high = line.length, match = '', matchWidth = 0;
+                      let low = 0, high = stringToArray(line).length, // Convert to array for proper emoji handling
+                      match = '', matchWidth = 0;
                       while (low < high) {
-                          var mid = (low + high) >>> 1, substr = line.slice(0, mid + 1), substrWidth = this._getTextWidth(substr) + additionalWidth;
+                          const mid = (low + high) >>> 1, 
+                          // Convert array indices to string
+                          lineArray = stringToArray(line), substr = lineArray.slice(0, mid + 1).join(''), substrWidth = this._getTextWidth(substr) + additionalWidth;
                           if (substrWidth <= maxWidth) {
                               low = mid + 1;
                               match = substr;
@@ -14606,21 +14629,23 @@
                           // a fitting substring was found
                           if (wrapAtWord) {
                               // try to find a space or dash where wrapping could be done
-                              var wrapIndex;
-                              var nextChar = line[match.length];
-                              var nextIsSpaceOrDash = nextChar === SPACE || nextChar === DASH;
+                              const lineArray = stringToArray(line);
+                              const matchArray = stringToArray(match);
+                              const nextChar = lineArray[matchArray.length];
+                              const nextIsSpaceOrDash = nextChar === SPACE || nextChar === DASH;
+                              let wrapIndex;
                               if (nextIsSpaceOrDash && matchWidth <= maxWidth) {
-                                  wrapIndex = match.length;
+                                  wrapIndex = matchArray.length;
                               }
                               else {
-                                  wrapIndex =
-                                      Math.max(match.lastIndexOf(SPACE), match.lastIndexOf(DASH)) +
-                                          1;
+                                  // Find last space or dash in the array
+                                  const lastSpaceIndex = matchArray.lastIndexOf(SPACE);
+                                  const lastDashIndex = matchArray.lastIndexOf(DASH);
+                                  wrapIndex = Math.max(lastSpaceIndex, lastDashIndex) + 1;
                               }
                               if (wrapIndex > 0) {
-                                  // re-cut the substring found at the space/dash position
                                   low = wrapIndex;
-                                  match = match.slice(0, low);
+                                  match = lineArray.slice(0, low).join('');
                                   matchWidth = this._getTextWidth(match);
                               }
                           }
@@ -14630,7 +14655,7 @@
                           this._addTextLine(match);
                           textWidth = Math.max(textWidth, matchWidth);
                           currentHeightPx += lineHeightPx;
-                          var shouldHandleEllipsis = this._shouldHandleEllipsis(currentHeightPx);
+                          const shouldHandleEllipsis = this._shouldHandleEllipsis(currentHeightPx);
                           if (shouldHandleEllipsis) {
                               this._tryToAddEllipsisToLastLine();
                               /*
@@ -14639,13 +14664,12 @@
                                */
                               break;
                           }
-                          line = line.slice(low);
-                          line = line.trimLeft();
+                          // Convert remaining text using array operations
+                          const lineArray = stringToArray(line);
+                          line = lineArray.slice(low).join('').trimLeft();
                           if (line.length > 0) {
-                              // Check if the remaining text would fit on one line
                               lineWidth = this._getTextWidth(line);
                               if (lineWidth <= maxWidth) {
-                                  // if it does, add the line and break out of the loop
                                   this._addTextLine(line);
                                   currentHeightPx += lineHeightPx;
                                   textWidth = Math.max(textWidth, lineWidth);
@@ -14688,20 +14712,21 @@
        * 1. the current line is the last line
        * 2. wrap is NONE
        * @param {Number} currentHeightPx
+       * @returns {Boolean}
        */
       _shouldHandleEllipsis(currentHeightPx) {
-          var fontSize = +this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, height = this.attrs.height, fixedHeight = height !== AUTO && height !== undefined, padding = this.padding(), maxHeightPx = height - padding * 2, wrap = this.wrap(), shouldWrap = wrap !== NONE;
+          const fontSize = +this.fontSize(), lineHeightPx = this.lineHeight() * fontSize, height = this.attrs.height, fixedHeight = height !== AUTO && height !== undefined, padding = this.padding(), maxHeightPx = height - padding * 2, wrap = this.wrap(), shouldWrap = wrap !== NONE;
           return (!shouldWrap ||
               (fixedHeight && currentHeightPx + lineHeightPx > maxHeightPx));
       }
       _tryToAddEllipsisToLastLine() {
-          var width = this.attrs.width, fixedWidth = width !== AUTO && width !== undefined, padding = this.padding(), maxWidth = width - padding * 2, shouldAddEllipsis = this.ellipsis();
-          var lastLine = this.textArr[this.textArr.length - 1];
+          const width = this.attrs.width, fixedWidth = width !== AUTO && width !== undefined, padding = this.padding(), maxWidth = width - padding * 2, shouldAddEllipsis = this.ellipsis();
+          const lastLine = this.textArr[this.textArr.length - 1];
           if (!lastLine || !shouldAddEllipsis) {
               return;
           }
           if (fixedWidth) {
-              var haveSpace = this._getTextWidth(lastLine.text + ELLIPSIS) < maxWidth;
+              const haveSpace = this._getTextWidth(lastLine.text + ELLIPSIS) < maxWidth;
               if (!haveSpace) {
                   lastLine.text = lastLine.text.slice(0, lastLine.text.length - 3);
               }
@@ -14975,7 +15000,7 @@
    */
   Factory.addGetterSetter(Text, 'textDecoration', '');
 
-  var EMPTY_STRING = '', NORMAL = 'normal';
+  const EMPTY_STRING = '', NORMAL = 'normal';
   function _fillFunc(context) {
       context.fillText(this.partialText, 0, 0);
   }
@@ -15137,16 +15162,16 @@
           context.setAttr('textBaseline', this.textBaseline());
           context.setAttr('textAlign', 'left');
           context.save();
-          var textDecoration = this.textDecoration();
-          var fill = this.fill();
-          var fontSize = this.fontSize();
-          var glyphInfo = this.glyphInfo;
+          const textDecoration = this.textDecoration();
+          const fill = this.fill();
+          const fontSize = this.fontSize();
+          const glyphInfo = this.glyphInfo;
           if (textDecoration === 'underline') {
               context.beginPath();
           }
-          for (var i = 0; i < glyphInfo.length; i++) {
+          for (let i = 0; i < glyphInfo.length; i++) {
               context.save();
-              var p0 = glyphInfo[i].p0;
+              const p0 = glyphInfo[i].p0;
               context.translate(p0.x, p0.y);
               context.rotate(glyphInfo[i].rotation);
               this.partialText = glyphInfo[i].text;
@@ -15176,13 +15201,13 @@
       }
       _hitFunc(context) {
           context.beginPath();
-          var glyphInfo = this.glyphInfo;
+          const glyphInfo = this.glyphInfo;
           if (glyphInfo.length >= 1) {
-              var p0 = glyphInfo[0].p0;
+              const p0 = glyphInfo[0].p0;
               context.moveTo(p0.x, p0.y);
           }
-          for (var i = 0; i < glyphInfo.length; i++) {
-              var p1 = glyphInfo[i].p1;
+          for (let i = 0; i < glyphInfo.length; i++) {
+              const p1 = glyphInfo[i].p1;
               context.lineTo(p1.x, p1.y);
           }
           context.setAttr('lineWidth', this.fontSize());
@@ -15208,11 +15233,11 @@
           return Text.prototype._getContextFont.call(this);
       }
       _getTextSize(text) {
-          var dummyCanvas = this.dummyCanvas;
-          var _context = dummyCanvas.getContext('2d');
+          const dummyCanvas = this.dummyCanvas;
+          const _context = dummyCanvas.getContext('2d');
           _context.save();
           _context.font = this._getContextFont();
-          var metrics = _context.measureText(text);
+          const metrics = _context.measureText(text);
           _context.restore();
           return {
               width: metrics.width,
@@ -15246,7 +15271,7 @@
           // 3. Calculate the rotation, width, and midpoint of the glyph using the start and end points,
           // 4. Add glyph width to the offsetToGlyph and repeat
           let offsetToGlyph = offset;
-          for (var i = 0; i < charArr.length; i++) {
+          for (let i = 0; i < charArr.length; i++) {
               const charStartPoint = this._getPointAtLength(offsetToGlyph);
               if (!charStartPoint)
                   return;
@@ -15294,19 +15319,19 @@
                   height: 0,
               };
           }
-          var points = [];
+          const points = [];
           this.glyphInfo.forEach(function (info) {
               points.push(info.p0.x);
               points.push(info.p0.y);
               points.push(info.p1.x);
               points.push(info.p1.y);
           });
-          var minX = points[0] || 0;
-          var maxX = points[0] || 0;
-          var minY = points[1] || 0;
-          var maxY = points[1] || 0;
-          var x, y;
-          for (var i = 0; i < points.length / 2; i++) {
+          let minX = points[0] || 0;
+          let maxX = points[0] || 0;
+          let minY = points[1] || 0;
+          let maxY = points[1] || 0;
+          let x, y;
+          for (let i = 0; i < points.length / 2; i++) {
               x = points[i * 2];
               y = points[i * 2 + 1];
               minX = Math.min(minX, x);
@@ -15314,7 +15339,7 @@
               minY = Math.min(minY, y);
               maxY = Math.max(maxY, y);
           }
-          var fontSize = this.fontSize();
+          const fontSize = this.fontSize();
           return {
               x: minX - fontSize / 2,
               y: minY - fontSize / 2,
@@ -15479,7 +15504,7 @@
    * // underline text
    * shape.textDecoration('underline');
    */
-  Factory.addGetterSetter(TextPath, 'textDecoration', null);
+  Factory.addGetterSetter(TextPath, 'textDecoration', '');
   /**
    * get/set kerning function.
    * @name Konva.TextPath#kerningFunc
@@ -15495,10 +15520,10 @@
    *   return 1;
    * });
    */
-  Factory.addGetterSetter(TextPath, 'kerningFunc', null);
+  Factory.addGetterSetter(TextPath, 'kerningFunc', undefined);
 
-  var EVENTS_NAME = 'tr-konva';
-  var ATTR_CHANGE_LIST = [
+  const EVENTS_NAME = 'tr-konva';
+  const ATTR_CHANGE_LIST = [
       'resizeEnabledChange',
       'rotateAnchorOffsetChange',
       'rotateEnabledChange',
@@ -15517,8 +15542,8 @@
   ]
       .map((e) => e + `.${EVENTS_NAME}`)
       .join(' ');
-  var NODES_RECT = 'nodesRect';
-  var TRANSFORM_CHANGE_STR = [
+  const NODES_RECT = 'nodesRect';
+  const TRANSFORM_CHANGE_STR = [
       'widthChange',
       'heightChange',
       'scaleXChange',
@@ -15531,7 +15556,7 @@
       'transformsEnabledChange',
       'strokeWidthChange',
   ];
-  var ANGLES = {
+  const ANGLES = {
       'top-left': -45,
       'top-center': 0,
       'top-right': 45,
@@ -15547,7 +15572,7 @@
           return rotateCursor;
       }
       rad += Util.degToRad(ANGLES[anchorName] || 0);
-      var angle = ((Util.radToDeg(rad) % 360) + 360) % 360;
+      const angle = ((Util.radToDeg(rad) % 360) + 360) % 360;
       if (Util._inRange(angle, 315 + 22.5, 360) || Util._inRange(angle, 0, 22.5)) {
           // TOP
           return 'ns-resize';
@@ -15586,7 +15611,7 @@
           return 'pointer';
       }
   }
-  var ANCHORS_NAMES = [
+  const ANCHORS_NAMES = [
       'top-left',
       'top-center',
       'top-right',
@@ -15596,7 +15621,6 @@
       'bottom-center',
       'bottom-right',
   ];
-  var MAX_SAFE_INTEGER = 100000000;
   function getCenter(shape) {
       return {
           x: shape.x +
@@ -15747,10 +15771,12 @@
                       this.update();
                   }
               };
-              const additionalEvents = node._attrsAffectingSize
-                  .map((prop) => prop + 'Change.' + this._getEventNamespace())
-                  .join(' ');
-              node.on(additionalEvents, onChange);
+              if (node._attrsAffectingSize.length) {
+                  const additionalEvents = node._attrsAffectingSize
+                      .map((prop) => prop + 'Change.' + this._getEventNamespace())
+                      .join(' ');
+                  node.on(additionalEvents, onChange);
+              }
               node.on(TRANSFORM_CHANGE_STR.map((e) => e + `.${this._getEventNamespace()}`).join(' '), onChange);
               node.on(`absoluteTransformChange.${this._getEventNamespace()}`, onChange);
               this._proxyDrag(node);
@@ -15758,7 +15784,7 @@
           this._resetTransformCache();
           // we may need it if we set node in initial props
           // so elements are not defined yet
-          var elementsCreated = !!this.findOne('.top-left');
+          const elementsCreated = !!this.findOne('.top-left');
           if (elementsCreated) {
               this.update();
           }
@@ -15853,15 +15879,15 @@
       }
       // return absolute rotated bounding rectangle
       __getNodeShape(node, rot = this.rotation(), relative) {
-          var rect = node.getClientRect({
+          const rect = node.getClientRect({
               skipTransform: true,
               skipShadow: true,
               skipStroke: this.ignoreStroke(),
           });
-          var absScale = node.getAbsoluteScale(relative);
-          var absPos = node.getAbsolutePosition(relative);
-          var dx = rect.x * absScale.x - node.offsetX() * absScale.x;
-          var dy = rect.y * absScale.y - node.offsetY() * absScale.y;
+          const absScale = node.getAbsoluteScale(relative);
+          const absPos = node.getAbsolutePosition(relative);
+          const dx = rect.x * absScale.x - node.offsetX() * absScale.x;
+          const dy = rect.y * absScale.y - node.offsetY() * absScale.y;
           const rotation = (Konva$2.getAngle(node.getAbsoluteRotation()) + Math.PI * 2) %
               (Math.PI * 2);
           const box = {
@@ -15878,11 +15904,11 @@
       }
       // returns box + rotation of all shapes
       __getNodeRect() {
-          var node = this.getNode();
+          const node = this.getNode();
           if (!node) {
               return {
-                  x: -MAX_SAFE_INTEGER,
-                  y: -MAX_SAFE_INTEGER,
+                  x: -1e8,
+                  y: -1e8,
                   width: 0,
                   height: 0,
                   rotation: 0,
@@ -15895,23 +15921,23 @@
                   skipShadow: true,
                   skipStroke: this.ignoreStroke(),
               });
-              var points = [
+              const points = [
                   { x: box.x, y: box.y },
                   { x: box.x + box.width, y: box.y },
                   { x: box.x + box.width, y: box.y + box.height },
                   { x: box.x, y: box.y + box.height },
               ];
-              var trans = node.getAbsoluteTransform();
+              const trans = node.getAbsoluteTransform();
               points.forEach(function (point) {
-                  var transformed = trans.point(point);
+                  const transformed = trans.point(point);
                   totalPoints.push(transformed);
               });
           });
           const tr = new Transform();
           tr.rotate(-Konva$2.getAngle(this.rotation()));
-          var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
           totalPoints.forEach(function (point) {
-              var transformed = tr.point(point);
+              const transformed = tr.point(point);
               if (minX === undefined) {
                   minX = maxX = transformed.x;
                   minY = maxY = transformed.y;
@@ -15959,7 +15985,7 @@
           this._createAnchor('rotater');
       }
       _createAnchor(name) {
-          var anchor = new Rect({
+          const anchor = new Rect({
               stroke: 'rgb(0, 161, 255)',
               fill: 'white',
               strokeWidth: 1,
@@ -15970,7 +15996,7 @@
               draggable: true,
               hitStrokeWidth: TOUCH_DEVICE ? 10 : 'auto',
           });
-          var self = this;
+          const self = this;
           anchor.on('mousedown touchstart', function (e) {
               self._handleMouseDown(e);
           });
@@ -15983,9 +16009,9 @@
           });
           // add hover styling
           anchor.on('mouseenter', () => {
-              var rad = Konva$2.getAngle(this.rotation());
-              var rotateCursor = this.rotateAnchorCursor();
-              var cursor = getCursor(name, rad, rotateCursor);
+              const rad = Konva$2.getAngle(this.rotation());
+              const rotateCursor = this.rotateAnchorCursor();
+              const cursor = getCursor(name, rad, rotateCursor);
               anchor.getStage().content &&
                   (anchor.getStage().content.style.cursor = cursor);
               this._cursorChange = true;
@@ -15998,14 +16024,14 @@
           this.add(anchor);
       }
       _createBack() {
-          var back = new Shape({
+          const back = new Shape({
               name: 'back',
               width: 0,
               height: 0,
               draggable: true,
               sceneFunc(ctx, shape) {
-                  var tr = shape.getParent();
-                  var padding = tr.padding();
+                  const tr = shape.getParent();
+                  const padding = tr.padding();
                   ctx.beginPath();
                   ctx.rect(-padding, -padding, shape.width() + padding * 2, shape.height() + padding * 2);
                   ctx.moveTo(shape.width() / 2, -padding);
@@ -16018,7 +16044,7 @@
                   if (!this.shouldOverdrawWholeArea()) {
                       return;
                   }
-                  var padding = this.padding();
+                  const padding = this.padding();
                   ctx.beginPath();
                   ctx.rect(-padding, -padding, shape.width() + padding * 2, shape.height() + padding * 2);
                   ctx.fillStrokeShape(shape);
@@ -16050,10 +16076,10 @@
               return;
           }
           this._movingAnchorName = e.target.name().split(' ')[0];
-          var attrs = this._getNodeRect();
-          var width = attrs.width;
-          var height = attrs.height;
-          var hypotenuse = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+          const attrs = this._getNodeRect();
+          const width = attrs.width;
+          const height = attrs.height;
+          const hypotenuse = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
           this.sin = Math.abs(height / hypotenuse);
           this.cos = Math.abs(width / hypotenuse);
           if (typeof window !== 'undefined') {
@@ -16063,8 +16089,8 @@
               window.addEventListener('touchend', this._handleMouseUp, true);
           }
           this._transforming = true;
-          var ap = e.target.getAbsolutePosition();
-          var pos = e.target.getStage().getPointerPosition();
+          const ap = e.target.getAbsolutePosition();
+          const pos = e.target.getStage().getPointerPosition();
           this._anchorDragOffset = {
               x: pos.x - ap.x,
               y: pos.y - ap.y,
@@ -16076,9 +16102,9 @@
           });
       }
       _handleMouseMove(e) {
-          var x, y, newHypotenuse;
-          var anchorNode = this.findOne('.' + this._movingAnchorName);
-          var stage = anchorNode.getStage();
+          let x, y, newHypotenuse;
+          const anchorNode = this.findOne('.' + this._movingAnchorName);
+          const stage = anchorNode.getStage();
           stage.setPointersPositions(e);
           const pp = stage.getPointerPosition();
           let newNodePos = {
@@ -16097,7 +16123,7 @@
           }
           // rotater is working very differently, so do it first
           if (this._movingAnchorName === 'rotater') {
-              var attrs = this._getNodeRect();
+              const attrs = this._getNodeRect();
               x = anchorNode.x() - attrs.width / 2;
               y = -anchorNode.y() + attrs.height / 2;
               // hor angle is changed?
@@ -16105,7 +16131,7 @@
               if (attrs.height < 0) {
                   delta -= Math.PI;
               }
-              var oldRotation = Konva$2.getAngle(this.rotation());
+              const oldRotation = Konva$2.getAngle(this.rotation());
               const newRotation = oldRotation + delta;
               const tol = Konva$2.getAngle(this.rotationSnapTolerance());
               const snappedRot = getSnap(this.rotationSnaps(), newRotation, tol);
@@ -16114,8 +16140,8 @@
               this._fitNodesInto(shape, e);
               return;
           }
-          var shiftBehavior = this.shiftBehavior();
-          var keepProportion;
+          const shiftBehavior = this.shiftBehavior();
+          let keepProportion;
           if (shiftBehavior === 'inverted') {
               keepProportion = this.keepRatio() && !e.shiftKey;
           }
@@ -16234,12 +16260,12 @@
           }
           var centeredScaling = this.centeredScaling() || e.altKey;
           if (centeredScaling) {
-              var topLeft = this.findOne('.top-left');
-              var bottomRight = this.findOne('.bottom-right');
-              var topOffsetX = topLeft.x();
-              var topOffsetY = topLeft.y();
-              var bottomOffsetX = this.getWidth() - bottomRight.x();
-              var bottomOffsetY = this.getHeight() - bottomRight.y();
+              const topLeft = this.findOne('.top-left');
+              const bottomRight = this.findOne('.bottom-right');
+              const topOffsetX = topLeft.x();
+              const topOffsetY = topLeft.y();
+              const bottomOffsetX = this.getWidth() - bottomRight.x();
+              const bottomOffsetY = this.getHeight() - bottomRight.y();
               bottomRight.move({
                   x: -topOffsetX,
                   y: -topOffsetY,
@@ -16249,11 +16275,11 @@
                   y: bottomOffsetY,
               });
           }
-          var absPos = this.findOne('.top-left').getAbsolutePosition();
+          const absPos = this.findOne('.top-left').getAbsolutePosition();
           x = absPos.x;
           y = absPos.y;
-          var width = this.findOne('.bottom-right').x() - this.findOne('.top-left').x();
-          var height = this.findOne('.bottom-right').y() - this.findOne('.top-left').y();
+          const width = this.findOne('.bottom-right').x() - this.findOne('.top-left').x();
+          const height = this.findOne('.bottom-right').y() - this.findOne('.top-left').y();
           this._fitNodesInto({
               x: x,
               y: y,
@@ -16278,24 +16304,24 @@
                   window.removeEventListener('mouseup', this._handleMouseUp, true);
                   window.removeEventListener('touchend', this._handleMouseUp, true);
               }
-              var node = this.getNode();
+              const node = this.getNode();
               activeTransformersCount--;
               this._fire('transformend', { evt: e, target: node });
               // redraw layer to restore hit graph
-              (_a = this.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
+              (_a = this.getLayer()) === null || _a === undefined ? undefined : _a.batchDraw();
               if (node) {
                   this._nodes.forEach((target) => {
                       var _a;
                       target._fire('transformend', { evt: e, target });
                       // redraw layer to restore hit graph
-                      (_a = target.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
+                      (_a = target.getLayer()) === null || _a === undefined ? undefined : _a.batchDraw();
                   });
               }
               this._movingAnchorName = null;
           }
       }
       _fitNodesInto(newAttrs, evt) {
-          var oldAttrs = this._getNodeRect();
+          const oldAttrs = this._getNodeRect();
           const minSize = 1;
           if (Util._inRange(newAttrs.width, -this.padding() * 2 - minSize, minSize)) {
               this.update();
@@ -16305,7 +16331,7 @@
               this.update();
               return;
           }
-          var t = new Transform();
+          const t = new Transform();
           t.rotate(Konva$2.getAngle(this.rotation()));
           if (this._movingAnchorName &&
               newAttrs.width < 0 &&
@@ -16417,7 +16443,7 @@
                   .multiply(localTransform);
               const attrs = newLocalTransform.decompose();
               node.setAttrs(attrs);
-              (_a = node.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
+              (_a = node.getLayer()) === null || _a === undefined ? undefined : _a.batchDraw();
           });
           this.rotation(Util._getRotation(newAttrs.rotation));
           // trigger transform event AFTER we update rotation
@@ -16445,14 +16471,14 @@
       }
       update() {
           var _a;
-          var attrs = this._getNodeRect();
+          const attrs = this._getNodeRect();
           this.rotation(Util._getRotation(attrs.rotation));
-          var width = attrs.width;
-          var height = attrs.height;
-          var enabledAnchors = this.enabledAnchors();
-          var resizeEnabled = this.resizeEnabled();
-          var padding = this.padding();
-          var anchorSize = this.anchorSize();
+          const width = attrs.width;
+          const height = attrs.height;
+          const enabledAnchors = this.enabledAnchors();
+          const resizeEnabled = this.resizeEnabled();
+          const padding = this.padding();
+          const anchorSize = this.anchorSize();
           const anchors = this.find('._anchor');
           anchors.forEach((node) => {
               node.setAttrs({
@@ -16539,7 +16565,7 @@
                   styleFunc(node);
               });
           }
-          (_a = this.getLayer()) === null || _a === void 0 ? void 0 : _a.batchDraw();
+          (_a = this.getLayer()) === null || _a === undefined ? undefined : _a.batchDraw();
       }
       /**
        * determine if transformer is in active transform
@@ -16559,7 +16585,7 @@
       stopTransform() {
           if (this._transforming) {
               this._removeEvents();
-              var anchorNode = this.findOne('.' + this._movingAnchorName);
+              const anchorNode = this.findOne('.' + this._movingAnchorName);
               if (anchorNode) {
                   anchorNode.stopDrag();
               }
@@ -16581,7 +16607,7 @@
       }
       // overwrite clone to NOT use method from Container
       clone(obj) {
-          var node = Node.prototype.clone.call(this, obj);
+          const node = Node.prototype.clone.call(this, obj);
           return node;
       }
       getClientRect() {
@@ -16939,7 +16965,6 @@
    * transformer.padding(10);
    */
   Factory.addGetterSetter(Transformer, 'padding', 0, getNumberValidator());
-  Factory.addGetterSetter(Transformer, 'node');
   /**
    * get/set attached nodes of the Transformer. Transformer will adapt to their size and listen to their events
    * @method
@@ -16959,6 +16984,9 @@
    * transformer.nodes(newNodes);
    */
   Factory.addGetterSetter(Transformer, 'nodes');
+  // @ts-ignore
+  // deprecated
+  Factory.addGetterSetter(Transformer, 'node');
   /**
    * get/set bounding box function. **IMPORTANT!** boundBondFunc operates in absolute coordinates.
    * @name Konva.Transformer#boundBoxFunc
@@ -17279,7 +17307,7 @@
       this.a = 0;
       this.next = null;
   }
-  var mul_table = [
+  const mul_table = [
       512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292,
       512, 454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292,
       273, 512, 482, 454, 428, 405, 383, 364, 345, 328, 312, 298, 284, 271, 259,
@@ -17298,7 +17326,7 @@
       329, 326, 323, 320, 318, 315, 312, 310, 307, 304, 302, 299, 297, 294, 292,
       289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259,
   ];
-  var shg_table = [
+  const shg_table = [
       9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17,
       17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19,
       19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
@@ -17315,9 +17343,10 @@
       24, 24, 24, 24, 24, 24, 24,
   ];
   function filterGaussBlurRGBA(imageData, radius) {
-      var pixels = imageData.data, width = imageData.width, height = imageData.height;
-      var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum, r_out_sum, g_out_sum, b_out_sum, a_out_sum, r_in_sum, g_in_sum, b_in_sum, a_in_sum, pr, pg, pb, pa, rbs;
-      var div = radius + radius + 1, widthMinus1 = width - 1, heightMinus1 = height - 1, radiusPlus1 = radius + 1, sumFactor = (radiusPlus1 * (radiusPlus1 + 1)) / 2, stackStart = new BlurStack(), stackEnd = null, stack = stackStart, stackIn = null, stackOut = null, mul_sum = mul_table[radius], shg_sum = shg_table[radius];
+      const pixels = imageData.data, width = imageData.width, height = imageData.height;
+      let x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum, r_out_sum, g_out_sum, b_out_sum, a_out_sum, r_in_sum, g_in_sum, b_in_sum, a_in_sum, pr, pg, pb, pa, rbs;
+      const div = radius + radius + 1, widthMinus1 = width - 1, heightMinus1 = height - 1, radiusPlus1 = radius + 1, sumFactor = (radiusPlus1 * (radiusPlus1 + 1)) / 2, stackStart = new BlurStack(), mul_sum = mul_table[radius], shg_sum = shg_table[radius];
+      let stackEnd = null, stack = stackStart, stackIn = null, stackOut = null;
       for (i = 1; i < div; i++) {
           stack = stack.next = new BlurStack();
           if (i === radiusPlus1) {
@@ -17508,7 +17537,7 @@
    * node.blurRadius(10);
    */
   const Blur = function Blur(imageData) {
-      var radius = Math.round(this.blurRadius());
+      const radius = Math.round(this.blurRadius());
       if (radius > 0) {
           filterGaussBlurRGBA(imageData, radius);
       }
@@ -17533,8 +17562,8 @@
    * node.brightness(0.8);
    */
   const Brighten = function (imageData) {
-      var brightness = this.brightness() * 255, data = imageData.data, len = data.length, i;
-      for (i = 0; i < len; i += 4) {
+      const brightness = this.brightness() * 255, data = imageData.data, len = data.length;
+      for (let i = 0; i < len; i += 4) {
           // red
           data[i] += brightness;
           // green
@@ -17565,9 +17594,10 @@
    * node.contrast(10);
    */
   const Contrast = function (imageData) {
-      var adjust = Math.pow((this.contrast() + 100) / 100, 2);
-      var data = imageData.data, nPixels = data.length, red = 150, green = 150, blue = 150, i;
-      for (i = 0; i < nPixels; i += 4) {
+      const adjust = Math.pow((this.contrast() + 100) / 100, 2);
+      const data = imageData.data, nPixels = data.length;
+      let red = 150, green = 150, blue = 150;
+      for (let i = 0; i < nPixels; i += 4) {
           red = data[i];
           green = data[i + 1];
           blue = data[i + 2];
@@ -17628,7 +17658,8 @@
       // pixastic greyLevel is between 0 and 255.  I want it between 0 and 1.  Also,
       // a max value of greyLevel yields a white emboss, and the min value yields a black
       // emboss.  Therefore, I changed greyLevel to whiteLevel
-      var strength = this.embossStrength() * 10, greyLevel = this.embossWhiteLevel() * 255, direction = this.embossDirection(), blend = this.embossBlend(), dirY = 0, dirX = 0, data = imageData.data, w = imageData.width, h = imageData.height, w4 = w * 4, y = h;
+      const strength = this.embossStrength() * 10, greyLevel = this.embossWhiteLevel() * 255, direction = this.embossDirection(), blend = this.embossBlend(), data = imageData.data, w = imageData.width, h = imageData.height, w4 = w * 4;
+      let dirY = 0, dirX = 0, y = h;
       switch (direction) {
           case 'top-left':
               dirY = -1;
@@ -17666,33 +17697,33 @@
               Util.error('Unknown emboss direction: ' + direction);
       }
       do {
-          var offsetY = (y - 1) * w4;
-          var otherY = dirY;
+          const offsetY = (y - 1) * w4;
+          let otherY = dirY;
           if (y + otherY < 1) {
               otherY = 0;
           }
           if (y + otherY > h) {
               otherY = 0;
           }
-          var offsetYOther = (y - 1 + otherY) * w * 4;
-          var x = w;
+          const offsetYOther = (y - 1 + otherY) * w * 4;
+          let x = w;
           do {
-              var offset = offsetY + (x - 1) * 4;
-              var otherX = dirX;
+              const offset = offsetY + (x - 1) * 4;
+              let otherX = dirX;
               if (x + otherX < 1) {
                   otherX = 0;
               }
               if (x + otherX > w) {
                   otherX = 0;
               }
-              var offsetOther = offsetYOther + (x - 1 + otherX) * 4;
-              var dR = data[offset] - data[offsetOther];
-              var dG = data[offset + 1] - data[offsetOther + 1];
-              var dB = data[offset + 2] - data[offsetOther + 2];
-              var dif = dR;
-              var absDif = dif > 0 ? dif : -dif;
-              var absG = dG > 0 ? dG : -dG;
-              var absB = dB > 0 ? dB : -dB;
+              const offsetOther = offsetYOther + (x - 1 + otherX) * 4;
+              const dR = data[offset] - data[offsetOther];
+              const dG = data[offset + 1] - data[offsetOther + 1];
+              const dB = data[offset + 2] - data[offsetOther + 2];
+              let dif = dR;
+              const absDif = dif > 0 ? dif : -dif;
+              const absG = dG > 0 ? dG : -dG;
+              const absB = dB > 0 ? dB : -dB;
               if (absG > absDif) {
                   dif = dG;
               }
@@ -17701,15 +17732,15 @@
               }
               dif *= strength;
               if (blend) {
-                  var r = data[offset] + dif;
-                  var g = data[offset + 1] + dif;
-                  var b = data[offset + 2] + dif;
+                  const r = data[offset] + dif;
+                  const g = data[offset + 1] + dif;
+                  const b = data[offset + 2] + dif;
                   data[offset] = r > 255 ? 255 : r < 0 ? 0 : r;
                   data[offset + 1] = g > 255 ? 255 : g < 0 ? 0 : g;
                   data[offset + 2] = b > 255 ? 255 : b < 0 ? 0 : b;
               }
               else {
-                  var grey = greyLevel - dif;
+                  let grey = greyLevel - dif;
                   if (grey < 0) {
                       grey = 0;
                   }
@@ -17737,7 +17768,7 @@
    * @param {Number} embossWhiteLevel between 0 and 1.  Default is 0.5
    * @returns {Number}
    */
-  Factory.addGetterSetter(Node, 'embossDirection', 'top-left', null, Factory.afterSetFilter);
+  Factory.addGetterSetter(Node, 'embossDirection', 'top-left', undefined, Factory.afterSetFilter);
   /**
    * get/set emboss direction. Use with {@link Konva.Filters.Emboss} filter.
    * @name Konva.Node#embossDirection
@@ -17746,7 +17777,7 @@
    *   The default is top-left
    * @returns {String}
    */
-  Factory.addGetterSetter(Node, 'embossBlend', false, null, Factory.afterSetFilter);
+  Factory.addGetterSetter(Node, 'embossBlend', false, undefined, Factory.afterSetFilter);
   /**
    * get/set emboss blend. Use with {@link Konva.Filters.Emboss} filter.
    * @name Konva.Node#embossBlend
@@ -17757,7 +17788,7 @@
 
   function remap(fromValue, fromMin, fromMax, toMin, toMax) {
       // Compute the range of the data
-      var fromRange = fromMax - fromMin, toRange = toMax - toMin, toValue;
+      const fromRange = fromMax - fromMin, toRange = toMax - toMin;
       // If either range is 0, then the value can only be mapped to 1 value
       if (fromRange === 0) {
           return toMin + toRange / 2;
@@ -17766,7 +17797,7 @@
           return toMin;
       }
       // (1) untranslate, (2) unscale, (3) rescale, (4) retranslate
-      toValue = (fromValue - fromMin) / fromRange;
+      let toValue = (fromValue - fromMin) / fromRange;
       toValue = toRange * toValue + toMin;
       return toValue;
   }
@@ -17785,14 +17816,15 @@
    * node.enhance(0.4);
    */
   const Enhance = function (imageData) {
-      var data = imageData.data, nSubPixels = data.length, rMin = data[0], rMax = rMin, r, gMin = data[1], gMax = gMin, g, bMin = data[2], bMax = bMin, b, i;
+      const data = imageData.data, nSubPixels = data.length;
+      let rMin = data[0], rMax = rMin, r, gMin = data[1], gMax = gMin, g, bMin = data[2], bMax = bMin, b;
       // If we are not enhancing anything - don't do any computation
-      var enhanceAmount = this.enhance();
+      const enhanceAmount = this.enhance();
       if (enhanceAmount === 0) {
           return;
       }
       // 1st Pass - find the min and max for each channel:
-      for (i = 0; i < nSubPixels; i += 4) {
+      for (let i = 0; i < nSubPixels; i += 4) {
           r = data[i + 0];
           if (r < rMin) {
               rMin = r;
@@ -17831,7 +17863,7 @@
           bMax = 255;
           bMin = 0;
       }
-      var rMid, rGoalMax, rGoalMin, gMid, gGoalMax, gGoalMin, bMid, bGoalMax, bGoalMin;
+      let rMid, rGoalMax, rGoalMin, gMid, gGoalMax, gGoalMin, bMid, bGoalMax, bGoalMin;
       // If the enhancement is positive - stretch the histogram
       if (enhanceAmount > 0) {
           rGoalMax = rMax + enhanceAmount * (255 - rMax);
@@ -17854,7 +17886,7 @@
           bGoalMin = bMin + enhanceAmount * (bMin - bMid);
       }
       // Pass 2 - remap everything, except the alpha
-      for (i = 0; i < nSubPixels; i += 4) {
+      for (let i = 0; i < nSubPixels; i += 4) {
           data[i + 0] = remap(data[i + 0], rMin, rMax, rGoalMin, rGoalMax);
           data[i + 1] = remap(data[i + 1], gMin, gMax, gGoalMin, gGoalMax);
           data[i + 2] = remap(data[i + 2], bMin, bMax, bGoalMin, bGoalMax);
@@ -17880,9 +17912,9 @@
    * node.filters([Konva.Filters.Grayscale]);
    */
   const Grayscale = function (imageData) {
-      var data = imageData.data, len = data.length, i, brightness;
-      for (i = 0; i < len; i += 4) {
-          brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+      const data = imageData.data, len = data.length;
+      for (let i = 0; i < len; i += 4) {
+          const brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
           // red
           data[i] = brightness;
           // green
@@ -17927,7 +17959,7 @@
    * image.luminance(0.2);
    */
   const HSL = function (imageData) {
-      var data = imageData.data, nPixels = data.length, v = 1, s = Math.pow(2, this.saturation()), h = Math.abs(this.hue() + 360) % 360, l = this.luminance() * 127, i;
+      const data = imageData.data, nPixels = data.length, v = 1, s = Math.pow(2, this.saturation()), h = Math.abs(this.hue() + 360) % 360, l = this.luminance() * 127;
       // Basis for the technique used:
       // http://beesbuzz.biz/code/hsv_color_transforms.php
       // V is the value multiplier (1 for none, 2 for double, 0.5 for half)
@@ -17939,13 +17971,13 @@
       //[ .299V-.299vsu-.328vsw    .587V+.413vsu+.035vsw    .114V-.114vsu+.292vsw ]*[G]
       //[ .299V-.300vsu+1.25vsw    .587V-.588vsu-1.05vsw    .114V+.886vsu-.203vsw ] [B]
       // Precompute the values in the matrix:
-      var vsu = v * s * Math.cos((h * Math.PI) / 180), vsw = v * s * Math.sin((h * Math.PI) / 180);
+      const vsu = v * s * Math.cos((h * Math.PI) / 180), vsw = v * s * Math.sin((h * Math.PI) / 180);
       // (result spot)(source spot)
-      var rr = 0.299 * v + 0.701 * vsu + 0.167 * vsw, rg = 0.587 * v - 0.587 * vsu + 0.33 * vsw, rb = 0.114 * v - 0.114 * vsu - 0.497 * vsw;
-      var gr = 0.299 * v - 0.299 * vsu - 0.328 * vsw, gg = 0.587 * v + 0.413 * vsu + 0.035 * vsw, gb = 0.114 * v - 0.114 * vsu + 0.293 * vsw;
-      var br = 0.299 * v - 0.3 * vsu + 1.25 * vsw, bg = 0.587 * v - 0.586 * vsu - 1.05 * vsw, bb = 0.114 * v + 0.886 * vsu - 0.2 * vsw;
-      var r, g, b, a;
-      for (i = 0; i < nPixels; i += 4) {
+      const rr = 0.299 * v + 0.701 * vsu + 0.167 * vsw, rg = 0.587 * v - 0.587 * vsu + 0.33 * vsw, rb = 0.114 * v - 0.114 * vsu - 0.497 * vsw;
+      const gr = 0.299 * v - 0.299 * vsu - 0.328 * vsw, gg = 0.587 * v + 0.413 * vsu + 0.035 * vsw, gb = 0.114 * v - 0.114 * vsu + 0.293 * vsw;
+      const br = 0.299 * v - 0.3 * vsu + 1.25 * vsw, bg = 0.587 * v - 0.586 * vsu - 1.05 * vsw, bb = 0.114 * v + 0.886 * vsu - 0.2 * vsw;
+      let r, g, b, a;
+      for (let i = 0; i < nPixels; i += 4) {
           r = data[i + 0];
           g = data[i + 1];
           b = data[i + 2];
@@ -17969,7 +18001,7 @@
    * image.value(200);
    */
   const HSV = function (imageData) {
-      var data = imageData.data, nPixels = data.length, v = Math.pow(2, this.value()), s = Math.pow(2, this.saturation()), h = Math.abs(this.hue() + 360) % 360, i;
+      const data = imageData.data, nPixels = data.length, v = Math.pow(2, this.value()), s = Math.pow(2, this.saturation()), h = Math.abs(this.hue() + 360) % 360;
       // Basis for the technique used:
       // http://beesbuzz.biz/code/hsv_color_transforms.php
       // V is the value multiplier (1 for none, 2 for double, 0.5 for half)
@@ -17981,13 +18013,13 @@
       //[ .299V-.299vsu-.328vsw    .587V+.413vsu+.035vsw    .114V-.114vsu+.292vsw ]*[G]
       //[ .299V-.300vsu+1.25vsw    .587V-.588vsu-1.05vsw    .114V+.886vsu-.203vsw ] [B]
       // Precompute the values in the matrix:
-      var vsu = v * s * Math.cos((h * Math.PI) / 180), vsw = v * s * Math.sin((h * Math.PI) / 180);
+      const vsu = v * s * Math.cos((h * Math.PI) / 180), vsw = v * s * Math.sin((h * Math.PI) / 180);
       // (result spot)(source spot)
-      var rr = 0.299 * v + 0.701 * vsu + 0.167 * vsw, rg = 0.587 * v - 0.587 * vsu + 0.33 * vsw, rb = 0.114 * v - 0.114 * vsu - 0.497 * vsw;
-      var gr = 0.299 * v - 0.299 * vsu - 0.328 * vsw, gg = 0.587 * v + 0.413 * vsu + 0.035 * vsw, gb = 0.114 * v - 0.114 * vsu + 0.293 * vsw;
-      var br = 0.299 * v - 0.3 * vsu + 1.25 * vsw, bg = 0.587 * v - 0.586 * vsu - 1.05 * vsw, bb = 0.114 * v + 0.886 * vsu - 0.2 * vsw;
-      var r, g, b, a;
-      for (i = 0; i < nPixels; i += 4) {
+      const rr = 0.299 * v + 0.701 * vsu + 0.167 * vsw, rg = 0.587 * v - 0.587 * vsu + 0.33 * vsw, rb = 0.114 * v - 0.114 * vsu - 0.497 * vsw;
+      const gr = 0.299 * v - 0.299 * vsu - 0.328 * vsw, gg = 0.587 * v + 0.413 * vsu + 0.035 * vsw, gb = 0.114 * v - 0.114 * vsu + 0.293 * vsw;
+      const br = 0.299 * v - 0.3 * vsu + 1.25 * vsw, bg = 0.587 * v - 0.586 * vsu - 1.05 * vsw, bb = 0.114 * v + 0.886 * vsu - 0.2 * vsw;
+      let r, g, b, a;
+      for (let i = 0; i < nPixels; i += 4) {
           r = data[i + 0];
           g = data[i + 1];
           b = data[i + 2];
@@ -18033,8 +18065,8 @@
    * node.filters([Konva.Filters.Invert]);
    */
   const Invert = function (imageData) {
-      var data = imageData.data, len = data.length, i;
-      for (i = 0; i < len; i += 4) {
+      const data = imageData.data, len = data.length;
+      for (let i = 0; i < len; i += 4) {
           // red
           data[i] = 255 - data[i];
           // green
@@ -18059,31 +18091,31 @@
    * @param {Number} [opt.polarCenterY] vertical location for the center of the circle,
    *  default is in the middle
    */
-  var ToPolar = function (src, dst, opt) {
-      var srcPixels = src.data, dstPixels = dst.data, xSize = src.width, ySize = src.height, xMid = opt.polarCenterX || xSize / 2, yMid = opt.polarCenterY || ySize / 2, i, x, y, r = 0, g = 0, b = 0, a = 0;
+  const ToPolar = function (src, dst, opt) {
+      const srcPixels = src.data, dstPixels = dst.data, xSize = src.width, ySize = src.height, xMid = opt.polarCenterX || xSize / 2, yMid = opt.polarCenterY || ySize / 2;
       // Find the largest radius
-      var rad, rMax = Math.sqrt(xMid * xMid + yMid * yMid);
-      x = xSize - xMid;
-      y = ySize - yMid;
-      rad = Math.sqrt(x * x + y * y);
+      let rMax = Math.sqrt(xMid * xMid + yMid * yMid);
+      let x = xSize - xMid;
+      let y = ySize - yMid;
+      const rad = Math.sqrt(x * x + y * y);
       rMax = rad > rMax ? rad : rMax;
       // We'll be uisng y as the radius, and x as the angle (theta=t)
-      var rSize = ySize, tSize = xSize, radius, theta;
+      const rSize = ySize, tSize = xSize;
       // We want to cover all angles (0-360) and we need to convert to
       // radians (*PI/180)
-      var conversion = ((360 / tSize) * Math.PI) / 180, sin, cos;
+      const conversion = ((360 / tSize) * Math.PI) / 180;
       // var x1, x2, x1i, x2i, y1, y2, y1i, y2i, scale;
-      for (theta = 0; theta < tSize; theta += 1) {
-          sin = Math.sin(theta * conversion);
-          cos = Math.cos(theta * conversion);
-          for (radius = 0; radius < rSize; radius += 1) {
+      for (let theta = 0; theta < tSize; theta += 1) {
+          const sin = Math.sin(theta * conversion);
+          const cos = Math.cos(theta * conversion);
+          for (let radius = 0; radius < rSize; radius += 1) {
               x = Math.floor(xMid + ((rMax * radius) / rSize) * cos);
               y = Math.floor(yMid + ((rMax * radius) / rSize) * sin);
-              i = (y * xSize + x) * 4;
-              r = srcPixels[i + 0];
-              g = srcPixels[i + 1];
-              b = srcPixels[i + 2];
-              a = srcPixels[i + 3];
+              let i = (y * xSize + x) * 4;
+              const r = srcPixels[i + 0];
+              const g = srcPixels[i + 1];
+              const b = srcPixels[i + 2];
+              const a = srcPixels[i + 3];
               // Store it
               //i = (theta * xSize  +  radius) * 4;
               i = (theta + radius * xSize) * 4;
@@ -18110,35 +18142,35 @@
    * @param {Number} [opt.polarRotation] amount to rotate the image counterclockwis,
    *  0 is no rotation, 360 degrees is a full rotation
    */
-  var FromPolar = function (src, dst, opt) {
-      var srcPixels = src.data, dstPixels = dst.data, xSize = src.width, ySize = src.height, xMid = opt.polarCenterX || xSize / 2, yMid = opt.polarCenterY || ySize / 2, i, x, y, dx, dy, r = 0, g = 0, b = 0, a = 0;
+  const FromPolar = function (src, dst, opt) {
+      const srcPixels = src.data, dstPixels = dst.data, xSize = src.width, ySize = src.height, xMid = opt.polarCenterX || xSize / 2, yMid = opt.polarCenterY || ySize / 2;
       // Find the largest radius
-      var rad, rMax = Math.sqrt(xMid * xMid + yMid * yMid);
-      x = xSize - xMid;
-      y = ySize - yMid;
-      rad = Math.sqrt(x * x + y * y);
+      let rMax = Math.sqrt(xMid * xMid + yMid * yMid);
+      let x = xSize - xMid;
+      let y = ySize - yMid;
+      const rad = Math.sqrt(x * x + y * y);
       rMax = rad > rMax ? rad : rMax;
       // We'll be uisng x as the radius, and y as the angle (theta=t)
-      var rSize = ySize, tSize = xSize, radius, theta, phaseShift = 0;
+      const rSize = ySize, tSize = xSize, phaseShift = 0;
       // We need to convert to degrees and we need to make sure
       // it's between (0-360)
       // var conversion = tSize/360*180/Math.PI;
       //var conversion = tSize/360*180/Math.PI;
-      var x1, y1;
+      let x1, y1;
       for (x = 0; x < xSize; x += 1) {
           for (y = 0; y < ySize; y += 1) {
-              dx = x - xMid;
-              dy = y - yMid;
-              radius = (Math.sqrt(dx * dx + dy * dy) * rSize) / rMax;
-              theta = ((Math.atan2(dy, dx) * 180) / Math.PI + 360 + phaseShift) % 360;
+              const dx = x - xMid;
+              const dy = y - yMid;
+              const radius = (Math.sqrt(dx * dx + dy * dy) * rSize) / rMax;
+              let theta = ((Math.atan2(dy, dx) * 180) / Math.PI + 360 + phaseShift) % 360;
               theta = (theta * tSize) / 360;
               x1 = Math.floor(theta);
               y1 = Math.floor(radius);
-              i = (y1 * xSize + x1) * 4;
-              r = srcPixels[i + 0];
-              g = srcPixels[i + 1];
-              b = srcPixels[i + 2];
-              a = srcPixels[i + 3];
+              let i = (y1 * xSize + x1) * 4;
+              const r = srcPixels[i + 0];
+              const g = srcPixels[i + 1];
+              const b = srcPixels[i + 2];
+              const a = srcPixels[i + 3];
               // Store it
               i = (y * xSize + x) * 4;
               dstPixels[i + 0] = r;
@@ -18164,19 +18196,19 @@
    * node.kaleidoscopeAngle(45);
    */
   const Kaleidoscope = function (imageData) {
-      var xSize = imageData.width, ySize = imageData.height;
-      var x, y, xoff, i, r, g, b, a, srcPos, dstPos;
-      var power = Math.round(this.kaleidoscopePower());
-      var angle = Math.round(this.kaleidoscopeAngle());
-      var offset = Math.floor((xSize * (angle % 360)) / 360);
+      const xSize = imageData.width, ySize = imageData.height;
+      let x, y, xoff, i, r, g, b, a, srcPos, dstPos;
+      let power = Math.round(this.kaleidoscopePower());
+      const angle = Math.round(this.kaleidoscopeAngle());
+      const offset = Math.floor((xSize * (angle % 360)) / 360);
       if (power < 1) {
           return;
       }
       // Work with our shared buffer canvas
-      var tempCanvas = Util.createCanvasElement();
+      const tempCanvas = Util.createCanvasElement();
       tempCanvas.width = xSize;
       tempCanvas.height = ySize;
-      var scratchData = tempCanvas
+      const scratchData = tempCanvas
           .getContext('2d')
           .getImageData(0, 0, xSize, ySize);
       Util.releaseCanvas(tempCanvas);
@@ -18187,17 +18219,17 @@
       });
       // Determine how big each section will be, if it's too small
       // make it bigger
-      var minSectionSize = xSize / Math.pow(2, power);
+      let minSectionSize = xSize / Math.pow(2, power);
       while (minSectionSize <= 8) {
           minSectionSize = minSectionSize * 2;
           power -= 1;
       }
       minSectionSize = Math.ceil(minSectionSize);
-      var sectionSize = minSectionSize;
+      let sectionSize = minSectionSize;
       // Copy the offset region to 0
       // Depending on the size of filter and location of the offset we may need
       // to copy the section backwards to prevent it from rewriting itself
-      var xStart = 0, xEnd = sectionSize, xDelta = 1;
+      let xStart = 0, xEnd = sectionSize, xDelta = 1;
       if (offset + minSectionSize > xSize) {
           xStart = sectionSize;
           xEnd = 0;
@@ -18258,8 +18290,8 @@
   Factory.addGetterSetter(Node, 'kaleidoscopeAngle', 0, getNumberValidator(), Factory.afterSetFilter);
 
   function pixelAt(idata, x, y) {
-      var idx = (y * idata.width + x) * 4;
-      var d = [];
+      let idx = (y * idata.width + x) * 4;
+      const d = [];
       d.push(idata.data[idx++], idata.data[idx++], idata.data[idx++], idata.data[idx++]);
       return d;
   }
@@ -18269,8 +18301,8 @@
           Math.pow(p1[2] - p2[2], 2));
   }
   function rgbMean(pTab) {
-      var m = [0, 0, 0];
-      for (var i = 0; i < pTab.length; i++) {
+      const m = [0, 0, 0];
+      for (let i = 0; i < pTab.length; i++) {
           m[0] += pTab[i][0];
           m[1] += pTab[i][1];
           m[2] += pTab[i][2];
@@ -18281,21 +18313,21 @@
       return m;
   }
   function backgroundMask(idata, threshold) {
-      var rgbv_no = pixelAt(idata, 0, 0);
-      var rgbv_ne = pixelAt(idata, idata.width - 1, 0);
-      var rgbv_so = pixelAt(idata, 0, idata.height - 1);
-      var rgbv_se = pixelAt(idata, idata.width - 1, idata.height - 1);
-      var thres = threshold || 10;
+      const rgbv_no = pixelAt(idata, 0, 0);
+      const rgbv_ne = pixelAt(idata, idata.width - 1, 0);
+      const rgbv_so = pixelAt(idata, 0, idata.height - 1);
+      const rgbv_se = pixelAt(idata, idata.width - 1, idata.height - 1);
+      const thres = threshold || 10;
       if (rgbDistance(rgbv_no, rgbv_ne) < thres &&
           rgbDistance(rgbv_ne, rgbv_se) < thres &&
           rgbDistance(rgbv_se, rgbv_so) < thres &&
           rgbDistance(rgbv_so, rgbv_no) < thres) {
           // Mean color
-          var mean = rgbMean([rgbv_ne, rgbv_no, rgbv_se, rgbv_so]);
+          const mean = rgbMean([rgbv_ne, rgbv_no, rgbv_se, rgbv_so]);
           // Mask based on color distance
-          var mask = [];
-          for (var i = 0; i < idata.width * idata.height; i++) {
-              var d = rgbDistance(mean, [
+          const mask = [];
+          for (let i = 0; i < idata.width * idata.height; i++) {
+              const d = rgbDistance(mean, [
                   idata.data[i * 4],
                   idata.data[i * 4 + 1],
                   idata.data[i * 4 + 2],
@@ -18306,26 +18338,26 @@
       }
   }
   function applyMask(idata, mask) {
-      for (var i = 0; i < idata.width * idata.height; i++) {
+      for (let i = 0; i < idata.width * idata.height; i++) {
           idata.data[4 * i + 3] = mask[i];
       }
   }
   function erodeMask(mask, sw, sh) {
-      var weights = [1, 1, 1, 1, 0, 1, 1, 1, 1];
-      var side = Math.round(Math.sqrt(weights.length));
-      var halfSide = Math.floor(side / 2);
-      var maskResult = [];
-      for (var y = 0; y < sh; y++) {
-          for (var x = 0; x < sw; x++) {
-              var so = y * sw + x;
-              var a = 0;
-              for (var cy = 0; cy < side; cy++) {
-                  for (var cx = 0; cx < side; cx++) {
-                      var scy = y + cy - halfSide;
-                      var scx = x + cx - halfSide;
+      const weights = [1, 1, 1, 1, 0, 1, 1, 1, 1];
+      const side = Math.round(Math.sqrt(weights.length));
+      const halfSide = Math.floor(side / 2);
+      const maskResult = [];
+      for (let y = 0; y < sh; y++) {
+          for (let x = 0; x < sw; x++) {
+              const so = y * sw + x;
+              let a = 0;
+              for (let cy = 0; cy < side; cy++) {
+                  for (let cx = 0; cx < side; cx++) {
+                      const scy = y + cy - halfSide;
+                      const scx = x + cx - halfSide;
                       if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
-                          var srcOff = scy * sw + scx;
-                          var wt = weights[cy * side + cx];
+                          const srcOff = scy * sw + scx;
+                          const wt = weights[cy * side + cx];
                           a += mask[srcOff] * wt;
                       }
                   }
@@ -18336,21 +18368,21 @@
       return maskResult;
   }
   function dilateMask(mask, sw, sh) {
-      var weights = [1, 1, 1, 1, 1, 1, 1, 1, 1];
-      var side = Math.round(Math.sqrt(weights.length));
-      var halfSide = Math.floor(side / 2);
-      var maskResult = [];
-      for (var y = 0; y < sh; y++) {
-          for (var x = 0; x < sw; x++) {
-              var so = y * sw + x;
-              var a = 0;
-              for (var cy = 0; cy < side; cy++) {
-                  for (var cx = 0; cx < side; cx++) {
-                      var scy = y + cy - halfSide;
-                      var scx = x + cx - halfSide;
+      const weights = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+      const side = Math.round(Math.sqrt(weights.length));
+      const halfSide = Math.floor(side / 2);
+      const maskResult = [];
+      for (let y = 0; y < sh; y++) {
+          for (let x = 0; x < sw; x++) {
+              const so = y * sw + x;
+              let a = 0;
+              for (let cy = 0; cy < side; cy++) {
+                  for (let cx = 0; cx < side; cx++) {
+                      const scy = y + cy - halfSide;
+                      const scx = x + cx - halfSide;
                       if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
-                          var srcOff = scy * sw + scx;
-                          var wt = weights[cy * side + cx];
+                          const srcOff = scy * sw + scx;
+                          const wt = weights[cy * side + cx];
                           a += mask[srcOff] * wt;
                       }
                   }
@@ -18361,21 +18393,21 @@
       return maskResult;
   }
   function smoothEdgeMask(mask, sw, sh) {
-      var weights = [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9];
-      var side = Math.round(Math.sqrt(weights.length));
-      var halfSide = Math.floor(side / 2);
-      var maskResult = [];
-      for (var y = 0; y < sh; y++) {
-          for (var x = 0; x < sw; x++) {
-              var so = y * sw + x;
-              var a = 0;
-              for (var cy = 0; cy < side; cy++) {
-                  for (var cx = 0; cx < side; cx++) {
-                      var scy = y + cy - halfSide;
-                      var scx = x + cx - halfSide;
+      const weights = [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9];
+      const side = Math.round(Math.sqrt(weights.length));
+      const halfSide = Math.floor(side / 2);
+      const maskResult = [];
+      for (let y = 0; y < sh; y++) {
+          for (let x = 0; x < sw; x++) {
+              const so = y * sw + x;
+              let a = 0;
+              for (let cy = 0; cy < side; cy++) {
+                  for (let cx = 0; cx < side; cx++) {
+                      const scy = y + cy - halfSide;
+                      const scx = x + cx - halfSide;
                       if (scy >= 0 && scy < sh && scx >= 0 && scx < sw) {
-                          var srcOff = scy * sw + scx;
-                          var wt = weights[cy * side + cx];
+                          const srcOff = scy * sw + scx;
+                          const wt = weights[cy * side + cx];
                           a += mask[srcOff] * wt;
                       }
                   }
@@ -18398,7 +18430,8 @@
    */
   const Mask = function (imageData) {
       // Detect pixels close to the background color
-      var threshold = this.threshold(), mask = backgroundMask(imageData, threshold);
+      const threshold = this.threshold();
+      let mask = backgroundMask(imageData, threshold);
       if (mask) {
           // Erode
           mask = erodeMask(mask, imageData.width, imageData.height);
@@ -18426,8 +18459,8 @@
    * node.noise(0.8);
    */
   const Noise = function (imageData) {
-      var amount = this.noise() * 255, data = imageData.data, nPixels = data.length, half = amount / 2, i;
-      for (i = 0; i < nPixels; i += 4) {
+      const amount = this.noise() * 255, data = imageData.data, nPixels = data.length, half = amount / 2;
+      for (let i = 0; i < nPixels; i += 4) {
           data[i + 0] += half - 2 * half * Math.random();
           data[i + 1] += half - 2 * half * Math.random();
           data[i + 2] += half - 2 * half * Math.random();
@@ -18442,7 +18475,6 @@
    * @returns {Number}
    */
 
-  /*eslint-disable max-depth */
   /**
    * Pixelate Filter. Averages groups of pixels and redraws
    *  them as larger pixels
@@ -18457,7 +18489,7 @@
    * node.pixelSize(10);
    */
   const Pixelate = function (imageData) {
-      var pixelSize = Math.ceil(this.pixelSize()), width = imageData.width, height = imageData.height, x, y, i, 
+      let pixelSize = Math.ceil(this.pixelSize()), width = imageData.width, height = imageData.height, x, y, i, 
       //pixelsPerBin = pixelSize * pixelSize,
       red, green, blue, alpha, nBinsX = Math.ceil(width / pixelSize), nBinsY = Math.ceil(height / pixelSize), xBinStart, xBinEnd, yBinStart, yBinEnd, xBin, yBin, pixelsInBin, data = imageData.data;
       if (pixelSize <= 0) {
@@ -18543,8 +18575,8 @@
    */
   const Posterize = function (imageData) {
       // level must be between 1 and 255
-      var levels = Math.round(this.levels() * 254) + 1, data = imageData.data, len = data.length, scale = 255 / levels, i;
-      for (i = 0; i < len; i += 1) {
+      const levels = Math.round(this.levels() * 254) + 1, data = imageData.data, len = data.length, scale = 255 / levels;
+      for (let i = 0; i < len; i += 1) {
           data[i] = Math.floor(data[i] / scale) * scale;
       }
   };
@@ -18571,10 +18603,9 @@
    * node.green(200);
    */
   const RGB = function (imageData) {
-      var data = imageData.data, nPixels = data.length, red = this.red(), green = this.green(), blue = this.blue(), i, brightness;
-      for (i = 0; i < nPixels; i += 4) {
-          brightness =
-              (0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2]) / 255;
+      const data = imageData.data, nPixels = data.length, red = this.red(), green = this.green(), blue = this.blue();
+      for (let i = 0; i < nPixels; i += 4) {
+          const brightness = (0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2]) / 255;
           data[i] = brightness * red; // r
           data[i + 1] = brightness * green; // g
           data[i + 2] = brightness * blue; // b
@@ -18646,9 +18677,9 @@
    * node.alpha(0.3);
    */
   const RGBA = function (imageData) {
-      var data = imageData.data, nPixels = data.length, red = this.red(), green = this.green(), blue = this.blue(), alpha = this.alpha(), i, ia;
-      for (i = 0; i < nPixels; i += 4) {
-          ia = 1 - alpha;
+      const data = imageData.data, nPixels = data.length, red = this.red(), green = this.green(), blue = this.blue(), alpha = this.alpha();
+      for (let i = 0; i < nPixels; i += 4) {
+          const ia = 1 - alpha;
           data[i] = red * alpha + data[i] * ia; // r
           data[i + 1] = green * alpha + data[i + 1] * ia; // g
           data[i + 2] = blue * alpha + data[i + 2] * ia; // b
@@ -18735,11 +18766,11 @@
    * node.filters([Konva.Filters.Sepia]);
    */
   const Sepia = function (imageData) {
-      var data = imageData.data, nPixels = data.length, i, r, g, b;
-      for (i = 0; i < nPixels; i += 4) {
-          r = data[i + 0];
-          g = data[i + 1];
-          b = data[i + 2];
+      const data = imageData.data, nPixels = data.length;
+      for (let i = 0; i < nPixels; i += 4) {
+          const r = data[i + 0];
+          const g = data[i + 1];
+          const b = data[i + 2];
           data[i + 0] = Math.min(255, r * 0.393 + g * 0.769 + b * 0.189);
           data[i + 1] = Math.min(255, r * 0.349 + g * 0.686 + b * 0.168);
           data[i + 2] = Math.min(255, r * 0.272 + g * 0.534 + b * 0.131);
@@ -18760,15 +18791,16 @@
    * node.filters([Konva.Filters.Solarize]);
    */
   const Solarize = function (imageData) {
-      var data = imageData.data, w = imageData.width, h = imageData.height, w4 = w * 4, y = h;
+      const data = imageData.data, w = imageData.width, h = imageData.height, w4 = w * 4;
+      let y = h;
       do {
-          var offsetY = (y - 1) * w4;
-          var x = w;
+          const offsetY = (y - 1) * w4;
+          let x = w;
           do {
-              var offset = offsetY + (x - 1) * 4;
-              var r = data[offset];
-              var g = data[offset + 1];
-              var b = data[offset + 2];
+              const offset = offsetY + (x - 1) * 4;
+              let r = data[offset];
+              let g = data[offset + 1];
+              let b = data[offset + 2];
               if (r > 127) {
                   r = 255 - r;
               }
@@ -18800,8 +18832,8 @@
    * node.threshold(0.1);
    */
   const Threshold = function (imageData) {
-      var level = this.threshold() * 255, data = imageData.data, len = data.length, i;
-      for (i = 0; i < len; i += 1) {
+      const level = this.threshold() * 255, data = imageData.data, len = data.length;
+      for (let i = 0; i < len; i += 1) {
           data[i] = data[i] < level ? 0 : 255;
       }
   };
