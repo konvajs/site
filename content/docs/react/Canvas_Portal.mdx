@@ -1,0 +1,77 @@
+---
+title: How to use portals in react-konva?
+sidebar_label: Canvas Portal
+hide_table_of_contents: true
+slug: Canvas_Portal.html
+---
+
+
+## How does react-konva control the zIndex?
+
+`react-konva` strictly follows the order of elements in the way that you define them in your render. For more info take a look into the [zIndex demo](/docs/react/zIndex.html).
+
+## Is it possible to move a node into another container with `react-konva`?
+
+Currently `react-konva` doesn't support the `React.createPortal` API.
+
+But we can use `<Portal />` component from [react-konva-utils package](https://github.com/konvajs/react-konva-utils)
+
+Such a portal can be useful when you want to temporarily move a node into another container. The common use cases are:
+
+1. Move a dragging shape into another layer for better performance
+2. Show an element on top of other elements, but still keep it deep down in the components tree
+
+**Instructions: try to drag a rectangle. You will see that it is visible on top, but in render it is still the first element.**
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
+import { Portal } from 'react-konva-utils';
+
+const App = () => {
+  const [isDragging, setDragging] = React.useState(false);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          text="Try to drag the rectangle. It should be on top while drag."
+          fontSize={15}
+        />
+        <Portal selector=".top-layer" enabled={isDragging}>
+          <Rect
+            x={20}
+            y={50}
+            width={150}
+            height={150}
+            fill="red"
+            draggable={true}
+            onDragStart={() => {
+              setDragging(true);
+            }}
+            onDragEnd={() => {
+              setDragging(false);
+            }}
+          />
+        </Portal>
+        <Circle x={200} y={100} radius={50} fill="green" />
+        <Line
+          x={20}
+          y={200}
+          points={[0, 0, 100, 0, 100, 100]}
+          tension={0.5}
+          closed
+          stroke="black"
+          fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+          fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+          fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+          draggable
+        />
+      </Layer>
+      <Layer name="top-layer" />
+    </Stage>
+  );
+};
+
+export default App;
+``` 

@@ -1,0 +1,178 @@
+---
+title: Getting started with Vue and Canvas via Konva
+sidebar_label: Getting Started
+hide_table_of_contents: true
+slug: index.html
+---
+
+## How to use canvas with Vue?
+
+![VueKonva Logo](https://raw.githubusercontent.com/konvajs/vue-konva/master/vue-konva.png)
+
+Vue Konva is a JavaScript library for drawing complex canvas graphics using Vue.
+
+It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+
+All `vue-konva` components correspond to `Konva` components of the same name with the prefix 'v-'. All the parameters available for `Konva` objects can be added as `config` in the prop for corresponding `vue-konva` components.
+
+Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`.
+Also you can create [custom shapes](/docs/vue/Custom_Shape.html).
+
+To get more info about `Konva` you can read [Konva Overview](/docs/overview.html).
+
+## Quick Start
+
+[Vue.js](https://vuejs.org) version 3 is required.
+
+### 1. Install via npm
+
+```bash
+npm install vue-konva konva --save
+```
+
+### 2. Import and use VueKonva
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import VueKonva from 'vue-konva';
+
+const app = createApp(App);
+app.use(VueKonva);
+app.mount('#app');
+```
+
+### 3. Use in your components
+
+Instructions: Try to drag the stars. They will scale up while being dragged and return to normal size when released.
+
+```js live vue
+<template>
+  <v-stage
+    ref="stage"
+    :config="stageSize"
+    @dragstart="handleDragstart"
+    @dragend="handleDragend"
+  >
+    <v-layer ref="layer">
+      <v-star
+        v-for="item in list"
+        :key="item.id"
+        :config="{
+          x: item.x,
+          y: item.y,
+          rotation: item.rotation,
+          id: item.id,
+          numPoints: 5,
+          innerRadius: 30,
+          outerRadius: 50,
+          fill: '#89b717',
+          opacity: 0.8,
+          draggable: true,
+          scaleX: dragItemId === item.id ? item.scale * 1.2 : item.scale,
+          scaleY: dragItemId === item.id ? item.scale * 1.2 : item.scale,
+          shadowColor: 'black',
+          shadowBlur: 10,
+          shadowOffsetX: dragItemId === item.id ? 15 : 5,
+          shadowOffsetY: dragItemId === item.id ? 15 : 5,
+          shadowOpacity: 0.6
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const list = ref([]);
+const dragItemId = ref(null);
+
+const handleDragstart = (e) => {
+  // save drag element:
+  dragItemId.value = e.target.id();
+  // move current element to the top:
+  const item = list.value.find(i => i.id === dragItemId.value);
+  const index = list.value.indexOf(item);
+  list.value.splice(index, 1);
+  list.value.push(item);
+};
+
+const handleDragend = () => {
+  dragItemId.value = null;
+};
+
+onMounted(() => {
+  for (let n = 0; n < 30; n++) {
+    list.value.push({
+      id: Math.round(Math.random() * 10000).toString(),
+      x: Math.random() * stageSize.width,
+      y: Math.random() * stageSize.height,
+      rotation: Math.random() * 180,
+      scale: Math.random()
+    });
+  }
+});
+</script>
+```
+
+### Or use a CDN
+
+```html
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  </head>
+  <body>
+    <div id="app">
+      <v-stage ref="stage" :config="configKonva">
+        <v-layer ref="layer">
+          <v-circle :config="configCircle" />
+        </v-layer>
+      </v-stage>
+    </div>
+    <!--1. Link Vue Javascript & Konva-->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    <!--2. Link VueKonva Javascript (Plugin automatically installed)-->
+    <script src="https://unpkg.com/vue-konva@3/umd/vue-konva.min.js"></script>
+    <script>
+      // 3. Create the Vue instance
+      const { createApp, ref } = Vue;
+      
+      const app = createApp({
+        setup() {
+          const configKonva = {
+            width: 200,
+            height: 200
+          };
+          
+          const configCircle = {
+            x: 100,
+            y: 100,
+            radius: 70,
+            fill: 'red',
+            stroke: 'black',
+            strokeWidth: 4
+          };
+          
+          return {
+            configKonva,
+            configCircle
+          };
+        }
+      });
+      
+      app.use(VueKonva);
+      app.mount('#app');
+    </script>
+  </body>
+</html>
+``` 

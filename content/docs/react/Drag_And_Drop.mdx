@@ -1,0 +1,49 @@
+---
+title: Drag and drop canvas shapes
+sidebar_label: Drag and Drop
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
+---
+
+To enable drag&drop for any node on the canvas you just need to pass the `draggable` property into the component.
+
+When you drag&drop a shape it is recommended to save its position into your app store. You can use the `onDragMove` and `onDragEnd` events for that purpose.
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Text } from 'react-konva';
+
+const App = () => {
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [position, setPosition] = React.useState({
+    x: 50,
+    y: 50,
+  });
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          text="Draggable Text"
+          x={position.x}
+          y={position.y}
+          draggable
+          fill={isDragging ? 'green' : 'black'}
+          onDragStart={() => {
+            setIsDragging(true);
+          }}
+          onDragEnd={(e) => {
+            setIsDragging(false);
+            setPosition({
+              x: e.target.x(),
+              y: e.target.y(),
+            });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+``` 

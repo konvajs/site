@@ -1,0 +1,72 @@
+---
+title: How to listen to events on canvas shapes with Vue and Konva?
+sidebar_label: Events
+hide_table_of_contents: true
+slug: Events.html
+---
+
+With `vue-konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart`, etc...) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+
+For the full list of events take a look at the [on() method documentation](/api/Konva.Node.html#on).
+
+Instructions: Move your mouse over the triangle to see coordinates. Move the mouse out to see the mouseout event.
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-regular-polygon
+        @mousemove="handleMouseMove"
+        @mouseout="handleMouseOut"
+        :config="{
+          x: 80,
+          y: 120,
+          sides: 3,
+          radius: 80,
+          fill: '#00D2FF',
+          stroke: 'black',
+          strokeWidth: 4
+        }"
+      />
+      <v-text ref="text" :config="{
+        x: 10,
+        y: 10,
+        fontFamily: 'Calibri',
+        fontSize: 24,
+        text: text,
+        fill: 'black'
+      }" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+export default {
+  data() {
+    return {
+      stageSize: {
+        width: width,
+        height: height
+      },
+      text: ''
+    };
+  },
+  methods: {
+    writeMessage(message) {
+      this.text = message;
+    },
+    handleMouseOut(event) {
+      this.writeMessage('Mouseout triangle');
+    },
+    handleMouseMove(event) {
+      const mousePos = this.$refs.stage.getNode().getPointerPosition();
+      const x = mousePos.x - 190;
+      const y = mousePos.y - 40;
+      this.writeMessage('x: ' + x + ', y: ' + y);
+    }
+  }
+};
+</script> 

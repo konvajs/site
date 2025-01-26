@@ -1,0 +1,409 @@
+---
+title: Star Spinner
+sidebar_label: Star Spinner
+---
+
+# Star Spinner
+
+This demo shows how to create an interactive spinning star with Konva. The star can be spun with the mouse and will gradually slow down due to angular friction.
+
+## Vanilla
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Star Spinner Demo</title>
+    <style>
+      #container {
+        width: 100%;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      const width = window.innerWidth;
+      const height = 400;
+
+      Konva.angleDeg = false;
+      function animate(animatedLayer, star, frame) {
+        // 20% slow down per second
+        const angularFriction = 0.2;
+        const angularVelocityChange =
+          (star.angularVelocity * frame.timeDiff * (1 - angularFriction)) / 1000;
+        star.angularVelocity -= angularVelocityChange;
+
+        if (star.controlled) {
+          star.angularVelocity =
+            ((star.rotation() - star.lastRotation) * 1000) / frame.timeDiff;
+        } else {
+          star.rotate((frame.timeDiff * star.angularVelocity) / 1000);
+        }
+
+        star.lastRotation = star.rotation();
+      }
+
+      const stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      const animatedLayer = new Konva.Layer();
+
+      const star = new Konva.Star({
+        x: stage.width() / 2,
+        y: stage.height() / 2,
+        outerRadius: 80,
+        innerRadius: 40,
+        stroke: '#005500',
+        fill: '#b5ff88',
+        strokeWidth: 4,
+        numPoints: 5,
+        lineJoin: 'round',
+        shadowOffsetX: 5,
+        shadowOffsetY: 5,
+        shadowBlur: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        opacity: 0.8,
+      });
+
+      // custom properties
+      star.lastRotation = 0;
+      star.angularVelocity = 6;
+      star.controlled = false;
+
+      star.on('mousedown touchstart', function () {
+        this.angularVelocity = 0;
+        this.controlled = true;
+      });
+
+      animatedLayer.add(star);
+
+      const center = new Konva.Circle({
+        x: stage.width() / 2,
+        y: stage.height() / 2,
+        radius: 3,
+        fill: '#555',
+      });
+
+      animatedLayer.add(center);
+
+      // add listeners to container
+      stage.on('mouseup touchend', function () {
+        star.controlled = false;
+      });
+
+      stage.on('mousemove touchmove', function () {
+        if (star.controlled) {
+          const mousePos = stage.getPointerPosition();
+          const x = star.x() - mousePos.x;
+          const y = star.y() - mousePos.y;
+          star.rotation(0.5 * Math.PI + Math.atan(y / x));
+
+          if (mousePos.x <= stage.width() / 2) {
+            star.rotate(Math.PI);
+          }
+        }
+      });
+
+      stage.add(animatedLayer);
+
+      const anim = new Konva.Animation(function (frame) {
+        animate(animatedLayer, star, frame);
+      }, animatedLayer);
+
+      // wait one second and then spin the star
+      setTimeout(function () {
+        anim.start();
+      }, 1000);
+    </script>
+  </body>
+</html>
+```
+
+## React
+
+```jsx
+import { Stage, Layer, Star, Circle } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+
+const StarSpinner = () => {
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: 400,
+  });
+  const starRef = useRef(null);
+  const animRef = useRef(null);
+  const [isControlled, setIsControlled] = useState(false);
+  const lastRotationRef = useRef(0);
+  const angularVelocityRef = useRef(6);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: 400,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const star = starRef.current;
+    if (!star) return;
+
+    const layer = star.getLayer();
+    
+    const animate = (frame) => {
+      const angularFriction = 0.2;
+      const angularVelocityChange =
+        (angularVelocityRef.current * frame.timeDiff * (1 - angularFriction)) / 1000;
+      angularVelocityRef.current -= angularVelocityChange;
+
+      if (isControlled) {
+        angularVelocityRef.current =
+          ((star.rotation() - lastRotationRef.current) * 1000) / frame.timeDiff;
+      } else {
+        star.rotate((frame.timeDiff * angularVelocityRef.current) / 1000);
+      }
+
+      lastRotationRef.current = star.rotation();
+    };
+
+    const anim = new Konva.Animation(animate, layer);
+    animRef.current = anim;
+
+    setTimeout(() => {
+      anim.start();
+    }, 1000);
+
+    return () => anim.stop();
+  }, [isControlled]);
+
+  const handleMouseDown = () => {
+    angularVelocityRef.current = 0;
+    setIsControlled(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsControlled(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isControlled || !starRef.current) return;
+
+    const stage = e.target.getStage();
+    const star = starRef.current;
+    const mousePos = stage.getPointerPosition();
+    const x = star.x() - mousePos.x;
+    const y = star.y() - mousePos.y;
+    star.rotation(0.5 * Math.PI + Math.atan(y / x));
+
+    if (mousePos.x <= stage.width() / 2) {
+      star.rotate(Math.PI);
+    }
+  };
+
+  return (
+    <Stage
+      width={dimensions.width}
+      height={dimensions.height}
+      onMouseUp={handleMouseUp}
+      onTouchEnd={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleMouseMove}
+    >
+      <Layer>
+        <Star
+          ref={starRef}
+          x={dimensions.width / 2}
+          y={dimensions.height / 2}
+          outerRadius={80}
+          innerRadius={40}
+          stroke="#005500"
+          fill="#b5ff88"
+          strokeWidth={4}
+          numPoints={5}
+          lineJoin="round"
+          shadowOffsetX={5}
+          shadowOffsetY={5}
+          shadowBlur={10}
+          shadowColor="black"
+          shadowOpacity={0.5}
+          opacity={0.8}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleMouseDown}
+        />
+        <Circle
+          x={dimensions.width / 2}
+          y={dimensions.height / 2}
+          radius={3}
+          fill="#555"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default StarSpinner;
+```
+
+## Vue
+
+```vue
+<template>
+  <v-stage
+    :config="stageConfig"
+    @mouseup="handleMouseUp"
+    @touchend="handleMouseUp"
+    @mousemove="handleMouseMove"
+    @touchmove="handleMouseMove"
+  >
+    <v-layer ref="layerRef">
+      <v-star
+        ref="starRef"
+        :config="starConfig"
+        @mousedown="handleMouseDown"
+        @touchstart="handleMouseDown"
+      />
+      <v-circle :config="centerConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+
+export default {
+  setup() {
+    const width = ref(window.innerWidth);
+    const height = ref(400);
+    const isControlled = ref(false);
+    const lastRotation = ref(0);
+    const angularVelocity = ref(6);
+    const layerRef = ref(null);
+    const starRef = ref(null);
+    let animation = null;
+
+    const stageConfig = computed(() => ({
+      width: width.value,
+      height: height.value,
+    }));
+
+    const starConfig = computed(() => ({
+      x: width.value / 2,
+      y: height.value / 2,
+      outerRadius: 80,
+      innerRadius: 40,
+      stroke: '#005500',
+      fill: '#b5ff88',
+      strokeWidth: 4,
+      numPoints: 5,
+      lineJoin: 'round',
+      shadowOffsetX: 5,
+      shadowOffsetY: 5,
+      shadowBlur: 10,
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      opacity: 0.8,
+    }));
+
+    const centerConfig = computed(() => ({
+      x: width.value / 2,
+      y: height.value / 2,
+      radius: 3,
+      fill: '#555',
+    }));
+
+    const animate = (frame) => {
+      const star = starRef.value.getNode();
+      const angularFriction = 0.2;
+      const angularVelocityChange =
+        (angularVelocity.value * frame.timeDiff * (1 - angularFriction)) / 1000;
+      angularVelocity.value -= angularVelocityChange;
+
+      if (isControlled.value) {
+        angularVelocity.value =
+          ((star.rotation() - lastRotation.value) * 1000) / frame.timeDiff;
+      } else {
+        star.rotate((frame.timeDiff * angularVelocity.value) / 1000);
+      }
+
+      lastRotation.value = star.rotation();
+    };
+
+    const handleMouseDown = () => {
+      angularVelocity.value = 0;
+      isControlled.value = true;
+    };
+
+    const handleMouseUp = () => {
+      isControlled.value = false;
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isControlled.value) return;
+
+      const stage = e.target.getStage();
+      const star = starRef.value.getNode();
+      const mousePos = stage.getPointerPosition();
+      const x = star.x() - mousePos.x;
+      const y = star.y() - mousePos.y;
+      star.rotation(0.5 * Math.PI + Math.atan(y / x));
+
+      if (mousePos.x <= stage.width() / 2) {
+        star.rotate(Math.PI);
+      }
+    };
+
+    const handleResize = () => {
+      width.value = window.innerWidth;
+    };
+
+    onMounted(() => {
+      window.addEventListener('resize', handleResize);
+      const layer = layerRef.value.getNode();
+      animation = new Konva.Animation((frame) => animate(frame), layer);
+      setTimeout(() => {
+        animation.start();
+      }, 1000);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+      if (animation) {
+        animation.stop();
+      }
+    });
+
+    return {
+      stageConfig,
+      starConfig,
+      centerConfig,
+      layerRef,
+      starRef,
+      handleMouseDown,
+      handleMouseUp,
+      handleMouseMove,
+    };
+  },
+};
+</script>
+```
+
+The demo shows how to:
+1. Create an interactive star shape with Konva
+2. Add mouse and touch event handlers for spinning
+3. Implement angular velocity and friction for realistic spinning motion
+4. Add visual effects like shadows and opacity
+5. Create a smooth animation loop
+
+Try spinning the star with your mouse or touch input. The star will continue spinning with decreasing velocity due to angular friction. 

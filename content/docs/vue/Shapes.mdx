@@ -1,0 +1,58 @@
+---
+title: Drawing canvas shapes with Vue
+sidebar_label: Shapes
+hide_table_of_contents: true
+slug: Shapes.html
+---
+
+All `vue-konva` components correspond to Konva components of the same name with the prefix 'v'. All the parameters available for Konva objects can be added as config in the prop for corresponding `vue-konva` components.
+
+Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`. You can also create a [custom shape](/docs/vue/Custom_Shape.html).
+
+To get more info about Konva you can read [Konva Overview](/docs/overview.html).
+
+Instructions: The demo shows various shapes with different styles and configurations.
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="{
+        text: 'Some text on canvas',
+        fontSize: 15
+      }"/>
+      <v-rect :config="{
+        x: 20,
+        y: 50,
+        width: 100,
+        height: 100,
+        fill: 'red',
+        shadowBlur: 10
+      }"/>
+      <v-circle :config="{
+        x: 200,
+        y: 100,
+        radius: 50,
+        fill: 'green'
+      }"/>
+      <v-line :config="{
+        x: 20,
+        y: 200,
+        points: [0, 0, 100, 0, 100, 100],
+        tension: 0.5,
+        closed: true,
+        stroke: 'black',
+        fillLinearGradientStartPoint: { x: -50, y: -50 },
+        fillLinearGradientEndPoint: { x: 50, y: 50 },
+        fillLinearGradientColorStops: [0, 'red', 1, 'yellow']
+      }"/>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+</script> 

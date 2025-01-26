@@ -1,0 +1,47 @@
+---
+title: How to draw custom shapes with React?
+sidebar_label: Custom Shape
+hide_table_of_contents: true
+slug: Custom_Shape.html
+---
+
+To create a custom shape with `react-konva`, we should use the `Shape` component.
+
+When creating a custom shape, we need to define a drawing function that is passed to a Konva.Canvas renderer.
+
+We can use the renderer to access the HTML5 Canvas context, and to use special methods like `context.fillStrokeShape(shape)` which automatically handle filling, stroking, and applying shadows.
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Shape } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Shape
+          width={260}
+          height={170}
+          sceneFunc={function (context, shape) {
+            const width = shape.width();
+            const height = shape.height();
+            context.beginPath();
+            context.moveTo(0, 0);
+            context.lineTo(width - 40, height - 90);
+            context.quadraticCurveTo(width - 110, height - 70, width, height);
+            context.closePath();
+
+            // (!) Konva specific method, it is very important
+            context.fillStrokeShape(shape);
+          }}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={4}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+``` 

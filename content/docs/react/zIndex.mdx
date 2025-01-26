@@ -1,0 +1,91 @@
+---
+title: How to change the zIndex of nodes with React?
+sidebar_label: zIndex
+hide_table_of_contents: true
+slug: zIndex.html
+---
+
+## How to change the zIndex and reorder components in `react-konva`?
+
+When you are working with `Konva` directly you have many methods to change the order of nodes like `node.zIndex(5)`, `node.moveToTop()`, etc. [Tutorial](/docs/groups_and_layers/Layering.html).
+
+But it is not recommended to use these methods when you are working with the React framework.
+
+`react-konva` is strictly follows the order of the nodes exactly as you described them in your component. So instead of changing the zIndex manually, you just need to update the state of the app correctly.
+
+Don't use the `zIndex` for your canvas components.
+
+If you want to temporarily move a node into another container, for example when you want to show an overlay, take a look into the [Canvas Portal demo](/docs/react/Canvas_Portal.html).
+
+**Instructions: Try to drag a circle. See how it goes to the top. We are doing this by manipulating the state so that componet render returns the correct order.**
+
+```js live react
+import React, { Component } from 'react';
+import Konva from 'konva';
+import { Stage, Layer, Circle } from 'react-konva';
+
+function generateItems() {
+  const items = [];
+  for (let i = 0; i < 10; i++) {
+    items.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      id: 'node-' + i,
+      color: Konva.Util.getRandomColor(),
+    });
+  }
+  return items;
+}
+
+const App = () => {
+  const [items, setItems] = React.useState(generateItems());
+
+  const handleDragStart = (e) => {
+    const id = e.target.name();
+    const itemsCopy = items.slice();
+    const item = itemsCopy.find((i) => i.id === id);
+    const index = itemsCopy.indexOf(item);
+    // remove from the list:
+    itemsCopy.splice(index, 1);
+    // add to the top
+    itemsCopy.push(item);
+    setItems(itemsCopy);
+  };
+
+  const onDragEnd = (e) => {
+    const id = e.target.name();
+    const itemsCopy = items.slice();
+    const item = items.find((i) => i.id === id);
+    const index = items.indexOf(item);
+    // update item position
+    itemsCopy[index] = {
+      ...item,
+      x: e.target.x(),
+      y: e.target.y(),
+    };
+    setItems(itemsCopy);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {items.map((item) => (
+          <Circle
+            key={item.id}
+            name={item.id}
+            draggable
+            x={item.x}
+            y={item.y}
+            fill={item.color}
+            radius={50}
+            onDragStart={handleDragStart}
+            onDragEnd={onDragEnd}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+``` 

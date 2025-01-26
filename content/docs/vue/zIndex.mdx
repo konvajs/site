@@ -1,0 +1,87 @@
+---
+title: How to change the zIndex of nodes with Vue?
+sidebar_label: zIndex
+hide_table_of_contents: true
+slug: zIndex.html
+---
+
+## How to change the zIndex and reorder components in `vue-konva`?
+
+When you are working with `Konva` directly, you have many methods to change the order of nodes like `node.zIndex(5)`, `node.moveToTop()`, etc. See the [Layering Tutorial](/docs/groups_and_layers/Layering.html) for more details.
+
+However, when working with Vue, it's recommended to follow Vue's declarative approach instead of using these imperative methods.
+
+`vue-konva` follows the order of the nodes exactly as you describe them in your `<template>`. Instead of changing the `zIndex` manually, you should update your app's data so that the components in your `<template>` maintain the correct order.
+
+The demo shows how to:
+1. Create an array of circle shapes with random positions and colors
+2. Handle drag events to update the visual order of shapes
+3. Maintain the correct stacking order by manipulating the array order
+4. Follow Vue's reactivity system for state management
+
+Remember: Don't use the `zIndex` property for your canvas components. Instead, rely on the order of elements in your template and data structures. 
+
+Instructions: Try to drag a circle. When you start dragging, it will automatically move to the top of the stack. This is achieved by manipulating the array of circles in our data, not by manually changing zIndex.
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle
+        v-for="item in items"
+        :key="item.id"
+        :config="item"
+        @dragstart="handleDragstart"
+        @dragend="handleDragend"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const items = ref([]);
+const dragItemId = ref(null);
+
+const generateItems = () => {
+  const newItems = [];
+  for (let i = 0; i < 10; i++) {
+    newItems.push({
+      x: Math.random() * stageSize.width,
+      y: Math.random() * stageSize.height,
+      radius: 50,
+      id: "node-" + i,
+      fill: Konva.Util.getRandomColor(),
+      draggable: true
+    });
+  }
+  return newItems;
+};
+
+const handleDragstart = (e) => {
+  // save drag element:
+  dragItemId.value = e.target.id();
+  // move current element to the top by rearranging the items array:
+  const item = items.value.find(i => i.id === dragItemId.value);
+  const index = items.value.indexOf(item);
+  items.value.splice(index, 1);
+  items.value.push(item);
+};
+
+const handleDragend = () => {
+  dragItemId.value = null;
+};
+
+onMounted(() => {
+  items.value = generateItems();
+});
+</script>
+```
+

@@ -1,0 +1,569 @@
+---
+title: How to preview large stage on canvas with Konva?
+sidebar_label: Stage Preview
+hide_table_of_contents: true
+slug: Stage_Preview.html
+---
+
+## Need to generate a small preview of the canvas?
+
+There are many ways to generate small preview. `Konva` doesn't provide any methods to do this automatically.
+But we can use `Konva` methods to generate preview area manually.
+
+We will show two options - cloning and using images. In large applications it is better to generate preview from the state of the app.
+
+### Clone nodes from the main stage
+
+So we can just clone the stage or the layer and update its internal nodes from the state of the main canvas area.
+Also it will make sense to simplify shapes on the preview. Like hide texts, remove strokes and shadows, etc.
+
+**Instructions: try to drag a circle. See how the preview is updating. Double click to add a new shape.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create preview container
+const preview = document.createElement('div');
+preview.id = 'preview';
+preview.style.position = 'absolute';
+preview.style.top = '2px';
+preview.style.right = '2px';
+preview.style.border = '1px solid grey';
+preview.style.backgroundColor = 'lightgrey';
+document.body.appendChild(preview);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// generate random shapes
+for (let i = 0; i < 10; i++) {
+  const shape = new Konva.Circle({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    radius: Math.random() * 30 + 5,
+    fill: Konva.Util.getRandomColor(),
+    draggable: true,
+    // each shape MUST have unique name
+    // so we can easily update the preview clone by name
+    name: 'shape-' + i,
+  });
+  layer.add(shape);
+}
+
+// create smaller preview stage
+const previewStage = new Konva.Stage({
+  container: 'preview',
+  width: window.innerWidth / 4,
+  height: window.innerHeight / 4,
+  scaleX: 1 / 4,
+  scaleY: 1 / 4,
+});
+
+// clone original layer, and disable all events on it
+let previewLayer = layer.clone({ listening: false });
+previewStage.add(previewLayer);
+
+function updatePreview() {
+  // we just need to update ALL nodes in the preview
+  layer.children.forEach((shape) => {
+    // find cloned node
+    const clone = previewLayer.findOne('.' + shape.name());
+    // update its position from the original
+    clone.position(shape.position());
+  });
+}
+
+stage.on('dragmove', updatePreview);
+
+// add new shapes on double click or double tap
+stage.on('dblclick dbltap', () => {
+  const shape = new Konva.Circle({
+    x: stage.getPointerPosition().x,
+    y: stage.getPointerPosition().y,
+    radius: Math.random() * 30 + 5,
+    fill: Konva.Util.getRandomColor(),
+    draggable: true,
+    name: 'shape-' + layer.children.length,
+  });
+  layer.add(shape);
+
+  // remove all layer
+  previewLayer.destroy();
+  // generate new one
+  previewLayer = layer.clone({ listening: false });
+  previewStage.add(previewLayer);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const App = () => {
+  const [shapes, setShapes] = React.useState(() =>
+    Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: Math.random() * 30 + 5,
+      fill: getRandomColor(),
+    }))
+  );
+
+  const handleDragMove = (e, id) => {
+    const { x, y } = e.target.position();
+    setShapes(shapes.map(shape => 
+      shape.id === id ? { ...shape, x, y } : shape
+    ));
+  };
+
+  const handleDblClick = (e) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    const newShape = {
+      id: shapes.length,
+      x: pos.x,
+      y: pos.y,
+      radius: Math.random() * 30 + 5,
+      fill: getRandomColor(),
+    };
+    setShapes([...shapes, newShape]);
+  };
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onDblClick={handleDblClick}
+        onTap={handleDblClick}
+      >
+        <Layer>
+          {shapes.map(shape => (
+            <Circle
+              key={shape.id}
+              {...shape}
+              draggable
+              onDragMove={(e) => handleDragMove(e, shape.id)}
+            />
+          ))}
+        </Layer>
+      </Stage>
+      <div
+        style={{
+          position: 'absolute',
+          top: '2px',
+          right: '2px',
+          border: '1px solid grey',
+          backgroundColor: 'lightgrey',
+        }}
+      >
+        <Stage
+          width={window.innerWidth / 4}
+          height={window.innerHeight / 4}
+          scaleX={1/4}
+          scaleY={1/4}
+        >
+          <Layer>
+            {shapes.map(shape => (
+              <Circle
+                key={shape.id}
+                {...shape}
+                listening={false}
+              />
+            ))}
+          </Layer>
+        </Stage>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div style="position: relative">
+    <v-stage
+      :config="stageConfig"
+      @dblclick="handleDblClick"
+      @tap="handleDblClick"
+    >
+      <v-layer>
+        <v-circle
+          v-for="shape in shapes"
+          :key="shape.id"
+          :config="{
+            ...shape,
+            draggable: true
+          }"
+          @dragmove="(e) => handleDragMove(e, shape.id)"
+        />
+      </v-layer>
+    </v-stage>
+    <div
+      style="position: absolute; top: 2px; right: 2px; border: 1px solid grey; background-color: lightgrey"
+    >
+      <v-stage :config="previewConfig">
+        <v-layer>
+          <v-circle
+            v-for="shape in shapes"
+            :key="shape.id"
+            :config="{
+              ...shape,
+              listening: false
+            }"
+          />
+        </v-layer>
+      </v-stage>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const previewConfig = {
+  width: window.innerWidth / 4,
+  height: window.innerHeight / 4,
+  scaleX: 1/4,
+  scaleY: 1/4,
+};
+
+const shapes = ref(
+  Array.from({ length: 10 }, (_, i) => ({
+    id: i,
+    x: Math.random() * stageConfig.width,
+    y: Math.random() * stageConfig.height,
+    radius: Math.random() * 30 + 5,
+    fill: getRandomColor(),
+  }))
+);
+
+const handleDragMove = (e, id) => {
+  const { x, y } = e.target.position();
+  shapes.value = shapes.value.map(shape =>
+    shape.id === id ? { ...shape, x, y } : shape
+  );
+};
+
+const handleDblClick = (e) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  const newShape = {
+    id: shapes.value.length,
+    x: pos.x,
+    y: pos.y,
+    radius: Math.random() * 30 + 5,
+    fill: getRandomColor(),
+  };
+  shapes.value.push(newShape);
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+### Use image preview
+
+Or we can export the stage to an image and use it as a preview.
+For performance reasons we are not updating the preview on every `dragmove` events.
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create preview container
+const preview = document.createElement('img');
+preview.id = 'preview';
+preview.style.position = 'absolute';
+preview.style.top = '2px';
+preview.style.right = '2px';
+preview.style.border = '1px solid grey';
+preview.style.backgroundColor = 'lightgrey';
+document.body.appendChild(preview);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// generate random shapes
+for (let i = 0; i < 10; i++) {
+  const shape = new Konva.Circle({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    radius: Math.random() * 30 + 5,
+    fill: Konva.Util.getRandomColor(),
+    draggable: true,
+    name: 'shape-' + i,
+  });
+  layer.add(shape);
+}
+
+function updatePreview() {
+  const scale = 1 / 4;
+  // use pixelRatio to generate smaller preview
+  const url = stage.toDataURL({ pixelRatio: scale });
+  preview.src = url;
+}
+
+// update preview only on dragend for performance
+stage.on('dragend', updatePreview);
+
+// add new shapes on double click or double tap
+stage.on('dblclick dbltap', () => {
+  const shape = new Konva.Circle({
+    x: stage.getPointerPosition().x,
+    y: stage.getPointerPosition().y,
+    radius: Math.random() * 30 + 5,
+    fill: Konva.Util.getRandomColor(),
+    draggable: true,
+    name: 'shape-' + layer.children.length,
+  });
+  layer.add(shape);
+  updatePreview();
+});
+
+// show initial preview
+updatePreview();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const App = () => {
+  const [shapes, setShapes] = React.useState(() =>
+    Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      radius: Math.random() * 30 + 5,
+      fill: getRandomColor(),
+    }))
+  );
+  const [previewUrl, setPreviewUrl] = React.useState('');
+  const stageRef = React.useRef(null);
+
+  const updatePreview = React.useCallback(() => {
+    if (!stageRef.current) return;
+    const scale = 1 / 4;
+    const url = stageRef.current.toDataURL({ pixelRatio: scale });
+    setPreviewUrl(url);
+  }, []);
+
+  React.useEffect(() => {
+    updatePreview();
+  }, [updatePreview]);
+
+  const handleDragEnd = (e, id) => {
+    const { x, y } = e.target.position();
+    setShapes(shapes.map(shape => 
+      shape.id === id ? { ...shape, x, y } : shape
+    ));
+    updatePreview();
+  };
+
+  const handleDblClick = (e) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    const newShape = {
+      id: shapes.length,
+      x: pos.x,
+      y: pos.y,
+      radius: Math.random() * 30 + 5,
+      fill: getRandomColor(),
+    };
+    setShapes([...shapes, newShape]);
+    updatePreview();
+  };
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <Stage
+        ref={stageRef}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onDblClick={handleDblClick}
+        onTap={handleDblClick}
+      >
+        <Layer>
+          {shapes.map(shape => (
+            <Circle
+              key={shape.id}
+              {...shape}
+              draggable
+              onDragEnd={(e) => handleDragEnd(e, shape.id)}
+            />
+          ))}
+        </Layer>
+      </Stage>
+      <img
+        src={previewUrl}
+        alt="preview"
+        style={{
+          position: 'absolute',
+          top: '2px',
+          right: '2px',
+          border: '1px solid grey',
+          backgroundColor: 'lightgrey',
+        }}
+      />
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div style="position: relative">
+    <v-stage
+      ref="stageRef"
+      :config="stageConfig"
+      @dblclick="handleDblClick"
+      @tap="handleDblClick"
+    >
+      <v-layer>
+        <v-circle
+          v-for="shape in shapes"
+          :key="shape.id"
+          :config="{
+            ...shape,
+            draggable: true
+          }"
+          @dragend="(e) => handleDragEnd(e, shape.id)"
+        />
+      </v-layer>
+    </v-stage>
+    <img
+      :src="previewUrl"
+      alt="preview"
+      style="position: absolute; top: 2px; right: 2px; border: 1px solid grey; background-color: lightgrey"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const shapes = ref(
+  Array.from({ length: 10 }, (_, i) => ({
+    id: i,
+    x: Math.random() * stageConfig.width,
+    y: Math.random() * stageConfig.height,
+    radius: Math.random() * 30 + 5,
+    fill: getRandomColor(),
+  }))
+);
+
+const previewUrl = ref('');
+const stageRef = ref(null);
+
+const updatePreview = () => {
+  if (!stageRef.value) return;
+  const scale = 1 / 4;
+  const url = stageRef.value.getNode().toDataURL({ pixelRatio: scale });
+  previewUrl.value = url;
+};
+
+const handleDragEnd = (e, id) => {
+  const { x, y } = e.target.position();
+  shapes.value = shapes.value.map(shape =>
+    shape.id === id ? { ...shape, x, y } : shape
+  );
+  updatePreview();
+};
+
+const handleDblClick = (e) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  const newShape = {
+    id: shapes.value.length,
+    x: pos.x,
+    y: pos.y,
+    radius: Math.random() * 30 + 5,
+    fill: getRandomColor(),
+  };
+  shapes.value.push(newShape);
+  updatePreview();
+};
+
+onMounted(() => {
+  updatePreview();
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+Instructions: Try to drag circles and double-click to add new ones. The preview will update after you finish dragging (dragend) or add a new shape. 

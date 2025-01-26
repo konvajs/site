@@ -1,0 +1,88 @@
+---
+title: How to apply canvas animations with Vue and Konva?
+sidebar_label: Simple Animations
+hide_table_of_contents: true
+slug: Simple_Animations.html
+---
+
+Konva provides two methods for animations: [Tween](/docs/tweens/Linear_Easing.html) and [Animation](/docs/animations/Rotation.html). For simple use cases, we recommend using the `node.to()` method, which is a simplified version of Tween.
+
+Instructions: Try to drag the green rectangle to see it scale randomly, and observe the red hexagon moving in a sine wave pattern.
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-rect
+        ref="rect"
+        @dragstart="changeSize"
+        @dragend="changeSize"
+        :config="{
+          width: 50,
+          height: 50,
+          fill: 'green',
+          draggable: true,
+          x: 100,
+          y: 100
+        }"
+      />
+      <v-regular-polygon
+        ref="hexagon"
+        :config="{
+          x: 200,
+          y: 200,
+          sides: 6,
+          radius: 20,
+          fill: 'red',
+          stroke: 'black',
+          strokeWidth: 4
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const stage = ref(null);
+const hexagon = ref(null);
+
+const changeSize = (e) => {
+  // to() is a method of `Konva.Node` instances
+  e.target.to({
+    scaleX: Math.random() + 0.8,
+    scaleY: Math.random() + 0.8,
+    duration: 0.2
+  });
+};
+
+onMounted(() => {
+  const amplitude = 100;
+  const period = 5000; // in ms
+  const centerX = stage.value.getNode().getWidth() / 2;
+  const hexagonNode = hexagon.value.getNode();
+
+  // example of Konva.Animation
+  const anim = new Konva.Animation((frame) => {
+    hexagonNode.setX(
+      amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + centerX
+    );
+  }, hexagonNode.getLayer());
+
+  anim.start();
+});
+</script>
+```
+
+The demo above shows two types of animations:
+1. Using `node.to()` method (Tween) to animate the green rectangle's scale when dragged
+2. Using `Konva.Animation` to create a continuous sine wave movement for the red hexagon
+
+The `node.to()` method is perfect for simple transitions, while `Konva.Animation` is better for complex, continuous animations that need to run on each frame. 

@@ -1,0 +1,51 @@
+---
+title: How to draw images on canvas with Vue?
+sidebar_label: Images
+hide_table_of_contents: true
+slug: Images.html
+---
+
+For images, you can use the `useImage` hook from `vue-konva` to easily load and handle images in your components.
+
+Instructions: The demo shows how to load and display multiple images on the canvas.
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        v-if="yodaImage"
+        :config="{
+          x: 50,
+          y: 50,
+          image: yodaImage,
+          width: 106,
+          height: 118
+        }"
+      />
+      <v-image
+        v-if="vaderImage"
+        :config="{
+          x: 200,
+          y: 50,
+          image: vaderImage,
+          scaleX: 0.5,
+          scaleY: 0.5,
+          cornerRadius: 20
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const [yodaImage] = useImage('https://new.konvajs.org/assets/yoda.jpg');
+const [vaderImage] = useImage('https://new.konvajs.org/assets/darth-vader.jpg');
+</script> 

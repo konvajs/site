@@ -1,0 +1,63 @@
+---
+title: How to export a canvas into an image from react-konva?
+sidebar_label: Canvas Export
+hide_table_of_contents: true
+slug: Canvas_Export.html
+---
+
+## How to save a drawing from react-konva?
+
+To export any `Konva` node into an image you can either use the [node.toDataURL()](/api/Konva.Node.html#toDataURL) or the [node.toImage()](https://konvajs.org/api/Konva.Node.html#toImage) API. Take a look into the [vanilla Konva image export demo](https://konvajs.org/docs/data_and_serialization/Stage_Data_URL.html).
+
+You will need to use the [Refs API](/docs/react/Access_Konva_Nodes.html) to access a `Konva` node directly in order to call these methods.
+
+```js live react
+import React, { Fragment } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
+
+// function from https://stackoverflow.com/a/15832662/512042
+function downloadURI(uri, name) {
+  var link = document.createElement('a');
+  link.download = name;
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const stageRef = React.useRef(null);
+
+  const handleExport = () => {
+    const uri = stageRef.current.toDataURL();
+    console.log(uri);
+    // we also can save uri as file
+    downloadURI(uri, 'stage.png');
+  };
+
+  return (
+    <Fragment>
+      <button onClick={handleExport}>Click here to export stage as image</button>
+      <Stage width={width} height={height} ref={stageRef}>
+        <Layer>
+          <Rect x={0} y={0} width={80} height={80} fill="red" />
+          <Rect x={width - 80} y={0} width={80} height={80} fill="red" />
+          <Rect
+            x={width - 80}
+            y={height - 80}
+            width={80}
+            height={80}
+            fill="red"
+          />
+          <Rect x={0} y={height - 80} width={80} height={80} fill="red" />
+        </Layer>
+      </Stage>
+    </Fragment>
+  );
+};
+
+export default App;
+``` 

@@ -1,0 +1,81 @@
+---
+title: How to drop image elements into a canvas with React?
+sidebar_label: Drop Image
+hide_table_of_contents: true
+slug: Drop_Image.html
+---
+
+You can use native HTML5 drag&drop features to drop images (or other elements) from the page into the canvas area.
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+import useImage from 'use-image';
+
+const URLImage = ({ image }) => {
+  const [img] = useImage(image.src);
+  return (
+    <Image
+      image={img}
+      x={image.x}
+      y={image.y}
+      // I will use offset to set origin to the center of the image
+      offsetX={img ? img.width / 2 : 0}
+      offsetY={img ? img.height / 2 : 0}
+      draggable
+    />
+  );
+};
+
+const App = () => {
+  const dragUrl = React.useRef();
+  const stageRef = React.useRef();
+  const [images, setImages] = React.useState([]);
+  return (
+    <div>
+      Try to drag and drop the image into the stage:
+      <br />
+      <img
+        alt="lion"
+        src="https://konvajs.org/assets/lion.png"
+        draggable="true"
+        onDragStart={(e) => {
+          dragUrl.current = e.target.src;
+        }}
+      />
+      <div
+        onDrop={(e) => {
+          e.preventDefault();
+          // register event position
+          stageRef.current.setPointersPositions(e);
+          // add image
+          setImages(
+            images.concat([
+              {
+                ...stageRef.current.getPointerPosition(),
+                src: dragUrl.current,
+              },
+            ])
+          );
+        }}
+        onDragOver={(e) => e.preventDefault()}
+      >
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight}
+          style={{ border: '1px solid grey' }}
+          ref={stageRef}
+        >
+          <Layer>
+            {images.map((image) => {
+              return <URLImage image={image} />;
+            })}
+          </Layer>
+        </Stage>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+``` 

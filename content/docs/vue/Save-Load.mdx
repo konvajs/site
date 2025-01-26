@@ -1,0 +1,72 @@
+---
+title: How to save and load canvas with Vue and Konva?
+sidebar_label: Save & Load
+hide_table_of_contents: true
+slug: Save-Load.html
+---
+
+## How to serialize and deserialize Konva stage with Vue?
+
+Pure `Konva` has a special mechanism to save/load the full canvas stage with `node.toJSON()` and `Node.create(json)` functions.
+[See demo](/docs/data_and_serialization/Simple_Load.html).
+
+However, with `vue-konva`, we recommend defining your app's state in your Vue components. The state maps into nodes through templates. To save/load the full stage, you just need to save/load the state of your app. You **don't need to save Konva internals and nodes**.
+
+Instructions: Click on the canvas to create circles. Reload the page - the circles should persist.
+
+```js live vue
+<template>
+  <div>
+    Click on canvas to create a circle.
+    <a href=".">Reload the page</a>. Circles should stay here.
+    <v-stage
+      ref="stage"
+      :config="stageSize"
+      @click="handleClick"
+    >
+      <v-layer ref="layer">
+        <v-circle
+          v-for="item in list"
+          :key="item.id"
+          :config="item"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const list = ref([{ x: 100, y: 100, radius: 50, fill: 'blue' }]);
+
+const handleClick = (evt) => {
+  const stage = evt.target.getStage();
+  const pos = stage.getPointerPosition();
+  list.value.push({
+    radius: 50,
+    fill: 'red',
+    ...pos
+  });
+
+  save();
+};
+
+const load = () => {
+  const data = localStorage.getItem('storage');
+  if (data) list.value = JSON.parse(data);
+};
+
+const save = () => {
+  localStorage.setItem('storage', JSON.stringify(list.value));
+};
+
+onMounted(() => {
+  load();
+});
+</script> 

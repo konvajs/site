@@ -1,0 +1,72 @@
+---
+title: How to access Konva nodes from react-konva?
+sidebar_label: Access Konva Nodes
+hide_table_of_contents: true
+slug: Access_Konva_Nodes.html
+---
+
+In some cases you may need to use the `Konva` API directly. For example for exporting canvases or animations.
+
+There are two ways to access Konva nodes/shapes from `react-konva`.
+
+## Using the `refs` API.
+
+You can use the [refs API](https://reactjs.org/docs/refs-and-the-dom.html) to get access to a Konva node.
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const App = () => {
+  const shapeRef = React.useRef(null);
+  React.useEffect(() => {
+    // it will log `Konva.Circle` instance
+    console.log(shapeRef.current);
+  });
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          ref={shapeRef}
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={50}
+          fill="red"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+## Using an event object inside of the event callback
+
+Another common way to access a Konva node is to just use an event object that you have as an argument in any event:
+
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+
+const App = () => {
+  const handleClick = (e) => {
+    // logs clicked Konva.Circle instance
+    console.log(e.target);
+  };
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={50}
+          fill="green"
+          onClick={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```

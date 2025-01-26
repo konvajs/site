@@ -1,0 +1,23 @@
+{
+  "name": "window-frame-design-app",
+  "version": "1.0.0",
+  "description": "Making and editing window frame",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "konva": "9.3.18",
+    "mobx": "6.1.8",
+    "mobx-react": "7.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-konva": "18.2.7",
+    "react-scripts": "1.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

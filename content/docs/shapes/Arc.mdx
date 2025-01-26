@@ -97,14 +97,28 @@ const arcConfig = {
 ```
   </TabItem>
   <TabItem value="Svelte">
-```js live svelte
+```js svelte
 <script>
-  import { Stage, Layer, Rect } from 'svelte-konva';
+  import { Stage, Layer, Arc } from 'svelte-konva';
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 </script>
 
-<Stage config={{ width: 1000, height: 1000 }}>
+<Stage config={{ width, height }}>
   <Layer>
-    <Rect config={{ x: 100, y: 100, width: 400, height: 200, fill: 'blue' }} />
+    <Arc 
+      config={{
+        x: width / 2,
+        y: height / 2,
+        innerRadius: 40,
+        outerRadius: 70,
+        angle: 60,
+        fill: 'yellow',
+        stroke: 'black',
+        strokeWidth: 4
+      }} 
+    />
   </Layer>
 </Stage>
 ```

@@ -1,0 +1,25 @@
+{
+  "name": "react-konva. free drawing demo",
+  "description": "React Konva free drawing demo",
+  "version": "0.0.9",
+  "keywords": [
+    "canvas",
+    "react",
+    "konva"
+  ],
+  "dependencies": {
+    "konva": "9.3.18",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-konva": "18.0.0-0"
+  },
+  "devDependencies": {
+    "react-scripts": "2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

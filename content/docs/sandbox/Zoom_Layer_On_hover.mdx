@@ -1,0 +1,261 @@
+---
+title: Zoom Image on Hover
+sidebar_label: Zoom Layer On Hover
+---
+
+# Zoom Image on Hover
+
+This demo shows how to create a zoom effect when hovering over an image. The image will zoom in at the mouse position, creating a magnifying glass effect.
+
+## Vanilla
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Zoom Image on Hover Demo</title>
+    <style>
+      #container {
+        width: 100%;
+        height: 400px;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      const width = window.innerWidth;
+      const height = 400;
+
+      const stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+      });
+
+      const layer = new Konva.Layer();
+      stage.add(layer);
+
+      const imageObj = new Image();
+      imageObj.onload = function () {
+        const backgroundImage = new Konva.Image({
+          x: 0,
+          y: 0,
+          width: width,
+          height: height,
+          image: imageObj,
+        });
+        layer.add(backgroundImage);
+      };
+
+      imageObj.src = '/assets/space.jpg';
+
+      const zoomLevel = 2;
+      layer.on('mouseenter', function () {
+        layer.scale({
+          x: zoomLevel,
+          y: zoomLevel,
+        });
+      });
+
+      layer.on('mousemove', function () {
+        const pos = stage.getPointerPosition();
+        layer.x(-pos.x);
+        layer.y(-pos.y);
+      });
+
+      layer.on('mouseleave', function () {
+        layer.x(0);
+        layer.y(0);
+        layer.scale({
+          x: 1,
+          y: 1,
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+## React
+
+```jsx
+import { Stage, Layer, Image } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+
+const ZoomImage = () => {
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: 400,
+  });
+  const [image, setImage] = useState(null);
+  const layerRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: 400,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      setImage(imageObj);
+    };
+    imageObj.src = '/assets/space.jpg';
+  }, []);
+
+  const handleMouseEnter = () => {
+    const layer = layerRef.current;
+    if (!layer) return;
+
+    layer.scale({ x: 2, y: 2 });
+  };
+
+  const handleMouseMove = (e) => {
+    const layer = layerRef.current;
+    if (!layer) return;
+
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    layer.x(-pos.x);
+    layer.y(-pos.y);
+  };
+
+  const handleMouseLeave = () => {
+    const layer = layerRef.current;
+    if (!layer) return;
+
+    layer.x(0);
+    layer.y(0);
+    layer.scale({ x: 1, y: 1 });
+  };
+
+  return (
+    <Stage width={dimensions.width} height={dimensions.height}>
+      <Layer
+        ref={layerRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        {image && (
+          <Image
+            image={image}
+            width={dimensions.width}
+            height={dimensions.height}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default ZoomImage;
+```
+
+## Vue
+
+```vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer
+      ref="layerRef"
+      @mouseenter="handleMouseEnter"
+      @mousemove="handleMouseMove"
+      @mouseleave="handleMouseLeave"
+    >
+      <v-image
+        v-if="image"
+        :config="{
+          image: image,
+          width: stageConfig.width,
+          height: stageConfig.height,
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+
+export default {
+  setup() {
+    const width = ref(window.innerWidth);
+    const height = ref(400);
+    const layerRef = ref(null);
+    const image = ref(null);
+
+    const stageConfig = computed(() => ({
+      width: width.value,
+      height: height.value,
+    }));
+
+    const handleMouseEnter = () => {
+      const layer = layerRef.value.getNode();
+      layer.scale({ x: 2, y: 2 });
+    };
+
+    const handleMouseMove = (e) => {
+      const layer = layerRef.value.getNode();
+      const stage = e.target.getStage();
+      const pos = stage.getPointerPosition();
+      layer.x(-pos.x);
+      layer.y(-pos.y);
+    };
+
+    const handleMouseLeave = () => {
+      const layer = layerRef.value.getNode();
+      layer.x(0);
+      layer.y(0);
+      layer.scale({ x: 1, y: 1 });
+    };
+
+    onMounted(() => {
+      const handleResize = () => {
+        width.value = window.innerWidth;
+      };
+      window.addEventListener('resize', handleResize);
+
+      const imageObj = new Image();
+      imageObj.onload = () => {
+        image.value = imageObj;
+      };
+      imageObj.src = '/assets/space.jpg';
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+    });
+
+    return {
+      stageConfig,
+      layerRef,
+      image,
+      handleMouseEnter,
+      handleMouseMove,
+      handleMouseLeave,
+    };
+  },
+};
+</script>
+```
+
+The demo shows how to:
+1. Load and display an image on the canvas
+2. Implement zoom functionality on mouse hover
+3. Track mouse position for centered zooming
+4. Handle mouse events for smooth transitions
+5. Reset the view when the mouse leaves
+
+Try hovering over the image to see the zoom effect. The image will zoom in centered on your mouse position, creating a magnifying glass effect. Move your mouse around to explore different parts of the image in detail. 

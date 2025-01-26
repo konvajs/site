@@ -1,0 +1,101 @@
+---
+title: How to implement free drawing on canvas with React?
+sidebar_label: Free Drawing
+hide_table_of_contents: true
+slug: Free_Drawing.html
+---
+
+This demo shows how to implement a free drawing app the "React way" with full vector representation.
+
+Such an implementation should work well for many whiteboard apps. It allows you to simply add [undo/redo functions](/docs/react/Undo-Redo.html) and save the full state to the backend.
+
+Note: It will get slower if you have too many lines in the state. So you will have to do some extra optimizations if you want to enable drawings of hundreds or thousands of lines.
+
+The demo shows how to:
+1. Track drawing state using `React.useRef` for performance
+2. Store lines as vector data in React state
+3. Handle mouse/touch events for drawing
+4. Implement both pen and eraser tools using `globalCompositeOperation`
+5. Create smooth lines with rounded caps and tension 
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Line, Text } from 'react-konva';
+
+const App = () => {
+  const [tool, setTool] = React.useState('pen');
+  const [lines, setLines] = React.useState([]);
+  const isDrawing = React.useRef(false);
+
+  const handleMouseDown = (e) => {
+    isDrawing.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+  };
+
+  const handleMouseMove = (e) => {
+    // no drawing - skipping
+    if (!isDrawing.current) {
+      return;
+    }
+    const stage = e.target.getStage();
+    const point = stage.getPointerPosition();
+    let lastLine = lines[lines.length - 1];
+    // add point
+    lastLine.points = lastLine.points.concat([point.x, point.y]);
+
+    // replace last
+    lines.splice(lines.length - 1, 1, lastLine);
+    setLines(lines.concat());
+  };
+
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  return (
+    <div>
+      <select
+        value={tool}
+        onChange={(e) => {
+          setTool(e.target.value);
+        }}
+      >
+        <option value="pen">Pen</option>
+        <option value="eraser">Eraser</option>
+      </select>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onMouseDown={handleMouseDown}
+        onMousemove={handleMouseMove}
+        onMouseup={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Layer>
+          <Text text="Just start drawing" x={5} y={30} />
+          {lines.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke="#df4b26"
+              strokeWidth={5}
+              tension={0.5}
+              lineCap="round"
+              lineJoin="round"
+              globalCompositeOperation={
+                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+              }
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+

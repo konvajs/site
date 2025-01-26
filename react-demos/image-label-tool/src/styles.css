@@ -1,0 +1,67 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Arial;
+  color: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+}
+
+.description {
+  text-align: center;
+}
+
+.App {
+  display: flex;
+}
+
+input {
+  transform: translateY(3px);
+  width: 100px;
+  margin-left: 10px;
+}
+
+.left-panel {
+  width: 200px;
+  padding: 10px;
+}
+
+.regions-list {
+}
+
+.region {
+  padding: 5px;
+  margin: 5px;
+  border-radius: 3px;
+  box-shadow: 0 0 3px grey;
+}
+
+.region button {
+  float: right;
+}
+
+.right-panel {
+  width: calc(100vw - 250px);
+  margin: 10px;
+  position: relative;
+}
+
+.canvas {
+  box-shadow: 0 0 5px grey;
+}
+
+.zoom-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px;
+}

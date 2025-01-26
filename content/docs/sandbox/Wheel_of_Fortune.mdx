@@ -1,0 +1,650 @@
+---
+title: Wheel of Fortune HTML5 Canvas Game
+sidebar_label: Wheel of Fortune
+---
+
+# Wheel of Fortune HTML5 Canvas Game
+
+This demo shows how to create an interactive Wheel of Fortune game using Konva. The wheel can be spun with mouse or touch input, and it will gradually slow down due to angular friction. When it stops, it will show your prize!
+
+## Vanilla
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Konva Wheel of Fortune Demo</title>
+    <style>
+      #container {
+        width: 100%;
+        height: 400px;
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      const width = window.innerWidth;
+      const height = 400;
+
+      Konva.angleDeg = false;
+      let angularVelocity = 6;
+      const angularVelocities = [];
+      let lastRotation = 0;
+      let controlled = false;
+      const numWedges = 25;
+      const angularFriction = 0.2;
+      let target, activeWedge, stage, layer, wheel, pointer;
+      let finished = false;
+
+      function getAverageAngularVelocity() {
+        const total = angularVelocities.reduce((sum, vel) => sum + vel, 0);
+        return angularVelocities.length ? total / angularVelocities.length : 0;
+      }
+
+      function purifyColor(color) {
+        const randIndex = Math.round(Math.random() * 3);
+        color[randIndex] = 0;
+        return color;
+      }
+
+      function getRandomColor() {
+        const r = 100 + Math.round(Math.random() * 55);
+        const g = 100 + Math.round(Math.random() * 55);
+        const b = 100 + Math.round(Math.random() * 55);
+        return purifyColor([r, g, b]);
+      }
+
+      function getRandomReward() {
+        const mainDigit = Math.round(Math.random() * 9);
+        return mainDigit + '\n0\n0';
+      }
+
+      function addWedge(n) {
+        const s = getRandomColor();
+        const reward = getRandomReward();
+        const [r, g, b] = s;
+        const angle = (2 * Math.PI) / numWedges;
+
+        const endColor = `rgb(${r},${g},${b})`;
+        const startColor = `rgb(${r + 100},${g + 100},${b + 100})`;
+
+        const wedge = new Konva.Group({
+          rotation: (2 * n * Math.PI) / numWedges,
+        });
+
+        const wedgeBackground = new Konva.Wedge({
+          radius: 400,
+          angle: angle,
+          fillRadialGradientStartPoint: 0,
+          fillRadialGradientStartRadius: 0,
+          fillRadialGradientEndPoint: 0,
+          fillRadialGradientEndRadius: 400,
+          fillRadialGradientColorStops: [0, startColor, 1, endColor],
+          fill: '#64e9f8',
+          fillPriority: 'radial-gradient',
+          stroke: '#ccc',
+          strokeWidth: 2,
+        });
+
+        wedge.add(wedgeBackground);
+
+        const text = new Konva.Text({
+          text: reward,
+          fontFamily: 'Calibri',
+          fontSize: 50,
+          fill: 'white',
+          align: 'center',
+          stroke: 'yellow',
+          strokeWidth: 1,
+          rotation: (Math.PI + angle) / 2,
+          x: 380,
+          y: 30,
+          listening: false,
+        });
+
+        wedge.add(text);
+        text.cache();
+
+        wedge.startRotation = wedge.rotation();
+        wheel.add(wedge);
+      }
+
+      function animate(frame) {
+        // handle wheel spin
+        const angularVelocityChange =
+          (angularVelocity * frame.timeDiff * (1 - angularFriction)) / 1000;
+        angularVelocity -= angularVelocityChange;
+
+        // activate / deactivate wedges based on point intersection
+        const shape = stage.getIntersection({
+          x: stage.width() / 2,
+          y: 100,
+        });
+
+        if (controlled) {
+          if (angularVelocities.length > 10) {
+            angularVelocities.shift();
+          }
+
+          angularVelocities.push(
+            ((wheel.rotation() - lastRotation) * 1000) / frame.timeDiff
+          );
+        } else {
+          const diff = (frame.timeDiff * angularVelocity) / 1000;
+          if (diff > 0.0001) {
+            wheel.rotate(diff);
+          } else if (!finished && !controlled) {
+            if (shape) {
+              const text = shape.getParent().findOne('Text').text();
+              const price = text.split('\n').join('');
+              alert('Your price is ' + price);
+            }
+            finished = true;
+          }
+        }
+        lastRotation = wheel.rotation();
+
+        if (shape && (!activeWedge || shape._id !== activeWedge._id)) {
+          pointer.y(20);
+
+          new Konva.Tween({
+            node: pointer,
+            duration: 0.3,
+            y: 30,
+            easing: Konva.Easings.ElasticEaseOut,
+          }).play();
+
+          if (activeWedge) {
+            activeWedge.fillPriority('radial-gradient');
+          }
+          shape.fillPriority('fill');
+          activeWedge = shape;
+        }
+      }
+
+      function init() {
+        stage = new Konva.Stage({
+          container: 'container',
+          width: width,
+          height: height,
+        });
+        layer = new Konva.Layer();
+        wheel = new Konva.Group({
+          x: stage.width() / 2,
+          y: 410,
+        });
+
+        for (let n = 0; n < numWedges; n++) {
+          addWedge(n);
+        }
+
+        pointer = new Konva.Wedge({
+          fillRadialGradientStartPoint: 0,
+          fillRadialGradientStartRadius: 0,
+          fillRadialGradientEndPoint: 0,
+          fillRadialGradientEndRadius: 30,
+          fillRadialGradientColorStops: [0, 'white', 1, 'red'],
+          stroke: 'white',
+          strokeWidth: 2,
+          lineJoin: 'round',
+          angle: 1,
+          radius: 30,
+          x: stage.width() / 2,
+          y: 33,
+          rotation: -90,
+          shadowColor: 'black',
+          shadowOffsetX: 3,
+          shadowOffsetY: 3,
+          shadowBlur: 2,
+          shadowOpacity: 0.5,
+        });
+
+        // add components to the stage
+        layer.add(wheel);
+        layer.add(pointer);
+        stage.add(layer);
+
+        // bind events
+        wheel.on('mousedown touchstart', function (evt) {
+          angularVelocity = 0;
+          controlled = true;
+          target = evt.target;
+          finished = false;
+        });
+
+        stage.on('mouseup touchend', function () {
+          controlled = false;
+          angularVelocity = getAverageAngularVelocity() * 5;
+
+          if (angularVelocity > 20) {
+            angularVelocity = 20;
+          } else if (angularVelocity < -20) {
+            angularVelocity = -20;
+          }
+
+          angularVelocities.length = 0;
+        });
+
+        stage.on('mousemove touchmove', function () {
+          const mousePos = stage.getPointerPosition();
+          if (controlled && mousePos && target) {
+            const x = mousePos.x - wheel.getX();
+            const y = mousePos.y - wheel.getY();
+            const atan = Math.atan(y / x);
+            const rotation = x >= 0 ? atan : atan + Math.PI;
+
+            wheel.rotation(rotation);
+          }
+        });
+
+        // create animation
+        const anim = new Konva.Animation(animate, layer);
+        anim.start();
+      }
+
+      init();
+    </script>
+  </body>
+</html>
+```
+
+## React
+
+```jsx
+import { Stage, Layer, Group, Wedge, Text } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+
+const WheelOfFortune = () => {
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: 400,
+  });
+  const wheelRef = useRef(null);
+  const pointerRef = useRef(null);
+  const [wedges, setWedges] = useState([]);
+  const [activeWedgeId, setActiveWedgeId] = useState(null);
+  const angularVelocityRef = useRef(6);
+  const lastRotationRef = useRef(0);
+  const controlledRef = useRef(false);
+  const finishedRef = useRef(false);
+  const angularVelocitiesRef = useRef([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: 400,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    // Initialize wedges
+    const numWedges = 25;
+    const newWedges = Array.from({ length: numWedges }, (_, i) => {
+      const angle = (2 * Math.PI) / numWedges;
+      const rotation = (2 * i * Math.PI) / numWedges;
+      const reward = Math.round(Math.random() * 9) + '00';
+      const color = `hsl(${(360 / numWedges) * i}, 70%, 50%)`;
+      return { angle, rotation, reward, color, id: i };
+    });
+    setWedges(newWedges);
+  }, []);
+
+  useEffect(() => {
+    if (!wheelRef.current) return;
+
+    const layer = wheelRef.current.getLayer();
+    const wheel = wheelRef.current;
+
+    const animate = (frame) => {
+      const angularFriction = 0.2;
+      const angularVelocityChange =
+        (angularVelocityRef.current * frame.timeDiff * (1 - angularFriction)) / 1000;
+      angularVelocityRef.current -= angularVelocityChange;
+
+      if (controlledRef.current) {
+        if (angularVelocitiesRef.current.length > 10) {
+          angularVelocitiesRef.current.shift();
+        }
+        angularVelocitiesRef.current.push(
+          ((wheel.rotation() - lastRotationRef.current) * 1000) / frame.timeDiff
+        );
+      } else {
+        const diff = (frame.timeDiff * angularVelocityRef.current) / 1000;
+        if (diff > 0.0001) {
+          wheel.rotate(diff);
+        } else if (!finishedRef.current && !controlledRef.current) {
+          const shape = wheel.getIntersection({
+            x: dimensions.width / 2,
+            y: 100,
+          });
+          if (shape) {
+            const wedge = wedges[shape.id];
+            alert('Your price is ' + wedge.reward);
+          }
+          finishedRef.current = true;
+        }
+      }
+      lastRotationRef.current = wheel.rotation();
+    };
+
+    const anim = new Konva.Animation(animate, layer);
+    anim.start();
+
+    return () => anim.stop();
+  }, [dimensions.width, wedges]);
+
+  const handleMouseDown = () => {
+    angularVelocityRef.current = 0;
+    controlledRef.current = true;
+    finishedRef.current = false;
+  };
+
+  const handleMouseUp = () => {
+    controlledRef.current = false;
+    const average =
+      angularVelocitiesRef.current.reduce((sum, vel) => sum + vel, 0) /
+      angularVelocitiesRef.current.length;
+    angularVelocityRef.current = average * 5;
+    if (angularVelocityRef.current > 20) angularVelocityRef.current = 20;
+    else if (angularVelocityRef.current < -20) angularVelocityRef.current = -20;
+    angularVelocitiesRef.current = [];
+  };
+
+  const handleMouseMove = (e) => {
+    if (!controlledRef.current) return;
+    const stage = e.target.getStage();
+    const wheel = wheelRef.current;
+    const mousePos = stage.getPointerPosition();
+    const x = mousePos.x - wheel.x();
+    const y = mousePos.y - wheel.y();
+    const atan = Math.atan(y / x);
+    const rotation = x >= 0 ? atan : atan + Math.PI;
+    wheel.rotation(rotation);
+  };
+
+  return (
+    <Stage
+      width={dimensions.width}
+      height={dimensions.height}
+      onMouseUp={handleMouseUp}
+      onTouchEnd={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleMouseMove}
+    >
+      <Layer>
+        <Group
+          ref={wheelRef}
+          x={dimensions.width / 2}
+          y={410}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleMouseDown}
+        >
+          {wedges.map((wedge) => (
+            <Group key={wedge.id} rotation={wedge.rotation}>
+              <Wedge
+                radius={400}
+                angle={wedge.angle}
+                fill={wedge.color}
+                stroke="#ccc"
+                strokeWidth={2}
+              />
+              <Text
+                text={wedge.reward}
+                fontFamily="Calibri"
+                fontSize={50}
+                fill="white"
+                align="center"
+                rotation={(Math.PI + wedge.angle) / 2}
+                x={380}
+                y={30}
+                stroke="yellow"
+                strokeWidth={1}
+              />
+            </Group>
+          ))}
+        </Group>
+        <Wedge
+          ref={pointerRef}
+          x={dimensions.width / 2}
+          y={33}
+          radius={30}
+          angle={1}
+          rotation={-90}
+          fill="red"
+          stroke="white"
+          strokeWidth={2}
+          shadowColor="black"
+          shadowOffsetX={3}
+          shadowOffsetY={3}
+          shadowBlur={2}
+          shadowOpacity={0.5}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default WheelOfFortune;
+```
+
+## Vue
+
+```vue
+<template>
+  <v-stage
+    :config="stageConfig"
+    @mouseup="handleMouseUp"
+    @touchend="handleMouseUp"
+    @mousemove="handleMouseMove"
+    @touchmove="handleMouseMove"
+  >
+    <v-layer ref="layerRef">
+      <v-group
+        ref="wheelRef"
+        :config="wheelConfig"
+        @mousedown="handleMouseDown"
+        @touchstart="handleMouseDown"
+      >
+        <template v-for="wedge in wedges" :key="wedge.id">
+          <v-group :config="{ rotation: wedge.rotation }">
+            <v-wedge :config="getWedgeConfig(wedge)" />
+            <v-text :config="getTextConfig(wedge)" />
+          </v-group>
+        </template>
+      </v-group>
+      <v-wedge :config="pointerConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+
+export default {
+  setup() {
+    const width = ref(window.innerWidth);
+    const height = ref(400);
+    const layerRef = ref(null);
+    const wheelRef = ref(null);
+    const animation = ref(null);
+
+    const angularVelocity = ref(6);
+    const lastRotation = ref(0);
+    const controlled = ref(false);
+    const finished = ref(false);
+    const angularVelocities = ref([]);
+
+    const numWedges = 25;
+    const wedges = ref(
+      Array.from({ length: numWedges }, (_, i) => ({
+        id: i,
+        angle: (2 * Math.PI) / numWedges,
+        rotation: (2 * i * Math.PI) / numWedges,
+        reward: Math.round(Math.random() * 9) + '00',
+        color: `hsl(${(360 / numWedges) * i}, 70%, 50%)`,
+      }))
+    );
+
+    const stageConfig = computed(() => ({
+      width: width.value,
+      height: height.value,
+    }));
+
+    const wheelConfig = computed(() => ({
+      x: width.value / 2,
+      y: 410,
+    }));
+
+    const pointerConfig = computed(() => ({
+      x: width.value / 2,
+      y: 33,
+      radius: 30,
+      angle: 1,
+      rotation: -90,
+      fill: 'red',
+      stroke: 'white',
+      strokeWidth: 2,
+      shadowColor: 'black',
+      shadowOffsetX: 3,
+      shadowOffsetY: 3,
+      shadowBlur: 2,
+      shadowOpacity: 0.5,
+    }));
+
+    const getWedgeConfig = (wedge) => ({
+      radius: 400,
+      angle: wedge.angle,
+      fill: wedge.color,
+      stroke: '#ccc',
+      strokeWidth: 2,
+    });
+
+    const getTextConfig = (wedge) => ({
+      text: wedge.reward,
+      fontFamily: 'Calibri',
+      fontSize: 50,
+      fill: 'white',
+      align: 'center',
+      rotation: (Math.PI + wedge.angle) / 2,
+      x: 380,
+      y: 30,
+      stroke: 'yellow',
+      strokeWidth: 1,
+    });
+
+    const animate = (frame) => {
+      const angularFriction = 0.2;
+      const wheel = wheelRef.value.getNode();
+      const angularVelocityChange =
+        (angularVelocity.value * frame.timeDiff * (1 - angularFriction)) / 1000;
+      angularVelocity.value -= angularVelocityChange;
+
+      if (controlled.value) {
+        if (angularVelocities.value.length > 10) {
+          angularVelocities.value.shift();
+        }
+        angularVelocities.value.push(
+          ((wheel.rotation() - lastRotation.value) * 1000) / frame.timeDiff
+        );
+      } else {
+        const diff = (frame.timeDiff * angularVelocity.value) / 1000;
+        if (diff > 0.0001) {
+          wheel.rotate(diff);
+        } else if (!finished.value && !controlled.value) {
+          const shape = wheel.getIntersection({
+            x: width.value / 2,
+            y: 100,
+          });
+          if (shape) {
+            const wedge = wedges.value[shape.id];
+            alert('Your price is ' + wedge.reward);
+          }
+          finished.value = true;
+        }
+      }
+      lastRotation.value = wheel.rotation();
+    };
+
+    const handleMouseDown = () => {
+      angularVelocity.value = 0;
+      controlled.value = true;
+      finished.value = false;
+    };
+
+    const handleMouseUp = () => {
+      controlled.value = false;
+      const average =
+        angularVelocities.value.reduce((sum, vel) => sum + vel, 0) /
+        angularVelocities.value.length;
+      angularVelocity.value = average * 5;
+      if (angularVelocity.value > 20) angularVelocity.value = 20;
+      else if (angularVelocity.value < -20) angularVelocity.value = -20;
+      angularVelocities.value = [];
+    };
+
+    const handleMouseMove = (e) => {
+      if (!controlled.value) return;
+      const stage = e.target.getStage();
+      const wheel = wheelRef.value.getNode();
+      const mousePos = stage.getPointerPosition();
+      const x = mousePos.x - wheel.x();
+      const y = mousePos.y - wheel.y();
+      const atan = Math.atan(y / x);
+      const rotation = x >= 0 ? atan : atan + Math.PI;
+      wheel.rotation(rotation);
+    };
+
+    onMounted(() => {
+      const handleResize = () => {
+        width.value = window.innerWidth;
+      };
+      window.addEventListener('resize', handleResize);
+
+      const layer = layerRef.value.getNode();
+      animation.value = new Konva.Animation(animate, layer);
+      animation.value.start();
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+      if (animation.value) {
+        animation.value.stop();
+      }
+    });
+
+    return {
+      stageConfig,
+      wheelConfig,
+      pointerConfig,
+      wedges,
+      getWedgeConfig,
+      getTextConfig,
+      layerRef,
+      wheelRef,
+      handleMouseDown,
+      handleMouseUp,
+      handleMouseMove,
+    };
+  },
+};
+</script>
+```
+
+The demo shows how to:
+1. Create a wheel with multiple wedges using Konva.Wedge
+2. Implement smooth spinning animation with angular velocity and friction
+3. Handle mouse and touch events for interactive spinning
+4. Use radial gradients for visually appealing wedges
+5. Add text and visual effects like shadows
+6. Detect when the wheel stops and show the prize
+
+Try spinning the wheel by clicking and dragging it. The wheel will continue spinning with decreasing velocity due to angular friction, and when it stops, it will show your prize! 

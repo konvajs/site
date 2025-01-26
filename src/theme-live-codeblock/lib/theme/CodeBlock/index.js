@@ -42,6 +42,7 @@ export const ReactKonva = ({ code, metastring }) => {
           react: '^18',
           'react-dom': '^18',
           'react-konva': '^18',
+          'react-konva-utils': 'latest',
           konva: 'latest',
           'use-image': 'latest',
           ...deps,

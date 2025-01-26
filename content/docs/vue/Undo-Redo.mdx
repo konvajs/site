@@ -1,0 +1,104 @@
+---
+title: How to implement undo/redo on canvas with Vue?
+sidebar_label: Undo/Redo
+hide_table_of_contents: true
+slug: Undo-Redo.html
+---
+
+To implement undo/redo functionality with Vue, you don't need to use Konva's serialization and deserialization methods.
+
+You just need to save a history of all the state changes within your app. There are many ways to do this. It may be simpler to do that if you use immutable structures.
+
+Instructions: Try to move the square by dragging it. Then use the "undo" and "redo" buttons to revert or replay your actions.
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text
+        :config="{
+          text: 'undo',
+          x: 10,
+          y: 10
+        }"
+        @click="handleUndo"
+      />
+      <v-text
+        :config="{
+          text: 'redo',
+          x: 50,
+          y: 10
+        }"
+        @click="handleRedo"
+      />
+      <v-rect
+        :config="{
+          x: position.x,
+          y: position.y,
+          width: 50,
+          height: 50,
+          fill: 'black',
+          draggable: true
+        }"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const position = reactive({ x: 20, y: 20 });
+// We use refs to keep history to avoid unnecessary re-renders
+const history = ref([{ x: 20, y: 20 }]);
+const historyStep = ref(0);
+
+const handleUndo = () => {
+  if (historyStep.value === 0) {
+    return;
+  }
+  historyStep.value -= 1;
+  const previous = history.value[historyStep.value];
+  position.x = previous.x;
+  position.y = previous.y;
+};
+
+const handleRedo = () => {
+  if (historyStep.value === history.value.length - 1) {
+    return;
+  }
+  historyStep.value += 1;
+  const next = history.value[historyStep.value];
+  position.x = next.x;
+  position.y = next.y;
+};
+
+const handleDragEnd = (e) => {
+  // Remove all states after current step
+  history.value = history.value.slice(0, historyStep.value + 1);
+  const pos = {
+    x: e.target.x(),
+    y: e.target.y()
+  };
+  // Push the new state
+  history.value = history.value.concat([pos]);
+  historyStep.value += 1;
+  position.x = pos.x;
+  position.y = pos.y;
+};
+</script>
+```
+
+The demo shows how to:
+1. Keep track of position history using Vue's reactivity system
+2. Implement undo/redo functionality by navigating through the history
+3. Update the history when dragging ends
+4. Use `reactive` for the current position and `ref` for the history to maintain reactivity
+
+Note that we're using Vue's reactivity system to manage the state, but we're careful to avoid unnecessary re-renders by keeping the history in a `ref`. 

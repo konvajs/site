@@ -1,0 +1,26 @@
+{
+  "name": "react-konva-drop-image",
+  "description": "Drop Image into Canvas with React",
+  "version": "0.0.9",
+  "keywords": [
+    "canvas",
+    "react",
+    "konva"
+  ],
+  "dependencies": {
+    "konva": "9.3.18",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-konva": "18.2.7",
+    "use-image": "1.0.2"
+  },
+  "devDependencies": {
+    "react-scripts": "2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

@@ -1,5 +1,8 @@
 {
   "label": "React",
   "position": 19,
-  "link": null
+  "link": {
+    "type": "doc",
+    "id": "docs/react/index"
+  }
 }

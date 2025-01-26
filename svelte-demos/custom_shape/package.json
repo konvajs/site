@@ -1,0 +1,26 @@
+{
+  "name": "svelte-konva-custom-shape-demo",
+  "description": "svelte-konva custom shape demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.4.2",
+    "svelte": "^4.0.5",
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "konva": "^9.2.0",
+    "svelte-konva": "^0.3.1"
+  },
+  "keywords": [
+    "svelte",
+    "konva",
+    "svelte-konva"
+  ]
+}

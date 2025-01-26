@@ -1,0 +1,63 @@
+---
+title: Getting started with React and Canvas via Konva
+sidebar_label: Getting Started
+hide_table_of_contents: true
+slug: /docs/react/index.html
+---
+
+<div style={{ textAlign: "center" }}>
+  <img src="https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png" alt="React Konva Logo"/>
+</div>
+
+`react-konva` is a JavaScript library for drawing complex canvas graphics using [React](http://facebook.github.io/react/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+
+[Github Repo](https://github.com/lavrton/react-konva)
+
+It is an attempt to make [React](http://facebook.github.io/react/) work with the HTML5 canvas library. The goal is to have a similar declarative markup as normal React and also a similar data-flow model.
+
+**Currently, `react-konva` is not supported in the React Native environment.**
+
+Currently you can use all `Konva` nodes and shapes as React components and all `Konva` events are supported on them in the same way.
+
+**Note: you can find a lot of demos and examples for using Konva at [https://konvajs.org/](https://konvajs.org/). Really, just go there and take a look at what Konva can do for you. You will be able to do the same with react-konva, too. `Konva` for `react-konva` is like DOM for `React`.**
+
+## Installation
+
+```bash
+npm install react-konva konva --save
+```
+
+Here's a basic example showing how to create a simple canvas with some shapes:
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text text="Try to drag shapes" fontSize={15} />
+        <Rect
+          x={20}
+          y={50}
+          width={100}
+          height={100}
+          fill="red"
+          shadowBlur={10}
+          draggable
+        />
+        <Circle
+          x={200}
+          y={100}
+          radius={50}
+          fill="green"
+          draggable
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```

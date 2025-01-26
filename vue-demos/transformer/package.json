@@ -1,0 +1,26 @@
+{
+  "name": "vue-konva-transformer",
+  "version": "1.0.0",
+  "description": "How to use Konva.Transformer in vue-konva?",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --disable-host-check",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "konva": "9.3.18",
+    "vue": "^3.4.7",
+    "vue-konva": "3.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
+    "@vue/compiler-sfc": "^3.4.7"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
