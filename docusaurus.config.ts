@@ -154,8 +154,8 @@ const config: Config = {
     ],
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: true,
-      respectPrefersColorScheme: false,
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
     image: 'img/social.jpeg',
     navbar: {
