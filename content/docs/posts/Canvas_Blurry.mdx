@@ -1,0 +1,183 @@
+---
+title: Why Your HTML5 Canvas Looks Blurry, and How to Fix It
+sidebar_label: Blurry Canvas
+sidebar_position: 9
+slug: Canvas_Blurry.html
+description: "Fix a blurry HTML5 canvas on retina and high-DPI screens. How devicePixelRatio works, why Konva already handles it, and why the common double-scaling fix makes it worse."
+---
+
+A canvas has two sizes, and they are easy to confuse:
+
+- **The display size** — how large the element is on the page, in CSS pixels.
+- **The bitmap size** — how many real pixels the browser allocates to draw into.
+
+When the bitmap is smaller than the display size, the browser stretches the
+result and the drawing looks soft. On a retina screen the display size is
+already two or three device pixels wide for every CSS pixel, so a canvas that
+allocates one bitmap pixel per CSS pixel is stretched by default.
+
+## Konva already handles this
+
+This is the part most advice gets wrong, so it is worth stating plainly.
+
+`Konva.pixelRatio` defaults to `window.devicePixelRatio`, and every canvas Konva
+creates allocates its bitmap at that ratio. **You give Konva sizes in CSS
+pixels and it sizes the bitmap for you.**
+
+```js
+// This is correct on a retina screen. Nothing else is needed.
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 600,   // CSS pixels
+  height: 400,  // CSS pixels
+});
+```
+
+On a 2× screen that stage draws into a 1200 × 800 bitmap and displays at
+600 × 400. Text and strokes are crisp.
+
+## The fix that makes it worse
+
+Search for "blurry canvas" and you will find this pattern, which is correct for
+a raw `<canvas>` and wrong for Konva:
+
+```js
+// DO NOT do this in Konva
+const dpr = window.devicePixelRatio;
+stage.width(container.clientWidth * dpr);
+stage.height(container.clientHeight * dpr);
+stage.scale({ x: dpr, y: dpr });
+```
+
+It multiplies by the device pixel ratio twice: once here, and once inside Konva.
+On a 2× screen the stage ends up **twice as large as its container** and renders
+into a bitmap four times the area it needs. The drawing is sharp, so the mistake
+is easy to miss — what you notice is that the scene is too big and the memory
+use is high.
+
+The advice is not wrong in general. It is what you would write against a bare
+canvas context, where nothing sets the bitmap size for you. Konva is not a bare
+context.
+
+## When it really is blurry
+
+If a Konva scene still looks soft, the cause is usually one of these.
+
+### The container is scaled with CSS
+
+A `transform: scale()` on the container, or a `width` in percent that does not
+match the stage size, stretches the finished bitmap. Konva cannot see that.
+Size the stage to the container instead — see
+[Responsive Canvas](/docs/posts/responsive-canvas.html).
+
+### pixelRatio was turned off
+
+`Konva.pixelRatio = 1` is a real performance tip, and it costs sharpness on
+retina screens. It is worth it for heavy scenes and not worth it for text.
+If someone set it globally, that is your answer.
+
+```js
+Konva.pixelRatio = 1;  // faster, and soft on retina
+```
+
+### A cached node was cached at the wrong ratio
+
+`node.cache()` renders the node into its own bitmap. That bitmap is fixed at the
+moment you cache it, so a node cached before a zoom is upscaled afterwards.
+Cache at the ratio you will display at, or re-cache after the scale changes.
+
+```js
+node.cache({ pixelRatio: 2 });
+```
+
+### An exported image is blurry
+
+Export is a separate setting. `toDataURL()` defaults to `pixelRatio: 1`
+regardless of the screen, so an export looks softer than the canvas it came
+from. Ask for more:
+
+```js
+stage.toDataURL({ pixelRatio: 2 });
+```
+
+There is more on this in
+[High quality export](/docs/data_and_serialization/High-Quality-Export.html).
+
+## Thin lines look soft, not blurry
+
+A one-pixel stroke drawn at a whole coordinate straddles two pixels, because the
+line is centred on the path. Half of it lands in each, and the browser blends
+both. This is a different problem from device pixel ratio and it happens at any
+zoom level.
+
+Offset by half a pixel so the stroke fills one row:
+
+```js
+const line = new Konva.Line({
+  points: [10, 20.5, 200, 20.5],  // .5 puts the 1px stroke inside one pixel row
+  stroke: 'black',
+  strokeWidth: 1,
+});
+```
+
+The demo below draws the same horizontal line twice. The top one sits on a whole
+coordinate and looks grey; the bottom one is offset by half a pixel and looks
+black.
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 140,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// On a whole coordinate: the 1px stroke straddles two pixel rows.
+layer.add(
+  new Konva.Line({
+    points: [20, 40, 380, 40],
+    stroke: 'black',
+    strokeWidth: 1,
+  })
+);
+layer.add(
+  new Konva.Text({ x: 20, y: 48, text: 'y = 40 — blended across two rows', fontSize: 13 })
+);
+
+// Offset by half a pixel: the stroke fills a single row.
+layer.add(
+  new Konva.Line({
+    points: [20, 100.5, 380, 100.5],
+    stroke: 'black',
+    strokeWidth: 1,
+  })
+);
+layer.add(
+  new Konva.Text({ x: 20, y: 108, text: 'y = 100.5 — inside one row', fontSize: 13 })
+);
+```
+
+Konva can do this for you on shapes with a stroke. `strokeScaleEnabled` and
+`perfectDrawEnabled` control related behaviour, and for crisp axis-aligned
+strokes the half-pixel offset is the reliable answer.
+
+## Reading the actual numbers
+
+When you are not sure which size is wrong, print both:
+
+```js
+const canvas = stage.container().querySelector('canvas');
+
+console.log('CSS size   ', canvas.clientWidth, canvas.clientHeight);
+console.log('bitmap size', canvas.width, canvas.height);
+console.log('ratio      ', canvas.width / canvas.clientWidth);
+console.log('devicePixelRatio', window.devicePixelRatio);
+```
+
+If the ratio matches `devicePixelRatio`, the canvas is correct and the softness
+is coming from CSS, from a cache, or from an export. If the ratio is `1` on a
+retina screen, `pixelRatio` was turned off somewhere.
