@@ -63,4 +63,4 @@ whether it is generated.
 | `content/api/` | Generated from `docs.json` by `create-api-docs.js` — do not hand-edit |
 | `i18n/zh-Hans/` | Full mirror of `content/`, plus interface strings |
 | `scripts/` | Drift checks, fence check, and the llms.txt generator |
-| `static/llms*.txt` | Generated at build time by `generate-llms-full.js` |
+| `static/llms.txt` | Hand-curated English index. The Chinese index and the `.md` page twins are generated post-build by `scripts/generate-llms.js` |

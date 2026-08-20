@@ -89,7 +89,7 @@ npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 Konva provides machine-readable documentation files for AI tools:
 
 - [`/llms.txt`](/llms.txt) — Concise summary of Konva with key documentation links (follows the [llmstxt.org](https://llmstxt.org/) standard)
-- [`/llms-full.txt`](/llms-full.txt) — Complete API reference in plain text, auto-generated from Konva's API docs
+- [`<page>.md`](pathname:///docs/overview.md) — Every documentation page is also served as plain markdown at the same path with a `.md` extension
 
 These files help AI assistants give accurate answers about Konva.
 

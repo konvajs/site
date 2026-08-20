@@ -59,10 +59,6 @@ Install: `npm install konva` (and `react-konva`, `vue-konva`, `svelte-konva`, or
 - [Select and Transform](https://konvajs.org/docs/select_and_transform/Basic_demo.html): Resize, rotate, and transform shapes interactively
 - [Node.js](https://konvajs.org/docs/nodejs/nodejs-setup): Server-side canvas rendering
 
-## Documentation Sets
-
-- [llms-medium.txt](https://konvajs.org/llms-medium.txt): This index plus every guide, post, and the most-used tutorial pages
-- [llms-full.txt](https://konvajs.org/llms-full.txt): This index plus all 272 documentation pages and the full API reference
 
 ## Optional
 

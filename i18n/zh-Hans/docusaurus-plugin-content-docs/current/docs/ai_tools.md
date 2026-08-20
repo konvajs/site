@@ -89,7 +89,7 @@ npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 Konva 为 AI 工具提供机器可读的文档文件：
 
 - [`/llms.txt`](/llms.txt) — Konva 的简要概述，包含主要文档链接（遵循 [llmstxt.org](https://llmstxt.org/) 标准）
-- [`/llms-full.txt`](/llms-full.txt) — 纯文本格式的完整 API 参考，由 Konva API 文档自动生成
+- [`<page>.md`](pathname:///zh-Hans/docs/overview.md) —— 每个文档页面都在相同路径下以 `.md` 扩展名提供纯 Markdown 版本
 
 这些文件帮助 AI 助手准确回答有关 Konva 的问题。
 

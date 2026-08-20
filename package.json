@@ -5,7 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "node scripts/generate-llms-full.js && docusaurus build",
+    "build": "docusaurus build && node scripts/generate-llms.js",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -16,8 +16,11 @@
     "check:i18n-drift": "node scripts/check-i18n-drift.js",
     "check:code-drift": "node scripts/check-code-drift.js",
     "check:fences": "node scripts/check-fences.js",
+    "panel:run": "node scripts/llm-panel/run.js",
+    "panel:compare": "node scripts/llm-panel/compare.js",
     "update:i18n-sources": "node scripts/check-i18n-drift.js --write && node scripts/check-code-drift.js --write",
-    "check": "npm run check:i18n-drift && npm run check:code-drift && npm run check:fences && npm run typecheck && npm run build && node checksitemap.js && node checksitemap.js build/zh-Hans/sitemap.xml"
+    "check": "npm run check:i18n-drift && npm run check:code-drift && npm run check:fences && npm run typecheck && npm run build && node checksitemap.js && node checksitemap.js build/zh-Hans/sitemap.xml && npm run check:llms",
+    "check:llms": "node scripts/check-llms.js"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",

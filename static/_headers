@@ -13,13 +13,7 @@
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
 
-/llms-full.txt
-  Content-Type: text/plain; charset=utf-8
-  Access-Control-Allow-Origin: *
 
-/llms-medium.txt
-  Content-Type: text/plain; charset=utf-8
-  Access-Control-Allow-Origin: *
 
 # Docusaurus content-hashes these, so the filename changes whenever the bytes do.
 # Safe to cache forever; without this Netlify serves them max-age=0 and every
@@ -46,3 +40,13 @@
 # under a Chinese path.
 /zh-Hans/api/*
   X-Robots-Tag: noindex
+
+# Markdown twins of every docs page, written post-build by scripts/generate-llms.js.
+# Without an explicit type the browser downloads them instead of showing them.
+/docs/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/zh-Hans/docs/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Access-Control-Allow-Origin: *

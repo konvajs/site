@@ -29,7 +29,7 @@ npm run build
 node checksitemap.js
 ```
 
-The build also regenerates `static/llms-full.txt` from `docs.json` and `static/llms.txt`.
+After the build, `scripts/generate-llms.js` writes the Chinese `llms.txt` and a markdown twin of every documentation page.
 
 ## Add content
 

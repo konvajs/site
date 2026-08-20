@@ -3,7 +3,7 @@
   "algorithm": "sha256",
   "sources": {
     "docs/about.md": "d49a862afeac7288262a8cb9c1ba6e45280112aabda46b4fec52eb0b5d49f358",
-    "docs/ai_tools.md": "24eeb1ef991df5da6ae5d7d25757bf91bc8c549418e428d6dd13b7fb7793dc73",
+    "docs/ai_tools.md": "dcb78b9246a9bdb5830b571ba842bd9346d57bd4f96c7620a9f8473c7d3fd940",
     "docs/angular/Cache.mdx": "1e72ca0c182ffac4d14e7ce1cd55128d5b3b188d6cc445cbeb3f0ef3c57e7896",
     "docs/angular/Custom_Shape.mdx": "416df8ff34aefcafbaaad204f7438d477fc4f12ed68a8b90907740759d98ef94",
     "docs/angular/Drag_And_Drop.mdx": "b77be0449432baa0e585e344cb5e8ad1fa5ac4e5754f7d5654481f29c245550b",
