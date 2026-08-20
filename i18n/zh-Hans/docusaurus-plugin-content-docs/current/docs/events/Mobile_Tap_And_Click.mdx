@@ -1,0 +1,112 @@
+---
+title: 为什么处理函数在移动端触发两次，以及拖动之后的 click
+sidebar_label: tap 与 click 重复触发
+hide_table_of_contents: true
+slug: Mobile_Tap_And_Click.html
+description: "在 Konva 中一次点按可能触发 tap、pointerclick 和 click，因此绑定到 'click tap' 的处理函数在触摸设备上会执行两次。本文说明如何只绑定一个事件族，以及为什么拖动之后 click 本来就不会触发。"
+---
+
+关于 Canvas 上的指针输入，有两件事常让人意外。一件是你必须处理的真实问题；另一件已经被
+处理好了，知道这一点可以让你省掉一个并不需要的变通方案。
+
+## 一次点按可能触发三个事件
+
+Konva 会监听全部三个 DOM 输入事件族——鼠标、触摸和指针——这样处理函数无需你事先选择就能
+在各处工作。但它不会把它们合并。
+
+在触摸屏上，浏览器会发送一组 `touchstart`/`touchend`、一组 `pointerdown`/`pointerup`，
+然后为了兼容触摸出现之前编写的页面，再**合成**一组 `mousedown`/`mouseup`。Konva 会把它们
+各自转换成自己的事件。一次点按会产生：
+
+| Konva 事件 | 来源 |
+| --- | --- |
+| `tap` | 触摸事件对 |
+| `pointerclick` | 指针事件对 |
+| `click` | 合成的鼠标事件对 |
+
+因此下面这段代码在手机上会让处理函数执行**两次**，在桌面端执行一次：
+
+```js
+// 在触摸设备上，`click` 触发一次，`tap` 又触发一次。
+shape.on('click tap', handleSelect);
+```
+
+### 只绑定一个事件族
+
+最简单的办法是不再成对绑定事件，改用指针事件族——它已经覆盖了鼠标、触摸和触控笔：
+
+```js
+shape.on('pointerclick', handleSelect);   // 在任何设备上都只触发一次
+```
+
+`pointerdown`、`pointermove` 和 `pointerup` 的用法相同。指针事件默认开启
+（`Konva.pointerEventsEnabled`），更多内容参见
+[指针事件](/zh-Hans/docs/events/Pointer_Events.html)。
+
+如果你需要支持不带指针事件的浏览器，或者正在维护已经成对绑定 `click tap` 的代码，
+那就为处理函数加一道防护：
+
+```js
+let lastHandled = 0;
+
+function handleSelect(e) {
+  // 合成的鼠标事件会在对应触摸之后约 300 毫秒内到达。
+  const now = Date.now();
+  if (now - lastHandled < 400) return;
+  lastHandled = now;
+
+  // ...
+}
+```
+
+请优先只绑定一个事件族。计时器只是变通方案，它会吞掉手速快的用户真正的第二次点按。
+
+## 拖动之后 click 本来就不会触发
+
+这一点值得了解，因为常见的变通方案其实没有必要。
+
+当拖动真正开始时，Konva 会清除允许派发 click 的标志，因此 `dragend` 之后**不会**
+再触发 `click`：
+
+```js
+shape.on('dragend', () => console.log('dragged'));
+shape.on('click',   () => console.log('clicked'));
+
+// 拖动图形：只会得到 'dragged'。
+// 按下后不移动再松开：只会得到 'clicked'。
+```
+
+如果你仍然看到拖动之后出现 click，通常是下面几种原因之一。
+
+**你监听的是 `mouseup` 而不是 `click`。** `mouseup` 是原始指针事件，无论是否拖动都会触发。
+Konva 抑制的是 `click`。
+
+**指针的移动距离不足以算作拖动。** `Konva.dragDistance` 默认为 `3` 像素。按下时偏移
+一两个像素——这在触摸屏上很正常——会被当作一次点击，`dragstart` 也不会触发。这是预期行为。
+如果你的用户需要在很小的目标上操作且手不够稳，可以调高它：
+
+```js
+Konva.dragDistance = 8;
+```
+
+**你把 `dragDistance` 设成了 `0`。** 那么每次按下都是拖动，于是你想要的 click 被抑制了。
+
+## 阻止浏览器自身的手势
+
+与 Konva 无关的是，在 Canvas 上触摸可能会滚动页面或触发双击缩放。那是浏览器的行为，
+需要用 CSS 阻止：
+
+```css
+#container {
+  touch-action: none;
+}
+```
+
+如果页面仍应可以垂直滚动、同时由 Canvas 处理水平拖动，请改用 `touch-action: pan-y`。
+完整说明参见[移动端滚动](/zh-Hans/docs/events/Mobile_Scrolling.html)。
+
+## 相关内容
+
+- [指针事件](/zh-Hans/docs/events/Pointer_Events.html)——适用于所有设备的单一事件族
+- [移动端事件](/zh-Hans/docs/events/Mobile_Events.html)——触摸事件列表
+- [桌面端与移动端](/zh-Hans/docs/events/Desktop_and_Mobile.html)——较早的成对绑定做法

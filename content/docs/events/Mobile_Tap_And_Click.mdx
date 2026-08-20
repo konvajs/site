@@ -1,0 +1,120 @@
+---
+title: Why Your Handler Fires Twice on Mobile, and Click After Drag
+sidebar_label: Tap and Click Firing Twice
+hide_table_of_contents: true
+slug: Mobile_Tap_And_Click.html
+description: "A single tap can fire tap, pointerclick and click in Konva, so a handler bound to 'click tap' runs twice on touch devices. How to bind one event family, and why click already does not fire after a drag."
+---
+
+Two things surprise people about pointer input on canvas. One is a real problem
+you have to handle. The other is already handled, and knowing that saves you a
+workaround you do not need.
+
+## A tap can fire three events
+
+Konva listens to all three DOM input families — mouse, touch, and pointer — so
+that a handler works everywhere without you choosing in advance. It does not
+merge them.
+
+On a touchscreen the browser sends a `touchstart`/`touchend` pair, a
+`pointerdown`/`pointerup` pair, and then **synthesises** `mousedown`/`mouseup`
+for compatibility with pages written before touch existed. Konva turns each of
+those into its own event. One tap produces:
+
+| Konva event | Comes from |
+| --- | --- |
+| `tap` | the touch pair |
+| `pointerclick` | the pointer pair |
+| `click` | the synthesised mouse pair |
+
+So this runs your handler **twice** on a phone and once on a desktop:
+
+```js
+// Fires for `click` and again for `tap` on a touch device.
+shape.on('click tap', handleSelect);
+```
+
+### Bind one family
+
+The simplest fix is to stop pairing events and use the pointer family, which
+already covers mouse, touch, and pen:
+
+```js
+shape.on('pointerclick', handleSelect);   // once, on every device
+```
+
+`pointerdown`, `pointermove` and `pointerup` work the same way. Pointer events
+are on by default (`Konva.pointerEventsEnabled`), and there is more in
+[Pointer Events](/docs/events/Pointer_Events.html).
+
+If you need to support a browser without pointer events, or you are maintaining
+code that already pairs `click tap`, guard the handler instead:
+
+```js
+let lastHandled = 0;
+
+function handleSelect(e) {
+  // A synthesised mouse event follows its touch within about 300ms.
+  const now = Date.now();
+  if (now - lastHandled < 400) return;
+  lastHandled = now;
+
+  // ...
+}
+```
+
+Prefer binding one family. The timer is a workaround, and it will swallow a
+genuine second tap from a fast user.
+
+## Click already does not fire after a drag
+
+This one is worth knowing because the usual workaround is unnecessary.
+
+When a drag actually starts, Konva clears the flag that allows a click to be
+dispatched, so `dragend` is **not** followed by `click`:
+
+```js
+shape.on('dragend', () => console.log('dragged'));
+shape.on('click',   () => console.log('clicked'));
+
+// Drag the shape: you get 'dragged' only.
+// Press and release without moving: you get 'clicked' only.
+```
+
+If you are seeing a click after a drag anyway, it is usually one of these.
+
+**You are listening to `mouseup`, not `click`.** `mouseup` is a raw pointer
+event and always fires, drag or not. `click` is the one Konva suppresses.
+
+**The pointer never moved far enough to count as a drag.** `Konva.dragDistance`
+defaults to `3` pixels. A press that wanders one or two pixels — which is normal
+on a touchscreen — is treated as a click, and `dragstart` never fires either.
+That is intended. Raise it if your users have shaky hands on a small target:
+
+```js
+Konva.dragDistance = 8;
+```
+
+**You set `dragDistance` to `0`.** Then every press is a drag, which suppresses
+the click you wanted.
+
+## Preventing the browser's own gestures
+
+Separately from Konva, a touch on a canvas may scroll the page or trigger a
+double-tap zoom. That is the browser, and it is stopped in CSS:
+
+```css
+#container {
+  touch-action: none;
+}
+```
+
+Use `touch-action: pan-y` instead if the page should still scroll vertically
+while the canvas handles horizontal drags. See
+[Mobile Scrolling](/docs/events/Mobile_Scrolling.html) for the full picture.
+
+## Related
+
+- [Pointer Events](/docs/events/Pointer_Events.html) — one family for every device
+- [Mobile Events](/docs/events/Mobile_Events.html) — the touch event list
+- [Desktop and Mobile](/docs/events/Desktop_and_Mobile.html) — the older paired-event approach
