@@ -204,13 +204,27 @@ Two agent claims corrected: dark mode is not missing, it is deliberately disable
 | D6 | Per-method API pages | p5.js has 557 ranking pages this way. But API pages barely surface in LLM citations — only `Konva.Text` and `Konva.Transformer` appear in the CrawlChat top ten. Pure SEO play at high effort; biggest effort-to-value mismatch in the group. | — | REJECTED |
 | D7 | Dark mode | Deliberately disabled, asked for 3× in the logs. Pure UX, no measured effect on anything in this audit. | — | REJECTED |
 
-### Groups E–H — not yet discussed
+### Group E — Tools and link assets
+
+Decided 2026-08-20. **This group was built on the scoring model the reframe in §2 replaced** —
+its original case was backlinks and URL-addressable state. Two items survived, for different
+reasons than the research gave.
+
+| ID | Idea | Why | Effort | Status |
+|---|---|---|---|---|
+| E1 | Host a canvas benchmark on konvajs.org | **REJECTED — the maintainer's objection was correct.** Konva competes on simplicity, object model and framework bindings, not raw throughput. Hosting a benchmark makes performance the axis of comparison on Konva's weakest ground, on its own domain. A self-hosted benchmark is also structurally distrusted: a win reads as rigged, a loss is a citable defeat under Konva's own banner. **The decisive evidence:** Konva ships 10.07M installs/mo against PixiJS's 3.76M *despite* that benchmark reporting Konva as 2.6× slower for four years — so the harm is theoretical. | — | REJECTED |
+| E1b | **PR upstream to unpin Konva in `slaylines/canvas-engines-comparison`** | Replaces E1 at 1/30th the cost. The repo hard-pins `"konva": "8.1.4"` with no caret while `fabric`, `paper` and `zrender` all float on ranges — so Konva alone is frozen four years back and the recycled "PixiJS 60fps vs Konva 23fps" figure comes from it. Repo is MIT, 930★, not archived, and the maintainer merges PRs. v10 also did real perf work (Transformer with many nodes, Text on resize, `Path.getSelfRect()` ~9× faster), so a current measurement may simply be better. If declined, nothing is lost. | 1h | QUEUED |
+| E3 | **Filters explorer** | Cheapest real item on the board. One page, all 20 filters, per-filter anchors (`#Kaleidoscope`), live params, copy-pasteable `filters([...])` output. Survives the reframe because the easings.net lesson was never the editor — it was **a canonical named list with one anchor per name**, which is citable. The 20 filter pages currently rank only for Canva-contaminated junk (`Invert.mdx` at position 36 for "canva color inverter"). | 1–2d | QUEUED |
+| E2 | `/play` shareable-URL playground | **DEFERRED.** The link-earning case is dead under the reframe. What survives is real but is developer-experience, not growth: **565 issues across `konvajs/*` link repros to codesandbox/jsfiddle/codepen** (363 konva + 202 react-konva) plus 70 SO questions, all exporting brand to other domains and rotting when those sandboxes die. It will not make an LLM recommend Konva. Revisit once Groups A–D ship. | 3–5d | DEFERRED |
+| E4 | Sprite-sheet slicer | 5,150/mo of tool intent with weak SERPs, but a gamedev audience that will never install Konva — and `best-canvas-library.md` correctly sends game developers to PixiJS. Contradicts Konva's own honest positioning. | — | REJECTED |
+| E5 | `/tools/*` utility pages | A pure search play in a channel the reframe writes off, and it would cannibalize the maintainer's own Polotno funnel. | — | REJECTED |
+
+### Groups F–H — not yet discussed
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **E** | Tools & link assets — the canvas benchmark, `/play` playground, filters explorer, sprite-sheet slicer, `/tools/*` pages | 5 | PENDING |
 | **F** | Packages — promote existing `konva-devtool`, SVG export bridge, testing helper, snapping utility, `konva-components`, MCP server / `SKILL.md` | 7 | PENDING |
 | **G** | AI channel — `.md` page variants, JSON-LD (`FAQPage`, `TechArticle`, duplicate-breadcrumb fix), CrawlChat re-crawl, delete `ai-plugin.json`, fix `/zh-Hans/llms.txt`, SO answer campaign, DEV.to posts | 8 | PENDING |
 | **H** | Small fixes & credibility — replace unverifiable social proof, license/commercial-use page, "what Konva does not do" page, accessibility guide | 9 | PENDING |
