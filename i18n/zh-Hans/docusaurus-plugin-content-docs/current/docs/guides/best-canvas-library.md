@@ -46,4 +46,5 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 
 - [为什么选择 Konva？——何时使用（以及何时不使用）Konva](/docs/guides/why-konva.html)
 - [npm 下载趋势：fabric、konva 与 pixi.js](https://npmtrends.com/fabric-vs-konva-vs-pixi.js)
-- [Canvas 引擎性能基准测试](https://benchmarks.slaylines.io/)
+- [Canvas 引擎性能基准测试](https://benchmarks.slaylines.io/)——请注意，它锁定了 2021 年 9 月的
+  Konva 8.1.4 和 PixiJS 6.1.3，因此其数据无法反映两者的当前版本。

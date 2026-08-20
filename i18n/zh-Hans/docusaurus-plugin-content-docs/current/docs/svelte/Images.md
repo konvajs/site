@@ -8,4 +8,4 @@ description: "了解如何使用 svelte-konva Image 组件，在 Svelte 中加�
 
 对于图像，需要手动创建原生 window.Image 实例或 `canvas` 元素，并将其用作 `Image` 组件的 image 属性。
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/images?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/images?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

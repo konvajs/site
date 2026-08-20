@@ -12,4 +12,4 @@ description: "了解如何在 Svelte 中使用 Konva 保存和加载 Canvas stat
 
 此示例以 JSON 格式在 localstorage 中保存和读取数据，但你可以使用任意保存方法。
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/save_load?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/save_load?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

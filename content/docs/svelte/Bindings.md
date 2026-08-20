@@ -31,4 +31,4 @@ Keep in mind that svelte-konva will evaluate the `staticConfig` prop only once d
 
 Drag the different rings and observe the reactive changes triggered by Svelte. Note that only the bound ring (yellow) changes the coordinates on `dragend` automatically.
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/bindings?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/bindings?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

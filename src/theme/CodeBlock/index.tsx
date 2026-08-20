@@ -6,7 +6,7 @@ import { Sandpack } from '@codesandbox/sandpack-react';
 
 type Props = WrapperProps<typeof CodeBlockType>;
 
-const KONVA_VERSION = '10.0.12';
+const KONVA_VERSION = '10.3.1';
 
 // Versions for packages that must not float to "latest".
 const dependencyVersions: Record<string, string> = {

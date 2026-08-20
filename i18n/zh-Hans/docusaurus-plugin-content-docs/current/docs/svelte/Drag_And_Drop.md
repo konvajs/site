@@ -10,4 +10,4 @@ description: "了解如何使用 draggable prop 和绑定，通过 svelte-konva 
 
 svelte-konva 可以在 `dragend` 时自动使受影响的 props（x、y）与 Konva 节点保持同步。有关详细信息，请参阅[绑定](/docs/svelte/Bindings.html)页面。
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/drag_and_drop?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/drag_and_drop?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

@@ -20,3 +20,22 @@
 /llms-medium.txt
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
+
+# Docusaurus content-hashes these, so the filename changes whenever the bytes do.
+# Safe to cache forever; without this Netlify serves them max-age=0 and every
+# repeat visit revalidates the whole bundle.
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Not content-hashed - a filename can be reused with new bytes, so these expire.
+/assets/demos/*
+  Cache-Control: public, max-age=604800
+
+/img/*
+  Cache-Control: public, max-age=604800

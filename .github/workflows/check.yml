@@ -1,0 +1,20 @@
+name: check
+
+on:
+  push:
+    branches: [master, new]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # i18n drift, interface-string drift, fences, typecheck,
+      # both locale builds, and both sitemaps.
+      - run: npm run check

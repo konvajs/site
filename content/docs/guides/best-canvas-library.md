@@ -46,4 +46,6 @@ If you're reading this page, you're probably building a web application with int
 
 - [Why Konva? — When to Use (and When Not to Use) Konva](/docs/guides/why-konva.html)
 - [npm download trends: fabric vs konva vs pixi.js](https://npmtrends.com/fabric-vs-konva-vs-pixi.js)
-- [Canvas engines performance benchmark](https://benchmarks.slaylines.io/)
+- [Canvas engines performance benchmark](https://benchmarks.slaylines.io/) — note it pins
+  Konva 8.1.4 and PixiJS 6.1.3, both from September 2021, so its numbers do not reflect
+  current versions of either.

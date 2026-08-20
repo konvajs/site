@@ -815,7 +815,7 @@ npm i svelte-konva konva
 </Stage>
 ```
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/basic_demo?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/basic_demo?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 ---
 
@@ -4181,7 +4181,9 @@ If you're reading this page, you're probably building a web application with int
 
 - [Why Konva? — When to Use (and When Not to Use) Konva](/docs/guides/why-konva.html)
 - [npm download trends: fabric vs konva vs pixi.js](https://npmtrends.com/fabric-vs-konva-vs-pixi.js)
-- [Canvas engines performance benchmark](https://benchmarks.slaylines.io/)
+- [Canvas engines performance benchmark](https://benchmarks.slaylines.io/) — note it pins
+  Konva 8.1.4 and PixiJS 6.1.3, both from September 2021, so its numbers do not reflect
+  current versions of either.
 
 ---
 
