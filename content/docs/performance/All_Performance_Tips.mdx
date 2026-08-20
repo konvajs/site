@@ -56,6 +56,39 @@ The optimizations here focus on two general rules:
 
 1. [Avoid Memory Leaks](/docs/performance/Avoid_Memory_Leaks.html) - Konva looks after a lot of cases where you might make memory leaks, but bringing shapes and tweens into the world and managing their exit is an area where you can help.
 
+2. **Know what a layer costs.** Every layer allocates two canvases: a scene canvas at the device pixel ratio, and a hit canvas always at ratio 1. On a 1920&nbsp;&times;&nbsp;1080 stage on a retina screen that is roughly 33&nbsp;MB plus 8&nbsp;MB, so about 41&nbsp;MB per layer before you draw anything. This is why Konva warns above five layers — at that point you are near 200&nbsp;MB of canvas memory on nothing but empty layers.
+
+3. **Mobile Safari enforces a hard ceiling.** Past it you get `Total canvas memory use exceeds the maximum limit`, reported as 256&nbsp;MB on some devices and 384&nbsp;MB on others, and the canvas goes blank rather than degrading. The levers, in order of effect: fewer layers, a smaller stage, and `Konva.pixelRatio = 1` — which quarters the scene canvas on a 2&times; screen. Caches count towards the same budget, so release them with `node.clearCache()` when a node is no longer visible.
+
+### Very large scenes
+
+1. **Cull what is off screen.** Konva draws every node on a layer whether or not it lands inside the stage. For a scene much larger than the viewport, hide the nodes outside it — `visible(false)` skips both drawing and hit testing, and is far cheaper than removing and re-adding nodes.
+
+```js
+function cull() {
+  const view = {
+    x: -stage.x() / stage.scaleX(),
+    y: -stage.y() / stage.scaleY(),
+    width: stage.width() / stage.scaleX(),
+    height: stage.height() / stage.scaleY(),
+  };
+
+  layer.children.forEach((node) => {
+    node.visible(Konva.Util.haveIntersection(view, node.getClientRect()));
+  });
+}
+```
+
+Call it when the view changes — after a pan or a zoom — not on every frame. `getClientRect()` is not free, so for tens of thousands of nodes keep your own index of positions and test against that instead of asking each node.
+
+2. **Skip hit detection during a drag.** While a node is being dragged Konva does not run hit detection, which keeps dragging cheap. If you need to know what is under the pointer mid-drag — highlighting a drop target, for example — turn it back on and accept the cost:
+
+```js
+Konva.hitOnDragEnabled = true;   // default is false
+```
+
+3. **Reach for one shape instead of many.** A thousand nodes each with their own attributes, transform and hit region cost far more than one custom shape that draws a thousand things in a single `sceneFunc`. You lose per-item events and dragging, so this is a trade, not a free win — see [Custom Shape](/docs/shapes/Custom.html).
+
 Below is a demo showing some of these performance tips in action:
 
 import Tabs from "@theme/Tabs";

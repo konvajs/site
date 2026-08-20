@@ -56,6 +56,39 @@ HTML5 Canvas 可以高效完成绘制工作，`Konva` 内部也有许多用于�
 
 1. [避免内存泄漏](/docs/performance/Avoid_Memory_Leaks.html)——Konva 会处理许多可能产生内存泄漏的情况，但你仍需正确创建和移除图形与补间。
 
+2. **了解一个图层的开销。** 每个图层都会分配两块 canvas：一块按设备像素比创建的场景 canvas，以及一块像素比始终为 1 的命中检测 canvas。在 Retina 屏幕上，一个 1920&nbsp;&times;&nbsp;1080 的舞台大约是 33&nbsp;MB 加 8&nbsp;MB，也就是在绘制任何内容之前每个图层约 41&nbsp;MB。这正是 Konva 在图层超过五个时发出警告的原因——到那时，仅仅是空图层就已经接近 200&nbsp;MB 的 canvas 内存。
+
+3. **移动版 Safari 有硬性上限。** 超过之后会出现 `Total canvas memory use exceeds the maximum limit`，在部分设备上报告为 256&nbsp;MB，在另一些设备上为 384&nbsp;MB，而且 canvas 会直接变成空白，而不是逐步降级。按效果排序的手段是：减少图层数量、缩小舞台，以及设置 `Konva.pixelRatio = 1`——在 2&times; 屏幕上这会把场景 canvas 的开销降到四分之一。缓存也计入同一份预算，因此当节点不再可见时，请用 `node.clearCache()` 释放它。
+
+### 超大场景
+
+1. **剔除屏幕外的内容。** 无论节点是否落在舞台范围内，Konva 都会绘制图层上的每个节点。对于远大于视口的场景，请隐藏视口之外的节点——`visible(false)` 会同时跳过绘制和命中检测，比移除再重新添加节点便宜得多。
+
+```js
+function cull() {
+  const view = {
+    x: -stage.x() / stage.scaleX(),
+    y: -stage.y() / stage.scaleY(),
+    width: stage.width() / stage.scaleX(),
+    height: stage.height() / stage.scaleY(),
+  };
+
+  layer.children.forEach((node) => {
+    node.visible(Konva.Util.haveIntersection(view, node.getClientRect()));
+  });
+}
+```
+
+请在视图发生变化时调用它——平移或缩放之后——而不是每一帧都调用。`getClientRect()` 并不便宜，因此对于数万个节点，请自行维护一份位置索引并基于它做判断，而不是逐个询问节点。
+
+2. **拖动过程中跳过命中检测。** 当节点正在被拖动时，Konva 不会执行命中检测，这让拖动保持低开销。如果你需要在拖动过程中知道指针下方是什么——例如高亮放置目标——就重新开启它，并接受相应开销：
+
+```js
+Konva.hitOnDragEnabled = true;   // 默认为 false
+```
+
+3. **用一个图形代替许多图形。** 一千个各自拥有属性、变换和命中区域的节点，其开销远高于一个在单个 `sceneFunc` 中绘制一千个元素的自定义图形。代价是你会失去逐元素的事件与拖动，因此这是一种取舍，而不是白得的收益——参见[自定义图形](/zh-Hans/docs/shapes/Custom.html)。
+
 以下示例展示了其中一些性能技巧的实际效果：
 
 import Tabs from "@theme/Tabs";
