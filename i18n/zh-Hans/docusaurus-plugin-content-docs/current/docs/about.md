@@ -44,6 +44,13 @@ Konva 为所有主流 JavaScript 框架提供官方绑定：
 - **Zazzle** — 定制产品设计
 - **Polotno** — 基于 Konva 构建的设计编辑器 SDK
 
+在公开的 `package.json` 中声明使用 Konva 的开源项目：
+
+- **[peaks.js](https://github.com/bbc/peaks.js)** —— BBC 的音频波形编辑器
+- **[Label Studio](https://github.com/HumanSignal/label-studio)** —— 数据标注平台
+- **[Weave.js](https://github.com/InditexTech/weavejs)** —— Inditex 的协作画布
+- **[DWV](https://github.com/ivmartel/dwv)** —— DICOM 医学影像查看器
+
 此外，还有数千家公司和个人开发者使用 Konva 构建设计编辑器、标注工具、白板应用程序、交互式地图、数据可视化、游戏等产品。
 
 ## 架构

@@ -1,5 +1,5 @@
 ---
-title: 最佳 JavaScript Canvas 库——如何选择
+title: 2026 年最佳 JavaScript Canvas 库——如何选择
 sidebar_label: Canvas 库比较
 sidebar_position: 1
 slug: best-canvas-library.html
@@ -24,7 +24,7 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 
 ### 需要导入或导出 SVG？
 
-**使用 [Fabric.js](http://fabricjs.com/)。** 它可以将 SVG 文件解析为 Canvas 对象，并重新导出为 SVG。Konva 无法完成此操作。Fabric.js 还内置绘图画笔，并侧重于图像编辑。
+如果你需要把内容写回 SVG，**请使用 [Fabric.js](http://fabricjs.com/)**。Konva 可以*渲染* SVG——[有三种方式](/zh-Hans/docs/sandbox/SVG_On_Canvas.html)：`Konva.Image`、`Konva.Path` 或 canvg——但它没有 SVG 导出功能，因为它绘制到 Canvas。Fabric.js 还内置绘图画笔，并侧重于图像编辑。
 
 ### 要进行创意编程或生成艺术？
 
@@ -32,7 +32,32 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 
 ### 仍不确定？
 
+### 图表与数据驱动的图形？
+
+**使用 [D3](https://d3js.org/)。** D3 不是渲染器——它是一套数据绑定与布局工具，通常驱动 SVG。当难点在于*数据*时就用它：比例尺、坐标轴、力导向布局、地理投影、数据集之间的过渡。
+
+两者并不互斥。由 D3 计算位置、由 Konva 负责绘制，这是图表元素多到 SVG 难以在 DOM 中承载之后的常见组合。如果你的图表基本是静态的、节点数在几千以内，直接用 D3 加 SVG 会更简单。
+
+### 白板或图示类产品？
+
+**请先看看 [tldraw](https://tldraw.dev/) 或 [Excalidraw](https://excalidraw.com/)。** 它们提供的是一个完整的白板——工具、撤销、多人协作、导出——你只需集成。这省下大量工作；如果它们的外观和行为适合你的产品，就直接采用。
+
+当你需要掌控模型时，才在 Konva 上自己构建：你自己的图形类型、你自己的持久化格式、你自己的编辑规则，或者一个其实并不是白板的画布。你选择的是一条更长的路，换来的是没有上限。如果你想要开箱即用的节点与连线，[React Flow](https://reactflow.dev/) 也适用同样的取舍。
+
 如果你正在阅读此页面，可能正在构建包含交互式图形的 Web 应用程序。这正是 Konva 擅长的领域。[尝试入门指南](/docs/index.html)，10 分钟内即可了解它是否合适。
+
+## 数据
+
+下载量是现有最不含糊的信号，因此这里列出截至 2026 年 8 月的数据。它们说明哪些库被广泛使用，而不是哪一个适合你。
+
+| | npm 月下载量 | 渲染方式 | 框架绑定 |
+| --- | ---: | --- | --- |
+| **Konva** | 10.1M | Canvas 2D | React、Vue、Svelte、Angular |
+| PixiJS | 3.8M | WebGL / WebGPU | 仅社区维护 |
+| Fabric.js | 3.7M | Canvas 2D | 仅社区维护 |
+| Paper.js | 0.8M | Canvas 2D | 无 |
+
+*最后核对时间：2026 年 8 月。*
 
 ## Konva 的不同之处
 

@@ -159,12 +159,47 @@ data.forEach((item) => {
 
 fs.writeFile(`./docs.json`, JSON.stringify(docs, null, 2));
 
+
+/**
+ * Build the meta description for an API page.
+ *
+ * processDescription() emits markdown links and escapes, which must not end up
+ * inside a <meta> tag, so this strips to plain text. Many classes only carry
+ * "Rect constructor" as their jsdoc description, which is useless as a snippet,
+ * so anything that short falls back to a generated sentence.
+ */
+function buildApiDescription(docItem) {
+  const raw = (docItem.classdesc || docItem.description || '')
+    .replace(/{@link\s+([^}]+)}/g, '$1')   // jsdoc links -> bare names
+    .replace(/<[^>]+>/g, ' ')               // stray html
+    .replace(/`/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const kind = docItem.kind === 'class' ? 'class' : 'namespace';
+  const generated =
+    `${docItem.longname} ${kind} reference for Konva.js: properties, methods ` +
+    `and configuration for working with ${docItem.name} on HTML5 Canvas.`;
+
+  let text = raw.length > 60 ? raw : `${raw ? raw + '. ' : ''}${generated}`;
+
+  if (text.length > 300) {
+    const cut = text.slice(0, 300);
+    const stop = cut.lastIndexOf('. ');
+    text = stop > 150 ? cut.slice(0, stop + 1) : cut.trimEnd() + '…';
+  }
+
+  // YAML double-quoted scalar: only backslash and double quote need escaping.
+  return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
 // Generate markdown files
 for (const [longname, docItem] of Object.entries(docs)) {
   let markdown = `---
 title: ${docItem.longname}
 sidebar_label: ${docItem.name}
 slug: /api/${docItem.longname}.html
+description: "${buildApiDescription(docItem)}"
 ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
 ---
 

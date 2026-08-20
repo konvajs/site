@@ -43,7 +43,7 @@ Konva 是一个专用工具，不会尝试完成所有任务：
 - **不是游戏引擎** — Konva 使用 Canvas 2D，而不是 WebGL。对于以 60fps 显示数千个动画精灵的 2D 游戏，请使用 [PixiJS](https://pixijs.com/)。Konva 可以处理简单游戏，但它针对交互式应用程序而不是游戏循环进行了优化。
 - **不是 3D 库** — 对于 3D 图形，请使用 Three.js 或 Babylon.js。
 - **不是图表库** — 对于标准图表（柱状图、折线图和饼图），请使用 Chart.js、D3 或 Recharts。如果需要图表库无法提供的**自定义交互式可视化**，请使用 Konva。
-- **不是 SVG 库** — Konva 渲染到 Canvas，而不是 SVG。如果需要 SVG 输出，可以考虑 Fabric.js 或 Paper.js。
+- **不是 SVG 库** — Konva 渲染到 Canvas，而不是 SVG。它可以[把 SVG 绘制到 Canvas 上](/zh-Hans/docs/sandbox/SVG_On_Canvas.html)，但无法导出 SVG。如果需要 SVG 输出，可以考虑 Fabric.js 或 Paper.js。
 - **不是 CSS 的替代品** — 如果可以使用 HTML/CSS 构建 UI，请不要使用 Canvas。Canvas 适合 HTML 无法处理的图形，例如自由形状、像素级操作和复杂的分层视觉效果。
 
 ## 何时使用其他工具
@@ -53,7 +53,7 @@ Konva 是一个专用工具，不会尝试完成所有任务：
 | 如果需要... | 改用 |
 |---|---|
 | 具有 WebGL 性能的 2D 游戏 | [PixiJS](https://pixijs.com/) |
-| SVG 导入和导出 | [Fabric.js](http://fabricjs.com/) |
+| SVG 导出 | [Fabric.js](http://fabricjs.com/) |
 | 矢量图形和贝塞尔数学 | [Paper.js](http://paperjs.org/) |
 | 创意编程和生成艺术 | [p5.js](https://p5js.org/) |
 | 3D 图形 | [Three.js](https://threejs.org/) |

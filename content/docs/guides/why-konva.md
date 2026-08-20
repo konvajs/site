@@ -43,7 +43,7 @@ Konva is a focused tool. It doesn't try to do everything:
 - **Not a game engine** — Konva uses Canvas 2D, not WebGL. For 2D games with thousands of animated sprites at 60fps, use [PixiJS](https://pixijs.com/). Konva can handle simple games, but it's optimized for interactive applications, not game loops.
 - **Not a 3D library** — For 3D graphics, use Three.js or Babylon.js.
 - **Not a charting library** — For standard charts (bar, line, pie), use Chart.js, D3, or Recharts. Use Konva when you need **custom interactive visualizations** that go beyond what charting libraries offer.
-- **Not an SVG library** — Konva renders to Canvas, not SVG. If you need SVG output, consider Fabric.js or Paper.js.
+- **Not an SVG library** — Konva renders to Canvas, not SVG. It can [draw SVG onto a canvas](/docs/sandbox/SVG_On_Canvas.html), but it cannot export SVG. If you need SVG output, consider Fabric.js or Paper.js.
 - **Not a CSS replacement** — If your UI can be built with HTML/CSS, don't use Canvas. Canvas is for graphics that HTML can't handle — freeform shapes, pixel-level manipulation, complex layered visuals.
 
 ## When to Use Something Else
@@ -53,7 +53,7 @@ We believe in recommending the right tool:
 | If you need... | Use instead |
 |---|---|
 | 2D games with WebGL performance | [PixiJS](https://pixijs.com/) |
-| SVG import/export | [Fabric.js](http://fabricjs.com/) |
+| SVG export | [Fabric.js](http://fabricjs.com/) |
 | Vector graphics / Bezier math | [Paper.js](http://paperjs.org/) |
 | Creative coding / generative art | [p5.js](https://p5js.org/) |
 | 3D graphics | [Three.js](https://threejs.org/) |

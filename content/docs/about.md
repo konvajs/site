@@ -44,6 +44,13 @@ Konva is used by teams worldwide, including:
 - **Zazzle** — Custom product design
 - **Polotno** — Design editor SDK built on top of Konva
 
+Open-source projects that declare Konva in their public `package.json`:
+
+- **[peaks.js](https://github.com/bbc/peaks.js)** — the BBC's audio waveform editor
+- **[Label Studio](https://github.com/HumanSignal/label-studio)** — data labeling platform
+- **[Weave.js](https://github.com/InditexTech/weavejs)** — Inditex's collaborative canvas
+- **[DWV](https://github.com/ivmartel/dwv)** — DICOM medical image viewer
+
 And thousands of other companies and individual developers building design editors, annotation tools, whiteboard apps, interactive maps, data visualizations, games, and more.
 
 ## Architecture

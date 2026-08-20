@@ -1,5 +1,5 @@
 ---
-title: Best JavaScript Canvas Library — How to Choose
+title: Best JavaScript Canvas Library in 2026 — How to Choose
 sidebar_label: Canvas Library Comparison
 sidebar_position: 1
 slug: best-canvas-library.html
@@ -24,15 +24,40 @@ Design editors, whiteboards, annotation tools, diagrams, seat maps, dashboards �
 
 ### Need SVG import/export?
 
-**Use [Fabric.js](http://fabricjs.com/).** It can parse SVG files into canvas objects and export back to SVG. Konva can't do this. Fabric.js also has built-in drawing brushes and is oriented toward image editing.
+**Use [Fabric.js](http://fabricjs.com/)** if you need to write SVG back out. Konva can *render* SVG — [three ways](/docs/sandbox/SVG_On_Canvas.html), via `Konva.Image`, `Konva.Path`, or canvg — but it has no SVG export, because it draws to canvas. Fabric.js also has built-in drawing brushes and is oriented toward image editing.
 
 ### Creative coding or generative art?
 
 **Use [p5.js](https://p5js.org/)** for creative sketches and educational projects. Use **[Paper.js](http://paperjs.org/)** if you need vector math, Bezier curves, and boolean path operations.
 
+### Charts and data-driven graphics?
+
+**Use [D3](https://d3js.org/).** D3 is not a renderer — it is a data-binding and layout toolkit, and it usually drives SVG. Reach for it when the hard part is the *data*: scales, axes, force layouts, geographic projections, transitions between datasets.
+
+The two are not exclusive. D3 computes positions and Konva draws them, which is the usual pairing once a chart has more elements than SVG can comfortably keep in the DOM. If your chart is mostly static and under a few thousand nodes, plain D3 with SVG is simpler.
+
+### A whiteboard or diagram product?
+
+**Look at [tldraw](https://tldraw.dev/) or [Excalidraw](https://excalidraw.com/) first.** They ship a whiteboard — tools, undo, multiplayer, export — and you integrate it. That is a large amount of work you do not have to do, and if their look and behaviour suit your product, take them.
+
+Build on Konva instead when you need to own the model: your own shape types, your own persistence format, your own editing rules, or a canvas that is not really a whiteboard at all. You are choosing a longer path in exchange for no ceiling. Same reasoning for [React Flow](https://reactflow.dev/) if you want nodes and edges out of the box.
+
 ### Not sure?
 
 If you're reading this page, you're probably building a web application with interactive graphics. That's Konva's sweet spot. [Try the getting started guide](/docs/index.html) — you'll know within 10 minutes if it fits.
+
+## The numbers
+
+Downloads are the least ambiguous signal available, so here they are as of August 2026. They say which libraries are widely used, not which is right for you.
+
+| | npm downloads / month | Renders with | Framework bindings |
+| --- | ---: | --- | --- |
+| **Konva** | 10.1M | Canvas 2D | React, Vue, Svelte, Angular |
+| PixiJS | 3.8M | WebGL / WebGPU | community only |
+| Fabric.js | 3.7M | Canvas 2D | community only |
+| Paper.js | 0.8M | Canvas 2D | none |
+
+*Last reviewed: August 2026.*
 
 ## What Makes Konva Different
 
