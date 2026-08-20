@@ -102,7 +102,7 @@ collapsed: 184 questions in 2019, 2 in 2026) · guest posts · `/tools/*` (canni
 
 ---
 
-## 4. Priority 0 — defects (about 3 hours, all verified)
+## 4. Priority 0 — defects — **ALL DONE 2026-08-20**
 
 These are broken now. None is strategy. Every one was found by the audit, not the original
 research, and together they outrank most of the content plan.
@@ -130,9 +130,9 @@ original research agent looked at it, and the audience is roughly double what v1
 | ID | Item | Evidence | Fix |
 |---|---|---|---|
 | **P1-1** | **Re-point the CrawlChat crawl off `new.konvajs.org`** | **762 of 770** konvajs.org URL occurrences are staging; **198 of 201 answers (98.5%)** cite at least one staging URL; all 10 top-cited pages are staging. Filed in v1 as "any time" — the magnitude makes it blocking, because every widget and MCP citation is currently wrong. | **Maintainer-owned**, dashboard |
-| **P1-2** | **Index zh-Hans in Algolia** | The `konvajs` index holds `lang: {"en": 11808}` — **zero Chinese records** across 4,421 documents. A Chinese query (拖拽) returns **0 hits**. `contextualSearch: false`, so English queries on Chinese pages eject users to English URLs. | ~1h, dashboard + config |
-| **P1-3** | **Skip Disqus on `/zh-Hans/*`** | Disqus is **hard-blocked in mainland China** — measured TLS reset then two 15.0s timeouts from CHINANET probes; OONI 89.9% anomaly rate; 100% blocked 2018-2026. It is on all 272 doc pages via `src/theme/DocItem/index.tsx:5`. It is the **only** hard-blocked dependency; Google Fonts, Algolia, Netlify and CodeSandbox all work, merely slower. | ~15 min |
-| **P1-4** | **Localise the zh-Hans `<title>` suffix and `noindex` the 34 zh-Hans API pages** | Every Chinese page ends with the English site tagline; the zh homepage title is 100% English with zero CJK. The zh API pages serve English content (73 CJK vs 3,046 Latin characters). | ~30 min |
+| **P1-2** | **Index zh-Hans in Algolia** — *maintainer will handle separately; removed from this queue* | The `konvajs` index holds `lang: {"en": 11808}` — **zero Chinese records** across 4,421 documents. A Chinese query (拖拽) returns **0 hits**. `contextualSearch: false`, so English queries on Chinese pages eject users to English URLs. | ~1h, dashboard + config |
+| **P1-3** | ~~Skip Disqus on `/zh-Hans/*`~~ **DONE** | Disqus is **hard-blocked in mainland China** — measured TLS reset then two 15.0s timeouts from CHINANET probes; OONI 89.9% anomaly rate; 100% blocked 2018-2026. It is on all 272 doc pages via `src/theme/DocItem/index.tsx:5`. It is the **only** hard-blocked dependency; Google Fonts, Algolia, Netlify and CodeSandbox all work, merely slower. | ~15 min |
+| **P1-4** | **`noindex` on the 34 zh-Hans API pages — DONE.** The title-suffix half was *not* done: `siteConfig.title` is global, not per-locale, and adding a `title` to the homepage `<Layout>` would change the English homepage title too. Docs pages already carry Chinese titles; only the brand suffix is English, which is normal. Judged not worth the risk to the highest-authority page. | Every Chinese page ends with the English site tagline; the zh homepage title is 100% English with zero CJK. The zh API pages serve English content (73 CJK vs 3,046 Latin characters). | ~30 min |
 
 **Known and accepted:** `konva.zhcndoc.com` — a 309-URL scrape of this site — ranks **#1** for
 konva 中文文档 and is self-canonical. It is ICP-filed on Alibaba Cloud, which a solo foreign
@@ -150,7 +150,7 @@ be PR'd. No action identified.
 
 | ID | Item | Why |
 |---|---|---|
-| **P2-1** | **`I18N_PENDING` allowlist in `check-i18n-drift.js`** | The check has no escape hatch, so **an English-only page cannot ship at all**. ~20 lines converts a hard build gate into a deferrable backlog and makes everything downstream ~26% cheaper. |
+| **P2-1** | ~~`I18N_PENDING` allowlist~~ **DONE** | The check has no escape hatch, so **an English-only page cannot ship at all**. ~20 lines converts a hard build gate into a deferrable backlog and makes everything downstream ~26% cheaper. |
 | **P2-2** | **A frozen prompt panel, committed to the repo** | The plan's own thesis is that payoff appears as LLM citations — and **nothing measures citations**. The tell: v1 deferred an item on "re-run the prompt in 60-90 days", but the original answers were never recorded reproducibly, so the trigger could never fire. 10-12 prompts x 3 providers, verbatim answers, day 0 / 45 / 90. Without this the whole plan is unfalsifiable. |
 | **P2-3** | **30 minutes in Search Console** | The 1,456 to 292 ranked-keyword drop is unexplained. Search Console is verified (DNS TXT confirmed) and unread. The URL-deletion hypothesis is already eliminated — Wayback CDX shows only 2 of 267 archived paths absent, both redirected. Check the **Breadcrumbs** enhancement report: P0-3 invalidates structured data on 264 pages, and "most losses were positions 51-100" is consistent with that. |
 
