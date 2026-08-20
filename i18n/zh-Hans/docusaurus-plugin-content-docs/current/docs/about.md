@@ -32,7 +32,7 @@ Konva 为所有主流 JavaScript 框架提供官方绑定：
 | React | [`react-konva`](https://github.com/konvajs/react-konva) | `npm install react-konva konva` |
 | Vue | [`vue-konva`](https://github.com/konvajs/vue-konva) | `npm install vue-konva konva` |
 | Svelte | [`svelte-konva`](https://github.com/konvajs/svelte-konva) | `npm install svelte-konva konva` |
-| Angular | [`ng2-konva`](https://github.com/nicholasgillespie/ng2-konva) | `npm install ng2-konva konva` |
+| Angular | [`ng2-konva`](https://github.com/konvajs/ng2-konva) | `npm install ng2-konva konva` |
 
 ## 谁在使用 Konva
 

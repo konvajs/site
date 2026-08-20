@@ -78,7 +78,7 @@ Konva 为主要前端框架提供官方绑定：
 | **React** | [`react-konva`](https://github.com/konvajs/react-konva) | `npm install react-konva konva` |
 | **Vue** | [`vue-konva`](https://github.com/konvajs/vue-konva) | `npm install vue-konva konva` |
 | **Svelte** | [`svelte-konva`](https://github.com/konvajs/svelte-konva) | `npm install svelte-konva konva` |
-| **Angular** | [`ng2-konva`](https://github.com/nicholasgillespie/ng2-konva) | `npm install ng2-konva konva` |
+| **Angular** | [`ng2-konva`](https://github.com/konvajs/ng2-konva) | `npm install ng2-konva konva` |
 
 从对应框架的指南开始：[React](/docs/react/index.html) · [Vue](/docs/vue/index.html) · [Svelte](/docs/svelte/index.html) · [Angular](/docs/angular/index.html)
 

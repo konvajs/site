@@ -150,7 +150,7 @@ npm install svelte-konva konva
 
 ### 如何结合 Angular 使用 Canvas？
 
-使用 [`ng2-konva`](https://github.com/nicholasgillespie/ng2-konva)：
+使用 [`ng2-konva`](https://github.com/konvajs/ng2-konva)：
 
 ```bash
 npm install ng2-konva konva

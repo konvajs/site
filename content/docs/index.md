@@ -76,7 +76,7 @@ Konva has official bindings for all major frameworks:
 | **React** | [`react-konva`](https://github.com/konvajs/react-konva) | `npm install react-konva konva` |
 | **Vue** | [`vue-konva`](https://github.com/konvajs/vue-konva) | `npm install vue-konva konva` |
 | **Svelte** | [`svelte-konva`](https://github.com/konvajs/svelte-konva) | `npm install svelte-konva konva` |
-| **Angular** | [`ng2-konva`](https://github.com/nicholasgillespie/ng2-konva) | `npm install ng2-konva konva` |
+| **Angular** | [`ng2-konva`](https://github.com/konvajs/ng2-konva) | `npm install ng2-konva konva` |
 
 Get started with your framework: [React](/docs/react/index.html) · [Vue](/docs/vue/index.html) · [Svelte](/docs/svelte/index.html) · [Angular](/docs/angular/index.html)
 

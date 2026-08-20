@@ -25,8 +25,6 @@ MCP 是一种将 AI 编程工具连接到外部文档的标准协议。Cursor、
 
 ### Cursor
 
-有关视频说明，请参阅[此指南](https://guides.crawlchat.app/walkthrough/67db0080600010f091e529b7)。
-
 将以下内容添加到 Cursor MCP 设置中：
 
 **重要：Cursor 仅在“Agent”模式下使用 MCP。“Ask”和其他模式不会使用 MCP。**
@@ -90,7 +88,7 @@ npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 
 Konva 为 AI 工具提供机器可读的文档文件：
 
-- [`/llms.txt`](/llms.txt) — Konva 的简要概述，包含主要文档链接（遵循 [llms-txt.org](https://llms-txt.org/) 标准）
+- [`/llms.txt`](/llms.txt) — Konva 的简要概述，包含主要文档链接（遵循 [llmstxt.org](https://llmstxt.org/) 标准）
 - [`/llms-full.txt`](/llms-full.txt) — 纯文本格式的完整 API 参考，由 Konva API 文档自动生成
 - [`/.well-known/ai-plugin.json`](/.well-known/ai-plugin.json) — 描述 Konva 功能的机器可读身份文件
 
