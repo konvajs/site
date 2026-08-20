@@ -15,8 +15,9 @@
     "typecheck": "tsc",
     "check:i18n-drift": "node scripts/check-i18n-drift.js",
     "check:code-drift": "node scripts/check-code-drift.js",
+    "check:fences": "node scripts/check-fences.js",
     "update:i18n-sources": "node scripts/check-i18n-drift.js --write && node scripts/check-code-drift.js --write",
-    "check": "npm run check:i18n-drift && npm run check:code-drift && npm run typecheck && npm run build && node checksitemap.js && node checksitemap.js build/zh-Hans/sitemap.xml"
+    "check": "npm run check:i18n-drift && npm run check:code-drift && npm run check:fences && npm run typecheck && npm run build && node checksitemap.js && node checksitemap.js build/zh-Hans/sitemap.xml"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",

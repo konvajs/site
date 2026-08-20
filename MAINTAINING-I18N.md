@@ -201,10 +201,12 @@ the active locale and sends a Chinese reader to the English page.
 Markdown images are safe: Docusaurus bundles `![](/assets/x.png)` and applies
 `baseUrl` for you.
 
-**Code fences are balanced, and must stay that way.** 40 files once ended with
-an unbalanced fence — 32 with a stray trailing ` ``` `, 8 missing a closing one.
-They rendered only because nothing followed the fence. All are fixed in both
-locales. If you add a fence, close it, and make the same change on both sides.
+**Code fences are balanced, and `npm run check` keeps them that way.** 40 files
+once ended with an unbalanced fence — 32 with a stray trailing ` ``` `, 8 missing
+a closing one. They rendered only because nothing followed the fence, so nothing
+caught them. `scripts/check-fences.js` now fails the build on any fence left open
+at end of file, in both locales. It counts fence depth, so a ` ``` ` block closed
+by ` ```` ` still passes.
 
 **Four-backtick fences are valid.** Some files close a ` ``` ` block with
 ` ```` `. Do not normalise them.
