@@ -26,6 +26,15 @@ whether it is generated.
 
 ## Things that are easy to get wrong
 
+- **Never `grep -rl` over `content/` without excluding `content/api/`.** Those pages are
+  generated, and their inherited-method block is byte-identical across ~20 shape pages
+  (`Konva.Rect`, `Konva.Circle` and `Konva.Star` all hash the same). A raw count invents
+  coverage that does not exist: `getRelativePointerPosition` looks like "23 files" and is
+  really **one** documentation page plus 22 generated duplicates. Use
+  `grep -rl PATTERN content/docs` instead.
+- **Check the live site before concluding something ships.** Committed is not deployed —
+  several files in `static/` differ from what konvajs.org serves.
+
 - **`<Translate>` resolves by id, not by message.** Changing English text behind an existing
   id silently leaves the old Chinese in place. `scripts/check-code-drift.js` catches this.
 - **`docusaurus write-translations` keeps messages already on disk.** A stale `i18n/en/`
