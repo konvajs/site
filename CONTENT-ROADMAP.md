@@ -219,13 +219,29 @@ reasons than the research gave.
 | E4 | Sprite-sheet slicer | 5,150/mo of tool intent with weak SERPs, but a gamedev audience that will never install Konva — and `best-canvas-library.md` correctly sends game developers to PixiJS. Contradicts Konva's own honest positioning. | — | REJECTED |
 | E5 | `/tools/*` utility pages | A pure search play in a channel the reframe writes off, and it would cannibalize the maintainer's own Polotno funnel. | — | REJECTED |
 
-### Groups F–H — not yet discussed
+### Group F — Packages
+
+**Decided 2026-08-20: all rejected.** The maintainer's principle, which also settles the
+SKILL.md question: *"we focus on docs. LLMs will consume and adapt over time."* No special
+LLM artifact — write good documentation and let models pick it up.
+
+| ID | Idea | Why rejected | Status |
+|---|---|---|---|
+| F1 | Document `konvajs/konva-devtool` | Verified real: 72★, pushed 2026-07-08, in the org, and invisible on the site (grep for "devtool" in `content/` and `src/` returns nothing). Two others independently built the same tool (45★, 43★); issues #1498, #897 ask for it. Rejected anyway. | REJECTED |
+| F2a | Document the SVG export route | `react-konva-to-svg` (5,288 dl/mo) and `canvas2svg` (99,717 dl/mo) already solve this. **Consequence of rejecting: the site continues to say "Konva can't do this" in three places** — `best-canvas-library.md:27`, `why-konva.md:46`, `why-konva.md:56` — with no pointer to the packages that can. Flagged and accepted. | REJECTED |
+| F2b | Build an official `konva-svg` package | The strongest-cited ask in the corpus and the one named reason developers choose Fabric, but genuinely hard (per-shape serializer, text/path/filter edge cases) and previously declined in public. | REJECTED |
+| F3 | Testing helper package | A4 is the whole fix. The A4 investigation found the problem is *environmental* — run a real browser instead of jsdom — and you cannot package your way out of that. | REJECTED |
+| F4 | Snapping utility package | `Objects_Snapping.mdx` already exists and is what people copy-paste. Signal is modest (`use-konva-snapping`, 3,560 dl/mo). | REJECTED |
+| F5 | `konva-components` | Weak signal (`konva-es-components`, 152 dl/mo) and a product commitment rather than a package. Same reasoning as D5. | REJECTED |
+| F6 | `SKILL.md` / LLM cheatsheet | Requested in issue #2036 ("MCP vs SKILL") and on HN. Rejected on the principle above. **This settles the A3/A8/A10 dependency: those stay as ordinary docs pages, with nothing absorbing them.** | REJECTED |
+| F7 | `konva-mcp` npm package | A working MCP server already exists via CrawlChat, and its logs were the richest dataset in this audit. | REJECTED |
+
+### Groups G–H — not yet discussed
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **F** | Packages — promote existing `konva-devtool`, SVG export bridge, testing helper, snapping utility, `konva-components`, MCP server / `SKILL.md` | 7 | PENDING |
 | **G** | AI channel — `.md` page variants, JSON-LD (`FAQPage`, `TechArticle`, duplicate-breadcrumb fix), CrawlChat re-crawl, delete `ai-plugin.json`, fix `/zh-Hans/llms.txt`, SO answer campaign, DEV.to posts | 8 | PENDING |
 | **H** | Small fixes & credibility — replace unverifiable social proof, license/commercial-use page, "what Konva does not do" page, accessibility guide | 9 | PENDING |
 
