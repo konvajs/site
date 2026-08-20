@@ -156,13 +156,37 @@ has near-zero traffic and is the most-cited Konva URL in the study.
 earns its citations by saying "use PixiJS for games, use Fabric for SVG". A guide that concludes
 "use Konva" every time reads as marketing and stops being cited.
 
-### Groups C–H — not yet discussed
+### Group C — Canvas-task pages
+
+Decided 2026-08-20. **Weakest group under the reframe in §2** — C1–C4 are pure search plays
+against declining keywords. What survived was judged on two other axes: does it make models
+emit correct code, and does it prove a capability Konva actually has users for.
+
+Three agent claims were checked and withdrawn: `Signature_Pad` is 1,015 words (not "a bare
+demo"), `Web_Worker` is 886 words and substantive (its low ranking is an authority problem
+that Group D addresses), and `getRelativePointerPosition` already appears in 23 files.
+
+| ID | Idea | Why | Effort | Status |
+|---|---|---|---|---|
+| C1 | `html5 canvas coordinates` page | Coverage already exists in 23 files. Keyword play for a dying keyword. | — | REJECTED |
+| C2 | `html5 canvas rotate image` page | Only the `html5` prefix is clean — bare `canvas rotate image` is Canva-contaminated. Links naturally to the orphaned `Position_vs_Offset` post. | 0.5d | DEFERRED — only if it falls out of C5/C6 cheaply |
+| C3 | `html5 canvas drawImage` page | ~200/mo and `Konva.Image` users rarely touch raw `drawImage`. | — | REJECTED |
+| C4 | `html5 canvas grid` page | Cheap and uncontested; would be a real entry point to `Objects_Snapping` and `Infinite_Canvas`, both nearly orphaned. | 0.3d | DEFERRED — same condition as C2 |
+| C5 | **Strengthen `shapes/Text.mdx`** | 455 words, ranks p22 for a clean ~390/mo cluster, and opens with the Konva.Text API instead of answering "how do I draw text on canvas". Text measurement is also a top MCP gap cluster (~7–8 queries). Best item in the group. | 0.5d | QUEUED |
+| C6 | Strengthen `shapes/Arc.mdx` | 383 words, ranks p9. Opens with `innerRadius`/`outerRadius` when the query wants `ctx.arc()` and the radians gotcha. **Justified on the clean SERP and the existing p9 — not on the reported 2,900/mo, which is 7× "html5 canvas" itself and implausible.** | 0.4d | QUEUED |
+| C7 | Strengthen `Signature_Pad` | Already 1,015 words. Agent claim was false. | — | WITHDRAWN |
+| C8 | **Strengthen `nodejs/index.mdx`** | 381 words. Real pain is install friction — native build deps, Docker, Lambda, font registration. Also the most natural home for the v10 `import 'konva/canvas-backend'` change, so it compounds with A1–A3. | 0.5d | QUEUED |
+| C9 | OffscreenCanvas page | 886 words, substantive. Ranking problem, not a content problem. | — | WITHDRAWN |
+| C10 | **Eraser tool demo** | SO "Eraser without destination-out" — 2,591 views, **zero answers**. konva #1937, #1656; react-konva #794. Only 2 files mention it. Erasing is table stakes in any drawing app. | 0.5d | QUEUED |
+| C11 | **Data grid / spreadsheet demo** | A category with real production usage and zero demo pages: `rowsncolumns/grid` 634★ / 2,759 dl-mo, `react-konva-grid` 2,262 dl-mo. SO "Spreadsheet-like grid in Konva" 3,552 views, no accepted answer. Demonstrates Konva's real strength — 100k cells without dying. | 1d | QUEUED |
+| C12 | Timeline demo | Video-editor timelines are an active 2026 category currently choosing Fabric.js. `melfore/konva-timeline` 78★ plus several others. **Waveform (BBC peaks.js, 3,403★) and DICOM (DWV, 1,841★) are better served by the showcase page in Group D**, where "the BBC uses Konva" is the entire message. | 1d | QUEUED (timeline only) |
+
+### Groups D–H — not yet discussed
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **C** | Canvas-task pages — `canvas blurry` (moved to A9), html5 canvas coordinates / rotate image / drawImage / grid / text / arc, signature pad, node.js canvas, OffscreenCanvas, eraser tool, data grid, audio waveform, timeline | 12 | PENDING |
 | **D** | Site structure — internal linking for 185 orphans, demo slug/title renaming to task language, showcase gallery, changelog page, component registry, per-method API pages, dark mode | 8 | PENDING |
 | **E** | Tools & link assets — the canvas benchmark, `/play` playground, filters explorer, sprite-sheet slicer, `/tools/*` pages | 5 | PENDING |
 | **F** | Packages — promote existing `konva-devtool`, SVG export bridge, testing helper, snapping utility, `konva-components`, MCP server / `SKILL.md` | 7 | PENDING |
