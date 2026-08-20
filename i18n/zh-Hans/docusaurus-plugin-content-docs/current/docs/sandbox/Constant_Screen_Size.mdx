@@ -1,0 +1,241 @@
+---
+title: 缩放 Canvas 时保持标签与控制柄的屏幕尺寸不变
+sidebar_label: 固定屏幕尺寸
+hide_table_of_contents: true
+slug: Constant_Screen_Size.html
+description: "在 Konva 舞台缩放时，让标签、控制柄和 HUD 元素保持固定的屏幕尺寸。对节点按 1/scale 反向缩放，或将整个图层映射到屏幕坐标空间。"
+---
+
+缩放舞台时，所有内容都会一起缩放——包括你本想用作界面的部分。标签在 20% 时无法辨认，
+在 400% 时又大得离谱。拖动控制柄会一直变大，直到盖住它本该调整的图形。
+
+解决办法是按舞台缩放比例的倒数来缩放这些节点，让两者相互抵消。
+
+```js
+const s = stage.scaleX();
+label.scale({ x: 1 / s, y: 1 / s });
+```
+
+节点在场景坐标中的位置保持不变，因此它仍会跟随所属的图形移动。只有尺寸不再变化。
+
+## 何时重新计算
+
+请在改变缩放的同一个处理函数中执行。并不存在名为 `scale change` 的事件——Konva 的属性事件
+命名规则是 `<attr>Change`，因此真正的事件是 `scaleXChange`：
+
+```js
+// 正确：在设置 scaleX 时触发。
+stage.on('scaleXChange', updateLabels);
+
+// 这不是真实事件。该处理函数永远不会执行，而且没有任何提示。
+stage.on('scale change', updateLabels);
+```
+
+监听 `scaleXChange` 是可行的，但通常直接在滚轮处理函数中调用你的更新函数会更简单，
+而且能把重绘集中在一处。
+
+## 固定在图形上的标签
+
+滚动以缩放。标签在任何缩放级别都保持可读，而它们所属的图形正常缩放。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 500,
+  height: 300,
+  draggable: true,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const shapes = [
+  { x: 90, y: 90, radius: 45, fill: '#2f6df6', name: 'Alpha' },
+  { x: 250, y: 170, radius: 35, fill: '#10784f', name: 'Beta' },
+  { x: 390, y: 100, radius: 40, fill: '#d6336c', name: 'Gamma' },
+];
+
+const labels = [];
+
+shapes.forEach((s) => {
+  layer.add(new Konva.Circle({ x: s.x, y: s.y, radius: s.radius, fill: s.fill }));
+
+  // 标签位于场景坐标中，因此会跟随它的圆形移动。
+  const label = new Konva.Text({
+    x: s.x,
+    y: s.y + s.radius + 6,
+    text: s.name,
+    fontSize: 14,
+    fill: '#333',
+  });
+  label.offsetX(label.width() / 2);
+  labels.push(label);
+  layer.add(label);
+});
+
+// 抵消每个标签上的舞台缩放。
+function keepLabelsReadable() {
+  const s = stage.scaleX();
+  labels.forEach((label) => label.scale({ x: 1 / s, y: 1 / s }));
+}
+
+const hint = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'scroll to zoom, drag to pan',
+  fontSize: 12,
+  fill: '#888',
+});
+layer.add(hint);
+
+stage.on('wheel', (e) => {
+  e.evt.preventDefault();
+
+  const oldScale = stage.scaleX();
+  const pointer = stage.getPointerPosition();
+
+  const pointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
+
+  const direction = e.evt.deltaY > 0 ? -1 : 1;
+  const newScale = Math.max(0.2, Math.min(5, oldScale * (direction > 0 ? 1.08 : 1 / 1.08)));
+
+  stage.scale({ x: newScale, y: newScale });
+  stage.position({
+    x: pointer.x - pointTo.x * newScale,
+    y: pointer.y - pointTo.y * newScale,
+  });
+
+  keepLabelsReadable();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React, { useState } from 'react';
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const SHAPES = [
+  { x: 90, y: 90, radius: 45, fill: '#2f6df6', name: 'Alpha' },
+  { x: 250, y: 170, radius: 35, fill: '#10784f', name: 'Beta' },
+  { x: 390, y: 100, radius: 40, fill: '#d6336c', name: 'Gamma' },
+];
+
+const App = () => {
+  const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
+
+  const handleWheel = (e) => {
+    e.evt.preventDefault();
+    const stage = e.target.getStage();
+    const oldScale = stage.scaleX();
+    const pointer = stage.getPointerPosition();
+
+    const pointTo = {
+      x: (pointer.x - stage.x()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale,
+    };
+
+    const direction = e.evt.deltaY > 0 ? -1 : 1;
+    const scale = Math.max(
+      0.2,
+      Math.min(5, oldScale * (direction > 0 ? 1.08 : 1 / 1.08))
+    );
+
+    setView({
+      scale,
+      x: pointer.x - pointTo.x * scale,
+      y: pointer.y - pointTo.y * scale,
+    });
+  };
+
+  return (
+    <Stage
+      width={500}
+      height={300}
+      draggable
+      scaleX={view.scale}
+      scaleY={view.scale}
+      x={view.x}
+      y={view.y}
+      onWheel={handleWheel}
+    >
+      <Layer>
+        {SHAPES.map((s) => (
+          <Circle key={s.name} x={s.x} y={s.y} radius={s.radius} fill={s.fill} />
+        ))}
+        {SHAPES.map((s) => (
+          <Text
+            key={s.name}
+            x={s.x}
+            y={s.y + s.radius + 6}
+            text={s.name}
+            fontSize={14}
+            fill="#333"
+            offsetX={s.name.length * 3.5}
+            // 抵消舞台缩放，使标签在屏幕上保持尺寸不变。
+            scaleX={1 / view.scale}
+            scaleY={1 / view.scale}
+          />
+        ))}
+        <Text x={10} y={10} text="scroll to zoom, drag to pan" fontSize={12} fill="#888"
+          scaleX={1 / view.scale} scaleY={1 / view.scale} />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>
+
+## 描边宽度是一个特例
+
+描边有自己的开关，因此不需要为它做反向缩放：
+
+```js
+shape.strokeScaleEnabled(false);   // 缩放时描边保持像素宽度
+```
+
+`Konva.Transformer` 的控制柄是普通图形，因此它们确实会随舞台一起缩放。要让它们在缩放过程中
+保持可用的尺寸，请根据缩放比例来设置 `anchorSize`，而不是对整个变换器做反向缩放：
+
+```js
+tr.anchorSize(10 / stage.scaleX());
+```
+
+## 完全忽略缩放的图层
+
+反向缩放让节点的*尺寸*保持固定，而它的*位置*仍然跟随场景。对于 HUD——工具栏、比例尺、
+坐标读数——你希望两者都固定在屏幕坐标空间中。
+
+每个图层都是舞台的子节点，因此会继承舞台的变换。要抵消的是整个变换，而不只是缩放：
+
+```js
+function pinLayerToScreen(layer) {
+  const s = stage.scaleX();
+  layer.scale({ x: 1 / s, y: 1 / s });
+  layer.position({ x: -stage.x() / s, y: -stage.y() / s });
+}
+```
+
+这会把图层坐标映射回屏幕坐标：无论舞台如何缩放或平移，该图层上位于 `(10, 10)` 的节点
+始终距离左上角 10 像素。请在调用反向缩放的同一处调用它。
+
+如果 HUD 图层纯粹是装饰性的，请为它设置 `listening: false`，以免它吞掉本应传给
+下方场景的点击。
+
+## 相关内容
+
+- [相对于指针缩放](/zh-Hans/docs/sandbox/Zooming_Relative_To_Pointer.html)——上面使用的缩放算法
+- [无限画布](/zh-Hans/docs/sandbox/Infinite_Canvas.html)——在无边界场景中平移与缩放
+- [Canvas 小地图](/zh-Hans/docs/sandbox/Stage_Preview.html)——大型舞台的第二个视图

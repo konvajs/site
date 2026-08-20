@@ -1,0 +1,253 @@
+---
+title: Keep Labels and Handles the Same Size While Zooming a Canvas
+sidebar_label: Constant Screen Size
+hide_table_of_contents: true
+slug: Constant_Screen_Size.html
+description: "Keep labels, handles and HUD elements a constant screen size while the Konva stage zooms. Counter-scale a node by 1/scale, or map a whole layer to screen space."
+---
+
+When you scale a stage, everything scales — including the parts you meant as
+interface. Labels become unreadable at 20% and enormous at 400%. Drag handles
+grow until they cover the shape they are meant to resize.
+
+The fix is to scale those nodes by the inverse of the stage scale, so the two
+cancel out.
+
+```js
+const s = stage.scaleX();
+label.scale({ x: 1 / s, y: 1 / s });
+```
+
+The node keeps its position in scene coordinates, so it still travels with the
+shape it belongs to. Only its size stops changing.
+
+## When to recompute it
+
+Do it in the same handler that changes the zoom. There is no event called
+`scale change` — Konva names attribute events `<attr>Change`, so the real one
+is `scaleXChange`:
+
+```js
+// Correct: fires when scaleX is set.
+stage.on('scaleXChange', updateLabels);
+
+// Not a real event. This handler will never run, silently.
+stage.on('scale change', updateLabels);
+```
+
+Listening to `scaleXChange` works, but calling your update function directly
+from the wheel handler is usually simpler, and it keeps the redraw in one place.
+
+## Labels pinned to shapes
+
+Scroll to zoom. The labels stay readable at every level, while the shapes they
+belong to scale normally.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 500,
+  height: 300,
+  draggable: true,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const shapes = [
+  { x: 90, y: 90, radius: 45, fill: '#2f6df6', name: 'Alpha' },
+  { x: 250, y: 170, radius: 35, fill: '#10784f', name: 'Beta' },
+  { x: 390, y: 100, radius: 40, fill: '#d6336c', name: 'Gamma' },
+];
+
+const labels = [];
+
+shapes.forEach((s) => {
+  layer.add(new Konva.Circle({ x: s.x, y: s.y, radius: s.radius, fill: s.fill }));
+
+  // The label sits in scene coordinates, so it moves with its circle.
+  const label = new Konva.Text({
+    x: s.x,
+    y: s.y + s.radius + 6,
+    text: s.name,
+    fontSize: 14,
+    fill: '#333',
+  });
+  label.offsetX(label.width() / 2);
+  labels.push(label);
+  layer.add(label);
+});
+
+// Undo the stage scale on every label.
+function keepLabelsReadable() {
+  const s = stage.scaleX();
+  labels.forEach((label) => label.scale({ x: 1 / s, y: 1 / s }));
+}
+
+const hint = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'scroll to zoom, drag to pan',
+  fontSize: 12,
+  fill: '#888',
+});
+layer.add(hint);
+
+stage.on('wheel', (e) => {
+  e.evt.preventDefault();
+
+  const oldScale = stage.scaleX();
+  const pointer = stage.getPointerPosition();
+
+  const pointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
+
+  const direction = e.evt.deltaY > 0 ? -1 : 1;
+  const newScale = Math.max(0.2, Math.min(5, oldScale * (direction > 0 ? 1.08 : 1 / 1.08)));
+
+  stage.scale({ x: newScale, y: newScale });
+  stage.position({
+    x: pointer.x - pointTo.x * newScale,
+    y: pointer.y - pointTo.y * newScale,
+  });
+
+  keepLabelsReadable();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React, { useState } from 'react';
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const SHAPES = [
+  { x: 90, y: 90, radius: 45, fill: '#2f6df6', name: 'Alpha' },
+  { x: 250, y: 170, radius: 35, fill: '#10784f', name: 'Beta' },
+  { x: 390, y: 100, radius: 40, fill: '#d6336c', name: 'Gamma' },
+];
+
+const App = () => {
+  const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
+
+  const handleWheel = (e) => {
+    e.evt.preventDefault();
+    const stage = e.target.getStage();
+    const oldScale = stage.scaleX();
+    const pointer = stage.getPointerPosition();
+
+    const pointTo = {
+      x: (pointer.x - stage.x()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale,
+    };
+
+    const direction = e.evt.deltaY > 0 ? -1 : 1;
+    const scale = Math.max(
+      0.2,
+      Math.min(5, oldScale * (direction > 0 ? 1.08 : 1 / 1.08))
+    );
+
+    setView({
+      scale,
+      x: pointer.x - pointTo.x * scale,
+      y: pointer.y - pointTo.y * scale,
+    });
+  };
+
+  return (
+    <Stage
+      width={500}
+      height={300}
+      draggable
+      scaleX={view.scale}
+      scaleY={view.scale}
+      x={view.x}
+      y={view.y}
+      onWheel={handleWheel}
+    >
+      <Layer>
+        {SHAPES.map((s) => (
+          <Circle key={s.name} x={s.x} y={s.y} radius={s.radius} fill={s.fill} />
+        ))}
+        {SHAPES.map((s) => (
+          <Text
+            key={s.name}
+            x={s.x}
+            y={s.y + s.radius + 6}
+            text={s.name}
+            fontSize={14}
+            fill="#333"
+            offsetX={s.name.length * 3.5}
+            // Undo the stage scale so the label keeps its size on screen.
+            scaleX={1 / view.scale}
+            scaleY={1 / view.scale}
+          />
+        ))}
+        <Text x={10} y={10} text="scroll to zoom, drag to pan" fontSize={12} fill="#888"
+          scaleX={1 / view.scale} scaleY={1 / view.scale} />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>
+
+## Stroke width is a special case
+
+A stroke has its own switch, so you do not need to counter-scale for it:
+
+```js
+shape.strokeScaleEnabled(false);   // the stroke keeps its pixel width when zoomed
+```
+
+`Konva.Transformer` anchors are ordinary shapes, so they do scale with the
+stage. To keep them a usable size while zooming, drive `anchorSize` from the
+scale instead of counter-scaling the transformer:
+
+```js
+tr.anchorSize(10 / stage.scaleX());
+```
+
+## A layer that ignores the zoom entirely
+
+Counter-scaling keeps a node's *size* fixed while its *position* still follows
+the scene. For a HUD — a toolbar, a scale bar, a coordinate readout — you want
+both fixed, in screen space.
+
+Every layer is a child of the stage, so it inherits the stage transform. Cancel
+the whole transform rather than just the scale:
+
+```js
+function pinLayerToScreen(layer) {
+  const s = stage.scaleX();
+  layer.scale({ x: 1 / s, y: 1 / s });
+  layer.position({ x: -stage.x() / s, y: -stage.y() / s });
+}
+```
+
+That maps layer coordinates back onto screen coordinates: a node at `(10, 10)`
+on that layer stays 10 pixels from the top left however the stage is zoomed or
+panned. Call it from the same place you call the counter-scale.
+
+Set `listening: false` on a HUD layer if it is purely decorative, so it does not
+absorb clicks meant for the scene below.
+
+## Related
+
+- [Zoom relative to pointer](/docs/sandbox/Zooming_Relative_To_Pointer.html) —
+  the zoom maths used above
+- [Infinite canvas](/docs/sandbox/Infinite_Canvas.html) — pan and zoom over an
+  unbounded scene
+- [Canvas minimap](/docs/sandbox/Stage_Preview.html) — a second view of a large
+  stage

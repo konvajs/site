@@ -173,6 +173,10 @@ const demoSidebar = {
       image: 'relative_zoom-min.png',
       path: 'sandbox/Zooming_Relative_To_Pointer.html',
     },
+    'Constant Screen Size': {
+      image: 'constant-screen-size.svg',
+      path: 'sandbox/Constant_Screen_Size.html',
+    },
     'Context Menu': {
       image: 'context.jpg',
       path: 'sandbox/Canvas_Context_Menu.html',

@@ -1119,5 +1119,9 @@
   },
   "homepage.meta.description": {
     "message": "使用 Konva.js 构建设计编辑器、白板、图表、地图以及其他交互式 2D Canvas 应用。"
+  },
+  "demos.item.Constant_Screen_Size": {
+    "message": "固定屏幕尺寸",
+    "description": "Demo gallery label for sandbox/Zooming_Relative_To_Pointer.html"
   }
 }

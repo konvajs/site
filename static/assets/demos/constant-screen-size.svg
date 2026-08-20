@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 416" width="720" height="416" role="img" aria-label="Two views of the same scene at different zoom levels, with labels that stay the same size">
+  <rect width="720" height="416" fill="#f4f5f8"/>
+
+  <!-- left: zoomed out -->
+  <rect x="24" y="64" width="316" height="320" rx="8" fill="#ffffff" stroke="#dfe2ea"/>
+  <text x="182" y="52" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#6b7386" text-anchor="middle">zoom 50%</text>
+  <circle cx="110" cy="170" r="26" fill="#2f6df6"/>
+  <circle cx="215" cy="240" r="20" fill="#10784f"/>
+  <circle cx="280" cy="150" r="23" fill="#d6336c"/>
+  <text x="110" y="212" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="14" fill="#14171f" text-anchor="middle">Alpha</text>
+  <text x="215" y="276" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="14" fill="#14171f" text-anchor="middle">Beta</text>
+  <text x="280" y="189" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="14" fill="#14171f" text-anchor="middle">Gamma</text>
+
+  <!-- right: zoomed in, shapes bigger, labels identical -->
+  <rect x="380" y="64" width="316" height="320" rx="8" fill="#ffffff" stroke="#dfe2ea"/>
+  <text x="538" y="52" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#6b7386" text-anchor="middle">zoom 150%</text>
+  <circle cx="500" cy="190" r="78" fill="#2f6df6"/>
+  <circle cx="648" cy="300" r="60" fill="#10784f"/>
+  <text x="500" y="286" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="14" fill="#14171f" text-anchor="middle">Alpha</text>
+  <text x="648" y="378" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="14" fill="#14171f" text-anchor="middle">Beta</text>
+
+  <text x="360" y="404" font-family="JetBrains Mono, monospace" font-size="13" fill="#6b7386" text-anchor="middle">label.scale({ x: 1 / s, y: 1 / s })</text>
+</svg>
