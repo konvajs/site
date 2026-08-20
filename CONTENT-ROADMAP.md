@@ -273,13 +273,66 @@ Target end state:
 /docs/<page>.md        every page, both locales
 ```
 
-### Group H — not yet discussed
+### Group H — Small fixes and credibility
+
+Decided 2026-08-20.
+
+| ID | Idea | Why | Effort | Status |
+|---|---|---|---|---|
+| H8 | **Pinned maintainer comment on konva#637 "Konva vs Fabric"** (2019, closed, 7 comments) | It ranks #3–4 on both comparison queries and Google's snippet reads *"Fabric seems a lot easier to get in"* — a nine-year-old unmoderated comment representing Konva in a top-5 slot. **Not a traffic play** — those queries are 10–20/mo. The argument is that the thread sits in training data and a maintainer correction lands there for future crawls. **Do the comment; do not lock.** Locking a closed discussion reads as defensive, removes community voice, and cannot remove what is already in every corpus. | 10m | QUEUED |
+| H6 | Fix two duplicate title tags | Verified: "HTML5 canvas Line Tutorial" on both `Line.mdx` and `Line_-_Simple_Line.mdx`; "How to apply canvas animations with React and Konva?" on both `react/Simple_Animations` and `Complex_Animations`. Self-inflicted cannibalisation. | 15m | QUEUED |
+| H1 | **Add new logos to `about.md` — keep the existing ones** | The existing entries (Meta, Microsoft, Labelbox, Zazzle) were verified by the maintainer privately and stay; the audit could only say they were unverifiable *from public sources*, which is not the same claim. Add, under a distinct label: **BBC `peaks.js`** (3,403★), **Label Studio** (28,099★), **Inditex Weave.js**, **DWV** medical DICOM (1,841★, on `konva ~10.3.0`) — all declaring Konva in public `package.json` files. | 1h | QUEUED |
+| H5 | Add `description` frontmatter to 34 API pages | Verified 34/34 missing. Google writes its own snippet for each. Generate from the class description in `create-api-docs.js`. | 1h | QUEUED |
+| H3 | **"What Konva does not do" page** | Lasso selection, flood fill, boolean ops, perspective warp — ~8 MCP queries across them. Silence makes models invent APIs; this is the same mechanism that produced `stage.on('scale change')`. An honest "not built in, here is the approach" page is both a trust signal and a hallucination fix. | 0.5d | QUEUED |
+| H9 | Deepen thin framework docs | Verified **24 pages under 200 words** across react/vue/svelte/angular (`svelte/Images.md` is 76). Titles and descriptions are genuinely good — "How to draw images on canvas with React?" is exactly the query — but there is almost nothing behind the promise. Highest-intent pages, weakest content. **Do last.** | 2d | QUEUED |
+| H4 | Accessibility guide | **Deferred, not rejected.** Canvas a11y is a growing objection (r/Frontend Aug 2026, EAA). But the maintainer's condition is right: wait until there is a real solution to teach — a new canvas API, or a genuinely working DOM-overlay tutorial — rather than publishing a page that admits a problem without solving it. | — | DEFERRED |
+| H2 | License / commercial-use page | Counted in B9. | — | see B9 |
+| H7 | Founding-year claims | Corrected earlier in the session (2015, forked from KineticJS). | — | DONE |
+
+---
+
+## 7. Consolidated build order
+
+All eight groups decided. ~20 days of approved work. Ordered by dependency, not by value —
+several items would be redone if built out of sequence.
+
+**Phase 1 — bugs and quick fixes (~3h).** No dependencies; ship immediately.
+G2 duplicate breadcrumb · G4 delete `ai-plugin.json` · H6 duplicate titles · H5 API
+descriptions · H8 pinned comment on #637 · E1b upstream PR to unpin Konva in the benchmark
+
+**Phase 2 — retrieval infrastructure (~1.5d).** All three touch `generate-llms-full.js`
+and the build step; do them in one pass or the work is repeated.
+G1 `.md` page variants · G5 fix `/zh-Hans/llms.txt` and simplify the llms files (drop
+`llms-full.txt` and `llms-medium.txt`, one compact index per locale) · A1–A3 pull the
+README and CHANGELOG in and cross-link them
+
+**Phase 3 — structure before content (~1d).**
+D8 `<RelatedPages>` component · D2 retitle demos to task language (no slug changes)
+
+**Phase 4 — content (~11d).** The bulk. Order within is flexible.
+A4 testing · A5 TypeScript · A6 seven React tabs · A7 mobile tap/click · A8 reframe
+`Batch_Draw` · A9 blurry/crisp · A10 zoom-invariant UI · A11+A12 extend performance ·
+B3 floor-plan build-vs-buy · B4 annotation comparison · B5 `/fabric-js-alternative` ·
+B7+B2 add D3/Paper and the whiteboard paragraph · B8 year-date · B9 license page ·
+C5 Text · C6 Arc · C8 nodejs · C10 eraser demo · C11 data-grid demo · C12 timeline demo ·
+H1 add logos · H3 "what Konva does not do"
+
+**Phase 5 — after content exists (~5.5d).**
+D1 internal linking pass (must run *after* Phase 4 so new pages are included) ·
+D3 `/showcase` · E3 filters explorer · H9 deepen thin framework docs
+
+**Maintainer-owned, any time:** G3 re-point the CrawlChat crawl.
+
+**Deferred with triggers:** B1 Konva vs React Flow — re-run the flowchart prompt ~Nov 2026 ·
+E2 `/play` playground — revisit after Phases 1–4 · H4 accessibility — when there is a real
+solution to teach · C2/C4 — only if they fall out of C5/C6 cheaply · F2b `konva-svg` — only
+if demand persists · D5 component registry — only with a second maintainer
+
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **H** | Small fixes & credibility — replace unverifiable social proof, license/commercial-use page, "what Konva does not do" page, accessibility guide | 9 | PENDING |
 
 **Known cross-group dependencies** — these are why Group A is queued rather than built:
 
