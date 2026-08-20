@@ -6,7 +6,22 @@ slug: /docs/shapes/Text.html
 description: "学习如何使用 Konva.js 在 HTML5 Canvas 上绘制文本。使用 Konva.Text 图形设置字体、字号、样式、对齐、换行、内边距和装饰。"
 ---
 
-要使用 `Konva` 创建文本，可以实例化一个 `Konva.Text()` 对象。
+Canvas 没有文本元素。浏览器提供的 `fillText()` 在某个点绘制字符串后就不再管它——没有换行，
+没有对齐，也无法询问它有多宽。`Konva.Text` 是一个图形，因此文本会保留为一个节点，你可以
+移动、设置样式、测量它，并对它做命中检测。
+
+```js
+const text = new Konva.Text({
+  x: 20,
+  y: 20,
+  text: 'Hello Konva',
+  fontSize: 24,
+  fontFamily: 'Arial',
+  fill: 'black',
+});
+```
+
+设置 `width` 后文本会按该宽度换行。不设置 `width` 时，图形会根据内容自动调整尺寸。
 
 有关完整的属性和方法列表，请参阅 [Text API 参考](/api/Konva.Text.html)。
 
@@ -85,13 +100,15 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={window.innerWidth / 2}
+          x={0}
           y={15}
+          width={window.innerWidth}
+          align="center"
           text="Simple Text"
           fontSize={30}
           fontFamily="Calibri"
           fill="green"
-          offsetX={60} // Approximate half width
+
         />
         <Rect
           x={20}
@@ -146,13 +163,14 @@ const stageSize = {
 };
 
 const simpleTextConfig = {
-  x: window.innerWidth / 2,
+  x: 0,
   y: 15,
+  width: window.innerWidth,
+  align: 'center',
   text: 'Simple Text',
   fontSize: 30,
   fontFamily: 'Calibri',
-  fill: 'green',
-  offsetX: 60 // Approximate half width
+  fill: 'green'
 };
 
 const complexTextConfig = {
@@ -186,3 +204,98 @@ const rectConfig = {
 ```
   </TabItem>
 </Tabs> 
+
+## 测量文本
+
+`Konva.Text` 在创建时就完成了自我测量，因此在它被加入图层之前，你就可以读取它的尺寸。
+
+```js
+const text = new Konva.Text({ text: 'Hello Konva', fontSize: 24 });
+
+text.width();          // 图形的完整宽度，包含内边距
+text.height();         // 图形的完整高度，包含所有行与内边距
+text.getTextWidth();   // 最宽一行的宽度，不含内边距
+text.fontSize();       // 单行的高度
+```
+
+请使用这些值，而不要去估算。手动居中是人们估算的常见原因：
+
+```js
+text.offsetX(text.width() / 2);   // 精确
+```
+
+有两点需要注意：
+
+- **`getTextHeight()` 已废弃。** 它会在控制台发出警告。请使用 `height()` 获取整个图形的
+  高度，使用 `fontSize()` 获取单行高度。
+- **`measureSize(string)` 用于测量尚未绘制的字符串**，使用当前图形的字体。它适合在确定
+  内容之前预估尺寸，并且无法处理多行文本。
+
+```js
+const { width } = text.measureSize('Some other string');
+```
+
+在 React 和 Vue 中，请通过节点的 ref 读取同样的数值，而不要去估算；或者像上面的示例那样，
+给文本设置 `width` 和 `align`，从而完全避免测量。
+
+## 换行与省略号
+
+只有在设置了 `width` 时，文本才会换行。
+
+```js
+new Konva.Text({
+  text: 'A long line that will not fit on one row',
+  width: 200,        // 换行需要它
+  wrap: 'word',      // 'word'（默认）、'char' 或 'none'
+  ellipsis: true,    // 还需要 height，否则不会发生溢出
+});
+```
+
+当文本放不下时，`ellipsis` 会用 `…` 截断它。只有同时设置了 `width` 和 `height` 才会生效，
+因为没有 height 时图形会自动增高以容纳内容，永远不会溢出。
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({ container: 'container', width: 500, height: 260 });
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const sample = 'Konva.Text wraps to the width you give it, and can truncate when it runs out of room.';
+
+[
+  { y: 10, label: "wrap: 'word' (default)", config: { width: 220 } },
+  { y: 95, label: "wrap: 'char'", config: { width: 220, wrap: 'char' } },
+  { y: 180, label: 'ellipsis with a fixed height', config: { width: 220, height: 44, ellipsis: true } },
+].forEach(({ y, label, config }) => {
+  layer.add(new Konva.Text({ x: 250, y, text: label, fontSize: 13, fill: '#666' }));
+  layer.add(
+    new Konva.Rect({ x: 20, y, width: 220, height: config.height || 70, stroke: '#ddd' })
+  );
+  layer.add(new Konva.Text({ x: 20, y, text: sample, fontSize: 14, padding: 4, ...config }));
+});
+```
+
+## 文本与 Web 字体
+
+这是最常见的文本问题，而且它并不是 Konva 的缺陷。
+
+当 Web 字体加载完成时，DOM 元素会自动重新布局，Canvas 则不会。如果文本是在字体到达之前
+创建的，它就是用回退字体测量的，而换行、居中和 `width()` 依然基于那份过时的测量结果。
+文本通常看起来没问题，位置却是错的。
+
+请等待字体加载完成，然后强制重新测量：
+
+```js
+await document.fonts.load('16px "Roboto"');
+
+// 重新设置任意一个参与测量的属性，都会重新触发测量。
+text.fontFamily('Roboto');
+```
+
+只要下列影响文本的属性之一发生变化，Konva 就会重新测量：`text`、`fontFamily`、`fontSize`、
+`fontStyle`、`fontVariant`、`lineHeight`、`letterSpacing`、`align`、`verticalAlign`、
+`padding`、`width`、`height`、`wrap`、`ellipsis` 和 `direction`。即使把其中某个属性
+设置为它原本的值，也足以触发。
+
+完整示例（包括如何加载字体本身）参见[自定义字体](/zh-Hans/docs/sandbox/Custom_Font.html)。
