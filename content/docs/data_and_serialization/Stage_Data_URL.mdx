@@ -7,7 +7,7 @@ description: "Take a screenshot of your HTML5 Canvas and export it as PNG or JPE
 ---
 
 To take a screenshot of your canvas and export it as an image with `Konva`, use the `toDataURL()`
-method which requires a callback function for `Stage` (for other nodes callback is not required).
+method. It returns the data URL directly for every node type, including `Stage`.
 You can pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
 You can also capture screenshots of specific nodes, including layers, groups, and shapes.
 

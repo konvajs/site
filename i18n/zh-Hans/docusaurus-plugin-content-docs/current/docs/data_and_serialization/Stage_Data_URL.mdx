@@ -7,7 +7,7 @@ description: "使用 JavaScript 截取 HTML5 Canvas 并导出为 PNG 或 JPEG。
 ---
 
 要使用 `Konva` 截取 Canvas 并将其导出为图像，请使用 `toDataURL()`
-方法。此方法用于 `Stage` 时需要回调函数，其他节点不需要回调函数。
+方法。此方法对所有节点类型（包括 `Stage`）都直接返回数据 URL。
 你可以传入 image/jpeg 等 MIME 类型和 0 到 1 之间的质量值。
 还可以截取特定节点，包括图层、组和图形。
 

@@ -37,6 +37,8 @@ Install: `npm install konva` (and `react-konva`, `vue-konva`, `svelte-konva`, or
 - [Seat Reservation Map](https://konvajs.org/docs/sandbox/Seats_Reservation.html): Large selectable seat grids
 - [Image Crop and Editing](https://konvajs.org/docs/sandbox/Canvas_Crop_Image.html): Crop, transform, and export images
 - [Multiplayer Whiteboard](https://konvajs.org/docs/sandbox/Multiplayer_Whiteboard.html): Shared state with Yjs
+- [Free Drawing](https://konvajs.org/docs/sandbox/Free_Drawing.html): Freehand drawing and whiteboard strokes
+- [All Demos](https://konvajs.org/docs/sandbox.html): 60+ interactive examples, each with runnable code
 
 ## Framework Integrations
 
@@ -57,15 +59,10 @@ Install: `npm install konva` (and `react-konva`, `vue-konva`, `svelte-konva`, or
 - [Select and Transform](https://konvajs.org/docs/select_and_transform/Basic_demo.html): Resize, rotate, and transform shapes interactively
 - [Node.js](https://konvajs.org/docs/nodejs/nodejs-setup): Server-side canvas rendering
 
-## Demos
+## Documentation Sets
 
-- [All Demos](https://konvajs.org/docs/sandbox.html): 60+ interactive examples
-- [Canvas Editor](https://konvajs.org/docs/sandbox/Canvas_Editor.html): Full design editor (Polotno SDK)
-- [Free Drawing](https://konvajs.org/docs/sandbox/Free_Drawing.html): Freehand drawing / whiteboard
-- [Image Labeling](https://konvajs.org/docs/sandbox/Image_Labeling.html): ML annotation tool
-- [Seats Reservation](https://konvajs.org/docs/sandbox/Seats_Reservation.html): Interactive seat map
-- [Connected Objects](https://konvajs.org/docs/sandbox/Connected_Objects.html): Diagrams with connected draggable nodes
-- [Interactive Floor Plan](https://konvajs.org/docs/sandbox/Interactive_Building_Map.html): Building map with hover sections
+- [llms-medium.txt](https://konvajs.org/llms-medium.txt): This index plus every guide, post, and the most-used tutorial pages
+- [llms-full.txt](https://konvajs.org/llms-full.txt): This index plus all 272 documentation pages and the full API reference
 
 ## Optional
 

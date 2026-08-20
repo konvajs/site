@@ -1,0 +1,5126 @@
+# Konva.js
+
+> Konva.js is an open-source 2D HTML5 Canvas JavaScript framework. It provides an object-oriented API for canvas graphics with shapes, animations, events, drag-and-drop, filters, and integrations with React, Vue, Svelte, and Angular.
+
+Konva uses a Stage → Layer → Group → Shape hierarchy. You create a Stage (attached to a DOM container), add Layers (each is a separate `<canvas>` element), and draw Shapes (Rect, Circle, Ellipse, Line, Text, Image, Path, Star, Ring, Arc, Arrow, Label, RegularPolygon, Wedge, Sprite, TextPath) on those layers.
+
+Key capabilities: object-oriented shape management, full event system (click, hover, touch, drag), built-in drag-and-drop, animations and tweens, image filters (blur, brighten, contrast, grayscale, etc.), canvas serialization with `toJSON()`, high-quality image export (`toDataURL()`, `toBlob()`), node nesting and grouping, hit detection, and caching for performance.
+
+Framework bindings:
+- React: `react-konva` — declarative React components for canvas shapes
+- Vue: `vue-konva` — Vue components for Konva
+- Svelte: `svelte-konva` — Svelte components for Konva
+- Angular: `ng2-konva` — Angular components for Konva
+
+Install: `npm install konva` (and `react-konva`, `vue-konva`, `svelte-konva`, or `ng2-konva` for frameworks)
+
+## Docs
+
+- [Getting Started](https://konvajs.org/docs/index.html): Installation, basic setup, first canvas
+- [Framework Overview](https://konvajs.org/docs/overview.html): Architecture, shapes, styles, events, drag-and-drop, filters, animations, serialization
+- [API Reference](https://konvajs.org/api/Konva.html): Full API documentation for all classes
+- [FAQ](https://konvajs.org/docs/faq.html): Common questions about Konva.js
+- [About Konva](https://konvajs.org/docs/about.html): Project history, adoption, key facts
+
+## Guides & Comparisons
+
+- [Why Konva?](https://konvajs.org/docs/guides/why-konva.html): When to use Konva, ideal use cases, what Konva is NOT
+- [Best JavaScript Canvas Libraries](https://konvajs.org/docs/guides/best-canvas-library.html): Comparison of Konva vs Fabric.js vs PixiJS vs Paper.js vs p5.js
+
+## Application Demos
+
+- [Design Editor](https://konvajs.org/docs/sandbox/Canvas_Editor.html): Selection, transforms, history, and export
+- [Infinite Canvas Whiteboard](https://konvajs.org/docs/sandbox/Infinite_Canvas.html): Pan, zoom, movable cards, and coordinate conversion
+- [Flowchart / Node Editor](https://konvajs.org/docs/sandbox/Connected_Objects.html): Draggable nodes with live connectors
+- [Image Annotation Tool](https://konvajs.org/docs/sandbox/Image_Labeling.html): Draw and export image annotations
+- [Floor Plan](https://konvajs.org/docs/sandbox/Interactive_Building_Map.html): Interactive rooms and selection
+- [Seat Reservation Map](https://konvajs.org/docs/sandbox/Seats_Reservation.html): Large selectable seat grids
+- [Image Crop and Editing](https://konvajs.org/docs/sandbox/Canvas_Crop_Image.html): Crop, transform, and export images
+- [Multiplayer Whiteboard](https://konvajs.org/docs/sandbox/Multiplayer_Whiteboard.html): Shared state with Yjs
+- [Free Drawing](https://konvajs.org/docs/sandbox/Free_Drawing.html): Freehand drawing and whiteboard strokes
+- [All Demos](https://konvajs.org/docs/sandbox.html): 60+ interactive examples, each with runnable code
+
+## Framework Integrations
+
+- [React (react-konva)](https://konvajs.org/docs/react/index.html): Getting started with React and canvas
+- [Vue (vue-konva)](https://konvajs.org/docs/vue/index.html): Getting started with Vue and canvas
+- [Svelte (svelte-konva)](https://konvajs.org/docs/svelte/index.html): Getting started with Svelte and canvas
+- [Angular (ng2-konva)](https://konvajs.org/docs/angular/index.html): Getting started with Angular and canvas
+
+## Tutorials
+
+- [Shapes](https://konvajs.org/docs/shapes/Rect.html): Drawing rectangles, circles, lines, text, images, paths, and more
+- [Events](https://konvajs.org/docs/events/Binding_Events.html): Click, hover, touch, keyboard, and custom events
+- [Drag and Drop](https://konvajs.org/docs/drag_and_drop/Drag_and_Drop.html): Built-in drag-and-drop system
+- [Animations](https://konvajs.org/docs/animations/Create_an_Animation.html): Frame-based animations and tweens
+- [Filters](https://konvajs.org/docs/filters/Blur.html): Image processing filters
+- [Performance](https://konvajs.org/docs/performance/All_Performance_Tips.html): Optimization tips for large applications
+- [Serialization](https://konvajs.org/docs/data_and_serialization/Serialize_a_Stage.html): Save and load canvas state
+- [Select and Transform](https://konvajs.org/docs/select_and_transform/Basic_demo.html): Resize, rotate, and transform shapes interactively
+- [Node.js](https://konvajs.org/docs/nodejs/nodejs-setup): Server-side canvas rendering
+
+## Documentation Sets
+
+- [llms-medium.txt](https://konvajs.org/llms-medium.txt): This index plus every guide, post, and the most-used tutorial pages
+- [llms-full.txt](https://konvajs.org/llms-full.txt): This index plus all 272 documentation pages and the full API reference
+
+## Optional
+
+- [AI Tools](https://konvajs.org/docs/ai_tools.html): MCP integration for Cursor, Claude, Windsurf
+- [Support](https://konvajs.org/docs/support.html): Stack Overflow, Discord, GitHub Issues
+- [GitHub Repository](https://github.com/konvajs/konva): Source code, issues, changelog
+- [npm Package](https://www.npmjs.com/package/konva): Installation and version info
+
+---
+
+# Documentation
+
+## Getting Started with Konva — HTML5 Canvas 2D Framework
+Source: https://konvajs.org/docs/index.html
+Summary: Get started with Konva.js, a 2D HTML5 Canvas JavaScript framework. Learn to draw shapes, handle events, drag-and-drop, and animate with framework integrations.
+
+## What's Konva?
+
+Konva is an HTML5 Canvas JavaScript framework for building interactive 2D graphics. It gives you an object model on top of the canvas — you create shapes, group them, add event listeners, drag them, animate them, and the framework handles rendering, hit detection, and state management.
+
+Konva works on desktop and mobile, supports thousands of shapes with high-performance rendering, and has official integrations for **React**, **Vue**, **Svelte**, and **Angular**.
+
+## Quick Example
+
+```javascript
+// Create a stage (container for all layers)
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 500,
+  height: 400,
+});
+
+// Create a layer
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create a draggable rectangle
+const rect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 80,
+  fill: 'cornflowerblue',
+  shadowBlur: 5,
+  cornerRadius: 4,
+  draggable: true,
+});
+layer.add(rect);
+
+// Add event listener
+rect.on('click tap', () => {
+  rect.fill(Konva.Util.getRandomColor());
+});
+```
+
+That's it — a draggable rectangle that changes color on click. No boilerplate, no render loops.
+
+## Install Konva
+
+If you are using package managers:
+
+```bash
+npm install konva
+```
+
+Or just use a script tag:
+
+```html
+<script src="https://unpkg.com/konva@10/konva.min.js"></script>
+```
+
+Or download from CDN:
+
+- [Full version konva.js](https://unpkg.com/konva@10/konva.js)
+- [Min version konva.min.js](https://unpkg.com/konva@10/konva.min.js)
+
+## Use Konva with Your Framework
+
+Konva has official bindings for all major frameworks:
+
+| Framework | Package | Install |
+|-----------|---------|---------|
+| **React** | [`react-konva`](https://github.com/konvajs/react-konva) | `npm install react-konva konva` |
+| **Vue** | [`vue-konva`](https://github.com/konvajs/vue-konva) | `npm install vue-konva konva` |
+| **Svelte** | [`svelte-konva`](https://github.com/konvajs/svelte-konva) | `npm install svelte-konva konva` |
+| **Angular** | [`ng2-konva`](https://github.com/konvajs/ng2-konva) | `npm install ng2-konva konva` |
+
+Get started with your framework: [React](/docs/react/index.html) · [Vue](/docs/vue/index.html) · [Svelte](/docs/svelte/index.html) · [Angular](/docs/angular/index.html)
+
+## Why Konva?
+
+- **Shapes as objects** — Create rectangles, circles, lines, text, images, paths, and more. Each shape is a JavaScript object you can manipulate independently.
+- **Full event system** — `click`, `dblclick`, `mouseover`, `mouseout`, `touchstart`, `dragstart`, `dragend`, and more. Events bubble from shapes through groups and layers, just like the DOM.
+- **Drag and drop** — Set `draggable: true` on any shape. Add drag boundaries, snapping, and drop events.
+- **Resize and rotate** — The built-in [`Transformer`](/docs/select_and_transform/Basic_demo.html) component adds resize and rotate handles to any shape.
+- **Multi-layer rendering** — Each Layer is a separate `<canvas>` element. Static backgrounds don't re-render when interactive shapes change.
+- **Serialization** — Save the entire canvas state with `stage.toJSON()`. Restore it with `Konva.Node.create(json)`.
+- **Filters and effects** — Blur, brighten, contrast, grayscale, pixelate, and more — applied per shape.
+- **High performance** — Handles thousands of shapes. See [performance tips](/docs/performance/All_Performance_Tips.html) and [stress test demos](/docs/sandbox/10000_Shapes_with_Tooltip.html).
+
+## What Can You Build?
+
+Developers use Konva for design editors, drawing apps, annotation tools, interactive maps, data visualizations, and more. Here are some examples:
+
+- [Canvas Design Editor](/docs/sandbox/Canvas_Editor.html) — Canva-style design tool
+- [Free Drawing App](/docs/sandbox/Free_Drawing.html) — Whiteboard / freehand drawing
+- [Image Annotation](/docs/sandbox/Image_Labeling.html) — ML labeling tool
+- [Seat Reservation Map](/docs/sandbox/Seats_Reservation.html) — Interactive seat booking
+- [Interactive Building Map](/docs/sandbox/Interactive_Building_Map.html) — Floor plan visualization
+- [Connected Objects](/docs/sandbox/Connected_Objects.html) — Diagram / flowchart builder
+
+[See all 60+ demos →](/docs/sandbox.html)
+
+## Next Steps
+
+- [Konva Overview](/docs/overview.html) — Understand the architecture (Stage → Layer → Shape)
+- [Shapes](/docs/shapes/Rect.html) — Learn about all available shapes
+- [Events](/docs/events/Binding_Events.html) — Handle clicks, hovers, touches, and more
+- [Drag and Drop](/docs/drag_and_drop/Drag_and_Drop.html) — Make shapes draggable
+- [Animations](/docs/animations/Create_an_Animation.html) — Animate shape properties
+- [About Konva](/docs/about.html) — Who uses Konva, key facts, and links
+
+---
+
+## Konva Framework Overview
+Source: https://konvajs.org/docs/overview.html
+Summary: Konva.js architecture overview: Stage, Layers, Groups, and Shapes. Learn how Konva organizes canvas elements, handles events, styles shapes, and manages drag-and-drop.
+
+## What's Konva?
+
+Konva is an HTML5 Canvas JavaScript framework that extends the 2d context
+by enabling canvas interactivity for desktop and mobile applications.
+
+Konva enables high performance animations, transitions, node nesting, layering, filtering,
+caching, event handling for desktop and mobile applications, and much more.
+
+## How does it work?
+
+Every thing starts from `Konva.Stage` that contains several user's layers (`Konva.Layer`).
+
+Each layer has two `<canvas>` renderers: a scene renderer and a hit graph renderer.
+The scene renderer is what you can see, and the hit graph renderer is a special hidden
+canvas that's used for high performance event detection.
+
+Each layer can contain shapes, groups of shapes, or groups of other groups.
+The stage, layers, groups, and shapes are virtual nodes, similar to DOM nodes in an HTML page.
+
+Here's an example Node hierarchy:
+
+```
+                   Stage
+                     |
+              +------+------+
+              |             |
+            Layer         Layer
+              |             |
+        +-----+-----+     Shape
+        |           |
+      Group       Group
+        |           |
+        +       +---+---+
+        |       |       |
+     Shape   Group    Shape
+                |
+                +
+                |
+              Shape
+```
+
+All nodes can be styled and transformed. Although `Konva` has prebuilt shapes available,
+such as rectangles, circles, images, sprites, text, lines, polygons, regular polygons, paths, stars, etc.,
+you can also create custom shapes by instantiating the Shape class and creating a draw function.
+
+Once you have a stage set up with layers and shapes,
+you can bind event listeners, transform nodes, run animations,
+apply filters, and much more.
+
+Minimal code example:
+
+```js
+// first we need to create a stage
+var stage = new Konva.Stage({
+  container: 'container', // id of container <div>
+  width: 500,
+  height: 500,
+});
+
+// then create layer
+var layer = new Konva.Layer();
+
+// create our shape
+var circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+// add the shape to the layer
+layer.add(circle);
+
+// add the layer to the stage
+stage.add(layer);
+```
+
+Result:
+
+![Minimal code demo](/assets/overview-circle.png)
+
+## Basic shapes
+
+Konva.js supports shapes: [Rect](/docs/shapes/Rect.html), [Circle](/docs/shapes/Circle.html), [Ellipse](/docs/shapes/Ellipse.html), [Line](/docs/shapes/Line_-_Simple_Line.html), [Polygon](/docs/shapes/Line_-_Polygon.html), [Spline](/docs/shapes/Line_-_Spline.html), [Blob](/docs/shapes/Line_-_Blob.html), [Image](/docs/shapes/Image.html), [Text](/docs/shapes/Text.html), [TextPath](/docs/shapes/TextPath.html), [Star](/docs/shapes/Star.html), [Label](/docs/shapes/Label.html), [SVG Path](/docs/shapes/Path.html), [RegularPolygon](/docs/shapes/RegularPolygon.html).
+Also you can create [custom shape](/docs/shapes/Custom.html):
+
+```js
+var triangle = new Konva.Shape({
+  sceneFunc: function (context) {
+    context.beginPath();
+    context.moveTo(20, 50);
+    context.lineTo(220, 80);
+    context.quadraticCurveTo(150, 100, 260, 170);
+    context.closePath();
+
+    // special Konva.js method
+    context.fillStrokeShape(this);
+  },
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+```
+
+![Custom shape](/assets/overview-custom.png)
+
+## Styles
+
+Each shape supports the following style properties:
+
+- Fill. Solid color, gradients or images
+- Stroke (color, width)
+- Shadow (color, offset, opacity, blur)
+- Opacity
+
+```js
+var pentagon = new Konva.RegularPolygon({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  sides: 5,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  shadowOffsetX: 20,
+  shadowOffsetY: 25,
+  shadowBlur: 40,
+  opacity: 0.5,
+});
+```
+
+![Styles](/assets/overview-styles.png)
+
+## Events
+
+With `Konva` you can easily listen to user input events (`click`, `dblclick`, `mouseover`, `tap`, `dbltap`, `touchstart` etc),
+attributes change events (`scaleXChange`, `fillChange`) and drag&drop events (`dragstart`, `dragmove`, `dragend`).
+
+```js
+circle.on('mouseout touchend', function () {
+  console.log('user input');
+});
+
+circle.on('xChange', function () {
+  console.log('position change');
+});
+
+circle.on('dragend', function () {
+  console.log('drag stopped');
+});
+```
+
+See [working example](/docs/events/Binding_Events.html).
+
+## DRAG AND DROP
+
+`Konva` has builtin drag support. For the current moment there is no `drop` events (`drop`, `dragenter`, `dragleave`, `dragover`)
+but it is very easy to implement them [via framework](/docs/drag_and_drop/Drop_Events.html).
+
+To enable drag&drop just set property draggable = true.
+
+```
+shape.draggable('true');
+```
+
+Then you can subscribe to drag&drop events and setup [moving limits](/docs/drag_and_drop/Complex_Drag_and_Drop.html).
+
+## Filters
+
+`Konva` has several filters: blur, invert, noise etc. For all available filters see [Filters API](/api/Konva.Filters.html).
+
+Example:
+
+![Filter](/assets/overview-filter.png)
+
+## Animation
+
+You can create animations in two ways:
+
+1. via `Konva.Animation` [Demo](/docs/animations/Moving.html):
+
+```js
+var anim = new Konva.Animation(function (frame) {
+  var time = frame.time,
+    timeDiff = frame.timeDiff,
+    frameRate = frame.frameRate;
+  // update stuff
+}, layer);
+anim.start();
+```
+
+2. via `Konva.Tween` [Demo](/docs/tweens/Linear_Easing.html):
+
+```js
+var tween = new Konva.Tween({
+  node: rect,
+  duration: 1,
+  x: 140,
+  rotation: Math.PI * 2,
+  opacity: 1,
+  strokeWidth: 6,
+});
+tween.play();
+
+// or new shorter method:
+circle.to({
+  duration: 1,
+  fill: 'green',
+});
+```
+
+## Selectors
+
+It is very useful to use searching in elements when you are building large application.
+`Konva` helps you to find an element with selectors. You can use `find()` method (returns collection) or `findOne()` method (return first element of collection).
+
+```js
+var circle = new Konva.Circle({
+  radius: 10,
+  fill: 'red',
+  id: 'face',
+  name: 'red circle',
+});
+layer.add(circle);
+
+// then try to search
+
+// find by type
+layer.find('Circle'); // returns array of all circles
+
+// find by id
+layer.findOne('#face');
+
+// find by name (like css class)
+layer.find('.red');
+```
+
+## Serialisation and Deserialization
+
+All created objects you can save as JSON. You may save it to server or local storage.
+
+```js
+var json = stage.toJSON();
+```
+
+Also you can restore objects from JSON:
+
+```js
+var json =
+  '{"attrs":{"width":578,"height":200},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4},"className":"RegularPolygon"}]}]}';
+
+var stage = Konva.Node.create(json, 'container');
+```
+
+## Performance
+
+`Konva` has a lot of tools to improve speed of your app. Most important methods:
+
+1. Caching allows you to draw an element into buffer canvas. Then draw element from the canvas. It may improve performance a lot for complex nodes such as text or shapes with shadow and strokes.
+
+```js
+shape.cache();
+```
+
+[Demo](/docs/performance/Shape_Caching.html)
+
+2. Layering. As framework supports several `<canvas>` elements you can put objects at your discretion.
+   For example your application consists from complex background and several moving shapes. You can use one layer for background and another one for shapes.
+   While updating shapes you don't need to update background canvas. [Demo](/docs/performance/Layer_Management.html)
+
+You can find all available performance tips here:
+[https://konvajs.org/docs/performance/All_Performance_Tips.html](/docs/performance/All_Performance_Tips.html)
+
+## Further Reading
+
+- [Why Konva? — When to use Konva for your project](/docs/guides/why-konva.html)
+- [Best JavaScript Canvas Libraries — Comparison Guide](/docs/guides/best-canvas-library.html)
+- [Canvas Library Comparison](/docs/guides/best-canvas-library.html)
+- [FAQ — Frequently Asked Questions](/docs/faq.html)
+- [About Konva — Key Facts and Adoption](/docs/about.html)
+
+---
+
+## React Canvas Library — Getting Started with react-konva
+Source: https://konvajs.org/docs/react/index.html
+Summary: react-konva is a React canvas library for drawing 2D graphics with React components. Build interactive canvas apps with shapes, drag-and-drop, events, and animations using declarative JSX.
+
+<div style={{ textAlign: "center" }}>
+  <img src="https://cloud.githubusercontent.com/assets/1443320/12193428/3bda2fcc-b623-11e5-8319-b1ccfc95eaec.png" alt="React Konva Logo — React Canvas Library"/>
+</div>
+
+`react-konva` is a React canvas library for drawing complex 2D graphics. It provides declarative bindings to the [Konva Framework](https://konvajs.org/). You can use familiar React components and data flow.
+
+[Github Repo](https://github.com/lavrton/react-konva)
+
+With react-konva you write canvas graphics the same way you write React DOM — with JSX components, props, state, and hooks. Every Konva shape (Rect, Circle, Line, Text, Image, Star, and more) is available as a React component with full event support.
+
+**Note: `react-konva` works in the browser only and is not supported in React Native.** React Native has no DOM and no `<canvas>` element, so there is nothing for Konva to draw into. If you already have a Konva editor on the web, running it inside a [WebView](https://github.com/react-native-webview/react-native-webview) is a practical option. For a new native app, use [React Native Skia](https://shopify.github.io/react-native-skia/).
+
+You can find dozens of interactive demos at [konvajs.org](https://konvajs.org/) — everything Konva can do, react-konva can do with React. Think of it as: `Konva` is to `react-konva` what the `DOM` is to `React`.
+
+## Installation
+
+```bash
+npm install react-konva konva --save
+```
+
+Here's a basic example showing how to create a simple canvas with some shapes:
+
+```js
+import React from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text text="Try to drag shapes" fontSize={15} />
+        <Rect
+          x={20}
+          y={50}
+          width={100}
+          height={100}
+          fill="red"
+          shadowBlur={10}
+          draggable
+        />
+        <Circle
+          x={200}
+          y={100}
+          radius={50}
+          fill="green"
+          draggable
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+## What people build with react-konva
+
+Most production canvas applications fall into a few shapes. Each demo below is
+runnable, and several also show the vanilla and Vue versions side by side:
+
+- [Design editor](/docs/sandbox/Canvas_Editor.html) — selection, resize handles,
+  history, and image export
+- [Infinite canvas whiteboard](/docs/sandbox/Infinite_Canvas.html) — pan and
+  zoom with stable coordinates
+- [Node editor](/docs/sandbox/Connected_Objects.html) — draggable nodes with live edges
+- [Image annotation tool](/docs/sandbox/Image_Labeling.html) — structured
+  regions drawn over an image
+- [Floor plan](/docs/sandbox/Interactive_Building_Map.html) and
+  [seat reservation map](/docs/sandbox/Seats_Reservation.html) — interactive
+  geometry at scale
+- [Image editor](/docs/sandbox/Canvas_Crop_Image.html) — transforms and high-resolution
+  export
+- [Multiplayer whiteboard](/docs/sandbox/Multiplayer_Whiteboard.html) — shared state
+  through Yjs
+
+---
+
+## Getting started with Vue and Canvas via Konva
+Source: https://konvajs.org/docs/vue/index.html
+Summary: Get started with vue-konva, the official Vue binding for Konva.js. Draw shapes, handle events, and build interactive canvas applications with Vue components.
+
+## How to use canvas with Vue?
+
+![VueKonva Logo](https://raw.githubusercontent.com/konvajs/vue-konva/master/vue-konva.png)
+
+Vue Konva is a JavaScript library for drawing complex canvas graphics using Vue.
+
+It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+
+All `vue-konva` components correspond to `Konva` components of the same name with the prefix 'v-'. All the parameters available for `Konva` objects can be added as `config` in the prop for corresponding `vue-konva` components.
+
+Core shapes are: `v-rect`, `v-circle`, `v-ellipse`, `v-line`, `v-image`, `v-text`, `v-text-path`, `v-star`, `v-label`, `v-path`, `v-regular-polygon`.
+Also you can create [custom shapes](/docs/vue/Custom_Shape.html).
+
+To get more info about `Konva` you can read [Konva Overview](/docs/overview.html).
+
+## Quick Start
+
+[Vue.js](https://vuejs.org) version 3 is required.
+
+### 1. Install via npm
+
+```bash
+npm install vue-konva konva --save
+```
+
+### 2. Choose your import style
+
+You can use `vue-konva` in two ways:
+
+#### Option A: Global Registration (recommended for beginners)
+
+Register all components globally using the plugin:
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import VueKonva from 'vue-konva';
+
+const app = createApp(App);
+app.use(VueKonva);
+app.mount('#app');
+```
+
+After global registration, all components are available with `v-` prefix: `v-stage`, `v-layer`, `v-rect`, `v-circle`, etc.
+
+#### Option B: On-Demand Import
+
+Import only the components you need:
+
+```vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle :config="circleConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { Stage as VStage, Layer as VLayer, Circle as VCircle } from 'vue-konva';
+
+const stageSize = {
+  width: 200,
+  height: 200
+};
+
+const circleConfig = {
+  x: 100,
+  y: 100,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+</script>
+```
+
+### 3. Example: Draggable Stars
+
+**Instructions:** Try to drag the stars. They will scale up while being dragged and return to normal size when released.
+
+```js
+<template>
+  <v-stage
+    ref="stage"
+    :config="stageSize"
+    @dragstart="handleDragstart"
+    @dragend="handleDragend"
+  >
+    <v-layer ref="layer">
+      <v-star
+        v-for="item in list"
+        :key="item.id"
+        :config="{
+          x: item.x,
+          y: item.y,
+          rotation: item.rotation,
+          id: item.id,
+          numPoints: 5,
+          innerRadius: 30,
+          outerRadius: 50,
+          fill: '#89b717',
+          opacity: 0.8,
+          draggable: true,
+          scaleX: dragItemId === item.id ? item.scale * 1.2 : item.scale,
+          scaleY: dragItemId === item.id ? item.scale * 1.2 : item.scale,
+          shadowColor: 'black',
+          shadowBlur: 10,
+          shadowOffsetX: dragItemId === item.id ? 15 : 5,
+          shadowOffsetY: dragItemId === item.id ? 15 : 5,
+          shadowOpacity: 0.6
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const list = ref([]);
+const dragItemId = ref(null);
+
+const handleDragstart = (e) => {
+  // save drag element:
+  dragItemId.value = e.target.id();
+  // move current element to the top:
+  const item = list.value.find(i => i.id === dragItemId.value);
+  const index = list.value.indexOf(item);
+  list.value.splice(index, 1);
+  list.value.push(item);
+};
+
+const handleDragend = () => {
+  dragItemId.value = null;
+};
+
+onMounted(() => {
+  for (let n = 0; n < 30; n++) {
+    list.value.push({
+      id: Math.round(Math.random() * 10000).toString(),
+      x: Math.random() * stageSize.width,
+      y: Math.random() * stageSize.height,
+      rotation: Math.random() * 180,
+      scale: Math.random()
+    });
+  }
+});
+</script>
+```
+
+### Or use a CDN
+
+```html
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  </head>
+  <body>
+    <div id="app">
+      <v-stage ref="stage" :config="configKonva">
+        <v-layer ref="layer">
+          <v-circle :config="configCircle" />
+        </v-layer>
+      </v-stage>
+    </div>
+    <!--1. Link Vue Javascript & Konva-->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    <!--2. Link VueKonva Javascript (Plugin automatically installed)-->
+    <script src="https://unpkg.com/vue-konva@3/dist/vue-konva.umd.js"></script>
+    <script>
+      // 3. Create the Vue instance
+      const { createApp, ref } = Vue;
+      const VueKonva = window['vue-konva'].default;
+      
+      const app = createApp({
+        setup() {
+          const configKonva = {
+            width: 200,
+            height: 200
+          };
+          
+          const configCircle = {
+            x: 100,
+            y: 100,
+            radius: 70,
+            fill: 'red',
+            stroke: 'black',
+            strokeWidth: 4
+          };
+          
+          return {
+            configKonva,
+            configCircle
+          };
+        }
+      });
+      
+      app.use(VueKonva);
+      app.mount('#app');
+    </script>
+  </body>
+</html>
+```
+
+---
+
+## index
+Source: https://konvajs.org/docs/svelte/index.html
+
+---
+title: Getting started with Svelte and canvas via Konva
+sidebar_label: Getting Started
+hide_table_of_contents: true
+slug: index.html
+description: "Get started with svelte-konva, the official Svelte binding for Konva.js. Draw shapes, handle events, and build interactive canvas applications with Svelte components."
+---
+
+## How to use canvas with Svelte?
+
+[svelte-konva](https://github.com/konvajs/svelte-konva) is a JavaScript library for drawing complex canvas graphics using Svelte. It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/). All `svelte-konva` components correspond to `Konva` components of the same name. All the parameters available for `Konva` objects can be added as individual props for corresponding `svalte-konva` components.
+
+In order to use svelte-konva a basic understanding of `Konva` is required. You can consult the [Konva overview](https://konvajs.org/docs/overview.html) for that.
+
+## Quick Start
+
+### 1 Install via npm
+
+```npm
+npm i svelte-konva konva
+```
+
+### 2 Import and use svelte konva components
+
+```js
+<script>
+  import { Stage, Layer, Rect } from 'svelte-konva';
+</script>
+
+<Stage width={window.innerWidth} height={window.innerHeight}>
+  <Layer>
+    <Rect x={100} y={100} width={400} height={200} fill="blue" />
+  </Layer>
+</Stage>
+```
+
+<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/new/svelte-demos/basic_demo?file=/src/App.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+---
+
+## Getting started with Angular and Canvas via Konva
+Source: https://konvajs.org/docs/angular/index.html
+Summary: Get started with ng2-konva, the official Angular binding for Konva.js. Draw shapes, handle events, and build interactive canvas applications with Angular directives.
+
+## How to use canvas with Angular?
+
+`ng2-konva` is a JavaScript library for drawing complex canvas graphics using [Angular](https://angular.io/). It provides declarative and reactive bindings to the [Konva Framework](https://konvajs.org/).
+
+[Github Repo](https://github.com/konvajs/ng2-konva)
+
+It is an attempt to make [Angular](https://angular.io/) work with the HTML5 canvas library. The goal is to have a similar declarative markup as normal Angular and also a similar data-flow model.
+
+All `ng2-konva` components correspond to `Konva` components of the same name with the prefix 'ko-'. All the parameters available for `Konva` objects can be added as `config` in the property binding for corresponding `ng2-konva` components.
+
+Core shapes are: `ko-rect`, `ko-circle`, `ko-ellipse`, `ko-line`, `ko-image`, `ko-text`, `ko-text-path`, `ko-star`, `ko-label`, `ko-path`, `ko-regular-polygon`.
+Also you can create [custom shapes](/docs/angular/Custom_Shape.html).
+
+To get more info about `Konva` you can read [Konva Overview](/docs/overview.html).
+
+For Angular 21 apps, plain static configs work well for simple demos. If you update a config from async callbacks such as image loading, prefer Angular signals.
+
+## Quick Start
+
+[Angular](https://angular.io/) version 20+ is required.
+
+### 1. Install via npm
+
+```bash
+npm install ng2-konva konva --save
+```
+
+### 2. Import and use ng2-konva
+
+```ts
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  // ... other config
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 50,
+    fill: 'red',
+  };
+}
+```
+
+### 3. Use in your components
+
+**Instructions**: Try to drag the stars. They will scale up while being dragged and return to normal size when released.
+
+```js
+import { Component, OnInit, viewChild } from '@angular/core';
+import Konva from 'konva';
+import { StarConfig } from 'konva/lib/shapes/Star';
+import { StageConfig } from 'konva/lib/Stage';
+import {
+  CoreShapeComponent,
+  NgKonvaEventObject,
+  StageComponent,
+} from 'ng2-konva';
+
+type ExtStartConfig = StarConfig & { startScale: number };
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        @for (config of starConfigs; track trackConfig($index, config)) {
+          <ko-star
+            (dragstart)="handleDragstart($event.event)"
+            (dragend)="handleDragend($event.event)"
+            [config]="config"
+          />
+        }
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class StarExampleComponent implements OnInit {
+  public width = 800;
+  public height = 800;
+  public starConfigs: ExtStartConfig[] = [];
+
+  public configStage: Partial<StageConfig> = {
+    width: this.width,
+    height: this.height,
+  };
+
+  public handleDragstart(
+    event: NgKonvaEventObject<MouseEvent>,
+  ): void {
+    const shape = event.target;
+
+    this.starConfigs = this.starConfigs.map((conf) => {
+      if ( conf.name !== shape.name()) {
+        return conf;
+      }
+      return {
+        ...conf,
+        shadowOffsetX: 15,
+        shadowOffsetY: 15,
+        scaleX: conf.startScale * 1.2,
+        scaleY: conf.startScale * 1.2,
+      };
+    });
+    this.starConfigs = [
+      ...this.starConfigs.filter((conf) => conf.name !== shape.name()),
+      this.starConfigs.find((conf) => conf.name === shape.name())!,
+    ];
+  }
+
+  public handleDragend(
+    event: NgKonvaEventObject<MouseEvent>,
+  ): void {
+    const shape = event.target;
+    this.starConfigs = this.starConfigs.map((conf) => {
+      if (conf.name !== shape.name()) {
+        return conf;
+      }
+      return {
+        ...conf,
+        x: shape.x(),
+        y: shape.y(),
+        scaleX: conf.startScale,
+        scaleY: conf.startScale,
+      };
+    });
+  }
+
+  trackConfig(index: number, config: ExtStartConfig): string | undefined {
+    return config.name;
+  }
+
+  public ngOnInit(): void {
+    for (let n = 0; n < 100; n++) {
+      const scale = Math.random();
+      this.starConfigs.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        rotation: Math.random() * 180,
+        numPoints: 5,
+        innerRadius: 30,
+        outerRadius: 50,
+        fill: '#89b717',
+        opacity: 0.8,
+        draggable: true,
+        scaleX: scale,
+        scaleY: scale,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffsetX: 5,
+        shadowOffsetY: 5,
+        shadowOpacity: 0.6,
+        startScale: scale,
+        name: n.toString(),
+      });
+    }
+  }
+}
+```
+
+For full list of properties and methods, see the [Konva API Reference](/api/Konva.html).
+
+---
+
+## HTML5 canvas Image Tutorial
+Source: https://konvajs.org/docs/shapes/Image.html
+Summary: Learn how to draw images on HTML5 Canvas with Konva.js. Load images from URLs, crop, resize, and apply filters with the Konva.Image shape.
+
+To create an image with `Konva`, you can use the `Konva.Image()` object.
+
+For full list of properties and methods, see the [Image API Reference](/api/Konva.Image.html).
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// main API:
+const imageObj = new Image();
+imageObj.onload = function () {
+  const yoda = new Konva.Image({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    width: 106,
+    height: 118
+  });
+
+  layer.add(yoda);
+};
+imageObj.src = 'https://konvajs.org/assets/yoda.jpg';
+
+// alternative API:
+Konva.Image.fromURL('https://konvajs.org/assets/darth-vader.jpg', function (darthNode) {
+  darthNode.setAttrs({
+    x: 200,
+    y: 50,
+    scaleX: 0.5,
+    scaleY: 0.5,
+    cornerRadius: 20
+  });
+  layer.add(darthNode);
+});
+```
+```js
+import { Stage, Layer, Image } from 'react-konva';
+import { useEffect, useState } from 'react';
+import useImage from 'use-image';
+
+const App = () => {
+  const [yodaImage] = useImage('https://konvajs.org/assets/yoda.jpg');
+  const [vaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg');
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Image
+          x={50}
+          y={50}
+          image={yodaImage}
+          width={106}
+          height={118}
+        />
+        <Image
+          x={200}
+          y={50}
+          image={vaderImage}
+          scaleX={0.5}
+          scaleY={0.5}
+          cornerRadius={20}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        v-if="yodaImage"
+        :config="{
+          x: 50,
+          y: 50,
+          image: yodaImage,
+          width: 106,
+          height: 118
+        }"
+      />
+      <v-image
+        v-if="vaderImage"
+        :config="{
+          x: 200,
+          y: 50,
+          image: vaderImage,
+          scaleX: 0.5,
+          scaleY: 0.5,
+          cornerRadius: 20
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const [yodaImage] = useImage('https://konvajs.org/assets/yoda.jpg');
+const [vaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg');
+</script>
+```
+
+---
+
+## How to draw images on canvas with React?
+Source: https://konvajs.org/docs/react/Images.html
+Summary: Learn how to draw images on canvas in React with react-konva. Load and display images using the Image component with useImage hook.
+
+To render image on canvas with react you can use the [use-image](https://github.com/konvajs/use-image) hook.
+
+```js
+import React from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+import useImage from 'use-image';
+
+const URLImage = ({ src, ...rest }) => {
+  const [image] = useImage(src, 'anonymous');
+  return <Image image={image} {...rest} />;
+};
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <URLImage src="https://konvajs.org/assets/yoda.jpg" x={150} />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+---
+
+## HTML5 Canvas Shape select, resize and rotate
+Source: https://konvajs.org/docs/select_and_transform/Basic_demo.html
+Summary: Learn how to select, resize, and rotate shapes on HTML5 Canvas with Konva.js Transformer. Add interactive handles for resizing and rotating any shape.
+
+`Transformer` is a special kind of `Konva.Group`. It allows you easily resize and rotate any node or set of nodes.
+
+To enable it you need to:
+
+1. Create new instance with `new Konva.Transformer()`
+2. Add it to layer
+3. attach to node with `transformer.nodes([shape]);`
+
+_Note:_ Transforming tool is not changing `width` and `height` properties of nodes when you resize them. Instead it changes `scaleX` and `scaleY` properties.
+
+**Instructions: Try to resize and rotate shapes. Click on empty area to remove selection. Use SHIFT or CTRL to add/remove shapes into/from selection. Try to select area on a canvas.**
+
+```js
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create rectangle
+const rect1 = new Konva.Rect({
+  x: 60,
+  y: 60,
+  width: 100,
+  height: 90,
+  fill: 'red',
+  name: 'rect',
+  draggable: true,
+});
+layer.add(rect1);
+
+const rect2 = new Konva.Rect({
+  x: 250,
+  y: 100,
+  width: 150,
+  height: 90,
+  fill: 'green',
+  name: 'rect',
+  draggable: true,
+});
+layer.add(rect2);
+
+// create transformer
+const tr = new Konva.Transformer();
+layer.add(tr);
+
+// add a new feature, lets add ability to draw selection rectangle
+let selectionRectangle = new Konva.Rect({
+  fill: 'rgba(0,0,255,0.5)',
+  visible: false,
+});
+layer.add(selectionRectangle);
+
+let x1, y1, x2, y2;
+stage.on('mousedown touchstart', (e) => {
+  // do nothing if we mousedown on any shape
+  if (e.target !== stage) {
+  return;
+  }
+  x1 = stage.getPointerPosition().x;
+  y1 = stage.getPointerPosition().y;
+  x2 = stage.getPointerPosition().x;
+  y2 = stage.getPointerPosition().y;
+
+  selectionRectangle.setAttrs({
+    x: x1,
+    y: y1,
+    width: 0,
+    height: 0,
+    visible: true,
+  });
+});
+
+stage.on('mousemove touchmove', () => {
+  // do nothing if we didn't start selection
+  if (!selectionRectangle.visible()) {
+  return;
+  }
+  x2 = stage.getPointerPosition().x;
+  y2 = stage.getPointerPosition().y;
+
+  selectionRectangle.setAttrs({
+    x: Math.min(x1, x2),
+    y: Math.min(y1, y2),
+    width: Math.abs(x2 - x1),
+    height: Math.abs(y2 - y1),
+  });
+});
+
+stage.on('mouseup touchend', () => {
+  // do nothing if we didn't start selection
+  if (!selectionRectangle.visible()) {
+    return;
+  }
+  // update visibility in timeout, so we can check it in click event
+  setTimeout(() => {
+    selectionRectangle.visible(false);
+  });
+
+  var shapes = stage.find('.rect');
+  var box = selectionRectangle.getClientRect();
+  var selected = shapes.filter((shape) =>
+    Konva.Util.haveIntersection(box, shape.getClientRect())
+  );
+  tr.nodes(selected);
+});
+
+// clicks should select/deselect shapes
+stage.on('click tap', function (e) {
+// if we are selecting with rect, do nothing
+if (selectionRectangle.visible() && selectionRectangle.width() > 0 && selectionRectangle.height() > 0) {
+  return;
+}
+
+  // if click on empty area - remove all selections
+  if (e.target === stage) {
+    tr.nodes([]);
+    return;
+  }
+
+  // do nothing if clicked NOT on our rectangles
+  if (!e.target.hasName('rect')) {
+    return;
+  }
+
+  // do we pressed shift or ctrl?
+  const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+  const isSelected = tr.nodes().indexOf(e.target) >= 0;
+
+  if (!metaPressed && !isSelected) {
+    // if no key pressed and the node is not selected
+    // select just one
+    tr.nodes([e.target]);
+  } else if (metaPressed && isSelected) {
+    // if we pressed keys and node was selected
+    // we need to remove it from selection:
+    const nodes = tr.nodes().slice(); // use slice to have new copy of array
+    // remove node from array
+    nodes.splice(nodes.indexOf(e.target), 1);
+    tr.nodes(nodes);
+  } else if (metaPressed && !isSelected) {
+    // add the node into selection
+    const nodes = tr.nodes().concat([e.target]);
+    tr.nodes(nodes);
+  }
+});
+
+````
+```js
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
+import { useState, useEffect, useRef } from 'react';
+
+const initialRectangles = [
+  {
+    x: 60,
+    y: 60,
+    width: 100,
+    height: 90,
+    fill: 'red',
+    id: 'rect1',
+    name: 'rect',
+    rotation: 0,
+  },
+  {
+    x: 250,
+    y: 100,
+    width: 150,
+    height: 90,
+    fill: 'green',
+    id: 'rect2',
+    name: 'rect',
+    rotation: 0,
+  },
+];
+
+// Helper functions for calculating bounding boxes of rotated rectangles
+const degToRad = (angle) => (angle / 180) * Math.PI;
+
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (element) => {
+  const { x, y, width, height, rotation = 0 } = element;
+  const rad = degToRad(rotation);
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
+
+const App = () => {
+  const [rectangles, setRectangles] = useState(initialRectangles);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectionRectangle, setSelectionRectangle] = useState({
+    visible: false,
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0,
+  });
+  
+  const isSelecting = useRef(false);
+  const transformerRef = useRef();
+  const rectRefs = useRef(new Map());
+  
+  // Update transformer when selection changes
+  useEffect(() => {
+    if (selectedIds.length && transformerRef.current) {
+      // Get the nodes from the refs Map
+      const nodes = selectedIds
+        .map(id => rectRefs.current.get(id))
+        .filter(node => node);
+      
+      transformerRef.current.nodes(nodes);
+    } else if (transformerRef.current) {
+      // Clear selection
+      transformerRef.current.nodes([]);
+    }
+  }, [selectedIds]);
+  
+  // Click handler for stage
+  const handleStageClick = (e) => {
+    // If we are selecting with rect, do nothing
+    // But allow point clicks through (when width/height are 0)
+    const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+    const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+    if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
+      return;
+    }
+
+    // If click on empty area - remove all selections
+    if (e.target === e.target.getStage()) {
+      setSelectedIds([]);
+      return;
+    }
+
+    // Do nothing if clicked NOT on our rectangles
+    if (!e.target.hasName('rect')) {
+      return;
+    }
+
+    const clickedId = e.target.id();
+    
+    // Do we pressed shift or ctrl?
+    const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+    const isSelected = selectedIds.includes(clickedId);
+
+    if (!metaPressed && !isSelected) {
+      // If no key pressed and the node is not selected
+      // select just one
+      setSelectedIds([clickedId]);
+    } else if (metaPressed && isSelected) {
+      // If we pressed keys and node was selected
+      // we need to remove it from selection
+      setSelectedIds(selectedIds.filter(id => id !== clickedId));
+    } else if (metaPressed && !isSelected) {
+      // Add the node into selection
+      setSelectedIds([...selectedIds, clickedId]);
+    }
+  };
+  
+  const handleMouseDown = (e) => {
+    // Do nothing if we mousedown on any shape
+    if (e.target !== e.target.getStage()) {
+      return;
+    }
+    
+    // Start selection rectangle
+    isSelecting.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setSelectionRectangle({
+      visible: true,
+      x1: pos.x,
+      y1: pos.y,
+      x2: pos.x,
+      y2: pos.y,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    // Do nothing if we didn't start selection
+    if (!isSelecting.current) {
+      return;
+    }
+    
+    const pos = e.target.getStage().getPointerPosition();
+    setSelectionRectangle({
+      ...selectionRectangle,
+      x2: pos.x,
+      y2: pos.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    // Do nothing if we didn't start selection
+    if (!isSelecting.current) {
+      return;
+    }
+    isSelecting.current = false;
+    
+    // Update visibility in timeout, so we can check it in click event
+    setTimeout(() => {
+      setSelectionRectangle({
+        ...selectionRectangle,
+        visible: false,
+      });
+    });
+
+    const selBox = {
+      x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
+      y: Math.min(selectionRectangle.y1, selectionRectangle.y2),
+      width: Math.abs(selectionRectangle.x2 - selectionRectangle.x1),
+      height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
+    };
+
+    // Only select shapes if selection box has actual size (not just a point click)
+    if (selBox.width > 0 && selBox.height > 0) {
+      const selected = rectangles.filter(rect => {
+        // Check if rectangle intersects with selection box
+        return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+      });
+      
+      setSelectedIds(selected.map(rect => rect.id));
+    }
+  };
+
+  const handleDragEnd = (e) => {
+    const id = e.target.id();
+    setRectangles(prevRects => {
+      const newRects = [...prevRects];
+      const index = newRects.findIndex(r => r.id === id);
+      if (index !== -1) {
+        newRects[index] = {
+          ...newRects[index],
+          x: e.target.x(),
+          y: e.target.y()
+        };
+      }
+      return newRects;
+    });
+  };
+
+  const handleTransformEnd = (e) => {
+    // Find which rectangle(s) were transformed
+    const id = e.target.id();
+    const node = e.target;
+    
+    setRectangles(prevRects => {
+      const newRects = [...prevRects];
+      
+      // Update each transformed node
+      const index = newRects.findIndex(r => r.id === id);
+      
+      if (index !== -1) {
+        const scaleX = node.scaleX();
+        const scaleY = node.scaleY();
+        
+        // Reset scale
+        node.scaleX(1);
+        node.scaleY(1);
+        
+        // Update the state with new values
+        newRects[index] = {
+          ...newRects[index],
+          x: node.x(),
+          y: node.y(),
+          width: Math.max(5, node.width() * scaleX),
+          height: Math.max(node.height() * scaleY),
+          rotation: node.rotation(),
+        };
+      }
+      
+      return newRects;
+    });
+  };
+
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      onMouseDown={handleMouseDown}
+      onMousemove={handleMouseMove}
+      onMouseup={handleMouseUp}
+      onClick={handleStageClick}
+    >
+      <Layer>
+        {/* Render rectangles directly */}
+        {rectangles.map(rect => (
+          <Rect
+            key={rect.id}
+            id={rect.id}
+            x={rect.x}
+            y={rect.y}
+            width={rect.width}
+            height={rect.height}
+            fill={rect.fill}
+            name={rect.name}
+            rotation={rect.rotation}
+            draggable
+            ref={node => {
+              if (node) {
+                rectRefs.current.set(rect.id, node);
+              }
+            }}
+            onDragEnd={handleDragEnd}
+            onTransformEnd={handleTransformEnd}
+          />
+        ))}
+        
+        {/* Single transformer for all selected shapes */}
+        <Transformer
+          ref={transformerRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // Limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+          
+        />
+        
+        {/* Selection rectangle */}
+        {selectionRectangle.visible && (
+          <Rect
+            x={Math.min(selectionRectangle.x1, selectionRectangle.x2)}
+            y={Math.min(selectionRectangle.y1, selectionRectangle.y2)}
+            width={Math.abs(selectionRectangle.x2 - selectionRectangle.x1)}
+            height={Math.abs(selectionRectangle.y2 - selectionRectangle.y1)}
+            fill="rgba(0,0,255,0.5)"
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <v-stage
+    :config="stageSize"
+    @mousedown="handleMouseDown"
+    @mousemove="handleMouseMove"
+    @mouseup="handleMouseUp"
+    @click="handleStageClick"
+    ref="stageRef"
+  >
+    <v-layer ref="layerRef">
+      <v-rect
+        v-for="(rect, i) in rectangles"
+        :key="i"
+        :config="{
+          ...rect,
+          name: 'rect', // Important to match vanilla version's logic
+          draggable: true
+        }"
+        @dragend="(e) => handleDragEnd(e, i)"
+        @transformend="(e) => handleTransformEnd(e, i)"
+        ref="rectRefs"
+      />
+      <v-transformer
+        ref="transformerRef"
+        :config="{
+          boundBoxFunc: (oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          },
+        }"
+      />
+      <v-rect
+        v-if="selectionRectangle.visible"
+        :config="{
+          x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
+          y: Math.min(selectionRectangle.y1, selectionRectangle.y2),
+          width: Math.abs(selectionRectangle.x2 - selectionRectangle.x1),
+          height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
+          fill: 'rgba(0,0,255,0.5)'
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, watch, reactive, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const rectangles = ref([
+  {
+    x: 60,
+    y: 60,
+    width: 100,
+    height: 90,
+    fill: 'red',
+    id: 'rect1',
+    rotation: 0,
+  },
+  {
+    x: 250,
+    y: 100,
+    width: 150,
+    height: 90,
+    fill: 'green',
+    id: 'rect2',
+    rotation: 0,
+  },
+]);
+
+const selectedIds = ref([]);
+const rectRefs = ref([]);
+const transformerRef = ref(null);
+const stageRef = ref(null);
+const layerRef = ref(null);
+const isSelecting = ref(false);
+const selectionRectangle = reactive({
+  visible: false,
+  x1: 0,
+  y1: 0,
+  x2: 0,
+  y2: 0
+});
+
+// Helper functions for calculating bounding boxes of rotated rectangles
+const degToRad = (angle) => (angle / 180) * Math.PI;
+
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (element) => {
+  const { x, y, width, height, rotation = 0 } = element;
+  const rad = degToRad(rotation);
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
+
+// Update transformer nodes when selection changes
+watch(selectedIds, () => {
+  if (!transformerRef.value) return;
+  
+  const nodes = selectedIds.value.map(id => {
+    return rectRefs.value.find(ref => ref.getNode().attrs.id === id)?.getNode();
+  }).filter(Boolean);
+  
+  transformerRef.value.getNode().nodes(nodes);
+});
+
+const handleStageClick = (e) => {
+  // if we are selecting with rect, do nothing
+  // But allow point clicks through (when width/height are 0)
+  const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+  const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+  if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
+    return;
+  }
+
+  // if click on empty area - remove all selections
+  if (e.target === e.target.getStage()) {
+    selectedIds.value = [];
+    return;
+  }
+
+  // do nothing if clicked NOT on our rectangles
+  if (!e.target.hasName('rect')) {
+    return;
+  }
+  
+  const clickedId = e.target.attrs.id;
+  
+  // do we pressed shift or ctrl?
+  const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+  const isSelected = selectedIds.value.includes(clickedId);
+
+  if (!metaPressed && !isSelected) {
+    // if no key pressed and the node is not selected
+    // select just one
+    selectedIds.value = [clickedId];
+  } else if (metaPressed && isSelected) {
+    // if we pressed keys and node was selected
+    // we need to remove it from selection:
+    selectedIds.value = selectedIds.value.filter(id => id !== clickedId);
+  } else if (metaPressed && !isSelected) {
+    // add the node into selection
+    selectedIds.value = [...selectedIds.value, clickedId];
+  }
+};
+
+const handleMouseDown = (e) => {
+  // do nothing if we mousedown on any shape
+  if (e.target !== e.target.getStage()) {
+    return;
+  }
+  
+  // start selection rectangle
+  isSelecting.value = true;
+  const pos = e.target.getStage().getPointerPosition();
+  selectionRectangle.visible = true;
+  selectionRectangle.x1 = pos.x;
+  selectionRectangle.y1 = pos.y;
+  selectionRectangle.x2 = pos.x;
+  selectionRectangle.y2 = pos.y;
+};
+
+const handleMouseMove = (e) => {
+  // do nothing if we didn't start selection
+  if (!isSelecting.value) {
+    return;
+  }
+  
+  const pos = e.target.getStage().getPointerPosition();
+  selectionRectangle.x2 = pos.x;
+  selectionRectangle.y2 = pos.y;
+};
+
+const handleMouseUp = () => {
+  // do nothing if we didn't start selection
+  if (!isSelecting.value) {
+    return;
+  }
+  
+  isSelecting.value = false;
+  
+  // update visibility in timeout, so we can check it in click event
+  setTimeout(() => {
+    selectionRectangle.visible = false;
+  });
+
+  const selBox = {
+    x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
+    y: Math.min(selectionRectangle.y1, selectionRectangle.y2),
+    width: Math.abs(selectionRectangle.x2 - selectionRectangle.x1),
+    height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
+  };
+
+  // Only select shapes if selection box has actual size (not just a point click)
+  if (selBox.width > 0 && selBox.height > 0) {
+    const selected = rectangles.value.filter(rect => {
+      // Check if rectangle intersects with selection box
+      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+    });
+    
+    selectedIds.value = selected.map(rect => rect.id);
+  }
+};
+
+const handleDragEnd = (e, index) => {
+  const rects = [...rectangles.value];
+  rects[index] = {
+    ...rects[index],
+    x: e.target.x(),
+    y: e.target.y(),
+  };
+  rectangles.value = rects;
+};
+
+const handleTransformEnd = (e, index) => {
+  const node = rectRefs.value[index].getNode();
+  const scaleX = node.scaleX();
+  const scaleY = node.scaleY();
+
+  node.scaleX(1);
+  node.scaleY(1);
+  
+  const rects = [...rectangles.value];
+  rects[index] = {
+    ...rects[index],
+    x: node.x(),
+    y: node.y(),
+    width: Math.max(5, node.width() * scaleX),
+    height: Math.max(node.height() * scaleY),
+    rotation: node.rotation(),
+  };
+  rectangles.value = rects;
+};
+</script>
+
+```
+
+---
+
+## HTML5 Canvas Export to High Quality Image Tutorial
+Source: https://konvajs.org/docs/data_and_serialization/High-Quality-Export.html
+Summary: Learn how to export HTML5 Canvas to high-quality PNG or JPEG images with Konva.js. Use stage.toDataURL() with pixelRatio for retina-quality exports.
+
+If you need to export a stage as an image or as base64 then you can use the `stage.toDataURL()` or `stage.toImage()` methods.
+
+By default in `Konva`, exported images have the `pixelRatio` attribute set to `1`. This means that if you export a stage with a size of `500x500`, then the exported image will have the same size of `500x500`.
+
+In some cases you may want to export an image that is more suited to higher (or even smaller) resolutions. For instance, you may wish to export something as an image and then use that image on a canvas on HDPI devices (with a high pixel ratio, like a retina display). Another scenario may be that you need to export a user's drawing onto a computer running a high resolution.
+
+If you were to do this with the default settings, then you would see a blurred image. You can read more about the global `pixelRatio` attribute here [MDN - devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio).
+
+For both of these use cases, you can use:
+
+```javascript
+stage.toDataURL({
+  pixelRatio: 2 // or other value you need
+})
+```
+
+Now, a stage with a size of `500x500` would be exported as an image with a size of `1000x1000`. Almost all nodes in `Konva` are stored as vector data, apart from bitmap images and cached nodes. This results in a high quality exported image.
+
+**Instructions:** try to save stage as an image. You will see that it has a high resolution.
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 400
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create some shapes
+const circle = new Konva.Circle({
+  x: 200,
+  y: 200,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const text = new Konva.Text({
+  x: 150,
+  y: 190,
+  text: 'High Quality Export',
+  fontSize: 20,
+  fill: 'white'
+});
+
+layer.add(circle);
+layer.add(text);
+
+// add button
+const button = document.createElement('button');
+button.textContent = 'Save as High Quality Image';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  // save stage as a high quality image
+  const dataURL = stage.toDataURL({
+    pixelRatio: 2 // double resolution
+  });
+  
+  // create link to download
+  const link = document.createElement('a');
+  link.download = 'stage.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+```
+```js
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useRef } from 'react';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const handleExport = () => {
+    const dataURL = stageRef.current.toDataURL({
+      pixelRatio: 2 // double resolution
+    });
+    
+    const link = document.createElement('a');
+    link.download = 'stage.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div>
+      <button onClick={handleExport} style={{ marginBottom: '10px' }}>
+        Save as High Quality Image
+      </button>
+      <Stage width={400} height={400} ref={stageRef}>
+        <Layer>
+          <Circle
+            x={200}
+            y={200}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+          />
+          <Text
+            x={150}
+            y={190}
+            text="High Quality Export"
+            fontSize={20}
+            fill="white"
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <div>
+    <button @click="handleExport" style="margin-bottom: 10px">
+      Save as High Quality Image
+    </button>
+    <v-stage ref="stageRef" :config="stageSize">
+      <v-layer>
+        <v-circle :config="circleConfig" />
+        <v-text :config="textConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+const circleConfig = {
+  x: 200,
+  y: 200,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const textConfig = {
+  x: 150,
+  y: 190,
+  text: 'High Quality Export',
+  fontSize: 20,
+  fill: 'white'
+};
+
+const stageRef = ref(null);
+
+const handleExport = () => {
+  const dataURL = stageRef.value.getNode().toDataURL({
+    pixelRatio: 2 // double resolution
+  });
+  
+  const link = document.createElement('a');
+  link.download = 'stage.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+</script>
+```
+
+## The browser size limit
+
+Every browser caps canvas width, height, and total area, and the cap is lower on
+mobile. Past that point a large `pixelRatio` fails quietly: the call returns a
+blank or truncated image instead of raising an error. Large-format output has to
+be tiled, or rendered outside the browser.
+
+---
+
+## Canvas Screenshot — Export HTML5 Canvas as Image with JavaScript
+Source: https://konvajs.org/docs/data_and_serialization/Stage_Data_URL.html
+Summary: Take a screenshot of your HTML5 Canvas and export it as PNG or JPEG with JavaScript. Use Konva.js toDataURL() to capture canvas content as a base64 image or downloadable file.
+
+To take a screenshot of your canvas and export it as an image with `Konva`, use the `toDataURL()`
+method. It returns the data URL directly for every node type, including `Stage`.
+You can pass in a mime type such as image/jpeg and a quality value that ranges between 0 and 1.
+You can also capture screenshots of specific nodes, including layers, groups, and shapes.
+
+*Note: The `toDataURL()` method requires that any images drawn onto the canvas
+are hosted on a web server with the same domain as the code executing it.
+If this condition is not met, a SECURITY_ERR exception is thrown.*
+
+**Instructions:** Drag and drop the rectangle and then click on the save button to get the composite data url and open the resulting image in a new window.
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 400
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create draggable rectangle
+const rect = new Konva.Rect({
+  x: 100,
+  y: 100,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+layer.add(rect);
+
+// add button
+const button = document.createElement('button');
+button.textContent = 'Save as Image';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  // get data URL with default settings
+  const dataURL = stage.toDataURL();
+  
+  // open in new window
+  const win = window.open();
+  win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
+  
+  // you can also save with different settings
+  const jpegURL = stage.toDataURL({
+    mimeType: 'image/jpeg',
+    quality: 0.8
+  });
+  console.log('JPEG URL:', jpegURL);
+});
+```
+```js
+import { Stage, Layer, Rect } from 'react-konva';
+import { useRef, useState } from 'react';
+
+const App = () => {
+  const stageRef = useRef(null);
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+
+  const handleExport = () => {
+    // get data URL with default settings
+    const dataURL = stageRef.current.toDataURL();
+    
+    // open in new window
+    const win = window.open();
+    win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
+    
+    // you can also save with different settings
+    const jpegURL = stageRef.current.toDataURL({
+      mimeType: 'image/jpeg',
+      quality: 0.8
+    });
+    console.log('JPEG URL:', jpegURL);
+  };
+
+  const handleDragEnd = (e) => {
+    setPosition({
+      x: e.target.x(),
+      y: e.target.y()
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={handleExport} style={{ marginBottom: '10px' }}>
+        Save as Image
+      </button>
+      <Stage width={400} height={400} ref={stageRef}>
+        <Layer>
+          <Rect
+            x={position.x}
+            y={position.y}
+            width={100}
+            height={100}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            onDragEnd={handleDragEnd}
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <div>
+    <button @click="handleExport" style="margin-bottom: 10px">
+      Save as Image
+    </button>
+    <v-stage ref="stageRef" :config="stageSize">
+      <v-layer>
+        <v-rect
+          :config="rectConfig"
+          @dragend="handleDragEnd"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+const position = ref({ x: 100, y: 100 });
+
+const rectConfig = ref({
+  x: position.value.x,
+  y: position.value.y,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+});
+
+const stageRef = ref(null);
+
+const handleExport = () => {
+  // get data URL with default settings
+  const dataURL = stageRef.value.getNode().toDataURL();
+  
+  // open in new window
+  const win = window.open();
+  win.document.write(`<img src="${dataURL}" alt="Stage"/>`);
+  
+  // you can also save with different settings
+  const jpegURL = stageRef.value.getNode().toDataURL({
+    mimeType: 'image/jpeg',
+    quality: 0.8
+  });
+  console.log('JPEG URL:', jpegURL);
+};
+
+const handleDragEnd = (e) => {
+  const newPos = e.target.position();
+  position.value = newPos;
+  rectConfig.value.x = newPos.x;
+  rectConfig.value.y = newPos.y;
+};
+</script>
+```
+
+---
+
+## How to resize and rotate canvas shapes with React and Konva?
+Source: https://konvajs.org/docs/react/Transformer.html
+Summary: Learn how to resize and rotate canvas shapes in React with react-konva Transformer. Add interactive selection handles to shapes.
+
+Currently there is no good, pure declarative "react-way" to use the Transformer tool.
+But you can still use it with some small manual requests to the Konva nodes.
+And it will work just fine.
+
+The idea: you need to create a `Konva.Transformer` node, and attach it to the required node manually.
+
+Instructions: Click on one of the rectangles to select it. Then you can:
+- Drag it to move
+- Use handles to resize
+- Click outside to deselect
+
+```js
+import React from 'react';
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
+
+const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
+  const shapeRef = React.useRef();
+  const trRef = React.useRef();
+
+  React.useEffect(() => {
+    if (isSelected) {
+      // we need to attach transformer manually
+      trRef.current.nodes([shapeRef.current]);
+    }
+  }, [isSelected]);
+
+  return (
+    <React.Fragment>
+      <Rect
+        onClick={onSelect}
+        onTap={onSelect}
+        ref={shapeRef}
+        {...shapeProps}
+        draggable
+        onDragEnd={(e) => {
+          onChange({
+            ...shapeProps,
+            x: e.target.x(),
+            y: e.target.y(),
+          });
+        }}
+        onTransformEnd={(e) => {
+          // transformer is changing scale of the node
+          // and NOT its width or height
+          // but in the store we have only width and height
+          // to match the data better we will reset scale on transform end
+          const node = shapeRef.current;
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          // we will reset it back
+          node.scaleX(1);
+          node.scaleY(1);
+          onChange({
+            ...shapeProps,
+            x: node.x(),
+            y: node.y(),
+            // set minimal value
+            width: Math.max(5, node.width() * scaleX),
+            height: Math.max(5, node.height() * scaleY),
+          });
+        }}
+      />
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          flipEnabled={false}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
+    </React.Fragment>
+  );
+};
+
+const initialRectangles = [
+  {
+    x: 10,
+    y: 10,
+    width: 100,
+    height: 100,
+    fill: 'red',
+    id: 'rect1',
+  },
+  {
+    x: 150,
+    y: 150,
+    width: 100,
+    height: 100,
+    fill: 'green',
+    id: 'rect2',
+  },
+];
+
+const App = () => {
+  const [rectangles, setRectangles] = React.useState(initialRectangles);
+  const [selectedId, selectShape] = React.useState(null);
+
+  const checkDeselect = (e) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      selectShape(null);
+    }
+  };
+
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      onMouseDown={checkDeselect}
+      onTouchStart={checkDeselect}
+    >
+      <Layer>
+        {rectangles.map((rect, i) => {
+          return (
+            <Rectangle
+              key={i}
+              shapeProps={rect}
+              isSelected={rect.id === selectedId}
+              onSelect={() => {
+                selectShape(rect.id);
+              }}
+              onChange={(newAttrs) => {
+                const rects = rectangles.slice();
+                rects[i] = newAttrs;
+                setRectangles(rects);
+              }}
+            />
+          );
+        })}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App; 
+```
+
+## What Transformer does not do
+
+`Transformer` draws the handles and applies the scale. Snapping to other
+objects, alignment guides, a shared bounding box for a multi-selection, and
+per-shape aspect rules are all yours to build — see
+[objects snapping](/docs/sandbox/Objects_Snapping.html) for one approach.
+
+---
+
+## Node.js Setup
+Source: https://konvajs.org/docs/nodejs/nodejs-setup
+Summary: Set up Konva for server-side rendering in Node.js with canvas or skia-canvas backends for image generation and batch processing.
+
+Konva can be used in Node.js environments for server-side rendering, image processing, and canvas operations. This guide will help you set up Konva in your Node.js project.
+
+## Konva Version 10+
+
+Konva v10+ dropped default support for Node.js environment. You now need to explicitly import a canvas backend.
+
+### Installation
+
+Konva v10+ offers two backend options for Node.js:
+
+**Canvas Backend (Default)**:
+```bash
+npm install konva canvas
+```
+
+**Skia Backend (Better Performance)**:
+```bash
+npm install konva skia-canvas
+```
+
+### Usage
+
+Import Konva and your chosen backend:
+
+**Canvas Backend**:
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend';
+```
+
+**Skia Backend**:
+```js
+import Konva from 'konva';
+import 'konva/skia-backend';
+```
+
+**Complete Example**:
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend'; // or 'konva/skia-backend'
+
+// Create a stage
+const stage = new Konva.Stage({
+  container: 'container', // This will be ignored in Node.js
+  width: 800,
+  height: 600
+});
+
+// ... the rest of your konva code
+
+// Export as data URL
+const dataURL = stage.toDataURL();
+```
+
+## Konva Version ≤ 9 (Legacy)
+
+For older versions of Konva, the setup was simpler:
+
+### Installation
+
+```bash
+npm install konva
+```
+
+### Setup
+
+```js
+const Konva = require('konva');
+
+// Create a stage
+const stage = new Konva.Stage({
+  container: 'container', // This will be ignored in Node.js
+  width: 800,
+  height: 600
+});
+
+// ... the rest of your konva code
+
+// Export as data URL
+const dataURL = stage.toDataURL();
+```
+
+## Server-Side Rendering Considerations
+
+When using Konva in Node.js, keep in mind:
+
+1. **No DOM**: Konva doesn't require a DOM, making it perfect for server-side rendering
+2. **Canvas Export**: Use `stage.toDataURL()` to export your canvas as an image
+3. **Memory Management**: Be mindful of memory usage when processing multiple canvases
+4. **Performance**: Konva performs well in Node.js environments for batch operations
+5. **SSR Frameworks**: For Next.js and other SSR frameworks, consider using client-side only rendering for canvas content
+
+## Common Use Cases
+
+- **Image Generation**: Create dynamic images for emails, reports, or social media
+- **Chart Generation**: Generate charts and graphs server-side
+- **Document Processing**: Add graphics to PDFs or other documents
+- **Batch Processing**: Process multiple images or graphics in parallel
+
+---
+
+## HTML5 Canvas All Konva performance tips list
+Source: https://konvajs.org/docs/performance/All_Performance_Tips.html
+Summary: All Konva.js performance optimization tips: layer management, shape caching, listening false, batch draw, and more. Render thousands of shapes efficiently on HTML5 Canvas.
+
+Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/consulting).
+
+### Why this is important
+
+The HTML5 canvas is efficient at what it does and internally `Konva` has many features that aim to provide great performance. However, when your project starts to grow in complexity, or when you just have a lot of shapes on the stage, there must inevitably be some negative performance impact.
+
+### Optimization targets
+
+The optimizations here focus on two general rules:
+
+* Compute as little as possible: all computation takes time to complete. Each individual computation may run in a tiny fraction of a second, but the thousands or millions of computations caused by your code, Konva, JavaScript, and the layers below that, will add up to something more observable by the human eye if that super-slick animation or effect is, in fact, jerky.
+
+* **Draw as little as possible**: this is important because all drawing has a performance cost. There are two categories of cost - firstly the computation of the drawing which we covered in the point above, and then the movement of the drawing from memory to the screen. Depending on the case, there may also be intermediate off-screen compositing or per-pixel processing. The rule is therefore do as little drawing as possible.
+
+### The Stage
+
+1. Optimise stage size - following the rule of 'draw as little as possible', try to avoid creating a large stage because moving all those bytes from memory to screen is going to have a negative impact. There are some tips [here](/docs/sandbox/Canvas_Scrolling.html) that offer alternative approaches to the mega-stage problem!
+
+2. Set a viewport on mobile - Scaling images is a significant performance hit, so for mobile applications set viewport: `<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">` which will avoid unnecessary scaling of your Konva output.
+
+3. Use `Konva.pixelRatio = 1` on retina devices - Konva automatically handles pixel ratio adjustments in order to render crisp drawings on all devices. But, just in case you have bad performance on retina devices, set `Konva.pixelRatio = 1` to reduce the scaling work Konva has to do. This setting might affect the output in some cases, so make sure that quality of the result is ok for you.
+
+### Layers
+
+1. [Layer Management](/docs/performance/Layer_Management.html) - under the hood, each Konva layer is a separate HTML5 canvas element which gives some useful capabilities, including the ability to refresh only a layer that changed and so avoid the performance cost of refreshing the entire stage. But with great power great responsibility comes, and each layer has an incremental performance overhead so we should keep the number of layers to a minimum.
+
+2. Use `layer.listening(false)` - Konva gives us mouse and touch event listeners on all the shapes we draw. But there is a performance cost for each one, and for a layer with many shapes Konva has to expend many cycles checking which listeners might be triggered. If you have a layer on which none of the shapes need to react to events, take this burden away by setting `layer.listening(false)`. See [Demo](/docs/sandbox/Animation_Stress_Test.html). There is a similar point in the shapes section.
+
+3. Optimise dragging costs - while you drag a shape across a layer that layer must be redrawn per cycle of the move event listener. To avoid this performance cost, move the shape to a dedicated layer while dragging, then move it back to original layer at drag end. See [Demo](/docs/sandbox/Drag_and_Drop_Stress_Test.html)
+
+### Shapes
+
+1. [Shape Caching](/docs/performance/Shape_Caching.html) - internally Konva makes an image of your shape and uses that when the shape has to be drawn. Drawing images avoids the overhead of composing the shape from its drawing instructions, and can increase performance impressively for complex shapes and groups.
+
+2. Keep the shapes tidy - each shape in your stage has a cost just to exist. To optimise performance, hide or remove from the layer any objects that become invisible / opacity = 0, or objects that go out of view.
+
+3. Use `shape.listening(false)` - as with layers (see point 7 above), Konva looks out for when events should be triggered for shapes, which has a performance cost. Telling a shape to stop listening for events reduces this cost, as explained at [Listening false](/docs/performance/Listening_False.html).
+
+4. Switch off perfect drawing - In some cases the result of drawing with the HTML5 canvas is not what you might have expected - see the demo for an example [Disable Perfect Drawing](/docs/performance/Disable_Perfect_Draw.html). Konva does extra work via its perfect drawing feature to put that right, but this comes with a performance cost. By setting `shape.perfectDrawEnabled(false)` this cost can be avoided, with no reduction in output quality, when a shape has fill, stroke and opacity.
+
+5. [Optimize Stroke Drawing](/docs/performance/Optimize_Strokes.html) - To achieve drawing results that look as expected, Konva makes an extra internal drawing when a shape has both stroke and shadow. Avoid this performance burden by switching off the shadow that Konva adds for the stroke.
+
+### Animations
+
+1. [Optimize Animation](/docs/performance/Optimize_Animation.html) - Avoiding unnecessary redraw costs for animation steps that fall between visual changes.
+
+### Memory
+
+1. [Avoid Memory Leaks](/docs/performance/Avoid_Memory_Leaks.html) - Konva looks after a lot of cases where you might make memory leaks, but bringing shapes and tweens into the world and managing their exit is an area where you can help.
+
+Below is a demo showing some of these performance tips in action:
+
+```js
+import Konva from 'konva';
+
+// Create stage with good performance settings
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+// Create layers with performance optimizations
+const backgroundLayer = new Konva.Layer({ listening: false });
+const mainLayer = new Konva.Layer();
+const dragLayer = new Konva.Layer();
+
+stage.add(backgroundLayer);
+stage.add(mainLayer);
+stage.add(dragLayer);
+
+// Create a shape with caching
+const star = new Konva.Star({
+  x: 200,
+  y: 200,
+  numPoints: 6,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+  perfectDrawEnabled: false, // performance optimization
+});
+
+// Cache the shape for better performance
+star.cache();
+
+// Optimize dragging performance
+star.on('dragstart', () => {
+  star.moveTo(dragLayer);
+});
+
+star.on('dragend', () => {
+  star.moveTo(mainLayer);
+});
+
+// Create background with listening disabled
+const rect = new Konva.Rect({
+  x: 0,
+  y: 0,
+  width: stage.width(),
+  height: stage.height(),
+  fill: 'lightgray',
+  listening: false,
+});
+
+backgroundLayer.add(rect);
+mainLayer.add(star);
+```
+```js
+import { Stage, Layer, Star, Rect } from 'react-konva';
+import { useState, useRef, useEffect } from 'react';
+
+const App = () => {
+  const [starLayer, setStarLayer] = useState('main');
+  const starRef = useRef(null);
+
+  useEffect(() => {
+    // Cache the shape for better performance
+    if (starRef.current) {
+      starRef.current.cache();
+    }
+  }, []);
+
+  const handleDragStart = () => {
+    setStarLayer('drag');
+  };
+
+  const handleDragEnd = () => {
+    setStarLayer('main');
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer listening={false}>
+        <Rect
+          x={0}
+          y={0}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          fill="lightgray"
+        />
+      </Layer>
+      <Layer>
+        {starLayer === 'main' && (
+          <Star
+            ref={starRef}
+            x={200}
+            y={200}
+            numPoints={6}
+            innerRadius={40}
+            outerRadius={70}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            perfectDrawEnabled={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        )}
+      </Layer>
+      <Layer>
+        {starLayer === 'drag' && (
+          <Star
+            ref={starRef}
+            x={200}
+            y={200}
+            numPoints={6}
+            innerRadius={40}
+            outerRadius={70}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            perfectDrawEnabled={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <v-stage :config="stageSize">
+    <v-layer :config="{ listening: false }">
+      <v-rect :config="rectConfig" />
+    </v-layer>
+    <v-layer>
+      <v-star
+        v-if="starLayer === 'main'"
+        ref="starRef"
+        :config="starConfig"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+    <v-layer>
+      <v-star
+        v-if="starLayer === 'drag'"
+        ref="starRef"
+        :config="starConfig"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = {
+  x: 0,
+  y: 0,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  fill: 'lightgray'
+};
+
+const starConfig = {
+  x: 200,
+  y: 200,
+  numPoints: 6,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+  perfectDrawEnabled: false
+};
+
+const starLayer = ref('main');
+const starRef = ref(null);
+
+onMounted(() => {
+  // Cache the shape for better performance
+  if (starRef.value) {
+    starRef.value.getNode().cache();
+  }
+});
+
+const handleDragStart = () => {
+  starLayer.value = 'drag';
+};
+
+const handleDragEnd = () => {
+  starLayer.value = 'main';
+};
+</script>
+```
+
+---
+
+## Custom Fonts on HTML5 Canvas — Load Web Fonts and Measure Text Width
+Source: https://konvajs.org/docs/sandbox/Custom_Font.html
+Summary: Load custom web fonts on HTML5 canvas with Konva. Fix text measured at the wrong width before the font loads, using the Font Loading API and a cache reset.
+
+## How to draw external font on html5 canvas?
+
+If you want to use custom font for `Konva.Text` you just need to:
+1. Add font style to your page
+2. Set `fontFamily` attribute to required font-face **when font is loaded**
+
+But there is one important thing here. When you set font for DOM elements (like `div` or `span`) browsers will automatically update that elements when font is loaded. But it doesn't work the same for canvas text. You need to redraw canvas again.
+
+**Note:** For older browsers that don't support the native Font Loading API, you can use a width measurement approach - measure text width with fallback font, then periodically check if the custom font width differs (indicating it's loaded).
+
+### Loading font
+
+You may use this async function that combines the native Font Loading API with a reliable width-measurement fallback and timing guard:
+
+```javascript
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        // Small guard delay to avoid rare race when metrics are not ready yet
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {
+      // ignore and fallback to polling
+    }
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000; // do not wait more than 6 seconds
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(
+    `Timeout for loading font "${fontName}". Is it a correct font family?`
+  );
+}
+```
+
+```js
+import Konva from 'konva';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`Timeout for loading font "${fontName}".`);
+}
+
+// Load the font using a stylesheet link
+const fontLink = document.createElement('link');
+fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+fontLink.rel = 'stylesheet';
+document.head.appendChild(fontLink);
+
+// Build stage immediately with fallback font
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var text = new Konva.Text({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: 'A text with custom font.',
+  width: 250,
+  fontFamily: 'Arial'
+});
+
+layer.add(text);
+
+// Then wait for font to load and apply it
+loadFont('Kavivanar', 'normal', '400').then(() => {
+  text.fontFamily('Kavivanar');
+});
+```
+```js
+import { Stage, Layer, Text } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`Timeout for loading font "${fontName}".`);
+}
+
+const App = () => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  
+  useEffect(() => {
+    // Load the font using a stylesheet link
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
+    // Wait for font to load using combined approach
+    loadFont('Kavivanar', 'normal', '400').then(() => {
+      setFontLoaded(true);
+    });
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={50}
+          y={50}
+          fontSize={40}
+          text="A text with custom font."
+          width={250}
+          fontFamily={fontLoaded ? 'Kavivanar' : 'Arial'}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`Timeout for loading font "${fontName}".`);
+}
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = ref({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: 'A text with custom font.',
+  width: 250,
+  fontFamily: 'Arial'
+});
+
+onMounted(() => {
+  // Load the font using a stylesheet link
+  const fontLink = document.createElement('link');
+  fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+  fontLink.rel = 'stylesheet';
+  document.head.appendChild(fontLink);
+
+  // Wait for font to load using combined approach
+  loadFont('Kavivanar', 'normal', '400').then(() => {
+    textConfig.value.fontFamily = 'Kavivanar';
+  });
+});
+</script>
+```
+
+---
+
+## Canvas Snapping and Alignment Guides — Snap Shapes While Dragging
+Source: https://konvajs.org/docs/sandbox/Objects_Snapping.html
+Summary: Snap draggable shapes to edges and centers of other objects and stage boundaries with guide lines in Konva.
+
+## How to snap draggable shapes to each other
+
+This demo snaps a dragged shape to the stage and other shapes. Each shape can
+snap at its left, center, right, top, middle, and bottom edges.
+
+These external examples show grid snapping:
+
+1. [Snap to grid post](https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f)
+2. [Snap to grid demo](https://codepen.io/pierrebleroux/pen/gGpvxJ)
+
+**Instructions:** Drag a rectangle near another rectangle or a stage edge.
+The blue guides show the active snap positions.
+
+```js
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+var GUIDELINE_OFFSET = 5;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+// first generate random rectangles
+for (var i = 0; i < 5; i++) {
+  layer.add(
+    new Konva.Rect({
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      width: 50 + Math.random() * 50,
+      height: 50 + Math.random() * 50,
+      fill: Konva.Util.getRandomColor(),
+      rotation: Math.random() * 360,
+      draggable: true,
+      name: 'object',
+    })
+  );
+}
+
+// were can we snap our objects?
+function getLineGuideStops(skipShape) {
+  // we can snap to stage borders and the center of the stage
+  var vertical = [0, stage.width() / 2, stage.width()];
+  var horizontal = [0, stage.height() / 2, stage.height()];
+
+  // and we snap over edges and center of each object on the canvas
+  stage.find('.object').forEach((guideItem) => {
+    if (guideItem === skipShape) {
+      return;
+    }
+    var box = guideItem.getClientRect();
+    // and we can snap to all edges of shapes
+    vertical.push([box.x, box.x + box.width, box.x + box.width / 2]);
+    horizontal.push([box.y, box.y + box.height, box.y + box.height / 2]);
+  });
+  return {
+    vertical: vertical.flat(),
+    horizontal: horizontal.flat(),
+  };
+}
+
+// what points of the object will trigger to snapping?
+// it can be just center of the object
+// but we will enable all edges and center
+function getObjectSnappingEdges(node) {
+  var box = node.getClientRect();
+  var absPos = node.absolutePosition();
+
+  return {
+    vertical: [
+      {
+        guide: Math.round(box.x),
+        offset: Math.round(absPos.x - box.x),
+        snap: 'start',
+      },
+      {
+        guide: Math.round(box.x + box.width / 2),
+        offset: Math.round(absPos.x - box.x - box.width / 2),
+        snap: 'center',
+      },
+      {
+        guide: Math.round(box.x + box.width),
+        offset: Math.round(absPos.x - box.x - box.width),
+        snap: 'end',
+      },
+    ],
+    horizontal: [
+      {
+        guide: Math.round(box.y),
+        offset: Math.round(absPos.y - box.y),
+        snap: 'start',
+      },
+      {
+        guide: Math.round(box.y + box.height / 2),
+        offset: Math.round(absPos.y - box.y - box.height / 2),
+        snap: 'center',
+      },
+      {
+        guide: Math.round(box.y + box.height),
+        offset: Math.round(absPos.y - box.y - box.height),
+        snap: 'end',
+      },
+    ],
+  };
+}
+
+// find all snapping possibilities
+function getGuides(lineGuideStops, itemBounds) {
+  var resultV = [];
+  var resultH = [];
+
+  lineGuideStops.vertical.forEach((lineGuide) => {
+    itemBounds.vertical.forEach((itemBound) => {
+      var diff = Math.abs(lineGuide - itemBound.guide);
+      // if the distance between guild line and object snap point is close we can consider this for snapping
+      if (diff < GUIDELINE_OFFSET) {
+        resultV.push({
+          lineGuide: lineGuide,
+          diff: diff,
+          snap: itemBound.snap,
+          offset: itemBound.offset,
+        });
+      }
+    });
+  });
+
+  lineGuideStops.horizontal.forEach((lineGuide) => {
+    itemBounds.horizontal.forEach((itemBound) => {
+      var diff = Math.abs(lineGuide - itemBound.guide);
+      if (diff < GUIDELINE_OFFSET) {
+        resultH.push({
+          lineGuide: lineGuide,
+          diff: diff,
+          snap: itemBound.snap,
+          offset: itemBound.offset,
+        });
+      }
+    });
+  });
+
+  var guides = [];
+
+  // find closest snap
+  var minV = resultV.sort((a, b) => a.diff - b.diff)[0];
+  var minH = resultH.sort((a, b) => a.diff - b.diff)[0];
+  if (minV) {
+    guides.push({
+      lineGuide: minV.lineGuide,
+      offset: minV.offset,
+      orientation: 'V',
+      snap: minV.snap,
+    });
+  }
+  if (minH) {
+    guides.push({
+      lineGuide: minH.lineGuide,
+      offset: minH.offset,
+      orientation: 'H',
+      snap: minH.snap,
+    });
+  }
+  return guides;
+}
+
+function drawGuides(guides) {
+  guides.forEach((lg) => {
+    if (lg.orientation === 'H') {
+      var line = new Konva.Line({
+        points: [-6000, 0, 6000, 0],
+        stroke: 'rgb(0, 161, 255)',
+        strokeWidth: 1,
+        name: 'guid-line',
+        dash: [4, 6],
+      });
+      layer.add(line);
+      line.absolutePosition({
+        x: 0,
+        y: lg.lineGuide,
+      });
+    } else if (lg.orientation === 'V') {
+      var line = new Konva.Line({
+        points: [0, -6000, 0, 6000],
+        stroke: 'rgb(0, 161, 255)',
+        strokeWidth: 1,
+        name: 'guid-line',
+        dash: [4, 6],
+      });
+      layer.add(line);
+      line.absolutePosition({
+        x: lg.lineGuide,
+        y: 0,
+      });
+    }
+  });
+}
+
+layer.on('dragmove', function (e) {
+  // clear all previous lines on the screen
+  layer.find('.guid-line').forEach((l) => l.destroy());
+
+  // find possible snapping lines
+  var lineGuideStops = getLineGuideStops(e.target);
+  // find snapping points of current object
+  var itemBounds = getObjectSnappingEdges(e.target);
+
+  // now find where can we snap current object
+  var guides = getGuides(lineGuideStops, itemBounds);
+
+  // do nothing of no snapping
+  if (!guides.length) {
+    return;
+  }
+
+  drawGuides(guides);
+
+  var absPos = e.target.absolutePosition();
+  // now force object position
+  guides.forEach((lg) => {
+    switch (lg.orientation) {
+      case 'V': {
+        absPos.x = lg.lineGuide + lg.offset;
+        break;
+      }
+      case 'H': {
+        absPos.y = lg.lineGuide + lg.offset;
+        break;
+      }
+    }
+  });
+  e.target.absolutePosition(absPos);
+});
+
+layer.on('dragend', function (e) {
+  // clear all previous lines on the screen
+  layer.find('.guid-line').forEach((l) => l.destroy());
+});
+```
+```jsx
+import { useState } from 'react';
+import { Stage, Layer, Rect, Line } from 'react-konva';
+
+const GUIDELINE_OFFSET = 5;
+const WIDTH = window.innerWidth;
+const HEIGHT = 500;
+
+const initialShapes = [
+  { id: 'one', x: 80, y: 90, width: 90, height: 70, fill: '#ff6b6b', rotation: 8 },
+  { id: 'two', x: 300, y: 230, width: 110, height: 80, fill: '#4dabf7', rotation: -6 },
+  { id: 'three', x: 560, y: 100, width: 80, height: 100, fill: '#69db7c', rotation: 4 },
+];
+
+function getLineGuideStops(stage, skipShape) {
+  const vertical = [0, stage.width() / 2, stage.width()];
+  const horizontal = [0, stage.height() / 2, stage.height()];
+
+  stage.find('.object').forEach((guideItem) => {
+    if (guideItem === skipShape) {
+      return;
+    }
+
+    const box = guideItem.getClientRect();
+    vertical.push(box.x, box.x + box.width / 2, box.x + box.width);
+    horizontal.push(box.y, box.y + box.height / 2, box.y + box.height);
+  });
+
+  return { vertical, horizontal };
+}
+
+function getObjectSnappingEdges(node) {
+  const box = node.getClientRect();
+  const absolutePosition = node.absolutePosition();
+
+  return {
+    vertical: [
+      {
+        guide: Math.round(box.x),
+        offset: Math.round(absolutePosition.x - box.x),
+      },
+      {
+        guide: Math.round(box.x + box.width / 2),
+        offset: Math.round(absolutePosition.x - box.x - box.width / 2),
+      },
+      {
+        guide: Math.round(box.x + box.width),
+        offset: Math.round(absolutePosition.x - box.x - box.width),
+      },
+    ],
+    horizontal: [
+      {
+        guide: Math.round(box.y),
+        offset: Math.round(absolutePosition.y - box.y),
+      },
+      {
+        guide: Math.round(box.y + box.height / 2),
+        offset: Math.round(absolutePosition.y - box.y - box.height / 2),
+      },
+      {
+        guide: Math.round(box.y + box.height),
+        offset: Math.round(absolutePosition.y - box.y - box.height),
+      },
+    ],
+  };
+}
+
+function getGuides(lineGuideStops, itemBounds) {
+  const verticalMatches = [];
+  const horizontalMatches = [];
+
+  lineGuideStops.vertical.forEach((lineGuide) => {
+    itemBounds.vertical.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        verticalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'V',
+        });
+      }
+    });
+  });
+
+  lineGuideStops.horizontal.forEach((lineGuide) => {
+    itemBounds.horizontal.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        horizontalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'H',
+        });
+      }
+    });
+  });
+
+  const closestVertical = verticalMatches.sort((a, b) => a.diff - b.diff)[0];
+  const closestHorizontal = horizontalMatches.sort((a, b) => a.diff - b.diff)[0];
+
+  return [closestVertical, closestHorizontal].filter(Boolean);
+}
+
+const App = () => {
+  const [shapes, setShapes] = useState(initialShapes);
+  const [guides, setGuides] = useState([]);
+
+  const handleDragMove = (event) => {
+    const node = event.target;
+    const stage = node.getStage();
+    const lineGuideStops = getLineGuideStops(stage, node);
+    const itemBounds = getObjectSnappingEdges(node);
+    const nextGuides = getGuides(lineGuideStops, itemBounds);
+
+    setGuides(nextGuides);
+
+    if (!nextGuides.length) {
+      return;
+    }
+
+    const absolutePosition = node.absolutePosition();
+
+    nextGuides.forEach((guide) => {
+      if (guide.orientation === 'V') {
+        absolutePosition.x = guide.lineGuide + guide.offset;
+      } else {
+        absolutePosition.y = guide.lineGuide + guide.offset;
+      }
+    });
+
+    node.absolutePosition(absolutePosition);
+  };
+
+  const handleDragEnd = (event, id) => {
+    setGuides([]);
+    setShapes((currentShapes) =>
+      currentShapes.map((shape) =>
+        shape.id === id
+          ? { ...shape, x: event.target.x(), y: event.target.y() }
+          : shape
+      )
+    );
+  };
+
+  return (
+    <Stage width={WIDTH} height={HEIGHT}>
+      <Layer>
+        {shapes.map((shape) => (
+          <Rect
+            key={shape.id}
+            {...shape}
+            name="object"
+            draggable
+            stroke="#1f2937"
+            strokeWidth={2}
+            onDragMove={handleDragMove}
+            onDragEnd={(event) => handleDragEnd(event, shape.id)}
+          />
+        ))}
+        {guides.map((guide, index) =>
+          guide.orientation === 'H' ? (
+            <Line
+              key={`H-${index}`}
+              points={[-6000, 0, 6000, 0]}
+              x={0}
+              y={guide.lineGuide}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          ) : (
+            <Line
+              key={`V-${index}`}
+              points={[0, -6000, 0, 6000]}
+              x={guide.lineGuide}
+              y={0}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          )
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+---
+
+## Infinite Canvas with Zoom and Pan — Build with JavaScript
+Source: https://konvajs.org/docs/sandbox/Infinite_Canvas.html
+Summary: Build an infinite canvas with zoom and pan using JavaScript and Konva.js. Scroll to zoom, drag to pan, with a grid background. Interactive demo with React, Vue, and vanilla JS.
+
+An infinite canvas lets users pan and zoom freely across a boundless workspace — the foundation of tools like Figma, Miro, and tldraw. This demo shows how to build one with Konva: scroll to zoom relative to your cursor, drag empty space to pan, and drag shapes to move them.
+
+**Instructions:** Scroll to zoom. Drag the background to pan. Drag shapes to move them.
+
+```js
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  draggable: true,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+// Generate grid of dots
+var gridSpacing = 40;
+var gridRange = 2000;
+for (var x = -gridRange; x <= gridRange; x += gridSpacing) {
+  for (var y = -gridRange; y <= gridRange; y += gridSpacing) {
+    layer.add(new Konva.Circle({
+      x: x,
+      y: y,
+      radius: 1,
+      fill: '#ccc',
+      listening: false,
+    }));
+  }
+}
+
+// Scatter colorful shapes across the space
+var shapeDefs = [
+  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+  { type: 'rect', x: -100, y: -500, width: 110, height: 70, fill: '#A3E4D7', rotation: 8 },
+];
+
+shapeDefs.forEach(function(d) {
+  var shape;
+  if (d.type === 'rect') {
+    shape = new Konva.Rect({
+      x: d.x, y: d.y, width: d.width, height: d.height,
+      fill: d.fill, cornerRadius: 8, rotation: d.rotation || 0,
+      draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4,
+    });
+  } else if (d.type === 'circle') {
+    shape = new Konva.Circle({
+      x: d.x, y: d.y, radius: d.radius,
+      fill: d.fill, draggable: true,
+      shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4,
+    });
+  } else {
+    shape = new Konva.Star({
+      x: d.x, y: d.y, numPoints: d.numPoints,
+      innerRadius: d.innerRadius, outerRadius: d.outerRadius,
+      fill: d.fill, draggable: true,
+      shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4,
+    });
+  }
+  layer.add(shape);
+});
+
+// Zoom relative to pointer
+var scaleBy = 1.05;
+stage.on('wheel', function(e) {
+  e.evt.preventDefault();
+  var oldScale = stage.scaleX();
+  var pointer = stage.getPointerPosition();
+  var mousePointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
+  var direction = e.evt.deltaY > 0 ? -1 : 1;
+  if (e.evt.ctrlKey) { direction = -direction; }
+  var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  newScale = Math.max(0.1, Math.min(10, newScale));
+  stage.scale({ x: newScale, y: newScale });
+  var newPos = {
+    x: pointer.x - mousePointTo.x * newScale,
+    y: pointer.y - mousePointTo.y * newScale,
+  };
+  stage.position(newPos);
+});
+```
+```js
+import { Stage, Layer, Rect, Circle, Star } from 'react-konva';
+import { useRef } from 'react';
+
+var shapes = [
+  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+];
+
+// Pre-generate grid dots
+var gridDots = [];
+var spacing = 40;
+var range = 2000;
+for (var gx = -range; gx <= range; gx += spacing) {
+  for (var gy = -range; gy <= range; gy += spacing) {
+    gridDots.push({ x: gx, y: gy });
+  }
+}
+
+var App = function() {
+  var stageRef = useRef(null);
+  var W = window.innerWidth;
+  var H = window.innerHeight;
+  var scaleBy = 1.05;
+
+  var handleWheel = function(e) {
+    e.evt.preventDefault();
+    var stage = stageRef.current;
+    var oldScale = stage.scaleX();
+    var pointer = stage.getPointerPosition();
+    var mousePointTo = {
+      x: (pointer.x - stage.x()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale,
+    };
+    var direction = e.evt.deltaY > 0 ? -1 : 1;
+    if (e.evt.ctrlKey) { direction = -direction; }
+    var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    newScale = Math.max(0.1, Math.min(10, newScale));
+    stage.scale({ x: newScale, y: newScale });
+    stage.position({
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    });
+  };
+
+  return (
+    <Stage ref={stageRef} width={W} height={H} draggable onWheel={handleWheel}>
+      <Layer>
+        {gridDots.map(function(d, i) {
+          return <Circle key={'g'+i} x={d.x} y={d.y} radius={1} fill="#ccc" listening={false} />;
+        })}
+        {shapes.map(function(s, i) {
+          if (s.type === 'rect') return <Rect key={i} x={s.x} y={s.y} width={s.width} height={s.height} fill={s.fill} cornerRadius={8} rotation={s.rotation||0} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+          if (s.type === 'circle') return <Circle key={i} x={s.x} y={s.y} radius={s.radius} fill={s.fill} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+          return <Star key={i} x={s.x} y={s.y} numPoints={s.numPoints} innerRadius={s.innerRadius} outerRadius={s.outerRadius} fill={s.fill} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+        })}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+```js
+<template>
+  <v-stage ref="stageRef" :config="stageConfig" @wheel="handleWheel">
+    <v-layer>
+      <v-circle
+        v-for="(dot, i) in gridDots"
+        :key="'g'+i"
+        :config="{ x: dot.x, y: dot.y, radius: 1, fill: '#ccc', listening: false }"
+      />
+      <template v-for="(s, i) in shapes" :key="i">
+        <v-rect
+          v-if="s.type === 'rect'"
+          :config="{ x: s.x, y: s.y, width: s.width, height: s.height, fill: s.fill, cornerRadius: 8, rotation: s.rotation || 0, draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4 }"
+        />
+        <v-circle
+          v-if="s.type === 'circle'"
+          :config="{ x: s.x, y: s.y, radius: s.radius, fill: s.fill, draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4 }"
+        />
+        <v-star
+          v-if="s.type === 'star'"
+          :config="{ x: s.x, y: s.y, numPoints: s.numPoints, innerRadius: s.innerRadius, outerRadius: s.outerRadius, fill: s.fill, draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4 }"
+        />
+      </template>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+var stageRef = ref(null);
+var W = window.innerWidth;
+var H = window.innerHeight;
+var stageConfig = { width: W, height: H, draggable: true };
+var scaleBy = 1.05;
+
+var shapes = [
+  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+];
+
+var gridDots = [];
+var spacing = 40;
+var range = 2000;
+for (var gx = -range; gx <= range; gx += spacing) {
+  for (var gy = -range; gy <= range; gy += spacing) {
+    gridDots.push({ x: gx, y: gy });
+  }
+}
+
+function handleWheel(e) {
+  e.evt.preventDefault();
+  var stage = stageRef.value.getNode();
+  var oldScale = stage.scaleX();
+  var pointer = stage.getPointerPosition();
+  var mousePointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
+  var direction = e.evt.deltaY > 0 ? -1 : 1;
+  if (e.evt.ctrlKey) { direction = -direction; }
+  var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  newScale = Math.max(0.1, Math.min(10, newScale));
+  stage.scale({ x: newScale, y: newScale });
+  stage.position({
+    x: pointer.x - mousePointTo.x * newScale,
+    y: pointer.y - mousePointTo.y * newScale,
+  });
+}
+</script>
+```
+
+---
+
+## Konva.js FAQ - Frequently Asked Questions
+Source: https://konvajs.org/docs/faq.html
+Summary: Answers to common questions about Konva.js: choosing a canvas library, React/Vue/Svelte integration, performance, TypeScript, mobile support, and more.
+
+<script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Konva.js?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Konva.js is an open-source 2D HTML5 Canvas JavaScript framework that provides an object-oriented API for canvas graphics. It supports shapes, animations, events, drag-and-drop, filters, and has official integrations with React, Vue, Svelte, and Angular. It is the most downloaded 2D canvas framework on npm."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Konva.js free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Konva.js is MIT-licensed and completely free for both commercial and personal use. There are no paid tiers or premium features."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which JavaScript canvas library should I use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For interactive 2D canvas applications with framework support (React, Vue, Svelte, Angular), Konva.js is the best choice. For WebGL-powered 2D games, consider PixiJS. For image-editing-focused applications, Fabric.js is also an option. For vector graphics and mathematical art, consider Paper.js."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I use canvas with React?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use react-konva, the official React binding for Konva.js. Install with npm install react-konva konva, then use declarative components like Stage, Layer, Rect, Circle, and Text to draw on canvas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Konva support TypeScript?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Konva ships with built-in TypeScript type definitions. No additional @types package is needed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Konva handle thousands of shapes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. With proper optimization (layer management, shape caching, listening:false for static shapes, batched draws), Konva can handle 10,000+ shapes. See the performance tips documentation for detailed guidance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Konva work on mobile?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Konva fully supports mobile browsers with touch events (tap, touchstart, touchmove, touchend), multi-touch gestures, and responsive canvas sizing."
+          }
+        }
+      ]
+    })}
+  </script>
+
+## Frequently Asked Questions
+
+### What is Konva.js?
+
+Konva.js is an open-source 2D HTML5 Canvas JavaScript framework that provides an object-oriented API for canvas graphics. It supports shapes, animations, events, drag-and-drop, filters, and has official integrations with React, Vue, Svelte, and Angular. It is the most downloaded 2D canvas framework on npm.
+
+Konva uses a Stage → Layer → Shape hierarchy where each Layer is a separate `<canvas>` element for optimal rendering performance.
+
+[Read the full overview →](/docs/overview.html)
+
+### Is Konva.js free to use?
+
+Yes. Konva.js is MIT-licensed and completely free for both commercial and personal use. There are no paid tiers or premium features. The source code is available on [GitHub](https://github.com/konvajs/konva).
+
+### Which JavaScript canvas library should I use?
+
+It depends on your use case:
+
+- **Konva.js** — Best for interactive 2D canvas applications (design editors, annotation tools, diagrams, interactive maps, dashboards). Has the best framework integration (React, Vue, Svelte, Angular) and the most comprehensive drag-and-drop and event system.
+- **PixiJS** — Best for WebGL-powered 2D games and high-frame-rate rendering. Uses WebGL for GPU acceleration.
+- **Fabric.js** — Good for image editing and manipulation tools. Similar feature set to Konva but without official framework bindings.
+- **Paper.js** — Best for vector graphics, mathematical art, and path manipulation.
+- **p5.js** — Best for creative coding, generative art, and educational purposes.
+
+For a detailed comparison, see our [Canvas Library Comparison Guide](/docs/guides/best-canvas-library.html). See also [Why Konva?](/docs/guides/why-konva.html) for a deeper look at what Konva is (and isn't) designed for.
+
+### How do I use canvas with React?
+
+Use [`react-konva`](https://github.com/konvajs/react-konva), the official React binding for Konva.js:
+
+```bash
+npm install react-konva konva
+```
+
+```jsx
+import { Stage, Layer, Rect, Circle } from 'react-konva';
+
+function App() {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect x={20} y={20} width={100} height={100} fill="red" />
+        <Circle x={200} y={100} radius={50} fill="green" />
+      </Layer>
+    </Stage>
+  );
+}
+```
+
+`react-konva` provides declarative React components for all Konva shapes, with full support for React state, props, and event handling.
+
+[Read the full React tutorial →](/docs/react/index.html)
+
+### How do I use canvas with Vue?
+
+Use [`vue-konva`](https://github.com/konvajs/vue-konva):
+
+```bash
+npm install vue-konva konva
+```
+
+[Read the full Vue tutorial →](/docs/vue/index.html)
+
+### How do I use canvas with Svelte?
+
+Use [`svelte-konva`](https://github.com/konvajs/svelte-konva):
+
+```bash
+npm install svelte-konva konva
+```
+
+[Read the full Svelte tutorial →](/docs/svelte/index.html)
+
+### How do I use canvas with Angular?
+
+Use [`ng2-konva`](https://github.com/konvajs/ng2-konva):
+
+```bash
+npm install ng2-konva konva
+```
+
+[Read the full Angular tutorial →](/docs/angular/index.html)
+
+### Konva vs Fabric.js — which should I choose?
+
+Both are 2D Canvas frameworks, but they differ in key areas:
+
+- **Framework support**: Konva has official React, Vue, Svelte, and Angular bindings. Fabric.js has no official framework bindings.
+- **Architecture**: Konva uses a multi-layer approach (each Layer is a separate canvas) for better rendering performance. Fabric.js uses a single canvas.
+- **Drag and drop**: Both have built-in drag-and-drop. Konva's event system supports event bubbling and delegation.
+- **TypeScript**: Both ship with TypeScript definitions.
+
+Choose Konva for interactive applications, especially with React/Vue/Svelte. Choose Fabric.js if you need its specific image manipulation features.
+
+[Read the full comparison →](/docs/guides/best-canvas-library.html)
+
+### Konva vs PixiJS — which should I choose?
+
+They serve different purposes:
+
+- **Konva** uses the 2D Canvas API with an object-oriented approach. Best for interactive applications, UI elements, design editors, annotation tools.
+- **PixiJS** uses WebGL for GPU-accelerated rendering. Best for 2D games, animations with thousands of moving sprites, and high-frame-rate graphics.
+
+If you're building an app with UI interactions (click, drag, resize, hover), choose Konva. If you're building a game with many animated sprites, choose PixiJS.
+
+[Read the full comparison →](/docs/guides/best-canvas-library.html)
+
+### Does Konva support TypeScript?
+
+Yes. Konva ships with built-in TypeScript type definitions. No additional `@types` package is needed. Simply install `konva` and TypeScript will pick up the types automatically:
+
+```bash
+npm install konva
+```
+
+The same applies to `react-konva`, `vue-konva`, and other official bindings.
+
+### Can Konva handle thousands of shapes?
+
+Yes, with proper optimization. Key techniques:
+
+1. **Layer management** — Use multiple layers to separate static and dynamic content
+2. **Shape caching** — Cache complex shapes with `shape.cache()` to render them as images
+3. **Disable listening** — Set `listening: false` on shapes that don't need events
+4. **Batch draws** — Use `layer.batchDraw()` instead of `layer.draw()` for grouped updates
+5. **Disable perfect drawing** — Set `perfectDrawEnabled: false` for shapes with both fill and stroke
+
+Konva has demos rendering [10,000 shapes](/docs/sandbox/10000_Shapes_with_Tooltip.html) and [20,000 nodes](/docs/sandbox/20000_Nodes.html).
+
+[Read all performance tips →](/docs/performance/All_Performance_Tips.html)
+
+### Does Konva work on mobile?
+
+Yes. Konva fully supports mobile browsers with:
+
+- Touch events: `tap`, `dbltap`, `touchstart`, `touchmove`, `touchend`
+- Multi-touch gestures (pinch to zoom, two-finger rotate)
+- Responsive canvas sizing
+- Touch-based drag and drop
+
+[Read the mobile events tutorial →](/docs/events/Mobile_Events.html)
+
+### Can I use Konva with Node.js?
+
+Yes. Konva supports server-side rendering using the [`canvas`](https://www.npmjs.com/package/canvas) npm package:
+
+```bash
+npm install konva canvas
+```
+
+This allows you to generate images on the server, create thumbnails, or run canvas operations in Node.js without a browser.
+
+[Read the Node.js tutorial →](/docs/nodejs/nodejs-setup)
+
+### How do I export canvas to an image or PDF?
+
+**Image export:**
+```javascript
+const dataURL = stage.toDataURL({ pixelRatio: 2 }); // PNG by default
+const jpegURL = stage.toDataURL({ mimeType: 'image/jpeg', quality: 0.8 });
+```
+
+**PDF export** is possible using third-party libraries like jsPDF. See the [Canvas to PDF demo](/docs/sandbox/Canvas_to_PDF.html).
+
+[Read the export tutorial →](/docs/data_and_serialization/High-Quality-Export.html)
+
+### How do I implement drag and drop?
+
+Set `draggable: true` on any shape:
+
+```javascript
+const rect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  draggable: true,
+});
+```
+
+Konva supports drag boundaries, snap-to-grid, drop events, and drag-and-drop between layers.
+
+[Read the drag and drop tutorial →](/docs/drag_and_drop/Drag_and_Drop.html)
+
+### Is Konva still actively maintained?
+
+Yes. Konva is actively maintained with regular releases. Check the [changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) for recent updates and the [GitHub repository](https://github.com/konvajs/konva) for ongoing development activity.
+
+---
+
+## Best JavaScript Canvas Library — How to Choose
+Source: https://konvajs.org/docs/guides/best-canvas-library.html
+Summary: How to choose a JavaScript canvas library. Quick decision guide for Konva.js, Fabric.js, PixiJS, Paper.js, and p5.js — written by Konva's author.
+
+## How to Choose a JavaScript Canvas Library
+
+I'm [Anton Lavrenov](https://lavrton.com), the creator of Konva.js. I'm biased, but I'll be honest — including telling you when not to use Konva.
+
+There are several popular canvas libraries. They look similar from the outside, but they're designed for different jobs. Pick the one that matches your use case, and you'll save yourself a lot of pain.
+
+### Building an interactive app?
+
+Design editors, whiteboards, annotation tools, diagrams, seat maps, dashboards — anything where users click, drag, and resize things on a canvas.
+
+**Use [Konva.js](/docs/index.html).** It gives you an object model, event system with bubbling, drag-and-drop, resize/rotate handles (`Transformer`), serialization, and official bindings for React, Vue, Svelte, and Angular. That's what it's built for.
+
+### Building a 2D game?
+
+**Use [PixiJS](https://pixijs.com/).** It's a WebGL rendering engine — GPU-accelerated, built for high frame rates with many moving objects. Konva uses Canvas 2D and can't match WebGL performance for game workloads.
+
+### Need SVG import/export?
+
+**Use [Fabric.js](http://fabricjs.com/).** It can parse SVG files into canvas objects and export back to SVG. Konva can't do this. Fabric.js also has built-in drawing brushes and is oriented toward image editing.
+
+### Creative coding or generative art?
+
+**Use [p5.js](https://p5js.org/)** for creative sketches and educational projects. Use **[Paper.js](http://paperjs.org/)** if you need vector math, Bezier curves, and boolean path operations.
+
+### Not sure?
+
+If you're reading this page, you're probably building a web application with interactive graphics. That's Konva's sweet spot. [Try the getting started guide](/docs/index.html) — you'll know within 10 minutes if it fits.
+
+## What Makes Konva Different
+
+- **Framework support** — Official bindings for React (`react-konva`), Vue, Svelte, and Angular. No other canvas library has this.
+- **Multi-layer rendering** — Each Layer is a separate `<canvas>`. Static content doesn't re-render when interactive shapes move.
+- **Built-in interaction** — Drag-and-drop, resize/rotate handles, event bubbling, hit detection. With other libraries, you build these from scratch.
+- **Serialization** — `stage.toJSON()` saves everything. `Konva.Node.create(json)` restores it.
+- **Author-led** — I've been maintaining Konva for 10+ years. The API is consistent, decisions are fast, and I personally review every PR.
+
+## Further Reading
+
+- [Why Konva? — When to Use (and When Not to Use) Konva](/docs/guides/why-konva.html)
+- [npm download trends: fabric vs konva vs pixi.js](https://npmtrends.com/fabric-vs-konva-vs-pixi.js)
+- [Canvas engines performance benchmark](https://benchmarks.slaylines.io/)
+
+---
+
+## Why Konva? When to Use Konva.js for Your Project
+Source: https://konvajs.org/docs/guides/why-konva.html
+Summary: When should you use Konva.js? Learn what problems Konva solves, what it's NOT designed for, ideal use cases with real examples, and when to choose a different library.
+
+## Why Konva?
+
+Konva.js solves a specific problem: **building interactive 2D graphics on HTML5 Canvas**. If users need to click, drag, resize, or manipulate shapes on a canvas, Konva gives you all of that out of the box.
+
+## What Problems Konva Solves
+
+The HTML5 Canvas API is low-level. It gives you a drawing surface and nothing else — no objects, no events on shapes, no drag-and-drop. You draw pixels, and the canvas immediately forgets what you drew.
+
+Konva adds what's missing:
+
+- **Object model** — Every shape is a JavaScript object. You can move, hide, animate, and destroy shapes independently.
+- **Event system** — Click a rectangle, hover over a circle, drag a group. Events bubble from shapes through groups and layers, just like the DOM.
+- **Drag and drop** — Set `draggable: true` on any shape. Done. Add boundaries, snapping, and drop zones as needed.
+- **Selection and transformation** — The built-in `Transformer` adds resize and rotate handles to any shape.
+- **Serialization** — Save the entire canvas state to JSON. Restore it later. No custom serialization code needed.
+- **Multi-layer architecture** — Each Layer is a separate `<canvas>` element. Static backgrounds don't re-render when interactive shapes change.
+- **Framework integration** — Official bindings for React (`react-konva`), Vue (`vue-konva`), Svelte (`svelte-konva`), and Angular (`ng2-konva`).
+
+## Ideal Use Cases
+
+Konva is the right choice when your application needs **interactive canvas graphics with user manipulation**:
+
+- **Design editors** — Canva-style tools where users place, move, resize, and style objects ([demo](/docs/sandbox/Canvas_Editor.html))
+- **Annotation / labeling tools** — Drawing bounding boxes, polygons, or markers on images for ML training or review ([demo](/docs/sandbox/Image_Labeling.html))
+- **Drawing / whiteboard apps** — Freehand drawing, shapes, and collaborative canvases ([demo](/docs/sandbox/Free_Drawing.html))
+- **Interactive diagrams** — Flowcharts, org charts, network diagrams with draggable, connected nodes ([demo](/docs/sandbox/Connected_Objects.html))
+- **Seat maps and floor plans** — Interactive maps where users click areas to select or book ([demo](/docs/sandbox/Seats_Reservation.html))
+- **Data visualization dashboards** — Custom visualizations beyond what charting libraries offer, with interactive tooltips and click-through
+- **Form builders and configurators** — Drag-and-drop layout editors, product configurators ([demo](/docs/sandbox/Window_Frame_Designer.html))
+
+## What Konva is NOT
+
+Konva is a focused tool. It doesn't try to do everything:
+
+- **Not a game engine** — Konva uses Canvas 2D, not WebGL. For 2D games with thousands of animated sprites at 60fps, use [PixiJS](https://pixijs.com/). Konva can handle simple games, but it's optimized for interactive applications, not game loops.
+- **Not a 3D library** — For 3D graphics, use Three.js or Babylon.js.
+- **Not a charting library** — For standard charts (bar, line, pie), use Chart.js, D3, or Recharts. Use Konva when you need **custom interactive visualizations** that go beyond what charting libraries offer.
+- **Not an SVG library** — Konva renders to Canvas, not SVG. If you need SVG output, consider Fabric.js or Paper.js.
+- **Not a CSS replacement** — If your UI can be built with HTML/CSS, don't use Canvas. Canvas is for graphics that HTML can't handle — freeform shapes, pixel-level manipulation, complex layered visuals.
+
+## When to Use Something Else
+
+We believe in recommending the right tool:
+
+| If you need... | Use instead |
+|---|---|
+| 2D games with WebGL performance | [PixiJS](https://pixijs.com/) |
+| SVG import/export | [Fabric.js](http://fabricjs.com/) |
+| Vector graphics / Bezier math | [Paper.js](http://paperjs.org/) |
+| Creative coding / generative art | [p5.js](https://p5js.org/) |
+| 3D graphics | [Three.js](https://threejs.org/) |
+| Standard charts | [Chart.js](https://www.chartjs.org/) or [D3](https://d3js.org/) |
+
+For a full comparison, see [Best JavaScript Canvas Libraries](/docs/guides/best-canvas-library.html).
+
+## Why Developers Choose Konva Over Alternatives
+
+Compared to other Canvas 2D frameworks:
+
+1. **Most downloaded** — The highest-downloaded Canvas 2D framework on npm.
+2. **Best framework support** — The only canvas library with official React, Vue, Svelte, and Angular bindings. `react-konva` is the most downloaded React canvas library.
+3. **Multi-layer rendering** — Other frameworks use a single canvas. Konva's multi-layer approach means better performance for complex applications.
+4. **Complete interaction system** — Drag-and-drop, Transformer (resize/rotate handles), event bubbling, hit detection — all built in. With alternatives, you build these from scratch.
+5. **MIT licensed** — Free for commercial use, no restrictions.
+6. **Actively maintained** — Regular releases, responsive issue tracker. See the [changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md).
+
+## Get Started
+
+- [Installation and Quick Example](/docs/index.html)
+- [Framework Overview](/docs/overview.html)
+- [React Tutorial](/docs/react/index.html)
+- [60+ Interactive Demos](/docs/sandbox.html)
+
+---
+
+## Canvas Drag and Drop with JavaScript and Konva
+Source: https://konvajs.org/docs/posts/canvas-drag-and-drop.html
+Summary: Implement canvas drag and drop with pointer events, hit detection, and Konva draggable nodes in JavaScript or React.
+
+The Canvas API does not provide drag and drop for drawn shapes. A raw Canvas
+application must implement four parts:
+
+1. Store each shape and its position.
+2. Detect the shape under the pointer.
+3. Convert browser coordinates to canvas coordinates.
+4. Update the shape and redraw the scene during a drag.
+
+Pointer events support a mouse, pen, and touch input through one event model.
+Call `setPointerCapture()` after `pointerdown` in a raw Canvas implementation.
+The capture keeps move events active outside the canvas.
+
+## Drag a Konva node
+
+Konva implements hit detection and pointer tracking. Set `draggable` on a node.
+Then store its final position in application state.
+
+```jsx
+import { useState } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+const App = () => {
+  const [position, setPosition] = useState({ x: 80, y: 100 });
+  const [dragging, setDragging] = useState(false);
+
+  return (
+    <Stage width={window.innerWidth} height={380}>
+      <Layer>
+        <Text
+          x={20}
+          y={20}
+          text={`Position: ${Math.round(position.x)}, ${Math.round(position.y)}`}
+          fontSize={18}
+        />
+        <Rect
+          x={position.x}
+          y={position.y}
+          width={160}
+          height={100}
+          fill={dragging ? '#ff922b' : '#4dabf7'}
+          stroke="#1f2937"
+          strokeWidth={3}
+          shadowBlur={dragging ? 12 : 0}
+          cornerRadius={10}
+          draggable
+          onDragStart={() => setDragging(true)}
+          onDragMove={(event) => {
+            setPosition({ x: event.target.x(), y: event.target.y() });
+          }}
+          onDragEnd={(event) => {
+            setDragging(false);
+            setPosition({ x: event.target.x(), y: event.target.y() });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+Konva changes the node position during a drag. The example also writes that
+position to React state. This state keeps the application model synchronized.
+
+For large scenes, do not update unrelated React state on each `dragmove` event.
+Update the Konva node during the drag. Save the final application state on
+`dragend` when other components do not need live coordinates.
+
+Canvas shapes are not keyboard controls. Provide an HTML control for each
+essential drag action. The control can move the same shape in fixed steps.
+
+See the [drag and drop guide](/docs/drag_and_drop/Drag_and_Drop.html) for Vanilla,
+React, Vue, Svelte, and Angular examples.
+
+---
+
+## How to Export an HTML5 Canvas as an Image
+Source: https://konvajs.org/docs/posts/canvas-export-image.html
+Summary: Export an HTML5 canvas as PNG or JPEG with Konva, control output resolution, and avoid cross-origin image errors.
+
+The browser can encode a canvas as a data URL or a `Blob`. Konva provides
+`toDataURL()` and `toBlob()` on stages and nodes.
+
+Use `toBlob()` for large exports when the browser supports it. A `Blob` does not
+create the large encoded string that a data URL creates.
+
+## Export a Konva stage from React
+
+This example exports the stage as a PNG. The `pixelRatio` value doubles each
+output dimension.
+
+```jsx
+import { useRef } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const downloadImage = () => {
+    const dataUrl = stageRef.current.toDataURL({ pixelRatio: 2 });
+    const link = document.createElement('a');
+    link.download = 'konva-scene.png';
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  return (
+    <>
+      <button onClick={downloadImage}>Download PNG</button>
+      <Stage ref={stageRef} width={Math.min(window.innerWidth, 760)} height={360}>
+        <Layer>
+          <Rect width={760} height={360} fill="#e7f5ff" />
+          <Text
+            x={30}
+            y={28}
+            text="Export this scene"
+            fontSize={30}
+            fill="#1864ab"
+          />
+          <Circle x={180} y={190} radius={70} fill="#4dabf7" />
+          <Rect
+            x={330}
+            y={120}
+            width={220}
+            height={140}
+            fill="#ffd43b"
+            cornerRadius={16}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+The export includes only canvas content. HTML controls above the stage are not
+part of the image.
+
+## Set the file type and area
+
+Pass `mimeType: 'image/jpeg'` for JPEG output. JPEG has no transparency, so add
+a background shape before the other scene content.
+
+Pass `x`, `y`, `width`, and `height` to export part of a stage. Pass
+`pixelRatio` to increase the resolution without changing scene coordinates.
+
+High pixel ratios use more memory. A 2× ratio creates four times as many output
+pixels. Use the smallest ratio that meets the output requirement.
+
+## Prevent a tainted canvas
+
+The browser blocks export after Canvas draws an image without permitted
+cross-origin access. The image server must return a suitable
+`Access-Control-Allow-Origin` header. Load the image with `crossOrigin` set
+before its `src` value.
+
+Read the [tainted canvas guide](/docs/posts/Tainted_Canvas.html) for complete
+image-loading examples. Read [high-quality export](/docs/data_and_serialization/High-Quality-Export.html)
+for more resolution details.
+
+---
+
+## HTML5 Canvas Performance with Konva
+Source: https://konvajs.org/docs/posts/canvas-performance.html
+Summary: Improve HTML5 canvas performance with fewer redraws, separate Konva layers, disabled hit detection, and measured optimizations.
+
+Canvas performance depends on scene complexity, redraw frequency, pixel count,
+and hit detection. Optimize the measured limit, not the node count alone.
+
+Use browser performance tools on a representative device. Record frame time,
+memory use, and interaction delay for the real scene.
+
+## High-value Konva changes
+
+- Put static and changing content on separate layers.
+- Set `listening(false)` on nodes or layers that do not receive events.
+- Hide nodes that are outside the visible area when the scene is very large.
+- Cache a complex, stable node after measurement shows a rendering benefit.
+- Reduce shadows, filters, and large transparent areas when they dominate frame time.
+- Draw only after a data change. Konva batches layer draws automatically.
+
+Do not cache every node. Each cache uses memory and creates extra work when its
+content changes.
+
+## Separate the interactive layer
+
+This example puts 2,000 noninteractive circles on one layer. The layer skips
+the hit canvas because `listening` is false. A second layer contains one
+draggable shape.
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: 420,
+});
+
+const backgroundLayer = new Konva.Layer({ listening: false });
+const interactionLayer = new Konva.Layer();
+stage.add(backgroundLayer, interactionLayer);
+
+for (let index = 0; index < 2000; index += 1) {
+  backgroundLayer.add(
+    new Konva.Circle({
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      radius: 2 + Math.random() * 4,
+      fill: Konva.Util.getRandomColor(),
+      opacity: 0.55,
+      perfectDrawEnabled: false,
+    })
+  );
+}
+
+const handle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 36,
+  fill: '#ff922b',
+  stroke: '#7c2d12',
+  strokeWidth: 3,
+  draggable: true,
+});
+
+const label = new Konva.Text({
+  x: 16,
+  y: 16,
+  text: 'The orange circle stays interactive',
+  fontSize: 18,
+  fill: '#111827',
+});
+
+interactionLayer.add(handle, label);
+```
+
+Layer separation has a cost because each layer creates scene and hit canvases.
+Use a small number of layers with clear update patterns.
+
+Read [all Konva performance tips](/docs/performance/All_Performance_Tips.html)
+for animation, caching, pixel ratio, and shape-specific guidance.
+
+---
+
+## Canvas Undo and Redo with React and Konva
+Source: https://konvajs.org/docs/posts/canvas-undo-redo.html
+Summary: Add undo and redo to a canvas editor with immutable application state, a history index, React, and Konva.
+
+Canvas pixels do not contain the application history. Store history in the data
+model that produces the canvas scene.
+
+For small editors, store an immutable snapshot after each complete user action.
+Keep a current history index. Remove future snapshots after a new edit that
+follows an undo.
+
+Do not store Konva node instances in history. Store plain application data such
+as positions, colors, text, and stable identifiers.
+
+## Snapshot history in React
+
+Drag the rectangle. Each completed drag adds one snapshot. The Undo and Redo
+buttons change the current history index.
+
+```jsx
+import { useRef, useState } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+const initialRectangle = {
+  id: 'rectangle-1',
+  x: 80,
+  y: 100,
+  width: 170,
+  height: 110,
+  fill: '#4dabf7',
+};
+
+const App = () => {
+  const history = useRef([initialRectangle]);
+  const historyIndex = useRef(0);
+  const [rectangle, setRectangle] = useState(initialRectangle);
+
+  const commit = (nextRectangle) => {
+    const previousSnapshots = history.current.slice(0, historyIndex.current + 1);
+    history.current = [...previousSnapshots, nextRectangle];
+    historyIndex.current = history.current.length - 1;
+    setRectangle(nextRectangle);
+  };
+
+  const undo = () => {
+    if (historyIndex.current === 0) {
+      return;
+    }
+
+    historyIndex.current -= 1;
+    setRectangle(history.current[historyIndex.current]);
+  };
+
+  const redo = () => {
+    if (historyIndex.current === history.current.length - 1) {
+      return;
+    }
+
+    historyIndex.current += 1;
+    setRectangle(history.current[historyIndex.current]);
+  };
+
+  return (
+    <>
+      <button onClick={undo} disabled={historyIndex.current === 0}>
+        Undo
+      </button>
+      <button
+        onClick={redo}
+        disabled={historyIndex.current === history.current.length - 1}
+      >
+        Redo
+      </button>
+      <Stage width={window.innerWidth} height={380}>
+        <Layer>
+          <Text x={20} y={20} text="Drag the rectangle" fontSize={18} />
+          <Rect
+            {...rectangle}
+            stroke="#1e3a5f"
+            strokeWidth={3}
+            cornerRadius={10}
+            draggable
+            onDragEnd={(event) => {
+              commit({
+                ...rectangle,
+                x: event.target.x(),
+                y: event.target.y(),
+              });
+            }}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+Commit one history entry for one user action. Do not add an entry for each
+pointer move. This rule keeps undo behavior predictable and limits memory use.
+
+Large documents can make full snapshots expensive. In that case, store commands
+or patches with enough data to apply and reverse each change. This model is more
+complex, so use it only after measurement shows a snapshot limit.
+
+Define a history limit for a long editor session. Remove the oldest snapshots
+after the limit is reached. Keep saved document versions separate from the local
+undo history.
+
+See the focused [React undo and redo example](/docs/react/Undo-Redo.html) for a
+smaller implementation.
+
+---
+
+## Canvas vs SVG for Interactive Graphics
+Source: https://konvajs.org/docs/posts/canvas-vs-svg.html
+Summary: Compare Canvas and SVG for interactive web graphics, and learn when the Konva canvas object model is a good fit.
+
+Canvas and SVG use different rendering models. This difference affects
+performance, interaction code, accessibility, and export behavior.
+
+SVG keeps each shape as a DOM element. Browser tools and CSS can inspect each
+element. This model works well for diagrams with a small number of shapes.
+
+Canvas draws pixels into one bitmap. The browser does not keep the drawn shapes.
+Canvas often works better for scenes with many shapes or frequent redraws.
+
+| Requirement | Usual choice |
+| --- | --- |
+| Accessible DOM elements for each shape | SVG |
+| CSS selectors and DOM events on each shape | SVG |
+| Thousands of frequently changed shapes | Canvas |
+| Pixel editing or image filters | Canvas |
+| A retained shape model on Canvas | Konva |
+
+These choices are not absolute. Measure the real scene on the devices that your
+users have.
+
+## The raw Canvas tradeoff
+
+The Canvas API does not remember this rectangle after `fillRect()` returns:
+
+```js
+const canvas = document.querySelector('canvas');
+const context = canvas.getContext('2d');
+
+context.fillStyle = '#4dabf7';
+context.fillRect(40, 40, 120, 80);
+```
+
+Your application must store the rectangle data. It must also redraw the scene
+and detect pointer hits.
+
+## Add an object model with Konva
+
+Konva stores nodes in a scene graph. Each node has properties, events, and
+methods. Konva also manages hit detection and redraws.
+
+Drag the rectangle in this example:
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: 360,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rectangle = new Konva.Rect({
+  x: 40,
+  y: 60,
+  width: 160,
+  height: 100,
+  fill: '#4dabf7',
+  stroke: '#1c7ed6',
+  strokeWidth: 3,
+  cornerRadius: 8,
+  draggable: true,
+});
+
+const label = new Konva.Text({
+  x: 40,
+  y: 20,
+  text: 'Drag the rectangle',
+  fontSize: 18,
+  fill: '#212529',
+});
+
+rectangle.on('dragmove', () => {
+  label.text(`Position: ${Math.round(rectangle.x())}, ${Math.round(rectangle.y())}`);
+});
+
+layer.add(label, rectangle);
+```
+
+Konva does not create accessible DOM elements for canvas shapes. Keep essential
+controls and content in HTML. Add keyboard controls and accessible labels to
+those HTML elements.
+
+Use SVG when each graphic element must participate in the DOM. Use Konva when
+the scene needs Canvas performance and an interactive object model.
+
+---
+
+## What is the difference between position and offset in Konva
+Source: https://konvajs.org/docs/posts/Position_vs_Offset.html
+Summary: Understand the difference between position (x, y) and offset (offsetX, offsetY) in Konva and how they affect shape origin and rotation.
+
+There are several properties in Konva that looks similar and may lead some confusion but have a different effect and purpose.
+
+In the post I will explain the difference between position (x and y coordinates) and offset (offsetX and offsetY).
+
+So x and y properties define position of Node on canvas. If you set `draggable = true` property and start dragging, Konva will change x and y properties of the node. That logic will be applied for all nodes (even Konva.Line).
+
+Position of a rectangle shape defines its top-left point. Position of circle defines its center.
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+var layer = new Konva.Layer();
+
+var rect = new Konva.Rect({
+x: 20,
+y: 20,
+width: 100,
+height: 100,
+fill: 'yellow',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+// add the shape to the layer
+layer.add(rect);
+
+var circle = new Konva.Circle({
+x: 150,
+y: 120,
+radius: 50,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+// add the shape to the layer
+layer.add(circle);
+
+var text = new Konva.Text();
+layer.add(text);
+
+// add the layer to the stage
+stage.add(layer);
+
+function updateText(e) {
+    text.text('Position: x = ' + e.target.x() + '   y = ' + e.target.y());
+}
+
+rect.on('dragmove', updateText);
+circle.on('dragmove', updateText);
+```
+
+## Why do we need an `offset` property?
+
+When you are changing the offset property it may looks like you are changing position of the node. But actually not. You are changing ORIGIN of the shape.
+
+What is it origin? You may think of it as "point from where we start drawing of a shape" or "center of the shape" or "the point around which we rotating a shape".
+
+Just a small note, long time ago offset property was called "center" in Konva codebase (when it was KineticJS project). But later it was refactored to "offset".
+
+Take a look into this demo. All rectangles here have the same `y` position, but a different `offset` property.
+
+```js
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const centerY = stage.height() / 2;
+
+// rectangle with no offset
+const rect1 = new Konva.Rect({
+  x: 50,
+  y: centerY,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 2,
+});
+layer.add(rect1);
+
+// rectangle with offset at center
+const rect2 = new Konva.Rect({
+  x: 200,
+  y: centerY,
+  width: 100,
+  height: 100,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 2,
+  offsetX: 50,
+  offsetY: 50,
+  rotation: 45
+});
+layer.add(rect2);
+
+// rectangle with custom offset
+const rect3 = new Konva.Rect({
+  x: 350,
+  y: centerY,
+  width: 100,
+  height: 100,
+  fill: 'blue',
+  stroke: 'black',
+  strokeWidth: 2,
+  offsetX: 100,
+  offsetY: 0,
+  rotation: 45
+});
+layer.add(rect3);
+```
+
+And you should understand that Konva has two main methods to define origin of the shape.
+So "circle-like" shapes have origin at actual center of the shape (Circle, Ellipse, Wedge, Star, Ring ,etc).
+When you set `{x, y}` of a circle you are defining "where will be the center of the circle".
+
+And "rectangle-like" shapes has origin at TOP LEFT (Rectangle, Sprite, Text, Image, etc)
+When you set `{x, y}` of a rectangle you are defining "where will be the top-left point of the rect".
+
+So a shape will be rotated around its origin point (around its "center"). So if you set rotation 45 deg of a star it will be rotated around its actual center.
+
+But if you set rotation 45 deg of rectangle, it will be rotated around top-left. But in some cases it is not convenient. Sometimes you may want to rotate the shape around its center.
+
+In this case you can set `offset` property. By using it we will tell konva: "Hey, use this point as the new origin of the shape".
+
+## How to set rotation point of a shape?
+
+Now let's think you are placed a 100x100 rectangle in `x = 0, y = 0`, and now you want to rotate it around its center.
+
+If you are not using offset you have to recalculate position of it't top left edge (recall you trigonometry lessons from the school).
+
+You can do this by using something like this:
+
+```javascript
+const rotatePoint = ({ x, y }, rad) => {
+  const rcos = Math.cos(rad);
+  const rsin = Math.sin(rad);
+  return { x: x * rcos - y * rsin, y: y * rcos + x * rsin };
+};
+
+// will work for shapes with top-left origin, like rectangle
+function rotateAroundCenter(node, rotation) {
+  //current rotation origin (0, 0) relative to desired origin - center (node.width()/2, node.height()/2)
+  const topLeft = { x: -node.width() / 2, y: -node.height() / 2 };
+  const current = rotatePoint(topLeft, Konva.getAngle(node.rotation()));
+  const rotated = rotatePoint(topLeft, Konva.getAngle(rotation));
+  const dx = rotated.x - current.x,
+    dy = rotated.y - current.y;
+
+  node.rotation(rotation);
+  node.x(node.x() + dx);
+  node.y(node.y() + dy);
+}
+
+// then use it
+rotateAroundCenter(rect, 180);
+```
+
+Or you can set `offsetX = width / 2` and `offsetY = height / 2`. But the rectangle will be moved on the canvas (since you change its origin). So you will need to adjust the position.
+
+Still have a question? Ask in comments.
+
+---
+
+## How to Make a Responsive Canvas with Konva
+Source: https://konvajs.org/docs/posts/responsive-canvas.html
+Summary: Make a responsive HTML5 canvas with Konva, ResizeObserver, and a fixed virtual scene size that preserves its aspect ratio.
+
+A canvas has a display size and a drawing size. A CSS resize changes only the
+display size. This change can stretch the rendered pixels.
+
+For a responsive Konva scene, define a fixed virtual size. Then scale the stage
+from the available container width.
+
+The scale formula is:
+
+```text
+scale = containerWidth / virtualWidth
+```
+
+The displayed height is `virtualHeight * scale`. All node coordinates stay in
+the virtual coordinate system.
+
+## Responsive React example
+
+This example uses `ResizeObserver`. The observer responds when the container
+changes size, not only when the browser window changes size.
+
+```jsx
+import { useEffect, useRef, useState } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const VIRTUAL_WIDTH = 900;
+const VIRTUAL_HEIGHT = 420;
+
+const App = () => {
+  const containerRef = useRef(null);
+  const [containerWidth, setContainerWidth] = useState(VIRTUAL_WIDTH);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const observer = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  const scale = containerWidth / VIRTUAL_WIDTH;
+
+  return (
+    <div ref={containerRef} style={{ width: '100%' }}>
+      <Stage
+        width={containerWidth}
+        height={VIRTUAL_HEIGHT * scale}
+        scaleX={scale}
+        scaleY={scale}
+      >
+        <Layer>
+          <Rect
+            width={VIRTUAL_WIDTH}
+            height={VIRTUAL_HEIGHT}
+            fill="#e7f5ff"
+          />
+          <Text
+            x={40}
+            y={35}
+            text="900 × 420 virtual scene"
+            fontSize={28}
+            fill="#1864ab"
+          />
+          <Circle
+            x={VIRTUAL_WIDTH / 2}
+            y={VIRTUAL_HEIGHT / 2}
+            radius={70}
+            fill="#4dabf7"
+            draggable
+          />
+          <Rect
+            x={VIRTUAL_WIDTH - 190}
+            y={VIRTUAL_HEIGHT - 130}
+            width={150}
+            height={90}
+            fill="#74c0fc"
+            cornerRadius={10}
+            draggable
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+
+Do not store scaled coordinates in application state. Store virtual coordinates.
+Konva applies the stage scale during rendering and pointer conversion.
+
+For high pixel density, Konva uses the device pixel ratio by default. Do not
+multiply the stage size by `devicePixelRatio` unless the application manages
+the backing store itself.
+
+For more stage-resize details, see the [responsive sandbox demo](/docs/sandbox/Responsive_Canvas.html).
+
+---
+
+## Resolving "Tainted canvases may not be exported" with Konva
+Source: https://konvajs.org/docs/posts/Tainted_Canvas.html
+Summary: Fix the 'Tainted canvases may not be exported' CORS error when exporting or filtering cross-origin images in Konva.
+
+When you are trying to export a canvas you may have an error like:
+
+> Unable to get data URL. Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+
+> Unable to get image data from canvas because the canvas has been tainted by cross-origin data.
+
+Or when you apply filters you can have this error:
+
+> Unable to apply filter. Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data.
+
+> Unable to apply filter. The operation is insecure.
+
+## Why do we have that insecure error?
+
+That is a [CORS error](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image). For security reasons, a browser can mark a canvas as tainted when you load images from another domain. In that case the browser blocks canvas exporting into `dataURL` or `imageData` (that is what we are doing on export or when filters are used).
+
+## How to fix CORS issue?
+
+First you may try to set `crossOrigin = Anonymous` attribute of the loading image. This approach will work only if requested domain has an `Access-Control-Allow-Origin` headers that allow shared requests.
+
+```js
+import Konva from 'konva';
+
+// Method 1: native image loading
+const imageObj = new Image();
+imageObj.onload = () => {
+   const image = new Konva.Image({
+     x: 50,
+     y: 50,
+     image: imageObj
+   });
+   layer.add(image);
+};
+imageObj.crossOrigin = 'Anonymous';
+imageObj.src = url;
+
+// Method 2: using Konva helper method
+// crossOrigin is set automatically to Anonymous
+Konva.Image.fromURL(url, (image) => {
+  image.setAttrs({
+    x: 50,
+    y: 50
+  });
+  layer.add(image);
+});
+```
+```js
+import { Stage, Layer, Image } from 'react-konva';
+import useImage from 'use-image';
+
+const MyImage = ({ url }) => {
+  // useImage hook handles crossOrigin automatically
+  const [image] = useImage(url, 'Anonymous');
+  
+  return (
+    <Image
+      x={50}
+      y={50}
+      image={image}
+    />
+  );
+}
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <MyImage url="your-image-url" />
+      </Layer>
+    </Stage>
+  );
+};
+```
+```js
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        v-if="image"
+        :config="{
+          x: 50,
+          y: 50,
+          image: image
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+// useImage hook handles crossOrigin automatically
+const [image] = useImage('your-image-url', 'Anonymous');
+</script>
+```
+
+### What if it doesn't work?
+
+**It may still not work for all cases. If it doesn't work, then you have to configure your server in a different way (it is out of Konva scope) or you can try to store images somewhere else where CORS requests are supported.**
+
+---

@@ -64,7 +64,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
             y: node.y(),
             // set minimal value
             width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
+            height: Math.max(5, node.height() * scaleY),
           });
         }}
       />
