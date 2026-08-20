@@ -91,6 +91,28 @@ Every row was produced by a research agent and contradicted by direct inspection
 
 ### Settled — do not re-propose
 
+**H3 "what Konva does not do" — built, then reverted.** Written and committed,
+then dropped on review. The demand was ~13 log queries with **zero human
+askers**, and `why-konva.md` already carries "What Konva is NOT" plus a "When to
+Use Something Else" table. A page whose subject is absent features reads as
+defensive, and the only genuinely useful section (lasso selection, with working
+point-in-polygon code) had **1** query behind it — thinner than the evidence the
+page was rejected for, so relocating it was not justified either. Reconsider only
+if the prompt panel or Search Console shows real demand.
+
+**A6 "add React tabs to seven demos" — rejected after checking each.** The
+premise was that React users cannot find React versions. 204 of 227 demo pages
+already have React tabs, and every one of the seven fails for its own reason:
+`Image_Resize` already links to `select_and_transform/Basic_demo`, which has a
+React tab, and `react/Transformer.mdx` exists — so its React need is served by a
+better page it already points at. `Rich_Text` is a `render-tag` integration and
+`Editable_Text` already has React. **`Web_Worker` cannot have a React tab at
+all** — react-konva cannot drive a stage inside a worker, so one would mislead.
+`Physics_Simulator` in React is the same loop inside `useEffect`. `Gestures`
+binds an external library identically. `Wheel_of_Fortune` and `Image_Border` are
+decorative.
+
+
 `/build` section (deleted, no demand, duplicated demos) · React Native support (no DOM) ·
 a dedicated Konva-vs-Fabric page (`faq.html` already holds #2; the live AI Overview already
 cites konvajs.org six times) · consumer "free online tool" pages (KD 47-77, tool farms) ·
