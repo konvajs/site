@@ -2,7 +2,7 @@
   "version": 1,
   "algorithm": "sha256",
   "sources": {
-    "docs/about.md": "fcdcc3cd0628a1814595294fbfc2a061ba5b7943b584fe3c4a04293c904f1608",
+    "docs/about.md": "d49a862afeac7288262a8cb9c1ba6e45280112aabda46b4fec52eb0b5d49f358",
     "docs/ai_tools.md": "8078aa5982ae1c43fdc964ec8a0b810564a10191a659d89e50701d2d4e5eebab",
     "docs/angular/Cache.mdx": "1e72ca0c182ffac4d14e7ce1cd55128d5b3b188d6cc445cbeb3f0ef3c57e7896",
     "docs/angular/Custom_Shape.mdx": "416df8ff34aefcafbaaad204f7438d477fc4f12ed68a8b90907740759d98ef94",

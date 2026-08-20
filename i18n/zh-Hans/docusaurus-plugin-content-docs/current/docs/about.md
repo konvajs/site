@@ -3,18 +3,18 @@ sidebar_position: 5
 title: 关于 Konva.js——开源 HTML5 Canvas JavaScript 框架
 sidebar_label: 关于 Konva
 slug: about.html
-description: "Konva.js 是 Anton Lavrenov 于 2014 年创建的开源 2D HTML5 Canvas JavaScript 框架，采用 MIT 许可证。了解它的历史、功能、应用情况和生态系统。"
+description: "Konva.js 是 Anton Lavrenov 于 2015 年创建的开源 2D HTML5 Canvas JavaScript 框架，采用 MIT 许可证。了解它的历史、功能、应用情况和生态系统。"
 ---
 
 ## 关于 Konva.js
 
-Konva.js 是一个开源 2D HTML5 Canvas JavaScript 框架。它为交互式 Canvas 应用程序提供面向对象的 API。它支持图形、动画、事件、拖放、滤镜、序列化和高质量导出。Konva 集成了 React、Vue、Svelte 和 Angular。它采用 MIT 许可证，并从 2014 年起持续维护。
+Konva.js 是一个开源 2D HTML5 Canvas JavaScript 框架。它为交互式 Canvas 应用程序提供面向对象的 API。它支持图形、动画、事件、拖放、滤镜、序列化和高质量导出。Konva 集成了 React、Vue、Svelte 和 Angular。它采用 MIT 许可证，并从 2015 年起持续维护。
 
 ## 主要信息
 
 | | |
 |---|---|
-| **创建时间** | 2014 年（最初从 KineticJS 分支） |
+| **创建时间** | 2015 年（从 KineticJS 分支而来，KineticJS 始于 2012 年） |
 | **创建者** | Anton Lavrenov |
 | **许可证** | MIT（可免费用于商业和个人用途） |
 | **语言** | JavaScript 和 TypeScript（内置类型定义） |

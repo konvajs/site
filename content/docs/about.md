@@ -3,18 +3,18 @@ sidebar_position: 5
 title: About Konva.js - Open-Source HTML5 Canvas JavaScript Framework
 sidebar_label: About Konva
 slug: about.html
-description: "Konva.js is an open-source MIT-licensed 2D HTML5 Canvas JavaScript framework created by Anton Lavrenov in 2014. Learn about its history, features, adoption, and ecosystem."
+description: "Konva.js is an open-source MIT-licensed 2D HTML5 Canvas JavaScript framework created by Anton Lavrenov in 2015. Learn about its history, features, adoption, and ecosystem."
 ---
 
 ## About Konva.js
 
-Konva.js is an open-source 2D HTML5 Canvas JavaScript framework. It provides an object-oriented API for interactive canvas applications. It supports shapes, animations, events, drag-and-drop, filters, serialization, and high-quality exports. Konva has integrations for React, Vue, Svelte, and Angular. It uses the MIT license and has been maintained since 2014.
+Konva.js is an open-source 2D HTML5 Canvas JavaScript framework. It provides an object-oriented API for interactive canvas applications. It supports shapes, animations, events, drag-and-drop, filters, serialization, and high-quality exports. Konva has integrations for React, Vue, Svelte, and Angular. It uses the MIT license and has been maintained since 2015.
 
 ## Key Facts
 
 | | |
 |---|---|
-| **Created** | 2014 (originally forked from KineticJS) |
+| **Created** | 2015 (forked from KineticJS, which started in 2012) |
 | **Creator** | Anton Lavrenov |
 | **License** | MIT (free for commercial and personal use) |
 | **Language** | JavaScript and TypeScript (built-in type definitions) |
