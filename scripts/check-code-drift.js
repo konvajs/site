@@ -86,8 +86,11 @@ function currentSources() {
   const english = readMessages(englishRoot);
   const sources = {};
 
-  for (const [key, message] of Object.entries(english)) {
-    sources[key] = messageHash(message);
+  // Sorted, because write-translations does not emit ids in a stable order.
+  // Without this the manifest reshuffles on every re-stamp and the diff is
+  // noise rather than signal.
+  for (const key of Object.keys(english).sort()) {
+    sources[key] = messageHash(english[key]);
   }
 
   return sources;
