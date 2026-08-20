@@ -6,7 +6,7 @@ slug: All_Performance_Tips.html
 description: "All Konva.js performance optimization tips: layer management, shape caching, listening false, batch draw, and more. Render thousands of shapes efficiently on HTML5 Canvas."
 ---
 
-Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/consulting).
+Don't want to spend your time with performance issues? Request a [performance review](https://lavrton.com/consulting/).
 
 ### Why this is important
 
@@ -158,10 +158,12 @@ mainLayer.add(star);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Star, Rect } from 'react-konva';
+import { Portal } from 'react-konva-utils';
 import { useState, useRef, useEffect } from 'react';
 
 const App = () => {
-  const [starLayer, setStarLayer] = useState('main');
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 200, y: 200 });
   const starRef = useRef(null);
 
   useEffect(() => {
@@ -172,11 +174,12 @@ const App = () => {
   }, []);
 
   const handleDragStart = () => {
-    setStarLayer('drag');
+    setIsDragging(true);
   };
 
-  const handleDragEnd = () => {
-    setStarLayer('main');
+  const handleDragEnd = (event) => {
+    setPosition(event.target.position());
+    setIsDragging(false);
   };
 
   return (
@@ -191,11 +194,11 @@ const App = () => {
         />
       </Layer>
       <Layer>
-        {starLayer === 'main' && (
+        <Portal selector=".drag-layer" enabled={isDragging}>
           <Star
             ref={starRef}
-            x={200}
-            y={200}
+            x={position.x}
+            y={position.y}
             numPoints={6}
             innerRadius={40}
             outerRadius={70}
@@ -207,27 +210,9 @@ const App = () => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           />
-        )}
+        </Portal>
       </Layer>
-      <Layer>
-        {starLayer === 'drag' && (
-          <Star
-            ref={starRef}
-            x={200}
-            y={200}
-            numPoints={6}
-            innerRadius={40}
-            outerRadius={70}
-            fill="yellow"
-            stroke="black"
-            strokeWidth={4}
-            draggable
-            perfectDrawEnabled={false}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-          />
-        )}
-      </Layer>
+      <Layer name="drag-layer" />
     </Stage>
   );
 };
@@ -242,24 +227,15 @@ export default App;
     <v-layer :config="{ listening: false }">
       <v-rect :config="rectConfig" />
     </v-layer>
-    <v-layer>
+    <v-layer ref="mainLayerRef">
       <v-star
-        v-if="starLayer === 'main'"
         ref="starRef"
         :config="starConfig"
         @dragstart="handleDragStart"
         @dragend="handleDragEnd"
       />
     </v-layer>
-    <v-layer>
-      <v-star
-        v-if="starLayer === 'drag'"
-        ref="starRef"
-        :config="starConfig"
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-      />
-    </v-layer>
+    <v-layer ref="dragLayerRef" />
   </v-stage>
 </template>
 
@@ -292,8 +268,9 @@ const starConfig = {
   perfectDrawEnabled: false
 };
 
-const starLayer = ref('main');
 const starRef = ref(null);
+const mainLayerRef = ref(null);
+const dragLayerRef = ref(null);
 
 onMounted(() => {
   // Cache the shape for better performance
@@ -303,13 +280,13 @@ onMounted(() => {
 });
 
 const handleDragStart = () => {
-  starLayer.value = 'drag';
+  starRef.value.getNode().moveTo(dragLayerRef.value.getNode());
 };
 
 const handleDragEnd = () => {
-  starLayer.value = 'main';
+  starRef.value.getNode().moveTo(mainLayerRef.value.getNode());
 };
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

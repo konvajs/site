@@ -20,12 +20,9 @@ export default function DocItemWrapper(props: Props): JSX.Element {
   const { siteConfig, i18n } = useDocusaurusContext();
   const { permalink, title } = props.content.metadata;
 
-  // Disqus is blocked in mainland China: probes from CHINANET return a TLS
-  // reset and then time out after 15 seconds, and it loads on every docs page.
-  // Chinese readers are a large share of this site's audience, so the Chinese
-  // pages skip it rather than stall on it. It is the only hard-blocked
-  // dependency here — Algolia, Netlify, CodeSandbox and the fonts all resolve.
-  const commentsBlockedInLocale = i18n.currentLocale === 'zh-Hans';
+  // Keep one discussion thread for the canonical English page. Localized pages
+  // can also run where Disqus is unavailable, so they do not load the embed.
+  const commentsBlockedInLocale = i18n.currentLocale !== i18n.defaultLocale;
 
   return (
     <>

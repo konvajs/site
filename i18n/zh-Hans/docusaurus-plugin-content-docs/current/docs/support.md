@@ -16,4 +16,4 @@ description: "通过 StackOverflow、GitHub Issues、Discord 聊天、咨询和�
 4. 如果只想讨论 Konva，可以加入 [Discord 聊天](https://discord.gg/8FqZwVT)。
 5. 如果有值得分享的内容，请在 Twitter 上使用 `#konvajs` 标签。
 6. 访问[更新日志](https://github.com/konvajs/konva/blob/master/CHANGELOG.md)，了解最新变化。
-7. 需要咨询或策略评审？请访问[咨询页面](https://lavrton.com/consulting)。
+7. 需要咨询或策略评审？请访问[咨询页面](https://lavrton.com/consulting/)。

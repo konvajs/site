@@ -87,7 +87,7 @@ Get started with your framework: [React](/docs/react/index.html) · [Vue](/docs/
 - **Drag and drop** — Set `draggable: true` on any shape. Add drag boundaries, snapping, and drop events.
 - **Resize and rotate** — The built-in [`Transformer`](/docs/select_and_transform/Basic_demo.html) component adds resize and rotate handles to any shape.
 - **Multi-layer rendering** — Each Layer is a separate `<canvas>` element. Static backgrounds don't re-render when interactive shapes change.
-- **Serialization** — Save the entire canvas state with `stage.toJSON()`. Restore it with `Konva.Node.create(json)`.
+- **Serialization** — Save the node tree and its serializable attributes with `stage.toJSON()`. Restore them with `Konva.Node.create(json)`. Restore images, event handlers, and custom drawing functions separately.
 - **Filters and effects** — Blur, brighten, contrast, grayscale, pixelate, and more — applied per shape.
 - **High performance** — Handles thousands of shapes. See [performance tips](/docs/performance/All_Performance_Tips.html) and [stress test demos](/docs/sandbox/10000_Shapes_with_Tooltip.html).
 

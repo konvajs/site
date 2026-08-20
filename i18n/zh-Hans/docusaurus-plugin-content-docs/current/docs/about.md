@@ -75,8 +75,8 @@ Stage (one per canvas area)
 - **事件系统**：单击、双击、mouseover、mouseout、touchstart、touchmove、tap 和拖动事件，支持冒泡和委托
 - **拖放**：内置拖放功能，支持边界、吸附和放置事件
 - **动画**：通过 `Konva.Animation` 实现基于帧的动画，通过 `Konva.Tween` 和 30 多种缓动函数实现属性补间
-- **滤镜**：Blur、Brighten、Contrast、Grayscale、HSL、Invert、Noise、Pixelate、Sepia、Threshold 和自定义滤镜
-- **序列化**：使用 `toJSON()` 和 `Konva.Node.create()` 保存并恢复整个 Canvas state
+- **滤镜**：Blur、Brightness、Contrast、Grayscale、HSL、Invert、Noise、Pixelate、Sepia、Threshold 和自定义滤镜
+- **序列化**：使用 `toJSON()` 和 `Konva.Node.create()` 保存并恢复节点树及其可序列化属性。图像、事件处理函数和自定义绘制函数必须单独恢复。
 - **导出**：使用 `toDataURL()` 和 `toBlob()` 进行高质量图像导出（PNG、JPEG），通过第三方库导出 PDF
 - **选择与变换**：使用内置 `Transformer` 进行交互式调整大小、旋转和缩放
 - **性能**：基于图层的渲染、图形缓存和优化 API，可处理数千个图形

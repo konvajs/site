@@ -10,7 +10,7 @@ description: "开始使用 svelte-konva，它是 Konva.js 的官方 Svelte 绑�
 
 [svelte-konva](https://github.com/konvajs/svelte-konva) 是一个使用 Svelte 绘制复杂 Canvas 图形的 JavaScript 库。它为 [Konva 框架](https://konvajs.org/) 提供声明式响应式绑定。所有 `svelte-konva` 组件都对应同名的 `Konva` 组件。`Konva` 对象的所有可用参数都可以作为单独的 props 添加到对应的 `svalte-konva` 组件中。
 
-使用 svelte-konva 前，需要基本了解 `Konva`。可以参阅 [Konva 概览](https://konvajs.org/docs/overview.html)。
+使用 svelte-konva 前，需要基本了解 `Konva`。可以参阅 [Konva 概览](/docs/overview.html)。
 
 ## 快速开始
 

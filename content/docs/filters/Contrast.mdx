@@ -79,7 +79,7 @@ import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
-  const [contrast, setContrast] = useState(50);
+  const [contrast, setContrast] = useState(30);
   const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
@@ -159,7 +159,7 @@ const stageSize = {
   height: window.innerHeight,
 };
 
-const contrast = ref(50);
+const contrast = ref(30);
 const imageNode = ref(null);
 const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 

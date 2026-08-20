@@ -6,16 +6,18 @@ slug: Native_Context_Access.html
 description: "Access the native HTML5 Canvas 2D context from Konva to perform custom manual drawing and use it as a Konva.Image."
 ---
 
-## How to access native 2d canvas context from Konva
+## How to access the native 2D canvas context from Konva
 
-Konva gives you object model for drawing shapes on canvas. Your app is starting from a stage (div wrapper) and then the stage have one or many layers (canvas DOM elements) inside.
+Konva gives you an object model for drawing shapes on a canvas. An application starts with a Stage in a `div`. The Stage contains one or more Layers. Each Layer uses Canvas elements.
 
-You can hijack into Konva internals (or DOM internals) and draw into canvas directly without creating any shapes. But that is not recommended. Because Konva has full control over drawing and may reset your manual drawings or lost them on any export such as `stage.toDataURL()`.
+You can access the internal Canvas context and draw without Konva shapes. This method is not safe. Konva controls Layer drawing, so it can erase the manual drawing. Exports such as `stage.toDataURL()` can also omit it.
 
-There are two recommended ways if you want to draw something manually:
+Use one of these methods for manual drawing:
 
-1. [Use custom shape](/docs/shapes/Custom.html)
-2. Create a new canvas element manually and then use it for `Konva.Image`.
+1. [Use a custom shape](/docs/shapes/Custom.html).
+2. Create a Canvas element and use it as the source of a `Konva.Image`.
+
+Both methods keep the drawing in Konva's scene graph and export process.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -168,4 +170,3 @@ const handleDragEnd = (e) => {
 ```
   </TabItem>
 </Tabs>
-

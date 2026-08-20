@@ -1,16 +1,21 @@
 # Maintaining the Chinese (zh-Hans) translation
 
-The translation project is complete. This document is what replaces it: the
-rules for keeping the corpus correct from here on.
+This translation is an optional addition. English in `content/` is canonical.
+No English content or UI file imports Chinese data.
+
+The presence of `i18n/zh-Hans/` is the only enable switch. To remove Chinese,
+delete that directory. The locale menu, localized build, localized sitemap, and
+locale checks then disappear automatically. `npm run check` still validates the
+complete English site.
 
 Status verified 2026-08-20.
 
 | | Count |
 | --- | --- |
-| English pages under `content/` (excluding the API) | 272 |
-| Translated into zh-Hans | 272 |
+| English pages under `content/` (excluding the API) | 276 |
+| Translated into zh-Hans | 276 |
 | Pages left untranslated on purpose (`content/api/`) | 34 |
-| Pages in the Chinese sitemap | 276 |
+| Pages in the Chinese sitemap | 280 |
 
 ---
 
@@ -24,8 +29,7 @@ copy, the Chinese page keeps serving the old text and the build stays green.
 of every English source at translation time in `i18n/zh-Hans/SOURCES.json` and
 fails when one of them changes.
 
-It is the first step of `npm run check`, so it blocks a release rather than
-warning into a log.
+It is part of `npm run check:i18n`. It does not block the English core check.
 
 ```bash
 npm run check:i18n-drift      # report drift, exit 1 if any
@@ -48,15 +52,17 @@ gone, or the Chinese page now exists — so the backlog cannot rot unnoticed.
 fails when its English source drifts, allowlisted or not. Keep the list short and
 empty it as translations land.
 
-### When you change an English page
+### When you update a translation after an English change
 
-1. Make the English edit.
-2. Make the matching Chinese edit in
+English changes can land without Chinese changes. To update the optional
+translation:
+
+1. Edit the matching Chinese file in
    `i18n/zh-Hans/docusaurus-plugin-content-docs/current/<same path>`.
-3. Run `npm run update:i18n-sources` to re-stamp the hashes.
-4. Run `npm run check`.
+2. Run `npm run update:i18n-sources` to re-stamp the hashes.
+3. Run `npm run check:i18n`.
 
-Never run step 3 without step 2. Re-stamping without translating is the one way
+Never run step 2 without step 1. Re-stamping without translating is the one way
 to defeat the check, and it leaves no trace.
 
 ---
@@ -105,9 +111,9 @@ looks for.
 
 ## 3. Why the API reference stays English
 
-`content/api/` is generated. `create-api-docs.js` runs `rm -r ./content/api` and
-rebuilds all 34 files from the JSDoc comments in `konva.js`. It is not part of
-`npm run build`; a maintainer runs it by hand at release time.
+`content/api/` is generated. `create-api-docs.js` rebuilds all 34 files from the
+installed Konva package source. It is not part of `npm run build`; a maintainer
+runs it by hand after a Konva API input changes.
 
 A Chinese copy under `i18n/` would survive that wipe, so the English would
 regenerate and the Chinese would not. Silent drift is worse than an obvious gap.
@@ -134,7 +140,7 @@ the `konva` repository and teach the generator to emit a second locale.
 - translate code-fence metadata — ` ```js live react ` must be byte-identical or
   the live example dies
 - translate Tabs `value=` or `label=` attributes
-- change a URL, including its UTM parameters
+- change a normal Docusaurus-relative URL, including its UTM parameters
 - add, remove, or reorder headings — anchors depend on them
 
 **Always:**
@@ -143,6 +149,9 @@ the `konva` repository and teach the generator to emit a second locale.
   `alt` text
 - keep every other front-matter key byte-identical
 - use the terminology below
+
+Post-build `pathname:///...md` links and absolute same-site links are exceptions.
+They must include the active locale because raw Markdown does not rewrite them.
 
 ---
 
@@ -217,12 +226,12 @@ the active locale and sends a Chinese reader to the English page.
 Markdown images are safe: Docusaurus bundles `![](/assets/x.png)` and applies
 `baseUrl` for you.
 
-**Code fences are balanced, and `npm run check` keeps them that way.** 40 files
+**Code fences are balanced, and the checks keep them that way.** 40 files
 once ended with an unbalanced fence — 32 with a stray trailing ` ``` `, 8 missing
-a closing one. They rendered only because nothing followed the fence, so nothing
-caught them. `scripts/check-fences.js` now fails the build on any fence left open
-at end of file, in both locales. It counts fence depth, so a ` ``` ` block closed
-by ` ```` ` still passes.
+a closing one. They rendered only because nothing followed the fence. The core
+check validates English. `npm run check:i18n` also validates Chinese code and
+fence parity. The checker counts fence depth, so a ` ``` ` block closed by
+` ```` ` still passes.
 
 **Four-backtick fences are valid.** Some files close a ` ``` ` block with
 ` ```` `. Do not normalise them.
@@ -233,8 +242,13 @@ by ` ```` ` still passes.
 
 ```bash
 npm run check
+npm run check:i18n
 ```
 
-Runs, in order: the page drift check, the interface-string drift check, the
-TypeScript check, both locale builds (`onBrokenLinks` and `onBrokenAnchors` are
-`throw`), and both sitemap checks.
+`npm run check` validates only the English core. It checks fences, the demo
+gallery, Sandpack dependencies, TypeScript, the English build, its sitemap, and
+its Markdown twins.
+
+`npm run check:i18n` validates the optional Chinese addition. It checks page
+drift, interface strings, code parity, the localized gallery, both locale builds,
+the Chinese sitemap, and localized Markdown output.

@@ -22,11 +22,11 @@ CSS 像素对应两到三个设备像素，因此每个 CSS 像素只分配一�
 分配位图。**你以 CSS 像素向 Konva 提供尺寸，Konva 会为你设置位图尺寸。**
 
 ```js
-// 在 Retina 屏幕上这样写是正确的，不需要其他处理。
+// This is correct on a retina screen. Nothing else is needed.
 const stage = new Konva.Stage({
   container: 'container',
-  width: 600,   // CSS 像素
-  height: 400,  // CSS 像素
+  width: 600,   // CSS pixels
+  height: 400,  // CSS pixels
 });
 ```
 
@@ -37,7 +37,7 @@ const stage = new Konva.Stage({
 搜索"canvas 模糊"会找到下面这种写法。它对原生 `<canvas>` 是正确的，对 Konva 则是错误的：
 
 ```js
-// 在 Konva 中不要这样做
+// DO NOT do this in Konva
 const dpr = window.devicePixelRatio;
 stage.width(container.clientWidth * dpr);
 stage.height(container.clientHeight * dpr);
@@ -67,7 +67,7 @@ stage.scale({ x: dpr, y: dpr });
 对于繁重的场景值得这样做，对于文本则不值得。如果有人全局设置了它，那就是原因所在。
 
 ```js
-Konva.pixelRatio = 1;  // 更快，但在 Retina 上发虚
+Konva.pixelRatio = 1;  // faster, and soft on retina
 ```
 
 ### 节点缓存时使用了错误的像素比
@@ -99,7 +99,7 @@ stage.toDataURL({ pixelRatio: 2 });
 
 ```js
 const line = new Konva.Line({
-  points: [10, 20.5, 200, 20.5],  // .5 让 1 像素描边落在同一像素行内
+  points: [10, 20.5, 200, 20.5],  // .5 puts the 1px stroke inside one pixel row
   stroke: 'black',
   strokeWidth: 1,
 });
@@ -120,7 +120,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 stage.add(layer);
 
-// 在整数坐标上：1 像素描边跨越两个像素行。
+// On a whole coordinate: the 1px stroke straddles two pixel rows.
 layer.add(
   new Konva.Line({
     points: [20, 40, 380, 40],
@@ -132,7 +132,7 @@ layer.add(
   new Konva.Text({ x: 20, y: 48, text: 'y = 40 — blended across two rows', fontSize: 13 })
 );
 
-// 偏移半个像素：描边填满单独一行。
+// Offset by half a pixel: the stroke fills a single row.
 layer.add(
   new Konva.Line({
     points: [20, 100.5, 380, 100.5],

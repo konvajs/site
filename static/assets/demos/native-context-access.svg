@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 416" width="720" height="416" role="img" aria-label="A red circle over a blue rectangle drawn on a canvas and used as a draggable Konva image">
+  <rect width="720" height="416" fill="#f4f5f8"/>
+  <rect x="44" y="36" width="632" height="344" rx="10" fill="#ffffff" stroke="#dfe2ea" stroke-width="2"/>
+  <rect x="164" y="104" width="392" height="112" fill="#2563eb"/>
+  <circle cx="360" cy="216" r="98" fill="#dc2626"/>
+  <rect x="164" y="104" width="392" height="224" fill="none" stroke="#111827" stroke-width="4" stroke-dasharray="12 10"/>
+  <path d="M542 306l0 48 13-13 9 19 10-5-9-18 17-2z" fill="#111827" stroke="#ffffff" stroke-width="3"/>
+  <text x="360" y="70" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#334155" text-anchor="middle">native canvas → Konva.Image</text>
+</svg>

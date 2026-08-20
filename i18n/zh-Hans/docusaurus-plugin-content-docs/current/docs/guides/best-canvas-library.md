@@ -24,11 +24,11 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 
 ### 需要导入或导出 SVG？
 
-如果你需要把内容写回 SVG，**请使用 [Fabric.js](http://fabricjs.com/)**。Konva 可以*渲染* SVG——[有三种方式](/zh-Hans/docs/sandbox/SVG_On_Canvas.html)：`Konva.Image`、`Konva.Path` 或 canvg——但它没有 SVG 导出功能，因为它绘制到 Canvas。Fabric.js 还内置绘图画笔，并侧重于图像编辑。
+如果你需要把内容写回 SVG，**请使用 [Fabric.js](https://fabricjs.com/)**。Konva 可以*渲染* SVG——[有三种方式](/zh-Hans/docs/sandbox/SVG_On_Canvas.html)：`Konva.Image`、`Konva.Path` 或 canvg——但它没有 SVG 导出功能，因为它绘制到 Canvas。Fabric.js 还内置绘图画笔，并侧重于图像编辑。
 
 ### 要进行创意编程或生成艺术？
 
-对于创意草图和教育项目，**使用 [p5.js](https://p5js.org/)**。如果需要矢量数学、贝塞尔曲线和路径布尔运算，请使用 **[Paper.js](http://paperjs.org/)**。
+对于创意草图和教育项目，**使用 [p5.js](https://p5js.org/)**。如果需要矢量数学、贝塞尔曲线和路径布尔运算，请使用 **[Paper.js](https://paperjs.org/)**。
 
 ### 仍不确定？
 
@@ -64,7 +64,7 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 - **框架支持** — 为 React（`react-konva`）、Vue、Svelte 和 Angular 提供官方绑定。其他 Canvas 库均未提供这些绑定。
 - **多图层渲染** — 每个 Layer 都是独立的 `<canvas>`。交互式图形移动时，静态内容不会重新渲染。
 - **内置交互** — 拖放、调整大小和旋转控制手柄、事件冒泡以及命中检测均为内置功能。使用其他库时，需要从头构建这些功能。
-- **序列化** — `stage.toJSON()` 保存所有内容。`Konva.Node.create(json)` 将其恢复。
+- **序列化** — `stage.toJSON()` 保存节点树及其可序列化属性，`Konva.Node.create(json)` 恢复这些内容。图像、事件处理函数和自定义绘制函数必须单独恢复。
 - **作者主导** — 我维护 Konva 已有 10 多年。API 保持一致，决策迅速，并且每个 PR 都由我亲自评审。
 
 ## 延伸阅读

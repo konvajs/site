@@ -18,7 +18,7 @@ We will show two options - cloning and using images. In large applications it is
 So we can just clone the stage or the layer and update its internal nodes from the state of the main canvas area.
 Also it will make sense to simplify shapes on the preview. Like hide texts, remove strokes and shadows, etc.
 
-Instructions: Try to drag circles and double-click to add new ones. The preview will update after you finish dragging (dragend) or add a new shape.
+Instructions: Try to drag circles and double-click to add new ones. The preview updates while you drag or after you add a shape.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -158,7 +158,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onDblClick={handleDblClick}
-        onTap={handleDblClick}
+        onDblTap={handleDblClick}
       >
         <Layer>
           {shapes.map(shape => (
@@ -211,7 +211,7 @@ export default App;
     <v-stage
       :config="stageConfig"
       @dblclick="handleDblClick"
-      @tap="handleDblClick"
+      @dbltap="handleDblClick"
     >
       <v-layer>
         <v-circle
@@ -408,14 +408,13 @@ const App = () => {
 
   React.useEffect(() => {
     updatePreview();
-  }, [updatePreview]);
+  }, [shapes, updatePreview]);
 
   const handleDragEnd = (e, id) => {
     const { x, y } = e.target.position();
     setShapes(shapes.map(shape => 
       shape.id === id ? { ...shape, x, y } : shape
     ));
-    updatePreview();
   };
 
   const handleDblClick = (e) => {
@@ -429,7 +428,6 @@ const App = () => {
       fill: getRandomColor(),
     };
     setShapes([...shapes, newShape]);
-    updatePreview();
   };
 
   return (
@@ -439,7 +437,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onDblClick={handleDblClick}
-        onTap={handleDblClick}
+        onDblTap={handleDblClick}
       >
         <Layer>
           {shapes.map(shape => (
@@ -478,7 +476,7 @@ export default App;
       ref="stageRef"
       :config="stageConfig"
       @dblclick="handleDblClick"
-      @tap="handleDblClick"
+      @dbltap="handleDblClick"
     >
       <v-layer>
         <v-circle
@@ -501,7 +499,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { nextTick, ref, onMounted } from 'vue';
 
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
@@ -537,15 +535,16 @@ const updatePreview = () => {
   previewUrl.value = url;
 };
 
-const handleDragEnd = (e, id) => {
+const handleDragEnd = async (e, id) => {
   const { x, y } = e.target.position();
   shapes.value = shapes.value.map(shape =>
     shape.id === id ? { ...shape, x, y } : shape
   );
+  await nextTick();
   updatePreview();
 };
 
-const handleDblClick = (e) => {
+const handleDblClick = async (e) => {
   const stage = e.target.getStage();
   const pos = stage.getPointerPosition();
   const newShape = {
@@ -556,6 +555,7 @@ const handleDblClick = (e) => {
     fill: getRandomColor(),
   };
   shapes.value.push(newShape);
+  await nextTick();
   updatePreview();
 };
 
@@ -566,4 +566,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-

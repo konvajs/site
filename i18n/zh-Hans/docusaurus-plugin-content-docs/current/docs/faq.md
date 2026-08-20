@@ -16,58 +16,58 @@ import Head from '@docusaurus/Head';
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What is Konva.js?",
+          "name": "Konva.js 是什么？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Konva.js is an open-source 2D HTML5 Canvas JavaScript framework that provides an object-oriented API for canvas graphics. It supports shapes, animations, events, drag-and-drop, filters, and has official integrations with React, Vue, Svelte, and Angular. It is the most downloaded 2D canvas framework on npm."
+            "text": "Konva.js 是一个开源 2D HTML5 Canvas JavaScript 框架，为 Canvas 图形提供面向对象的 API。它支持图形、动画、事件、拖放和滤镜，并提供 React、Vue、Svelte 和 Angular 的官方集成。它是 npm 上下载量最高的 2D Canvas 框架。"
           }
         },
         {
           "@type": "Question",
-          "name": "Is Konva.js free to use?",
+          "name": "Konva.js 可以免费使用吗？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Konva.js is MIT-licensed and completely free for both commercial and personal use. There are no paid tiers or premium features."
+            "text": "可以。Konva.js 采用 MIT 许可证，商业和个人用途均完全免费。它没有付费层级或高级功能。"
           }
         },
         {
           "@type": "Question",
-          "name": "Which JavaScript canvas library should I use?",
+          "name": "应使用哪个 JavaScript Canvas 库？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "For interactive 2D canvas applications with framework support (React, Vue, Svelte, Angular), Konva.js is the best choice. For WebGL-powered 2D games, consider PixiJS. For image-editing-focused applications, Fabric.js is also an option. For vector graphics and mathematical art, consider Paper.js."
+            "text": "对于支持 React、Vue、Svelte 或 Angular 的交互式 2D Canvas 应用，Konva.js 是合适的选择。对于 WebGL 2D 游戏，可以使用 PixiJS。对于图像编辑应用，也可以使用 Fabric.js。对于矢量图形和数学艺术，可以使用 Paper.js。"
           }
         },
         {
           "@type": "Question",
-          "name": "How do I use canvas with React?",
+          "name": "如何在 React 中使用 Canvas？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use react-konva, the official React binding for Konva.js. Install with npm install react-konva konva, then use declarative components like Stage, Layer, Rect, Circle, and Text to draw on canvas."
+            "text": "请使用 Konva.js 的官方 React 绑定 react-konva。运行 npm install react-konva konva，然后使用 Stage、Layer、Rect、Circle 和 Text 等声明式组件在 Canvas 上绘图。"
           }
         },
         {
           "@type": "Question",
-          "name": "Does Konva support TypeScript?",
+          "name": "Konva 支持 TypeScript 吗？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Konva ships with built-in TypeScript type definitions. No additional @types package is needed."
+            "text": "支持。Konva 包含 TypeScript 类型定义，不需要额外安装 @types 包。"
           }
         },
         {
           "@type": "Question",
-          "name": "Can Konva handle thousands of shapes?",
+          "name": "Konva 可以处理数千个图形吗？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. With proper optimization (layer management, shape caching, listening:false for static shapes, batched draws), Konva can handle 10,000+ shapes. See the performance tips documentation for detailed guidance."
+            "text": "可以。通过图层管理、图形缓存、为静态图形设置 listening:false 和批量绘制等优化，Konva 可以处理一万个以上的图形。详细说明请参阅性能优化文档。"
           }
         },
         {
           "@type": "Question",
-          "name": "Does Konva work on mobile?",
+          "name": "Konva 可以在移动设备上运行吗？",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Konva fully supports mobile browsers with touch events (tap, touchstart, touchmove, touchend), multi-touch gestures, and responsive canvas sizing."
+            "text": "可以。Konva 支持移动浏览器、触摸事件（tap、touchstart、touchmove、touchend）、多点触控手势和响应式 Canvas 尺寸。"
           }
         }
       ]

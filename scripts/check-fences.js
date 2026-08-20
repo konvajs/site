@@ -16,10 +16,22 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
+const checkTranslations = process.argv.includes('--translations');
 const ROOTS = [
   path.join(root, 'content'),
-  path.join(root, 'i18n', 'zh-Hans', 'docusaurus-plugin-content-docs', 'current'),
+  ...(checkTranslations
+    ? [path.join(root, 'i18n', 'zh-Hans', 'docusaurus-plugin-content-docs', 'current')]
+    : []),
 ];
+const ENGLISH_DOCS = path.join(root, 'content', 'docs');
+const CHINESE_DOCS = path.join(
+  root,
+  'i18n',
+  'zh-Hans',
+  'docusaurus-plugin-content-docs',
+  'current',
+  'docs'
+);
 
 function listMarkdownFiles(directory) {
   if (!fs.existsSync(directory)) return [];
@@ -68,6 +80,53 @@ function unclosedFenceLine(text) {
   return openedAt;
 }
 
+/** Return every fenced block, including its exact metadata and body bytes. */
+function fencedBlocks(text) {
+  const blocks = [];
+  let active = null;
+
+  text.split('\n').forEach((line, index) => {
+    const match = /^\s*(`{3,})(.*)$/.exec(line);
+    if (!match) {
+      if (active) active.lines.push(line);
+      return;
+    }
+
+    if (!active) {
+      active = {
+        depth: match[1].length,
+        metadata: match[2],
+        line: index + 1,
+        lines: [],
+      };
+    } else if (match[1].length >= active.depth) {
+      blocks.push({
+        metadata: active.metadata,
+        body: active.lines.join('\n'),
+        line: active.line,
+      });
+      active = null;
+    } else {
+      active.lines.push(line);
+    }
+  });
+
+  return blocks;
+}
+
+/** Return Tabs attributes that control which framework demo is displayed. */
+function tabAttributes(text) {
+  const attributes = [];
+  for (const tag of text.matchAll(/<(?:Tabs|TabItem)\b[^>]*>/g)) {
+    for (const attribute of tag[0].matchAll(
+      /\b(value|label)\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\})/g
+    )) {
+      attributes.push(`${attribute[1]}=${attribute[2]}`);
+    }
+  }
+  return attributes;
+}
+
 const failures = [];
 
 for (const directory of ROOTS) {
@@ -76,6 +135,49 @@ for (const directory of ROOTS) {
     if (line !== null) {
       failures.push(`${path.relative(root, file)}:${line} code fence is never closed`);
     }
+  }
+}
+
+let pairedPages = 0;
+let checkedTabAttributes = 0;
+for (const englishFile of checkTranslations ? listMarkdownFiles(ENGLISH_DOCS) : []) {
+  const relativePath = path.relative(ENGLISH_DOCS, englishFile);
+  const chineseFile = path.join(CHINESE_DOCS, relativePath);
+  if (!fs.existsSync(chineseFile)) continue;
+  pairedPages++;
+
+  const englishBlocks = fencedBlocks(body(fs.readFileSync(englishFile, 'utf8')));
+  const chineseBlocks = fencedBlocks(body(fs.readFileSync(chineseFile, 'utf8')));
+  if (englishBlocks.length !== chineseBlocks.length) {
+    failures.push(
+      `${relativePath} has ${englishBlocks.length} English code blocks and ` +
+        `${chineseBlocks.length} Chinese code blocks`
+    );
+    continue;
+  }
+
+  englishBlocks.forEach((englishBlock, index) => {
+    const chineseBlock = chineseBlocks[index];
+    if (englishBlock.metadata !== chineseBlock.metadata) {
+      failures.push(
+        `${relativePath}:${chineseBlock.line} code-fence metadata differs from English`
+      );
+    }
+    if (englishBlock.body !== chineseBlock.body) {
+      failures.push(
+        `${relativePath}:${chineseBlock.line} fenced code differs from English`
+      );
+    }
+  });
+
+  const englishTabs = tabAttributes(fs.readFileSync(englishFile, 'utf8'));
+  const chineseTabs = tabAttributes(fs.readFileSync(chineseFile, 'utf8'));
+  checkedTabAttributes += englishTabs.length;
+  if (
+    englishTabs.length !== chineseTabs.length ||
+    englishTabs.some((attribute, index) => attribute !== chineseTabs[index])
+  ) {
+    failures.push(`${relativePath} has Tabs value or label attributes that differ`);
   }
 }
 
@@ -91,5 +193,9 @@ if (failures.length) {
     (count, directory) => count + listMarkdownFiles(directory).length,
     0
   );
-  console.log(`${total} pages have balanced code fences.`);
+  const translationResult = checkTranslations
+    ? `; ${pairedPages} translated pages have byte-identical fenced code and ` +
+      `${checkedTabAttributes} Tabs attributes`
+    : '';
+  console.log(`${total} pages have balanced code fences${translationResult}.`);
 }

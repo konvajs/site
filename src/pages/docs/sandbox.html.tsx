@@ -23,7 +23,7 @@ const demoSidebar = {
       image: 'polotno.jpg',
       path: 'sandbox/Canvas_Editor.html',
     },
-    'Simple Window Frame': {
+    'Simple Window Designer': {
       image: 'simple-window.png',
       path: 'sandbox/Simple_Window_Frame.html',
     },
@@ -35,7 +35,7 @@ const demoSidebar = {
       image: 'seats-reservation.jpg',
       path: 'sandbox/Seats_Reservation.html',
     },
-    'Drawing Labels on Image': {
+    'Image Labeling': {
       image: 'annotate.jpg',
       path: 'sandbox/Image_Labeling.html',
     },
@@ -73,7 +73,7 @@ const demoSidebar = {
       image: 'crop-image.jpg',
       path: 'sandbox/Canvas_Crop_Image.html',
     },
-    'Watermark': {
+    'Canvas Watermark': {
       image: 'watermark.jpg',
       path: 'sandbox/Canvas_Watermark.html',
     },
@@ -81,7 +81,7 @@ const demoSidebar = {
       image: 'canvas-overlay.jpg',
       path: 'sandbox/Canvas_Overlay.html',
     },
-    'Sticker Editor': {
+    'Canvas Sticker': {
       image: 'canvas-sticker.jpg',
       path: 'sandbox/Canvas_Sticker.html',
     },
@@ -113,7 +113,7 @@ const demoSidebar = {
       image: 'editable_text-min.png',
       path: 'sandbox/Editable_Text.html',
     },
-    'Rich Text rendering': {
+    'Rich Text': {
       image: 'rich-text.jpg',
       path: 'sandbox/Rich_Text.html',
     },
@@ -125,11 +125,11 @@ const demoSidebar = {
       image: 'scroll.png',
       path: 'sandbox/Scroll_By_Edge_Drag.html',
     },
-    'Gif Animation': {
+    'GIF on Canvas': {
       image: 'gif.jpg',
       path: 'sandbox/GIF_On_Canvas.html',
     },
-    'Display Video': {
+    'Video On Canvas': {
       image: 'video.jpg',
       path: 'sandbox/Video_On_Canvas.html',
     },
@@ -157,7 +157,7 @@ const demoSidebar = {
       image: 'custom-font.png',
       path: 'sandbox/Custom_Font.html',
     },
-    'Relative Pointer Position': {
+    'Relative Mouse Position': {
       image: 'pointer.png',
       path: 'sandbox/Relative_Pointer_Position.html',
     },
@@ -165,11 +165,11 @@ const demoSidebar = {
       image: 'drop.png',
       path: 'sandbox/Drop_DOM_Element.html',
     },
-    'Objects Snapping': {
+    'Snapping & Alignment Guides': {
       image: 'objects_snapping.png',
       path: 'sandbox/Objects_Snapping.html',
     },
-    'Zoom Relative To Pointer': {
+    'Zooming Relative To Pointer': {
       image: 'relative_zoom-min.png',
       path: 'sandbox/Zooming_Relative_To_Pointer.html',
     },
@@ -177,15 +177,19 @@ const demoSidebar = {
       image: 'constant-screen-size.svg',
       path: 'sandbox/Constant_Screen_Size.html',
     },
-    'Context Menu': {
+    'Native Context Access': {
+      image: 'native-context-access.svg',
+      path: 'sandbox/Native_Context_Access.html',
+    },
+    'Canvas Context Menu': {
       image: 'context.jpg',
       path: 'sandbox/Canvas_Context_Menu.html',
     },
-    'Image Scale To Fit': {
+    'Scale Image to Fit': {
       image: 'fit-image.jpg',
       path: 'sandbox/Scale_Image_To_Fit.html',
     },
-    'Limit Resize and Drag': {
+    'Limited Drag and Resize': {
       image: 'resize-limit.jpg',
       path: 'sandbox/Limited_Drag_And_Resize.html',
     },
@@ -199,11 +203,11 @@ const demoSidebar = {
       image: 'animation_stress-min.png',
       path: 'sandbox/Animation_Stress_Test.html',
     },
-    'Bunnies Stress Test': {
+    'Jumping Bunnies': {
       image: 'bunnies.jpg',
       path: 'sandbox/Jumping_Bunnies.html',
     },
-    '10000 Shapes with Tooltip': {
+    '10,000 Shapes with Tooltips': {
       image: 'tooltip_stress-min.png',
       path: 'sandbox/10000_Shapes_with_Tooltip.html',
     },
@@ -215,7 +219,7 @@ const demoSidebar = {
       image: 'resize_stress.jpg',
       path: 'sandbox/Resizing_Stress_Test.html',
     },
-    'Quantum Squiggle': {
+    'Oscillating Blobs': {
       image: 'squiggle-min.png',
       path: 'sandbox/Quantum_Squiggle.html',
     },
@@ -229,19 +233,19 @@ const demoSidebar = {
       image: 'spinner-min.png',
       path: 'sandbox/Star_Spinner.html',
     },
-    'Connected Objects': {
+    'Flowchart': {
       image: 'connected-objects.jpg',
       path: 'sandbox/Connected_Objects.html',
     },
-    'Manual Image Resize': {
+    'Image Resize': {
       image: 'image-resize-min.png',
       path: 'sandbox/Image_Resize.html',
     },
-    'Stage Preview': {
+    'Minimap / Stage Preview': {
       image: 'preview.jpg',
       path: 'sandbox/Stage_Preview.html',
     },
-    'Modify Curves with Anchor Points': {
+    'Modify Curves with Anchors': {
       image: 'modify-line-min.png',
       path: 'sandbox/Modify_Curves_with_Anchor_Points.html',
     },
@@ -265,15 +269,15 @@ const demoSidebar = {
       image: 'border-min.png',
       path: 'sandbox/Image_Border_Highlighting.html',
     },
-    'Zoom Layer On hover': {
+    'Zoom Image on Hover': {
       image: 'hover_zoom-min.png',
       path: 'sandbox/Zoom_Layer_On_hover.html',
     },
-    'Responsive Canvas Stage': {
+    'Responsive Canvas': {
       image: 'responsive-min.png',
       path: 'sandbox/Responsive_Canvas.html',
     },
-    'Touch Gestures': {
+    'Gesture Events': {
       image: 'gestures.jpg',
       path: 'sandbox/Gestures.html',
     },
@@ -293,7 +297,7 @@ const demoSidebar = {
       image: 'hover_expand-min.png',
       path: 'sandbox/Expand_Images_on_Hover.html',
     },
-    'Shape Tooltip': {
+    'Shape Tooltips': {
       image: 'shape_tooltip-min.png',
       path: 'sandbox/Shape_Tooltips.html',
     },

@@ -82,7 +82,7 @@ const rect = stage.findOne('#card');
 
 expect(rect.width()).toBe(120);
 expect(stage.find('Circle')).toHaveLength(3);
-expect(stage.find('.selected')).toHaveLength(1);   // .name，不是 CSS 类名
+expect(stage.find('.selected')).toHaveLength(1);   // .name, not a CSS class
 ```
 
 `find('Rect')` 按节点类型匹配，`find('.name')` 按 `name` 属性匹配，`findOne('#id')`
@@ -116,24 +116,15 @@ window.dispatchEvent(new MouseEvent('mousemove', { clientX: 90, clientY: 60, bub
 window.dispatchEvent(new MouseEvent('mouseup',   { clientX: 90, clientY: 60, bubbles: true }));
 ```
 
-Two things to know:
+需要注意两点：
 
 - **要派发 `MouseEvent`，而不只是 `PointerEvent`。** Konva 的拖动处理由鼠标事件族驱动，
   因此只有指针事件的序列可能被忽略，拖动会变成一次静默的空操作。两者都派发是稳妥的做法。
 - **`Konva.dragDistance` 默认为 3 像素。** 移动一两个像素会被当作点击，`dragstart` 根本
   不会触发。请移动得更远，或在测试中设置该阈值。
 
-React 会以异步方式提交来自 Konva 事件处理函数的状态更新，因此请在两次模拟事件之间
-让微任务队列清空：
-
-```js
-const tick = () => new Promise((r) => setTimeout(r, 0));
-
-container.dispatchEvent(down);
-await tick();
-window.dispatchEvent(move);
-await tick();
-```
+`react-konva` 会在每个 Konva 事件处理函数执行后刷新 React 更新。事件之间不需要额外等待
+微任务。只有自己的处理函数启动异步工作时，才需要等待该工作完成。
 
 ## 清理，并检查没有泄漏
 
@@ -143,12 +134,11 @@ await tick();
 ```js
 afterEach(async () => {
   cleanup();
-  // Stage.destroy() 会延迟一个时钟周期，以便 StrictMode 重新挂载时复用它。
+  // Stage.destroy() is deferred a tick so a StrictMode remount can reuse it.
   await new Promise((r) => setTimeout(r, 0));
 
   const leaked = Konva.stages.length;
-  Konva.stages.forEach((s) => s.destroy());
-  Konva.stages.length = 0;
+  [...Konva.stages].forEach((s) => s.destroy());
 
   expect(leaked).toBe(0);
 });
@@ -160,19 +150,25 @@ afterEach(async () => {
 `window`，因此上面那个陷阱并不适用：
 
 ```js
-await page.mouse.move(120, 120);
+const start = await page.evaluate(() => {
+  const stage = window.Konva.stages[0];
+  return stage.findOne('#card').position();
+});
+
+await page.mouse.move(120, 120); // A point inside #card.
 await page.mouse.down();
-await page.mouse.move(260, 200, { steps: 10 });
+await page.mouse.move(260, 200);
 await page.mouse.up();
 
 const pos = await page.evaluate(() => {
   const stage = window.Konva.stages[0];
   return stage.findOne('#card').position();
 });
-expect(pos).toEqual({ x: 260, y: 200 });
+expect(pos).toEqual({ x: start.x + 140, y: start.y + 80 });
 ```
 
-`{ steps: 10 }` 很重要：一次性跳到目标点可能落在 `dragDistance` 之内，从而根本不会开始拖动。
+Konva 会保留指针在节点内的偏移。Konva 根据指针相对起点的总位移检查 `dragDistance`。
+因此，一次超过三像素的移动就可以开始拖动。
 
 ## 不使用 React 的纯 Konva
 

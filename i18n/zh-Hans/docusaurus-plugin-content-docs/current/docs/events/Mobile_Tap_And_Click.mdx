@@ -27,7 +27,7 @@ Konva 会监听全部三个 DOM 输入事件族——鼠标、触摸和指针—
 因此下面这段代码在手机上会让处理函数执行**两次**，在桌面端执行一次：
 
 ```js
-// 在触摸设备上，`click` 触发一次，`tap` 又触发一次。
+// Fires for `click` and again for `tap` on a touch device.
 shape.on('click tap', handleSelect);
 ```
 
@@ -36,7 +36,7 @@ shape.on('click tap', handleSelect);
 最简单的办法是不再成对绑定事件，改用指针事件族——它已经覆盖了鼠标、触摸和触控笔：
 
 ```js
-shape.on('pointerclick', handleSelect);   // 在任何设备上都只触发一次
+shape.on('pointerclick', handleSelect);   // once, on every device
 ```
 
 `pointerdown`、`pointermove` 和 `pointerup` 的用法相同。指针事件默认开启
@@ -50,7 +50,7 @@ shape.on('pointerclick', handleSelect);   // 在任何设备上都只触发一�
 let lastHandled = 0;
 
 function handleSelect(e) {
-  // 合成的鼠标事件会在对应触摸之后约 300 毫秒内到达。
+  // A synthesised mouse event follows its touch within about 300ms.
   const now = Date.now();
   if (now - lastHandled < 400) return;
   lastHandled = now;
@@ -72,8 +72,8 @@ function handleSelect(e) {
 shape.on('dragend', () => console.log('dragged'));
 shape.on('click',   () => console.log('clicked'));
 
-// 拖动图形：只会得到 'dragged'。
-// 按下后不移动再松开：只会得到 'clicked'。
+// Drag the shape: you get 'dragged' only.
+// Press and release without moving: you get 'clicked' only.
 ```
 
 如果你仍然看到拖动之后出现 click，通常是下面几种原因之一。

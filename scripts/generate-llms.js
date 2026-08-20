@@ -14,7 +14,7 @@
  * /zh-Hans/llms.txt was byte-identical to the English one.
  *
  * The English llms.txt stays hand-curated in static/. Its intro is written
- * prose and its 36 links are chosen, not enumerated; generating it from
+ * prose and its 34 links are chosen, not enumerated; generating it from
  * frontmatter would be a downgrade. The Chinese version reuses that structure
  * and substitutes each page's own Chinese title, description and URL.
  */
@@ -30,6 +30,7 @@ const ZH_CONTENT = path.join(
   ROOT, 'i18n', 'zh-Hans', 'docusaurus-plugin-content-docs', 'current'
 );
 const ZH_HEADER = path.join(ROOT, 'i18n', 'zh-Hans', 'llms-header.md');
+const ZH_CODE = path.join(ROOT, 'i18n', 'zh-Hans', 'code.json');
 
 const SITE = 'https://konvajs.org';
 
@@ -71,6 +72,84 @@ function parseFrontmatter(input) {
   return { data, body: raw.slice(match[0].length) };
 }
 
+function isEscaped(input, index) {
+  let backslashes = 0;
+  for (let cursor = index - 1; cursor >= 0 && input[cursor] === '\\'; cursor--) {
+    backslashes++;
+  }
+  return backslashes % 2 === 1;
+}
+
+/** Remove MDX tags without removing JSX names inside inline code. */
+function stripMdxTagsOutsideInlineCode(line, tagState = {
+  inTag: false,
+  quote: null,
+  braceDepth: 0,
+}) {
+  let output = '';
+  let inlineFence = null;
+
+  for (let index = 0; index < line.length;) {
+    if (tagState.inTag) {
+      const character = line[index];
+
+      if (tagState.quote !== null) {
+        if (character === tagState.quote && !isEscaped(line, index)) {
+          tagState.quote = null;
+        }
+      } else if (character === '"' || character === "'" || character === '`') {
+        tagState.quote = character;
+      } else if (character === '{') {
+        tagState.braceDepth++;
+      } else if (character === '}' && tagState.braceDepth > 0) {
+        tagState.braceDepth--;
+      } else if (character === '>' && tagState.braceDepth === 0) {
+        tagState.inTag = false;
+      }
+
+      index++;
+      continue;
+    }
+
+    if (line[index] === '`') {
+      let end = index + 1;
+      while (line[end] === '`') end++;
+      const length = end - index;
+
+      if (inlineFence === null) inlineFence = length;
+      else if (inlineFence === length) inlineFence = null;
+
+      output += line.slice(index, end);
+      index = end;
+      continue;
+    }
+
+    if (inlineFence === null && line[index] === '<') {
+      const fragment = line.slice(index).match(/^<\/?\s*>/);
+      if (fragment) {
+        index += fragment[0].length;
+        continue;
+      }
+
+      const tagStart = line.slice(index).match(
+        /^<\/?[A-Za-z][A-Za-z0-9._:-]*(?=[\s/>]|$)/
+      );
+      if (tagStart) {
+        tagState.inTag = true;
+        tagState.quote = null;
+        tagState.braceDepth = 0;
+        index += tagStart[0].length;
+        continue;
+      }
+    }
+
+    output += line[index];
+    index++;
+  }
+
+  return output;
+}
+
 /**
  * MDX -> plain markdown. Drops imports and JSX component tags but keeps
  * everything inside them, and never touches the inside of a code fence.
@@ -78,6 +157,9 @@ function parseFrontmatter(input) {
 function mdxToMarkdown(body) {
   const out = [];
   let fence = null;
+  let skipHead = false;
+  let iframe = null;
+  const tagState = { inTag: false, quote: null, braceDepth: 0 };
 
   for (const line of body.split('\n')) {
     const fenceMatch = line.match(/^\s*(`{3,}|~{3,})/);
@@ -89,19 +171,56 @@ function mdxToMarkdown(body) {
         out.push(line.replace(/^(\s*`{3,}|\s*~{3,})\s*(\w+)?.*$/, (m, f, lang) => f + (lang || '')));
         continue;
       }
-      if (marker.length >= fence.length && marker[0] === fence[0]) fence = null;
+      if (
+        marker.length >= fence.length &&
+        marker[0] === fence[0] &&
+        line.slice(fenceMatch[0].length).trim() === ''
+      ) {
+        fence = null;
+      }
       out.push(line);
       continue;
     }
     if (fence !== null) { out.push(line); continue; }
 
+    if (/^\s*<Head>\s*$/.test(line)) {
+      skipHead = true;
+      continue;
+    }
+    if (skipHead) {
+      if (/^\s*<\/Head>\s*$/.test(line)) skipHead = false;
+      continue;
+    }
+
+    if (iframe !== null || /<iframe\b/.test(line)) {
+      iframe = iframe === null ? line : `${iframe}\n${line}`;
+      if (/<\/iframe>|\/>/.test(line)) {
+        const source = iframe.match(/\bsrc=(['"])(.*?)\1/);
+        if (source) out.push(`[Open the interactive demo](${source[2]})`);
+        iframe = null;
+      }
+      continue;
+    }
+
     if (/^\s*import\s.+from\s.+;?\s*$/.test(line)) continue;
     if (/^\s*export\s+(const|default)\s/.test(line)) continue;
 
-    const stripped = line.replace(/<\/?[A-Z][A-Za-z0-9]*(\s[^>]*?)?\/?>/g, '').trimEnd();
+    const image = line.match(/<img\b([^>]*)\/?>/);
+    if (image) {
+      const source = image[1].match(/\bsrc=(['"])(.*?)\1/);
+      const alt = image[1].match(/\balt=(['"])(.*?)\1/);
+      if (source) out.push(`![${alt ? alt[2] : ''}](${source[2]})`);
+      continue;
+    }
+
+    const stripped = stripMdxTagsOutsideInlineCode(line, tagState).trimEnd();
     if (stripped.trim() === '' && line.trim() !== '') continue;
     out.push(stripped);
   }
+
+  if (skipHead) throw new Error('Unclosed <Head> in MDX source.');
+  if (iframe !== null) throw new Error('Unclosed <iframe> in MDX source.');
+  if (tagState.inTag) throw new Error('Unclosed MDX tag in source.');
 
   return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
@@ -133,7 +252,7 @@ function collect(contentRoot) {
 
 /* -------------------------------------------------- 1. Chinese llms.txt */
 
-function buildChineseIndex(enIndex, zhPages) {
+function buildChineseIndex(enIndex, zhPages, runtimePages = new Map()) {
   const lines = [];
   let translated = 0;
   let passedThrough = 0;
@@ -151,8 +270,16 @@ function buildChineseIndex(enIndex, zhPages) {
 
     const [, label, , route] = link;
     const page = zhPages.get(route);
+    const runtimePage = runtimePages.get(route);
 
     if (!page) {
+      if (runtimePage) {
+        translated++;
+        lines.push(
+          `- [${runtimePage.title}](${SITE}/zh-Hans/${route}): ${runtimePage.description}`
+        );
+        continue;
+      }
       // Not an MDX page — a React route such as the demo gallery, or the API
       // reference. Still point at the Chinese build when one exists, so the
       // reader lands on the localised page; keep /api/ English on purpose,
@@ -210,7 +337,14 @@ function writeMarkdownTwins(pages, buildRoot, label) {
       '',
     ].join('\n');
 
-    fs.writeFileSync(html.replace(/\.html$/, '.md'), header + page.markdown + '\n', 'utf-8');
+    const markdown =
+      buildRoot === BUILD
+        ? page.markdown
+        : page.markdown.replace(
+            /\]\(\/(docs|api)\//g,
+            '](/zh-Hans/$1/'
+          );
+    fs.writeFileSync(html.replace(/\.html$/, '.md'), header + markdown + '\n', 'utf-8');
     written++;
   }
 
@@ -219,6 +353,32 @@ function writeMarkdownTwins(pages, buildRoot, label) {
     console.warn(`  ${label}: ${unbuilt.length} page(s) had no built HTML: ${unbuilt.slice(0, 3).join(', ')}`);
   }
   return written;
+}
+
+/** Advertise only locale sitemaps that this build actually contains. */
+function writeRobotsSitemaps() {
+  const robotsPath = path.join(BUILD, 'robots.txt');
+  if (!fs.existsSync(robotsPath)) return;
+
+  const base = fs
+    .readFileSync(robotsPath, 'utf8')
+    .split('\n')
+    .filter((line) => !line.startsWith('Sitemap:'))
+    .join('\n')
+    .trimEnd();
+  const sitemapRoutes = ['sitemap.xml'];
+  for (const entry of fs.readdirSync(BUILD, { withFileTypes: true })) {
+    if (
+      entry.isDirectory() &&
+      fs.existsSync(path.join(BUILD, entry.name, 'sitemap.xml'))
+    ) {
+      sitemapRoutes.push(`${entry.name}/sitemap.xml`);
+    }
+  }
+  const lines = sitemapRoutes
+    .sort()
+    .map((route) => `Sitemap: ${SITE}/${route}`);
+  fs.writeFileSync(robotsPath, `${base}\n\n${lines.join('\n')}\n`, 'utf8');
 }
 
 /* ------------------------------------------------------------------ main */
@@ -231,29 +391,70 @@ function main() {
   }
 
   const enPages = collect(EN_CONTENT);
+  console.log(`Collected ${enPages.size} English pages.`);
+  writeMarkdownTwins(enPages, BUILD, 'en');
+  writeRobotsSitemaps();
+
+  const localeIndex = process.argv.indexOf('--locale');
+  const requestedLocale = localeIndex === -1 ? null : process.argv[localeIndex + 1];
+  if (requestedLocale === 'en') return;
+
+  if (!fs.existsSync(ZH_CONTENT)) {
+    console.log('Chinese translation is not installed; skipping localized output.');
+    return;
+  }
+  if (!fs.existsSync(ZH_BUILD)) {
+    console.error('Chinese sources exist, but build/zh-Hans does not.');
+    process.exitCode = 1;
+    return;
+  }
+
   const zhPages = collect(ZH_CONTENT);
-  console.log(`Collected ${enPages.size} English and ${zhPages.size} Chinese pages.`);
+  console.log(`Collected ${zhPages.size} Chinese pages.`);
 
-  // 1. Chinese index, overwriting the English copy Docusaurus placed there.
+  // Overwrite the English index that Docusaurus copied into the locale build.
   const enIndex = fs.readFileSync(path.join(BUILD, 'llms.txt'), 'utf-8');
-  const { text, translated, passedThrough } = buildChineseIndex(enIndex, zhPages);
-
+  const zhCode = fs.existsSync(ZH_CODE)
+    ? JSON.parse(fs.readFileSync(ZH_CODE, 'utf8'))
+    : {};
+  const runtimePages = new Map([
+    [
+      'docs/sandbox.html',
+      {
+        title: zhCode['demos.title']?.message ?? 'Demos',
+        description: zhCode['demos.description']?.message ?? '',
+      },
+    ],
+  ]);
+  const { text, translated, passedThrough } = buildChineseIndex(
+    enIndex,
+    zhPages,
+    runtimePages
+  );
   const header = fs.existsSync(ZH_HEADER) ? fs.readFileSync(ZH_HEADER, 'utf-8').trim() : null;
-  const body = header
+  const localizedBody = header
     ? header + '\n\n' + text.slice(text.indexOf('\n## '))
     : text;
 
-  fs.writeFileSync(path.join(ZH_BUILD, 'llms.txt'), body.trimEnd() + '\n', 'utf-8');
+  fs.writeFileSync(
+    path.join(ZH_BUILD, 'llms.txt'),
+    localizedBody.trimEnd() + '\n',
+    'utf-8'
+  );
   console.log(
     `  zh-Hans/llms.txt: ${translated} entries localised, ${passedThrough} left in English` +
       (header ? ', translated intro applied' : ', NO translated intro (i18n/zh-Hans/llms-header.md missing)')
   );
-
-  // 2. Markdown twins for both locales.
-  writeMarkdownTwins(enPages, BUILD, 'en');
   writeMarkdownTwins(zhPages, ZH_BUILD, 'zh-Hans');
 }
 
 if (require.main === module) main();
 
-module.exports = { collect, routeFor, parseFrontmatter, mdxToMarkdown, resolveBuiltPage };
+module.exports = {
+  collect,
+  routeFor,
+  parseFrontmatter,
+  mdxToMarkdown,
+  resolveBuiltPage,
+  stripMdxTagsOutsideInlineCode,
+};

@@ -406,7 +406,7 @@ const App = () => {
           x: node.x(),
           y: node.y(),
           width: Math.max(5, node.width() * scaleX),
-          height: Math.max(node.height() * scaleY),
+          height: Math.max(5, node.height() * scaleY),
           rotation: node.rotation(),
         };
       }
@@ -422,7 +422,11 @@ const App = () => {
       onMouseDown={handleMouseDown}
       onMousemove={handleMouseMove}
       onMouseup={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchMove={handleMouseMove}
+      onTouchEnd={handleMouseUp}
       onClick={handleStageClick}
+      onTap={handleStageClick}
     >
       <Layer>
         {/* Render rectangles directly */}
@@ -487,7 +491,11 @@ export default App;
     @mousedown="handleMouseDown"
     @mousemove="handleMouseMove"
     @mouseup="handleMouseUp"
+    @touchstart="handleMouseDown"
+    @touchmove="handleMouseMove"
+    @touchend="handleMouseUp"
     @click="handleStageClick"
+    @tap="handleStageClick"
     ref="stageRef"
   >
     <v-layer ref="layerRef">
@@ -738,7 +746,7 @@ const handleTransformEnd = (e, index) => {
     x: node.x(),
     y: node.y(),
     width: Math.max(5, node.width() * scaleX),
-    height: Math.max(node.height() * scaleY),
+    height: Math.max(5, node.height() * scaleY),
     rotation: node.rotation(),
   };
   rectangles.value = rects;

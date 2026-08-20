@@ -10,7 +10,7 @@ description: "Display and animate GIF images on HTML5 canvas by parsing frames w
 
 You can't directly insert GIF image into the canvas. But we can use external library to parse the gif and then we can draw it into the layer as `Konva.Image` shape.
 
-In this demo we will use [gifler](http://themadcreator.github.io/gifler/) to parse and draw the gif. You can use any other library.
+This demo uses [gifler](https://themadcreator.github.io/gifler/) to parse and draw the GIF. You can use a different library.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -165,4 +165,4 @@ onMounted(() => {
   </TabItem>
 </Tabs>
 
-Instructions: The demo shows an animated GIF rendered on canvas using the gifler library. The GIF is parsed and each frame is drawn onto a canvas, which is then used as the source for a Konva.Image shape. 
+Instructions: The demo shows an animated GIF rendered on canvas using the gifler library. The GIF is parsed and each frame is drawn onto a canvas, which is then used as the source for a Konva.Image shape.

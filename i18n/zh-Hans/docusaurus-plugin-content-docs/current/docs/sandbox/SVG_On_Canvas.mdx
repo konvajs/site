@@ -43,11 +43,7 @@ import TabItem from "@theme/TabItem";
   <TabItem value="Vanilla" default>
 ```js live vanilla
 import Konva from 'konva';
-
-// Load canvg library
-const script = document.createElement('script');
-script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
-document.head.appendChild(script);
+import { Canvg } from 'canvg';
 
 const stage = new Konva.Stage({
   container: 'container',
@@ -70,20 +66,24 @@ Konva.Image.fromURL(SOURCE, (imageNode) => {
 });
 
 // draw svg with external library
-script.onload = () => {
+async function renderWithCanvg() {
   const canvas = document.createElement('canvas');
-  canvg(canvas, SOURCE, {
-    renderCallback: function () {
-      const image = new Konva.Image({
-        image: canvas,
-        x: 200,
-        width: 150,
-        height: 150,
-      });
-      layer.add(image);
-    },
+  const context = canvas.getContext('2d');
+  const renderer = await Canvg.from(context, SOURCE);
+  await renderer.render();
+
+  const image = new Konva.Image({
+    image: canvas,
+    x: 200,
+    width: 150,
+    height: 150,
   });
-};
+  layer.add(image);
+}
+
+renderWithCanvg().catch((error) => {
+  console.error('Failed to render SVG:', error);
+});
 ```
   </TabItem>
   <TabItem value="React">
@@ -91,6 +91,7 @@ script.onload = () => {
 import React from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 import { useImage } from 'react-konva-utils';
+import { Canvg } from 'canvg';
 
 const SOURCE = 'https://konvajs.org/assets/tiger.svg';
 
@@ -99,21 +100,22 @@ const App = () => {
   const [canvgImage, setCanvgImage] = React.useState(null);
 
   React.useEffect(() => {
-    // Load canvg library and render SVG
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
-    script.onload = () => {
+    let active = true;
+
+    const renderWithCanvg = async () => {
       const canvas = document.createElement('canvas');
-      canvg(canvas, SOURCE, {
-        renderCallback: function () {
-          setCanvgImage(canvas);
-        },
-      });
+      const context = canvas.getContext('2d');
+      const renderer = await Canvg.from(context, SOURCE);
+      await renderer.render();
+      if (active) setCanvgImage(canvas);
     };
-    document.head.appendChild(script);
+
+    renderWithCanvg().catch((error) => {
+      console.error('Failed to render SVG:', error);
+    });
 
     return () => {
-      script.remove();
+      active = false;
     };
   }, []);
 
@@ -172,33 +174,32 @@ export default App;
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useImage } from 'vue-konva';
+import { Canvg } from 'canvg';
 
 const SOURCE = 'https://konvajs.org/assets/tiger.svg';
 const [nativeImage] = useImage(SOURCE);
 const canvgImage = ref(null);
+let isUnmounted = false;
 
 const stageConfig = {
   width: window.innerWidth,
   height: window.innerHeight
 };
 
-onMounted(() => {
-  // Load canvg library and render SVG
-  const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
-  script.onload = () => {
+onMounted(async () => {
+  try {
     const canvas = document.createElement('canvas');
-    canvg(canvas, SOURCE, {
-      renderCallback: function () {
-        canvgImage.value = canvas;
-      },
-    });
-  };
-  document.head.appendChild(script);
+    const context = canvas.getContext('2d');
+    const renderer = await Canvg.from(context, SOURCE);
+    await renderer.render();
+    if (!isUnmounted) canvgImage.value = canvas;
+  } catch (error) {
+    if (!isUnmounted) console.error('Failed to render SVG:', error);
+  }
+});
 
-  return () => {
-    script.remove();
-  };
+onUnmounted(() => {
+  isUnmounted = true;
 });
 </script>
 ```

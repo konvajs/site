@@ -193,20 +193,24 @@ const commonProps = {
 
 const ColorPolygon = () => {
   const [fill, setFill] = React.useState('red');
+  const handleEnter = (e) => {
+    setFill('blue');
+    e.target.getStage().container().style.cursor = 'pointer';
+  };
+  const handleLeave = (e) => {
+    setFill('red');
+    e.target.getStage().container().style.cursor = 'default';
+  };
   return (
     <RegularPolygon
       {...commonProps}
       x={80}
       y={window.innerHeight / 2}
       fill={fill}
-      onMouseEnter={(e) => {
-        setFill('blue');
-        e.target.getStage().container().style.cursor = 'pointer';
-      }}
-      onMouseLeave={(e) => {
-        setFill('red');
-        e.target.getStage().container().style.cursor = 'default';
-      }}
+      onMouseEnter={handleEnter}
+      onTouchStart={handleEnter}
+      onMouseLeave={handleLeave}
+      onTouchEnd={handleLeave}
     />
   );
 };
@@ -223,6 +227,17 @@ const PatternPolygon = () => {
     }
   }, [darthVader]);
 
+  const handleEnter = (e) => {
+    setImage(yoda);
+    setOffset({ x: -100, y: 70 });
+    e.target.getStage().container().style.cursor = 'pointer';
+  };
+  const handleLeave = (e) => {
+    setImage(darthVader);
+    setOffset({ x: -220, y: 70 });
+    e.target.getStage().container().style.cursor = 'default';
+  };
+
   return (
     <RegularPolygon
       {...commonProps}
@@ -230,22 +245,24 @@ const PatternPolygon = () => {
       y={window.innerHeight / 2}
       fillPatternImage={image}
       fillPatternOffset={offset}
-      onMouseEnter={(e) => {
-        setImage(yoda);
-        setOffset({ x: -100, y: 70 });
-        e.target.getStage().container().style.cursor = 'pointer';
-      }}
-      onMouseLeave={(e) => {
-        setImage(darthVader);
-        setOffset({ x: -220, y: 70 });
-        e.target.getStage().container().style.cursor = 'default';
-      }}
+      onMouseEnter={handleEnter}
+      onTouchStart={handleEnter}
+      onMouseLeave={handleLeave}
+      onTouchEnd={handleLeave}
     />
   );
 };
 
 const LinearGradientPolygon = () => {
   const [colorStops, setColorStops] = React.useState([0, 'red', 1, 'yellow']);
+  const handleEnter = (e) => {
+    setColorStops([0, 'green', 1, 'yellow']);
+    e.target.getStage().container().style.cursor = 'pointer';
+  };
+  const handleLeave = (e) => {
+    setColorStops([0, 'red', 1, 'yellow']);
+    e.target.getStage().container().style.cursor = 'default';
+  };
   return (
     <RegularPolygon
       {...commonProps}
@@ -254,20 +271,24 @@ const LinearGradientPolygon = () => {
       fillLinearGradientStartPoint={{ x: -50, y: -50 }}
       fillLinearGradientEndPoint={{ x: 50, y: 50 }}
       fillLinearGradientColorStops={colorStops}
-      onMouseEnter={(e) => {
-        setColorStops([0, 'green', 1, 'yellow']);
-        e.target.getStage().container().style.cursor = 'pointer';
-      }}
-      onMouseLeave={(e) => {
-        setColorStops([0, 'red', 1, 'yellow']);
-        e.target.getStage().container().style.cursor = 'default';
-      }}
+      onMouseEnter={handleEnter}
+      onTouchStart={handleEnter}
+      onMouseLeave={handleLeave}
+      onTouchEnd={handleLeave}
     />
   );
 };
 
 const RadialGradientPolygon = () => {
   const [colorStops, setColorStops] = React.useState([0, 'red', 0.5, 'yellow', 1, 'blue']);
+  const handleEnter = (e) => {
+    setColorStops([0, 'red', 0.5, 'yellow', 1, 'green']);
+    e.target.getStage().container().style.cursor = 'pointer';
+  };
+  const handleLeave = (e) => {
+    setColorStops([0, 'red', 0.5, 'yellow', 1, 'blue']);
+    e.target.getStage().container().style.cursor = 'default';
+  };
   return (
     <RegularPolygon
       {...commonProps}
@@ -278,14 +299,10 @@ const RadialGradientPolygon = () => {
       fillRadialGradientEndPoint={{ x: 0, y: 0 }}
       fillRadialGradientEndRadius={70}
       fillRadialGradientColorStops={colorStops}
-      onMouseEnter={(e) => {
-        setColorStops([0, 'red', 0.5, 'yellow', 1, 'green']);
-        e.target.getStage().container().style.cursor = 'pointer';
-      }}
-      onMouseLeave={(e) => {
-        setColorStops([0, 'red', 0.5, 'yellow', 1, 'blue']);
-        e.target.getStage().container().style.cursor = 'default';
-      }}
+      onMouseEnter={handleEnter}
+      onTouchStart={handleEnter}
+      onMouseLeave={handleLeave}
+      onTouchEnd={handleLeave}
     />
   );
 };
@@ -325,7 +342,9 @@ export default App;
           draggable: true,
         }"
         @mouseenter="onColorEnter"
+        @touchstart="onColorEnter"
         @mouseleave="onColorLeave"
+        @touchend="onColorLeave"
       />
       <v-regular-polygon
         :config="{
@@ -340,7 +359,9 @@ export default App;
           draggable: true,
         }"
         @mouseenter="onPatternEnter"
+        @touchstart="onPatternEnter"
         @mouseleave="onPatternLeave"
+        @touchend="onPatternLeave"
       />
       <v-regular-polygon
         :config="{
@@ -356,7 +377,9 @@ export default App;
           draggable: true,
         }"
         @mouseenter="onLinearGradientEnter"
+        @touchstart="onLinearGradientEnter"
         @mouseleave="onLinearGradientLeave"
+        @touchend="onLinearGradientLeave"
       />
       <v-regular-polygon
         :config="{
@@ -374,7 +397,9 @@ export default App;
           draggable: true,
         }"
         @mouseenter="onRadialGradientEnter"
+        @touchstart="onRadialGradientEnter"
         @mouseleave="onRadialGradientLeave"
+        @touchend="onRadialGradientLeave"
       />
     </v-layer>
   </v-stage>

@@ -20,7 +20,7 @@ Konva 补充了这些缺失的功能：
 - **事件系统** — 单击矩形、将鼠标悬停在圆形上或拖动组。事件会像 DOM 事件一样，从图形通过组和图层冒泡。
 - **拖放** — 为任意图形设置 `draggable: true` 即可。可以根据需要添加边界、吸附和放置区域。
 - **选择与变换** — 内置 `Transformer` 可为任意图形添加调整大小和旋转控制手柄。
-- **序列化** — 将整个 Canvas state 保存为 JSON，并在以后恢复。无需自定义序列化代码。
+- **序列化** — 将节点树及其可序列化属性保存为 JSON。图像、事件处理函数和自定义绘制函数必须单独恢复。
 - **多图层架构** — 每个 Layer 都是独立的 `<canvas>` 元素。交互式图形发生变化时，静态背景不会重新渲染。
 - **框架集成** — 为 React（`react-konva`）、Vue（`vue-konva`）、Svelte（`svelte-konva`）和 Angular（`ng2-konva`）提供官方绑定。
 
@@ -53,8 +53,8 @@ Konva 是一个专用工具，不会尝试完成所有任务：
 | 如果需要... | 改用 |
 |---|---|
 | 具有 WebGL 性能的 2D 游戏 | [PixiJS](https://pixijs.com/) |
-| SVG 导出 | [Fabric.js](http://fabricjs.com/) |
-| 矢量图形和贝塞尔数学 | [Paper.js](http://paperjs.org/) |
+| SVG 导出 | [Fabric.js](https://fabricjs.com/) |
+| 矢量图形和贝塞尔数学 | [Paper.js](https://paperjs.org/) |
 | 创意编程和生成艺术 | [p5.js](https://p5js.org/) |
 | 3D 图形 | [Three.js](https://threejs.org/) |
 | 标准图表 | [Chart.js](https://www.chartjs.org/) 或 [D3](https://d3js.org/) |

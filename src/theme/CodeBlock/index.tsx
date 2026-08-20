@@ -3,27 +3,34 @@ import CodeBlock from '@theme-original/CodeBlock';
 import type CodeBlockType from '@theme/CodeBlock';
 import type { WrapperProps } from '@docusaurus/types';
 import { Sandpack } from '@codesandbox/sandpack-react';
+import dependencyVersions from './dependencies.json';
 
 type Props = WrapperProps<typeof CodeBlockType>;
 
-const KONVA_VERSION = '10.3.1';
+function packageVersion(packageName: keyof typeof dependencyVersions): string {
+  return dependencyVersions[packageName];
+}
 
-// Versions for packages that must not float to "latest".
-const dependencyVersions: Record<string, string> = {
-  yjs: '13.6.32',
-};
-
-// Extract non-konva npm package names from import statements
+// Extract npm package names from import statements.
 function extractDeps(code: string): Record<string, string> {
   const deps: Record<string, string> = {};
-  const re = /import\s+(?:[\s\S]*?\s+from\s+)?['"]([^./][^'"]*)['"]/g;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(code))) {
-    const pkg = m[1].startsWith('@')
-      ? m[1].split('/').slice(0, 2).join('/')
-      : m[1].split('/')[0];
-    if (pkg !== 'konva') {
-      deps[pkg] = dependencyVersions[pkg] ?? 'latest';
+  const patterns = [
+    /\bfrom\s*['"]([^'"]+)['"]/g,
+    /\bimport\s*['"]([^'"]+)['"]/g,
+    /\b(?:import|require)\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
+  ];
+
+  for (const pattern of patterns) {
+    for (const match of code.matchAll(pattern)) {
+      const specifier = match[1];
+      if (specifier.startsWith('.') || specifier.startsWith('/')) continue;
+      const pkg = specifier.startsWith('@')
+        ? specifier.split('/').slice(0, 2).join('/')
+        : specifier.split('/')[0];
+      if (!(pkg in dependencyVersions)) {
+        throw new Error(`No Sandpack dependency version is set for "${pkg}".`);
+      }
+      deps[pkg] = dependencyVersions[pkg as keyof typeof dependencyVersions];
     }
   }
   return deps;
@@ -42,7 +49,7 @@ function Vanilla({ code }: { code: string }) {
       template="vanilla"
       customSetup={{
         dependencies: {
-          konva: KONVA_VERSION,
+          konva: packageVersion('konva'),
           ...extractDeps(code),
         },
       }}
@@ -65,12 +72,9 @@ function ReactKonva({ code }: { code: string }) {
       customSetup={{
         dependencies: {
           ...extractDeps(code),
-          react: '^18',
-          'react-dom': '^18',
-          'react-konva': '^18',
-          'react-konva-utils': 'latest',
-          konva: KONVA_VERSION,
-          'use-image': '1.1.4',
+          react: packageVersion('react'),
+          'react-dom': packageVersion('react-dom'),
+          konva: packageVersion('konva'),
         },
       }}
       files={{
@@ -98,12 +102,13 @@ function AngularKonva({ code }: { code: string }) {
       options={editorOptions}
       customSetup={{
         dependencies: {
-          '@angular/common': '^21.2.1',
-          '@angular/compiler': '^21.2.1',
-          '@angular/core': '^21.2.1',
-          '@angular/platform-browser': '^21.2.1',
-          konva: KONVA_VERSION,
-          'ng2-konva': '12.0.0',
+          ...extractDeps(code),
+          '@angular/common': packageVersion('@angular/common'),
+          '@angular/compiler': packageVersion('@angular/compiler'),
+          '@angular/core': packageVersion('@angular/core'),
+          '@angular/platform-browser': packageVersion('@angular/platform-browser'),
+          rxjs: packageVersion('rxjs'),
+          'zone.js': packageVersion('zone.js'),
         },
       }}
       files={{
@@ -130,8 +135,10 @@ function VueKonva({ code }: { code: string }) {
       options={editorOptions}
       customSetup={{
         dependencies: {
-          'vue-konva': '3.4.0',
-          konva: KONVA_VERSION,
+          ...extractDeps(code),
+          vue: packageVersion('vue'),
+          'vue-konva': packageVersion('vue-konva'),
+          konva: packageVersion('konva'),
         },
       }}
       files={{
@@ -157,19 +164,21 @@ function SvelteKonva({ code }: { code: string }) {
       options={editorOptions}
       customSetup={{
         dependencies: {
-          'svelte-konva': 'latest',
-          konva: KONVA_VERSION,
-          svelte: '^4.0.0',
+          ...extractDeps(code),
+          'svelte-konva': packageVersion('svelte-konva'),
+          konva: packageVersion('konva'),
+          svelte: packageVersion('svelte'),
         },
       }}
       files={{
         'App.svelte': { code },
         'styles.css': { code: resetCss, hidden: true },
         'main.js': {
-          code: `import App from './App.svelte';
+          code: `import { mount } from 'svelte';
+import App from './App.svelte';
 import './styles.css';
 
-const app = new App({
+const app = mount(App, {
   target: document.getElementById('app')
 });
 

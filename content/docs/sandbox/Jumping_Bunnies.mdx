@@ -8,7 +8,7 @@ description: "Bunnymark performance stress test for Konva, animating hundreds of
 
 ## Performance stress test with bouncing bunnies
 
-This demo showcases the performance of moving many `Konva.Image` objects at the same time. It's adapted from the [Bunnymark demo](https://www.goodboydigital.com/pixijs/bunnymark/) of the [PixiJS framework](https://www.pixijs.com/).
+This demo showcases the performance of moving many `Konva.Image` objects at the same time. It's adapted from the [Bunnymark demo](https://www.goodboydigital.com/pixijs/bunnymark/) of the [PixiJS framework](https://pixijs.com/).
 
 Note: You may notice that the `Konva` version is slower than the original `PixiJS` version. This is because PixiJS is highly optimized for WebGL rendering and this specific type of animation. While Konva continues to optimize its internals, remember that this demo doesn't represent the performance of typical applications made with Konva.
 
@@ -34,7 +34,7 @@ const stage = new Konva.Stage({
   height: height,
 });
 
-const layer = new Konva.FastLayer();
+const layer = new Konva.Layer({ listening: false });
 stage.add(layer);
 
 // Create stats and counter display
@@ -150,7 +150,7 @@ function update() {
   <TabItem value="React">
 ```js live react
 import { useState, useEffect, useRef } from 'react';
-import { Stage, FastLayer, Image } from 'react-konva';
+import { Stage, Layer, Image } from 'react-konva';
 import { useImage } from 'react-konva-utils';
 
 const BunnyMark = () => {
@@ -289,7 +289,7 @@ const BunnyMark = () => {
         onTouchStart={handleDown}
         onTouchEnd={handleUp}
       >
-        <FastLayer ref={layerRef}>
+        <Layer ref={layerRef} listening={false}>
           {bunniesRef.current.map((bunny, i) => (
             <Image
               key={i}
@@ -301,7 +301,7 @@ const BunnyMark = () => {
               perfectDrawEnabled={false}
             />
           ))}
-        </FastLayer>
+        </Layer>
       </Stage>
       <div 
         style={{
@@ -333,7 +333,7 @@ export default BunnyMark;
       @touchstart="isAdding = true"
       @touchend="isAdding = false"
     >
-      <v-fast-layer ref="layerRef">
+      <v-layer ref="layerRef" :config="{ listening: false }">
         <v-image
           v-for="(bunny, index) in bunnies"
           :key="index"
@@ -346,7 +346,7 @@ export default BunnyMark;
           }"
           :ref="el => storeNodeRef(index, el)"
         />
-      </v-fast-layer>
+      </v-layer>
     </v-stage>
     <div 
       style="position: absolute; top: 50px; background-color: white; font-size: 12px; padding: 5px;"
@@ -493,4 +493,4 @@ onMounted(() => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

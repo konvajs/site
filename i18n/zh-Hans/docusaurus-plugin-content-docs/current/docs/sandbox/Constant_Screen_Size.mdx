@@ -24,10 +24,10 @@ label.scale({ x: 1 / s, y: 1 / s });
 命名规则是 `<attr>Change`，因此真正的事件是 `scaleXChange`：
 
 ```js
-// 正确：在设置 scaleX 时触发。
+// Correct: fires when scaleX is set.
 stage.on('scaleXChange', updateLabels);
 
-// 这不是真实事件。该处理函数永远不会执行，而且没有任何提示。
+// Not a real event. This handler will never run, silently.
 stage.on('scale change', updateLabels);
 ```
 
@@ -67,7 +67,7 @@ const labels = [];
 shapes.forEach((s) => {
   layer.add(new Konva.Circle({ x: s.x, y: s.y, radius: s.radius, fill: s.fill }));
 
-  // 标签位于场景坐标中，因此会跟随它的圆形移动。
+  // The label sits in scene coordinates, so it moves with its circle.
   const label = new Konva.Text({
     x: s.x,
     y: s.y + s.radius + 6,
@@ -80,7 +80,7 @@ shapes.forEach((s) => {
   layer.add(label);
 });
 
-// 抵消每个标签上的舞台缩放。
+// Undo the stage scale on every label.
 function keepLabelsReadable() {
   const s = stage.scaleX();
   labels.forEach((label) => label.scale({ x: 1 / s, y: 1 / s }));
@@ -178,10 +178,12 @@ const App = () => {
             x={s.x}
             y={s.y + s.radius + 6}
             text={s.name}
+            width={100}
             fontSize={14}
             fill="#333"
-            offsetX={s.name.length * 3.5}
-            // 抵消舞台缩放，使标签在屏幕上保持尺寸不变。
+            offsetX={50}
+            align="center"
+            // Undo the stage scale so the label keeps its size on screen.
             scaleX={1 / view.scale}
             scaleY={1 / view.scale}
           />
@@ -203,7 +205,7 @@ export default App;
 描边有自己的开关，因此不需要为它做反向缩放：
 
 ```js
-shape.strokeScaleEnabled(false);   // 缩放时描边保持像素宽度
+shape.strokeScaleEnabled(false);   // the stroke keeps its pixel width when zoomed
 ```
 
 `Konva.Transformer` 的控制柄是普通图形，因此它们确实会随舞台一起缩放。要让它们在缩放过程中

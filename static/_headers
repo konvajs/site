@@ -46,7 +46,9 @@
 /docs/*.md
   Content-Type: text/markdown; charset=utf-8
   Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex
 
 /zh-Hans/docs/*.md
   Content-Type: text/markdown; charset=utf-8
   Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex

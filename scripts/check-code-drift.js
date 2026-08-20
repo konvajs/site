@@ -174,7 +174,9 @@ function checkManifest() {
 }
 
 try {
-  if (process.argv.includes('--write')) {
+  if (!fs.existsSync(chineseRoot)) {
+    console.log('Chinese translation is not installed; skipping interface drift.');
+  } else if (process.argv.includes('--write')) {
     writeManifest();
   } else {
     checkManifest();

@@ -9,7 +9,7 @@ description: "使用 AI 更快地构建 Konva.js 应用。与通过 Konva 文档
 
 ## 使用 Konva 和 AI 编程
 
-我们提供多种 AI 工具，帮助你更快地构建 Konva 应用。所有工具均由 [CrawlChat](https://crawlchat.app/) 提供支持。
+我们提供多种 AI 工具，帮助你更快地构建 Konva 应用。所有工具均由 [CrawlChat](https://www.crawlchat.com/) 提供支持。
 
 AI 智能体会广泛使用 Konva 文档来回答问题。请注意，它是一个 LLM，与任何现代 LLM 一样，可能给出错误答案。
 
@@ -100,4 +100,4 @@ Konva 为 AI 工具提供机器可读的文档文件：
 - 在提示词中明确提及“Konva”或“react-konva”
 - 引用具体的 Konva 功能，例如“Transformer”“Layer”或“toDataURL”
 - 每次询问一项任务，不要组合多个问题
-- 对照 [Konva 文档](https://konvajs.org/docs/overview.html)和 [API 参考](https://konvajs.org/api/Konva.html)检查 AI 生成的代码
+- 对照 [Konva 文档](/docs/overview.html)和 [API 参考](/api/Konva.html)检查 AI 生成的代码

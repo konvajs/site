@@ -134,17 +134,9 @@ Two things to know:
   treated as a click and `dragstart` never fires. Move further than that, or set
   the threshold in the test.
 
-React commits state from Konva event handlers asynchronously, so let the
-microtask queue drain between synthetic events:
-
-```js
-const tick = () => new Promise((r) => setTimeout(r, 0));
-
-container.dispatchEvent(down);
-await tick();
-window.dispatchEvent(move);
-await tick();
-```
+`react-konva` flushes React updates after each Konva event handler. You do not
+need an extra microtask between events. Wait only if your own handler starts
+asynchronous work.
 
 ## Clean up, and check nothing leaked
 
@@ -159,8 +151,7 @@ afterEach(async () => {
   await new Promise((r) => setTimeout(r, 0));
 
   const leaked = Konva.stages.length;
-  Konva.stages.forEach((s) => s.destroy());
-  Konva.stages.length = 0;
+  [...Konva.stages].forEach((s) => s.destroy());
 
   expect(leaked).toBe(0);
 });
@@ -173,20 +164,26 @@ events entirely — real input reaches `window` naturally, so the trap above doe
 not apply:
 
 ```js
-await page.mouse.move(120, 120);
+const start = await page.evaluate(() => {
+  const stage = window.Konva.stages[0];
+  return stage.findOne('#card').position();
+});
+
+await page.mouse.move(120, 120); // A point inside #card.
 await page.mouse.down();
-await page.mouse.move(260, 200, { steps: 10 });
+await page.mouse.move(260, 200);
 await page.mouse.up();
 
 const pos = await page.evaluate(() => {
   const stage = window.Konva.stages[0];
   return stage.findOne('#card').position();
 });
-expect(pos).toEqual({ x: 260, y: 200 });
+expect(pos).toEqual({ x: start.x + 140, y: start.y + 80 });
 ```
 
-`{ steps: 10 }` matters: a single jump can land inside `dragDistance` and never
-start a drag.
+Konva preserves the pointer offset inside the node. It checks `dragDistance`
+against the total displacement from the start, so one move of more than three
+pixels can start a drag.
 
 ## Plain Konva without React
 

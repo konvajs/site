@@ -6,7 +6,7 @@ slug: Editable_Text.html
 description: "双击文本后，通过 textarea 叠加层在 HTML5 Canvas 上编辑文本，并使用 Konva 支持变换。"
 ---
 
-由于[多种原因](https://www.w3.org/TR/2dcontext/#best-practices)，用户无法直接编辑 `Konva.Text` 内容。Canvas API 的设计目的不是编辑文本。
+由于[多种原因](https://html.spec.whatwg.org/multipage/canvas.html#best-practices)，用户无法直接编辑 `Konva.Text` 内容。Canvas API 的设计目的不是编辑文本。
 可以在 Canvas 上模拟文本编辑，例如绘制闪烁光标和模拟选择。
 Konva 不支持此功能。建议使用 `input` 或 `textarea` 等原生 DOM 元素，在 Canvas 外部编辑用户输入。
 
@@ -43,7 +43,7 @@ const textNode = new Konva.Text({
 layer.add(textNode);
 
 const tr = new Konva.Transformer({
-  node: textNode,
+  nodes: [textNode],
   enabledAnchors: ['middle-left', 'middle-right'],
   boundBoxFunc: function (oldBox, newBox) {
     newBox.width = Math.max(30, newBox.width);

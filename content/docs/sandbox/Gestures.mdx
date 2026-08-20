@@ -46,13 +46,13 @@ const loadScript = (src) => {
 // Initialize the demo after loading dependencies
 async function initDemo() {
   try {
-    await loadScript('https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js');
+    await loadScript('https://cdn.jsdelivr.net/gh/hammerjs/touchemulator@eed95bf676877a1394c4538d849802061156681a/touch-emulator.js');
     await loadScript('https://konvajs.org/js/hammer-konva.js');
 
     // emulate touches on desktop
     TouchEmulator();
     Konva.hitOnDragEnabled = true;
-    Konva.captureTouchEventsEnabled = true;
+    Konva.capturePointerEventsEnabled = true;
 
     const stage = new Konva.Stage({
       container: 'container',

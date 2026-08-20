@@ -1,6 +1,11 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import { existsSync } from 'node:fs';
+
+const hasChineseTranslation = existsSync(
+  new URL('./i18n/zh-Hans/', import.meta.url)
+);
 
 const config: Config = {
   title: 'Konva - JavaScript Canvas 2d Library',
@@ -29,10 +34,12 @@ const config: Config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh-Hans'],
+    locales: hasChineseTranslation ? ['en', 'zh-Hans'] : ['en'],
     localeConfigs: {
       en: {label: 'English'},
-      'zh-Hans': {label: '简体中文'},
+      ...(hasChineseTranslation
+        ? {'zh-Hans': {label: '简体中文'}}
+        : {}),
     },
   },
 
@@ -76,11 +83,17 @@ const config: Config = {
           routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/konvajs/site/tree/new/',
+          editUrl: 'https://github.com/konvajs/site/edit/new/',
+          editLocalizedFiles: true,
         },
         blog: false,
         sitemap: {
-          ignorePatterns: ['/search', '/zh-Hans/search', '/zh-Hans/api/**'],
+          ignorePatterns: [
+            '/search',
+            ...(hasChineseTranslation
+              ? ['/zh-Hans/search', '/zh-Hans/api/**']
+              : []),
+          ],
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -101,7 +114,7 @@ const config: Config = {
         operatingSystem: 'Web Browser, Node.js',
         url: 'https://konvajs.org',
         downloadUrl: 'https://www.npmjs.com/package/konva',
-        license: 'https://opensource.org/licenses/MIT',
+        license: 'https://opensource.org/license/MIT',
         programmingLanguage: ['JavaScript', 'TypeScript'],
         author: {
           '@type': 'Person',
@@ -203,10 +216,14 @@ const config: Config = {
             },
           ],
         },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
+        ...(hasChineseTranslation
+          ? [
+              {
+                type: 'localeDropdown' as const,
+                position: 'right' as const,
+              },
+            ]
+          : []),
         {
           href: 'https://github.com/konvajs/konva',
           className: 'header-github-link',

@@ -97,7 +97,7 @@ const updateTransformer = () => {
 
   const selectedNode = stage.findOne('.' + selected);
   // do nothing if selected node is already attached
-  if (selectedNode === transformerNode.node()) {
+  if (selectedNode === transformerNode.nodes()[0]) {
     return;
   }
 

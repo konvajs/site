@@ -6,10 +6,9 @@ slug: Complex_Tweening.html
 description: "学习如何在 Konva.js 中创建复杂的补间动画，包括渐变过渡和链式补间。"
 ---
 
-对于更复杂的动画，你可以使用 [GreenSock Konva 插件](https://github.com/konvajs/greensock-plugin)。
-GreenSock 补间的功能比 Konva 内置补间更强。
-
-此示例演示如何使用 GreenSock 对 `fillLinearGradientColorStops` 属性执行补间。
+此演示组合使用链式 `Konva.Tween` 实例和一个 `Konva.Animation`。
+补间动画更改圆的缩放比例。动画更改
+`fillLinearGradientColorStops` 属性。
 
 **操作说明：单击图形，启动包含渐变变化的复杂动画。**
 
@@ -93,6 +92,7 @@ setTimeout(() => anim.stop(), 2000);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
 import { useRef } from 'react';
 
@@ -116,7 +116,7 @@ const App = () => {
           duration: 1,
           scaleX: 1,
           scaleY: 1,
-          easing: Konva.Easings.Bounce.EaseOut,
+          easing: Konva.Easings.BounceEaseOut,
         });
         tween2.play();
       },
@@ -225,7 +225,7 @@ const handleClick = () => {
         duration: 1,
         scaleX: 1,
         scaleY: 1,
-        easing: Konva.Easings.Bounce.EaseOut,
+        easing: Konva.Easings.BounceEaseOut,
       });
       tween2.play();
     },

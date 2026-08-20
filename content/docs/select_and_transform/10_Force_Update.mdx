@@ -79,22 +79,30 @@ tr.forceUpdate();
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Text, Rect, Group, Transformer } from 'react-konva';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 
 const App = () => {
   const [text, setText] = useState('Some text here');
+  const [groupPosition, setGroupPosition] = useState({ x: 50, y: 50 });
   const groupRef = useRef();
+  const textRef = useRef();
+  const rectRef = useRef();
   const trRef = useRef();
 
   const handleClick = () => {
     setText('Something else is here');
   };
 
-  useEffect(() => {
-    if (trRef.current) {
-      trRef.current.nodes([groupRef.current]);
-    }
-  }, []);
+  useLayoutEffect(() => {
+    const transformer = trRef.current;
+    const label = textRef.current;
+    const background = rectRef.current;
+    if (!transformer || !label || !background) return;
+
+    background.size({ width: label.width(), height: label.height() });
+    transformer.nodes([groupRef.current]);
+    transformer.forceUpdate();
+  }, [text]);
 
   return (
     <>
@@ -102,17 +110,20 @@ const App = () => {
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           <Group
-            x={50}
-            y={50}
+            x={groupPosition.x}
+            y={groupPosition.y}
             draggable
             ref={groupRef}
+            onDragEnd={(event) => setGroupPosition(event.target.position())}
           >
             <Rect
-              width={text.length * 10}
-              height={30}
+              ref={rectRef}
+              width={0}
+              height={0}
               fill="yellow"
             />
             <Text
+              ref={textRef}
               text={text}
               fontSize={24}
             />
@@ -140,8 +151,8 @@ export default App;
     <v-stage :config="stageSize">
       <v-layer>
         <v-group :config="groupConfig" ref="groupRef">
-          <v-rect :config="rectConfig" />
-          <v-text :config="textConfig" />
+          <v-rect :config="rectConfig" ref="rectRef" />
+          <v-text :config="textConfig" ref="textRef" />
         </v-group>
         <v-transformer :config="transformerConfig" ref="transformerRef" />
       </v-layer>
@@ -150,7 +161,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, nextTick, onMounted } from 'vue';
 
 const stageSize = {
   width: window.innerWidth,
@@ -159,6 +170,8 @@ const stageSize = {
 
 const text = ref('Some text here');
 const groupRef = ref(null);
+const textRef = ref(null);
+const rectRef = ref(null);
 const transformerRef = ref(null);
 
 const groupConfig = {
@@ -172,24 +185,35 @@ const textConfig = computed(() => ({
   fontSize: 24
 }));
 
-const rectConfig = computed(() => ({
-  width: text.value.length * 10,
-  height: 30,
+const rectConfig = {
+  width: 0,
+  height: 0,
   fill: 'yellow'
-}));
+};
 
 const transformerConfig = {
   padding: 5,
   enabledAnchors: ['middle-left', 'middle-right']
 };
 
-const changeText = () => {
+const updateTransformer = () => {
+  const label = textRef.value.getNode();
+  const background = rectRef.value.getNode();
+  const transformer = transformerRef.value.getNode();
+  background.size({ width: label.width(), height: label.height() });
+  transformer.forceUpdate();
+};
+
+const changeText = async () => {
   text.value = 'Something else is here';
+  await nextTick();
+  updateTransformer();
 };
 
 onMounted(() => {
   if (transformerRef.value && groupRef.value) {
     transformerRef.value.getNode().nodes([groupRef.value.getNode()]);
+    updateTransformer();
   }
 });
 </script>

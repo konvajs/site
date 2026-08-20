@@ -6,7 +6,7 @@ slug: Editable_Text.html
 description: "Double-click to edit text on HTML5 canvas using a textarea overlay with transform support in Konva."
 ---
 
-User can't directly edit `Konva.Text` content for [many reasons](https://www.w3.org/TR/2dcontext/#best-practices). In fact canvas API is not designed for such purpose.
+Users cannot edit `Konva.Text` content directly for [many reasons](https://html.spec.whatwg.org/multipage/canvas.html#best-practices). The Canvas API is not designed for text editing.
 It is possible to emulate text editing on canvas (by drawing blinking cursor, emulate selection, etc).
 Konva has not support for such case. We recommend to edit the user input outside of your canvas with native DOM elements such as `input` or `textarea`.
 
@@ -43,7 +43,7 @@ const textNode = new Konva.Text({
 layer.add(textNode);
 
 const tr = new Konva.Transformer({
-  node: textNode,
+  nodes: [textNode],
   enabledAnchors: ['middle-left', 'middle-right'],
   boundBoxFunc: function (oldBox, newBox) {
     newBox.width = Math.max(30, newBox.width);

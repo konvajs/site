@@ -6,7 +6,7 @@ slug: All_Performance_Tips.html
 description: "Konva.js 的全部性能优化技巧，包括图层管理、图形缓存、禁用监听和批量绘制等内容。在 HTML5 Canvas 上高效渲染数千个图形。"
 ---
 
-不想把时间花在性能问题上？申请[性能评审](https://lavrton.com/consulting)。
+不想把时间花在性能问题上？申请[性能评审](https://lavrton.com/consulting/)。
 
 ### 为什么这很重要
 
@@ -84,7 +84,7 @@ function cull() {
 2. **拖动过程中跳过命中检测。** 当节点正在被拖动时，Konva 不会执行命中检测，这让拖动保持低开销。如果你需要在拖动过程中知道指针下方是什么——例如高亮放置目标——就重新开启它，并接受相应开销：
 
 ```js
-Konva.hitOnDragEnabled = true;   // 默认为 false
+Konva.hitOnDragEnabled = true;   // default is false
 ```
 
 3. **用一个图形代替许多图形。** 一千个各自拥有属性、变换和命中区域的节点，其开销远高于一个在单个 `sceneFunc` 中绘制一千个元素的自定义图形。代价是你会失去逐元素的事件与拖动，因此这是一种取舍，而不是白得的收益——参见[自定义图形](/zh-Hans/docs/shapes/Custom.html)。
@@ -158,10 +158,12 @@ mainLayer.add(star);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Star, Rect } from 'react-konva';
+import { Portal } from 'react-konva-utils';
 import { useState, useRef, useEffect } from 'react';
 
 const App = () => {
-  const [starLayer, setStarLayer] = useState('main');
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 200, y: 200 });
   const starRef = useRef(null);
 
   useEffect(() => {
@@ -172,11 +174,12 @@ const App = () => {
   }, []);
 
   const handleDragStart = () => {
-    setStarLayer('drag');
+    setIsDragging(true);
   };
 
-  const handleDragEnd = () => {
-    setStarLayer('main');
+  const handleDragEnd = (event) => {
+    setPosition(event.target.position());
+    setIsDragging(false);
   };
 
   return (
@@ -191,11 +194,11 @@ const App = () => {
         />
       </Layer>
       <Layer>
-        {starLayer === 'main' && (
+        <Portal selector=".drag-layer" enabled={isDragging}>
           <Star
             ref={starRef}
-            x={200}
-            y={200}
+            x={position.x}
+            y={position.y}
             numPoints={6}
             innerRadius={40}
             outerRadius={70}
@@ -207,27 +210,9 @@ const App = () => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           />
-        )}
+        </Portal>
       </Layer>
-      <Layer>
-        {starLayer === 'drag' && (
-          <Star
-            ref={starRef}
-            x={200}
-            y={200}
-            numPoints={6}
-            innerRadius={40}
-            outerRadius={70}
-            fill="yellow"
-            stroke="black"
-            strokeWidth={4}
-            draggable
-            perfectDrawEnabled={false}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-          />
-        )}
-      </Layer>
+      <Layer name="drag-layer" />
     </Stage>
   );
 };
@@ -242,24 +227,15 @@ export default App;
     <v-layer :config="{ listening: false }">
       <v-rect :config="rectConfig" />
     </v-layer>
-    <v-layer>
+    <v-layer ref="mainLayerRef">
       <v-star
-        v-if="starLayer === 'main'"
         ref="starRef"
         :config="starConfig"
         @dragstart="handleDragStart"
         @dragend="handleDragEnd"
       />
     </v-layer>
-    <v-layer>
-      <v-star
-        v-if="starLayer === 'drag'"
-        ref="starRef"
-        :config="starConfig"
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-      />
-    </v-layer>
+    <v-layer ref="dragLayerRef" />
   </v-stage>
 </template>
 
@@ -292,8 +268,9 @@ const starConfig = {
   perfectDrawEnabled: false
 };
 
-const starLayer = ref('main');
 const starRef = ref(null);
+const mainLayerRef = ref(null);
+const dragLayerRef = ref(null);
 
 onMounted(() => {
   // Cache the shape for better performance
@@ -303,11 +280,11 @@ onMounted(() => {
 });
 
 const handleDragStart = () => {
-  starLayer.value = 'drag';
+  starRef.value.getNode().moveTo(dragLayerRef.value.getNode());
 };
 
 const handleDragEnd = () => {
-  starLayer.value = 'main';
+  starRef.value.getNode().moveTo(mainLayerRef.value.getNode());
 };
 </script>
 ```

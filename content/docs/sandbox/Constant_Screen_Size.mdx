@@ -183,9 +183,11 @@ const App = () => {
             x={s.x}
             y={s.y + s.radius + 6}
             text={s.name}
+            width={100}
             fontSize={14}
             fill="#333"
-            offsetX={s.name.length * 3.5}
+            offsetX={50}
+            align="center"
             // Undo the stage scale so the label keeps its size on screen.
             scaleX={1 / view.scale}
             scaleY={1 / view.scale}

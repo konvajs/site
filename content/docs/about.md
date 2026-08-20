@@ -75,8 +75,8 @@ Stage (one per canvas area)
 - **Event System**: Click, double-click, mouseover, mouseout, touchstart, touchmove, tap, drag events with bubbling and delegation
 - **Drag and Drop**: Built-in drag-and-drop with boundaries, snapping, and drop events
 - **Animations**: Frame-based animations via `Konva.Animation` and property tweens via `Konva.Tween` with 30+ easing functions
-- **Filters**: Blur, Brighten, Contrast, Grayscale, HSL, Invert, Noise, Pixelate, Sepia, Threshold, and custom filters
-- **Serialization**: Save and restore the entire canvas state with `toJSON()` and `Konva.Node.create()`
+- **Filters**: Blur, Brightness, Contrast, Grayscale, HSL, Invert, Noise, Pixelate, Sepia, Threshold, and custom filters
+- **Serialization**: Save and restore the node tree and its serializable attributes with `toJSON()` and `Konva.Node.create()`. Restore images, event handlers, and custom drawing functions separately.
 - **Export**: High-quality image export via `toDataURL()` and `toBlob()` (PNG, JPEG), PDF export via third-party libraries
 - **Select and Transform**: Built-in `Transformer` for interactive resize, rotate, and scale
 - **Performance**: Layer-based rendering, shape caching, and optimization APIs for handling thousands of shapes

@@ -6,14 +6,13 @@ const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
 const sourceRoot = path.join(root, 'content');
+const localeRoot = path.join(root, 'i18n', 'zh-Hans');
 const translationRoot = path.join(
-  root,
-  'i18n',
-  'zh-Hans',
+  localeRoot,
   'docusaurus-plugin-content-docs',
   'current'
 );
-const manifestPath = path.join(root, 'i18n', 'zh-Hans', 'SOURCES.json');
+const manifestPath = path.join(localeRoot, 'SOURCES.json');
 
 // English pages that are allowed to ship without a Chinese mirror, for now.
 // Paths are relative to `content/`, exactly as they appear in the messages
@@ -171,7 +170,9 @@ function checkManifest() {
 }
 
 try {
-  if (process.argv.includes('--write')) {
+  if (!fs.existsSync(localeRoot)) {
+    console.log('Chinese translation is not installed; skipping source drift.');
+  } else if (process.argv.includes('--write')) {
     writeManifest();
   } else {
     checkManifest();

@@ -18,7 +18,7 @@ description: "使用克隆节点或图像导出，为大型 Konva Canvas 生成�
 可以克隆舞台或图层，并根据主 Canvas 区域的 state 更新其内部节点。
 在预览中简化图形也很有意义，例如隐藏文本、移除描边和阴影等。
 
-操作说明：尝试拖动圆形，并双击以添加新圆形。完成拖动（dragend）或添加新图形后，预览会更新。
+操作说明：尝试拖动圆形，并双击以添加新圆形。拖动时或添加新图形后，预览会更新。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -158,7 +158,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onDblClick={handleDblClick}
-        onTap={handleDblClick}
+        onDblTap={handleDblClick}
       >
         <Layer>
           {shapes.map(shape => (
@@ -211,7 +211,7 @@ export default App;
     <v-stage
       :config="stageConfig"
       @dblclick="handleDblClick"
-      @tap="handleDblClick"
+      @dbltap="handleDblClick"
     >
       <v-layer>
         <v-circle
@@ -408,14 +408,13 @@ const App = () => {
 
   React.useEffect(() => {
     updatePreview();
-  }, [updatePreview]);
+  }, [shapes, updatePreview]);
 
   const handleDragEnd = (e, id) => {
     const { x, y } = e.target.position();
     setShapes(shapes.map(shape => 
       shape.id === id ? { ...shape, x, y } : shape
     ));
-    updatePreview();
   };
 
   const handleDblClick = (e) => {
@@ -429,7 +428,6 @@ const App = () => {
       fill: getRandomColor(),
     };
     setShapes([...shapes, newShape]);
-    updatePreview();
   };
 
   return (
@@ -439,7 +437,7 @@ const App = () => {
         width={window.innerWidth}
         height={window.innerHeight}
         onDblClick={handleDblClick}
-        onTap={handleDblClick}
+        onDblTap={handleDblClick}
       >
         <Layer>
           {shapes.map(shape => (
@@ -478,7 +476,7 @@ export default App;
       ref="stageRef"
       :config="stageConfig"
       @dblclick="handleDblClick"
-      @tap="handleDblClick"
+      @dbltap="handleDblClick"
     >
       <v-layer>
         <v-circle
@@ -501,7 +499,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { nextTick, ref, onMounted } from 'vue';
 
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
@@ -537,15 +535,16 @@ const updatePreview = () => {
   previewUrl.value = url;
 };
 
-const handleDragEnd = (e, id) => {
+const handleDragEnd = async (e, id) => {
   const { x, y } = e.target.position();
   shapes.value = shapes.value.map(shape =>
     shape.id === id ? { ...shape, x, y } : shape
   );
+  await nextTick();
   updatePreview();
 };
 
-const handleDblClick = (e) => {
+const handleDblClick = async (e) => {
   const stage = e.target.getStage();
   const pos = stage.getPointerPosition();
   const newShape = {
@@ -556,6 +555,7 @@ const handleDblClick = (e) => {
     fill: getRandomColor(),
   };
   shapes.value.push(newShape);
+  await nextTick();
   updatePreview();
 };
 
@@ -566,4 +566,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-

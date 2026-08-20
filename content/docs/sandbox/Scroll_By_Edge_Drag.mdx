@@ -119,8 +119,8 @@ import TabItem from "@theme/TabItem";
           if (!pos) return;
 
           const offset = 100;
-          let newX = stagePos.x;
-          let newY = stagePos.y;
+          let newX = stage.x();
+          let newY = stage.y();
           let moved = false;
 
           if (pos.x < offset) {
@@ -144,10 +144,11 @@ import TabItem from "@theme/TabItem";
           }
 
           if (moved) {
-            setStagePos({ x: stage.x() + newX, y: stage.y() + newY });
+            stage.position({ x: newX, y: newY });
+            setStagePos({ x: newX, y: newY });
           }
         }, duration);
-      }, [stagePos]);
+      }, []);
 
       const handleDragEnd = React.useCallback(() => {
         draggedNodeRef.current = null;

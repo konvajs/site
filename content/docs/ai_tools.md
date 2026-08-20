@@ -9,7 +9,7 @@ description: "Use AI to build Konva.js apps faster. Chat with an AI bot trained 
 
 ## Coding with Konva and AI
 
-We have several AI tools to help you build Konva apps faster. All of them are powered by [CrawlChat](https://crawlchat.app/).
+We have several AI tools to help you build Konva apps faster. All of them are powered by [CrawlChat](https://www.crawlchat.com/).
 
 The AI agent uses Konva docs extensively to answer your questions. Please remember it is an LLM and as any modern LLM it may give wrong answers.
 

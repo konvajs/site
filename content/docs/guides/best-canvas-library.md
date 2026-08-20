@@ -24,11 +24,11 @@ Design editors, whiteboards, annotation tools, diagrams, seat maps, dashboards �
 
 ### Need SVG import/export?
 
-**Use [Fabric.js](http://fabricjs.com/)** if you need to write SVG back out. Konva can *render* SVG — [three ways](/docs/sandbox/SVG_On_Canvas.html), via `Konva.Image`, `Konva.Path`, or canvg — but it has no SVG export, because it draws to canvas. Fabric.js also has built-in drawing brushes and is oriented toward image editing.
+**Use [Fabric.js](https://fabricjs.com/)** if you need to write SVG back out. Konva can *render* SVG — [three ways](/docs/sandbox/SVG_On_Canvas.html), via `Konva.Image`, `Konva.Path`, or canvg — but it has no SVG export, because it draws to canvas. Fabric.js also has built-in drawing brushes and is oriented toward image editing.
 
 ### Creative coding or generative art?
 
-**Use [p5.js](https://p5js.org/)** for creative sketches and educational projects. Use **[Paper.js](http://paperjs.org/)** if you need vector math, Bezier curves, and boolean path operations.
+**Use [p5.js](https://p5js.org/)** for creative sketches and educational projects. Use **[Paper.js](https://paperjs.org/)** if you need vector math, Bezier curves, and boolean path operations.
 
 ### Charts and data-driven graphics?
 
@@ -64,7 +64,7 @@ Downloads are the least ambiguous signal available, so here they are as of Augus
 - **Framework support** — Official bindings for React (`react-konva`), Vue, Svelte, and Angular. No other canvas library has this.
 - **Multi-layer rendering** — Each Layer is a separate `<canvas>`. Static content doesn't re-render when interactive shapes move.
 - **Built-in interaction** — Drag-and-drop, resize/rotate handles, event bubbling, hit detection. With other libraries, you build these from scratch.
-- **Serialization** — `stage.toJSON()` saves everything. `Konva.Node.create(json)` restores it.
+- **Serialization** — `stage.toJSON()` saves the node tree and serializable attributes. `Konva.Node.create(json)` restores them. Restore images, event handlers, and custom drawing functions separately.
 - **Author-led** — I've been maintaining Konva for 10+ years. The API is consistent, decisions are fast, and I personally review every PR.
 
 ## Further Reading

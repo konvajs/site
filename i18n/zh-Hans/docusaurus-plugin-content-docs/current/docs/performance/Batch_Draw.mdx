@@ -9,11 +9,11 @@ description: "自 Konva 8 起重绘是自动的，因此在修改图形之后不
 **简短回答：不需要。自 Konva 8 起，修改图形之后不需要调用 `draw()` 或 `batchDraw()`。**
 
 ```js
-// 这样就够了。Konva 会自行安排重绘。
+// This is enough. Konva schedules the redraw itself.
 rect.fill('red');
 rect.x(120);
 
-// 下面两行都是多余的。
+// Both of these are redundant.
 layer.draw();
 layer.batchDraw();
 ```
@@ -33,8 +33,8 @@ layer.batchDraw();
 绘制的原始 canvas：
 
 ```js
-// 外部库向我们的 canvas 绘制了新的 GIF 帧。
-// Konva 没有可感知的属性变化，因此需要主动请求重绘。
+// An external library drew a new GIF frame into our canvas.
+// Konva has no attribute change to notice, so ask for the redraw.
 function onDrawFrame(ctx, frame) {
   ctx.drawImage(frame.buffer, 0, 0);
   layer.draw();
@@ -64,7 +64,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// 有意关闭，好让 batchDraw 有事可做
+// Turned off on purpose, so batchDraw has a job to do
 Konva.autoDrawEnabled = false;
 
 const stage = new Konva.Stage({
@@ -91,7 +91,7 @@ layer.add(rect);
 stage.on('mousemove', () => {
   // rotate rectangle on mouse move
   rect.rotate(5);
-  // 自动重绘已关闭，因此请求一次批量重绘
+  // auto-draw is off, so ask for a batched redraw
   layer.batchDraw();
 });
 ```
@@ -101,7 +101,7 @@ stage.on('mousemove', () => {
 import { Stage, Layer, Rect } from 'react-konva';
 import { useRef, useEffect } from 'react';
 
-// 有意关闭，好让 batchDraw 有事可做
+// Turned off on purpose, so batchDraw has a job to do
 Konva.autoDrawEnabled = false;
 
 const App = () => {
@@ -114,7 +114,7 @@ const App = () => {
     stage.on('mousemove', () => {
       // rotate rectangle on mouse move
       rectRef.current.rotate(5);
-      // 自动重绘已关闭，因此请求一次批量重绘
+      // auto-draw is off, so ask for a batched redraw
       layerRef.current.getLayer().batchDraw();
     });
   }, []);
@@ -154,7 +154,7 @@ export default App;
 import { ref, onMounted } from 'vue';
 import Konva from 'konva';
 
-// 有意关闭，好让 batchDraw 有事可做
+// Turned off on purpose, so batchDraw has a job to do
 Konva.autoDrawEnabled = false;
 
 const stageSize = {
@@ -178,7 +178,7 @@ const rectRef = ref(null);
 const handleMouseMove = () => {
   // rotate rectangle on mouse move
   rectRef.value.getNode().rotate(5);
-  // 自动重绘已关闭，因此请求一次批量重绘
+  // auto-draw is off, so ask for a batched redraw
   layerRef.value.getNode().batchDraw();
 };
 </script>

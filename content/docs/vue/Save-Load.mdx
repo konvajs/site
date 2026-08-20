@@ -8,10 +8,10 @@ description: "Learn how to save and load canvas state in Vue with Konva by seria
 
 ## How to serialize and deserialize Konva stage with Vue?
 
-Pure `Konva` has a special mechanism to save/load the full canvas stage with `node.toJSON()` and `Node.create(json)` functions.
+Pure Konva can serialize a node tree and its serializable attributes with `node.toJSON()`. It can restore them with `Konva.Node.create(json)`. Restore images, event handlers, and custom drawing functions separately.
 [See demo](/docs/data_and_serialization/Simple_Load.html).
 
-However, with `vue-konva`, we recommend defining your app's state in your Vue components. The state maps into nodes through templates. To save/load the full stage, you just need to save/load the state of your app. You **don't need to save Konva internals and nodes**.
+With `vue-konva`, define the application state in your Vue components. The state maps to nodes through templates. Save and load the application state instead of Konva internals and nodes.
 
 Instructions: Click on the canvas to create circles. Reload the page - the circles should persist.
 

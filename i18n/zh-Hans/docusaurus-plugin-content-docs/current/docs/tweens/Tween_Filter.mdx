@@ -65,7 +65,7 @@ tween.reverse();
 });
 
 };
-imageObj.src = 'https://konvajs.org/assets/lion.png';
+imageObj.src = '/assets/lion.png';
 imageObj.crossOrigin = 'anonymous';
 
 stage.add(layer);
@@ -74,37 +74,44 @@ stage.add(layer);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Image } from 'react-konva';
 import { useRef, useEffect } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
   const imageRef = useRef();
-  const [image] = useImage('/images/lion.png');
+  const [image] = useImage('/assets/lion.png');
   const tweenRef = useRef();
 
   useEffect(() => {
-    if (!imageRef.current) return;
+    if (!image || !imageRef.current) return;
 
     const node = imageRef.current;
     node.cache();
     node.filters([Konva.Filters.Blur]);
     node.blurRadius(10);
 
-    tweenRef.current = new Konva.Tween({
+    const tween = new Konva.Tween({
       node: node,
       duration: 0.5,
       blurRadius: 0,
       easing: Konva.Easings.EaseInOut,
     });
+    tweenRef.current = tween;
+
+    return () => {
+      tween.destroy();
+      if (tweenRef.current === tween) tweenRef.current = null;
+    };
   }, [image]);
 
   const handleMouseEnter = () => {
-    tweenRef.current.play();
+    tweenRef.current?.play();
   };
 
   const handleMouseLeave = () => {
-    tweenRef.current.reverse();
+    tweenRef.current?.reverse();
   };
 
   return (
@@ -149,7 +156,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 import Konva from 'konva';
 
 const stageSize = {
@@ -166,7 +173,7 @@ const img = new Image();
 img.onload = () => {
   image.value = img;
 };
-img.src = '/images/lion.png';
+img.src = '/assets/lion.png';
 
 const imageConfig = computed(() => ({
   x: 50,
@@ -175,8 +182,9 @@ const imageConfig = computed(() => ({
   draggable: true
 }));
 
-onMounted(() => {
-  if (!imageRef.value) return;
+watch(image, async (loadedImage) => {
+  if (!loadedImage) return;
+  await nextTick();
 
   const node = imageRef.value.getNode();
   node.cache();
@@ -192,12 +200,14 @@ onMounted(() => {
 });
 
 const handleMouseEnter = () => {
-  tween.play();
+  tween?.play();
 };
 
 const handleMouseLeave = () => {
-  tween.reverse();
+  tween?.reverse();
 };
+
+onUnmounted(() => tween?.destroy());
 </script>
 
 ```

@@ -335,7 +335,7 @@ export default ModifyCurvesDemo;
           strokeWidth: hoveredPoint === `quad-${name}` ? 4 : 2,
           draggable: true
         }"
-        @dragend="e => handleQuadDragEnd(e, name)"
+        @dragmove="e => handleQuadDragMove(e, name)"
         @mouseenter="handleMouseEnter(`quad-${name}`, e)"
         @mouseleave="handleMouseLeave(`quad-${name}`, e)"
       />
@@ -353,7 +353,7 @@ export default ModifyCurvesDemo;
           strokeWidth: hoveredPoint === `bezier-${name}` ? 4 : 2,
           draggable: true
         }"
-        @dragend="e => handleBezierDragEnd(e, name)"
+        @dragmove="e => handleBezierDragMove(e, name)"
         @mouseenter="handleMouseEnter(`bezier-${name}`, e)"
         @mouseleave="handleMouseLeave(`bezier-${name}`, e)"
       />
@@ -461,13 +461,13 @@ const handleMouseLeave = (pointId, e) => {
 };
 
 // Handle drag for quadratic curve points
-const handleQuadDragEnd = (e, pointName) => {
+const handleQuadDragMove = (e, pointName) => {
   quadPoints[pointName].x = e.target.x();
   quadPoints[pointName].y = e.target.y();
 };
 
 // Handle drag for bezier curve points
-const handleBezierDragEnd = (e, pointName) => {
+const handleBezierDragMove = (e, pointName) => {
   bezierPoints[pointName].x = e.target.x();
   bezierPoints[pointName].y = e.target.y();
 };

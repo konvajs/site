@@ -12,46 +12,59 @@ description: "react-konva is a React canvas library for drawing 2D graphics with
 
 `react-konva` is a React canvas library for drawing complex 2D graphics. It provides declarative bindings to the [Konva Framework](https://konvajs.org/). You can use familiar React components and data flow.
 
-[Github Repo](https://github.com/lavrton/react-konva)
+[GitHub repository](https://github.com/konvajs/react-konva)
 
 With react-konva you write canvas graphics the same way you write React DOM — with JSX components, props, state, and hooks. Every Konva shape (Rect, Circle, Line, Text, Image, Star, and more) is available as a React component with full event support.
 
 **Note: `react-konva` works in the browser only and is not supported in React Native.** React Native has no DOM and no `<canvas>` element, so there is nothing for Konva to draw into. If you already have a Konva editor on the web, running it inside a [WebView](https://github.com/react-native-webview/react-native-webview) is a practical option. For a new native app, use [React Native Skia](https://shopify.github.io/react-native-skia/).
 
-You can find dozens of interactive demos at [konvajs.org](https://konvajs.org/) — everything Konva can do, react-konva can do with React. Think of it as: `Konva` is to `react-konva` what the `DOM` is to `React`.
+You can find dozens of interactive demos at [konvajs.org](https://konvajs.org/). Browser scene-graph features are available through React components or Konva node refs. Use Konva directly for Node.js rendering. Think of it as: `Konva` is to `react-konva` what the `DOM` is to `React`.
 
 ## Installation
 
+The `react-konva` major version must match the React major version. For React 19, install the current packages:
+
 ```bash
-npm install react-konva konva --save
+npm install react-konva konva
+```
+
+For React 18, install `react-konva` 18:
+
+```bash
+npm install react-konva@18 konva
 ```
 
 Here's a basic example showing how to create a simple canvas with some shapes:
 
 ```js live react
-import React from 'react';
+import React, { useState } from 'react';
 import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 20, y: 50 });
+  const [circlePosition, setCirclePosition] = useState({ x: 200, y: 100 });
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text text="Try to drag shapes" fontSize={15} />
         <Rect
-          x={20}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={100}
           fill="red"
           shadowBlur={10}
           draggable
+          onDragEnd={(e) => setRectPosition(e.target.position())}
         />
         <Circle
-          x={200}
-          y={100}
+          x={circlePosition.x}
+          y={circlePosition.y}
           radius={50}
           fill="green"
           draggable
+          onDragEnd={(e) => setCirclePosition(e.target.position())}
         />
       </Layer>
     </Stage>

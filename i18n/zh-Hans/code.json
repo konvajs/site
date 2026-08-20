@@ -852,7 +852,7 @@
     "description": "Demo gallery label for sandbox/Wheel_of_Fortune.html"
   },
   "demos.item.Free_Drawing": {
-    "message": "自由绘制",
+    "message": "Canvas 绘图",
     "description": "Demo gallery label for sandbox/Free_Drawing.html"
   },
   "demos.item.Animals_on_the_Beach_Game": {
@@ -924,7 +924,7 @@
     "description": "Demo gallery label for sandbox/Drop_DOM_Element.html"
   },
   "demos.item.Objects_Snapping": {
-    "message": "对象吸附",
+    "message": "吸附与对齐参考线",
     "description": "Demo gallery label for sandbox/Objects_Snapping.html"
   },
   "demos.item.Zooming_Relative_To_Pointer": {
@@ -988,7 +988,7 @@
     "description": "Demo gallery label for sandbox/Image_Resize.html"
   },
   "demos.item.Stage_Preview": {
-    "message": "舞台预览",
+    "message": "小地图 / 舞台预览",
     "description": "Demo gallery label for sandbox/Stage_Preview.html"
   },
   "demos.item.Modify_Curves_with_Anchor_Points": {
@@ -1122,6 +1122,10 @@
   },
   "demos.item.Constant_Screen_Size": {
     "message": "固定屏幕尺寸",
-    "description": "Demo gallery label for sandbox/Zooming_Relative_To_Pointer.html"
+    "description": "Demo gallery label for sandbox/Constant_Screen_Size.html"
+  },
+  "demos.item.Native_Context_Access": {
+    "message": "访问原生上下文",
+    "description": "Demo gallery label for sandbox/Native_Context_Access.html"
   }
 }

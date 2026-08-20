@@ -20,7 +20,7 @@ Konva adds what's missing:
 - **Event system** — Click a rectangle, hover over a circle, drag a group. Events bubble from shapes through groups and layers, just like the DOM.
 - **Drag and drop** — Set `draggable: true` on any shape. Done. Add boundaries, snapping, and drop zones as needed.
 - **Selection and transformation** — The built-in `Transformer` adds resize and rotate handles to any shape.
-- **Serialization** — Save the entire canvas state to JSON. Restore it later. No custom serialization code needed.
+- **Serialization** — Save the node tree and serializable attributes to JSON. Restore images, event handlers, and custom drawing functions separately.
 - **Multi-layer architecture** — Each Layer is a separate `<canvas>` element. Static backgrounds don't re-render when interactive shapes change.
 - **Framework integration** — Official bindings for React (`react-konva`), Vue (`vue-konva`), Svelte (`svelte-konva`), and Angular (`ng2-konva`).
 
@@ -53,8 +53,8 @@ We believe in recommending the right tool:
 | If you need... | Use instead |
 |---|---|
 | 2D games with WebGL performance | [PixiJS](https://pixijs.com/) |
-| SVG export | [Fabric.js](http://fabricjs.com/) |
-| Vector graphics / Bezier math | [Paper.js](http://paperjs.org/) |
+| SVG export | [Fabric.js](https://fabricjs.com/) |
+| Vector graphics / Bezier math | [Paper.js](https://paperjs.org/) |
 | Creative coding / generative art | [p5.js](https://p5js.org/) |
 | 3D graphics | [Three.js](https://threejs.org/) |
 | Standard charts | [Chart.js](https://www.chartjs.org/) or [D3](https://d3js.org/) |

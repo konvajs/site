@@ -89,7 +89,7 @@ Konva 为主要前端框架提供官方绑定：
 - **拖放** — 为任意图形设置 `draggable: true`。你还可以添加拖动边界、吸附和放置事件。
 - **缩放和旋转** — 内置的 [`Transformer`](/docs/select_and_transform/Basic_demo.html) 组件可以为任意图形添加缩放和旋转控制柄。
 - **多图层渲染** — 每个 Layer 都是独立的 `<canvas>` 元素。交互图形变化时，静态背景不需要重新渲染。
-- **序列化** — 使用 `stage.toJSON()` 保存整个 Canvas state。使用 `Konva.Node.create(json)` 恢复 state。
+- **序列化** — 使用 `stage.toJSON()` 保存节点树及其可序列化属性。使用 `Konva.Node.create(json)` 恢复这些内容。图像、事件处理函数和自定义绘制函数必须单独恢复。
 - **滤镜和效果** — 可以对单个图形应用模糊、亮度、对比度、灰度和像素化等效果。
 - **高性能** — Konva 可以处理数千个图形。请参阅[性能建议](/docs/performance/All_Performance_Tips.html)和[压力测试示例](/docs/sandbox/10000_Shapes_with_Tooltip.html)。
 

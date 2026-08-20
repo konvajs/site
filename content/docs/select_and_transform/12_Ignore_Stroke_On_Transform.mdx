@@ -12,7 +12,7 @@ By default, if you are transforming a shape, its stroke will be scaled too. In s
 There are two ways to prevent stroke scaling:
 
 1. Reset scale of a shape
-2. Use combination of `shape.strokeScaleEnabled(false)` and `transformer.ignoreStroke(false)`
+2. Use `shape.strokeScaleEnabled(false)` and `transformer.ignoreStroke(true)`
 
 **Instructions: there are two rectangles to resize. The green one will reset its scale. The red one will just disable stroke scaling.**
 
@@ -55,12 +55,13 @@ nodes: [rect1],
 layer.add(tr1);
 
 rect1.on('transformend', () => {
-// after transform we need to reset scale
+const scaleX = rect1.scaleX();
+const scaleY = rect1.scaleY();
+// apply the scale to the size, then reset it
 rect1.scaleX(1);
 rect1.scaleY(1);
-// and increase width and height manually
-rect1.width(rect1.width() - rect1.scaleX());
-rect1.height(rect1.height() - rect1.scaleY());
+rect1.width(Math.max(5, rect1.width() * scaleX));
+rect1.height(Math.max(5, rect1.height() * scaleY));
 });
 
 // second way - disable stroke scaling
@@ -181,7 +182,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 
 const stageSize = {
   width: window.innerWidth,
@@ -193,7 +194,7 @@ const rect1Size = ref({
   height: 100
 });
 
-const rect1Config = {
+const rect1Config = computed(() => ({
   x: 50,
   y: 50,
   width: rect1Size.value.width,
@@ -202,7 +203,7 @@ const rect1Config = {
   stroke: 'black',
   strokeWidth: 5,
   draggable: true
-};
+}));
 
 const rect2Config = {
   x: 200,

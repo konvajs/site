@@ -123,6 +123,7 @@ function createImage(imageConfig) {
   });
 
   if (imageConfig.filter === 'blur') {
+    image.cache();
     image.filters([Konva.Filters.Blur]);
     image.blurRadius(10);
   }
@@ -199,9 +200,27 @@ imageObj.onload = () => {
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Image } from 'react-konva';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
+
+const FilteredImage = ({ filter, ...props }) => {
+  const imageRef = useRef();
+
+  useEffect(() => {
+    imageRef.current?.cache();
+  }, [props.image]);
+
+  return (
+    <Image
+      ref={imageRef}
+      {...props}
+      filters={filter === 'blur' ? [Konva.Filters.Blur] : []}
+      blurRadius={filter === 'blur' ? 10 : 0}
+    />
+  );
+};
 
 const App = () => {
   const [images, setImages] = useState([
@@ -285,7 +304,7 @@ const App = () => {
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           {lionImage && images.map((img, i) => (
-            <Image
+            <FilteredImage
               key={i}
               image={lionImage}
               x={img.x}
@@ -293,8 +312,7 @@ const App = () => {
               width={100}
               height={100}
               draggable
-              filters={img.filter === 'blur' ? [Konva.Filters.Blur] : []}
-              blurRadius={img.filter === 'blur' ? 10 : 0}
+              filter={img.filter}
               onDragEnd={(e) => handleDragEnd(i, e)}
               onClick={() => handleClick(i)}
             />
@@ -323,6 +341,7 @@ export default App;
           v-for="(img, i) in images"
           :key="i"
           :config="getImageConfig(img)"
+          ref="imageRefs"
           @dragend="handleDragEnd(i, $event)"
           @click="handleClick(i)"
         />
@@ -332,7 +351,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import Konva from 'konva';
 import { useImage } from 'vue-konva';
 
@@ -347,6 +366,7 @@ const images = ref([
 ]);
 const history = ref([]);
 const historyStep = ref(0);
+const imageRefs = ref([]);
 const [lionImage] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
 
 const getImageConfig = (img) => ({
@@ -411,10 +431,20 @@ const handleRedo = () => {
   images.value = JSON.parse(history.value[historyStep.value]);
 };
 
-// Initialize history when image is loaded
-if (lionImage.value) {
-  history.value = [JSON.stringify(images.value)];
-}
+const cacheImages = async () => {
+  await nextTick();
+  imageRefs.value.forEach((imageRef) => imageRef.getNode().cache());
+};
+
+watch(lionImage, (loadedImage) => {
+  if (!loadedImage) return;
+  if (history.value.length === 0) {
+    history.value = [JSON.stringify(images.value)];
+  }
+  cacheImages();
+}, { immediate: true });
+
+watch(images, cacheImages);
 </script>
 ```
   </TabItem>

@@ -46,8 +46,6 @@ const layer = new Konva.Layer();
 stage.add(layer);
 
 const video = document.createElement('video');
-video.src =
-  'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
 
 const image = new Konva.Image({
   image: video,
@@ -76,6 +74,8 @@ video.addEventListener('loadedmetadata', function () {
   image.width(video.videoWidth);
   image.height(video.videoHeight);
 });
+video.src =
+  'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
 
 document.getElementById('play').addEventListener('click', function () {
   text.destroy();
@@ -90,6 +90,7 @@ document.getElementById('pause').addEventListener('click', function () {
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Image, Text } from 'react-konva';
 import { useEffect, useRef, useState } from 'react';
 
@@ -98,13 +99,9 @@ const App = () => {
     width: window.innerWidth,
     height: 400,
   });
-  const [videoElement] = useState(() => {
-    const element = document.createElement('video');
-    element.src =
-      'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
-    return element;
-  });
+  const [videoElement] = useState(() => document.createElement('video'));
   const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
+  const [videoPosition, setVideoPosition] = useState({ x: 50, y: 20 });
   const [status, setStatus] = useState('Loading video...');
   const animationRef = useRef(null);
   const layerRef = useRef(null);
@@ -131,17 +128,27 @@ const App = () => {
     };
 
     videoElement.addEventListener('loadedmetadata', handleMetadata);
+    videoElement.src =
+      'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
+    if (videoElement.readyState >= 1) handleMetadata();
     return () => videoElement.removeEventListener('loadedmetadata', handleMetadata);
+  }, [videoElement]);
+
+  useEffect(() => {
+    if (!layerRef.current) return;
+    const animation = new Konva.Animation(() => {}, layerRef.current);
+    animationRef.current = animation;
+    return () => {
+      animation.stop();
+      videoElement.pause();
+      animationRef.current = null;
+    };
   }, [videoElement]);
 
   const handlePlay = () => {
     setStatus('');
     videoElement.play();
-    if (layerRef.current) {
-      const anim = new Konva.Animation(() => {}, layerRef.current);
-      animationRef.current = anim;
-      anim.start();
-    }
+    animationRef.current?.start();
   };
 
   const handlePause = () => {
@@ -159,11 +166,12 @@ const App = () => {
         <Layer ref={layerRef}>
           <Image
             image={videoElement}
-            x={50}
-            y={20}
+            x={videoPosition.x}
+            y={videoPosition.y}
             width={videoSize.width}
             height={videoSize.height}
             draggable
+            onDragEnd={(event) => setVideoPosition(event.target.position())}
           />
           {status && (
             <Text
@@ -194,12 +202,13 @@ export default App;
         <v-image
           :config="{
             image: videoElement,
-            x: 50,
-            y: 20,
+            x: videoPosition.x,
+            y: videoPosition.y,
             width: videoSize.width,
             height: videoSize.height,
             draggable: true,
           }"
+          @dragend="videoPosition = $event.target.position()"
         />
         <v-text
           v-if="status"
@@ -217,7 +226,8 @@ export default App;
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 
 export default {
   setup() {
@@ -225,17 +235,15 @@ export default {
     const height = ref(400);
     const layerRef = ref(null);
     const status = ref('Loading video...');
-    const animation = ref(null);
+    let animation = null;
     const videoElement = ref(document.createElement('video'));
     const videoSize = ref({ width: 0, height: 0 });
+    const videoPosition = ref({ x: 50, y: 20 });
 
-    videoElement.value.src =
-      'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
-
-    const stageConfig = {
+    const stageConfig = computed(() => ({
       width: width.value,
       height: height.value,
-    };
+    }));
 
     const handleResize = () => {
       width.value = window.innerWidth;
@@ -252,31 +260,28 @@ export default {
     const handlePlay = () => {
       status.value = '';
       videoElement.value.play();
-      if (layerRef.value) {
-        const anim = new Konva.Animation(() => {}, layerRef.value.getNode());
-        animation.value = anim;
-        anim.start();
-      }
+      animation?.start();
     };
 
     const handlePause = () => {
       videoElement.value.pause();
-      if (animation.value) {
-        animation.value.stop();
-      }
+      animation?.stop();
     };
 
     onMounted(() => {
       window.addEventListener('resize', handleResize);
       videoElement.value.addEventListener('loadedmetadata', handleMetadata);
+      videoElement.value.src =
+        'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
+      if (videoElement.value.readyState >= 1) handleMetadata();
+      animation = new Konva.Animation(() => {}, layerRef.value.getNode());
     });
 
     onUnmounted(() => {
       window.removeEventListener('resize', handleResize);
       videoElement.value.removeEventListener('loadedmetadata', handleMetadata);
-      if (animation.value) {
-        animation.value.stop();
-      }
+      animation?.stop();
+      videoElement.value.pause();
     });
 
     return {
@@ -285,6 +290,7 @@ export default {
       status,
       videoElement,
       videoSize,
+      videoPosition,
       handlePlay,
       handlePause,
     };
@@ -303,4 +309,4 @@ The demo shows how to:
 5. Display loading and play status messages
 6. Handle video metadata to set the correct dimensions
 
-Try playing the video and dragging it around the canvas. The video will continue playing while you move it. 
+Try playing the video and dragging it around the canvas. The video will continue playing while you move it.

@@ -20,7 +20,7 @@ description: "修复在 Konva 中导出或过滤跨源图像时出现的 'Tainte
 
 ## 为什么会出现不安全错误？
 
-这是一个 [CORS 错误](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image)。出于安全原因，从其他域加载图像时，浏览器可能将 Canvas 标记为已污染。在这种情况下，浏览器会阻止将 Canvas 导出为 `dataURL` 或 `imageData`，而导出或使用滤镜时正需要执行此操作。
+这是一个 [CORS 错误](https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/CORS_enabled_image)。出于安全原因，从其他域加载图像时，浏览器可能将 Canvas 标记为已污染。在这种情况下，浏览器会阻止将 Canvas 导出为 `dataURL` 或 `imageData`，而导出或使用滤镜时正需要执行此操作。
 
 ## 如何修复 CORS 问题？
 

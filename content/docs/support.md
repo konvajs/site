@@ -16,4 +16,4 @@ Here is what you should do:
 4. If you just want to discuss Konva you can join [discord Chat](https://discord.gg/8FqZwVT)
 5. If you have something interesting to share use Twitter `#konvajs` hashtag
 6. Visit [Changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) to see what is changing.
-7. Need a consulting or strategy review? Go to [Consulting Page](https://lavrton.com/consulting)
+7. Need a consulting or strategy review? Go to the [consulting page](https://lavrton.com/consulting/).

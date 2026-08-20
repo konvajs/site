@@ -1,0 +1,22 @@
+{
+  "@angular/common": "21.2.21",
+  "@angular/compiler": "21.2.21",
+  "@angular/core": "21.2.21",
+  "@angular/platform-browser": "21.2.21",
+  "canvg": "4.0.3",
+  "jspdf": "4.2.1",
+  "konva": "10.3.1",
+  "ng2-konva": "12.0.1",
+  "react": "19.2.8",
+  "react-dom": "19.2.8",
+  "react-konva": "19.2.5",
+  "react-konva-utils": "2.0.0",
+  "rxjs": "7.8.2",
+  "svelte": "5.56.10",
+  "svelte-konva": "1.0.1",
+  "use-image": "1.1.4",
+  "vue": "3.5.41",
+  "vue-konva": "3.4.0",
+  "yjs": "13.6.32",
+  "zone.js": "0.16.2"
+}

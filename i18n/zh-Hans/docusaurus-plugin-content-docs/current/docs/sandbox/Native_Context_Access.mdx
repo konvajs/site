@@ -12,10 +12,12 @@ Konva 提供了在 Canvas 上绘制图形的对象模型。应用从舞台（div
 
 可以访问 Konva 内部（或 DOM 内部）并直接在 Canvas 上绘制，而不创建任何图形。但不建议这样做。Konva 完全控制绘制过程，因此可能重置手动绘制的内容，或在执行 `stage.toDataURL()` 等导出操作时丢失这些内容。
 
-如果想手动绘制内容，建议使用以下两种方式：
+如果想手动绘制内容，请使用以下两种方式之一：
 
 1. [使用自定义图形](/docs/shapes/Custom.html)
 2. 手动创建新的 Canvas 元素，然后将其用于 `Konva.Image`。
+
+这两种方式都能让绘制内容进入 Konva 的场景图和导出过程。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";

@@ -2,7 +2,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = __dirname;
-const sitemapPath = path.resolve(root, process.argv[2] || 'build/sitemap.xml');
 const buildDirectory = path.resolve(root, 'build');
 const forbiddenPaths = new Set([
   '/blog/authors',
@@ -25,11 +24,10 @@ function outputCandidates(pathname) {
     : [outputPath, path.join(outputPath, 'index.html')];
 }
 
-function main() {
+function checkSitemap(sitemapPath) {
   if (!fs.existsSync(sitemapPath)) {
     console.error(`Sitemap does not exist: ${sitemapPath}`);
-    process.exitCode = 1;
-    return;
+    return false;
   }
 
   const xml = fs.readFileSync(sitemapPath, 'utf8');
@@ -54,11 +52,27 @@ function main() {
 
   if (failures.length) {
     failures.forEach((failure) => console.error(failure));
-    process.exitCode = 1;
-    return;
+    return false;
   }
 
   console.log(`Sitemap contains ${urls.length} valid local URLs.`);
+  return true;
+}
+
+function main() {
+  const requested = process.argv[2];
+  const sitemapPaths = requested
+    ? [path.resolve(root, requested)]
+    : [
+        path.join(buildDirectory, 'sitemap.xml'),
+        ...(fs.existsSync(path.join(root, 'i18n', 'zh-Hans'))
+          ? [path.join(buildDirectory, 'zh-Hans', 'sitemap.xml')]
+          : []),
+      ];
+
+  if (!sitemapPaths.every(checkSitemap)) {
+    process.exitCode = 1;
+  }
 }
 
 main();

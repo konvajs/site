@@ -6,10 +6,9 @@ slug: Complex_Tweening.html
 description: "Learn how to create complex tween animations in Konva.js including gradient transitions and chained tweens."
 ---
 
-For more complex animations, you can use [GreenSock Konva Plugin](https://github.com/konvajs/greensock-plugin).
-GreenSock tweens are more powerful than Konva's built-in tweens.
-
-This demo demonstrates tweening the `fillLinearGradientColorStops` property with GreenSock.
+This demo combines chained `Konva.Tween` instances with a `Konva.Animation`.
+The tweens change the circle scale. The animation changes the
+`fillLinearGradientColorStops` property.
 
 **Instructions: Click the shape to start the complex animation with gradient changes.**
 
@@ -93,6 +92,7 @@ setTimeout(() => anim.stop(), 2000);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
 import { useRef } from 'react';
 
@@ -116,7 +116,7 @@ const App = () => {
           duration: 1,
           scaleX: 1,
           scaleY: 1,
-          easing: Konva.Easings.Bounce.EaseOut,
+          easing: Konva.Easings.BounceEaseOut,
         });
         tween2.play();
       },
@@ -225,7 +225,7 @@ const handleClick = () => {
         duration: 1,
         scaleX: 1,
         scaleY: 1,
-        easing: Konva.Easings.Bounce.EaseOut,
+        easing: Konva.Easings.BounceEaseOut,
       });
       tween2.play();
     },

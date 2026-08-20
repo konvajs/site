@@ -171,8 +171,15 @@ fs.writeFile(`./docs.json`, JSON.stringify(docs, null, 2));
 function buildApiDescription(docItem) {
   const raw = (docItem.classdesc || docItem.description || '')
     .replace(/{@link\s+([^}]+)}/g, '$1')   // jsdoc links -> bare names
+    .replace(/\[([^\]]+)]\([^)]+\)/g, '$1') // markdown links -> labels
     .replace(/<[^>]+>/g, ' ')               // stray html
-    .replace(/`/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#(?:39|x27);/gi, "'")
+    .replace(/[*_~`]+/g, '')                 // markdown emphasis and code
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -181,7 +188,8 @@ function buildApiDescription(docItem) {
     `${docItem.longname} ${kind} reference for Konva.js: properties, methods ` +
     `and configuration for working with ${docItem.name} on HTML5 Canvas.`;
 
-  let text = raw.length > 60 ? raw : `${raw ? raw + '. ' : ''}${generated}`;
+  const summary = raw && /[.!?]$/.test(raw) ? raw : `${raw}.`;
+  let text = raw.length > 60 ? summary : `${raw ? summary + ' ' : ''}${generated}`;
 
   if (text.length > 300) {
     const cut = text.slice(0, 300);

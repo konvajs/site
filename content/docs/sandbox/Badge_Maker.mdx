@@ -399,9 +399,9 @@ export default App;
         <v-rect :config="stripeConfig" />
         <v-text :config="helloConfig" />
         <v-text :config="subConfig" />
-        <v-text ref="nameRef" :config="nameConfig" @dblclick="e => editText(e, 'name')" />
-        <v-text ref="roleRef" :config="roleConfig" @dblclick="e => editText(e, 'role')" />
-        <v-text ref="companyRef" :config="companyConfig" @dblclick="e => editText(e, 'company')" />
+        <v-text ref="nameRef" :config="nameConfig" @dblclick="e => editText(e, 'name')" @dbltap="e => editText(e, 'name')" />
+        <v-text ref="roleRef" :config="roleConfig" @dblclick="e => editText(e, 'role')" @dbltap="e => editText(e, 'role')" />
+        <v-text ref="companyRef" :config="companyConfig" @dblclick="e => editText(e, 'company')" @dbltap="e => editText(e, 'company')" />
         <v-circle :config="circleConfig" />
         <v-transformer ref="trRef" :config="{ rotateEnabled: false, borderStrokeWidth: 1, anchorSize: 8 }" />
       </v-layer>

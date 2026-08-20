@@ -274,6 +274,7 @@ const App = () => {
         width={width}
         height={height}
         onDblClick={handleDblClick}
+        onDblTap={handleDblClick}
         onContextMenu={handleContextMenu}
         ref={stageRef}
       >
@@ -356,6 +357,7 @@ export default App;
       ref="stageRef"
       :config="stageConfig"
       @dblclick="handleDblClick"
+      @dbltap="handleDblClick"
       @contextmenu="handleContextMenu"
     >
       <v-layer>
@@ -544,4 +546,4 @@ const getRandomColor = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

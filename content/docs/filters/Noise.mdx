@@ -84,7 +84,7 @@ import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
-  const [noise, setNoise] = useState(0.5);
+  const [noise, setNoise] = useState(0.3);
   const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
 
@@ -166,7 +166,7 @@ const stageSize = {
   height: window.innerHeight,
 };
 
-const noise = ref(0.5);
+const noise = ref(0.3);
 const imageNode = ref(null);
 const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
 

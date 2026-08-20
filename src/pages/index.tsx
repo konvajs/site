@@ -106,7 +106,7 @@ export const konvaUsers = [
     name: 'Windoor craft',
     description: <Translate id="homepage.showcase.windoor">A drag-and-drop tool for window and door design</Translate>,
     image: '/assets/users/windoor.jpg',
-    url: 'http://windowcc.com/',
+    url: 'https://windowcc.com/',
   },
   {
     name: 'Pixteller',
@@ -161,7 +161,7 @@ export const konvaUsers = [
     name: 'ScriptureMark',
     description: <Translate id="homepage.showcase.scripturemark">Interact with Bible text on a canvas</Translate>,
     image: '/assets/users/scripture-mark.jpg',
-    url: 'https://www.blueletterbible.org/smark/index.cfm',
+    url: 'https://www.scripturemark.org/canvas',
     small: true,
   },
   {
@@ -175,7 +175,7 @@ export const konvaUsers = [
     name: 'csgoboard',
     description: <Translate id="homepage.showcase.csgoboard">Interactive board for Valve's game Counter-Strike</Translate>,
     image: '/assets/users/csgoboard.jpg',
-    url: 'http://www.csgoboard.com/board',
+    url: 'https://csgoboard.com/board/new',
     small: true,
   },
   {
@@ -210,14 +210,14 @@ export const konvaUsers = [
     name: 'E-cards',
     description: <Translate id="homepage.showcase.ecards">Online shop for business ecards</Translate>,
     image: '/assets/users/e-cards.jpg',
-    url: 'https://e-cards.shop/de/cards/create/2/1',
+    url: 'https://e-cards.shop/de/cards/create/1',
     small: true,
   },
   {
     name: 'Mystikaze',
     description: <Translate id="homepage.showcase.mystikaze">An online turn-based hex battle strategy game</Translate>,
     image: '/assets/users/mystikaze.jpg',
-    url: 'https://mystikaze.com/',
+    url: 'https://nulisar.itch.io/mystikaze',
     small: true,
   },
   {
