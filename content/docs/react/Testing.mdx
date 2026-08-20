@@ -1,0 +1,195 @@
+---
+title: How to test react-konva components
+sidebar_label: Testing
+hide_table_of_contents: true
+slug: Testing.html
+description: "Test react-konva components in a real browser instead of jsdom, where canvas is stubbed and tests pass while asserting nothing. Getting a stage handle, asserting on the scene graph, simulating drags, and checking for leaks."
+---
+
+Testing canvas is not like testing DOM. Your shapes are not elements, so
+Testing Library queries never find them, and the environment most React projects
+test in cannot draw.
+
+## Run canvas tests in a real browser
+
+Use jsdom for your store and your logic. Use a real browser for anything that
+touches a `Stage`.
+
+This matters more than it sounds, because **jsdom does not fail loudly**. There
+is no canvas implementation in it, so the usual fix is a mock that returns empty
+values from every context call. Nothing throws. Your test goes green. What you
+are actually asserting is:
+
+| What you test | What jsdom gives you |
+| --- | --- |
+| `stage.getIntersection(pos)` | `null`, whatever is under the point |
+| `text.width()` after measuring | a value from a font that was never loaded |
+| `stage.toDataURL()` | a stub string, not an image |
+| pixel readback | fully transparent |
+
+Only the parts that are pure JavaScript — `find()`, attributes, the scene graph
+— behave correctly. So a hit-testing test passes without testing hit testing.
+That is the one failure a coding agent cannot catch for you: it writes the test,
+the test is green, and the loop ends.
+
+`react-konva` itself is tested this way. Its config is short:
+
+```js
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+import { playwright } from '@vitest/browser-playwright';
+
+export default defineConfig({
+  test: {
+    browser: {
+      enabled: true,
+      provider: playwright(),
+      headless: process.env.HEADLESS !== 'false',
+      instances: [{ browser: 'chromium' }],
+    },
+    globals: true,
+  },
+});
+```
+
+If you have existing jsdom tests, keep them. Split the run into two projects —
+one jsdom for logic, one browser for canvas — rather than moving everything.
+
+## Getting hold of the stage
+
+A `ref` is the cleanest route:
+
+```jsx
+const stageRef = React.useRef(null);
+render(<Stage ref={stageRef} width={200} height={200}>…</Stage>);
+
+stageRef.current.find('#target');
+```
+
+When the component under test owns its own stage and gives you no ref, Konva
+keeps a registry:
+
+```js
+import Konva from 'konva';
+
+const stage = Konva.stages[Konva.stages.length - 1];
+```
+
+**`data-testid` on `<Stage>` does not work.** The component renders a container
+`div` and forwards only `id`, `accessKey`, `className`, `role`, `style`,
+`tabIndex` and `title`. Anything else, including `data-*`, is dropped. Use `id`
+if you want to query the container, and remember the container is a `div` — the
+`<canvas>` elements live inside it.
+
+## Assert on the scene graph, not the DOM
+
+Shapes are Konva nodes. Query them the way Konva does:
+
+```js
+const rect = stage.findOne('#card');
+
+expect(rect.width()).toBe(120);
+expect(stage.find('Circle')).toHaveLength(3);
+expect(stage.find('.selected')).toHaveLength(1);   // .name, not a CSS class
+```
+
+`find('Rect')` matches by node type, `find('.name')` by the `name` attribute,
+and `findOne('#id')` by `id`. None of this needs the browser to have painted
+anything, so these assertions are the fast, reliable core of a canvas test suite.
+
+For anything about *appearance* — did this actually render, is it the right
+colour — you need real pixels, which is the other reason for the browser:
+
+```js
+const ctx = layer.getContext();
+const ratio = layer.getCanvas().getPixelRatio();
+const { data } = ctx.getImageData(x * ratio, y * ratio, 1, 1);
+
+expect([data[0], data[1], data[2]]).toEqual([255, 0, 0]);
+```
+
+Scale the coordinates by the layer's pixel ratio, or you sample the wrong pixel
+on a retina screen. See [Blurry canvas](/docs/posts/Canvas_Blurry.html) for why.
+
+## Simulating a drag
+
+Konva does not listen for `mousemove` and `mouseup` on the shape, or even on the
+stage container. It attaches them to `window` when a drag begins, so the drag
+survives the pointer leaving the canvas. A synthetic drag has to follow that:
+
+```js
+const container = stage.container();
+
+container.dispatchEvent(new MouseEvent('mousedown', { clientX: 20, clientY: 20, bubbles: true }));
+window.dispatchEvent(new MouseEvent('mousemove', { clientX: 90, clientY: 60, bubbles: true }));
+window.dispatchEvent(new MouseEvent('mouseup',   { clientX: 90, clientY: 60, bubbles: true }));
+```
+
+Two things to know:
+
+- **Dispatch `MouseEvent`, not only `PointerEvent`.** Konva's drag handling is
+  driven by the mouse family, so a pointer-only sequence can be ignored and the
+  drag becomes a silent no-op. Dispatching both is the safe option.
+- **`Konva.dragDistance` defaults to 3 pixels.** A move of one or two pixels is
+  treated as a click and `dragstart` never fires. Move further than that, or set
+  the threshold in the test.
+
+React commits state from Konva event handlers asynchronously, so let the
+microtask queue drain between synthetic events:
+
+```js
+const tick = () => new Promise((r) => setTimeout(r, 0));
+
+container.dispatchEvent(down);
+await tick();
+window.dispatchEvent(move);
+await tick();
+```
+
+## Clean up, and check nothing leaked
+
+Every stage registers itself in `Konva.stages`. If a test unmounts and a stage
+survives, later tests inherit it and start failing in confusing ways. Assert on
+that rather than hoping:
+
+```js
+afterEach(async () => {
+  cleanup();
+  // Stage.destroy() is deferred a tick so a StrictMode remount can reuse it.
+  await new Promise((r) => setTimeout(r, 0));
+
+  const leaked = Konva.stages.length;
+  Konva.stages.forEach((s) => s.destroy());
+  Konva.stages.length = 0;
+
+  expect(leaked).toBe(0);
+});
+```
+
+## End-to-end tests
+
+For a full application, drive a real browser with Playwright and skip synthetic
+events entirely — real input reaches `window` naturally, so the trap above does
+not apply:
+
+```js
+await page.mouse.move(120, 120);
+await page.mouse.down();
+await page.mouse.move(260, 200, { steps: 10 });
+await page.mouse.up();
+
+const pos = await page.evaluate(() => {
+  const stage = window.Konva.stages[0];
+  return stage.findOne('#card').position();
+});
+expect(pos).toEqual({ x: 260, y: 200 });
+```
+
+`{ steps: 10 }` matters: a single jump can land inside `dragDistance` and never
+start a drag.
+
+## Plain Konva without React
+
+Konva runs in Node with a backend module, which is a different setup from
+everything above. See [Node.js](/docs/nodejs/nodejs-setup) — and note that Konva
+prints the exact install and import lines if you forget them.

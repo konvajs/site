@@ -1,0 +1,181 @@
+---
+title: 如何测试 react-konva 组件
+sidebar_label: 测试
+hide_table_of_contents: true
+slug: Testing.html
+description: "在真实浏览器中测试 react-konva 组件，而不是在 jsdom 中——那里的 canvas 是桩实现，测试会通过却什么都没有断言。本文介绍如何获取舞台句柄、基于场景图断言、模拟拖动，以及检查泄漏。"
+---
+
+测试 Canvas 与测试 DOM 不同。你的图形不是元素，因此 Testing Library 的查询永远找不到它们，
+而且大多数 React 项目所使用的测试环境根本无法绘制。
+
+## 在真实浏览器中运行 Canvas 测试
+
+用 jsdom 测试你的状态存储和逻辑，用真实浏览器测试任何涉及 `Stage` 的部分。
+
+这一点比听起来更重要，因为 **jsdom 不会明确报错**。它没有 canvas 实现，因此常见做法是用一个
+桩，让所有上下文调用都返回空值。没有任何异常抛出，测试通过。而你实际断言的是：
+
+| 你测试的内容 | jsdom 给你的结果 |
+| --- | --- |
+| `stage.getIntersection(pos)` | `null`，无论该点下方是什么 |
+| 测量后的 `text.width()` | 来自一个从未加载的字体的数值 |
+| `stage.toDataURL()` | 一个桩字符串，而不是图像 |
+| 像素读取 | 完全透明 |
+
+只有纯 JavaScript 的部分——`find()`、属性、场景图——行为是正确的。因此一个命中检测的测试会通过，
+却根本没有测试命中检测。这正是编程代理无法替你发现的那类失败：它写出测试，测试是绿的，循环就结束了。
+
+`react-konva` 自身就是这样测试的。它的配置很短：
+
+```js
+// vitest.config.ts
+import { defineConfig } from 'vitest/config';
+import { playwright } from '@vitest/browser-playwright';
+
+export default defineConfig({
+  test: {
+    browser: {
+      enabled: true,
+      provider: playwright(),
+      headless: process.env.HEADLESS !== 'false',
+      instances: [{ browser: 'chromium' }],
+    },
+    globals: true,
+  },
+});
+```
+
+如果你已有 jsdom 测试，请保留它们。把运行拆成两个项目——一个用 jsdom 测逻辑，一个用浏览器测
+Canvas——而不是把所有测试都迁走。
+
+## 获取舞台句柄
+
+使用 `ref` 是最干净的方式：
+
+```jsx
+const stageRef = React.useRef(null);
+render(<Stage ref={stageRef} width={200} height={200}>…</Stage>);
+
+stageRef.current.find('#target');
+```
+
+当被测组件自己持有舞台且不向你暴露 ref 时，Konva 维护了一个注册表：
+
+```js
+import Konva from 'konva';
+
+const stage = Konva.stages[Konva.stages.length - 1];
+```
+
+**在 `<Stage>` 上使用 `data-testid` 是无效的。** 该组件渲染一个容器 `div`，并且只透传
+`id`、`accessKey`、`className`、`role`、`style`、`tabIndex` 和 `title`。其他属性（包括
+`data-*`）都会被丢弃。如果你想查询容器，请使用 `id`；并且记住容器是一个 `div`——`<canvas>`
+元素位于它内部。
+
+## 基于场景图断言，而不是 DOM
+
+图形是 Konva 节点。请按 Konva 的方式查询它们：
+
+```js
+const rect = stage.findOne('#card');
+
+expect(rect.width()).toBe(120);
+expect(stage.find('Circle')).toHaveLength(3);
+expect(stage.find('.selected')).toHaveLength(1);   // .name，不是 CSS 类名
+```
+
+`find('Rect')` 按节点类型匹配，`find('.name')` 按 `name` 属性匹配，`findOne('#id')`
+按 `id` 匹配。这些都不需要浏览器真正绘制过任何东西，因此它们是 Canvas 测试套件中快速而可靠的
+核心断言。
+
+而任何关于*外观*的判断——是否真的渲染了、颜色是否正确——都需要真实像素，这是使用浏览器的
+另一个原因：
+
+```js
+const ctx = layer.getContext();
+const ratio = layer.getCanvas().getPixelRatio();
+const { data } = ctx.getImageData(x * ratio, y * ratio, 1, 1);
+
+expect([data[0], data[1], data[2]]).toEqual([255, 0, 0]);
+```
+
+请按图层的像素比缩放坐标，否则在 Retina 屏幕上你会采样到错误的像素。原因参见
+[Canvas 模糊](/zh-Hans/docs/posts/Canvas_Blurry.html)。
+
+## 模拟拖动
+
+Konva 并不在图形上监听 `mousemove` 和 `mouseup`，甚至也不在舞台容器上监听。拖动开始时，
+它把这些监听器挂到 `window` 上，这样指针移出 Canvas 后拖动仍然有效。模拟拖动必须遵循这一点：
+
+```js
+const container = stage.container();
+
+container.dispatchEvent(new MouseEvent('mousedown', { clientX: 20, clientY: 20, bubbles: true }));
+window.dispatchEvent(new MouseEvent('mousemove', { clientX: 90, clientY: 60, bubbles: true }));
+window.dispatchEvent(new MouseEvent('mouseup',   { clientX: 90, clientY: 60, bubbles: true }));
+```
+
+Two things to know:
+
+- **要派发 `MouseEvent`，而不只是 `PointerEvent`。** Konva 的拖动处理由鼠标事件族驱动，
+  因此只有指针事件的序列可能被忽略，拖动会变成一次静默的空操作。两者都派发是稳妥的做法。
+- **`Konva.dragDistance` 默认为 3 像素。** 移动一两个像素会被当作点击，`dragstart` 根本
+  不会触发。请移动得更远，或在测试中设置该阈值。
+
+React 会以异步方式提交来自 Konva 事件处理函数的状态更新，因此请在两次模拟事件之间
+让微任务队列清空：
+
+```js
+const tick = () => new Promise((r) => setTimeout(r, 0));
+
+container.dispatchEvent(down);
+await tick();
+window.dispatchEvent(move);
+await tick();
+```
+
+## 清理，并检查没有泄漏
+
+每个舞台都会把自己注册到 `Konva.stages` 中。如果某个测试卸载后舞台仍然存在，后续测试就会
+继承它，并以令人困惑的方式开始失败。请对此做出断言，而不是心存侥幸：
+
+```js
+afterEach(async () => {
+  cleanup();
+  // Stage.destroy() 会延迟一个时钟周期，以便 StrictMode 重新挂载时复用它。
+  await new Promise((r) => setTimeout(r, 0));
+
+  const leaked = Konva.stages.length;
+  Konva.stages.forEach((s) => s.destroy());
+  Konva.stages.length = 0;
+
+  expect(leaked).toBe(0);
+});
+```
+
+## 端到端测试
+
+对于完整的应用，请用 Playwright 驱动真实浏览器，完全跳过模拟事件——真实输入会自然到达
+`window`，因此上面那个陷阱并不适用：
+
+```js
+await page.mouse.move(120, 120);
+await page.mouse.down();
+await page.mouse.move(260, 200, { steps: 10 });
+await page.mouse.up();
+
+const pos = await page.evaluate(() => {
+  const stage = window.Konva.stages[0];
+  return stage.findOne('#card').position();
+});
+expect(pos).toEqual({ x: 260, y: 200 });
+```
+
+`{ steps: 10 }` 很重要：一次性跳到目标点可能落在 `dragDistance` 之内，从而根本不会开始拖动。
+
+## 不使用 React 的纯 Konva
+
+Konva 通过后端模块在 Node 中运行，这与上面所有内容都是不同的配置。参见
+[Node.js](/zh-Hans/docs/nodejs/nodejs-setup)——并且请注意，如果你忘记了具体写法，
+Konva 会打印出确切的安装命令和导入语句。
