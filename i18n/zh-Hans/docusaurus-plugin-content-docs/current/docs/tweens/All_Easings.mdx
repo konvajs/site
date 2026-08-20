@@ -100,6 +100,7 @@ document.body.appendChild(button);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Text } from 'react-konva';
 import { useEffect, useRef } from 'react';
 
@@ -135,6 +136,10 @@ const App = () => {
         easing: Konva.Easings[easings[i]],
       });
     });
+
+    return () => {
+      tweensRef.current.forEach((tween) => tween.destroy());
+    };
   }, []);
 
   const handlePlay = () => {
@@ -152,7 +157,9 @@ const App = () => {
           {easings.map((easing, i) => (
             <Text
               key={i}
-              ref={(node) => (textsRef.current[i] = node)}
+              ref={(node) => {
+                textsRef.current[i] = node;
+              }}
               x={50}
               y={30 + i * 25}
               text={easing}

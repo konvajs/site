@@ -151,10 +151,10 @@ stage.on('mouseup', function (evt) {
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { Stage, Layer, Circle, Label, Tag, Text } from 'react-konva';
 
-const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown, onMouseUp }) => {
+const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown, onMouseUp, onDragEnd }) => {
   // Only re-render when the nodes array reference changes
   return (
     <Layer>
@@ -171,6 +171,7 @@ const CirclesLayer = ({ nodes, onMouseOver, onMouseMove, onMouseOut, onMouseDown
           onDragMove={onMouseMove}
           onMouseDown={e => onMouseDown(e, node)}
           onMouseUp={e => onMouseUp(e, node)}
+          onDragEnd={e => onDragEnd(e, node.id)}
           draggable
         />
       ))}
@@ -230,8 +231,8 @@ const App = () => {
     text: ''
   });
   
-  // State for nodes data - using useMemo to ensure it doesn't regenerate on re-renders
-  const nodes = useMemo(() => {
+  // Keep positions in state, but update only after a drag for this large scene.
+  const [nodes, setNodes] = useState(() => {
     const colors = ['red', 'orange', 'cyan', 'green', 'blue', 'purple'];
     const data = [];
     
@@ -247,7 +248,7 @@ const App = () => {
     }
     
     return data;
-  }, [width, height]);
+  });
   
   // Event handlers - wrap in useCallback to prevent recreating functions on each render
   const handleMouseOver = useCallback((e, node) => {
@@ -285,6 +286,13 @@ const App = () => {
   const handleMouseUp = useCallback((e, node) => {
     // For drag handling if needed
   }, []);
+
+  const handleDragEnd = useCallback((e, id) => {
+    const { x, y } = e.target.position();
+    setNodes(current =>
+      current.map(node => (node.id === id ? { ...node, x, y } : node))
+    );
+  }, []);
   
   return (
     <Stage width={width} height={height}>
@@ -296,6 +304,7 @@ const App = () => {
         onMouseOut={handleMouseOut}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onDragEnd={handleDragEnd}
       />
       
       {/* Drag layer - if needed */}
@@ -476,4 +485,3 @@ function handleStageMouseUp(e) {
 ```
   </TabItem>
 </Tabs>
-

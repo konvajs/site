@@ -20,8 +20,8 @@ npm run check
 ```
 
 This command checks the canonical English site. It checks code fences, the demo
-gallery, Sandpack dependencies, TypeScript, the build, the sitemap, and generated
-Markdown pages.
+gallery, Sandpack dependencies, controlled React drag handlers, TypeScript, the
+build, the sitemap, and generated Markdown pages.
 
 Use the separate commands when you must isolate a failure:
 

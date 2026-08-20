@@ -77,22 +77,26 @@ layer.add(verticalText);
   <TabItem value="React">
 ```jsx live react
 import { Stage, Layer, Text } from 'react-konva';
+import { useState } from 'react';
 
 const App = () => {
+  const [horizontalPosition, setHorizontalPosition] = useState({ x: 50, y: 50 });
+  const [verticalPosition, setVerticalPosition] = useState({ x: 200, y: 50 });
+
   const handleHorizontalDragMove = (e) => {
-    e.target.y(50);
+    setHorizontalPosition({ x: e.target.x(), y: 50 });
   };
 
   const handleVerticalDragMove = (e) => {
-    e.target.x(200);
+    setVerticalPosition({ x: 200, y: e.target.y() });
   };
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={50}
-          y={50}
+          x={horizontalPosition.x}
+          y={horizontalPosition.y}
           text="Drag me horizontally"
           fontSize={16}
           draggable
@@ -100,8 +104,8 @@ const App = () => {
           onDragMove={handleHorizontalDragMove}
         />
         <Text
-          x={200}
-          y={50}
+          x={verticalPosition.x}
+          y={verticalPosition.y}
           text="Drag me vertically"
           fontSize={16}
           draggable

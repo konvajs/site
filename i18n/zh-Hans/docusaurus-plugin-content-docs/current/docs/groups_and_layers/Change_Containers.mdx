@@ -101,6 +101,17 @@ import { useState } from 'react';
 
 const App = () => {
   const [redBoxGroup, setRedBoxGroup] = useState('yellow');
+  const [groupPositions, setGroupPositions] = useState({
+    yellow: { x: 50, y: 50 },
+    blue: { x: 200, y: 50 },
+  });
+
+  const handleDragEnd = (group, e) => {
+    setGroupPositions((positions) => ({
+      ...positions,
+      [group]: { x: e.target.x(), y: e.target.y() },
+    }));
+  };
 
   return (
     <>
@@ -112,7 +123,12 @@ const App = () => {
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Group x={50} y={50} draggable>
+          <Group
+            x={groupPositions.yellow.x}
+            y={groupPositions.yellow.y}
+            draggable
+            onDragEnd={(e) => handleDragEnd('yellow', e)}
+          >
             <Rect
               width={100}
               height={100}
@@ -124,7 +140,12 @@ const App = () => {
               <Rect x={10} y={10} width={30} height={30} fill="red" />
             )}
           </Group>
-          <Group x={200} y={50} draggable>
+          <Group
+            x={groupPositions.blue.x}
+            y={groupPositions.blue.y}
+            draggable
+            onDragEnd={(e) => handleDragEnd('blue', e)}
+          >
             <Rect
               width={100}
               height={100}

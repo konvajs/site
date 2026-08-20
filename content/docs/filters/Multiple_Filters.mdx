@@ -133,6 +133,7 @@ imageObj.crossOrigin = 'anonymous';
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Image } from 'react-konva';
 import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
@@ -173,6 +174,7 @@ const FilterControl = ({ name, min, max, step, filters, setFilters }) => {
 };
 
 const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
   const [filters, setFilters] = useState({
     blur: { active: false, value: 10 },
     brightness: { active: false, value: 1.3 },
@@ -203,10 +205,13 @@ const App = () => {
           {image && (
             <Image
               ref={imageRef}
-              x={50}
-              y={50}
+              x={position.x}
+              y={position.y}
               image={image}
               draggable
+              onDragEnd={(e) => {
+                setPosition({ x: e.target.x(), y: e.target.y() });
+              }}
               filters={activeFilters}
               blurRadius={filters.blur.value}
               brightness={filters.brightness.value}

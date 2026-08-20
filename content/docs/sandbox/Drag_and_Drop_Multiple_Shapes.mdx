@@ -95,30 +95,26 @@ const App = () => {
   const handleDragStart = (e) => {
     // Move the dragged box to the end of the array to simulate moveToTop
     const id = e.target.id();
-    const box = boxes.find(b => b.id === id);
-    const filteredBoxes = boxes.filter(b => b.id !== id);
-    setBoxes([...filteredBoxes, box]);
+    setBoxes(currentBoxes => {
+      const box = currentBoxes.find(b => b.id === id);
+      if (!box) return currentBoxes;
+      return [...currentBoxes.filter(b => b.id !== id), box];
+    });
   };
   
   const handleDragMove = (e) => {
     // Update the position of the box
     const id = e.target.id();
-    const newBoxes = boxes.map(box => {
-      if (box.id === id) {
-        return {
-          ...box,
-          x: e.target.x(),
-          y: e.target.y()
-        };
-      }
-      return box;
-    });
-    setBoxes(newBoxes);
+    setBoxes(currentBoxes => currentBoxes.map(box =>
+      box.id === id
+        ? { ...box, x: e.target.x(), y: e.target.y() }
+        : box
+    ));
   };
   
   const handleDoubleClick = (id) => {
     // Remove the box on double click
-    setBoxes(boxes.filter(box => box.id !== id));
+    setBoxes(currentBoxes => currentBoxes.filter(box => box.id !== id));
   };
 
   return (
@@ -245,4 +241,4 @@ const handleDoubleClick = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

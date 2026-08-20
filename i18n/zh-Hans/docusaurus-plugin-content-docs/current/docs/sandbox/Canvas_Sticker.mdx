@@ -117,6 +117,7 @@ var App = function() {
   var [image, setImage] = useState(null);
   var [shapes, setShapes] = useState([]);
   var shapeRefs = useRef({});
+  var nextId = useRef(1);
 
   useEffect(function() {
     var img = new window.Image();
@@ -135,11 +136,28 @@ var App = function() {
   }, [selectedId]);
 
   var addSticker = function(type) {
-    var id = 'shape_' + Date.now();
+    var id = 'shape_' + nextId.current++;
+    var initialScale = type === 'heart' ? 2 : 1;
     setShapes(function(prev) {
-      return prev.concat([{ id: id, type: type, x: 100 + Math.random() * (width - 200), y: 80 + Math.random() * (height - 160) }]);
+      return prev.concat([{
+        id: id,
+        type: type,
+        x: 100 + Math.random() * (width - 200),
+        y: 80 + Math.random() * (height - 160),
+        rotation: 0,
+        scaleX: initialScale,
+        scaleY: initialScale,
+      }]);
     });
     setSelectedId(id);
+  };
+
+  var updateShape = function(id, patch) {
+    setShapes(function(currentShapes) {
+      return currentShapes.map(function(shape) {
+        return shape.id === id ? Object.assign({}, shape, patch) : shape;
+      });
+    });
   };
 
   var handleExport = function() {
@@ -181,12 +199,27 @@ var App = function() {
               ref: function(node) { shapeRefs.current[item.id] = node; },
               x: item.x,
               y: item.y,
+              rotation: item.rotation,
+              scaleX: item.scaleX,
+              scaleY: item.scaleY,
               draggable: true,
               onClick: function() { setSelectedId(item.id); },
               onTap: function() { setSelectedId(item.id); },
+              onDragEnd: function(e) {
+                updateShape(item.id, e.target.position());
+              },
+              onTransformEnd: function(e) {
+                updateShape(item.id, {
+                  x: e.target.x(),
+                  y: e.target.y(),
+                  rotation: e.target.rotation(),
+                  scaleX: e.target.scaleX(),
+                  scaleY: e.target.scaleY(),
+                });
+              },
             };
             if (item.type === 'star') return <Star key={item.id} {...common} numPoints={5} innerRadius={15} outerRadius={35} fill="#FFD700" stroke="#FFA500" strokeWidth={2} />;
-            if (item.type === 'heart') return <Path key={item.id} {...common} data="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" scaleX={2} scaleY={2} fill="#FF69B4" />;
+            if (item.type === 'heart') return <Path key={item.id} {...common} data="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#FF69B4" />;
             if (item.type === 'badge') return <Circle key={item.id} {...common} radius={25} fill="#FF4444" stroke="#fff" strokeWidth={3} />;
             if (item.type === 'arrow') return <Arrow key={item.id} {...common} points={[0, 0, 60, 0]} fill="#20C997" stroke="#20C997" strokeWidth={3} pointerLength={12} pointerWidth={12} />;
             return null;

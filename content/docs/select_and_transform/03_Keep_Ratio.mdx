@@ -70,9 +70,11 @@ layer.add(tr2);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Text, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [text1Position, setText1Position] = useState({ x: 50, y: 50 });
+  const [text2Position, setText2Position] = useState({ x: 50, y: 150 });
   const text1Ref = useRef();
   const text2Ref = useRef();
   const tr1Ref = useRef();
@@ -87,24 +89,28 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={50}
-          y={50}
+          x={text1Position.x}
+          y={text1Position.y}
           text="keep ratio by default"
           fontSize={20}
           draggable
           width={200}
           ref={text1Ref}
+          onDragEnd={(e) => setText1Position(e.target.position())}
+          onTransformEnd={(e) => setText1Position(e.target.position())}
         />
         <Transformer ref={tr1Ref} />
 
         <Text
-          x={50}
-          y={150}
+          x={text2Position.x}
+          y={text2Position.y}
           text="no ratio, but hold shift to keep ratio"
           fontSize={20}
           draggable
           width={200}
           ref={text2Ref}
+          onDragEnd={(e) => setText2Position(e.target.position())}
+          onTransformEnd={(e) => setText2Position(e.target.position())}
         />
         <Transformer ref={tr2Ref} keepRatio={false} />
       </Layer>

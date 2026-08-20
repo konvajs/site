@@ -32,6 +32,14 @@ const VIRTUAL_HEIGHT = 420;
 const App = () => {
   const containerRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(VIRTUAL_WIDTH);
+  const [circlePosition, setCirclePosition] = useState({
+    x: VIRTUAL_WIDTH / 2,
+    y: VIRTUAL_HEIGHT / 2,
+  });
+  const [rectanglePosition, setRectanglePosition] = useState({
+    x: VIRTUAL_WIDTH - 190,
+    y: VIRTUAL_HEIGHT - 130,
+  });
 
   useEffect(() => {
     const container = containerRef.current;
@@ -67,20 +75,26 @@ const App = () => {
             fill="#1864ab"
           />
           <Circle
-            x={VIRTUAL_WIDTH / 2}
-            y={VIRTUAL_HEIGHT / 2}
+            x={circlePosition.x}
+            y={circlePosition.y}
             radius={70}
             fill="#4dabf7"
             draggable
+            onDragEnd={(event) => {
+              setCirclePosition(event.target.position());
+            }}
           />
           <Rect
-            x={VIRTUAL_WIDTH - 190}
-            y={VIRTUAL_HEIGHT - 130}
+            x={rectanglePosition.x}
+            y={rectanglePosition.y}
             width={150}
             height={90}
             fill="#74c0fc"
             cornerRadius={10}
             draggable
+            onDragEnd={(event) => {
+              setRectanglePosition(event.target.position());
+            }}
           />
         </Layer>
       </Stage>

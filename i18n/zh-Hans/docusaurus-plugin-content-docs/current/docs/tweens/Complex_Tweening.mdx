@@ -46,31 +46,55 @@ draggable: true,
 layer.add(circle);
 stage.add(layer);
 
+let scaleUpTween;
+let scaleDownTween;
+let gradientAnimation;
+let gradientTimer;
+
+const stopAnimation = () => {
+scaleUpTween?.destroy();
+scaleDownTween?.destroy();
+gradientAnimation?.stop();
+clearTimeout(gradientTimer);
+scaleUpTween = undefined;
+scaleDownTween = undefined;
+gradientAnimation = undefined;
+gradientTimer = undefined;
+};
+
 circle.on('click tap', () => {
+stopAnimation();
+
 // using regular Konva tween
-const tween = new Konva.Tween({
+scaleUpTween = new Konva.Tween({
 node: circle,
 duration: 1,
 scaleX: 1.5,
 scaleY: 1.5,
 easing: Konva.Easings.EaseInOut,
 onFinish: () => {
+scaleUpTween.destroy();
+scaleUpTween = undefined;
 // scale back with another tween
-const tween2 = new Konva.Tween({
+scaleDownTween = new Konva.Tween({
 node: circle,
 duration: 1,
 scaleX: 1,
 scaleY: 1,
 easing: Konva.Easings.BounceEaseOut,
-});
-tween2.play();
+onFinish: () => {
+scaleDownTween.destroy();
+scaleDownTween = undefined;
 },
 });
-tween.play();
+scaleDownTween.play();
+},
+});
+scaleUpTween.play();
 
 // manually update gradient
 let ratio = 0;
-const anim = new Konva.Animation((frame) => {
+gradientAnimation = new Konva.Animation((frame) => {
 ratio += frame.timeDiff / 1000;
 if (ratio > 1) {
 ratio = 0;
@@ -84,8 +108,12 @@ ratio,
 'blue',
 ]);
 }, layer);
-anim.start();
-setTimeout(() => anim.stop(), 2000);
+gradientAnimation.start();
+gradientTimer = setTimeout(() => {
+gradientAnimation.stop();
+gradientAnimation = undefined;
+gradientTimer = undefined;
+}, 2000);
 });
 
 ````
@@ -94,38 +122,66 @@ setTimeout(() => anim.stop(), 2000);
 ```js live react
 import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const App = () => {
   const circleRef = useRef();
+  const scaleUpTweenRef = useRef();
+  const scaleDownTweenRef = useRef();
+  const gradientAnimationRef = useRef();
+  const gradientTimerRef = useRef();
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
+
+  const stopAnimation = () => {
+    scaleUpTweenRef.current?.destroy();
+    scaleDownTweenRef.current?.destroy();
+    gradientAnimationRef.current?.stop();
+    clearTimeout(gradientTimerRef.current);
+    scaleUpTweenRef.current = undefined;
+    scaleDownTweenRef.current = undefined;
+    gradientAnimationRef.current = undefined;
+    gradientTimerRef.current = undefined;
+  };
+
+  useEffect(() => stopAnimation, []);
 
   const handleClick = () => {
     const circle = circleRef.current;
+    stopAnimation();
 
     // using regular Konva tween
-    const tween = new Konva.Tween({
+    scaleUpTweenRef.current = new Konva.Tween({
       node: circle,
       duration: 1,
       scaleX: 1.5,
       scaleY: 1.5,
       easing: Konva.Easings.EaseInOut,
       onFinish: () => {
+        scaleUpTweenRef.current.destroy();
+        scaleUpTweenRef.current = undefined;
         // scale back with another tween
-        const tween2 = new Konva.Tween({
+        scaleDownTweenRef.current = new Konva.Tween({
           node: circle,
           duration: 1,
           scaleX: 1,
           scaleY: 1,
           easing: Konva.Easings.BounceEaseOut,
+          onFinish: () => {
+            scaleDownTweenRef.current.destroy();
+            scaleDownTweenRef.current = undefined;
+          },
         });
-        tween2.play();
+        scaleDownTweenRef.current.play();
       },
     });
-    tween.play();
+    scaleUpTweenRef.current.play();
 
     // manually update gradient
     let ratio = 0;
-    const anim = new Konva.Animation((frame) => {
+    gradientAnimationRef.current = new Konva.Animation((frame) => {
       ratio += frame.timeDiff / 1000;
       if (ratio > 1) {
         ratio = 0;
@@ -139,8 +195,12 @@ const App = () => {
         'blue',
       ]);
     }, circle.getLayer());
-    anim.start();
-    setTimeout(() => anim.stop(), 2000);
+    gradientAnimationRef.current.start();
+    gradientTimerRef.current = setTimeout(() => {
+      gradientAnimationRef.current.stop();
+      gradientAnimationRef.current = undefined;
+      gradientTimerRef.current = undefined;
+    }, 2000);
   };
 
   return (
@@ -148,8 +208,8 @@ const App = () => {
       <Layer>
         <Circle
           ref={circleRef}
-          x={window.innerWidth / 2}
-          y={window.innerHeight / 2}
+          x={position.x}
+          y={position.y}
           radius={70}
           fillLinearGradientStartPoint={{ x: -50, y: -50 }}
           fillLinearGradientEndPoint={{ x: 50, y: 50 }}
@@ -157,6 +217,9 @@ const App = () => {
           stroke="black"
           strokeWidth={4}
           draggable
+          onDragEnd={(e) => {
+            setPosition({ x: e.target.x(), y: e.target.y() });
+          }}
           onClick={handleClick}
           onTap={handleClick}
         />
@@ -185,7 +248,7 @@ export default App;
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import Konva from 'konva';
 
 const stageSize = {
@@ -207,34 +270,58 @@ const circleConfig = {
 
 const circleRef = ref(null);
 const layerRef = ref(null);
+let scaleUpTween;
+let scaleDownTween;
+let gradientAnimation;
+let gradientTimer;
+
+const stopAnimation = () => {
+  scaleUpTween?.destroy();
+  scaleDownTween?.destroy();
+  gradientAnimation?.stop();
+  clearTimeout(gradientTimer);
+  scaleUpTween = undefined;
+  scaleDownTween = undefined;
+  gradientAnimation = undefined;
+  gradientTimer = undefined;
+};
+
+onUnmounted(stopAnimation);
 
 const handleClick = () => {
   const circle = circleRef.value.getNode();
-  
+  stopAnimation();
+
   // using regular Konva tween
-  const tween = new Konva.Tween({
+  scaleUpTween = new Konva.Tween({
     node: circle,
     duration: 1,
     scaleX: 1.5,
     scaleY: 1.5,
     easing: Konva.Easings.EaseInOut,
     onFinish: () => {
+      scaleUpTween.destroy();
+      scaleUpTween = undefined;
       // scale back with another tween
-      const tween2 = new Konva.Tween({
+      scaleDownTween = new Konva.Tween({
         node: circle,
         duration: 1,
         scaleX: 1,
         scaleY: 1,
         easing: Konva.Easings.BounceEaseOut,
+        onFinish: () => {
+          scaleDownTween.destroy();
+          scaleDownTween = undefined;
+        },
       });
-      tween2.play();
+      scaleDownTween.play();
     },
   });
-  tween.play();
+  scaleUpTween.play();
 
   // manually update gradient
   let ratio = 0;
-  const anim = new Konva.Animation((frame) => {
+  gradientAnimation = new Konva.Animation((frame) => {
     ratio += frame.timeDiff / 1000;
     if (ratio > 1) {
       ratio = 0;
@@ -248,8 +335,12 @@ const handleClick = () => {
       'blue',
     ]);
   }, layerRef.value.getNode());
-  anim.start();
-  setTimeout(() => anim.stop(), 2000);
+  gradientAnimation.start();
+  gradientTimer = setTimeout(() => {
+    gradientAnimation.stop();
+    gradientAnimation = undefined;
+    gradientTimer = undefined;
+  }, 2000);
 };
 </script>
 

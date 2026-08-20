@@ -153,25 +153,29 @@ stage.add(layer);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Konva from 'konva';
 
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
-window.Konva.hitOnDragEnabled = true;
+const getDistance = (p1, p2) => {
+  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+};
 
 const App = () => {
-  const [activeShape, setActiveShape] = useState(null);
-  const [lastDist, setLastDist] = useState(0);
+  const stageRef = useRef(null);
+  const activeShape = useRef(null);
+  const lastDist = useRef(0);
   const [shapes, setShapes] = useState({
     triangle: {
+      x: 190,
+      y: window.innerHeight / 2,
       scaleX: 1,
       scaleY: 1,
       fill: 'green',
       stroke: 'black'
     },
     circle: {
+      x: 380,
+      y: window.innerHeight / 2,
       scaleX: 1,
       scaleY: 1,
       fill: 'red',
@@ -179,34 +183,44 @@ const App = () => {
     }
   });
 
-  const getDistance = (p1, p2) => {
-    return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-  };
-
   const handleTap = (shapeName) => {
-    setActiveShape(activeShape === shapeName ? null : shapeName);
+    const nextActiveShape = activeShape.current === shapeName ? null : shapeName;
+    activeShape.current = nextActiveShape;
     
     setShapes(prev => ({
       ...prev,
       triangle: {
         ...prev.triangle,
-        fill: shapeName === 'triangle' ? '#78E7FF' : 'green',
-        stroke: shapeName === 'triangle' ? 'blue' : 'black'
+        fill: nextActiveShape === 'triangle' ? '#78E7FF' : 'green',
+        stroke: nextActiveShape === 'triangle' ? 'blue' : 'black'
       },
       circle: {
         ...prev.circle,
-        fill: shapeName === 'circle' ? '#78E7FF' : 'red',
-        stroke: shapeName === 'circle' ? 'blue' : 'black'
+        fill: nextActiveShape === 'circle' ? '#78E7FF' : 'red',
+        stroke: nextActiveShape === 'circle' ? 'blue' : 'black'
       }
     }));
   };
 
+  const handleDragMove = (shapeName, e) => {
+    const { x, y } = e.target.position();
+    setShapes(prev => ({
+      ...prev,
+      [shapeName]: { ...prev[shapeName], x, y }
+    }));
+  };
+
   useEffect(() => {
+    const previousHitOnDragEnabled = Konva.hitOnDragEnabled;
+    Konva.hitOnDragEnabled = true;
+    const content = stageRef.current.container();
+
     const handleTouchMove = (evt) => {
       const touch1 = evt.touches[0];
       const touch2 = evt.touches[1];
+      const shapeName = activeShape.current;
 
-      if (touch1 && touch2 && activeShape) {
+      if (touch1 && touch2 && shapeName) {
         const dist = getDistance(
           {
             x: touch1.clientX,
@@ -218,50 +232,48 @@ const App = () => {
           }
         );
 
-        if (!lastDist) {
-          setLastDist(dist);
+        if (!lastDist.current) {
+          lastDist.current = dist;
           return;
         }
 
-        const scale = (shapes[activeShape].scaleX * dist) / lastDist;
+        const scaleBy = dist / lastDist.current;
 
         setShapes(prev => ({
           ...prev,
-          [activeShape]: {
-            ...prev[activeShape],
-            scaleX: scale,
-            scaleY: scale
+          [shapeName]: {
+            ...prev[shapeName],
+            scaleX: prev[shapeName].scaleX * scaleBy,
+            scaleY: prev[shapeName].scaleY * scaleBy
           }
         }));
 
-        setLastDist(dist);
+        lastDist.current = dist;
       }
     };
 
     const handleTouchEnd = () => {
-      setLastDist(0);
+      lastDist.current = 0;
     };
 
-    const content = document.getElementsByClassName('konvajs-content')[0];
-    if (content) {
-      content.addEventListener('touchmove', handleTouchMove, false);
-      content.addEventListener('touchend', handleTouchEnd, false);
-    }
+    content.addEventListener('touchmove', handleTouchMove, false);
+    content.addEventListener('touchend', handleTouchEnd, false);
+    content.addEventListener('touchcancel', handleTouchEnd, false);
 
     return () => {
-      if (content) {
-        content.removeEventListener('touchmove', handleTouchMove);
-        content.removeEventListener('touchend', handleTouchEnd);
-      }
+      content.removeEventListener('touchmove', handleTouchMove);
+      content.removeEventListener('touchend', handleTouchEnd);
+      content.removeEventListener('touchcancel', handleTouchEnd);
+      Konva.hitOnDragEnabled = previousHitOnDragEnabled;
     };
-  }, [activeShape, lastDist, shapes]);
+  }, []);
 
   return (
-    <Stage width={window.innerWidth} height={window.innerHeight}>
+    <Stage ref={stageRef} width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <RegularPolygon
-          x={190}
-          y={window.innerHeight / 2}
+          x={shapes.triangle.x}
+          y={shapes.triangle.y}
           sides={3}
           radius={80}
           fill={shapes.triangle.fill}
@@ -271,11 +283,12 @@ const App = () => {
           name="triangle"
           scaleX={shapes.triangle.scaleX}
           scaleY={shapes.triangle.scaleY}
+          onDragMove={(e) => handleDragMove('triangle', e)}
           onTap={() => handleTap('triangle')}
         />
         <Circle
-          x={380}
-          y={window.innerHeight / 2}
+          x={shapes.circle.x}
+          y={shapes.circle.y}
           radius={70}
           fill={shapes.circle.fill}
           stroke={shapes.circle.stroke}
@@ -284,6 +297,7 @@ const App = () => {
           name="circle"
           scaleX={shapes.circle.scaleX}
           scaleY={shapes.circle.scaleY}
+          onDragMove={(e) => handleDragMove('circle', e)}
           onTap={() => handleTap('circle')}
         />
       </Layer>

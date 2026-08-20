@@ -67,20 +67,27 @@ tween.play();
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const App = () => {
   const circleRef = useRef();
+  const tweenRef = useRef();
+
+  useEffect(() => {
+    return () => tweenRef.current?.destroy();
+  }, []);
 
   const handleClick = () => {
-    const tween = new Konva.Tween({
+    tweenRef.current?.destroy();
+    tweenRef.current = new Konva.Tween({
       node: circleRef.current,
       duration: 1,
       x: window.innerWidth - 100,
       easing: Konva.Easings.Linear,
     });
-    tween.play();
+    tweenRef.current.play();
   };
 
   return (

@@ -67,7 +67,11 @@ import { Stage, Layer, Text, Transformer } from 'react-konva';
 import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
-  const [textWidth, setTextWidth] = useState(200);
+  const [textAttrs, setTextAttrs] = useState({
+    x: 50,
+    y: 50,
+    width: 200,
+  });
   const textRef = useRef();
   const trRef = useRef();
 
@@ -79,17 +83,28 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={50}
-          y={50}
+          x={textAttrs.x}
+          y={textAttrs.y}
           text="Hello from Konva! Try to resize me."
           fontSize={24}
           draggable
-          width={textWidth}
+          width={textAttrs.width}
           ref={textRef}
+          onDragEnd={(e) => {
+            setTextAttrs((attrs) => ({
+              ...attrs,
+              ...e.target.position(),
+            }));
+          }}
           onTransform={() => {
             const node = textRef.current;
-            setTextWidth(node.width() * node.scaleX());
+            const nextWidth = node.width() * node.scaleX();
             node.scaleX(1);
+            setTextAttrs({
+              x: node.x(),
+              y: node.y(),
+              width: nextWidth,
+            });
           }}
         />
         <Transformer

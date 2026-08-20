@@ -57,8 +57,11 @@ stage.add(layer);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Text, Rect } from 'react-konva';
+import { useState } from 'react';
 
 const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
@@ -73,12 +76,15 @@ const App = () => {
           shadowOffset={{ x: 10, y: 10 }}
         />
         <Rect
-          x={50}
-          y={50}
+          x={position.x}
+          y={position.y}
           width={100}
           height={100}
           fill="red"
           draggable={true}
+          onDragEnd={(e) => {
+            setPosition({ x: e.target.x(), y: e.target.y() });
+          }}
           globalCompositeOperation="xor"
         />
       </Layer>

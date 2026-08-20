@@ -88,6 +88,7 @@ button.addEventListener('click', () => tango(layer));
   <TabItem value="React">
 ```js live react
 import React from 'react';
+import Konva from 'konva';
 import { Stage, Layer, RegularPolygon } from 'react-konva';
 
 const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
@@ -95,9 +96,10 @@ const NUM_SHAPES = 10;
 
 const getRandomColor = () => COLORS[Math.floor(Math.random() * COLORS.length)];
 
-const getRandomShapeProps = (width, height) => {
+const getRandomShapeProps = (id, width, height) => {
   const radius = Math.random() * 100 + 20;
   return {
+    id,
     x: Math.random() * width,
     y: Math.random() * height,
     sides: Math.ceil(Math.random() * 5 + 3),
@@ -109,52 +111,79 @@ const getRandomShapeProps = (width, height) => {
 
 const App = () => {
   const [shapes, setShapes] = React.useState([]);
+  const [isAnimating, setIsAnimating] = React.useState(false);
   const stageRef = React.useRef();
+  const isAnimatingRef = React.useRef(false);
+  const tweensRef = React.useRef([]);
 
   React.useEffect(() => {
-    const initialShapes = Array.from({ length: NUM_SHAPES }, () =>
-      getRandomShapeProps(window.innerWidth, window.innerHeight)
+    const initialShapes = Array.from({ length: NUM_SHAPES }, (_, index) =>
+      getRandomShapeProps(`shape-${index}`, window.innerWidth, window.innerHeight)
     );
     setShapes(initialShapes);
+
+    return () => {
+      tweensRef.current.forEach((tween) => tween.destroy());
+      tweensRef.current = [];
+      isAnimatingRef.current = false;
+    };
   }, []);
 
-  const handleDragEnd = (e, index) => {
-    const newShapes = [...shapes];
-    newShapes[index] = {
-      ...newShapes[index],
-      x: e.target.x(),
-      y: e.target.y(),
-    };
-    setShapes(newShapes);
+  const handleDragEnd = (e, id) => {
+    const { x, y } = e.target.position();
+    setShapes(currentShapes => currentShapes.map(shape =>
+      shape.id === id ? { ...shape, x, y } : shape
+    ));
   };
 
   const handleTango = () => {
+    if (isAnimatingRef.current) return;
+
     const layer = stageRef.current.findOne('Layer');
     const shapeNodes = layer.find('RegularPolygon');
+    if (!shapeNodes.length) return;
 
-    shapeNodes.forEach((node, i) => {
+    isAnimatingRef.current = true;
+    setIsAnimating(true);
+    const nextShapes = new Map();
+    let remaining = shapeNodes.length;
+
+    shapeNodes.forEach((node) => {
+      const id = node.id();
       const radius = Math.random() * 100 + 20;
-      const newProps = {
-        duration: 1,
+      const nextShape = {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
         rotation: Math.random() * 360,
         radius: radius,
         opacity: (radius - 20) / 100,
-        easing: Konva.Easings.EaseInOut,
         fill: getRandomColor(),
       };
+      nextShapes.set(id, nextShape);
 
-      node.to(newProps);
+      const tween = new Konva.Tween({
+        node,
+        ...nextShape,
+        duration: 1,
+        easing: Konva.Easings.EaseInOut,
+        onFinish: () => {
+          tween.destroy();
+          tweensRef.current = tweensRef.current.filter(
+            (activeTween) => activeTween !== tween
+          );
+          remaining -= 1;
+          if (remaining > 0) return;
 
-      // Update state after animation
-      setTimeout(() => {
-        setShapes(prev => {
-          const newShapes = [...prev];
-          newShapes[i] = { ...newShapes[i], ...newProps };
-          return newShapes;
-        });
-      }, 1000);
+          setShapes(currentShapes => currentShapes.map(shape => ({
+            ...shape,
+            ...nextShapes.get(shape.id),
+          })));
+          isAnimatingRef.current = false;
+          setIsAnimating(false);
+        },
+      });
+      tweensRef.current.push(tween);
+      tween.play();
     });
   };
 
@@ -166,18 +195,19 @@ const App = () => {
         ref={stageRef}
       >
         <Layer>
-          {shapes.map((shape, i) => (
+          {shapes.map((shape) => (
             <RegularPolygon
-              key={i}
+              key={shape.id}
               {...shape}
-              draggable
-              onDragEnd={(e) => handleDragEnd(e, i)}
+              draggable={!isAnimating}
+              onDragEnd={(e) => handleDragEnd(e, shape.id)}
             />
           ))}
         </Layer>
       </Stage>
       <button
         onClick={handleTango}
+        disabled={isAnimating}
         style={{
           position: 'absolute',
           top: '10px',
@@ -185,7 +215,7 @@ const App = () => {
           padding: '10px',
         }}
       >
-        Tango!
+        {isAnimating ? 'Tangoing…' : 'Tango!'}
       </button>
     </>
   );
@@ -294,4 +324,3 @@ onMounted(() => {
 ```
   </TabItem>
 </Tabs>
-

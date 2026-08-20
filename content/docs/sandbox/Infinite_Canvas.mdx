@@ -113,20 +113,20 @@ stage.on('wheel', function(e) {
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Circle, Star } from 'react-konva';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-var shapes = [
-  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
-  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
-  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
-  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
-  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
-  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
-  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
-  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
-  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
-  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
-  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+var INITIAL_SHAPES = [
+  { id: 'rect-1', type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { id: 'circle-1', type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { id: 'rect-2', type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { id: 'star-1', type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { id: 'circle-2', type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { id: 'rect-3', type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { id: 'star-2', type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { id: 'circle-3', type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { id: 'rect-4', type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { id: 'star-3', type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { id: 'circle-4', type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
 ];
 
 // Pre-generate grid dots
@@ -141,6 +141,7 @@ for (var gx = -range; gx <= range; gx += spacing) {
 
 var App = function() {
   var stageRef = useRef(null);
+  var [shapes, setShapes] = useState(INITIAL_SHAPES);
   var W = window.innerWidth;
   var H = window.innerHeight;
   var scaleBy = 1.05;
@@ -165,16 +166,27 @@ var App = function() {
     });
   };
 
+  var handleShapeDragEnd = function(id, e) {
+    var position = e.target.position();
+    setShapes(function(currentShapes) {
+      return currentShapes.map(function(shape) {
+        return shape.id === id
+          ? Object.assign({}, shape, position)
+          : shape;
+      });
+    });
+  };
+
   return (
     <Stage ref={stageRef} width={W} height={H} draggable onWheel={handleWheel}>
       <Layer>
         {gridDots.map(function(d, i) {
           return <Circle key={'g'+i} x={d.x} y={d.y} radius={1} fill="#ccc" listening={false} />;
         })}
-        {shapes.map(function(s, i) {
-          if (s.type === 'rect') return <Rect key={i} x={s.x} y={s.y} width={s.width} height={s.height} fill={s.fill} cornerRadius={8} rotation={s.rotation||0} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
-          if (s.type === 'circle') return <Circle key={i} x={s.x} y={s.y} radius={s.radius} fill={s.fill} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
-          return <Star key={i} x={s.x} y={s.y} numPoints={s.numPoints} innerRadius={s.innerRadius} outerRadius={s.outerRadius} fill={s.fill} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+        {shapes.map(function(s) {
+          if (s.type === 'rect') return <Rect key={s.id} x={s.x} y={s.y} width={s.width} height={s.height} fill={s.fill} cornerRadius={8} rotation={s.rotation||0} draggable onDragEnd={function(e) { handleShapeDragEnd(s.id, e); }} shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+          if (s.type === 'circle') return <Circle key={s.id} x={s.x} y={s.y} radius={s.radius} fill={s.fill} draggable onDragEnd={function(e) { handleShapeDragEnd(s.id, e); }} shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+          return <Star key={s.id} x={s.x} y={s.y} numPoints={s.numPoints} innerRadius={s.innerRadius} outerRadius={s.outerRadius} fill={s.fill} draggable onDragEnd={function(e) { handleShapeDragEnd(s.id, e); }} shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
         })}
       </Layer>
     </Stage>

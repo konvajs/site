@@ -66,10 +66,12 @@ layer.add(tr2);
   </TabItem>
   <TabItem value="React">
 ```js live react
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Stage, Layer, Text, Transformer } from 'react-konva';
 
 const App = () => {
+  const [text1Position, setText1Position] = useState({ x: 50, y: 80 });
+  const [text2Position, setText2Position] = useState({ x: 50, y: 180 });
   const text1Ref = useRef()
   const text2Ref = useRef()
   const tr1Ref = useRef()
@@ -84,23 +86,27 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={50}
-          y={80}
+          x={text1Position.x}
+          y={text1Position.y}
           text="Simple text"
           fontSize={30}
           draggable
           width={200}
           ref={text1Ref}
+          onDragEnd={(e) => setText1Position(e.target.position())}
+          onTransformEnd={(e) => setText1Position(e.target.position())}
         />
         <Transformer centeredScaling ref={tr1Ref} />
         <Text
-          x={50}
-          y={180}
+          x={text2Position.x}
+          y={text2Position.y}
           text="Simple text"
           fontSize={30}
           draggable
           width={200}
           ref={text2Ref}
+          onDragEnd={(e) => setText2Position(e.target.position())}
+          onTransformEnd={(e) => setText2Position(e.target.position())}
         />
         <Transformer ref={tr2Ref} />
       </Layer>

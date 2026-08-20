@@ -91,7 +91,8 @@ import TabItem from "@theme/TabItem";
     const NUMBER = 100;
 
     const generateNodes = (width, height) => {
-      return Array.from({ length: NUMBER }, () => ({
+      return Array.from({ length: NUMBER }, (_, id) => ({
+        id,
         x: width * (Math.random() * 2 - 1),
         y: height * (Math.random() * 2 - 1),
       }));
@@ -108,12 +109,19 @@ import TabItem from "@theme/TabItem";
         setNodes(generateNodes(window.innerWidth, window.innerHeight));
       }, []);
 
-      const handleDragStart = React.useCallback((e) => {
-        draggedNodeRef.current = e.target;
+      const updateNodePosition = React.useCallback((id, position) => {
+        setNodes((currentNodes) => currentNodes.map((node) =>
+          node.id === id ? { ...node, ...position } : node
+        ));
+      }, []);
+
+      const handleDragStart = React.useCallback((e, id) => {
+        draggedNodeRef.current = { node: e.target, id };
         const duration = 1000 / 60;
         scrollInterval.current = setInterval(() => {
           const stage = stageRef.current;
-          if (!stage) return;
+          const dragged = draggedNodeRef.current;
+          if (!stage || !dragged) return;
 
           const pos = stage.getPointerPosition();
           if (!pos) return;
@@ -125,38 +133,44 @@ import TabItem from "@theme/TabItem";
 
           if (pos.x < offset) {
             newX += 2;
-            draggedNodeRef.current.x(draggedNodeRef.current.x() - 2);
+            dragged.node.x(dragged.node.x() - 2);
             moved = true;
           } else if (pos.x > stage.width() - offset) {
             newX -= 2;
-            draggedNodeRef.current.x(draggedNodeRef.current.x() + 2);
+            dragged.node.x(dragged.node.x() + 2);
             moved = true;
           }
 
           if (pos.y < offset) {
             newY += 2;
-            draggedNodeRef.current.y(draggedNodeRef.current.y() - 2);
+            dragged.node.y(dragged.node.y() - 2);
             moved = true;
           } else if (pos.y > stage.height() - offset) {
             newY -= 2;
-            draggedNodeRef.current.y(draggedNodeRef.current.y() + 2);
+            dragged.node.y(dragged.node.y() + 2);
             moved = true;
           }
 
           if (moved) {
             stage.position({ x: newX, y: newY });
             setStagePos({ x: newX, y: newY });
+            updateNodePosition(dragged.id, dragged.node.position());
           }
         }, duration);
-      }, []);
+      }, [updateNodePosition]);
 
-      const handleDragEnd = React.useCallback(() => {
+      const handleDragMove = React.useCallback((e, id) => {
+        updateNodePosition(id, e.target.position());
+      }, [updateNodePosition]);
+
+      const handleDragEnd = React.useCallback((e, id) => {
+        updateNodePosition(id, e.target.position());
         draggedNodeRef.current = null;
         if (scrollInterval.current) {
           clearInterval(scrollInterval.current);
           scrollInterval.current = null;
         }
-      }, []);
+      }, [updateNodePosition]);
 
       React.useEffect(() => {
         return () => {
@@ -175,17 +189,18 @@ import TabItem from "@theme/TabItem";
           ref={stageRef}
         >
           <Layer>
-            {nodes.map((node, i) => (
+            {nodes.map((node) => (
               <Circle
-                key={i}
+                key={node.id}
                 x={node.x}
                 y={node.y}
                 radius={40}
                 fill="red"
                 stroke="black"
                 draggable
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
+                onDragStart={(e) => handleDragStart(e, node.id)}
+                onDragMove={(e) => handleDragMove(e, node.id)}
+                onDragEnd={(e) => handleDragEnd(e, node.id)}
               />
             ))}
           </Layer>

@@ -116,10 +116,11 @@ setTimeout(function () {
   <TabItem value="React">
 ```jsx live react
 import { Stage, Layer, Star, Circle } from 'react-konva';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import Konva from 'konva';
 
 const App = () => {
-  const [controlled, setControlled] = useState(false);
+  const controlledRef = useRef(false);
   const starRef = useRef(null);
   const animRef = useRef(null);
   const lastRotationRef = useRef(0);
@@ -127,6 +128,7 @@ const App = () => {
 
   useEffect(() => {
     // disable degree mode to use radians
+    const previousAngleMode = Konva.angleDeg;
     Konva.angleDeg = false;
 
     // start animation after 1 second
@@ -145,7 +147,7 @@ const App = () => {
           (angularVelocityRef.current * frame.timeDiff * (1 - angularFriction)) / 1000;
         angularVelocityRef.current -= angularVelocityChange;
 
-        if (controlled) {
+        if (controlledRef.current) {
           const rotation = star.rotation();
           angularVelocityRef.current =
             ((rotation - lastRotationRef.current) * 1000) / frame.timeDiff;
@@ -164,24 +166,25 @@ const App = () => {
       if (animRef.current) {
         animRef.current.stop();
       }
+      Konva.angleDeg = previousAngleMode;
     };
-  }, [controlled]);
+  }, []);
 
   const handleMouseDown = () => {
     if (!starRef.current) return;
     angularVelocityRef.current = 0;
     lastRotationRef.current = starRef.current.rotation();
-    setControlled(true);
+    controlledRef.current = true;
   };
 
   const handleMouseUp = () => {
     if (!starRef.current) return;
     lastRotationRef.current = starRef.current.rotation();
-    setControlled(false);
+    controlledRef.current = false;
   };
 
   const handleMouseMove = (e) => {
-    if (!controlled || !starRef.current) return;
+    if (!controlledRef.current || !starRef.current) return;
 
     const stage = e.target.getStage();
     const mousePos = stage.getPointerPosition();

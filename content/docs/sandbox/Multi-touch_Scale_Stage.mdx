@@ -157,12 +157,7 @@ stage.add(layer);
 ```js live react
 import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
 import { useState, useEffect, useCallback } from 'react';
-
-// by default Konva prevent some events when node is dragging
-// it improve the performance and work well for 95% of cases
-// we need to enable all events on Konva, even when we are dragging a node
-// so it triggers touchmove correctly
-window.Konva.hitOnDragEnabled = true;
+import Konva from 'konva';
 
 const App = () => {
   const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
@@ -181,6 +176,15 @@ const App = () => {
       y: (p1.y + p2.y) / 2,
     };
   };
+
+  useEffect(() => {
+    const previousHitOnDragEnabled = Konva.hitOnDragEnabled;
+    Konva.hitOnDragEnabled = true;
+
+    return () => {
+      Konva.hitOnDragEnabled = previousHitOnDragEnabled;
+    };
+  }, []);
 
   const handleTouchMove = useCallback((e) => {
     e.evt.preventDefault();

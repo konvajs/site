@@ -157,6 +157,11 @@ const App = () => {
     });
   };
 
+  const handleDragMove = (e) => {
+    const { x, y } = e.target.position();
+    setView((current) => ({ ...current, x, y }));
+  };
+
   return (
     <Stage
       width={500}
@@ -167,6 +172,7 @@ const App = () => {
       x={view.x}
       y={view.y}
       onWheel={handleWheel}
+      onDragMove={handleDragMove}
     >
       <Layer>
         {SHAPES.map((s) => (

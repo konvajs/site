@@ -110,29 +110,52 @@ stage.add(layer);
   <TabItem value="React">
 ```jsx live react
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
+import { useState } from 'react';
 
 const App = () => {
+  const [bluePosition, setBluePosition] = useState({ x: 30, y: 70 });
+  const [yellowPosition, setYellowPosition] = useState({
+    x: window.innerWidth / 2,
+    y: 70,
+  });
+
   const handleBlueDragMove = (e) => {
-    e.target.y(Math.max(e.target.y(), 50));
+    setBluePosition({
+      x: e.target.x(),
+      y: Math.max(e.target.y(), 50),
+    });
   };
 
   const handleYellowDragMove = (e) => {
     const x = window.innerWidth / 2;
     const y = 70;
     const radius = 50;
-    const pos = e.target.absolutePosition();
-    const scale = radius / Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+    const position = e.target.absolutePosition();
+    const scale =
+      radius /
+      Math.sqrt(
+        Math.pow(position.x - x, 2) + Math.pow(position.y - y, 2)
+      );
 
     if (scale < 1) {
-      e.target.x(Math.round((pos.x - x) * scale + x));
-      e.target.y(Math.round((pos.y - y) * scale + y));
+      setYellowPosition({
+        x: Math.round((position.x - x) * scale + x),
+        y: Math.round((position.y - y) * scale + y),
+      });
+    } else {
+      setYellowPosition(position);
     }
   };
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Group x={30} y={70} draggable onDragMove={handleBlueDragMove}>
+        <Group
+          x={bluePosition.x}
+          y={bluePosition.y}
+          draggable
+          onDragMove={handleBlueDragMove}
+        >
           <Rect
             width={150}
             height={72}
@@ -151,8 +174,8 @@ const App = () => {
           />
         </Group>
         <Group
-          x={window.innerWidth / 2}
-          y={70}
+          x={yellowPosition.x}
+          y={yellowPosition.y}
           draggable
           onDragMove={handleYellowDragMove}
         >

@@ -298,6 +298,12 @@ const App = () => {
   const H = window.innerHeight - 60;
   const bW = 340, bH = 220;
   const bX = (W - bW) / 2, bY = (H - bH) / 2;
+  const initialTransforms = {
+    name: { x: bX + 20, y: bY + 70, scaleX: 1, scaleY: 1 },
+    role: { x: bX + 20, y: bY + 120, scaleX: 1, scaleY: 1 },
+    company: { x: bX + 20, y: bY + 150, scaleX: 1, scaleY: 1 },
+  };
+  const [transforms, setTransforms] = React.useState(initialTransforms);
 
   React.useEffect(() => {
     if (trRef.current && selected) {
@@ -322,11 +328,12 @@ const App = () => {
     if (trRef.current) trRef.current.hide();
 
     const pos = textNode.absolutePosition();
+    const scale = textNode.getAbsoluteScale();
     const box = stageRef.current.container().getBoundingClientRect();
     const input = document.createElement('input');
     input.type = 'text';
     input.value = textNode.text();
-    input.style.cssText = `position:absolute;top:${box.top+pos.y}px;left:${box.left+pos.x}px;width:${textNode.width()}px;font-size:${textNode.fontSize()}px;font-family:${textNode.fontFamily()};text-align:${textNode.align()};border:2px solid #3b82f6;border-radius:4px;padding:2px 4px;outline:none;z-index:1000;background:#fff;`;
+    input.style.cssText = `position:absolute;top:${box.top+pos.y}px;left:${box.left+pos.x}px;width:${textNode.width()*Math.abs(scale.x)}px;font-size:${textNode.fontSize()*Math.abs(scale.y)}px;font-family:${textNode.fontFamily()};text-align:${textNode.align()};border:2px solid #3b82f6;border-radius:4px;padding:2px 4px;box-sizing:border-box;outline:none;z-index:1000;background:#fff;`;
     document.body.appendChild(input);
     input.focus();
     input.select();
@@ -339,6 +346,26 @@ const App = () => {
     };
     input.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') finish(); });
     input.addEventListener('blur', finish);
+  };
+
+  const handleDragEnd = (id, e) => {
+    setTransforms((current) => ({
+      ...current,
+      [id]: { ...current[id], ...e.target.position() },
+    }));
+  };
+
+  const handleTransformEnd = (id, e) => {
+    const node = e.target;
+    setTransforms((current) => ({
+      ...current,
+      [id]: {
+        x: node.x(),
+        y: node.y(),
+        scaleX: node.scaleX(),
+        scaleY: node.scaleY(),
+      },
+    }));
   };
 
   const handleExport = () => {
@@ -361,7 +388,7 @@ const App = () => {
         <label>Badge Color: <input type="color" value={bgFill} onChange={e=>setBgFill(e.target.value)} /></label>
         <label>Text Color: <input type="color" value={textFill} onChange={e=>setTextFill(e.target.value)} /></label>
         <button onClick={handleExport}>Export as PNG</button>
-        <button onClick={() => { setName('Your Name'); setRole('Job Title'); setCompany('Company'); setBgFill('#3b82f6'); setTextFill('#ffffff'); }}>Reset</button>
+        <button onClick={() => { setName('Your Name'); setRole('Job Title'); setCompany('Company'); setBgFill('#3b82f6'); setTextFill('#ffffff'); setTransforms(initialTransforms); }}>Reset</button>
       </div>
       <Stage ref={stageRef} width={W} height={H} onClick={handleStageClick} onTap={handleStageClick}>
         <Layer>
@@ -369,11 +396,11 @@ const App = () => {
           <Rect x={bX} y={bY} width={bW} height={50} fill="rgba(0,0,0,0.15)" cornerRadius={[16,16,0,0]} />
           <Text x={bX} y={bY+8} width={bW} text="HELLO" fontSize={14} fontFamily="Arial" fontStyle="bold" fill="rgba(255,255,255,0.8)" align="center" letterSpacing={4} />
           <Text x={bX} y={bY+26} width={bW} text="my name is" fontSize={12} fontFamily="Arial" fill="rgba(255,255,255,0.6)" align="center" />
-          <Text ref={nameRef} x={bX+20} y={bY+70} width={bW-40} text={name} fontSize={36} fontFamily="Arial" fontStyle="bold" fill={textFill} align="center" draggable onDblClick={e=>handleDblClick(e,setName)} onDblTap={e=>handleDblClick(e,setName)} />
-          <Text ref={roleRef} x={bX+20} y={bY+120} width={bW-40} text={role} fontSize={18} fontFamily="Arial" fill="rgba(255,255,255,0.75)" align="center" draggable onDblClick={e=>handleDblClick(e,setRole)} onDblTap={e=>handleDblClick(e,setRole)} />
-          <Text ref={companyRef} x={bX+20} y={bY+150} width={bW-40} text={company} fontSize={16} fontFamily="Arial" fill="rgba(255,255,255,0.55)" align="center" draggable onDblClick={e=>handleDblClick(e,setCompany)} onDblTap={e=>handleDblClick(e,setCompany)} />
+          <Text ref={nameRef} {...transforms.name} width={bW-40} text={name} fontSize={36} fontFamily="Arial" fontStyle="bold" fill={textFill} align="center" draggable onDragEnd={e=>handleDragEnd('name',e)} onTransformEnd={e=>handleTransformEnd('name',e)} onDblClick={e=>handleDblClick(e,setName)} onDblTap={e=>handleDblClick(e,setName)} />
+          <Text ref={roleRef} {...transforms.role} width={bW-40} text={role} fontSize={18} fontFamily="Arial" fill="rgba(255,255,255,0.75)" align="center" draggable onDragEnd={e=>handleDragEnd('role',e)} onTransformEnd={e=>handleTransformEnd('role',e)} onDblClick={e=>handleDblClick(e,setRole)} onDblTap={e=>handleDblClick(e,setRole)} />
+          <Text ref={companyRef} {...transforms.company} width={bW-40} text={company} fontSize={16} fontFamily="Arial" fill="rgba(255,255,255,0.55)" align="center" draggable onDragEnd={e=>handleDragEnd('company',e)} onTransformEnd={e=>handleTransformEnd('company',e)} onDblClick={e=>handleDblClick(e,setCompany)} onDblTap={e=>handleDblClick(e,setCompany)} />
           <Circle x={bX+bW-30} y={bY+bH-30} radius={14} fill="rgba(255,255,255,0.2)" />
-          <Transformer ref={trRef} rotateEnabled={false} borderStrokeWidth={1} anchorSize={8} />
+          <Transformer ref={trRef} rotateEnabled={false} flipEnabled={false} borderStrokeWidth={1} anchorSize={8} />
         </Layer>
       </Stage>
     </>

@@ -58,9 +58,10 @@ tr.stopTransform();
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect, Transformer } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 50, y: 50 });
   const rectRef = useRef();
   const trRef = useRef();
 
@@ -72,14 +73,15 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
+          x={rectPosition.x}
+          y={rectPosition.y}
           width={100}
           height={100}
           fill="yellow"
           stroke="black"
           draggable
           ref={rectRef}
+          onDragEnd={(e) => setRectPosition(e.target.position())}
           onTransform={() => {
             const node = rectRef.current;
             const width = node.width() * node.scaleX();
@@ -87,6 +89,7 @@ const App = () => {
               trRef.current.stopTransform();
             }
           }}
+          onTransformEnd={(e) => setRectPosition(e.target.position())}
         />
         <Transformer ref={trRef} />
       </Layer>

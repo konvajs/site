@@ -86,6 +86,7 @@ stage.add(layer);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 import { useRef } from 'react';
 
@@ -93,21 +94,19 @@ const Box = ({ easing, y }) => {
   const boxRef = useRef();
 
   const handleMouseEnter = () => {
-    new Konva.Tween({
-      node: boxRef.current,
+    boxRef.current.to({
       duration: 1,
       x: window.innerWidth - 150,
       easing: Konva.Easings[easing],
-    }).play();
+    });
   };
 
   const handleMouseLeave = () => {
-    new Konva.Tween({
-      node: boxRef.current,
+    boxRef.current.to({
       duration: 1,
       x: 50,
       easing: Konva.Easings[easing],
-    }).play();
+    });
   };
 
   return (

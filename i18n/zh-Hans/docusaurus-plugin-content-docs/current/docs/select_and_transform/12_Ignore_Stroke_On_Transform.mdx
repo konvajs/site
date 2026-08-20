@@ -92,10 +92,13 @@ import { Stage, Layer, Rect, Transformer } from 'react-konva';
 import { useRef, useEffect, useState } from 'react';
 
 const App = () => {
-  const [rect1Size, setRect1Size] = useState({
+  const [rect1Attrs, setRect1Attrs] = useState({
+    x: 50,
+    y: 50,
     width: 100,
     height: 100,
   });
+  const [rect2Position, setRect2Position] = useState({ x: 200, y: 50 });
 
   const rect1Ref = useRef();
   const rect2Ref = useRef();
@@ -111,30 +114,39 @@ const App = () => {
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Rect
-          x={50}
-          y={50}
-          width={rect1Size.width}
-          height={rect1Size.height}
+          x={rect1Attrs.x}
+          y={rect1Attrs.y}
+          width={rect1Attrs.width}
+          height={rect1Attrs.height}
           fill="#00ff00"
           stroke="black"
           strokeWidth={5}
           draggable
           ref={rect1Ref}
+          onDragEnd={(e) => {
+            setRect1Attrs((attrs) => ({
+              ...attrs,
+              ...e.target.position(),
+            }));
+          }}
           onTransformEnd={(e) => {
             const node = rect1Ref.current;
-            setRect1Size({
+            const nextAttrs = {
+              x: node.x(),
+              y: node.y(),
               width: node.width() * node.scaleX(),
               height: node.height() * node.scaleY(),
-            });
+            };
             node.scaleX(1);
             node.scaleY(1);
+            setRect1Attrs(nextAttrs);
           }}
         />
         <Transformer ref={tr1Ref} />
 
         <Rect
-          x={200}
-          y={50}
+          x={rect2Position.x}
+          y={rect2Position.y}
           width={100}
           height={100}
           fill="#ff0000"
@@ -143,6 +155,8 @@ const App = () => {
           draggable
           strokeScaleEnabled={false}
           ref={rect2Ref}
+          onDragEnd={(e) => setRect2Position(e.target.position())}
+          onTransformEnd={(e) => setRect2Position(e.target.position())}
         />
         <Transformer ref={tr2Ref} ignoreStroke={true} />
       </Layer>

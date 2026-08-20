@@ -19,11 +19,12 @@
     "check:fences": "node scripts/check-fences.js",
     "check:gallery": "node scripts/check-demo-gallery.js",
     "check:sandpack": "node scripts/check-sandpack-dependencies.js",
+    "check:react-drag": "node scripts/check-react-drag-state.js",
     "check:i18n": "node scripts/check-i18n.js",
     "panel:run": "node scripts/llm-panel/run.js",
     "panel:compare": "node scripts/llm-panel/compare.js",
     "update:i18n-sources": "node scripts/check-i18n-drift.js --write && node scripts/check-code-drift.js --write",
-    "check": "npm run check:fences && npm run check:gallery && npm run check:sandpack && npm run typecheck && npm run build:core && node checksitemap.js build/sitemap.xml && npm run check:llms",
+    "check": "npm run check:fences && npm run check:gallery && npm run check:sandpack && npm run check:react-drag && npm run typecheck && npm run build:core && node checksitemap.js build/sitemap.xml && npm run check:llms",
     "check:llms": "node scripts/check-llms.js"
   },
   "dependencies": {

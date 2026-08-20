@@ -107,14 +107,15 @@ import { useImage } from 'react-konva-utils';
 const ImageWithHover = ({ src, x, y, width, height, offsetX, offsetY }) => {
   const [image] = useImage(src);
   const [isHovered, setIsHovered] = useState(false);
+  const [position, setPosition] = useState({ x, y });
   
   const scale = isHovered ? 1.2 : 1;
   
   return (
     <Image
       image={image}
-      x={x}
-      y={y}
+      x={position.x}
+      y={position.y}
       width={width}
       height={height}
       offsetX={offsetX}
@@ -122,6 +123,7 @@ const ImageWithHover = ({ src, x, y, width, height, offsetX, offsetY }) => {
       scaleX={scale}
       scaleY={scale}
       draggable
+      onDragMove={(e) => setPosition(e.target.position())}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     />

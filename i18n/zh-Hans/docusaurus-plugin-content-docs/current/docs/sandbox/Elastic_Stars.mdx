@@ -140,49 +140,35 @@ const App = () => {
   }, []);
   
   const handleDragStart = (e) => {
-    // Get index directly from the target
-    const index = stars.findIndex(star => star.id === e.target.attrs.id);
-    
-    if (index === -1) return;
-    
-    // Create a new array with the updated star
-    const newStars = [...stars];
-    newStars[index] = {
-      ...newStars[index],
-      shadowOffset: {
-        x: 15,
-        y: 15,
-      },
-      scale: {
-        x: newStars[index].startScale * 1.2,
-        y: newStars[index].startScale * 1.2,
-      }
-    };
-    
-    setStars(newStars);
+    const id = e.target.id();
+    setStars(currentStars => currentStars.map(star =>
+      star.id === id
+        ? {
+            ...star,
+            shadowOffset: { x: 15, y: 15 },
+            scale: {
+              x: star.startScale * 1.2,
+              y: star.startScale * 1.2,
+            },
+          }
+        : star
+    ));
   };
   
   const handleDragEnd = (e) => {
-    // Get index directly from the target
-    const index = stars.findIndex(star => star.id === e.target.attrs.id);
-    
-    if (index === -1) return;
-    
-    // Create a new array with the updated star
-    const newStars = [...stars];
-    newStars[index] = {
-      ...newStars[index],
-      shadowOffset: {
-        x: 5,
-        y: 5,
-      },
-      scale: {
-        x: newStars[index].startScale,
-        y: newStars[index].startScale,
-      }
-    };
-    
-    setStars(newStars);
+    const id = e.target.id();
+    const { x, y } = e.target.position();
+    setStars(currentStars => currentStars.map(star =>
+      star.id === id
+        ? {
+            ...star,
+            x,
+            y,
+            shadowOffset: { x: 5, y: 5 },
+            scale: { x: star.startScale, y: star.startScale },
+          }
+        : star
+    ));
   };
   
 

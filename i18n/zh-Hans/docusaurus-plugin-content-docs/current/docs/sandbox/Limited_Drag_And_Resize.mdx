@@ -242,6 +242,9 @@ const LimitedDragAndResize = () => {
       width: 50,
       height: 50,
       fill: 'red',
+      rotation: 0,
+      scaleX: 1,
+      scaleY: 1,
     },
     {
       id: 'rect2',
@@ -250,6 +253,9 @@ const LimitedDragAndResize = () => {
       width: 50,
       height: 50,
       fill: 'green',
+      rotation: 0,
+      scaleX: 1,
+      scaleY: 1,
     }
   ]);
   
@@ -293,6 +299,21 @@ const LimitedDragAndResize = () => {
     
     return newBox;
   };
+
+  const syncShapeState = () => {
+    setShapes(currentShapes => currentShapes.map(shape => {
+      const node = shapeRefs.current.get(shape.id);
+      if (!node) return shape;
+      return {
+        ...shape,
+        x: node.x(),
+        y: node.y(),
+        rotation: node.rotation(),
+        scaleX: node.scaleX(),
+        scaleY: node.scaleY(),
+      };
+    }));
+  };
   
   // Handle drag for transformer group
   const handleTransformerDrag = (e) => {
@@ -326,6 +347,8 @@ const LimitedDragAndResize = () => {
       
       shape.setAbsolutePosition(newAbsPos);
     });
+
+    syncShapeState();
   };
   
   return (
@@ -342,13 +365,20 @@ const LimitedDragAndResize = () => {
             width={shape.width}
             height={shape.height}
             fill={shape.fill}
+            rotation={shape.rotation}
+            scaleX={shape.scaleX}
+            scaleY={shape.scaleY}
             draggable
+            onDragMove={handleTransformerDrag}
+            onDragEnd={syncShapeState}
           />
         ))}
         <Transformer
           ref={trRef}
           boundBoxFunc={boundBoxFunc}
           onDragMove={handleTransformerDrag}
+          onDragEnd={syncShapeState}
+          onTransformEnd={syncShapeState}
         />
       </Layer>
     </Stage>

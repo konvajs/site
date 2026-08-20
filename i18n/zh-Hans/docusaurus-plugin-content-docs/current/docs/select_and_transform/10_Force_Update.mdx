@@ -115,6 +115,7 @@ const App = () => {
             draggable
             ref={groupRef}
             onDragEnd={(event) => setGroupPosition(event.target.position())}
+            onTransformEnd={(event) => setGroupPosition(event.target.position())}
           >
             <Rect
               ref={rectRef}

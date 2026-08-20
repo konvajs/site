@@ -65,21 +65,27 @@ import { Stage, Layer, Text } from 'react-konva';
 import { useState } from 'react';
 
 const App = () => {
+  const [position, setPosition] = useState({ x: 40, y: 40 });
   const [status, setStatus] = useState('');
+
+  const handleDrag = (e, nextStatus) => {
+    setPosition({ x: e.target.x(), y: e.target.y() });
+    setStatus(nextStatus);
+  };
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
         <Text
-          x={40}
-          y={40}
+          x={position.x}
+          y={position.y}
           text="Draggable Text"
           fontSize={20}
           draggable
           width={200}
           onDragStart={() => setStatus('drag started')}
-          onDragEnd={() => setStatus('drag ended')}
-          onDragMove={() => setStatus('dragging')}
+          onDragEnd={(e) => handleDrag(e, 'drag ended')}
+          onDragMove={(e) => handleDrag(e, 'dragging')}
         />
         <Text
           x={40}
@@ -153,4 +159,4 @@ const handleDragMove = () => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

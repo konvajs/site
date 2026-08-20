@@ -80,11 +80,13 @@ imageObj.crossOrigin = 'anonymous';
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Image } from 'react-konva';
 import { useState, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
   const [brightness, setBrightness] = useState(0.3);
   const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
   const imageRef = useRef(null);
@@ -101,10 +103,13 @@ const App = () => {
         <Layer>
           <Image
             ref={imageRef}
-            x={50}
-            y={50}
+            x={position.x}
+            y={position.y}
             image={image}
             draggable
+            onDragEnd={(e) => {
+              setPosition({ x: e.target.x(), y: e.target.y() });
+            }}
             filters={[Konva.Filters.Brighten]}
             brightness={brightness}
           />

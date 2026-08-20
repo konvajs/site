@@ -88,18 +88,20 @@ import { useImage } from 'react-konva-utils';
 const DraggableImage = ({ src, x, y, width, height }) => {
   const [image] = useImage(src);
   const [isHovered, setIsHovered] = useState(false);
+  const [position, setPosition] = useState({ x, y });
   
   return (
     <Image
       image={image}
-      x={x}
-      y={y}
+      x={position.x}
+      y={position.y}
       width={width}
       height={height}
       stroke="red"
       strokeWidth={10}
       strokeEnabled={!isHovered}
       draggable
+      onDragMove={(e) => setPosition(e.target.position())}
       onMouseEnter={() => {
         setIsHovered(true);
         document.body.style.cursor = 'pointer';

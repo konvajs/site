@@ -78,10 +78,21 @@ document.body.prepend(toBottomBtn);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Rect } from 'react-konva';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const App = () => {
   const yellowRef = useRef();
+  const [positions, setPositions] = useState({
+    yellow: { x: 50, y: 50 },
+    red: { x: 100, y: 100 },
+  });
+
+  const handleDragEnd = (color, e) => {
+    setPositions((currentPositions) => ({
+      ...currentPositions,
+      [color]: { x: e.target.x(), y: e.target.y() },
+    }));
+  };
 
   return (
     <>
@@ -95,24 +106,26 @@ const App = () => {
         <Layer>
           <Rect
             ref={yellowRef}
-            x={50}
-            y={50}
+            x={positions.yellow.x}
+            y={positions.yellow.y}
             width={100}
             height={100}
             fill="yellow"
             stroke="black"
             strokeWidth={4}
             draggable
+            onDragEnd={(e) => handleDragEnd('yellow', e)}
           />
           <Rect
-            x={100}
-            y={100}
+            x={positions.red.x}
+            y={positions.red.y}
             width={100}
             height={100}
             fill="red"
             stroke="black"
             strokeWidth={4}
             draggable
+            onDragEnd={(e) => handleDragEnd('red', e)}
           />
         </Layer>
       </Stage>

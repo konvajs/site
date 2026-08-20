@@ -238,7 +238,12 @@ function getCrop(image, size, clipPosition = 'center-middle') {
 
 const App = () => {
   const [position, setPosition] = React.useState('center-middle');
-  const [size, setSize] = React.useState({ width: 300, height: 100 });
+  const [imageAttrs, setImageAttrs] = React.useState({
+    x: 80,
+    y: 100,
+    width: 300,
+    height: 100,
+  });
   const imageRef = React.useRef(null);
   const trRef = React.useRef(null);
   
@@ -251,7 +256,9 @@ const App = () => {
 
     node.scaleX(1);
     node.scaleY(1);
-    setSize({
+    setImageAttrs({
+      x: node.x(),
+      y: node.y(),
       width: Math.max(5, node.width() * scaleX),
       height: Math.max(5, node.height() * scaleY),
     });
@@ -259,8 +266,12 @@ const App = () => {
 
   const crop = React.useMemo(() => {
     if (!image) return null;
-    return getCrop(image, size, position);
-  }, [image, size, position]);
+    return getCrop(
+      image,
+      { width: imageAttrs.width, height: imageAttrs.height },
+      position
+    );
+  }, [image, imageAttrs.width, imageAttrs.height, position]);
 
   React.useEffect(() => {
     if (image && imageRef.current && trRef.current) {
@@ -276,17 +287,22 @@ const App = () => {
             <Image
               ref={imageRef}
               image={image}
-              x={80}
-              y={100}
-              width={size.width}
-              height={size.height}
+              x={imageAttrs.x}
+              y={imageAttrs.y}
+              width={imageAttrs.width}
+              height={imageAttrs.height}
               {...crop}
               draggable
+              onDragEnd={(e) => {
+                const { x, y } = e.target.position();
+                setImageAttrs((current) => ({ ...current, x, y }));
+              }}
               onTransform={handleTransform}
             />
           )}
           <Transformer
             ref={trRef}
+            flipEnabled={false}
             boundBoxFunc={(oldBox, newBox) => {
               if (Math.abs(newBox.width) < 10 || Math.abs(newBox.height) < 10) {
                 return oldBox;

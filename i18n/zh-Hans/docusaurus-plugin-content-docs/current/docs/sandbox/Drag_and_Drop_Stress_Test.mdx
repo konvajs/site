@@ -147,9 +147,16 @@ const App = () => {
   
   const handleDragEnd = (e) => {
     const target = e.target;
+    const id = target.id();
+    const { x, y } = target.position();
     
     // Move the circle back to the main layer
     target.moveTo(mainLayerRef.current);
+
+    // Store the final position without re-rendering 10,000 nodes on each move.
+    setCircles(currentCircles => currentCircles.map(circle =>
+      String(circle.id) === String(id) ? { ...circle, x, y } : circle
+    ));
   };
   
   return (

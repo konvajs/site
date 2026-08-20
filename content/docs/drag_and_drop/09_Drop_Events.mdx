@@ -85,8 +85,11 @@ for (let i = 0; i < 10; i++) {
   star.on('dragend', (e) => {
     const pos = stage.getPointerPosition();
     const shape = layer.getIntersection(pos);
+    if (previousShape && previousShape !== shape) {
+      previousShape.fire('dragleave', { evt: e.evt }, true);
+    }
     if (shape) {
-      previousShape.fire('drop', { evt: e.evt }, true);
+      shape.fire('drop', { evt: e.evt }, true);
     }
     previousShape = undefined;
     star.moveTo(layer);
@@ -122,7 +125,7 @@ import { Stage, Layer, Text, Star } from 'react-konva';
 import { useState, useRef } from 'react';
 
 const App = () => {
-  const [stars] = useState(() =>
+  const [stars, setStars] = useState(() =>
     Array.from({ length: 10 }, (_, i) => ({
       id: i,
       x: window.innerWidth * Math.random(),
@@ -136,16 +139,27 @@ const App = () => {
   const mainLayerRef = useRef(null);
   const tempLayerRef = useRef(null);
 
-  const handleDragStart = (e) => {
+  const updateStar = (id, attrs) => {
+    setStars((currentStars) =>
+      currentStars.map((star) =>
+        star.id === id ? { ...star, ...attrs } : star
+      )
+    );
+  };
+
+  const handleDragStart = (id, e) => {
     const shape = e.target;
+    updateStar(id, { x: shape.x(), y: shape.y() });
     shape.moveTo(tempLayerRef.current);
     setMessage('Moving ' + shape.name());
   };
 
-  const handleDragMove = (e) => {
+  const handleDragMove = (id, e) => {
     const stage = e.target.getStage();
     const pos = stage.getPointerPosition();
     const shape = mainLayerRef.current.getIntersection(pos);
+
+    updateStar(id, { x: e.target.x(), y: e.target.y() });
 
     if (previousShapeRef.current && shape) {
       if (previousShapeRef.current !== shape) {
@@ -166,27 +180,34 @@ const App = () => {
     }
   };
 
-  const handleDragEnd = (e) => {
+  const handleDragEnd = (id, e) => {
     const shape = e.target;
     const stage = e.target.getStage();
     const pos = stage.getPointerPosition();
     const dropShape = mainLayerRef.current.getIntersection(pos);
-    
-    if (dropShape) {
-      previousShapeRef.current.fire('drop', { evt: e.evt }, true);
+
+    if (
+      previousShapeRef.current &&
+      previousShapeRef.current !== dropShape
+    ) {
+      previousShapeRef.current.fire('dragleave', { evt: e.evt }, true);
     }
-    
+    if (dropShape) {
+      dropShape.fire('drop', { evt: e.evt }, true);
+    }
+
+    updateStar(id, { x: shape.x(), y: shape.y() });
     shape.moveTo(mainLayerRef.current);
     previousShapeRef.current = undefined;
   };
 
-  const handleDragEnter = (e) => {
-    e.target.fill('green');
+  const handleDragEnter = (id, e) => {
+    updateStar(id, { fill: 'green' });
     setMessage('dragenter ' + e.target.name());
   };
 
-  const handleDragLeave = (e) => {
-    e.target.fill('blue');
+  const handleDragLeave = (id, e) => {
+    updateStar(id, { fill: 'blue' });
     setMessage('dragleave ' + e.target.name());
   };
 
@@ -194,8 +215,8 @@ const App = () => {
     setMessage('dragover ' + e.target.name());
   };
 
-  const handleDrop = (e) => {
-    e.target.fill('red');
+  const handleDrop = (id, e) => {
+    updateStar(id, { fill: 'red' });
     setMessage('drop ' + e.target.name());
   };
 
@@ -206,7 +227,6 @@ const App = () => {
         {stars.map((star) => (
           <Star
             key={star.id}
-            id={star.id}
             name={star.name}
             x={star.x}
             y={star.y}
@@ -217,13 +237,13 @@ const App = () => {
             shadowOffsetX={5}
             shadowOffsetY={5}
             draggable
-            onDragStart={handleDragStart}
-            onDragMove={handleDragMove}
-            onDragEnd={handleDragEnd}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
+            onDragStart={(e) => handleDragStart(star.id, e)}
+            onDragMove={(e) => handleDragMove(star.id, e)}
+            onDragEnd={(e) => handleDragEnd(star.id, e)}
+            onDragEnter={(e) => handleDragEnter(star.id, e)}
+            onDragLeave={(e) => handleDragLeave(star.id, e)}
             onDragOver={handleDragOver}
-            onDrop={handleDrop}
+            onDrop={(e) => handleDrop(star.id, e)}
           />
         ))}
       </Layer>
@@ -334,8 +354,11 @@ const handleDragEnd = (e) => {
   const pos = stage.getPointerPosition();
   const dropShape = mainLayer.value.getNode().getIntersection(pos);
   
+  if (previousShape.value && previousShape.value !== dropShape) {
+    previousShape.value.fire('dragleave', { evt: e.evt }, true);
+  }
   if (dropShape) {
-    previousShape.value.fire('drop', { evt: e.evt }, true);
+    dropShape.fire('drop', { evt: e.evt }, true);
   }
   
   shape.moveTo(mainLayer.value.getNode());
@@ -366,4 +389,4 @@ const handleDrop = (e) => {
 </script>
 ```
   </TabItem>
-</Tabs> 
+</Tabs>

@@ -68,12 +68,22 @@ stage.add(layer);
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Group, Circle, Rect } from 'react-konva';
+import { useState } from 'react';
 
 const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
       <Layer>
-        <Group x={50} y={50} draggable>
+        <Group
+          x={position.x}
+          y={position.y}
+          draggable
+          onDragEnd={(e) => {
+            setPosition({ x: e.target.x(), y: e.target.y() });
+          }}
+        >
           <Circle
             x={40}
             y={40}

@@ -367,7 +367,7 @@ const App = () => {
   const [shapes, setShapes] = useState(initialShapes);
   const [guides, setGuides] = useState([]);
 
-  const handleDragMove = (event) => {
+  const handleDragMove = (event, id) => {
     const node = event.target;
     const stage = node.getStage();
     const lineGuideStops = getLineGuideStops(stage, node);
@@ -376,21 +376,26 @@ const App = () => {
 
     setGuides(nextGuides);
 
-    if (!nextGuides.length) {
-      return;
+    if (nextGuides.length) {
+      const absolutePosition = node.absolutePosition();
+
+      nextGuides.forEach((guide) => {
+        if (guide.orientation === 'V') {
+          absolutePosition.x = guide.lineGuide + guide.offset;
+        } else {
+          absolutePosition.y = guide.lineGuide + guide.offset;
+        }
+      });
+
+      node.absolutePosition(absolutePosition);
     }
 
-    const absolutePosition = node.absolutePosition();
-
-    nextGuides.forEach((guide) => {
-      if (guide.orientation === 'V') {
-        absolutePosition.x = guide.lineGuide + guide.offset;
-      } else {
-        absolutePosition.y = guide.lineGuide + guide.offset;
-      }
-    });
-
-    node.absolutePosition(absolutePosition);
+    const { x, y } = node.position();
+    setShapes((currentShapes) =>
+      currentShapes.map((shape) =>
+        shape.id === id ? { ...shape, x, y } : shape
+      )
+    );
   };
 
   const handleDragEnd = (event, id) => {
@@ -415,7 +420,7 @@ const App = () => {
             draggable
             stroke="#1f2937"
             strokeWidth={2}
-            onDragMove={handleDragMove}
+            onDragMove={(event) => handleDragMove(event, shape.id)}
             onDragEnd={(event) => handleDragEnd(event, shape.id)}
           />
         ))}

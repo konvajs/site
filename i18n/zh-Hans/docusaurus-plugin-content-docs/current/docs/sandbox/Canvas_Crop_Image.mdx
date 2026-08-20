@@ -113,6 +113,12 @@ var App = function() {
   
   var width = window.innerWidth;
   var height = window.innerHeight;
+  var [crop, setCrop] = useState({
+    x: width * 0.15,
+    y: height * 0.15,
+    width: width * 0.35,
+    height: height * 0.4,
+  });
 
   useEffect(function() {
     var img = new window.Image();
@@ -139,6 +145,20 @@ var App = function() {
     setCroppedSrc(dataUrl);
   };
 
+  var handleTransformEnd = function() {
+    var node = cropRef.current;
+    if (!node) return;
+    var scaleX = node.scaleX();
+    var scaleY = node.scaleY();
+    node.scale({ x: 1, y: 1 });
+    setCrop({
+      x: node.x(),
+      y: node.y(),
+      width: Math.max(20, node.width() * scaleX),
+      height: Math.max(20, node.height() * scaleY),
+    });
+  };
+
   return (
     <div>
       <div style={{ marginBottom: '8px', display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -157,15 +177,21 @@ var App = function() {
               <KonvaImage image={imageObj} width={width} height={height} />
               <Rect
                 ref={cropRef}
-                x={width * 0.15}
-                y={height * 0.15}
-                width={width * 0.35}
-                height={height * 0.4}
+                x={crop.x}
+                y={crop.y}
+                width={crop.width}
+                height={crop.height}
                 fill="rgba(0, 150, 255, 0.15)"
                 stroke="#0088ff"
                 strokeWidth={2}
                 dash={[6, 3]}
                 draggable={true}
+                onDragEnd={function(e) {
+                  setCrop(function(current) {
+                    return Object.assign({}, current, e.target.position());
+                  });
+                }}
+                onTransformEnd={handleTransformEnd}
               />
               <Transformer
                 ref={trRef}

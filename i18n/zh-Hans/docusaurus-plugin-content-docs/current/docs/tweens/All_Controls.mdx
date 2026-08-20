@@ -78,6 +78,7 @@ document.body.appendChild(seekBtn);
   </TabItem>
   <TabItem value="React">
 ```js live react
+import Konva from 'konva';
 import { Stage, Layer, Circle } from 'react-konva';
 import { useEffect, useRef } from 'react';
 
@@ -88,12 +89,15 @@ const App = () => {
   useEffect(() => {
     if (!circleRef.current) return;
 
-    tweenRef.current = new Konva.Tween({
+    const tween = new Konva.Tween({
       node: circleRef.current,
       duration: 2,
       x: window.innerWidth - 100,
       easing: Konva.Easings.EaseInOut,
     });
+    tweenRef.current = tween;
+
+    return () => tween.destroy();
   }, []);
 
   const controls = ['play', 'pause', 'reverse', 'reset', 'finish'];
@@ -103,12 +107,12 @@ const App = () => {
       {controls.map(control => (
         <button
           key={control}
-          onClick={() => tweenRef.current[control]()}
+          onClick={() => tweenRef.current?.[control]()}
         >
           {control}
         </button>
       ))}
-      <button onClick={() => tweenRef.current.seek(1)}>
+      <button onClick={() => tweenRef.current?.seek(1)}>
         Seek to 50%
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>

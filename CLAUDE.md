@@ -26,9 +26,9 @@ its path to `I18N_PENDING` in `scripts/check-i18n-drift.js`. This list does not
 affect the English core check. It excuses a *missing* mirror only.
 
 **Run `npm run check` before committing.** It checks English fence balance, the demo
-gallery, Sandpack dependencies, types, the English build, its sitemap, and its
-Markdown twins. It is the core gate. If you change Chinese files, also run
-`npm run check:i18n`.
+gallery, Sandpack dependencies, controlled React drag handlers, types, the English
+build, its sitemap, and its Markdown twins. It is the core gate. If you change
+Chinese files, also run `npm run check:i18n`.
 
 **Never commit internal strategy documents.** A file containing commercial positioning was
 once swept in by `git add -A` and pushed to this public repo; removing it required a history

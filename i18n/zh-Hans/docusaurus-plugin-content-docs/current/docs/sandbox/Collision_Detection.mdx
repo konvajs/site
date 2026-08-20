@@ -161,9 +161,13 @@ const App = () => {
     const target = e.target;
     const targetRect = target.getClientRect();
     
-    setShapes(shapes.map(shape => {
+    setShapes(currentShapes => currentShapes.map(shape => {
       if (shape.id === id) {
-        return shape;
+        return {
+          ...shape,
+          x: target.x(),
+          y: target.y()
+        };
       }
       const shapeGroup = target.parent.parent.findOne(`#group-${shape.id}`);
       if (!shapeGroup) return shape;
@@ -181,7 +185,7 @@ const App = () => {
   };
 
   const handleDragEnd = (e, id) => {
-    setShapes(shapes.map(shape => 
+    setShapes(currentShapes => currentShapes.map(shape =>
       shape.id === id
         ? { ...shape, x: e.target.x(), y: e.target.y() }
         : shape

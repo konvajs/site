@@ -76,13 +76,14 @@ stage.add(layer);
 ```js live react
 import Konva from 'konva';
 import { Stage, Layer, Image } from 'react-konva';
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useImage from 'use-image';
 
 const App = () => {
   const imageRef = useRef();
   const [image] = useImage('/assets/lion.png');
   const tweenRef = useRef();
+  const [position, setPosition] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
     if (!image || !imageRef.current) return;
@@ -119,10 +120,13 @@ const App = () => {
       <Layer>
         <Image
           ref={imageRef}
-          x={50}
-          y={50}
+          x={position.x}
+          y={position.y}
           image={image}
           draggable
+          onDragEnd={(e) => {
+            setPosition({ x: e.target.x(), y: e.target.y() });
+          }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onTouchStart={handleMouseEnter}
