@@ -3,7 +3,8 @@
 konvajs.org — the Konva.js documentation site. Docusaurus 3.9, content in `content/`,
 Chinese translation in `i18n/zh-Hans/`.
 
-**Read [CONTENT-ROADMAP.md](./CONTENT-ROADMAP.md) before proposing or writing new pages.**
+**Read [CONTENT-ROADMAP.md](./CONTENT-ROADMAP.md) before proposing or writing new pages,
+and [REVIEW-TARGETS.md](./REVIEW-TARGETS.md) before auditing anything.**
 It records what was decided, what was rejected, and — importantly — several plausible
 ideas that were checked and found to be based on false premises. It exists so that work
 is not redone or re-argued after a context reset.
