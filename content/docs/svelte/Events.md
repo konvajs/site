@@ -31,7 +31,7 @@ With `svelte-konva` you can easily listen to user input events (`click`, `dblcli
 </Stage>
 ```
 
-For the full list of events take a look into [on() method documentation](/api/Konva.Node.html#on).
+For the full list of events take a look into [on() method documentation](/api/Konva.Node.html).
 
 ## Bubbling
 

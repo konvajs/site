@@ -4,6 +4,26 @@ import path from 'path';
 import { existsSync } from 'node:fs';
 import { rm, mkdir } from 'node:fs/promises';
 
+// `onBrokenAnchors: 'throw'` is set in docusaurus.config.ts, so a link must never
+// point to an anchor that the target page does not have. Only own methods and
+// properties get an explicit `{#name}` anchor, so only those are safe targets.
+function hasAnchor(className, anchor) {
+  const target = docs[className];
+  if (!target) return false;
+  return (
+    (target.methods || []).some((m) => m.name === anchor) ||
+    (target.properties || []).some((p) => p.name === anchor)
+  );
+}
+
+// Link to `anchor` on the page of `className`, or to the page itself when the
+// anchor is not documented (for example when the JSDoc block upstream is malformed).
+function createAnchorLink(label, className, anchor) {
+  return hasAnchor(className, anchor)
+    ? `[${label}](/api/${className}.html#${anchor})`
+    : `[${label}](/api/${className}.html)`;
+}
+
 // Add this function near the top of the file, after the imports
 function processDescription(description) {
   // Return empty string if description is undefined or null
@@ -16,12 +36,12 @@ function processDescription(description) {
         // If it's a filter link (contains two dots)
         if (p1.startsWith('Konva.Filters.')) {
           const filterName = p1.split('.')[2];
-          return `[${p1}](/api/Konva.Filters.html#${filterName})`;
+          return createAnchorLink(p1, 'Konva.Filters', filterName);
         }
         // If it contains a hash, we need to place .html before the hash
         if (p1.includes('#')) {
           const [className, method] = p1.split('#');
-          return `[${p1}](/api/${className}.html#${method})`;
+          return createAnchorLink(p1, className, method);
         }
         return `[${p1}](/api/${p1}.html)`;
       })
@@ -37,7 +57,7 @@ function processDescription(description) {
 
 // Add this function after the processDescription function
 function createMethodLink(className, methodName) {
-  return `[${className}#${methodName}](/api/${className}.html#${methodName})`;
+  return createAnchorLink(`${className}#${methodName}`, className, methodName);
 }
 
 // Add this function near the top of the file, after the imports
@@ -228,24 +248,62 @@ ${docItem.longname === 'Konva' ? 'sidebar_position: 1' : ''}
 
     if (docItem.inheritedMethods && docItem.inheritedMethods.length > 0) {
       markdown += `## Inherited Methods\n\n`;
-      docItem.inheritedMethods.forEach((method) => {
-        const params = method.params
-          ? method.params
-              .filter((p) => !p.name.includes('.'))
-              .map((p) => p.name)
-              .join(', ')
-          : '';
-        markdown += `### ${method.isStatic ? 'static ' : ''}${
-          method.name
-        }(${params})\n\n`;
-        markdown += generateFunctionMarkdown(method);
-      });
+      markdown += `\`${docItem.longname}\` also has all methods of its parent classes. Each link below opens the full documentation of the method on the class that defines it.\n\n`;
+      markdown += renderInheritedMethods(docItem.inheritedMethods);
     }
   }
 
   // Write markdown file
   const filename = path.join('content', 'api', `${longname}.mdx`);
   fs.writeFile(filename, markdown);
+}
+
+// Render inherited methods as a compact list of links, grouped by the class that
+// defines each method. The full body of the method lives on that class page only,
+// so shape pages do not repeat thousands of identical lines.
+function renderInheritedMethods(inheritedMethods) {
+  // Map of defining class name (or '' when unknown) -> Map of method name -> signature
+  const groups = new Map();
+
+  inheritedMethods.forEach((method) => {
+    const [definedIn, definedName] = (method.inherits || '').split('#');
+    const groupKey = definedIn && definedName ? definedIn : '';
+    if (!groups.has(groupKey)) {
+      groups.set(groupKey, new Map());
+    }
+    const group = groups.get(groupKey);
+    // The same method can be documented more than once (overloads); one link is enough.
+    if (group.has(method.name)) return;
+
+    const params = method.params
+      ? method.params
+          .filter((p) => !p.name.includes('.')) // Filter out nested properties
+          .map((p) => p.name)
+          .join(', ')
+      : '';
+    group.set(method.name, { params, definedName });
+  });
+
+  let markdown = '';
+  for (const [definedIn, methods] of groups) {
+    // Plain text heading: a link inside a heading would nest an <a> inside the
+    // table of contents link. Every row below links into the class page anyway.
+    if (docs[definedIn]) {
+      markdown += `### From ${definedIn} {#inherited-from-${definedIn}}\n\n`;
+    } else {
+      markdown += `### From other classes {#inherited-from-other}\n\n`;
+    }
+
+    for (const [name, { params, definedName }] of methods) {
+      const label = `${name}(${params})`;
+      markdown += docs[definedIn]
+        ? `- ${createAnchorLink(label, definedIn, definedName)}\n`
+        : `- ${label}\n`;
+    }
+    markdown += '\n';
+  }
+
+  return markdown;
 }
 
 // Helper function to generate markdown for properties

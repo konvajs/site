@@ -31,7 +31,7 @@ description: "了解如何使用 Svelte 和 Konva 处理 Canvas 图形上的单�
 </Stage>
 ```
 
-有关完整事件列表，请参阅 [on() 方法文档](/api/Konva.Node.html#on)。
+有关完整事件列表，请参阅 [on() 方法文档](/api/Konva.Node.html)。
 
 ## 冒泡
 
