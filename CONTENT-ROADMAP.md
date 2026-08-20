@@ -181,13 +181,35 @@ that Group D addresses), and `getRelativePointerPosition` already appears in 23 
 | C11 | **Data grid / spreadsheet demo** | A category with real production usage and zero demo pages: `rowsncolumns/grid` 634★ / 2,759 dl-mo, `react-konva-grid` 2,262 dl-mo. SO "Spreadsheet-like grid in Konva" 3,552 views, no accepted answer. Demonstrates Konva's real strength — 100k cells without dying. | 1d | QUEUED |
 | C12 | Timeline demo | Video-editor timelines are an active 2026 category currently choosing Fabric.js. `melfore/konva-timeline` 78★ plus several others. **Waveform (BBC peaks.js, 3,403★) and DICOM (DWV, 1,841★) are better served by the showcase page in Group D**, where "the BBC uses Konva" is the entire message. | 1d | QUEUED (timeline only) |
 
-### Groups D–H — not yet discussed
+### Group D — Site structure
+
+Decided 2026-08-20. **Honest reframe applied:** §1 calls internal linking the central finding.
+Under the §2 reframe that is weaker than originally presented — sidebar links already suffice
+for crawling, and retrieval systems weight content and titles far above link graphs. D1 is
+mostly a classic-SEO play, so it was demoted. **D2 is the item that actually matters**, because
+titles are the retrieval key.
+
+Two agent claims corrected: dark mode is not missing, it is deliberately disabled
+(`docusaurus.config.ts:153` — `defaultMode: 'light'`, `disableSwitch: true`); and
+`CompaniesSection` / `KonvaUsersSection` do exist, inside `src/pages/index.tsx`.
+
+| ID | Idea | Why | Effort | Status |
+|---|---|---|---|---|
+| D8 | **`<RelatedPages>` MDX component** | The mechanism for D1. Cross-links declared in frontmatter and rendered consistently, instead of hand-written prose links that rot. Without it D1 is a one-time manual pass that decays. **Build before D1.** | 0.5d | QUEUED — first |
+| D2 | **Retitle demos to task language** | Best item in the group. Perplexity dropped Konva purely on missing vocabulary. `Wheel_of_Fortune`, `Jumping_Bunnies`, `Shape_Tango`, `Quantum_Squiggle`, `Elastic_Stars` are product names, not tasks. **Retitle without changing slugs** — titles carry the retrieval signal, slug changes would need redirects and would break the links D1 writes. | 0.5d | QUEUED |
+| D3 | **`/showcase` page** | Currently homepage-only, not crawlable, no submission loop. Scores high under the reframe: "BBC peaks.js 3,403★, Label Studio 28,099★, Inditex Weave.js, DWV 1,841★" is exactly the verifiable fact an LLM repeats for "is Konva production-ready?". Absorbs the waveform and DICOM entries dropped from C12. Honest ceiling: reactflow.dev's showcase earns ~20 referring domains, and curation is recurring. | 2d | QUEUED |
+| D1 | Internal linking pass — 185 orphans | Demoted from headline finding. Surviving argument is navigational, not SEO: 53 of 68 demos are dead ends, so a reader on `Transformer` cannot reach `Objects_Snapping`. | 1.5d | QUEUED — after D8 |
+| D4 | Changelog / "what's new" page | Models already answer "actively maintained, recent 2026 release" by reading the GitHub release feed. Solves a problem that does not exist. | — | REJECTED unless A1–A3 makes it free |
+| D5 | Component registry (`/ui` equivalent) | Highest strategic value on the board — it is what turns "a canvas library" into "a canvas platform", and reactflow.dev's `/ui/components/zoom-slider` ranks #1 for a generic UI keyword. But it is a product commitment with permanent maintenance cost for a solo maintainer. **Revisit if Konva gains a second maintainer.** | 1–2w | NOT NOW |
+| D6 | Per-method API pages | p5.js has 557 ranking pages this way. But API pages barely surface in LLM citations — only `Konva.Text` and `Konva.Transformer` appear in the CrawlChat top ten. Pure SEO play at high effort; biggest effort-to-value mismatch in the group. | — | REJECTED |
+| D7 | Dark mode | Deliberately disabled, asked for 3× in the logs. Pure UX, no measured effect on anything in this audit. | — | REJECTED |
+
+### Groups E–H — not yet discussed
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **D** | Site structure — internal linking for 185 orphans, demo slug/title renaming to task language, showcase gallery, changelog page, component registry, per-method API pages, dark mode | 8 | PENDING |
 | **E** | Tools & link assets — the canvas benchmark, `/play` playground, filters explorer, sprite-sheet slicer, `/tools/*` pages | 5 | PENDING |
 | **F** | Packages — promote existing `konva-devtool`, SVG export bridge, testing helper, snapping utility, `konva-components`, MCP server / `SKILL.md` | 7 | PENDING |
 | **G** | AI channel — `.md` page variants, JSON-LD (`FAQPage`, `TechArticle`, duplicate-breadcrumb fix), CrawlChat re-crawl, delete `ai-plugin.json`, fix `/zh-Hans/llms.txt`, SO answer campaign, DEV.to posts | 8 | PENDING |
