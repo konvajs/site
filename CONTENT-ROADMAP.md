@@ -236,13 +236,49 @@ LLM artifact — write good documentation and let models pick it up.
 | F6 | `SKILL.md` / LLM cheatsheet | Requested in issue #2036 ("MCP vs SKILL") and on HN. Rejected on the principle above. **This settles the A3/A8/A10 dependency: those stay as ordinary docs pages, with nothing absorbing them.** | REJECTED |
 | F7 | `konva-mcp` npm package | A working MCP server already exists via CrawlChat, and its logs were the richest dataset in this audit. | REJECTED |
 
-### Groups G–H — not yet discussed
+### Group G — AI channel
+
+Decided 2026-08-20. Split into verified bugs and speculation; the principle in Group F
+("focus on docs") removed most of the speculation.
+
+| ID | Idea | Why | Effort | Status |
+|---|---|---|---|---|
+| G3 | Re-point the CrawlChat crawl off `new.konvajs.org` | Its 396-item index powers the Ask-AI widget and the public MCP server, so both hand out staging URLs. The redirect works; a 301 does not rebuild an index. | dashboard | **MAINTAINER WILL FIX** |
+| G5 | **Fix `/zh-Hans/llms.txt`, and simplify the llms files generally** | Verified byte-identical to the English file — English prose and English URLs under a Chinese path that `robots.txt` advertises. 254 of 2,637 logged questions are Chinese. **Extended scope per the maintainer: the llms files must be compact, and correct for every locale.** See the architecture note below. | ~0.5d | QUEUED |
+| G2 | Fix the duplicate `BreadcrumbList` | Verified live: one correct 3-level trail plus one malformed self-referential single-item list. Two competing blocks can suppress breadcrumb rich results. | 30m | QUEUED |
+| G4 | Delete `static/.well-known/ai-plugin.json` | Serving 200. The ChatGPT plugin manifest spec was retired in 2024, and its `api.url` is not a valid OpenAPI document. `docs/ai_tools.md` advertises it as live — remove that line too. | 15m | QUEUED |
+| G1 | **Serve `.md` variants of doc pages** | `konvajs.org/docs/overview.md` currently 404s. Cloudflare, Anthropic and Svelte all serve these. Not a special LLM artifact — the same docs in a cheaper-to-fetch form, which is the purest reading of "focus on docs". | 0.5d | QUEUED |
+| G8 | `FAQPage` JSON-LD on `faq.html` | Infrastructure already exists (4 blocks per page). The schema type AI search surfaces actually consume. Bundle with G2. | 2h | QUEUED |
+| G6 | Stack Overflow answer campaign | The tag is collapsing — 218 questions in 2020, 3 in 2026 — so this seeds a corpus being abandoned. And **tldraw has zero SO questions and still wins whiteboard prompts.** | — | REJECTED |
+| G7 | DEV.to / Medium guest posts | Ongoing effort, low control, slow. The content-marketing treadmill the "focus on docs" principle avoids. | — | REJECTED |
+
+#### Architecture note — llms files after G1
+
+Approving G1 changes what the llms files should be. With a `.md` variant of every page, an
+agent fetches `llms.txt` for the index and then pulls only the pages it needs. That is the
+Cloudflare/Svelte model and it is inherently compact.
+
+**Therefore `llms-full.txt` (1.46 MB) and `llms-medium.txt` (160 KB) become redundant and
+should be dropped.** This reverses work done earlier the same day — that work was still
+correct as a fix (the file previously held zero documentation prose, only method signatures),
+but the right destination is different: **one compact `llms.txt` per locale, plus `.md` page
+variants.** Nobody loads 1.46 MB, and per-locale generation is far cheaper for an index than
+for a full corpus.
+
+Target end state:
+
+```
+/llms.txt              English index, ~5 KB
+/zh-Hans/llms.txt      Chinese index, generated from i18n/zh-Hans
+/docs/<page>.md        every page, both locales
+```
+
+### Group H — not yet discussed
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **G** | AI channel — `.md` page variants, JSON-LD (`FAQPage`, `TechArticle`, duplicate-breadcrumb fix), CrawlChat re-crawl, delete `ai-plugin.json`, fix `/zh-Hans/llms.txt`, SO answer campaign, DEV.to posts | 8 | PENDING |
 | **H** | Small fixes & credibility — replace unverifiable social proof, license/commercial-use page, "what Konva does not do" page, accessibility guide | 9 | PENDING |
 
 **Known cross-group dependencies** — these are why Group A is queued rather than built:
