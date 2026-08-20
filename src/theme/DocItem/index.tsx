@@ -17,20 +17,29 @@ type Props = WrapperProps<typeof DocItemType>;
 // exists, so its version is always valid. Removing ours fixes both problems.
 
 export default function DocItemWrapper(props: Props): JSX.Element {
-  const { siteConfig } = useDocusaurusContext();
+  const { siteConfig, i18n } = useDocusaurusContext();
   const { permalink, title } = props.content.metadata;
+
+  // Disqus is blocked in mainland China: probes from CHINANET return a TLS
+  // reset and then time out after 15 seconds, and it loads on every docs page.
+  // Chinese readers are a large share of this site's audience, so the Chinese
+  // pages skip it rather than stall on it. It is the only hard-blocked
+  // dependency here — Algolia, Netlify, CodeSandbox and the fonts all resolve.
+  const commentsBlockedInLocale = i18n.currentLocale === 'zh-Hans';
 
   return (
     <>
       <DocItem {...props} />
-      <DiscussionEmbed
-        shortname="konvajs"
-        config={{
-          url: siteConfig.url + permalink,
-          identifier: permalink,
-          title: title,
-        }}
-      />
+      {!commentsBlockedInLocale && (
+        <DiscussionEmbed
+          shortname="konvajs"
+          config={{
+            url: siteConfig.url + permalink,
+            identifier: permalink,
+            title: title,
+          }}
+        />
+      )}
     </>
   );
 }

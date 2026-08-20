@@ -15,6 +15,22 @@ const translationRoot = path.join(
 );
 const manifestPath = path.join(root, 'i18n', 'zh-Hans', 'SOURCES.json');
 
+// English pages that are allowed to ship without a Chinese mirror, for now.
+// Paths are relative to `content/`, exactly as they appear in the messages
+// below: 'docs/react/Testing.mdx'.
+//
+// Add an entry when a new English page must land before its translation, so
+// the page is not held hostage by the translation. The check still prints it
+// on every run, so the gap stays visible instead of being forgotten.
+//
+// Remove the entry as soon as the Chinese page exists. The check warns about
+// an entry that is no longer needed, and about an entry whose English page is
+// gone. A stale allowlist is how this rots.
+//
+// This list only excuses a *missing* translation. A Chinese page whose English
+// source changed still fails the build, allowlist or not.
+const I18N_PENDING = [];
+
 function listMarkdownFiles(directory) {
   if (!fs.existsSync(directory)) return [];
 
@@ -85,15 +101,35 @@ function checkManifest() {
   }
 
   const failures = [];
+  const notices = [];
   const translatedFiles = listMarkdownFiles(translationRoot);
   const translatedSet = new Set(translatedFiles);
   const sourceFiles = listMarkdownFiles(sourceRoot).filter(
     (file) => !file.startsWith('api/')
   );
+  const sourceSet = new Set(sourceFiles);
+  const pending = new Set(I18N_PENDING);
 
   for (const file of sourceFiles) {
-    if (!translatedSet.has(file)) {
-      failures.push(`Missing Chinese page: ${file}`);
+    if (translatedSet.has(file)) continue;
+
+    if (pending.has(file)) {
+      notices.push(`Pending translation: ${file}`);
+      continue;
+    }
+
+    failures.push(`Missing Chinese page: ${file}`);
+  }
+
+  for (const file of pending) {
+    if (!sourceSet.has(file)) {
+      notices.push(
+        `Stale I18N_PENDING entry, no English page there: ${file}`
+      );
+    } else if (translatedSet.has(file)) {
+      notices.push(
+        `Stale I18N_PENDING entry, the Chinese page exists — remove it: ${file}`
+      );
     }
   }
 
@@ -120,6 +156,8 @@ function checkManifest() {
       failures.push(`Source hash has no Chinese page: ${file}`);
     }
   }
+
+  notices.forEach((notice) => console.warn(notice));
 
   if (failures.length) {
     failures.forEach((failure) => console.error(failure));

@@ -32,6 +32,22 @@ npm run check:i18n-drift      # report drift, exit 1 if any
 npm run update:i18n-sources   # re-stamp AFTER updating the Chinese pages
 ```
 
+### Landing an English page before its translation
+
+Add the page's path to `I18N_PENDING` in `scripts/check-i18n-drift.js`:
+
+```js
+const I18N_PENDING = ['docs/react/Testing.mdx'];
+```
+
+The check then prints `Pending translation: …` and passes, so a new page is not
+blocked on translation. It warns when an entry goes stale — the English page is
+gone, or the Chinese page now exists — so the backlog cannot rot unnoticed.
+
+**This excuses a missing mirror only.** A page that already has a mirror still
+fails when its English source drifts, allowlisted or not. Keep the list short and
+empty it as translations land.
+
 ### When you change an English page
 
 1. Make the English edit.

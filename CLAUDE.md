@@ -15,6 +15,11 @@ The Chinese docs are full file copies, not string extractions. `scripts/check-i1
 hashes every English source and fails the build when one changes without its mirror.
 After a legitimate paired edit, re-stamp with `npm run update:i18n-sources`.
 
+To land an English page before its translation, add its path to `I18N_PENDING` in
+`scripts/check-i18n-drift.js`. The check then reports it as pending instead of failing —
+and warns when the entry goes stale, so the backlog cannot rot silently. This excuses a
+*missing* mirror only: a page that has a mirror still fails when its English source drifts.
+
 **Run `npm run check` before committing.** It runs, in order: i18n drift, interface-string
 drift, fence balance, typecheck, a build of both locales, and both sitemaps. It is the only
 gate; nothing else validates these.

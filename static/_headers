@@ -39,3 +39,10 @@
 
 /img/*
   Cache-Control: public, max-age=604800
+
+# The Chinese API reference is generated from English JSDoc and is not translated
+# (MAINTAINING-I18N keeps content/api out of the mirror). It is already excluded
+# from the zh-Hans sitemap; this stops it being indexed as thin duplicate content
+# under a Chinese path.
+/zh-Hans/api/*
+  X-Robots-Tag: noindex
