@@ -135,13 +135,33 @@ All approved 2026-08-20. Effort estimates are post-verification, after several i
 | A11 | **Extend `All_Performance_Tips.mdx`** with hit-canvas opt-out, viewport culling, and real numbers. Absorbs A12. | Shrunk from a new page. Issue #2024 (Konva vs Figma at 100k nodes) resolved in-thread with `listening:false`; #2009 open. Answers the evaluation-stage question "can Konva handle our scale?" | ~3h | QUEUED |
 | A12 | **iOS 256 MB / 16.7 Mpx canvas ceiling** → a section inside A11. | SO 3,231 views, **zero answers**; konva #571 (13 comments). | ~2h | QUEUED (in A11) |
 
-### Groups B–H — not yet discussed
+### Group B — Positioning and comparison guides
+
+Decided 2026-08-20. This group scores highest under the reframe in §2: `best-canvas-library.html`
+has near-zero traffic and is the most-cited Konva URL in the study.
+
+| ID | Idea | Why | Effort | Status |
+|---|---|---|---|---|
+| B1 | Konva vs React Flow guide | **DEFERRED — measure first.** Konva scored zero on the flowchart prompt across all three providers, and the original reasoning was "models answer category questions with category products". That was an unsupported assertion. `Connected_Objects.mdx` got its "React Flowchart" title on 2026-04-10 and is too new to be in training corpora. Re-run the prompt in 60–90 days; only write the guide if it still does not surface. | 1d | DEFERRED to ~Nov 2026 |
+| B2 | Whiteboard positioning | **Scaled down to a section inside B7**, not a page and not a competitor comparison. The maintainer uses and respects tldraw. The real problem is narrow: Perplexity dropped Konva entirely on "javascript whiteboard library" because no page contains the word in a findable position. An honest paragraph — buy tldraw/Excalidraw for a product, build on Konva to own it — closes the retrieval gap. | 2h | QUEUED (inside B7) |
+| B3 | Floor plan / seat map build-vs-buy | Konva ranks #4–7 behind three commercial SaaS products. Two good demos exist. Name seats.io as the buy option honestly. Cover hit-testing rooms, zoom-to-fit, 10k seats, and saving logical coordinates — the last is a real unanswered MCP query. | 0.75d | QUEUED |
+| B4 | Annotation comparison | An added section on the existing `Image_Labeling.mdx`, not a new page. Annotorious is #1 on all three providers; being second to a purpose-built library is defensible and worth saying plainly. | 2h | QUEUED |
+| B5 | `/fabric-js-alternative` | Defensive and offensive. IMG.LY ranks #3 for `konvajs-alternative` with a page targeting Konva by name and there is no reply. Tone: honest, with some irony — explicitly requested. | 0.5d | QUEUED |
+| B6 | `/react-flow-alternative` | Overlaps B1 too heavily to justify separately. | 0.5d | REJECTED |
+| B7 | Add D3 and Paper.js to `best-canvas-library` | Extends the page that already works rather than betting on a new one. SO: "Pixi.js vs Konva.js vs D3.js" 18,747 views **no accepted answer**; "Advantages of Konva over Paper.js" 2,150 views **zero answers**. Also absorbs B2. | 3h | QUEUED |
+| B8 | Year-date the comparison page | velt.dev — a collaboration SaaS with no canvas library — owns #1 for `html5 canvas library 2026` with a dated listicle. Konva's page is undated. Add the year, a maintenance line, and a table with npm counts and bundle sizes. | 1h | QUEUED |
+| B9 | License / commercial-use page | Reframed away from competitor licensing. The MCP logs show "Konva license commercial use / MIT / pricing" asked **five separate times** by humans, plus "react-konva license and pricing". MIT is in `faq.md` and `about.md` but nothing answers "can I use this commercially" directly. | 2h | QUEUED |
+
+**Standing note on tone:** these pages work *because* they are honest. `best-canvas-library.html`
+earns its citations by saying "use PixiJS for games, use Fabric for SVG". A guide that concludes
+"use Konva" every time reads as marketing and stops being cited.
+
+### Groups C–H — not yet discussed
 
 Full idea inventory preserved so the discussion can resume. ~68 ideas total.
 
 | Group | Theme | Count | Status |
 |---|---|---|---|
-| **B** | Positioning & comparison guides — Konva vs React Flow, whiteboard build-vs-buy (tldraw/Excalidraw), floor-plan build-vs-buy (seats.io), annotation vs Annotorious, `/fabric-js-alternative`, `/react-flow-alternative`, extend `best-canvas-library` with D3/Paper, year-date the comparison page, MIT-vs-tldraw-licensing counter-position | 9 | PENDING |
 | **C** | Canvas-task pages — `canvas blurry` (moved to A9), html5 canvas coordinates / rotate image / drawImage / grid / text / arc, signature pad, node.js canvas, OffscreenCanvas, eraser tool, data grid, audio waveform, timeline | 12 | PENDING |
 | **D** | Site structure — internal linking for 185 orphans, demo slug/title renaming to task language, showcase gallery, changelog page, component registry, per-method API pages, dark mode | 8 | PENDING |
 | **E** | Tools & link assets — the canvas benchmark, `/play` playground, filters explorer, sprite-sheet slicer, `/tools/*` pages | 5 | PENDING |
