@@ -97,7 +97,6 @@ imageObj.onload = function() {
     opacity: currentOpacity, visible: false,
   });
   layer.add(gradientOverlay);
-  layer.draw();
 };
 imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
 
@@ -108,7 +107,6 @@ function toggleBtn(btn, overlay) {
   overlay.visible(!active);
   btn.style.background = !active ? '#0066ff' : '#f5f5f5';
   btn.style.color = !active ? 'white' : 'black';
-  layer.draw();
 }
 
 colorBtn.onclick = function() { toggleBtn(colorBtn, colorOverlay); };
@@ -120,7 +118,6 @@ opSlider.oninput = function() {
   if (colorOverlay) colorOverlay.opacity(currentOpacity);
   if (textOverlay) textOverlay.opacity(currentOpacity);
   if (gradientOverlay) gradientOverlay.opacity(currentOpacity);
-  layer.draw();
 };
 ```
   </TabItem>

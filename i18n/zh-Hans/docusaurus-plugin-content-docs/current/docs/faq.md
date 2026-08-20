@@ -199,7 +199,7 @@ npm install konva
 1. **图层管理** — 使用多个图层分隔静态内容和动态内容
 2. **图形缓存** — 使用 `shape.cache()` 缓存复杂图形，将其渲染为图像
 3. **禁用监听** — 对不需要事件的图形设置 `listening: false`
-4. **批量绘制** — 使用 `layer.batchDraw()` 而不是 `layer.draw()` 进行分组更新
+4. **交给 Konva 重绘** — 自 Konva 8 起重绘是自动且批量的，因此在修改之后调用 `layer.draw()` 和 `layer.batchDraw()` [并无必要](/zh-Hans/docs/performance/Batch_Draw.html)
 5. **禁用完美绘制** — 对同时具有填充和描边的图形设置 `perfectDrawEnabled: false`
 
 Konva 提供渲染 [10,000 个图形](/docs/sandbox/10000_Shapes_with_Tooltip.html)和 [20,000 个节点](/docs/sandbox/20000_Nodes.html)的示例。

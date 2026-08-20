@@ -44,7 +44,6 @@ addBtn.onclick = function() {
   var y = 80 + Math.random() * (height - 160);
   var node = makeNode('New Node', '#2196F3', x, y);
   node.moveToTop();
-  layer.draw();
 };
 controls.appendChild(addBtn);
 
@@ -119,7 +118,6 @@ connect(decide, procB);
 connect(decide, end);
 connect(procB, end);
 
-layer.draw();
 ```
   </TabItem>
   <TabItem value="React">

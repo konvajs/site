@@ -1,27 +1,68 @@
 ---
-title: HTML5 Canvas Batch Draw Tip
-sidebar_label: Batch Draw
+title: Automatic Redraws — Do You Need draw() or batchDraw()?
+sidebar_label: Automatic Redraws
 hide_table_of_contents: true
 slug: Batch_Draw.html
-description: "Optimize HTML5 Canvas rendering with Konva.js batch drawing. Group multiple shape updates into a single render pass for better performance."
+description: "Konva redraws automatically since version 8, so layer.draw() and layer.batchDraw() are no longer needed after changing a shape. When a manual redraw is still required, and how to turn batching off."
 ---
 
-**Update: this demo is not relevant with the new `konva@8`. In the new version, `Konva` is doing all batching draws automatically on any changes on canvas.**
+**Short answer: no. Since Konva 8, you do not need to call `draw()` or
+`batchDraw()` after changing a shape.**
 
-The demo may be still relevant if you use `Konva.autoDrawEnabled = false`.
+```js
+// This is enough. Konva schedules the redraw itself.
+rect.fill('red');
+rect.x(120);
 
-In some situations, we may want to update a Konva shape as fast as possible,
-but without causing too many redraws. For example, if we want to update an
-element on the stage via mousemove, we don't want to redraw the layer with the
-`draw()` method, because the mousemove event could be fired hundreds of times per
-second, which would result in a forced frame rate of over a hundred frames per second.
-Often times this can cause jumpy animations because browsers simply can't handle excessive redraws.
+// Both of these are redundant.
+layer.draw();
+layer.batchDraw();
+```
 
-For situations like this, it's much better to use the `batchDraw()` method
-which automatically hooks redraws into the Konva animation engine.
-No matter how many times you call `batchDraw()`, Konva will automatically
-limit the number of redraws per second based on the maximum number of frames
-per second that the browser can handle at any given point in time.
+Setting any attribute marks the layer as dirty, and Konva redraws it once on
+the next animation frame. Changing ten attributes in a row still produces one
+redraw, so calling `batchDraw()` yourself adds nothing — the batching already
+happened.
+
+You will still see `layer.draw()` in older tutorials, in answers written before
+2021, and in code that AI assistants generate, because that is what the corpus
+is full of. It is harmless, just unnecessary. Deleting those calls will not
+change what you see on screen.
+
+## When you do still need a manual redraw
+
+Auto-draw reacts to *Konva* changes. If something changes outside Konva's
+knowledge, nothing marks the layer dirty and you have to say so yourself.
+
+The usual case is a `Konva.Image` backed by a source that mutates on its own —
+a `<video>` element, an animated GIF, or a raw canvas another library draws
+into:
+
+```js
+// An external library drew a new GIF frame into our canvas.
+// Konva has no attribute change to notice, so ask for the redraw.
+function onDrawFrame(ctx, frame) {
+  ctx.drawImage(frame.buffer, 0, 0);
+  layer.draw();
+}
+```
+
+For video, prefer [`Konva.Animation`](/docs/animations/Create_an_Animation.html),
+which redraws every frame for you. There is a worked example in
+[Video on canvas](/docs/sandbox/Video_On_Canvas.html) and
+[GIF on canvas](/docs/sandbox/GIF_On_Canvas.html).
+
+## Turning batching off
+
+`Konva.autoDrawEnabled = false` restores the old behaviour, where nothing is
+drawn until you ask. It is worth it only if you are driving the render loop
+yourself and want exact control over when frames happen. With it off,
+`batchDraw()` becomes useful again: it collapses many calls into one redraw per
+frame, instead of redrawing on every one.
+
+The demo below turns auto-draw off so `batchDraw()` has something to do. The
+rectangle rotates on `mousemove`, an event that can fire far more often than the
+screen refreshes.
 
 **Instructions:** Move your mouse over the stage to spin the rectangle
 
@@ -33,7 +74,7 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 import Konva from 'konva';
 
-// For demo purposes, disable auto draw
+// Turned off on purpose, so batchDraw has a job to do
 Konva.autoDrawEnabled = false;
 
 const stage = new Konva.Stage({
@@ -60,7 +101,7 @@ layer.add(rect);
 stage.on('mousemove', () => {
   // rotate rectangle on mouse move
   rect.rotate(5);
-  // use batchDraw instead of draw for better performance
+  // auto-draw is off, so ask for a batched redraw
   layer.batchDraw();
 });
 ```
@@ -70,7 +111,7 @@ stage.on('mousemove', () => {
 import { Stage, Layer, Rect } from 'react-konva';
 import { useRef, useEffect } from 'react';
 
-// For demo purposes, disable auto draw
+// Turned off on purpose, so batchDraw has a job to do
 Konva.autoDrawEnabled = false;
 
 const App = () => {
@@ -83,7 +124,7 @@ const App = () => {
     stage.on('mousemove', () => {
       // rotate rectangle on mouse move
       rectRef.current.rotate(5);
-      // use batchDraw instead of draw for better performance
+      // auto-draw is off, so ask for a batched redraw
       layerRef.current.getLayer().batchDraw();
     });
   }, []);
@@ -123,7 +164,7 @@ export default App;
 import { ref, onMounted } from 'vue';
 import Konva from 'konva';
 
-// For demo purposes, disable auto draw
+// Turned off on purpose, so batchDraw has a job to do
 Konva.autoDrawEnabled = false;
 
 const stageSize = {
@@ -147,7 +188,7 @@ const rectRef = ref(null);
 const handleMouseMove = () => {
   // rotate rectangle on mouse move
   rectRef.value.getNode().rotate(5);
-  // use batchDraw instead of draw for better performance
+  // auto-draw is off, so ask for a batched redraw
   layerRef.value.getNode().batchDraw();
 };
 </script>

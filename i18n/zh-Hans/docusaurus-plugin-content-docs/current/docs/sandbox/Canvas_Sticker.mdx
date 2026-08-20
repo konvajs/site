@@ -55,7 +55,6 @@ exportBtn.textContent = 'Export PNG';
 exportBtn.style.cssText = 'padding:6px 12px;cursor:pointer;border:none;border-radius:4px;background:#333;color:white;font-size:13px;font-weight:600;';
 exportBtn.onclick = function() {
   transformer.nodes([]);
-  layer.draw();
   var link = document.createElement('a');
   link.href = stage.toDataURL({ pixelRatio: 2 });
   link.download = 'sticker-canvas.png';
@@ -68,7 +67,6 @@ var imageObj = new Image();
 imageObj.onload = function() {
   layer.add(new Konva.Image({ image: imageObj, width: width, height: height }));
   layer.add(transformer);
-  layer.draw();
 };
 imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
 
@@ -92,19 +90,16 @@ function addSticker(type) {
     shape.moveToTop();
     transformer.moveToTop();
     transformer.nodes([shape]);
-    layer.draw();
   }
 }
 
 stage.on('click tap', function(e) {
   if (e.target === stage || e.target.getClassName() === 'Image') {
     transformer.nodes([]);
-    layer.draw();
     return;
   }
   if (e.target.getParent() && e.target.getParent().getClassName() === 'Transformer') return;
   transformer.nodes([e.target]);
-  layer.draw();
 });
 ```
   </TabItem>

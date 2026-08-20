@@ -199,7 +199,7 @@ Yes, with proper optimization. Key techniques:
 1. **Layer management** — Use multiple layers to separate static and dynamic content
 2. **Shape caching** — Cache complex shapes with `shape.cache()` to render them as images
 3. **Disable listening** — Set `listening: false` on shapes that don't need events
-4. **Batch draws** — Use `layer.batchDraw()` instead of `layer.draw()` for grouped updates
+4. **Let Konva redraw** — Since Konva 8 redraws are automatic and batched, so `layer.draw()` and `layer.batchDraw()` calls after a change are [not needed](/docs/performance/Batch_Draw.html)
 5. **Disable perfect drawing** — Set `perfectDrawEnabled: false` for shapes with both fill and stroke
 
 Konva has demos rendering [10,000 shapes](/docs/sandbox/10000_Shapes_with_Tooltip.html) and [20,000 nodes](/docs/sandbox/20000_Nodes.html).

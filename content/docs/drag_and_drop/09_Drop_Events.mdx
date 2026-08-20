@@ -57,7 +57,6 @@ for (let i = 0; i < 10; i++) {
   star.on('dragstart', () => {
     star.moveTo(tempLayer);
     text.text('Moving ' + star.name());
-    layer.draw();
   });
 
   star.on('dragmove', (e) => {
@@ -81,7 +80,6 @@ for (let i = 0; i < 10; i++) {
       previousShape.fire('dragleave', { evt: e.evt }, true);
       previousShape = undefined;
     }
-    layer.draw();
   });
 
   star.on('dragend', (e) => {
@@ -92,36 +90,30 @@ for (let i = 0; i < 10; i++) {
     }
     previousShape = undefined;
     star.moveTo(layer);
-    layer.draw();
   });
 
   star.on('dragenter', () => {
     star.fill('green');
     text.text('dragenter ' + star.name());
-    layer.draw();
   });
 
   star.on('dragleave', () => {
     star.fill('blue');
     text.text('dragleave ' + star.name());
-    layer.draw();
   });
 
   star.on('dragover', () => {
     text.text('dragover ' + star.name());
-    layer.draw();
   });
 
   star.on('drop', () => {
     star.fill('red');
     text.text('drop ' + star.name());
-    layer.draw();
   });
 
   layer.add(star);
 }
 
-layer.draw();
 ```
   </TabItem>
   <TabItem value="React">
