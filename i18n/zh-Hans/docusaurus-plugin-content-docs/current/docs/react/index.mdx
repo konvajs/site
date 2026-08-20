@@ -18,7 +18,7 @@ description: "react-konva 是一个用于绘制 2D 图形的 React Canvas 库。
 
 每个 Konva 图形都可以作为 React 组件使用。这些图形包括 Rect、Circle、Line、Text、Image 和 Star，并完整支持事件。
 
-**注意：`react-konva` 只能在浏览器中使用，不支持 React Native。**
+**注意：`react-konva` 只能在浏览器中使用，不支持 React Native。** React Native 没有 DOM，也没有 `<canvas>` 元素，因此 Konva 没有可以绘制的目标。如果你在 Web 上已经有一个 Konva 编辑器，把它放进 [WebView](https://github.com/react-native-webview/react-native-webview) 中运行是可行的方案。如果是新的原生应用，请使用 [React Native Skia](https://shopify.github.io/react-native-skia/)。
 
 你可以在 [konvajs.org](https://konvajs.org/) 查看数十个交互式示例。Konva 的所有功能都可以通过 react-konva 在 React 中使用。
 
