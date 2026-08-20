@@ -1,0 +1,81 @@
+---
+title: Angular Konva 事件教程
+sidebar_label: 事件
+hide_table_of_contents: true
+slug: Events.html
+description: "学习如何在 Angular 中使用 ng2-konva 事件绑定，处理 Canvas 图形上的鼠标、触摸和指针事件。"
+---
+
+要在 Angular 中处理指针事件，请将 `(mousemove)` 和 `(mouseout)` 等监听器直接附加到 `ng2-konva` 组件。
+
+当鼠标移到三角形上时，本示例会根据舞台指针坐标更新文本标签。
+
+**操作说明**：将鼠标移到三角形上以更新坐标标签。然后将鼠标移出，以重置文本。
+
+有关更多详细信息，请参阅 [Node API 参考](/api/Konva.Node.html)和 [Stage API 参考](/api/Konva.Stage.html)。
+
+## 事件示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { RegularPolygonConfig } from 'konva/lib/shapes/RegularPolygon';
+import { TextConfig } from 'konva/lib/shapes/Text';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-regular-polygon
+          [config]="configTriangle"
+          (mousemove)="handleMouseMove($event.event)"
+          (mouseout)="handleMouseOut()"
+        ></ko-regular-polygon>
+        <ko-text [config]="configText"></ko-text>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configTriangle: RegularPolygonConfig = {
+    x: 80,
+    y: 120,
+    sides: 3,
+    radius: 80,
+    fill: '#00D2FF',
+    stroke: 'black',
+    strokeWidth: 4
+  };
+  public configText: TextConfig = {
+    x: 10,
+    y: 10,
+    fontFamily: 'Calibri',
+    fontSize: 24,
+    text: 'hello',
+    fill: 'black'
+  };
+
+  public handleMouseMove(event: any): void {
+    const mousePos = event.target.getStage().getPointerPosition();
+    const x = mousePos.x - 190;
+    const y = mousePos.y - 40;
+    this.configText = { ...this.configText, text: 'x: ' + x + ', y: ' + y };
+  }
+
+  public handleMouseOut(): void {
+    this.configText = { ...this.configText, text: 'Mouseout triangle' };
+  }
+}
+``` 

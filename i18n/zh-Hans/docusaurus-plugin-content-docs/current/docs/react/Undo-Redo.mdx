@@ -1,0 +1,84 @@
+---
+title: 如何使用 React 在 Canvas 上实现撤销/重做？
+sidebar_label: 撤销/重做
+hide_table_of_contents: true
+slug: Undo-Redo.html
+description: "学习如何通过 React state 历史记录管理，为 Canvas 交互实现撤销和重做功能。"
+---
+
+要使用 React 实现撤销/重做功能，不需要使用 Konva 的序列化和反序列化方法。
+
+只需保存应用中所有 state 变更的历史记录。实现方式有很多种。使用不可变数据结构可以使此操作更简单。
+
+操作说明：尝试拖动正方形。然后使用“撤销”和“重做”按钮还原或重放操作。
+
+```js live react
+import React, { Component } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+
+const App = () => {
+  const [position, setPosition] = React.useState({ x: 20, y: 20 });
+  // We use refs to keep history to avoid unnecessary re-renders
+  const history = React.useRef([{ x: 20, y: 20 }]);
+  const historyStep = React.useRef(0);
+
+  const handleUndo = () => {
+    if (historyStep.current === 0) {
+      return;
+    }
+    historyStep.current -= 1;
+    const previous = history.current[historyStep.current];
+    setPosition(previous);
+  };
+
+  const handleRedo = () => {
+    if (historyStep.current === history.current.length - 1) {
+      return;
+    }
+    historyStep.current += 1;
+    const next = history.current[historyStep.current];
+    setPosition(next);
+  };
+
+  const handleDragEnd = (e) => {
+    // Remove all states after current step
+    history.current = history.current.slice(0, historyStep.current + 1);
+    const pos = {
+      x: e.target.x(),
+      y: e.target.y(),
+    };
+    // Push the new state
+    history.current = history.current.concat([pos]);
+    historyStep.current += 1;
+    setPosition(pos);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text text="undo" onClick={handleUndo} />
+        <Text text="redo" x={40} onClick={handleRedo} />
+        <Rect
+          x={position.x}
+          y={position.y}
+          width={50}
+          height={50}
+          fill="black"
+          draggable
+          onDragEnd={handleDragEnd}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+## 手动构建历史记录的局限
+
+上述历史记录每一步只记录一个值。生产级编辑器必须记录
+成组操作，使多选拖动可以作为一个步骤撤销，还必须记录
+变换，以及操作完成后才加载完的图像。该状态机
+通常比绘图代码更庞大，因此请围绕文档操作而不是原始节点状态来设计历史记录。

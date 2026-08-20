@@ -6,15 +6,22 @@ slug: Remove_by_Name.html
 description: "Learn how to remove specific event listeners by namespace in Konva using the on() and off() methods with named events."
 ---
 
-To remove an event listener by name with Konva,
-we can namespace the event type with the `on()` method so that we can later
-remove the event listener by the same namespace with the `off()` method.
+Konva event namespaces identify related listeners in imperative code. Add the
+namespace after the event type, such as `click.menu`. Then pass the same name to
+`off()` to remove that listener.
 
-**Instructions: Click on the circle to see two alerts triggered from two different
-onclick event bindings. Remove the event listeners using the buttons to
-the left, and again click on the circle to observe the new onclick bindings.**
+**Instructions:** Select the circle to run two listeners. Use each button to
+remove one listener. Then select the circle again.
 
-Note: vue and react don't support event namespacing, so we don't make a demo for them. We don't recommend using namespacing for Vue and React anyway.
+`react-konva` does not expose Konva event namespaces through React event props.
+React has one prop for each event type, such as `onClick`. Store enabled states
+in React, and conditionally pass one dispatcher to that prop.
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
 
 ```js live vanilla
 import Konva from 'konva';
@@ -69,3 +76,62 @@ button2.onclick = function() {
 };
 document.getElementById('container').appendChild(button2);
 ```
+  </TabItem>
+  <TabItem value="React">
+
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const [firstEnabled, setFirstEnabled] = useState(true);
+  const [secondEnabled, setSecondEnabled] = useState(true);
+  const [message, setMessage] = useState('Select the circle');
+
+  const handleClick =
+    firstEnabled || secondEnabled
+      ? () => {
+          const messages = [];
+
+          if (firstEnabled) {
+            messages.push('first listener');
+          }
+          if (secondEnabled) {
+            messages.push('second listener');
+          }
+
+          setMessage(messages.join(' + '));
+        }
+      : undefined;
+
+  return (
+    <>
+      <button onClick={() => setFirstEnabled(false)}>
+        Remove first listener
+      </button>
+      <button onClick={() => setSecondEnabled(false)}>
+        Remove second listener
+      </button>
+      <Stage width={window.innerWidth} height={360}>
+        <Layer>
+          <Text x={20} y={20} text={message} fontSize={18} />
+          <Circle
+            x={window.innerWidth / 2}
+            y={180}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            onClick={handleClick}
+            onTap={handleClick}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>

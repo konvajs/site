@@ -1,0 +1,98 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialsSidebar.category.Shapes": {
+    "message": "图形",
+    "description": "The label for category Shapes in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Shapes.link.generated-index.description": {
+    "message": "Konva 的基础图形。",
+    "description": "The generated-index page description for category Shapes in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Guides & Comparisons": {
+    "message": "指南与比较",
+    "description": "The label for category Guides & Comparisons in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Guides & Comparisons.link.generated-index.description": {
+    "message": "选择和比较 JavaScript Canvas 库的指南。",
+    "description": "The generated-index page description for category Guides & Comparisons in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Styling": {
+    "message": "样式",
+    "description": "The label for category Styling in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Events": {
+    "message": "事件",
+    "description": "The label for category Events in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Drag and Drop": {
+    "message": "拖放",
+    "description": "The label for category Drag and Drop in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Select and Transform": {
+    "message": "选择与变换",
+    "description": "The label for category Select and Transform in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Clipping": {
+    "message": "裁剪",
+    "description": "The label for category Clipping in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Groups and Layers": {
+    "message": "组与图层",
+    "description": "The label for category Groups and Layers in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Filters": {
+    "message": "滤镜",
+    "description": "The label for category Filters in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Tweens": {
+    "message": "补间",
+    "description": "The label for category Tweens in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Animations": {
+    "message": "动画",
+    "description": "The label for category Animations in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Demos": {
+    "message": "示例",
+    "description": "The label for category Demos in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Selectors": {
+    "message": "选择器",
+    "description": "The label for category Selectors in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Data and Serialization": {
+    "message": "数据与序列化",
+    "description": "The label for category Data and Serialization in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Performance": {
+    "message": "性能",
+    "description": "The label for category Performance in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.React": {
+    "message": "React",
+    "description": "The label for category React in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Vue": {
+    "message": "Vue",
+    "description": "The label for category Vue in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Angular": {
+    "message": "Angular",
+    "description": "The label for category Angular in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Svelte": {
+    "message": "Svelte",
+    "description": "The label for category Svelte in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Posts": {
+    "message": "文章",
+    "description": "The label for category Posts in sidebar tutorialsSidebar"
+  },
+  "sidebar.tutorialsSidebar.category.Node.js": {
+    "message": "Node.js",
+    "description": "The label for category Node.js in sidebar tutorialsSidebar"
+  }
+}

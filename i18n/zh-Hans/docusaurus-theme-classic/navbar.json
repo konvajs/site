@@ -1,0 +1,42 @@
+{
+  "title": {
+    "message": "Konva",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Konva.js - HTML5 Canvas JavaScript 框架",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Tutorials": {
+    "message": "教程",
+    "description": "Navbar item with label Tutorials"
+  },
+  "item.label.Demos": {
+    "message": "示例",
+    "description": "Navbar item with label Demos"
+  },
+  "item.label.API Reference": {
+    "message": "API 参考",
+    "description": "Navbar item with label API Reference"
+  },
+  "item.label.Frameworks": {
+    "message": "框架",
+    "description": "Navbar item with label Frameworks"
+  },
+  "item.label.React": {
+    "message": "React",
+    "description": "Navbar item with label React"
+  },
+  "item.label.Vue": {
+    "message": "Vue",
+    "description": "Navbar item with label Vue"
+  },
+  "item.label.Svelte": {
+    "message": "Svelte",
+    "description": "Navbar item with label Svelte"
+  },
+  "item.label.Angular": {
+    "message": "Angular",
+    "description": "Navbar item with label Angular"
+  }
+}

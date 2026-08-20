@@ -1,0 +1,394 @@
+---
+title: Canvas 转 PDF——使用 JavaScript 将 HTML5 Canvas 导出为 PDF
+sidebar_label: Canvas 转 PDF
+hide_table_of_contents: true
+slug: Canvas_to_PDF.html
+description: "使用 JavaScript、Konva.js 和 jsPDF 将 HTML5 Canvas 导出为 PDF。将 Canvas 绘图保存为高质量 PDF 文件，其中的文本仍可选中。包含完整的可运行示例和源代码。"
+---
+
+使用 JavaScript 将任意 HTML5 Canvas 内容导出为 PDF 文档。此示例展示如何使用 [jsPDF](https://parall.ax/products/jspdf) 将 Konva 舞台转换为可下载的 PDF 文件，并支持高质量渲染和可选中的文本。
+
+此方法包含四个步骤：生成 Canvas 内容，将 Canvas 导出为图像，将该图像插入 PDF 文档，然后保存。要获得最佳结果，请注意以下两点：
+
+**高质量导出：** 将 Canvas 转换为图像时，请使用 `pixelRatio` 属性。有关详细信息，请参阅[高质量导出指南](/docs/data_and_serialization/High-Quality-Export.html)。
+
+**PDF 中的可选中文本：** 虽然 Canvas 会作为图像添加，但可以手动在其下方的 PDF 图层中插入文本节点。这些文本不可见（它们位于图像后方），但仍可选择和搜索。PDF 的文本渲染方式不同于 Konva，因此复杂样式可能需要调整。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+**操作说明：查看下方 Canvas，然后单击按钮将其保存为 PDF。**
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create a button for PDF export
+const saveButton = document.createElement('button');
+saveButton.textContent = 'Save as PDF';
+saveButton.style.position = 'absolute';
+saveButton.style.top = '5px';
+saveButton.style.left = '5px';
+document.body.appendChild(saveButton);
+
+// Create a stage
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Add background
+const back = new Konva.Rect({
+  width: stage.width(),
+  height: stage.height(),
+  fill: 'rgba(200, 200, 200)',
+});
+layer.add(back);
+
+// Add text with blur effect
+const text = new Konva.Text({
+  text: 'This is the Darth Vader',
+  x: 15,
+  y: 40,
+  rotation: -10,
+  filters: [Konva.Filters.Blur],
+  blurRadius: 4,
+  fontSize: 18,
+});
+text.cache();
+layer.add(text);
+
+// Add arrow
+const arrow = new Konva.Arrow({
+  points: [70, 50, 100, 80, 150, 100, 190, 100],
+  tension: 0.5,
+  stroke: 'black',
+  fill: 'black',
+});
+layer.add(arrow);
+
+// Add image
+const imageUrl = 'https://konvajs.org/assets/darth-vader.jpg';
+Konva.Image.fromURL(
+  imageUrl,
+  function (darthNode) {
+    darthNode.setAttrs({
+      x: 200,
+      y: 50,
+      scaleX: 0.5,
+      scaleY: 0.5,
+    });
+    layer.add(darthNode);
+  },
+  function () {
+    console.error('Failed to load image');
+  }
+);
+
+// Handle PDF export
+saveButton.addEventListener('click', function () {
+  // We need to check if jsPDF is loaded
+  if (typeof jsPDF !== 'undefined') {
+    const pdf = new jsPDF('l', 'px', [stage.width(), stage.height()]);
+    pdf.setTextColor('#000000');
+    
+    // First add texts
+    stage.find('Text').forEach((text) => {
+      const size = text.fontSize() / 0.75; // convert pixels to points
+      pdf.setFontSize(size);
+      pdf.text(text.text(), text.x(), text.y(), {
+        baseline: 'top',
+        angle: -text.getAbsoluteRotation(),
+      });
+    });
+
+    // Then put image on top of texts (so texts are not visible)
+    pdf.addImage(
+      stage.toDataURL({ pixelRatio: 2 }),
+      0,
+      0,
+      stage.width(),
+      stage.height()
+    );
+
+    pdf.save('canvas.pdf');
+  } else {
+    console.error('jsPDF library is not loaded. Please include it in your project.');
+    alert('jsPDF library is not loaded. In a real project, you need to include it.');
+  }
+});
+
+// Add jsPDF library dynamically for demo purposes
+const script = document.createElement('script');
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js';
+script.integrity = 'sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/';
+script.crossOrigin = 'anonymous';
+document.head.appendChild(script);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useRef, useEffect, useState } from 'react';
+import { Stage, Layer, Rect, Text, Arrow, Image } from 'react-konva';
+import useImage from 'use-image';
+
+const App = () => {
+  const stageRef = useRef(null);
+  const [darthVaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  // Load jsPDF library dynamically
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js';
+    script.integrity = 'sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/';
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+    
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+  
+  // Handle PDF export
+  const handleExport = () => {
+    if (stageRef.current && typeof window.jsPDF !== 'undefined') {
+      const stage = stageRef.current;
+      const pdf = new window.jsPDF('l', 'px', [width, height]);
+      pdf.setTextColor('#000000');
+      
+      // First add texts
+      stage.find('Text').forEach((text) => {
+        const size = text.fontSize() / 0.75; // convert pixels to points
+        pdf.setFontSize(size);
+        pdf.text(text.text(), text.x(), text.y(), {
+          baseline: 'top',
+          angle: -text.getAbsoluteRotation(),
+        });
+      });
+
+      // Then put image on top of texts (so texts are not visible)
+      pdf.addImage(
+        stage.toDataURL({ pixelRatio: 2 }),
+        0,
+        0,
+        width,
+        height
+      );
+
+      pdf.save('canvas.pdf');
+    } else {
+      console.error('jsPDF library is not loaded or stage is not available');
+      alert('jsPDF library is not loaded. In a real project, you need to include it.');
+    }
+  };
+  
+  return (
+    <div style={{ position: 'relative' }}>
+      <button 
+        style={{ position: 'absolute', top: '5px', left: '5px', zIndex: 10 }}
+        onClick={handleExport}
+      >
+        Save as PDF
+      </button>
+      
+      <Stage width={width} height={height} ref={stageRef}>
+        <Layer>
+          <Rect
+            width={width}
+            height={height}
+            fill="rgba(200, 200, 200)"
+          />
+          
+          <Text
+            text="This is the Darth Vader"
+            x={15}
+            y={40}
+            rotation={-10}
+            fontSize={18}
+            filters={[Konva.Filters.Blur]}
+            blurRadius={4}
+          />
+          
+          <Arrow
+            points={[70, 50, 100, 80, 150, 100, 190, 100]}
+            tension={0.5}
+            stroke="black"
+            fill="black"
+          />
+          
+          {darthVaderImage && (
+            <Image
+              image={darthVaderImage}
+              x={200}
+              y={50}
+              scaleX={0.5}
+              scaleY={0.5}
+            />
+          )}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div style="position: relative">
+    <button 
+      style="position: absolute; top: 5px; left: 5px; z-index: 10"
+      @click="handleExport"
+    >
+      Save as PDF
+    </button>
+    
+    <v-stage ref="stageRef" :config="stageConfig">
+      <v-layer>
+        <v-rect :config="backgroundConfig" />
+        
+        <v-text ref="textRef" :config="textConfig" />
+        
+        <v-arrow :config="arrowConfig" />
+        
+        <v-image 
+          v-if="darthVaderImage"
+          :config="imageConfig" 
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+import Konva from 'konva';
+import { useImage } from 'vue-konva';
+
+const stageRef = ref(null);
+const textRef = ref(null);
+const [darthVaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// Stage configuration
+const stageConfig = {
+  width,
+  height
+};
+
+// Background configuration
+const backgroundConfig = {
+  width,
+  height,
+  fill: 'rgba(200, 200, 200)'
+};
+
+// Text configuration
+const textConfig = {
+  text: 'This is the Darth Vader',
+  x: 15,
+  y: 40,
+  rotation: -10,
+  fontSize: 18,
+  filters: [Konva.Filters.Blur],
+  blurRadius: 4
+};
+
+// Arrow configuration
+const arrowConfig = {
+  points: [70, 50, 100, 80, 150, 100, 190, 100],
+  tension: 0.5,
+  stroke: 'black',
+  fill: 'black'
+};
+
+// Image configuration
+const imageConfig = computed(() => ({
+  image: darthVaderImage.value,
+  x: 200,
+  y: 50,
+  scaleX: 0.5,
+  scaleY: 0.5
+}));
+
+// Load jsPDF library
+onMounted(() => {
+  // Load jsPDF library
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js';
+  script.integrity = 'sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/';
+  script.crossOrigin = 'anonymous';
+  document.head.appendChild(script);
+  
+  // Cache text for blur filter to work
+  if (textRef.value) {
+    textRef.value.getNode().cache();
+  }
+});
+
+onUnmounted(() => {
+  // Cleanup script
+  const script = document.querySelector('script[src*="jspdf"]');
+  if (script) {
+    document.head.removeChild(script);
+  }
+});
+
+// Handle PDF export
+const handleExport = () => {
+  if (stageRef.value && typeof window.jsPDF !== 'undefined') {
+    const stage = stageRef.value.getNode();
+    const pdf = new window.jsPDF('l', 'px', [width, height]);
+    pdf.setTextColor('#000000');
+    
+    // First add texts
+    stage.find('Text').forEach((text) => {
+      const size = text.fontSize() / 0.75; // convert pixels to points
+      pdf.setFontSize(size);
+      pdf.text(text.text(), text.x(), text.y(), {
+        baseline: 'top',
+        angle: -text.getAbsoluteRotation(),
+      });
+    });
+
+    // Then put image on top of texts (so texts are not visible)
+    pdf.addImage(
+      stage.toDataURL({ pixelRatio: 2 }),
+      0,
+      0,
+      width,
+      height
+    );
+
+    pdf.save('canvas.pdf');
+  } else {
+    console.error('jsPDF library is not loaded or stage is not available');
+    alert('jsPDF library is not loaded. In a real project, you need to include it.');
+  }
+};
+</script> 
+```
+</TabItem>
+</Tabs>
+
+## 打印输出
+
+上述方法会将光栅图像放入 RGB 文档。商业印刷
+通常要求 CMYK 分色、符合 PDF/X 标准、出血和裁切标记，
+但浏览器 Canvas 不提供这些功能。这需要在浏览器外
+执行渲染步骤。
+[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=canvas-to-pdf) 是一款使用 Konva
+构建的商业设计编辑器 SDK，它涵盖编辑器及其导出流程。

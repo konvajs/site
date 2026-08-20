@@ -1,0 +1,455 @@
+---
+title: 如何使用 Konva 在拖动时吸附 Canvas 图形
+sidebar_label: 对象吸附
+hide_table_of_contents: true
+slug: Objects_Snapping.html
+description: "在 Konva 中使用参考线，将可拖动图形吸附到其他对象和舞台边界的边缘与中心。"
+---
+
+## 如何使可拖动图形相互吸附
+
+此示例使拖动的图形吸附到舞台和其他图形。每个图形均可在
+其左侧、中心、右侧、顶部、中部和底部边缘吸附。
+
+以下外部示例演示网格吸附：
+
+1. [网格吸附文章](https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f)
+2. [网格吸附示例](https://codepen.io/pierrebleroux/pen/gGpvxJ)
+
+**操作说明：** 将一个矩形拖到另一个矩形或舞台边缘附近。
+蓝色参考线显示当前的吸附位置。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+var GUIDELINE_OFFSET = 5;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+// first generate random rectangles
+for (var i = 0; i < 5; i++) {
+  layer.add(
+    new Konva.Rect({
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      width: 50 + Math.random() * 50,
+      height: 50 + Math.random() * 50,
+      fill: Konva.Util.getRandomColor(),
+      rotation: Math.random() * 360,
+      draggable: true,
+      name: 'object',
+    })
+  );
+}
+
+// were can we snap our objects?
+function getLineGuideStops(skipShape) {
+  // we can snap to stage borders and the center of the stage
+  var vertical = [0, stage.width() / 2, stage.width()];
+  var horizontal = [0, stage.height() / 2, stage.height()];
+
+  // and we snap over edges and center of each object on the canvas
+  stage.find('.object').forEach((guideItem) => {
+    if (guideItem === skipShape) {
+      return;
+    }
+    var box = guideItem.getClientRect();
+    // and we can snap to all edges of shapes
+    vertical.push([box.x, box.x + box.width, box.x + box.width / 2]);
+    horizontal.push([box.y, box.y + box.height, box.y + box.height / 2]);
+  });
+  return {
+    vertical: vertical.flat(),
+    horizontal: horizontal.flat(),
+  };
+}
+
+// what points of the object will trigger to snapping?
+// it can be just center of the object
+// but we will enable all edges and center
+function getObjectSnappingEdges(node) {
+  var box = node.getClientRect();
+  var absPos = node.absolutePosition();
+
+  return {
+    vertical: [
+      {
+        guide: Math.round(box.x),
+        offset: Math.round(absPos.x - box.x),
+        snap: 'start',
+      },
+      {
+        guide: Math.round(box.x + box.width / 2),
+        offset: Math.round(absPos.x - box.x - box.width / 2),
+        snap: 'center',
+      },
+      {
+        guide: Math.round(box.x + box.width),
+        offset: Math.round(absPos.x - box.x - box.width),
+        snap: 'end',
+      },
+    ],
+    horizontal: [
+      {
+        guide: Math.round(box.y),
+        offset: Math.round(absPos.y - box.y),
+        snap: 'start',
+      },
+      {
+        guide: Math.round(box.y + box.height / 2),
+        offset: Math.round(absPos.y - box.y - box.height / 2),
+        snap: 'center',
+      },
+      {
+        guide: Math.round(box.y + box.height),
+        offset: Math.round(absPos.y - box.y - box.height),
+        snap: 'end',
+      },
+    ],
+  };
+}
+
+// find all snapping possibilities
+function getGuides(lineGuideStops, itemBounds) {
+  var resultV = [];
+  var resultH = [];
+
+  lineGuideStops.vertical.forEach((lineGuide) => {
+    itemBounds.vertical.forEach((itemBound) => {
+      var diff = Math.abs(lineGuide - itemBound.guide);
+      // if the distance between guild line and object snap point is close we can consider this for snapping
+      if (diff < GUIDELINE_OFFSET) {
+        resultV.push({
+          lineGuide: lineGuide,
+          diff: diff,
+          snap: itemBound.snap,
+          offset: itemBound.offset,
+        });
+      }
+    });
+  });
+
+  lineGuideStops.horizontal.forEach((lineGuide) => {
+    itemBounds.horizontal.forEach((itemBound) => {
+      var diff = Math.abs(lineGuide - itemBound.guide);
+      if (diff < GUIDELINE_OFFSET) {
+        resultH.push({
+          lineGuide: lineGuide,
+          diff: diff,
+          snap: itemBound.snap,
+          offset: itemBound.offset,
+        });
+      }
+    });
+  });
+
+  var guides = [];
+
+  // find closest snap
+  var minV = resultV.sort((a, b) => a.diff - b.diff)[0];
+  var minH = resultH.sort((a, b) => a.diff - b.diff)[0];
+  if (minV) {
+    guides.push({
+      lineGuide: minV.lineGuide,
+      offset: minV.offset,
+      orientation: 'V',
+      snap: minV.snap,
+    });
+  }
+  if (minH) {
+    guides.push({
+      lineGuide: minH.lineGuide,
+      offset: minH.offset,
+      orientation: 'H',
+      snap: minH.snap,
+    });
+  }
+  return guides;
+}
+
+function drawGuides(guides) {
+  guides.forEach((lg) => {
+    if (lg.orientation === 'H') {
+      var line = new Konva.Line({
+        points: [-6000, 0, 6000, 0],
+        stroke: 'rgb(0, 161, 255)',
+        strokeWidth: 1,
+        name: 'guid-line',
+        dash: [4, 6],
+      });
+      layer.add(line);
+      line.absolutePosition({
+        x: 0,
+        y: lg.lineGuide,
+      });
+    } else if (lg.orientation === 'V') {
+      var line = new Konva.Line({
+        points: [0, -6000, 0, 6000],
+        stroke: 'rgb(0, 161, 255)',
+        strokeWidth: 1,
+        name: 'guid-line',
+        dash: [4, 6],
+      });
+      layer.add(line);
+      line.absolutePosition({
+        x: lg.lineGuide,
+        y: 0,
+      });
+    }
+  });
+}
+
+layer.on('dragmove', function (e) {
+  // clear all previous lines on the screen
+  layer.find('.guid-line').forEach((l) => l.destroy());
+
+  // find possible snapping lines
+  var lineGuideStops = getLineGuideStops(e.target);
+  // find snapping points of current object
+  var itemBounds = getObjectSnappingEdges(e.target);
+
+  // now find where can we snap current object
+  var guides = getGuides(lineGuideStops, itemBounds);
+
+  // do nothing of no snapping
+  if (!guides.length) {
+    return;
+  }
+
+  drawGuides(guides);
+
+  var absPos = e.target.absolutePosition();
+  // now force object position
+  guides.forEach((lg) => {
+    switch (lg.orientation) {
+      case 'V': {
+        absPos.x = lg.lineGuide + lg.offset;
+        break;
+      }
+      case 'H': {
+        absPos.y = lg.lineGuide + lg.offset;
+        break;
+      }
+    }
+  });
+  e.target.absolutePosition(absPos);
+});
+
+layer.on('dragend', function (e) {
+  // clear all previous lines on the screen
+  layer.find('.guid-line').forEach((l) => l.destroy());
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Rect, Line } from 'react-konva';
+
+const GUIDELINE_OFFSET = 5;
+const WIDTH = window.innerWidth;
+const HEIGHT = 500;
+
+const initialShapes = [
+  { id: 'one', x: 80, y: 90, width: 90, height: 70, fill: '#ff6b6b', rotation: 8 },
+  { id: 'two', x: 300, y: 230, width: 110, height: 80, fill: '#4dabf7', rotation: -6 },
+  { id: 'three', x: 560, y: 100, width: 80, height: 100, fill: '#69db7c', rotation: 4 },
+];
+
+function getLineGuideStops(stage, skipShape) {
+  const vertical = [0, stage.width() / 2, stage.width()];
+  const horizontal = [0, stage.height() / 2, stage.height()];
+
+  stage.find('.object').forEach((guideItem) => {
+    if (guideItem === skipShape) {
+      return;
+    }
+
+    const box = guideItem.getClientRect();
+    vertical.push(box.x, box.x + box.width / 2, box.x + box.width);
+    horizontal.push(box.y, box.y + box.height / 2, box.y + box.height);
+  });
+
+  return { vertical, horizontal };
+}
+
+function getObjectSnappingEdges(node) {
+  const box = node.getClientRect();
+  const absolutePosition = node.absolutePosition();
+
+  return {
+    vertical: [
+      {
+        guide: Math.round(box.x),
+        offset: Math.round(absolutePosition.x - box.x),
+      },
+      {
+        guide: Math.round(box.x + box.width / 2),
+        offset: Math.round(absolutePosition.x - box.x - box.width / 2),
+      },
+      {
+        guide: Math.round(box.x + box.width),
+        offset: Math.round(absolutePosition.x - box.x - box.width),
+      },
+    ],
+    horizontal: [
+      {
+        guide: Math.round(box.y),
+        offset: Math.round(absolutePosition.y - box.y),
+      },
+      {
+        guide: Math.round(box.y + box.height / 2),
+        offset: Math.round(absolutePosition.y - box.y - box.height / 2),
+      },
+      {
+        guide: Math.round(box.y + box.height),
+        offset: Math.round(absolutePosition.y - box.y - box.height),
+      },
+    ],
+  };
+}
+
+function getGuides(lineGuideStops, itemBounds) {
+  const verticalMatches = [];
+  const horizontalMatches = [];
+
+  lineGuideStops.vertical.forEach((lineGuide) => {
+    itemBounds.vertical.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        verticalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'V',
+        });
+      }
+    });
+  });
+
+  lineGuideStops.horizontal.forEach((lineGuide) => {
+    itemBounds.horizontal.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        horizontalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'H',
+        });
+      }
+    });
+  });
+
+  const closestVertical = verticalMatches.sort((a, b) => a.diff - b.diff)[0];
+  const closestHorizontal = horizontalMatches.sort((a, b) => a.diff - b.diff)[0];
+
+  return [closestVertical, closestHorizontal].filter(Boolean);
+}
+
+const App = () => {
+  const [shapes, setShapes] = useState(initialShapes);
+  const [guides, setGuides] = useState([]);
+
+  const handleDragMove = (event) => {
+    const node = event.target;
+    const stage = node.getStage();
+    const lineGuideStops = getLineGuideStops(stage, node);
+    const itemBounds = getObjectSnappingEdges(node);
+    const nextGuides = getGuides(lineGuideStops, itemBounds);
+
+    setGuides(nextGuides);
+
+    if (!nextGuides.length) {
+      return;
+    }
+
+    const absolutePosition = node.absolutePosition();
+
+    nextGuides.forEach((guide) => {
+      if (guide.orientation === 'V') {
+        absolutePosition.x = guide.lineGuide + guide.offset;
+      } else {
+        absolutePosition.y = guide.lineGuide + guide.offset;
+      }
+    });
+
+    node.absolutePosition(absolutePosition);
+  };
+
+  const handleDragEnd = (event, id) => {
+    setGuides([]);
+    setShapes((currentShapes) =>
+      currentShapes.map((shape) =>
+        shape.id === id
+          ? { ...shape, x: event.target.x(), y: event.target.y() }
+          : shape
+      )
+    );
+  };
+
+  return (
+    <Stage width={WIDTH} height={HEIGHT}>
+      <Layer>
+        {shapes.map((shape) => (
+          <Rect
+            key={shape.id}
+            {...shape}
+            name="object"
+            draggable
+            stroke="#1f2937"
+            strokeWidth={2}
+            onDragMove={handleDragMove}
+            onDragEnd={(event) => handleDragEnd(event, shape.id)}
+          />
+        ))}
+        {guides.map((guide, index) =>
+          guide.orientation === 'H' ? (
+            <Line
+              key={`H-${index}`}
+              points={[-6000, 0, 6000, 0]}
+              x={0}
+              y={guide.lineGuide}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          ) : (
+            <Line
+              key={`V-${index}`}
+              points={[0, -6000, 0, 6000]}
+              x={guide.lineGuide}
+              y={0}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          )
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>

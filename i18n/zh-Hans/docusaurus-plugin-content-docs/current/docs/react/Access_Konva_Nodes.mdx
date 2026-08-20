@@ -1,0 +1,73 @@
+---
+title: 如何从 react-konva 访问 Konva 节点？
+sidebar_label: 访问 Konva 节点
+hide_table_of_contents: true
+slug: Access_Konva_Nodes.html
+description: "通过代码示例，学习如何使用 refs 和事件回调从 react-konva 访问 Konva 节点。"
+---
+
+在某些情况下，你可能需要直接使用 `Konva` API，例如导出 Canvas 或创建动画。
+
+有两种方法可以从 `react-konva` 访问 Konva 节点或图形。
+
+## 使用 `refs` API
+
+你可以使用 [refs API](https://reactjs.org/docs/refs-and-the-dom.html) 访问 Konva 节点。
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const App = () => {
+  const shapeRef = React.useRef(null);
+  React.useEffect(() => {
+    // it will log `Konva.Circle` instance
+    console.log(shapeRef.current);
+  });
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          ref={shapeRef}
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={50}
+          fill="red"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+## 在事件回调中使用事件对象
+
+另一种常见方法是使用事件对象。任何事件都会将该对象作为参数传给事件回调：
+
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+
+const App = () => {
+  const handleClick = (e) => {
+    // logs clicked Konva.Circle instance
+    console.log(e.target);
+  };
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={50}
+          fill="green"
+          onClick={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```

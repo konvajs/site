@@ -1,0 +1,268 @@
+---
+title: Canvas 图像裁剪——使用 JavaScript 裁剪和提取图像区域
+sidebar_label: 裁剪图像
+hide_table_of_contents: true
+slug: Canvas_Crop_Image.html
+description: 学习使用 JavaScript 在 HTML5 Canvas 上裁剪图像。选择区域、调整裁剪区域的大小，然后使用 Konva.js 提取裁剪后的图像。包含交互式示例和源代码。
+---
+
+拖动蓝色裁剪矩形以选择所需区域，使用控制柄调整其大小，然后单击按钮提取该区域。
+
+**操作说明：** 拖动裁剪框以移动它。使用角部控制柄调整大小。单击“Crop Image”提取图像。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var container = document.getElementById('container');
+
+var controls = document.createElement('div');
+controls.style.cssText = 'margin-bottom: 8px; display: flex; gap: 10px; align-items: center; font-family: Arial, sans-serif;';
+
+var cropBtn = document.createElement('button');
+cropBtn.textContent = 'Crop Image';
+cropBtn.style.cssText = 'padding: 8px 16px; font-size: 14px; background: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;';
+controls.appendChild(cropBtn);
+
+var resultContainer = document.createElement('div');
+resultContainer.style.cssText = 'margin-bottom: 8px;';
+
+container.parentNode.insertBefore(controls, container);
+container.parentNode.insertBefore(resultContainer, container);
+
+var imageObj = new Image();
+imageObj.onload = function() {
+  var bgImage = new Konva.Image({
+    image: imageObj,
+    width: width,
+    height: height,
+  });
+  layer.add(bgImage);
+
+  var cropRect = new Konva.Rect({
+    x: width * 0.15,
+    y: height * 0.15,
+    width: width * 0.35,
+    height: height * 0.4,
+    fill: 'rgba(0, 150, 255, 0.15)',
+    stroke: '#0088ff',
+    strokeWidth: 2,
+    dash: [6, 3],
+    draggable: true,
+  });
+  layer.add(cropRect);
+
+  var tr = new Konva.Transformer({
+    nodes: [cropRect],
+    enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+    boundBoxFunc: function(oldBox, newBox) {
+      if (newBox.width < 20 || newBox.height < 20) return oldBox;
+      return newBox;
+    },
+  });
+  layer.add(tr);
+  layer.draw();
+
+  cropBtn.onclick = function() {
+    var dataUrl = stage.toDataURL({
+      x: cropRect.x(),
+      y: cropRect.y(),
+      width: cropRect.width() * cropRect.scaleX(),
+      height: cropRect.height() * cropRect.scaleY(),
+    });
+    resultContainer.innerHTML = '';
+    var label = document.createElement('p');
+    label.textContent = 'Cropped result:';
+    label.style.cssText = 'margin: 0 0 4px 0; font-size: 13px; color: #666;';
+    resultContainer.appendChild(label);
+    var img = document.createElement('img');
+    img.src = dataUrl;
+    img.style.cssText = 'max-width: 100%; border: 1px solid #ddd; border-radius: 4px;';
+    resultContainer.appendChild(img);
+  };
+};
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image as KonvaImage, Rect, Transformer } from 'react-konva';
+import { useRef, useState, useEffect } from 'react';
+
+var App = function() {
+  var stageRef = useRef(null);
+  var cropRef = useRef(null);
+  var trRef = useRef(null);
+  var [imageObj, setImageObj] = useState(null);
+  var [croppedSrc, setCroppedSrc] = useState(null);
+  
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.onload = function() { setImageObj(img); };
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+  }, []);
+
+  useEffect(function() {
+    if (cropRef.current && trRef.current) {
+      trRef.current.nodes([cropRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [imageObj]);
+
+  var handleCrop = function() {
+    if (!stageRef.current || !cropRef.current) return;
+    var node = cropRef.current;
+    var dataUrl = stageRef.current.toDataURL({
+      x: node.x(),
+      y: node.y(),
+      width: node.width() * node.scaleX(),
+      height: node.height() * node.scaleY(),
+    });
+    setCroppedSrc(dataUrl);
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: '8px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <button onClick={handleCrop} style={{ padding: '8px 16px', fontSize: '14px', background: '#0088ff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Crop Image</button>
+      </div>
+      {croppedSrc && (
+        <div style={{ marginBottom: '8px' }}>
+          <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#666' }}>Cropped result:</p>
+          <img src={croppedSrc} style={{ maxWidth: '100%', border: '1px solid #ddd', borderRadius: '4px' }} />
+        </div>
+      )}
+      <Stage ref={stageRef} width={width} height={height}>
+        <Layer>
+          {imageObj && (
+            <>
+              <KonvaImage image={imageObj} width={width} height={height} />
+              <Rect
+                ref={cropRef}
+                x={width * 0.15}
+                y={height * 0.15}
+                width={width * 0.35}
+                height={height * 0.4}
+                fill="rgba(0, 150, 255, 0.15)"
+                stroke="#0088ff"
+                strokeWidth={2}
+                dash={[6, 3]}
+                draggable={true}
+              />
+              <Transformer
+                ref={trRef}
+                enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+                boundBoxFunc={function(oldBox, newBox) {
+                  if (newBox.width < 20 || newBox.height < 20) return oldBox;
+                  return newBox;
+                }}
+              />
+            </>
+          )}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="margin-bottom: 8px; display: flex; gap: 10px; align-items: center;">
+      <button @click="handleCrop" style="padding: 8px 16px; font-size: 14px; background: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">Crop Image</button>
+    </div>
+    <div v-if="croppedSrc" style="margin-bottom: 8px;">
+      <p style="margin: 0 0 4px 0; font-size: 13px; color: #666;">Cropped result:</p>
+      <img :src="croppedSrc" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px;" />
+    </div>
+    <v-stage ref="stageRef" :config="stageConfig">
+      <v-layer ref="layerRef">
+        <v-image v-if="imageObj" :config="imageConfig" />
+        <v-rect v-if="imageObj" ref="cropRef" :config="cropConfig" />
+        <v-transformer v-if="imageObj" ref="trRef" :config="trConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, nextTick, watch } from 'vue';
+
+var stageRef = ref(null);
+var layerRef = ref(null);
+var cropRef = ref(null);
+var trRef = ref(null);
+var imageObj = ref(null);
+var croppedSrc = ref(null);
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stageConfig = { width: width, height: height };
+var imageConfig = ref({ width: width, height: height });
+var cropConfig = {
+  x: width * 0.15, y: height * 0.15, width: width * 0.35, height: height * 0.4,
+  fill: 'rgba(0, 150, 255, 0.15)',
+  stroke: '#0088ff', strokeWidth: 2,
+  dash: [6, 3], draggable: true,
+};
+var trConfig = {
+  enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+};
+
+onMounted(function() {
+  var img = new window.Image();
+  img.onload = function() {
+    imageObj.value = img;
+    imageConfig.value = { image: img, width: width, height: height };
+    nextTick(function() {
+      if (cropRef.value && trRef.value) {
+        var cropNode = cropRef.value.getNode();
+        var trNode = trRef.value.getNode();
+        trNode.nodes([cropNode]);
+        trNode.getLayer().batchDraw();
+      }
+    });
+  };
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+});
+
+function handleCrop() {
+  if (!stageRef.value || !cropRef.value) return;
+  var stage = stageRef.value.getNode();
+  var cropNode = cropRef.value.getNode();
+  var dataUrl = stage.toDataURL({
+    x: cropNode.x(),
+    y: cropNode.y(),
+    width: cropNode.width() * cropNode.scaleX(),
+    height: cropNode.height() * cropNode.scaleY(),
+  });
+  croppedSrc.value = dataUrl;
+}
+</script>
+```
+  </TabItem>
+</Tabs>

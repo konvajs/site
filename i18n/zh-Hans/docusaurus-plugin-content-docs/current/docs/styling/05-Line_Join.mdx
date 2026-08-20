@@ -1,0 +1,133 @@
+---
+title: HTML5 Canvas 线条连接教程
+sidebar_label: 线条连接
+hide_table_of_contents: true
+slug: Line_Join.html
+description: "学习如何使用 Konva.js 为 HTML5 Canvas 图形设置线条连接样式，包括 miter、bevel 和 round。"
+---
+
+要使用 Konva 设置图形的线条连接，可以在实例化图形时设置 `lineJoin` 属性，也可以使用 `lineJoin()` 方法。
+
+`lineJoin` 属性可以设置为 `miter`、`bevel` 或 `round`。除非另有指定，否则默认的线条连接值为 `miter`。
+
+**操作说明：**将鼠标移到三角形上以更改线条连接样式。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const triangle = new Konva.RegularPolygon({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  sides: 3,
+  radius: 70,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 20,
+  lineJoin: 'miter'
+});
+
+layer.add(triangle);
+
+triangle.on('mouseenter', function() {
+  const lineJoins = ['miter', 'bevel', 'round'];
+  const index = lineJoins.indexOf(triangle.lineJoin());
+  const nextIndex = (index + 1) % lineJoins.length;
+  triangle.lineJoin(lineJoins[nextIndex]);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [lineJoin, setLineJoin] = useState('miter');
+
+  const handleMouseEnter = () => {
+    const lineJoins = ['miter', 'bevel', 'round'];
+    const index = lineJoins.indexOf(lineJoin);
+    const nextIndex = (index + 1) % lineJoins.length;
+    setLineJoin(lineJoins[nextIndex]);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <RegularPolygon
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          sides={3}
+          radius={70}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={20}
+          lineJoin={lineJoin}
+          onMouseEnter={handleMouseEnter}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-regular-polygon
+        :config="triangleConfig"
+        @mouseenter="handleMouseEnter"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const currentLineJoin = ref('miter');
+
+const triangleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  sides: 3,
+  radius: 70,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 20,
+  lineJoin: currentLineJoin.value
+};
+
+const handleMouseEnter = () => {
+  const lineJoins = ['miter', 'bevel', 'round'];
+  const index = lineJoins.indexOf(currentLineJoin.value);
+  const nextIndex = (index + 1) % lineJoins.length;
+  currentLineJoin.value = lineJoins[nextIndex];
+};
+</script>
+```
+  </TabItem>
+</Tabs>

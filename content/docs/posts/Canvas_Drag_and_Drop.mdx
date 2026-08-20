@@ -1,0 +1,82 @@
+---
+title: Canvas Drag and Drop with JavaScript and Konva
+sidebar_label: Canvas Drag and Drop
+sidebar_position: 5
+slug: canvas-drag-and-drop.html
+description: "Implement canvas drag and drop with pointer events, hit detection, and Konva draggable nodes in JavaScript or React."
+---
+
+The Canvas API does not provide drag and drop for drawn shapes. A raw Canvas
+application must implement four parts:
+
+1. Store each shape and its position.
+2. Detect the shape under the pointer.
+3. Convert browser coordinates to canvas coordinates.
+4. Update the shape and redraw the scene during a drag.
+
+Pointer events support a mouse, pen, and touch input through one event model.
+Call `setPointerCapture()` after `pointerdown` in a raw Canvas implementation.
+The capture keeps move events active outside the canvas.
+
+## Drag a Konva node
+
+Konva implements hit detection and pointer tracking. Set `draggable` on a node.
+Then store its final position in application state.
+
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+const App = () => {
+  const [position, setPosition] = useState({ x: 80, y: 100 });
+  const [dragging, setDragging] = useState(false);
+
+  return (
+    <Stage width={window.innerWidth} height={380}>
+      <Layer>
+        <Text
+          x={20}
+          y={20}
+          text={`Position: ${Math.round(position.x)}, ${Math.round(position.y)}`}
+          fontSize={18}
+        />
+        <Rect
+          x={position.x}
+          y={position.y}
+          width={160}
+          height={100}
+          fill={dragging ? '#ff922b' : '#4dabf7'}
+          stroke="#1f2937"
+          strokeWidth={3}
+          shadowBlur={dragging ? 12 : 0}
+          cornerRadius={10}
+          draggable
+          onDragStart={() => setDragging(true)}
+          onDragMove={(event) => {
+            setPosition({ x: event.target.x(), y: event.target.y() });
+          }}
+          onDragEnd={(event) => {
+            setDragging(false);
+            setPosition({ x: event.target.x(), y: event.target.y() });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+Konva changes the node position during a drag. The example also writes that
+position to React state. This state keeps the application model synchronized.
+
+For large scenes, do not update unrelated React state on each `dragmove` event.
+Update the Konva node during the drag. Save the final application state on
+`dragend` when other components do not need live coordinates.
+
+Canvas shapes are not keyboard controls. Provide an HTML control for each
+essential drag action. The control can move the same shape in fixed steps.
+
+See the [drag and drop guide](/docs/drag_and_drop/Drag_and_Drop.html) for Vanilla,
+React, Vue, Svelte, and Angular examples.

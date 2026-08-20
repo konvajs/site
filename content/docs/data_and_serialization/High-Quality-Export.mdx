@@ -196,3 +196,10 @@ const handleExport = () => {
 ```
   </TabItem>
 </Tabs> 
+
+## The browser size limit
+
+Every browser caps canvas width, height, and total area, and the cap is lower on
+mobile. Past that point a large `pixelRatio` fails quietly: the call returns a
+blank or truncated image instead of raising an error. Large-format output has to
+be tiled, or rendered outside the browser.

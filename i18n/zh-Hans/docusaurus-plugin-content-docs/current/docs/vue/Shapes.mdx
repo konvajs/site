@@ -1,0 +1,60 @@
+---
+title: 使用 Vue 绘制 Canvas 图形
+sidebar_label: 图形
+hide_table_of_contents: true
+slug: Shapes.html
+description: "学习如何在 Vue 中使用 vue-konva 组件绘制矩形、圆形和线条等 Canvas 图形。"
+---
+
+所有 `vue-konva` 组件都对应同名的 Konva 组件，并带有前缀 'v'。Konva 对象支持的所有参数都可以作为 config 添加到对应 `vue-konva` 组件的 prop 中。
+
+核心图形包括：`v-rect`、`v-circle`、`v-ellipse`、`v-line`、`v-image`、`v-text`、`v-text-path`、`v-star`、`v-label`、`v-path`、`v-regular-polygon`。你还可以创建[自定义图形](/docs/vue/Custom_Shape.html)。
+
+如需详细了解 Konva，请阅读 [Konva 概览](/docs/overview.html)。
+
+操作说明：此示例展示具有不同样式和配置的多种图形。
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="{
+        text: 'Some text on canvas',
+        fontSize: 15
+      }"/>
+      <v-rect :config="{
+        x: 20,
+        y: 50,
+        width: 100,
+        height: 100,
+        fill: 'red',
+        shadowBlur: 10
+      }"/>
+      <v-circle :config="{
+        x: 200,
+        y: 100,
+        radius: 50,
+        fill: 'green'
+      }"/>
+      <v-line :config="{
+        x: 20,
+        y: 200,
+        points: [0, 0, 100, 0, 100, 100],
+        tension: 0.5,
+        closed: true,
+        stroke: 'black',
+        fillLinearGradientStartPoint: { x: -50, y: -50 },
+        fillLinearGradientEndPoint: { x: 50, y: 50 },
+        fillLinearGradientColorStops: [0, 'red', 1, 'yellow']
+      }"/>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+</script> 
+```

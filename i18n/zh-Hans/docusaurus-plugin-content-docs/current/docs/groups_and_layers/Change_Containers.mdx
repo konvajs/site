@@ -1,0 +1,227 @@
+---
+title: 将图形移动到其他容器
+sidebar_label: 更改容器
+hide_table_of_contents: true
+slug: Change_Containers.html
+description: "学习如何在 Konva 中使用 moveTo() 方法，在组、图层和容器之间移动图形。"
+---
+
+要使用 Konva 将图形从一个容器移动到另一个容器，可以使用 `moveTo()` 方法。此方法需要一个容器作为参数。
+容器可以是另一个舞台、图层或组。你也可以将组移动到其他组或图层中，或将组中的图形直接移动到其他图层中。
+
+**操作说明：拖放这些组，观察红色矩形绑定到黄色组还是蓝色组。使用左侧按钮将矩形从一个组移动到另一个组。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+container: 'container',
+width: width,
+height: height,
+});
+
+const layer = new Konva.Layer();
+
+// yellow group
+const group1 = new Konva.Group({
+x: 50,
+y: 50,
+draggable: true,
+});
+
+const yellow = new Konva.Rect({
+width: 100,
+height: 100,
+fill: 'yellow',
+stroke: 'black',
+strokeWidth: 4,
+});
+group1.add(yellow);
+
+// blue group
+const group2 = new Konva.Group({
+x: 200,
+y: 50,
+draggable: true,
+});
+
+const blue = new Konva.Rect({
+width: 100,
+height: 100,
+fill: 'blue',
+stroke: 'black',
+strokeWidth: 4,
+});
+group2.add(blue);
+
+// red box
+const redBox = new Konva.Rect({
+x: 10,
+y: 10,
+width: 30,
+height: 30,
+fill: 'red',
+});
+group1.add(redBox);
+
+layer.add(group1);
+layer.add(group2);
+stage.add(layer);
+
+// create buttons
+const moveToGroup1Btn = document.createElement('button');
+moveToGroup1Btn.textContent = 'Move to yellow group';
+moveToGroup1Btn.addEventListener('click', () => {
+redBox.moveTo(group1);
+});
+
+const moveToGroup2Btn = document.createElement('button');
+moveToGroup2Btn.textContent = 'Move to blue group';
+moveToGroup2Btn.addEventListener('click', () => {
+redBox.moveTo(group2);
+});
+
+document.body.appendChild(moveToGroup1Btn);
+document.body.appendChild(moveToGroup2Btn);
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect, Group } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [redBoxGroup, setRedBoxGroup] = useState('yellow');
+
+  return (
+    <>
+      <button onClick={() => setRedBoxGroup('yellow')}>
+        Move to yellow group
+      </button>
+      <button onClick={() => setRedBoxGroup('blue')}>
+        Move to blue group
+      </button>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Group x={50} y={50} draggable>
+            <Rect
+              width={100}
+              height={100}
+              fill="yellow"
+              stroke="black"
+              strokeWidth={4}
+            />
+            {redBoxGroup === 'yellow' && (
+              <Rect x={10} y={10} width={30} height={30} fill="red" />
+            )}
+          </Group>
+          <Group x={200} y={50} draggable>
+            <Rect
+              width={100}
+              height={100}
+              fill="blue"
+              stroke="black"
+              strokeWidth={4}
+            />
+            {redBoxGroup === 'blue' && (
+              <Rect x={10} y={10} width={30} height={30} fill="red" />
+            )}
+          </Group>
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="moveToYellow">Move to yellow group</button>
+    <button @click="moveToBlue">Move to blue group</button>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-group :config="yellowGroupConfig">
+          <v-rect :config="yellowBoxConfig" />
+          <v-rect v-if="redBoxGroup === 'yellow'" :config="redBoxConfig" />
+        </v-group>
+        <v-group :config="blueGroupConfig">
+          <v-rect :config="blueBoxConfig" />
+          <v-rect v-if="redBoxGroup === 'blue'" :config="redBoxConfig" />
+        </v-group>
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const redBoxGroup = ref('yellow');
+
+const yellowGroupConfig = {
+  x: 50,
+  y: 50,
+  draggable: true
+};
+
+const blueGroupConfig = {
+  x: 200,
+  y: 50,
+  draggable: true
+};
+
+const yellowBoxConfig = {
+  width: 100,
+  height: 100,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const blueBoxConfig = {
+  width: 100,
+  height: 100,
+  fill: 'blue',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const redBoxConfig = {
+  x: 10,
+  y: 10,
+  width: 30,
+  height: 30,
+  fill: 'red'
+};
+
+const moveToYellow = () => {
+  redBoxGroup.value = 'yellow';
+};
+
+const moveToBlue = () => {
+  redBoxGroup.value = 'blue';
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>

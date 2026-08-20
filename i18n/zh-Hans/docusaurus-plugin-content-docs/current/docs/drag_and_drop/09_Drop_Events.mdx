@@ -1,0 +1,377 @@
+---
+title: HTML5 Canvas 放置事件
+sidebar_label: 放置事件
+hide_table_of_contents: true
+slug: Drop_Events.html
+description: "学习如何使用 Konva.js 实现 HTML5 Canvas 放置事件。检测拖动的图形何时被放置到目标区域。"
+---
+
+Konva 不支持放置事件，但你可以自行编写放置事件检测逻辑。
+如需检测作为放置目标的图形，必须把正在拖动的对象移到另一个图层。
+
+此示例展示 `drop`、`dragenter`、`dragleave` 和 `dragover` 事件的实现。
+
+**操作说明：** 将一个图形拖到另一个图形上方。也可以将一个图形拖放到另一个图形中。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+const tempLayer = new Konva.Layer();
+stage.add(layer);
+stage.add(tempLayer);
+
+const text = new Konva.Text({
+  fill: 'black',
+});
+layer.add(text);
+
+let previousShape;
+
+// create multiple stars
+for (let i = 0; i < 10; i++) {
+  const star = new Konva.Star({
+    x: stage.width() * Math.random(),
+    y: stage.height() * Math.random(),
+    fill: 'blue',
+    numPoints: 10,
+    innerRadius: 20,
+    outerRadius: 25,
+    draggable: true,
+    name: 'star ' + i,
+    shadowOffsetX: 5,
+    shadowOffsetY: 5,
+  });
+
+  star.on('dragstart', () => {
+    star.moveTo(tempLayer);
+    text.text('Moving ' + star.name());
+    layer.draw();
+  });
+
+  star.on('dragmove', (e) => {
+    const pos = stage.getPointerPosition();
+    const shape = layer.getIntersection(pos);
+
+    if (previousShape && shape) {
+      if (previousShape !== shape) {
+        // leave from old target
+        previousShape.fire('dragleave', { evt: e.evt }, true);
+        // enter new target
+        shape.fire('dragenter', { evt: e.evt }, true);
+        previousShape = shape;
+      } else {
+        previousShape.fire('dragover', { evt: e.evt }, true);
+      }
+    } else if (!previousShape && shape) {
+      previousShape = shape;
+      shape.fire('dragenter', { evt: e.evt }, true);
+    } else if (previousShape && !shape) {
+      previousShape.fire('dragleave', { evt: e.evt }, true);
+      previousShape = undefined;
+    }
+    layer.draw();
+  });
+
+  star.on('dragend', (e) => {
+    const pos = stage.getPointerPosition();
+    const shape = layer.getIntersection(pos);
+    if (shape) {
+      previousShape.fire('drop', { evt: e.evt }, true);
+    }
+    previousShape = undefined;
+    star.moveTo(layer);
+    layer.draw();
+  });
+
+  star.on('dragenter', () => {
+    star.fill('green');
+    text.text('dragenter ' + star.name());
+    layer.draw();
+  });
+
+  star.on('dragleave', () => {
+    star.fill('blue');
+    text.text('dragleave ' + star.name());
+    layer.draw();
+  });
+
+  star.on('dragover', () => {
+    text.text('dragover ' + star.name());
+    layer.draw();
+  });
+
+  star.on('drop', () => {
+    star.fill('red');
+    text.text('drop ' + star.name());
+    layer.draw();
+  });
+
+  layer.add(star);
+}
+
+layer.draw();
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Text, Star } from 'react-konva';
+import { useState, useRef } from 'react';
+
+const App = () => {
+  const [stars] = useState(() =>
+    Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      x: window.innerWidth * Math.random(),
+      y: window.innerHeight * Math.random(),
+      fill: 'blue',
+      name: `star ${i}`,
+    }))
+  );
+  const [message, setMessage] = useState('');
+  const previousShapeRef = useRef(null);
+  const mainLayerRef = useRef(null);
+  const tempLayerRef = useRef(null);
+
+  const handleDragStart = (e) => {
+    const shape = e.target;
+    shape.moveTo(tempLayerRef.current);
+    setMessage('Moving ' + shape.name());
+  };
+
+  const handleDragMove = (e) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    const shape = mainLayerRef.current.getIntersection(pos);
+
+    if (previousShapeRef.current && shape) {
+      if (previousShapeRef.current !== shape) {
+        // leave from old target
+        previousShapeRef.current.fire('dragleave', { evt: e.evt }, true);
+        // enter new target
+        shape.fire('dragenter', { evt: e.evt }, true);
+        previousShapeRef.current = shape;
+      } else {
+        previousShapeRef.current.fire('dragover', { evt: e.evt }, true);
+      }
+    } else if (!previousShapeRef.current && shape) {
+      previousShapeRef.current = shape;
+      shape.fire('dragenter', { evt: e.evt }, true);
+    } else if (previousShapeRef.current && !shape) {
+      previousShapeRef.current.fire('dragleave', { evt: e.evt }, true);
+      previousShapeRef.current = undefined;
+    }
+  };
+
+  const handleDragEnd = (e) => {
+    const shape = e.target;
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    const dropShape = mainLayerRef.current.getIntersection(pos);
+    
+    if (dropShape) {
+      previousShapeRef.current.fire('drop', { evt: e.evt }, true);
+    }
+    
+    shape.moveTo(mainLayerRef.current);
+    previousShapeRef.current = undefined;
+  };
+
+  const handleDragEnter = (e) => {
+    e.target.fill('green');
+    setMessage('dragenter ' + e.target.name());
+  };
+
+  const handleDragLeave = (e) => {
+    e.target.fill('blue');
+    setMessage('dragleave ' + e.target.name());
+  };
+
+  const handleDragOver = (e) => {
+    setMessage('dragover ' + e.target.name());
+  };
+
+  const handleDrop = (e) => {
+    e.target.fill('red');
+    setMessage('drop ' + e.target.name());
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer ref={mainLayerRef}>
+        <Text text={message} fill="black" />
+        {stars.map((star) => (
+          <Star
+            key={star.id}
+            id={star.id}
+            name={star.name}
+            x={star.x}
+            y={star.y}
+            numPoints={10}
+            innerRadius={20}
+            outerRadius={25}
+            fill={star.fill}
+            shadowOffsetX={5}
+            shadowOffsetY={5}
+            draggable
+            onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
+            onDragEnd={handleDragEnd}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          />
+        ))}
+      </Layer>
+      <Layer ref={tempLayerRef} />
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="mainLayer">
+      <v-text :config="textConfig" />
+      <v-star
+        v-for="star in stars"
+        :key="star.id"
+        :config="getStarConfig(star)"
+        @dragstart="handleDragStart"
+        @dragmove="handleDragMove"
+        @dragend="handleDragEnd"
+        @dragenter="handleDragEnter"
+        @dragleave="handleDragLeave"
+        @dragover="handleDragOver"
+        @drop="handleDrop"
+      />
+    </v-layer>
+    <v-layer ref="tempLayer" />
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const message = ref('');
+const mainLayer = ref(null);
+const tempLayer = ref(null);
+const previousShape = ref(null);
+
+const stars = ref(Array.from({ length: 10 }, (_, i) => ({
+  id: i,
+  x: window.innerWidth * Math.random(),
+  y: window.innerHeight * Math.random(),
+  fill: 'blue',
+  name: `star ${i}`
+})));
+
+const textConfig = computed(() => ({
+  text: message.value,
+  fill: 'black'
+}));
+
+const getStarConfig = (star) => ({
+  id: star.id,
+  name: star.name,
+  x: star.x,
+  y: star.y,
+  numPoints: 10,
+  innerRadius: 20,
+  outerRadius: 25,
+  fill: star.fill,
+  shadowOffsetX: 5,
+  shadowOffsetY: 5,
+  draggable: true
+});
+
+const handleDragStart = (e) => {
+  const shape = e.target;
+  shape.moveTo(tempLayer.value.getNode());
+  message.value = 'Moving ' + shape.attrs.name;
+};
+
+const handleDragMove = (e) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  const shape = mainLayer.value.getNode().getIntersection(pos);
+
+  if (previousShape.value && shape) {
+    if (previousShape.value !== shape) {
+      // leave from old target
+      previousShape.value.fire('dragleave', { evt: e.evt }, true);
+      // enter new target
+      shape.fire('dragenter', { evt: e.evt }, true);
+      previousShape.value = shape;
+    } else {
+      previousShape.value.fire('dragover', { evt: e.evt }, true);
+    }
+  } else if (!previousShape.value && shape) {
+    previousShape.value = shape;
+    shape.fire('dragenter', { evt: e.evt }, true);
+  } else if (previousShape.value && !shape) {
+    previousShape.value.fire('dragleave', { evt: e.evt }, true);
+    previousShape.value = null;
+  }
+};
+
+const handleDragEnd = (e) => {
+  const shape = e.target;
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  const dropShape = mainLayer.value.getNode().getIntersection(pos);
+  
+  if (dropShape) {
+    previousShape.value.fire('drop', { evt: e.evt }, true);
+  }
+  
+  shape.moveTo(mainLayer.value.getNode());
+  previousShape.value = null;
+};
+
+const handleDragEnter = (e) => {
+  const shape = e.target;
+  shape.fill('green');
+  message.value = 'dragenter ' + shape.attrs.name;
+};
+
+const handleDragLeave = (e) => {
+  const shape = e.target;
+  shape.fill('blue');
+  message.value = 'dragleave ' + shape.attrs.name;
+};
+
+const handleDragOver = (e) => {
+  message.value = 'dragover ' + e.target.attrs.name;
+};
+
+const handleDrop = (e) => {
+  const shape = e.target;
+  shape.fill('red');
+  message.value = 'drop ' + shape.attrs.name;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,27 @@
+---
+title: 如何使用 JavaScript Canvas 构建交互式座位图
+sidebar_label: 座位预订
+hide_table_of_contents: true
+slug: Seats_Reservation.html
+description: "使用 JavaScript、HTML5 Canvas 和 Konva.js 构建交互式座位预订组件。座位图示例支持单击选择。"
+---
+
+交互式座位图用于活动售票、剧院预订和场馆管理。Konva.js 很适合构建此类座位图，因为它能直接处理数百个可单击图形，并支持命中检测、悬停状态和缩放/平移。
+
+此示例展示使用 React 和 react-konva 构建的可运行座位预订组件。有关开发过程，请阅读[完整案例研究](https://lavrton.com/case-study-seat-reservation-widget/)。
+
+该组件使用 `React`、`Konva` 和 `react-konva` 库构建。
+
+此类组件不要求使用 `React`。此处使用它的原因是承载该组件的主应用也使用 `React` 构建。
+
+<iframe 
+  src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/seats-reservation?hidenavigation=1&view=split&fontsize=10" 
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: "4px",
+    overflow: "hidden"
+  }}
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+/>

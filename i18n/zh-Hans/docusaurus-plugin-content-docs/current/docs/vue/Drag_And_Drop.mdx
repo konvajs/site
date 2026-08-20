@@ -1,0 +1,58 @@
+---
+title: 如何使用 Vue 实现 Canvas 图形拖放？
+sidebar_label: 拖放
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
+description: "学习如何在 Vue 中使用 vue-konva、draggable 属性和拖动事件，为 Canvas 图形添加拖放功能。"
+---
+
+如需为 Canvas 上的任意节点启用拖放，只需将 `draggable: true` 属性传给组件。
+
+拖放图形时，建议将图形的位置保存在应用 store 中。可以使用 `dragstart` 和 `dragend` 事件完成此操作。
+
+操作说明：尝试拖动文本。观察文本在拖动时如何改变颜色。
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-text
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+        :config="{
+          text: 'Draggable Text',
+          x: 50,
+          y: 50,
+          draggable: true,
+          fill: isDragging ? 'green' : 'black'
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+export default {
+  data() {
+    return {
+      stageSize: {
+        width: width,
+        height: height
+      },
+      isDragging: false
+    };
+  },
+  methods: {
+    handleDragStart() {
+      this.isDragging = true;
+    },
+    handleDragEnd() {
+      this.isDragging = false;
+    }
+  }
+};
+</script>
+```

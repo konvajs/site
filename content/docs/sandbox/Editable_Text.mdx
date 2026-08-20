@@ -499,3 +499,25 @@ const handleTransform = (e) => {
 ```
   </TabItem>
 </Tabs>
+
+## What a textarea overlay does not cover
+
+The method above works well when the visitor edits one field at a time. It stops
+being sufficient as soon as the text has to behave like a document:
+
+- **Reflow.** The overlay does not re-wrap while the box is resized, so the
+  editing view and the drawn view disagree during a transform.
+- **Font metrics.** A web font that loads after the first paint changes the line
+  height, so cached measurements and the caret position go stale.
+- **Per-character styling.** `Konva.Text` applies one style to the whole node.
+  Mixed bold, colour, or size inside one paragraph needs several nodes and your
+  own layout pass.
+- **History.** Each keystroke has to be folded into the same undo stack as the
+  canvas operations, or undo will jump between two separate timelines.
+- **Export fidelity.** The exported image is drawn by the canvas, not by the
+  textarea, so any difference between the two shows up in the output.
+
+At that point you are writing a text engine rather than an editor feature. If
+you would rather not,
+[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=editable-text)
+is a commercial design editor SDK built with Konva that already solves this.

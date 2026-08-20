@@ -1,0 +1,78 @@
+---
+title: 如何在 react-konva 中使用 Portal？
+sidebar_label: Canvas Portal
+hide_table_of_contents: true
+slug: Canvas_Portal.html
+description: "学习如何在 react-konva 中使用 Canvas Portal，在图层之间移动节点，以实现拖动覆盖层和 z 轴排序。"
+---
+
+
+## react-konva 如何控制 zIndex？
+
+`react-konva` 严格遵循你在渲染时定义的元素顺序。有关更多信息，请参阅 [zIndex 示例](/docs/react/zIndex.html)。
+
+## 能否使用 `react-konva` 将节点移动到另一个容器？
+
+目前，`react-konva` 不支持 `React.createPortal` API。
+
+但可以使用 `<Portal />` 组件，它来自 [react-konva-utils 包](https://github.com/konvajs/react-konva-utils)。
+
+如果要将节点临时移动到另一个容器，这种 Portal 很有用。常见用例如下：
+
+1. 将正在拖动的图形移动到另一个图层，以提高性能
+2. 将元素显示在其他元素上方，同时仍将它保留在组件树的深层
+
+**操作说明：尝试拖动矩形。你会看到它显示在最上层，但在渲染结果中仍是第一个元素。**
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
+import { Portal } from 'react-konva-utils';
+
+const App = () => {
+  const [isDragging, setDragging] = React.useState(false);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          text="Try to drag the rectangle. It should be on top while drag."
+          fontSize={15}
+        />
+        <Portal selector=".top-layer" enabled={isDragging}>
+          <Rect
+            x={20}
+            y={50}
+            width={150}
+            height={150}
+            fill="red"
+            draggable={true}
+            onDragStart={() => {
+              setDragging(true);
+            }}
+            onDragEnd={() => {
+              setDragging(false);
+            }}
+          />
+        </Portal>
+        <Circle x={200} y={100} radius={50} fill="green" />
+        <Line
+          x={20}
+          y={200}
+          points={[0, 0, 100, 0, 100, 100]}
+          tension={0.5}
+          closed
+          stroke="black"
+          fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+          fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+          fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+          draggable
+        />
+      </Layer>
+      <Layer name="top-layer" />
+    </Stage>
+  );
+};
+
+export default App;
+``` 

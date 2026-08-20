@@ -1,6 +1,21 @@
-import React from 'react';
+import Link from '@docusaurus/Link';
+import Translate, { translate } from '@docusaurus/Translate';
+import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
-import styles from './sandbox/index.module.css';
+import React from 'react';
+import styles from './sandbox.module.css';
+
+/**
+ * This gallery is hand-curated, so its labels live here rather than in the docs
+ * front matter. They are translated through explicit ids.
+ *
+ * The ids are built at runtime, so `docusaurus write-translations` cannot
+ * extract them. Their entries in i18n/<locale>/code.json are maintained by hand,
+ * and are generated from the `sidebar_label` of each translated demo page.
+ */
+function demoLabelId(path: string): string {
+  return `demos.item.${path.split('/').pop()!.replace(/\.html$/, '')}`;
+}
 
 const demoSidebar = {
   'CAD Systems': {
@@ -45,6 +60,10 @@ const demoSidebar = {
     'Infinite Canvas': {
       image: 'infinite-canvas.jpg',
       path: 'sandbox/Infinite_Canvas.html',
+    },
+    'Multiplayer Whiteboard': {
+      image: 'multiplayer-whiteboard.svg',
+      path: 'sandbox/Multiplayer_Whiteboard.html',
     },
     'Heatmap Generator': {
       image: 'heatmap-generator.jpg',
@@ -287,34 +306,54 @@ const DemoGrid = ({
 }: {
   section: string;
   items: Record<string, { image: string; path: string }>;
-}) => (
-  <div>
-    <h2>{section}</h2>
+}) => {
+  // Assets must go through withBaseUrl. A hardcoded "/assets/..." ignores the
+  // site baseUrl, which is "/<locale>/" for every non-default locale.
+  const { withBaseUrl } = useBaseUrlUtils();
+
+  return (
     <div>
-      {Object.entries(items).map(([title, { image, path }]) => (
-        <div key={title} className={`${styles.gridItem} ${styles.small}`}>
-          <a href={`/docs/${path}`}>
-            <div
-              className={styles.preview}
-              style={{ backgroundImage: `url(/assets/demos/${image})` }}
-            ></div>
-            <div className={styles.description}>
-              <h4>{title}</h4>
-            </div>
-          </a>
-        </div>
-      ))}
+      <h2>{translate({ id: `demos.section.${section}`, message: section })}</h2>
+      <div>
+        {Object.entries(items).map(([title, { image, path }]) => (
+          <div key={title} className={`${styles.gridItem} ${styles.small}`}>
+            {/* Link, not <a>: a raw anchor drops the active locale. */}
+            <Link to={`/docs/${path}`}>
+              <div
+                className={styles.preview}
+                style={{
+                  backgroundImage: `url(${withBaseUrl(`/assets/demos/${image}`)})`,
+                }}
+              ></div>
+              <div className={styles.description}>
+                <h4>{translate({ id: demoLabelId(path), message: title })}</h4>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function Demos() {
   return (
-    <Layout title="Demos" description="Interactive demos and examples built with Konva.js — signature pads, image editors, games, drag-and-drop, animations, and more. Try them live in your browser.">
+    <Layout
+      title={translate({ id: 'demos.title', message: 'Demos' })}
+      description={translate({
+        id: 'demos.description',
+        message:
+          'Interactive demos and examples built with Konva.js — signature pads, image editors, games, drag-and-drop, animations, and more. Try them live in your browser.',
+      })}
+    >
       <div className="container" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
-        <h1 style={{ marginBottom: '0.5rem' }}>Konva Demos</h1>
+        <h1 style={{ marginBottom: '0.5rem' }}>
+          <Translate id="demos.heading">Konva Demos</Translate>
+        </h1>
         <p style={{ color: '#666', fontSize: '1.1rem', marginBottom: '2rem' }}>
-          Interactive examples showing what you can build with Konva.js and HTML5 Canvas.
+          <Translate id="demos.intro">
+            Interactive examples showing what you can build with Konva.js and HTML5 Canvas.
+          </Translate>
         </p>
         {Object.entries(demoSidebar).map(([section, items]) => (
           <DemoGrid key={section} section={section} items={items} />

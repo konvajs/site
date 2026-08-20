@@ -1,0 +1,268 @@
+---
+title: HTML5 Canvas 优化动画性能技巧
+sidebar_label: 优化动画
+hide_table_of_contents: true
+slug: Optimize_Animation.html
+description: "通过图形缓存、Konva.Animation 和减少动画节点数量，提高 Konva 动画性能。"
+---
+
+使用 Konva 创建动画时，需要优化动画以提高性能。
+以下是一些主要技巧：
+
+1. 使用 `Konva.Animation`，而不是直接使用 `requestAnimationFrame`
+2. 仅对需要变化的属性应用动画
+3. 考虑为复杂图形使用缓存
+4. 尽量减少应用动画的节点数量
+
+以下示例展示了经过优化的动画技巧：
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create a complex star shape
+const star = new Konva.Star({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  numPoints: 6,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+// Cache the shape for better performance
+star.cache();
+layer.add(star);
+
+// Create simple circle that doesn't need caching
+const circle = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 20,
+  fill: 'red',
+});
+layer.add(circle);
+
+// Create optimized animation
+const anim = new Konva.Animation((frame) => {
+  // Rotate star (cached shape)
+  star.rotation(frame.time * 0.1);
+  
+  // Move circle in a circle pattern
+  circle.x(100 + Math.cos(frame.time * 0.002) * 50);
+  circle.y(100 + Math.sin(frame.time * 0.002) * 50);
+}, layer);
+
+// Add start/stop button
+const button = document.createElement('button');
+button.textContent = 'Toggle Animation';
+button.style.position = 'absolute';
+button.style.top = '10px';
+button.style.left = '10px';
+document.body.appendChild(button);
+
+let isPlaying = true;
+button.addEventListener('click', () => {
+  if (isPlaying) {
+    anim.stop();
+    button.textContent = 'Start Animation';
+  } else {
+    anim.start();
+    button.textContent = 'Stop Animation';
+  }
+  isPlaying = !isPlaying;
+});
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Star, Circle } from 'react-konva';
+import { useState, useEffect, useRef } from 'react';
+
+const App = () => {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const starRef = useRef(null);
+  const circleRef = useRef(null);
+  const animRef = useRef(null);
+
+  useEffect(() => {
+    // Cache the star shape for better performance
+    if (starRef.current) {
+      starRef.current.cache();
+    }
+
+    // Create animation
+    const anim = new Konva.Animation((frame) => {
+      // Rotate star (cached shape)
+      starRef.current.rotation(frame.time * 0.1);
+      
+      // Move circle in a circle pattern
+      circleRef.current.x(100 + Math.cos(frame.time * 0.002) * 50);
+      circleRef.current.y(100 + Math.sin(frame.time * 0.002) * 50);
+    }, starRef.current.getLayer());
+
+    animRef.current = anim;
+    anim.start();
+
+    return () => anim.stop();
+  }, []);
+
+  const toggleAnimation = () => {
+    if (isPlaying) {
+      animRef.current.stop();
+    } else {
+      animRef.current.start();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  return (
+    <div>
+      <button
+        onClick={toggleAnimation}
+        style={{ position: 'absolute', top: '10px', left: '10px' }}
+      >
+        {isPlaying ? 'Stop Animation' : 'Start Animation'}
+      </button>
+      
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Star
+            ref={starRef}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            numPoints={6}
+            innerRadius={40}
+            outerRadius={70}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+          />
+          <Circle
+            ref={circleRef}
+            x={100}
+            y={100}
+            radius={20}
+            fill="red"
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button
+      @click="toggleAnimation"
+      style="position: absolute; top: 10px; left: 10px"
+    >
+      {{ isPlaying ? 'Stop Animation' : 'Start Animation' }}
+    </button>
+    
+    <v-stage :config="stageSize">
+      <v-layer ref="layerRef">
+        <v-star
+          ref="starRef"
+          :config="starConfig"
+        />
+        <v-circle
+          ref="circleRef"
+          :config="circleConfig"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const starConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  numPoints: 6,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const circleConfig = ref({
+  x: 100,
+  y: 100,
+  radius: 20,
+  fill: 'red'
+});
+
+const layerRef = ref(null);
+const starRef = ref(null);
+const circleRef = ref(null);
+const isPlaying = ref(true);
+let anim = null;
+
+onMounted(() => {
+  // Cache the star shape for better performance
+  starRef.value.getNode().cache();
+
+  // Create animation
+  anim = new Konva.Animation((frame) => {
+    // Rotate star (cached shape)
+    starRef.value.getNode().rotation(frame.time * 0.1);
+    
+    // Move circle in a circle pattern
+    const circle = circleRef.value.getNode();
+    circle.x(100 + Math.cos(frame.time * 0.002) * 50);
+    circle.y(100 + Math.sin(frame.time * 0.002) * 50);
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+
+const toggleAnimation = () => {
+  if (isPlaying.value) {
+    anim.stop();
+  } else {
+    anim.start();
+  }
+  isPlaying.value = !isPlaying.value;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

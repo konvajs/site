@@ -1,0 +1,79 @@
+---
+title: 使用 Konva 提高 HTML5 Canvas 性能
+sidebar_label: Canvas 性能
+sidebar_position: 6
+slug: canvas-performance.html
+description: "通过减少重绘、分离 Konva 图层、禁用命中检测和针对实测瓶颈进行优化，提高 HTML5 Canvas 性能。"
+---
+
+Canvas 性能取决于场景复杂度、重绘频率、像素数量和命中检测。请优化实测瓶颈，不要只关注节点数量。
+
+请在有代表性的设备上使用浏览器性能工具。记录真实场景的帧时间、内存使用量和交互延迟。
+
+## 效果显著的 Konva 改进
+
+- 将静态内容和变化内容放在不同的图层上。
+- 对不接收事件的节点或图层设置 `listening(false)`。
+- 如果场景很大，请隐藏可见区域外的节点。
+- 如果测量结果显示缓存有绘制优势，请缓存复杂且稳定的节点。
+- 如果阴影、滤镜和大型透明区域占用大量帧时间，请减少使用这些效果。
+- 仅在数据变化后绘制。Konva 会自动批量执行图层绘制。
+
+不要缓存每个节点。每个缓存都会占用内存，并在内容变化时产生额外工作。
+
+## 分离交互图层
+
+此示例在一个图层上放置 2,000 个非交互圆形。因为 `listening` 为 false，所以这个图层不绘制命中 Canvas。
+
+第二个图层包含一个可拖动图形。
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: 420,
+});
+
+const backgroundLayer = new Konva.Layer({ listening: false });
+const interactionLayer = new Konva.Layer();
+stage.add(backgroundLayer, interactionLayer);
+
+for (let index = 0; index < 2000; index += 1) {
+  backgroundLayer.add(
+    new Konva.Circle({
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      radius: 2 + Math.random() * 4,
+      fill: Konva.Util.getRandomColor(),
+      opacity: 0.55,
+      perfectDrawEnabled: false,
+    })
+  );
+}
+
+const handle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 36,
+  fill: '#ff922b',
+  stroke: '#7c2d12',
+  strokeWidth: 3,
+  draggable: true,
+});
+
+const label = new Konva.Text({
+  x: 16,
+  y: 16,
+  text: 'The orange circle stays interactive',
+  fontSize: 18,
+  fill: '#111827',
+});
+
+interactionLayer.add(handle, label);
+```
+
+分离图层会产生开销，因为每个图层都会创建场景 Canvas 和命中 Canvas。请使用少量图层，并为每个图层定义明确的更新模式。
+
+请阅读[所有 Konva 性能提示](/docs/performance/All_Performance_Tips.html)，了解动画、缓存、像素比和特定图形的指导。

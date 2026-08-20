@@ -1,0 +1,116 @@
+---
+title: Canvas Undo and Redo with React and Konva
+sidebar_label: Canvas Undo and Redo
+sidebar_position: 8
+slug: canvas-undo-redo.html
+description: "Add undo and redo to a canvas editor with immutable application state, a history index, React, and Konva."
+---
+
+Canvas pixels do not contain the application history. Store history in the data
+model that produces the canvas scene.
+
+For small editors, store an immutable snapshot after each complete user action.
+Keep a current history index. Remove future snapshots after a new edit that
+follows an undo.
+
+Do not store Konva node instances in history. Store plain application data such
+as positions, colors, text, and stable identifiers.
+
+## Snapshot history in React
+
+Drag the rectangle. Each completed drag adds one snapshot. The Undo and Redo
+buttons change the current history index.
+
+```jsx live react
+import { useRef, useState } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+const initialRectangle = {
+  id: 'rectangle-1',
+  x: 80,
+  y: 100,
+  width: 170,
+  height: 110,
+  fill: '#4dabf7',
+};
+
+const App = () => {
+  const history = useRef([initialRectangle]);
+  const historyIndex = useRef(0);
+  const [rectangle, setRectangle] = useState(initialRectangle);
+
+  const commit = (nextRectangle) => {
+    const previousSnapshots = history.current.slice(0, historyIndex.current + 1);
+    history.current = [...previousSnapshots, nextRectangle];
+    historyIndex.current = history.current.length - 1;
+    setRectangle(nextRectangle);
+  };
+
+  const undo = () => {
+    if (historyIndex.current === 0) {
+      return;
+    }
+
+    historyIndex.current -= 1;
+    setRectangle(history.current[historyIndex.current]);
+  };
+
+  const redo = () => {
+    if (historyIndex.current === history.current.length - 1) {
+      return;
+    }
+
+    historyIndex.current += 1;
+    setRectangle(history.current[historyIndex.current]);
+  };
+
+  return (
+    <>
+      <button onClick={undo} disabled={historyIndex.current === 0}>
+        Undo
+      </button>
+      <button
+        onClick={redo}
+        disabled={historyIndex.current === history.current.length - 1}
+      >
+        Redo
+      </button>
+      <Stage width={window.innerWidth} height={380}>
+        <Layer>
+          <Text x={20} y={20} text="Drag the rectangle" fontSize={18} />
+          <Rect
+            {...rectangle}
+            stroke="#1e3a5f"
+            strokeWidth={3}
+            cornerRadius={10}
+            draggable
+            onDragEnd={(event) => {
+              commit({
+                ...rectangle,
+                x: event.target.x(),
+                y: event.target.y(),
+              });
+            }}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+Commit one history entry for one user action. Do not add an entry for each
+pointer move. This rule keeps undo behavior predictable and limits memory use.
+
+Large documents can make full snapshots expensive. In that case, store commands
+or patches with enough data to apply and reverse each change. This model is more
+complex, so use it only after measurement shows a snapshot limit.
+
+Define a history limit for a long editor session. Remove the oldest snapshots
+after the limit is reached. Keep saved document versions separate from the local
+undo history.
+
+See the focused [React undo and redo example](/docs/react/Undo-Redo.html) for a
+smaller implementation.

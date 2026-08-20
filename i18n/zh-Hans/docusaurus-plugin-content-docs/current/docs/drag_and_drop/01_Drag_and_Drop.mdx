@@ -1,0 +1,135 @@
+---
+title: HTML5 Canvas 拖放教程
+sidebar_label: 基本拖放
+hide_table_of_contents: true
+slug: Drag_and_Drop.html
+description: "学习使用 Konva.js 为 HTML5 Canvas 图形添加拖放功能。通过一个属性使任意图形可以拖动，并处理拖动事件。"
+---
+
+如需使用 Konva 拖放图形，请在创建图形时将 `draggable` 属性设置为 true。你也可以使用 `draggable()` 方法。
+
+`draggable()` 方法会自动为桌面应用和移动应用启用拖放功能。
+
+如需检测 Konva 拖放事件，请使用 `on()` 方法将 `dragstart`、`dragmove` 或 `dragend` 事件绑定到节点。
+
+`on()` 方法需要事件类型和回调函数。事件发生时，Konva 会运行该函数。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+});
+
+// add cursor styling
+circle.on('mouseover', function () {
+  document.body.style.cursor = 'pointer';
+});
+circle.on('mouseout', function () {
+  document.body.style.cursor = 'default';
+});
+
+layer.add(circle);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [position, setPosition] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Circle
+          x={position.x}
+          y={position.y}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          draggable
+          onMouseEnter={(e) => {
+            document.body.style.cursor = 'pointer';
+          }}
+          onMouseLeave={(e) => {
+            document.body.style.cursor = 'default';
+          }}
+          onDragEnd={(e) => {
+            setPosition({
+              x: e.target.x(),
+              y: e.target.y()
+            });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle
+        :config="circleConfig"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+};
+
+const handleMouseEnter = () => {
+  document.body.style.cursor = 'pointer';
+};
+
+const handleMouseLeave = () => {
+  document.body.style.cursor = 'default';
+};
+</script>
+```
+  </TabItem>
+</Tabs>

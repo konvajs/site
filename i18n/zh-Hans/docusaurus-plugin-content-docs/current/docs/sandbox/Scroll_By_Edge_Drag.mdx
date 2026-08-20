@@ -1,0 +1,309 @@
+---
+title: 如何通过边缘拖动自动滚动舞台？
+sidebar_label: 通过边缘拖动滚动
+hide_table_of_contents: true
+slug: Scroll_By_Edge_Drag.html
+description: "将图形拖到视口边缘附近时自动滚动 Konva 舞台，以实现无限平移。"
+---
+
+## 如何通过边缘拖动自动滚动舞台？
+
+在 Konva.js 应用中实现自动滚动功能，可以改善用户体验。此功能特别适合需要拖动项目或浏览大型 Canvas 的交互式 UI。当用户把项目拖到视口底部或右侧边缘时，滚动区域会自动移动，从而使交互更加流畅直观。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+    ```js live vanilla
+    import Konva from 'konva';
+
+    const stage = new Konva.Stage({
+      container: 'container',
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+
+    const layer = new Konva.Layer();
+    stage.add(layer);
+
+    const NUMBER = 100;
+
+    function generateNode() {
+      return new Konva.Circle({
+        x: stage.width() * (Math.random() * 2 - 1),
+        y: stage.height() * (Math.random() * 2 - 1),
+        radius: 40,
+        fill: 'red',
+        stroke: 'black',
+        draggable: true,
+      });
+    }
+
+    for (let i = 0; i < NUMBER; i++) {
+      layer.add(generateNode());
+    }
+
+    let scrollInterval = null;
+
+    stage.on('dragstart', (e) => {
+      const duration = 1000 / 60;
+      scrollInterval = setInterval(() => {
+        const pos = stage.getPointerPosition();
+        const offset = 100;
+        
+        const isNearLeft = pos.x < offset;
+        if (isNearLeft) {
+          stage.x(stage.x() + 2);
+          e.target.x(e.target.x() - 2);
+        }
+        
+        const isNearRight = pos.x > stage.width() - offset;
+        if (isNearRight) {
+          stage.x(stage.x() - 2);
+          e.target.x(e.target.x() + 2);
+        }
+        
+        const isNearTop = pos.y < offset;
+        if (isNearTop) {
+          stage.y(stage.y() + 2);
+          e.target.y(e.target.y() - 2);
+        }
+        
+        const isNearBottom = pos.y > stage.height() - offset;
+        if (isNearBottom) {
+          stage.y(stage.y() - 2);
+          e.target.y(e.target.y() + 2);
+        }
+      }, duration);
+    });
+
+    stage.on('dragend', () => {
+      clearInterval(scrollInterval);
+    });
+    ```
+  </TabItem>
+  <TabItem value="React">
+    ```jsx live react
+    import React from 'react';
+    import { Stage, Layer, Circle } from 'react-konva';
+
+    const NUMBER = 100;
+
+    const generateNodes = (width, height) => {
+      return Array.from({ length: NUMBER }, () => ({
+        x: width * (Math.random() * 2 - 1),
+        y: height * (Math.random() * 2 - 1),
+      }));
+    };
+
+    const App = () => {
+      const [stagePos, setStagePos] = React.useState({ x: 0, y: 0 });
+      const [nodes, setNodes] = React.useState([]);
+      const scrollInterval = React.useRef(null);
+      const stageRef = React.useRef(null);
+      const draggedNodeRef = React.useRef(null);
+
+      React.useEffect(() => {
+        setNodes(generateNodes(window.innerWidth, window.innerHeight));
+      }, []);
+
+      const handleDragStart = React.useCallback((e) => {
+        draggedNodeRef.current = e.target;
+        const duration = 1000 / 60;
+        scrollInterval.current = setInterval(() => {
+          const stage = stageRef.current;
+          if (!stage) return;
+
+          const pos = stage.getPointerPosition();
+          if (!pos) return;
+
+          const offset = 100;
+          let newX = stagePos.x;
+          let newY = stagePos.y;
+          let moved = false;
+
+          if (pos.x < offset) {
+            newX += 2;
+            draggedNodeRef.current.x(draggedNodeRef.current.x() - 2);
+            moved = true;
+          } else if (pos.x > stage.width() - offset) {
+            newX -= 2;
+            draggedNodeRef.current.x(draggedNodeRef.current.x() + 2);
+            moved = true;
+          }
+
+          if (pos.y < offset) {
+            newY += 2;
+            draggedNodeRef.current.y(draggedNodeRef.current.y() - 2);
+            moved = true;
+          } else if (pos.y > stage.height() - offset) {
+            newY -= 2;
+            draggedNodeRef.current.y(draggedNodeRef.current.y() + 2);
+            moved = true;
+          }
+
+          if (moved) {
+            setStagePos({ x: stage.x() + newX, y: stage.y() + newY });
+          }
+        }, duration);
+      }, [stagePos]);
+
+      const handleDragEnd = React.useCallback(() => {
+        draggedNodeRef.current = null;
+        if (scrollInterval.current) {
+          clearInterval(scrollInterval.current);
+          scrollInterval.current = null;
+        }
+      }, []);
+
+      React.useEffect(() => {
+        return () => {
+          if (scrollInterval.current) {
+            clearInterval(scrollInterval.current);
+          }
+        };
+      }, []);
+
+      return (
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight}
+          x={stagePos.x}
+          y={stagePos.y}
+          ref={stageRef}
+        >
+          <Layer>
+            {nodes.map((node, i) => (
+              <Circle
+                key={i}
+                x={node.x}
+                y={node.y}
+                radius={40}
+                fill="red"
+                stroke="black"
+                draggable
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+              />
+            ))}
+          </Layer>
+        </Stage>
+      );
+    };
+
+    export default App;
+    ```
+  </TabItem>
+  <TabItem value="Vue">
+    ```vue live vue
+    <template>
+      <v-stage
+        :config="stageConfig"
+        ref="stageRef"
+      >
+        <v-layer>
+          <v-circle
+            v-for="(node, i) in nodes"
+            :key="i"
+            :config="{
+              x: node.x,
+              y: node.y,
+              radius: 40,
+              fill: 'red',
+              stroke: 'black',
+              draggable: true,
+              onDragStart: handleDragStart,
+              onDragEnd: handleDragEnd,
+            }"
+          />
+        </v-layer>
+      </v-stage>
+    </template>
+
+    <script setup>
+    import { ref, computed, onMounted, onUnmounted } from 'vue';
+
+    const NUMBER = 100;
+    const stageRef = ref(null);
+    const stagePos = ref({ x: 0, y: 0 });
+    const nodes = ref([]);
+    let scrollInterval = null;
+    let draggedNode = null;
+
+    const stageConfig = computed(() => ({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      x: stagePos.value.x,
+      y: stagePos.value.y,
+    }));
+
+    function generateNodes() {
+      return Array.from({ length: NUMBER }, () => ({
+        x: window.innerWidth * (Math.random() * 2 - 1),
+        y: window.innerHeight * (Math.random() * 2 - 1),
+      }));
+    }
+
+    const handleDragStart = (e) => {
+      draggedNode = e.target;
+      const duration = 1000 / 60;
+      scrollInterval = setInterval(() => {
+        const stage = stageRef.value.getNode();
+        const pos = stage.getPointerPosition();
+        if (!pos) return;
+
+        const offset = 100;
+        let newX = stagePos.value.x;
+        let newY = stagePos.value.y;
+        let moved = false;
+
+        if (pos.x < offset) {
+          newX += 2;
+          draggedNode.x(draggedNode.x() - 2);
+          moved = true;
+        } else if (pos.x > stage.width() - offset) {
+          newX -= 2;
+          draggedNode.x(draggedNode.x() + 2);
+          moved = true;
+        }
+
+        if (pos.y < offset) {
+          newY += 2;
+          draggedNode.y(draggedNode.y() - 2);
+          moved = true;
+        } else if (pos.y > stage.height() - offset) {
+          newY -= 2;
+          draggedNode.y(draggedNode.y() + 2);
+          moved = true;
+        }
+
+        if (moved) {
+          stagePos.value = { x: newX, y: newY };
+        }
+      }, duration);
+    };
+
+    const handleDragEnd = () => {
+      draggedNode = null;
+      if (scrollInterval) {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
+      }
+    };
+
+    onMounted(() => {
+      nodes.value = generateNodes();
+    });
+
+    onUnmounted(() => {
+      if (scrollInterval) {
+        clearInterval(scrollInterval);
+      }
+    });
+    </script>
+    ```
+  </TabItem>
+</Tabs>
+
+**操作说明：** 开始拖动任意图形。将图形拖到舞台边缘附近时，舞台会自动向该方向滚动，从而实现流畅的无限滚动体验。

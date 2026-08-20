@@ -4,7 +4,7 @@ title: Getting Started with Konva — HTML5 Canvas 2D Framework
 sidebar_label: Intro
 hide_table_of_contents: true
 slug: index.html
-description: "Get started with Konva.js, the most popular 2D HTML5 Canvas JavaScript framework. Learn to draw shapes, handle events, drag-and-drop, and animate — with React, Vue, Svelte, and Angular support."
+description: "Get started with Konva.js, a 2D HTML5 Canvas JavaScript framework. Learn to draw shapes, handle events, drag-and-drop, and animate with framework integrations."
 ---
 
 ## What's Konva?

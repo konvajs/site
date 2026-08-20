@@ -1,0 +1,88 @@
+---
+title: 如何使用 Vue 更改节点的 zIndex？
+sidebar_label: zIndex
+hide_table_of_contents: true
+slug: zIndex.html
+description: "学习如何通过调整数据数组的顺序，在 Vue 中更改 zIndex 并重新排列 Canvas 图形，而不直接使用 zIndex。"
+---
+
+## 如何在 `vue-konva` 中更改 zIndex 并重新排列组件？
+
+直接使用 `Konva` 时，可以通过 `node.zIndex(5)`、`node.moveToTop()` 等多种方法更改节点顺序。有关详细信息，请参阅[图层顺序教程](/docs/groups_and_layers/Layering.html)。
+
+但是，使用 Vue 时，建议遵循 Vue 的声明式方法，而不是使用这些命令式方法。
+
+`vue-konva` 会严格按照 `<template>` 中描述节点的顺序进行渲染。不要手动更改 `zIndex`，而应更新应用数据，确保 `<template>` 中的组件保持正确顺序。
+
+此示例展示如何：
+1. 创建具有随机位置和颜色的圆形数组
+2. 处理拖动事件，以更新图形的视觉顺序
+3. 通过调整数组顺序来保持正确的堆叠顺序
+4. 使用 Vue 响应式系统管理 state
+
+请记住：不要对 Canvas 组件使用 `zIndex` 属性。应依靠模板和数据结构中的元素顺序。
+
+操作说明：尝试拖动圆形。开始拖动时，圆形会自动移动到堆叠顶部。这通过调整数据中的圆形数组实现，而不是手动更改 zIndex。
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-circle
+        v-for="item in items"
+        :key="item.id"
+        :config="item"
+        @dragstart="handleDragstart"
+        @dragend="handleDragend"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const items = ref([]);
+const dragItemId = ref(null);
+
+const generateItems = () => {
+  const newItems = [];
+  for (let i = 0; i < 10; i++) {
+    newItems.push({
+      x: Math.random() * stageSize.width,
+      y: Math.random() * stageSize.height,
+      radius: 50,
+      id: "node-" + i,
+      fill: Konva.Util.getRandomColor(),
+      draggable: true
+    });
+  }
+  return newItems;
+};
+
+const handleDragstart = (e) => {
+  // save drag element:
+  dragItemId.value = e.target.id();
+  // move current element to the top by rearranging the items array:
+  const item = items.value.find(i => i.id === dragItemId.value);
+  const index = items.value.indexOf(item);
+  items.value.splice(index, 1);
+  items.value.push(item);
+};
+
+const handleDragend = () => {
+  dragItemId.value = null;
+};
+
+onMounted(() => {
+  items.value = generateItems();
+});
+</script>
+```
+

@@ -1,0 +1,105 @@
+---
+title: How to Make a Responsive Canvas with Konva
+sidebar_label: Responsive Canvas
+sidebar_position: 4
+slug: responsive-canvas.html
+description: "Make a responsive HTML5 canvas with Konva, ResizeObserver, and a fixed virtual scene size that preserves its aspect ratio."
+---
+
+A canvas has a display size and a drawing size. A CSS resize changes only the
+display size. This change can stretch the rendered pixels.
+
+For a responsive Konva scene, define a fixed virtual size. Then scale the stage
+from the available container width.
+
+The scale formula is:
+
+```text
+scale = containerWidth / virtualWidth
+```
+
+The displayed height is `virtualHeight * scale`. All node coordinates stay in
+the virtual coordinate system.
+
+## Responsive React example
+
+This example uses `ResizeObserver`. The observer responds when the container
+changes size, not only when the browser window changes size.
+
+```jsx live react
+import { useEffect, useRef, useState } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const VIRTUAL_WIDTH = 900;
+const VIRTUAL_HEIGHT = 420;
+
+const App = () => {
+  const containerRef = useRef(null);
+  const [containerWidth, setContainerWidth] = useState(VIRTUAL_WIDTH);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const observer = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  const scale = containerWidth / VIRTUAL_WIDTH;
+
+  return (
+    <div ref={containerRef} style={{ width: '100%' }}>
+      <Stage
+        width={containerWidth}
+        height={VIRTUAL_HEIGHT * scale}
+        scaleX={scale}
+        scaleY={scale}
+      >
+        <Layer>
+          <Rect
+            width={VIRTUAL_WIDTH}
+            height={VIRTUAL_HEIGHT}
+            fill="#e7f5ff"
+          />
+          <Text
+            x={40}
+            y={35}
+            text="900 × 420 virtual scene"
+            fontSize={28}
+            fill="#1864ab"
+          />
+          <Circle
+            x={VIRTUAL_WIDTH / 2}
+            y={VIRTUAL_HEIGHT / 2}
+            radius={70}
+            fill="#4dabf7"
+            draggable
+          />
+          <Rect
+            x={VIRTUAL_WIDTH - 190}
+            y={VIRTUAL_HEIGHT - 130}
+            width={150}
+            height={90}
+            fill="#74c0fc"
+            cornerRadius={10}
+            draggable
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+
+Do not store scaled coordinates in application state. Store virtual coordinates.
+Konva applies the stage scale during rendering and pointer conversion.
+
+For high pixel density, Konva uses the device pixel ratio by default. Do not
+multiply the stage size by `devicePixelRatio` unless the application manages
+the backing store itself.
+
+For more stage-resize details, see the [responsive sandbox demo](/docs/sandbox/Responsive_Canvas.html).

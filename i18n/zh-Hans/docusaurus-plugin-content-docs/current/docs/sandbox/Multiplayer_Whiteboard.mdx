@@ -1,0 +1,291 @@
+---
+title: "多人白板 — 使用 Konva 和 Yjs 构建实时协作画布"
+sidebar_label: 多人白板
+hide_table_of_contents: true
+slug: Multiplayer_Whiteboard.html
+description: "使用 Konva、React 和 Yjs 在 HTML5 Canvas 上构建实时协作白板。了解共享文档 state、无冲突同步，以及生产环境还需要什么。"
+keywords: [协作画布, 多人白板, yjs konva, 实时画布, crdt 白板]
+---
+
+协作画布 — Figma、Miro、Excalidraw — 都区分两件事：所有人共享的文档，以及每个人
+看到的绘图表面。Konva 是后者。它渲染文档并处理指针交互，但它不会为你同步 state。
+
+本示例把共享的那一半放在 [Yjs](https://yjs.dev/) 中，这是一个 CRDT 库，无需中心
+权威即可合并并发编辑。`BroadcastChannel` 在标签页之间传输更新，因此你不需要服务器
+就能试用真正的协作。
+
+**操作说明：** 在两个浏览器标签页中打开本页，然后在其中一个中拖动便笺。另一个标签页
+会跟随。
+
+## 在两个标签页中试用
+
+```jsx live react
+import React, { useEffect, useRef, useState } from 'react';
+import { Stage, Layer, Group, Rect, Text } from 'react-konva';
+import * as Y from 'yjs';
+
+const WIDTH = 760;
+const HEIGHT = 400;
+const REMOTE_ORIGIN = Symbol('broadcast-channel');
+
+function useResponsiveWidth(maxWidth) {
+  const containerRef = React.useRef(null);
+  const [width, setWidth] = React.useState(1);
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateWidth = () =>
+      setWidth(Math.max(1, Math.min(maxWidth, container.clientWidth)));
+    updateWidth();
+
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [maxWidth]);
+
+  return { containerRef, width, scale: width / maxWidth };
+}
+const initialNotes = [
+  { id: 'note-1', x: 80, y: 90, text: 'Define the problem', color: '#fde68a', updatedBy: 'initial-data' },
+  { id: 'note-2', x: 310, y: 190, text: 'Sketch the flow', color: '#bfdbfe', updatedBy: 'initial-data' },
+  { id: 'note-3', x: 540, y: 80, text: 'List the risks', color: '#fecdd3', updatedBy: 'initial-data' },
+];
+
+export default function App() {
+  const {
+    containerRef,
+    width: displayWidth,
+    scale: displayScale,
+  } = useResponsiveWidth(WIDTH);
+  const [notes, setNotes] = useState(initialNotes);
+  const [selectedId, setSelectedId] = useState('note-1');
+  const [channelReady, setChannelReady] = useState(false);
+  const [clientName] = useState(() => `tab-${Math.floor(Math.random() * 900 + 100)}`);
+  const notesMapRef = useRef(null);
+  const docRef = useRef(null);
+
+  useEffect(() => {
+    const doc = new Y.Doc();
+    const notesMap = doc.getMap('notes');
+    const channel = new BroadcastChannel('konva-yjs-whiteboard-v1');
+    docRef.current = doc;
+    notesMapRef.current = notesMap;
+
+    const readNotes = () => {
+      const nextNotes = Array.from(notesMap.values()).sort((a, b) =>
+        a.id.localeCompare(b.id)
+      );
+      setNotes(nextNotes);
+    };
+
+    const publishLocalUpdate = (update, origin) => {
+      if (origin === REMOTE_ORIGIN) return;
+      channel.postMessage({ type: 'update', update });
+    };
+
+    channel.onmessage = (event) => {
+      if (event.data.type === 'sync-request') {
+        channel.postMessage({
+          type: 'update',
+          update: Y.encodeStateAsUpdate(doc),
+        });
+        return;
+      }
+
+      if (event.data.type === 'update') {
+        Y.applyUpdate(doc, new Uint8Array(event.data.update), REMOTE_ORIGIN);
+      }
+    };
+
+    notesMap.observe(readNotes);
+    doc.on('update', publishLocalUpdate);
+
+    readNotes();
+    channel.postMessage({ type: 'sync-request' });
+    const seedTimer = window.setTimeout(() => {
+      if (notesMap.size > 0) return;
+      doc.transact(() => {
+        initialNotes.forEach((note) => notesMap.set(note.id, note));
+      });
+    }, 120);
+    setChannelReady(true);
+
+    return () => {
+      window.clearTimeout(seedTimer);
+      notesMap.unobserve(readNotes);
+      doc.off('update', publishLocalUpdate);
+      channel.close();
+      doc.destroy();
+      notesMapRef.current = null;
+      docRef.current = null;
+    };
+  }, []);
+
+  const updateNote = (id, patch) => {
+    const notesMap = notesMapRef.current;
+    const doc = docRef.current;
+    if (!notesMap || !doc) return;
+    const current = notesMap.get(id);
+    if (!current) return;
+
+    doc.transact(() => {
+      notesMap.set(id, { ...current, ...patch, updatedBy: clientName });
+    });
+  };
+
+  const moveSelected = (dx, dy) => {
+    const selected = notes.find((note) => note.id === selectedId);
+    if (!selected) return;
+    updateNote(selected.id, { x: selected.x + dx, y: selected.y + dy });
+  };
+
+  const selectedNote = notes.find((note) => note.id === selectedId);
+
+  return (
+    <div style={{ fontFamily: 'sans-serif', maxWidth: 820 }}>
+      <p role="status" aria-live="polite">
+        {channelReady ? `Local channel ready as ${clientName}.` : 'Opening local channel.'}
+        {' '}
+        {selectedNote ? `${selectedNote.text} was changed by ${selectedNote.updatedBy}.` : ''}
+      </p>
+
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+        {notes.map((note) => (
+          <button
+            key={note.id}
+            type="button"
+            aria-pressed={selectedId === note.id}
+            onClick={() => setSelectedId(note.id)}
+          >
+            {note.text}
+          </button>
+        ))}
+        <button type="button" aria-label="Move selected note left" onClick={() => moveSelected(-10, 0)}>
+          ←
+        </button>
+        <button type="button" aria-label="Move selected note right" onClick={() => moveSelected(10, 0)}>
+          →
+        </button>
+        <button type="button" aria-label="Move selected note up" onClick={() => moveSelected(0, -10)}>
+          ↑
+        </button>
+        <button type="button" aria-label="Move selected note down" onClick={() => moveSelected(0, 10)}>
+          ↓
+        </button>
+      </div>
+
+      <div ref={containerRef} style={{ width: '100%', maxWidth: WIDTH }}>
+        <Stage
+        width={displayWidth}
+        height={HEIGHT * displayScale}
+        scaleX={displayScale}
+        scaleY={displayScale}
+        style={{ background: '#f8fafc', boxShadow: 'inset 0 0 0 1px #cbd5e1' }}
+        onClick={(event) => {
+          if (event.target === event.target.getStage()) setSelectedId(null);
+        }}
+      >
+        <Layer>
+          {notes.map((note) => {
+            const selected = note.id === selectedId;
+            return (
+              <Group
+                key={note.id}
+                x={note.x}
+                y={note.y}
+                draggable
+                onClick={() => setSelectedId(note.id)}
+                onTap={() => setSelectedId(note.id)}
+                onDragEnd={(event) =>
+                  updateNote(note.id, {
+                    x: event.target.x(),
+                    y: event.target.y(),
+                  })
+                }
+              >
+                <Rect
+                  width={150}
+                  height={100}
+                  fill={note.color}
+                  stroke={selected ? '#2563eb' : '#475569'}
+                  strokeWidth={selected ? 4 : 1}
+                  shadowColor="black"
+                  shadowOpacity={0.12}
+                  shadowBlur={8}
+                />
+                <Text
+                  x={12}
+                  y={14}
+                  width={126}
+                  text={note.text}
+                  fontSize={16}
+                  lineHeight={1.3}
+                  fill="#0f172a"
+                  listening={false}
+                />
+              </Group>
+            );
+          })}
+        </Layer>
+        </Stage>
+      </div>
+    </div>
+  );
+}
+```
+
+## 共享数据设计
+
+Yjs 是共享文档模型。`notes` Y.Map 存储普通记录，React state 存储这些记录的视图。
+
+Konva 节点不进入共享文档。每个客户端都根据相同的共享数据创建自己的节点。
+
+本示例在每次位置变化时替换完整的便笺记录。如果用户可以并发更改不同的属性，请使用嵌套的 Y.Map 值。
+
+将本地视口数据保留在 Yjs 外部。用户可以平移或缩放，而不会移动其他用户的视口。
+
+## 同步和反馈循环
+
+每个本地 Yjs 更新都会发送到 `BroadcastChannel`。收到的每个更新都会带着 `REMOTE_ORIGIN` 标记进入 Yjs。
+
+发布处理程序会忽略该标记。此规则可防止收到的更新在反馈循环中返回频道。
+
+Yjs 更新具有交换性和幂等性。同步请求会将当前文档 state 发送到新打开的标签页。
+
+`BroadcastChannel` 只能在同一源和本地浏览器配置文件中受支持的浏览器上下文之间工作。它不能连接远程用户。
+
+## 坐标和交互
+
+共享便笺位置使用白板坐标。平移或缩放后，每个客户端都必须通过本地 Stage 变换来转换指针位置。
+
+对于简单对象，只发送最终拖动位置。要显示实时拖动预览，请限制更新频率，并将感知数据与文档数据分开发送。
+
+不要将指针移动同步为永久的文档更改。在线状态数据可以在没有文档更新的情况下过期。
+
+## 无障碍功能
+
+HTML 按钮可在不使用指针的情况下选择和移动每个便笺。实时区域会标识客户端和最近一次所选便笺更改的来源。
+
+生产白板需要所有对象的有序 HTML 表示。文本编辑必须使用带标签的原生 HTML 输入框。
+
+远程光标需要为必要信息提供文本替代内容。装饰性光标移动可以对辅助技术隐藏。
+
+## 性能
+
+先将 Yjs 更新应用于数据模型。然后，让 React 只更新值发生变化的节点。
+
+如果应用发送中间位置，请限制拖动更新频率。大型白板还需要视口剔除，并对远处的图形使用简化形式。
+
+在服务器上压缩持久更新日志。使用具有代表性的白板测量文档加载时间和内存使用量。
+
+## 生产限制
+
+本示例没有远程网络提供程序、用户身份、授权、持久化、在线状态或离线状态界面。
+
+对远程用户使用 Yjs WebSocket 或 WebRTC 提供程序。对连接进行身份验证，授权文档访问，并在可信基础设施上持久保存更新。
+
+在数据格式更改前添加 schema 版本。使用跟踪本地来源的 Y.UndoManager 来实现按用户撤销。
+
+测试网络中断、重新连接、重复更新、大型文档和并发编辑。本地双标签页示例无法确保这些情况正常工作。

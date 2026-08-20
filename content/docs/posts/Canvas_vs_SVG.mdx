@@ -1,0 +1,95 @@
+---
+title: Canvas vs SVG for Interactive Graphics
+sidebar_label: Canvas vs SVG
+sidebar_position: 3
+slug: canvas-vs-svg.html
+description: "Compare Canvas and SVG for interactive web graphics, and learn when the Konva canvas object model is a good fit."
+---
+
+Canvas and SVG use different rendering models. This difference affects
+performance, interaction code, accessibility, and export behavior.
+
+SVG keeps each shape as a DOM element. Browser tools and CSS can inspect each
+element. This model works well for diagrams with a small number of shapes.
+
+Canvas draws pixels into one bitmap. The browser does not keep the drawn shapes.
+Canvas often works better for scenes with many shapes or frequent redraws.
+
+| Requirement | Usual choice |
+| --- | --- |
+| Accessible DOM elements for each shape | SVG |
+| CSS selectors and DOM events on each shape | SVG |
+| Thousands of frequently changed shapes | Canvas |
+| Pixel editing or image filters | Canvas |
+| A retained shape model on Canvas | Konva |
+
+These choices are not absolute. Measure the real scene on the devices that your
+users have.
+
+## The raw Canvas tradeoff
+
+The Canvas API does not remember this rectangle after `fillRect()` returns:
+
+```js
+const canvas = document.querySelector('canvas');
+const context = canvas.getContext('2d');
+
+context.fillStyle = '#4dabf7';
+context.fillRect(40, 40, 120, 80);
+```
+
+Your application must store the rectangle data. It must also redraw the scene
+and detect pointer hits.
+
+## Add an object model with Konva
+
+Konva stores nodes in a scene graph. Each node has properties, events, and
+methods. Konva also manages hit detection and redraws.
+
+Drag the rectangle in this example:
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: 360,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rectangle = new Konva.Rect({
+  x: 40,
+  y: 60,
+  width: 160,
+  height: 100,
+  fill: '#4dabf7',
+  stroke: '#1c7ed6',
+  strokeWidth: 3,
+  cornerRadius: 8,
+  draggable: true,
+});
+
+const label = new Konva.Text({
+  x: 40,
+  y: 20,
+  text: 'Drag the rectangle',
+  fontSize: 18,
+  fill: '#212529',
+});
+
+rectangle.on('dragmove', () => {
+  label.text(`Position: ${Math.round(rectangle.x())}, ${Math.round(rectangle.y())}`);
+});
+
+layer.add(label, rectangle);
+```
+
+Konva does not create accessible DOM elements for canvas shapes. Keep essential
+controls and content in HTML. Add keyboard controls and accessible labels to
+those HTML elements.
+
+Use SVG when each graphic element must participate in the DOM. Use Konva when
+the scene needs Canvas performance and an interactive object model.

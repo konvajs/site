@@ -1,0 +1,377 @@
+---
+title: 如何在 HTML5 Canvas 中使用自定义字体？
+sidebar_label: 自定义字体
+hide_table_of_contents: true
+slug: Custom_Font.html
+description: "在 HTML5 Canvas 上使用 Konva、Font Loading API 和宽度测量回退机制加载并渲染自定义 Web 字体。"
+---
+
+## 如何在 HTML5 Canvas 上绘制外部字体？
+
+如需为 `Konva.Text` 使用自定义字体，只需：
+1. 将字体样式添加到页面
+2. **字体加载完成后**，将 `fontFamily` 属性设为所需的字体系列
+
+这里有一点需要注意。为 DOM 元素（例如 `div` 或 `span`）设置字体时，浏览器会在字体加载完成后自动更新这些元素。但是，Canvas 文本并非如此。必须再次绘制 Canvas。
+
+**注意：** 对于不支持原生 Font Loading API 的旧版浏览器，可以使用宽度测量方法。先使用后备字体测量文本宽度，然后定期检查使用自定义字体测得的宽度是否不同（这表示自定义字体已加载）。
+
+### 加载字体
+
+可以使用以下异步函数。该函数结合了原生 Font Loading API、可靠的宽度测量回退机制和计时保护：
+
+```javascript
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        // Small guard delay to avoid rare race when metrics are not ready yet
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {
+      // ignore and fallback to polling
+    }
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000; // do not wait more than 6 seconds
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(
+    `Timeout for loading font "${fontName}". Is it a correct font family?`
+  );
+}
+```
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`Timeout for loading font "${fontName}".`);
+}
+
+// Load the font using a stylesheet link
+const fontLink = document.createElement('link');
+fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+fontLink.rel = 'stylesheet';
+document.head.appendChild(fontLink);
+
+// Build stage immediately with fallback font
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var text = new Konva.Text({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: 'A text with custom font.',
+  width: 250,
+  fontFamily: 'Arial'
+});
+
+layer.add(text);
+
+// Then wait for font to load and apply it
+loadFont('Kavivanar', 'normal', '400').then(() => {
+  text.fontFamily('Kavivanar');
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`Timeout for loading font "${fontName}".`);
+}
+
+const App = () => {
+  const [fontLoaded, setFontLoaded] = useState(false);
+  
+  useEffect(() => {
+    // Load the font using a stylesheet link
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
+    // Wait for font to load using combined approach
+    loadFont('Kavivanar', 'normal', '400').then(() => {
+      setFontLoaded(true);
+    });
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={50}
+          y={50}
+          fontSize={40}
+          text="A text with custom font."
+          width={250}
+          fontFamily={fontLoaded ? 'Kavivanar' : 'Arial'}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const loadedFonts = {};
+
+function measureFont(fontName, fallbackFont, fontStyle = 'normal', fontWeight = '400') {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const sampleText = 'The quick brown fox 0123456789';
+  ctx.font = `${fontStyle} ${fontWeight} 16px '${fontName}', ${fallbackFont}`;
+  return ctx.measureText(sampleText).width;
+}
+
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadFont(fontName, fontStyle = 'normal', fontWeight = '400') {
+  if (loadedFonts[fontName]) return;
+
+  const hasFontsLoadSupport = !!(document.fonts && document.fonts.load);
+  const arialWidth = measureFont('Arial', 'Arial', fontStyle, fontWeight);
+
+  if (hasFontsLoadSupport) {
+    try {
+      await document.fonts.load(`${fontStyle} ${fontWeight} 16px '${fontName}'`);
+      const newWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+      const shouldTrustChanges = arialWidth !== newWidth;
+      if (shouldTrustChanges) {
+        await delay(60);
+        loadedFonts[fontName] = true;
+        return;
+      }
+    } catch (e) {}
+  }
+
+  const timesWidth = measureFont('Times', 'Times', fontStyle, fontWeight);
+  const lastWidth = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+  const waitTime = 60;
+  const timeout = 6000;
+  const attemptsNumber = Math.ceil(timeout / waitTime);
+  for (let i = 0; i < attemptsNumber; i++) {
+    const newWidthArial = measureFont(fontName, 'Arial', fontStyle, fontWeight);
+    const newWidthTimes = measureFont(fontName, 'Times', fontStyle, fontWeight);
+    const somethingChanged =
+      newWidthArial !== lastWidth ||
+      newWidthArial !== arialWidth ||
+      newWidthTimes !== timesWidth;
+    if (somethingChanged) {
+      await delay(60);
+      loadedFonts[fontName] = true;
+      return;
+    }
+    await delay(waitTime);
+  }
+  console.warn(`Timeout for loading font "${fontName}".`);
+}
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = ref({
+  x: 50,
+  y: 50,
+  fontSize: 40,
+  text: 'A text with custom font.',
+  width: 250,
+  fontFamily: 'Arial'
+});
+
+onMounted(() => {
+  // Load the font using a stylesheet link
+  const fontLink = document.createElement('link');
+  fontLink.href = 'https://fonts.googleapis.com/css2?family=Kavivanar&display=swap';
+  fontLink.rel = 'stylesheet';
+  document.head.appendChild(fontLink);
+
+  // Wait for font to load using combined approach
+  loadFont('Kavivanar', 'normal', '400').then(() => {
+    textConfig.value.fontFamily = 'Kavivanar';
+  });
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+

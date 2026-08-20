@@ -1,0 +1,82 @@
+---
+title: Angular Konva 图形教程
+sidebar_label: 图形
+hide_table_of_contents: true
+slug: Shapes.html
+description: "学习如何在 Angular 中使用 ng2-konva 图形组件，在 Canvas 上绘制矩形、圆形、线条和文本。"
+---
+
+所有 `ng2-konva` 图形组件都通过 `ko-` 前缀映射到 Konva 图形，因此可以通过 `config` 对象传递任何常规 Konva 图形配置。
+
+本示例展示几个使用不同样式选项的常见图形，例如阴影、渐变和线条张力。
+
+**操作说明**：本示例渲染文本、矩形、圆形，以及使用渐变填充的闭合线条。
+
+有关更多详细信息，请参阅 [Konva API 参考](/api/Konva.html)和 [Line API 参考](/api/Konva.Line.html)。
+
+## 图形示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { TextConfig } from 'konva/lib/shapes/Text';
+import { RectConfig } from 'konva/lib/shapes/Rect';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+import { LineConfig } from 'konva/lib/shapes/Line';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-text [config]="configText"></ko-text>
+        <ko-rect [config]="configRect"></ko-rect>
+        <ko-circle [config]="configCircle"></ko-circle>
+        <ko-line [config]="configLine"></ko-line>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configText: TextConfig = {
+    text: 'Some text on canvas',
+    fontSize: 15
+  };
+  public configRect: RectConfig = {
+    x: 20,
+    y: 50,
+    width: 100,
+    height: 100,
+    fill: 'red',
+    shadowBlur: 10
+  };
+  public configCircle: CircleConfig = {
+    x: 200,
+    y: 100,
+    radius: 50,
+    fill: 'green'
+  };
+  public configLine: LineConfig = {
+    x: 20,
+    y: 200,
+    points: [0, 0, 100, 0, 100, 100],
+    tension: 0.5,
+    closed: true,
+    stroke: 'black',
+    fillLinearGradientStartPoint: { x: -50, y: -50 },
+    fillLinearGradientEndPoint: { x: 50, y: 50 },
+    fillLinearGradientColorStops: [0, 'red', 1, 'yellow']
+  };
+}
+``` 

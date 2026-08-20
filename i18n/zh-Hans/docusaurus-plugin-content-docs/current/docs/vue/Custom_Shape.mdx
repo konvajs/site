@@ -1,0 +1,58 @@
+---
+title: 如何使用 Vue 绘制自定义 Canvas 图形？
+sidebar_label: 自定义图形
+hide_table_of_contents: true
+slug: Custom_Shape.html
+description: "学习如何在 Vue 中使用 v-shape 组件和 HTML5 Canvas 绘制函数创建自定义 Canvas 图形。"
+---
+
+如需使用 `vue-konva` 创建自定义图形，请使用 `v-shape` 组件。
+
+创建自定义图形时，需要定义一个绘制函数。此函数会收到 Konva.Canvas 渲染器。
+可以通过渲染器访问 HTML5 Canvas 上下文，还可以使用 `context.fillStrokeShape(shape)` 等特殊方法。此方法会自动处理填充、描边和阴影。
+
+操作说明：此示例展示使用 Canvas 绘制命令创建的自定义图形。
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer>
+      <v-shape :config="{
+        width: 260,
+        height: 170,
+        sceneFunc: function(context, shape) {
+          const width = shape.width();
+          const height = shape.height();
+          context.beginPath();
+          context.moveTo(0, 0);
+          context.lineTo(width - 40, height - 90);
+          context.quadraticCurveTo(width - 110, height - 70, width, height);
+          context.closePath();
+
+          // (!) Konva specific method, it is very important
+          context.fillStrokeShape(shape);
+        },
+        fill: '#00D2FF',
+        stroke: 'black',
+        strokeWidth: 4
+      }"/>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+export default {
+  data() {
+    return {
+      stageSize: {
+        width: width,
+        height: height
+      }
+    };
+  }
+};
+</script>
+```

@@ -1,0 +1,63 @@
+---
+title: Angular Konva 拖放教程
+sidebar_label: 拖放
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
+description: "学习如何在 Angular 中使用 ng2-konva 和事件处理程序，为 Canvas 图形实现拖放。"
+---
+
+要使图形可拖动，请在其配置中设置 `draggable: true`，并监听节点上的拖动事件。
+
+开始拖动时，本示例会将被拖动的圆形移到其图层顶部。
+
+**操作说明**：在舞台上拖动圆形。开始拖动时，观察它如何移到顶部。
+
+有关更多详细信息，请参阅 [Node API 参考](/api/Konva.Node.html) 和 [Circle API 参考](/api/Konva.Circle.html)。
+
+## 拖放示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle
+          [config]="configCircle"
+          (dragstart)="handleDragstart($event)"
+        ></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 70,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true,
+  };
+
+  public handleDragstart(event: any): void {
+    event.target.moveToTop();
+  }
+}
+```

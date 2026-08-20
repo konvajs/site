@@ -1,0 +1,366 @@
+---
+title: HTML5 Canvas 线条教程
+sidebar_label: 线条
+hide_table_of_contents: true
+slug: /docs/shapes/Line.html
+description: "学习如何使用 Konva.js 在 HTML5 Canvas 上绘制线条。使用 Konva.Line 图形创建简单线条、样条曲线、多边形和 Blob 图形。"
+---
+
+要使用 `Konva` 创建线条图形，可以实例化一个 `Konva.Line()` 对象。通过不同的线条配置，可以创建简单线条、样条曲线、Blob 图形和多边形等各种图形。
+
+有关完整的属性和方法列表，请参阅 [Line API 参考](/api/Konva.Line.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 简单线条
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const redLine = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round'
+});
+
+// dashed line
+const greenLine = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'green',
+  strokeWidth: 2,
+  lineJoin: 'round',
+  dash: [33, 10]
+});
+
+greenLine.y(50);
+layer.add(redLine, greenLine);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="red"
+          strokeWidth={15}
+          lineCap="round"
+          lineJoin="round"
+        />
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="green"
+          strokeWidth={2}
+          lineJoin="round"
+          dash={[33, 10]}
+          y={50}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="redLineConfig" />
+      <v-line :config="greenLineConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const redLineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round'
+};
+
+const greenLineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'green',
+  strokeWidth: 2,
+  lineJoin: 'round',
+  dash: [33, 10],
+  y: 50
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+## 样条曲线（弯曲线条）
+
+要创建曲线，请添加 `tension` 属性：
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const line = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  tension: 1
+});
+
+layer.add(line);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="red"
+          strokeWidth={15}
+          lineCap="round"
+          lineJoin="round"
+          tension={1}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="lineConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const lineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  tension: 1
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+## 多边形
+
+要创建多边形，请将 `closed` 属性设置为 true：
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const polygon = new Konva.Line({
+  points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 5,
+  closed: true
+});
+
+layer.add(polygon);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93]}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={5}
+          closed
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="polygonConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const polygonConfig = {
+  points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 5,
+  closed: true
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+## Blob 图形
+
+要创建 Blob 图形，请结合使用 `closed` 和 `tension` 属性：
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const blob = new Konva.Line({
+  points: [23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93],
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 5,
+  closed: true,
+  tension: 0.3
+});
+
+layer.add(blob);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93]}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={5}
+          closed
+          tension={0.3}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="blobConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const blobConfig = {
+  points: [23, 20, 23, 160, 70, 93, 150, 109, 290, 139, 270, 93],
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 5,
+  closed: true,
+  tension: 0.3
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

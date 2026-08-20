@@ -1,0 +1,170 @@
+---
+title: 如何访问原生 2D 上下文
+sidebar_label: 访问原生上下文
+hide_table_of_contents: true
+slug: Native_Context_Access.html
+description: "从 Konva 访问原生 HTML5 Canvas 2D 上下文，以进行自定义手动绘制，并将其用作 Konva.Image。"
+---
+
+## 如何从 Konva 访问原生 2D Canvas 上下文
+
+Konva 提供了在 Canvas 上绘制图形的对象模型。应用从舞台（div 包装器）开始，舞台内部包含一个或多个图层（Canvas DOM 元素）。
+
+可以访问 Konva 内部（或 DOM 内部）并直接在 Canvas 上绘制，而不创建任何图形。但不建议这样做。Konva 完全控制绘制过程，因此可能重置手动绘制的内容，或在执行 `stage.toDataURL()` 等导出操作时丢失这些内容。
+
+如果想手动绘制内容，建议使用以下两种方式：
+
+1. [使用自定义图形](/docs/shapes/Custom.html)
+2. 手动创建新的 Canvas 元素，然后将其用于 `Konva.Image`。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// if you want to make something with native 2d canvas
+// we can create it and use it for Konva.Image
+const canvas = document.createElement('canvas');
+canvas.width = 200;
+canvas.height = 150;
+const ctx = canvas.getContext('2d');
+
+const image = new Konva.Image({
+  x: 50,
+  y: 50,
+  image: canvas,
+  draggable: true,
+});
+layer.add(image);
+
+// make manual drawings
+ctx.fillStyle = 'blue';
+ctx.fillRect(5, 5, canvas.width - 10, canvas.height / 2);
+ctx.fillStyle = 'red';
+ctx.beginPath();
+ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+ctx.fill();
+
+// such as canvas is updated we need to redraw the layer
+layer.batchDraw();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useMemo, useState } from 'react';
+
+const App = () => {
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+
+  const canvas = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 200;
+    canvas.height = 150;
+    const ctx = canvas.getContext('2d');
+
+    // make manual drawings
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(5, 5, canvas.width - 10, canvas.height / 2);
+    ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+    ctx.fill();
+
+    return canvas;
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Image
+          x={position.x}
+          y={position.y}
+          image={canvas}
+          draggable
+          onDragEnd={(e) => {
+            setPosition({
+              x: e.target.x(),
+              y: e.target.y(),
+            });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        :config="{
+          x: position.x,
+          y: position.y,
+          image: canvas,
+          draggable: true,
+        }"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const position = ref({ x: 50, y: 50 });
+const canvas = ref(null);
+
+onMounted(() => {
+  const canvasEl = document.createElement('canvas');
+  canvasEl.width = 200;
+  canvasEl.height = 150;
+  const ctx = canvasEl.getContext('2d');
+
+  // make manual drawings
+  ctx.fillStyle = 'blue';
+  ctx.fillRect(5, 5, canvasEl.width - 10, canvasEl.height / 2);
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+  ctx.fill();
+
+  canvas.value = canvasEl;
+});
+
+const handleDragEnd = (e) => {
+  position.value = {
+    x: e.target.x(),
+    y: e.target.y(),
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs>

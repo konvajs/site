@@ -1,0 +1,91 @@
+---
+title: How to Export an HTML5 Canvas as an Image
+sidebar_label: Export Canvas Image
+sidebar_position: 7
+slug: canvas-export-image.html
+description: "Export an HTML5 canvas as PNG or JPEG with Konva, control output resolution, and avoid cross-origin image errors."
+---
+
+The browser can encode a canvas as a data URL or a `Blob`. Konva provides
+`toDataURL()` and `toBlob()` on stages and nodes.
+
+Use `toBlob()` for large exports when the browser supports it. A `Blob` does not
+create the large encoded string that a data URL creates.
+
+## Export a Konva stage from React
+
+This example exports the stage as a PNG. The `pixelRatio` value doubles each
+output dimension.
+
+```jsx live react
+import { useRef } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const downloadImage = () => {
+    const dataUrl = stageRef.current.toDataURL({ pixelRatio: 2 });
+    const link = document.createElement('a');
+    link.download = 'konva-scene.png';
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  return (
+    <>
+      <button onClick={downloadImage}>Download PNG</button>
+      <Stage ref={stageRef} width={Math.min(window.innerWidth, 760)} height={360}>
+        <Layer>
+          <Rect width={760} height={360} fill="#e7f5ff" />
+          <Text
+            x={30}
+            y={28}
+            text="Export this scene"
+            fontSize={30}
+            fill="#1864ab"
+          />
+          <Circle x={180} y={190} radius={70} fill="#4dabf7" />
+          <Rect
+            x={330}
+            y={120}
+            width={220}
+            height={140}
+            fill="#ffd43b"
+            cornerRadius={16}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+The export includes only canvas content. HTML controls above the stage are not
+part of the image.
+
+## Set the file type and area
+
+Pass `mimeType: 'image/jpeg'` for JPEG output. JPEG has no transparency, so add
+a background shape before the other scene content.
+
+Pass `x`, `y`, `width`, and `height` to export part of a stage. Pass
+`pixelRatio` to increase the resolution without changing scene coordinates.
+
+High pixel ratios use more memory. A 2× ratio creates four times as many output
+pixels. Use the smallest ratio that meets the output requirement.
+
+## Prevent a tainted canvas
+
+The browser blocks export after Canvas draws an image without permitted
+cross-origin access. The image server must return a suitable
+`Access-Control-Allow-Origin` header. Load the image with `crossOrigin` set
+before its `src` value.
+
+Read the [tainted canvas guide](/docs/posts/Tainted_Canvas.html) for complete
+image-loading examples. Read [high-quality export](/docs/data_and_serialization/High-Quality-Export.html)
+for more resolution details.

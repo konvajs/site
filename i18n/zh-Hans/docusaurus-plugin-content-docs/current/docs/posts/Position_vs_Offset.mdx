@@ -1,0 +1,183 @@
+---
+title: Konva 中 position 与 offset 的区别
+sidebar_label: Position 与 Offset
+hide_table_of_contents: true
+slug: Position_vs_Offset.html
+description: "了解 Konva 中 position（x、y）与 offset（offsetX、offsetY）的区别，以及它们如何影响图形的原点和旋转。"
+---
+
+Konva 中有几个属性看起来相似，可能引起混淆，但它们的作用和用途不同。
+
+本文介绍 position（x 和 y 坐标）与 offset（offsetX 和 offsetY）之间的区别。
+
+x 和 y 属性定义节点在 Canvas 上的位置。如果设置 `draggable = true` 属性并开始拖动，Konva 会更改节点的 x 和 y 属性。此逻辑适用于所有节点，包括 Konva.Line。
+
+矩形图形的位置定义其左上角点。圆形的位置定义其中心。
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+var layer = new Konva.Layer();
+
+var rect = new Konva.Rect({
+x: 20,
+y: 20,
+width: 100,
+height: 100,
+fill: 'yellow',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+// add the shape to the layer
+layer.add(rect);
+
+var circle = new Konva.Circle({
+x: 150,
+y: 120,
+radius: 50,
+fill: 'red',
+stroke: 'black',
+strokeWidth: 4,
+draggable: true,
+});
+
+// add the shape to the layer
+layer.add(circle);
+
+var text = new Konva.Text();
+layer.add(text);
+
+// add the layer to the stage
+stage.add(layer);
+
+function updateText(e) {
+    text.text('Position: x = ' + e.target.x() + '   y = ' + e.target.y());
+}
+
+rect.on('dragmove', updateText);
+circle.on('dragmove', updateText);
+```
+
+## 为什么需要 `offset` 属性？
+
+更改 offset 属性时，看起来可能像是在更改节点的位置，但实际并非如此。你更改的是图形的原点。
+
+什么是原点？可以将其理解为“开始绘制图形的点”“图形的中心”或“图形旋转时围绕的点”。
+
+补充说明：很久以前，在 Konva 还是 KineticJS 项目时，代码库中的 offset 属性称为“center”。后来，它被重构为“offset”。
+
+查看此示例。这里的所有矩形都有相同的 `y` 位置，但 `offset` 属性不同。
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const centerY = stage.height() / 2;
+
+// rectangle with no offset
+const rect1 = new Konva.Rect({
+  x: 50,
+  y: centerY,
+  width: 100,
+  height: 100,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 2,
+});
+layer.add(rect1);
+
+// rectangle with offset at center
+const rect2 = new Konva.Rect({
+  x: 200,
+  y: centerY,
+  width: 100,
+  height: 100,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 2,
+  offsetX: 50,
+  offsetY: 50,
+  rotation: 45
+});
+layer.add(rect2);
+
+// rectangle with custom offset
+const rect3 = new Konva.Rect({
+  x: 350,
+  y: centerY,
+  width: 100,
+  height: 100,
+  fill: 'blue',
+  stroke: 'black',
+  strokeWidth: 2,
+  offsetX: 100,
+  offsetY: 0,
+  rotation: 45
+});
+layer.add(rect3);
+```
+
+需要注意，Konva 主要使用两种方式定义图形的原点。
+“类似圆形”的图形以实际中心作为原点，例如 Circle、Ellipse、Wedge、Star 和 Ring 等。
+设置圆形的 `{x, y}` 时，定义的是“圆心的位置”。
+
+“类似矩形”的图形以左上角作为原点，例如 Rectangle、Sprite、Text 和 Image 等。
+设置矩形的 `{x, y}` 时，定义的是“矩形左上角点的位置”。
+
+图形会围绕其原点（即其“中心”）旋转。因此，如果将星形的旋转角度设置为 45 度，它会围绕实际中心旋转。
+
+但是，如果将矩形的旋转角度设置为 45 度，它会围绕左上角旋转。在某些情况下，这并不方便。你可能希望图形围绕其中心旋转。
+
+在这种情况下，可以设置 `offset` 属性。该属性会告诉 Konva：“使用此点作为图形的新原点”。
+
+## 如何设置图形的旋转点？
+
+假设在 `x = 0, y = 0` 处放置了一个 100x100 的矩形，现在想让它围绕中心旋转。
+
+如果不使用 offset，就必须重新计算矩形左上角的位置（回想一下学校学过的三角函数）。
+
+可以使用类似以下的代码：
+
+```javascript
+const rotatePoint = ({ x, y }, rad) => {
+  const rcos = Math.cos(rad);
+  const rsin = Math.sin(rad);
+  return { x: x * rcos - y * rsin, y: y * rcos + x * rsin };
+};
+
+// will work for shapes with top-left origin, like rectangle
+function rotateAroundCenter(node, rotation) {
+  //current rotation origin (0, 0) relative to desired origin - center (node.width()/2, node.height()/2)
+  const topLeft = { x: -node.width() / 2, y: -node.height() / 2 };
+  const current = rotatePoint(topLeft, Konva.getAngle(node.rotation()));
+  const rotated = rotatePoint(topLeft, Konva.getAngle(rotation));
+  const dx = rotated.x - current.x,
+    dy = rotated.y - current.y;
+
+  node.rotation(rotation);
+  node.x(node.x() + dx);
+  node.y(node.y() + dy);
+}
+
+// then use it
+rotateAroundCenter(rect, 180);
+```
+
+也可以设置 `offsetX = width / 2` 和 `offsetY = height / 2`。但是，矩形会在 Canvas 上移动，因为其原点发生了变化。因此，还需要调整位置。
+
+仍有疑问？请在评论中提问。

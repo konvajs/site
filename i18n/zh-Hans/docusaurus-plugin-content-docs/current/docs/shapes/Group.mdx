@@ -1,0 +1,118 @@
+---
+title: HTML5 Canvas 组教程
+sidebar_label: 组
+hide_table_of_contents: true
+slug: /docs/shapes/Group.html
+description: "学习如何使用 Konva.js 对 HTML5 Canvas 图形进行分组。使用 Konva.Group 一起移动、旋转和缩放多个图形。"
+---
+
+要使用 `Konva` 创建图形组，可以实例化一个 `Konva.Group()` 对象。
+
+有关完整的属性和方法列表，请参阅 [Group API 参考](/api/Konva.Group.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const group = new Konva.Group({
+  x: 50,
+  y: 50,
+  draggable: true
+});
+
+const circle = new Konva.Circle({
+  x: 0,
+  y: 0,
+  radius: 30,
+  fill: 'red'
+});
+
+const rect = new Konva.Rect({
+  x: 20,
+  y: 20,
+  width: 100,
+  height: 50,
+  fill: 'green'
+});
+
+group.add(circle);
+group.add(rect);
+layer.add(group);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Group, Circle, Rect } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Group x={50} y={50} draggable>
+          <Circle x={0} y={0} radius={30} fill="red" />
+          <Rect x={20} y={20} width={100} height={50} fill="green" />
+        </Group>
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-group :config="groupConfig">
+        <v-circle :config="circleConfig" />
+        <v-rect :config="rectConfig" />
+      </v-group>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const groupConfig = {
+  x: 50,
+  y: 50,
+  draggable: true
+};
+
+const circleConfig = {
+  x: 0,
+  y: 0,
+  radius: 30,
+  fill: 'red'
+};
+
+const rectConfig = {
+  x: 20,
+  y: 20,
+  width: 100,
+  height: 50,
+  fill: 'green'
+};
+</script>
+```
+  </TabItem>
+</Tabs>

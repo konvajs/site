@@ -1,0 +1,448 @@
+---
+title: 多点触控缩放图形教程
+sidebar_label: 多点触控缩放图形
+hide_table_of_contents: true
+slug: Multi-touch_Scale_Shape.html
+description: "在移动设备上使用多点触控捏合缩放手势缩放单个 Konva 图形。"
+---
+
+注意：此实验使用多个触摸事件，因此仅适用于支持多点触控手势的设备，例如 iOS 设备。
+
+**操作说明：** 在支持多点触控手势的移动设备（例如 iOS 设备）上，触摸图形并在屏幕上拖动手指以拖放图形。轻触图形以将其激活，然后在屏幕上进行捏合手势以缩放已激活的图形。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// by default Konva prevent some events when node is dragging
+// it improve the performance and work well for 95% of cases
+// we need to enable all events on Konva, even when we are dragging a node
+// so it triggers touchmove correctly
+Konva.hitOnDragEnabled = true;
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+let lastDist = 0;
+let startScale = 1;
+let activeShape = null;
+
+function getDistance(p1, p2) {
+  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+}
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  draggable: true,
+  x: width / 2,
+  y: height / 2,
+  offset: {
+    x: width / 2,
+    y: height / 2,
+  },
+});
+
+const layer = new Konva.Layer();
+
+const triangle = new Konva.RegularPolygon({
+  x: 190,
+  y: stage.height() / 2,
+  sides: 3,
+  radius: 80,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+  name: 'triangle',
+});
+
+const circle = new Konva.Circle({
+  x: 380,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+  name: 'circle',
+});
+
+stage.on('tap', function (evt) {
+  // set active shape
+  const shape = evt.target;
+  activeShape =
+    activeShape && activeShape.getName() === shape.getName()
+      ? null
+      : shape;
+
+  // sync scene graph
+  triangle.setAttrs({
+    fill:
+      activeShape && activeShape.getName() === triangle.getName()
+        ? '#78E7FF'
+        : 'green',
+    stroke:
+      activeShape && activeShape.getName() === triangle.getName()
+        ? 'blue'
+        : 'black',
+  });
+
+  circle.setAttrs({
+    fill:
+      activeShape && activeShape.getName() === circle.getName()
+        ? '#78E7FF'
+        : 'red',
+    stroke:
+      activeShape && activeShape.getName() === circle.getName()
+        ? 'blue'
+        : 'black',
+  });
+});
+
+stage.getContent().addEventListener(
+  'touchmove',
+  function (evt) {
+    const touch1 = evt.touches[0];
+    const touch2 = evt.touches[1];
+
+    if (touch1 && touch2 && activeShape) {
+      const dist = getDistance(
+        {
+          x: touch1.clientX,
+          y: touch1.clientY,
+        },
+        {
+          x: touch2.clientX,
+          y: touch2.clientY,
+        }
+      );
+
+      if (!lastDist) {
+        lastDist = dist;
+      }
+
+      const scale = (activeShape.scaleX() * dist) / lastDist;
+
+      activeShape.scaleX(scale);
+      activeShape.scaleY(scale);
+      lastDist = dist;
+    }
+  },
+  false
+);
+
+stage.getContent().addEventListener(
+  'touchend',
+  function () {
+    lastDist = 0;
+  },
+  false
+);
+
+layer.add(triangle);
+layer.add(circle);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+// by default Konva prevent some events when node is dragging
+// it improve the performance and work well for 95% of cases
+// we need to enable all events on Konva, even when we are dragging a node
+// so it triggers touchmove correctly
+window.Konva.hitOnDragEnabled = true;
+
+const App = () => {
+  const [activeShape, setActiveShape] = useState(null);
+  const [lastDist, setLastDist] = useState(0);
+  const [shapes, setShapes] = useState({
+    triangle: {
+      scaleX: 1,
+      scaleY: 1,
+      fill: 'green',
+      stroke: 'black'
+    },
+    circle: {
+      scaleX: 1,
+      scaleY: 1,
+      fill: 'red',
+      stroke: 'black'
+    }
+  });
+
+  const getDistance = (p1, p2) => {
+    return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+  };
+
+  const handleTap = (shapeName) => {
+    setActiveShape(activeShape === shapeName ? null : shapeName);
+    
+    setShapes(prev => ({
+      ...prev,
+      triangle: {
+        ...prev.triangle,
+        fill: shapeName === 'triangle' ? '#78E7FF' : 'green',
+        stroke: shapeName === 'triangle' ? 'blue' : 'black'
+      },
+      circle: {
+        ...prev.circle,
+        fill: shapeName === 'circle' ? '#78E7FF' : 'red',
+        stroke: shapeName === 'circle' ? 'blue' : 'black'
+      }
+    }));
+  };
+
+  useEffect(() => {
+    const handleTouchMove = (evt) => {
+      const touch1 = evt.touches[0];
+      const touch2 = evt.touches[1];
+
+      if (touch1 && touch2 && activeShape) {
+        const dist = getDistance(
+          {
+            x: touch1.clientX,
+            y: touch1.clientY,
+          },
+          {
+            x: touch2.clientX,
+            y: touch2.clientY,
+          }
+        );
+
+        if (!lastDist) {
+          setLastDist(dist);
+          return;
+        }
+
+        const scale = (shapes[activeShape].scaleX * dist) / lastDist;
+
+        setShapes(prev => ({
+          ...prev,
+          [activeShape]: {
+            ...prev[activeShape],
+            scaleX: scale,
+            scaleY: scale
+          }
+        }));
+
+        setLastDist(dist);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      setLastDist(0);
+    };
+
+    const content = document.getElementsByClassName('konvajs-content')[0];
+    if (content) {
+      content.addEventListener('touchmove', handleTouchMove, false);
+      content.addEventListener('touchend', handleTouchEnd, false);
+    }
+
+    return () => {
+      if (content) {
+        content.removeEventListener('touchmove', handleTouchMove);
+        content.removeEventListener('touchend', handleTouchEnd);
+      }
+    };
+  }, [activeShape, lastDist, shapes]);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <RegularPolygon
+          x={190}
+          y={window.innerHeight / 2}
+          sides={3}
+          radius={80}
+          fill={shapes.triangle.fill}
+          stroke={shapes.triangle.stroke}
+          strokeWidth={4}
+          draggable
+          name="triangle"
+          scaleX={shapes.triangle.scaleX}
+          scaleY={shapes.triangle.scaleY}
+          onTap={() => handleTap('triangle')}
+        />
+        <Circle
+          x={380}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill={shapes.circle.fill}
+          stroke={shapes.circle.stroke}
+          strokeWidth={4}
+          draggable
+          name="circle"
+          scaleX={shapes.circle.scaleX}
+          scaleY={shapes.circle.scaleY}
+          onTap={() => handleTap('circle')}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-regular-polygon
+        :config="{
+          x: 190,
+          y: stageSize.height / 2,
+          sides: 3,
+          radius: 80,
+          fill: shapes.triangle.fill,
+          stroke: shapes.triangle.stroke,
+          strokeWidth: 4,
+          draggable: true,
+          name: 'triangle',
+          scaleX: shapes.triangle.scaleX,
+          scaleY: shapes.triangle.scaleY
+        }"
+        @tap="handleTap('triangle')"
+      />
+      <v-circle
+        :config="{
+          x: 380,
+          y: stageSize.height / 2,
+          radius: 70,
+          fill: shapes.circle.fill,
+          stroke: shapes.circle.stroke,
+          strokeWidth: 4,
+          draggable: true,
+          name: 'circle',
+          scaleX: shapes.circle.scaleX,
+          scaleY: shapes.circle.scaleY
+        }"
+        @tap="handleTap('circle')"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+// by default Konva prevent some events when node is dragging
+// it improve the performance and work well for 95% of cases
+// we need to enable all events on Konva, even when we are dragging a node
+// so it triggers touchmove correctly
+window.Konva.hitOnDragEnabled = true;
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const activeShape = ref(null);
+const lastDist = ref(0);
+const shapes = ref({
+  triangle: {
+    scaleX: 1,
+    scaleY: 1,
+    fill: 'green',
+    stroke: 'black'
+  },
+  circle: {
+    scaleX: 1,
+    scaleY: 1,
+    fill: 'red',
+    stroke: 'black'
+  }
+});
+
+const getDistance = (p1, p2) => {
+  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+};
+
+const handleTap = (shapeName) => {
+  activeShape.value = activeShape.value === shapeName ? null : shapeName;
+  
+  shapes.value = {
+    ...shapes.value,
+    triangle: {
+      ...shapes.value.triangle,
+      fill: shapeName === 'triangle' ? '#78E7FF' : 'green',
+      stroke: shapeName === 'triangle' ? 'blue' : 'black'
+    },
+    circle: {
+      ...shapes.value.circle,
+      fill: shapeName === 'circle' ? '#78E7FF' : 'red',
+      stroke: shapeName === 'circle' ? 'blue' : 'black'
+    }
+  };
+};
+
+const handleTouchMove = (evt) => {
+  const touch1 = evt.touches[0];
+  const touch2 = evt.touches[1];
+
+  if (touch1 && touch2 && activeShape.value) {
+    const dist = getDistance(
+      {
+        x: touch1.clientX,
+        y: touch1.clientY,
+      },
+      {
+        x: touch2.clientX,
+        y: touch2.clientY,
+      }
+    );
+
+    if (!lastDist.value) {
+      lastDist.value = dist;
+      return;
+    }
+
+    const scale = (shapes.value[activeShape.value].scaleX * dist) / lastDist.value;
+
+    shapes.value = {
+      ...shapes.value,
+      [activeShape.value]: {
+        ...shapes.value[activeShape.value],
+        scaleX: scale,
+        scaleY: scale
+      }
+    };
+
+    lastDist.value = dist;
+  }
+};
+
+const handleTouchEnd = () => {
+  lastDist.value = 0;
+};
+
+onMounted(() => {
+  const content = document.getElementsByClassName('konvajs-content')[0];
+  if (content) {
+    content.addEventListener('touchmove', handleTouchMove, false);
+    content.addEventListener('touchend', handleTouchEnd, false);
+  }
+});
+
+onUnmounted(() => {
+  const content = document.getElementsByClassName('konvajs-content')[0];
+  if (content) {
+    content.removeEventListener('touchmove', handleTouchMove);
+    content.removeEventListener('touchend', handleTouchEnd);
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs>

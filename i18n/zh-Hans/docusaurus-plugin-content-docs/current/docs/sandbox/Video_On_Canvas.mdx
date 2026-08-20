@@ -1,0 +1,306 @@
+---
+title: 如何在 Canvas 上显示视频
+sidebar_label: Canvas 上的视频
+hide_table_of_contents: true
+slug: Video_On_Canvas.html
+description: "使用 Konva 在 HTML5 Canvas 上播放和显示视频，并支持播放/暂停控件和拖动。"
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# 如何在 Canvas 上显示视频
+
+如需在 Canvas 上绘制视频，可以使用 `<video>` DOM 元素，其用法与 `<img>` 元素类似，但必须频繁重绘图层。为此，可以使用 `Konva.Animation`。也可以使用 `requestAnimationFrame`，并调用 `layer.draw()`。
+
+> 如需了解更多信息，另请参阅这篇文章：[案例研究：流媒体视频编辑器](https://lavrton.com/case-study-video-editor-for-stream/)
+
+以下示例展示如何使用播放/暂停控件在 Canvas 上显示视频。你还可以在 Canvas 上拖放视频。
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// create buttons
+const playButton = document.createElement('button');
+playButton.textContent = 'Play';
+playButton.id = 'play';
+document.body.appendChild(playButton);
+
+const pauseButton = document.createElement('button');
+pauseButton.textContent = 'Pause';
+pauseButton.id = 'pause';
+document.body.appendChild(pauseButton);
+
+const width = window.innerWidth;
+const height = 300;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const video = document.createElement('video');
+video.src =
+  'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
+
+const image = new Konva.Image({
+  image: video,
+  draggable: true,
+  x: 50,
+  y: 20,
+});
+layer.add(image);
+
+const text = new Konva.Text({
+  text: 'Loading video...',
+  width: stage.width(),
+  height: stage.height(),
+  align: 'center',
+  verticalAlign: 'middle',
+});
+layer.add(text);
+
+const anim = new Konva.Animation(function () {
+  // do nothing, animation just needs to update the layer
+}, layer);
+
+// update Konva.Image size when meta is loaded
+video.addEventListener('loadedmetadata', function () {
+  text.text('Press PLAY...');
+  image.width(video.videoWidth);
+  image.height(video.videoHeight);
+});
+
+document.getElementById('play').addEventListener('click', function () {
+  text.destroy();
+  video.play();
+  anim.start();
+});
+document.getElementById('pause').addEventListener('click', function () {
+  video.pause();
+  anim.stop();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image, Text } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+
+const App = () => {
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: 400,
+  });
+  const [videoElement] = useState(() => {
+    const element = document.createElement('video');
+    element.src =
+      'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
+    return element;
+  });
+  const [videoSize, setVideoSize] = useState({ width: 0, height: 0 });
+  const [status, setStatus] = useState('Loading video...');
+  const animationRef = useRef(null);
+  const layerRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: 400,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleMetadata = () => {
+      setStatus('Press PLAY...');
+      setVideoSize({
+        width: videoElement.videoWidth,
+        height: videoElement.videoHeight,
+      });
+    };
+
+    videoElement.addEventListener('loadedmetadata', handleMetadata);
+    return () => videoElement.removeEventListener('loadedmetadata', handleMetadata);
+  }, [videoElement]);
+
+  const handlePlay = () => {
+    setStatus('');
+    videoElement.play();
+    if (layerRef.current) {
+      const anim = new Konva.Animation(() => {}, layerRef.current);
+      animationRef.current = anim;
+      anim.start();
+    }
+  };
+
+  const handlePause = () => {
+    videoElement.pause();
+    if (animationRef.current) {
+      animationRef.current.stop();
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handlePlay}>Play</button>
+      <button onClick={handlePause}>Pause</button>
+      <Stage width={dimensions.width} height={dimensions.height}>
+        <Layer ref={layerRef}>
+          <Image
+            image={videoElement}
+            x={50}
+            y={20}
+            width={videoSize.width}
+            height={videoSize.height}
+            draggable
+          />
+          {status && (
+            <Text
+              text={status}
+              width={dimensions.width}
+              height={dimensions.height}
+              align="center"
+              verticalAlign="middle"
+            />
+          )}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handlePlay">Play</button>
+    <button @click="handlePause">Pause</button>
+    <v-stage :config="stageConfig">
+      <v-layer ref="layerRef">
+        <v-image
+          :config="{
+            image: videoElement,
+            x: 50,
+            y: 20,
+            width: videoSize.width,
+            height: videoSize.height,
+            draggable: true,
+          }"
+        />
+        <v-text
+          v-if="status"
+          :config="{
+            text: status,
+            width: stageConfig.width,
+            height: stageConfig.height,
+            align: 'center',
+            verticalAlign: 'middle',
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+export default {
+  setup() {
+    const width = ref(window.innerWidth);
+    const height = ref(400);
+    const layerRef = ref(null);
+    const status = ref('Loading video...');
+    const animation = ref(null);
+    const videoElement = ref(document.createElement('video'));
+    const videoSize = ref({ width: 0, height: 0 });
+
+    videoElement.value.src =
+      'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c4/Physicsworks.ogv/Physicsworks.ogv.240p.vp9.webm';
+
+    const stageConfig = {
+      width: width.value,
+      height: height.value,
+    };
+
+    const handleResize = () => {
+      width.value = window.innerWidth;
+    };
+
+    const handleMetadata = () => {
+      status.value = 'Press PLAY...';
+      videoSize.value = {
+        width: videoElement.value.videoWidth,
+        height: videoElement.value.videoHeight,
+      };
+    };
+
+    const handlePlay = () => {
+      status.value = '';
+      videoElement.value.play();
+      if (layerRef.value) {
+        const anim = new Konva.Animation(() => {}, layerRef.value.getNode());
+        animation.value = anim;
+        anim.start();
+      }
+    };
+
+    const handlePause = () => {
+      videoElement.value.pause();
+      if (animation.value) {
+        animation.value.stop();
+      }
+    };
+
+    onMounted(() => {
+      window.addEventListener('resize', handleResize);
+      videoElement.value.addEventListener('loadedmetadata', handleMetadata);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', handleResize);
+      videoElement.value.removeEventListener('loadedmetadata', handleMetadata);
+      if (animation.value) {
+        animation.value.stop();
+      }
+    });
+
+    return {
+      stageConfig,
+      layerRef,
+      status,
+      videoElement,
+      videoSize,
+      handlePlay,
+      handlePause,
+    };
+  },
+};
+</script>
+```
+  </TabItem>
+</Tabs>
+
+此示例展示如何：
+1. 创建视频元素，并将其用作 Konva.Image 的源
+2. 为视频实现播放/暂停控件
+3. 在视频播放时使用 Konva.Animation 持续更新图层
+4. 使视频可在 Canvas 上拖动
+5. 显示加载和播放状态消息
+6. 处理视频元数据以设置正确尺寸
+
+尝试播放视频并在 Canvas 上拖动它。移动视频时，视频会继续播放。 

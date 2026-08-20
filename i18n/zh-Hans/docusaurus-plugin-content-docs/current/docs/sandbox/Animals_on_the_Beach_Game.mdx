@@ -1,0 +1,547 @@
+---
+title: 海滩动物游戏
+sidebar_label: 海滩动物游戏
+hide_table_of_contents: true
+slug: Animals_on_the_Beach_Game.html
+description: "使用 Konva 构建交互式拖放游戏，将动物图像与海滩上对应的剪影匹配。"
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// create stage
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 578,
+  height: 530,
+});
+
+const background = new Konva.Layer();
+const animalLayer = new Konva.Layer();
+const animalShapes = [];
+let score = 0;
+
+// create and load background image
+const backgroundImage = new Image();
+backgroundImage.onload = function() {
+  const backgroundKonvaImage = new Konva.Image({
+    image: backgroundImage,
+    x: 0,
+    y: 0,
+    width: stage.width(),
+    height: stage.height(),
+  });
+  background.add(backgroundKonvaImage);
+  backgroundKonvaImage.moveToBottom();
+};
+backgroundImage.src = 'https://konvajs.org/assets/beach.png';
+
+// image positions
+const animals = {
+  snake: {
+    x: 10,
+    y: 70,
+  },
+  giraffe: {
+    x: 90,
+    y: 70,
+  },
+  monkey: {
+    x: 275,
+    y: 70,
+  },
+  lion: {
+    x: 400,
+    y: 70,
+  },
+};
+
+const outlines = {
+  snake_black: {
+    x: 275,
+    y: 350,
+  },
+  giraffe_black: {
+    x: 390,
+    y: 250,
+  },
+  monkey_black: {
+    x: 300,
+    y: 420,
+  },
+  lion_black: {
+    x: 100,
+    y: 390,
+  },
+};
+
+function isNearOutline(animal, outline) {
+  const a = animal;
+  const o = outline;
+  const ax = a.x();
+  const ay = a.y();
+
+  if (ax > o.x - 20 && ax < o.x + 20 && ay > o.y - 20 && ay < o.y + 20) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// create message text
+const messageText = new Konva.Text({
+  text: 'Ahoy! Put the animals on the beach!',
+  x: stage.width() / 2,
+  y: 40,
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'white',
+  align: 'center',
+  // for center align we need to set offset
+  offsetX: 200,
+});
+background.add(messageText);
+
+function updateMessage(text) {
+  messageText.text(text);
+}
+
+function loadImages(sources, callback) {
+  const assetDir = 'https://konvajs.org/assets/';
+  const images = {};
+  let loadedImages = 0;
+  let numImages = 0;
+  
+  for (const src in sources) {
+    numImages++;
+  }
+  
+  for (const src in sources) {
+    images[src] = new Image();
+    images[src].onload = function () {
+      if (++loadedImages >= numImages) {
+        callback(images);
+      }
+    };
+    images[src].src = assetDir + sources[src];
+  }
+}
+
+function initStage(images) {
+  // create draggable animals
+  for (const key in animals) {
+    // anonymous function to induce scope
+    (function () {
+      const privKey = key;
+      const anim = animals[key];
+
+      const animal = new Konva.Image({
+        image: images[key],
+        x: anim.x,
+        y: anim.y,
+        draggable: true,
+      });
+
+      animal.on('dragstart', function () {
+        this.moveToTop();
+      });
+      
+      /*
+       * check if animal is in the right spot and
+       * snap into place if it is
+       */
+      animal.on('dragend', function () {
+        const outline = outlines[privKey + '_black'];
+        if (!animal.inRightPlace && isNearOutline(animal, outline)) {
+          animal.position({
+            x: outline.x,
+            y: outline.y,
+          });
+          animal.inRightPlace = true;
+
+          if (++score >= 4) {
+            const text = 'You win! Enjoy your booty!';
+            updateMessage(text);
+          }
+
+          // disable drag and drop
+          setTimeout(function () {
+            animal.draggable(false);
+          }, 50);
+        }
+      });
+      
+      // make animal glow on mouseover
+      animal.on('mouseover', function () {
+        animal.image(images[privKey + '_glow']);
+        document.body.style.cursor = 'pointer';
+      });
+      
+      // return animal on mouseout
+      animal.on('mouseout', function () {
+        animal.image(images[privKey]);
+        document.body.style.cursor = 'default';
+      });
+
+      animal.on('dragmove', function () {
+        document.body.style.cursor = 'pointer';
+      });
+
+      animalLayer.add(animal);
+      animalShapes.push(animal);
+    })();
+  }
+
+  // create animal outlines
+  for (const key in outlines) {
+    // anonymous function to induce scope
+    (function () {
+      const imageObj = images[key];
+      const out = outlines[key];
+
+      const outline = new Konva.Image({
+        image: imageObj,
+        x: out.x,
+        y: out.y,
+      });
+
+      animalLayer.add(outline);
+    })();
+  }
+
+  stage.add(background);
+  stage.add(animalLayer);
+
+  updateMessage(
+    'Ahoy! Put the animals on the beach!'
+  );
+}
+
+const sources = {
+  beach: 'beach.png',
+  snake: 'snake.png',
+  snake_glow: 'snake-glow.png',
+  snake_black: 'snake-black.png',
+  lion: 'lion.png',
+  lion_glow: 'lion-glow.png',
+  lion_black: 'lion-black.png',
+  monkey: 'monkey.png',
+  monkey_glow: 'monkey-glow.png',
+  monkey_black: 'monkey-black.png',
+  giraffe: 'giraffe.png',
+  giraffe_glow: 'giraffe-glow.png',
+  giraffe_black: 'giraffe-black.png',
+};
+
+// Demo warning: You'll need local image files for this demo to work
+loadImages(sources, initStage);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Image, Text } from 'react-konva';
+import useImage from 'use-image';
+
+const Animal = ({ name, startX, startY, outline, onScore }) => {
+  const [pos, setPos] = useState({ x: startX, y: startY });
+  const [isDraggable, setIsDraggable] = useState(true);
+  const [inRightPlace, setInRightPlace] = useState(false);
+  
+  const [image] = useImage(`https://konvajs.org/assets/${name}.png`);
+  const [glowImage] = useImage(`https://konvajs.org/assets/${name}-glow.png`);
+
+  const isNearOutline = (pos, outline) => {
+    const { x, y } = pos;
+    return (
+      x > outline.x - 20 &&
+      x < outline.x + 20 &&
+      y > outline.y - 20 &&
+      y < outline.y + 20
+    );
+  };
+
+  if (!image || !glowImage) return null;
+
+  return (
+    <Image
+      image={image}
+      x={pos.x}
+      y={pos.y}
+      draggable={isDraggable}
+      onDragStart={(e) => e.target.moveToTop()}
+      onDragEnd={(e) => {
+        const newPos = { x: e.target.x(), y: e.target.y() };
+        setPos(newPos);
+        
+        if (!inRightPlace && isNearOutline(newPos, outline)) {
+          setPos({ x: outline.x, y: outline.y });
+          setInRightPlace(true);
+          setIsDraggable(false);
+          onScore();
+        }
+      }}
+      onMouseOver={(e) => {
+        e.target.image(glowImage);
+        const stage = e.target.getStage();
+        stage.container().style.cursor = 'pointer';
+      }}
+      onMouseOut={(e) => {
+        e.target.image(image);
+        const stage = e.target.getStage();
+        stage.container().style.cursor = 'default';
+      }}
+      onDragMove={(e) => {
+        const stage = e.target.getStage();
+        stage.container().style.cursor = 'pointer';
+      }}
+    />
+  );
+};
+
+const AnimalOutline = ({ name, x, y }) => {
+  const [image] = useImage(`https://konvajs.org/assets/${name}-black.png`);
+  return image ? <Image image={image} x={x} y={y} /> : null;
+};
+
+const Background = () => {
+  const [image] = useImage('https://konvajs.org/assets/beach.png');
+  return image ? <Image image={image} width={578} height={530} /> : null;
+};
+
+const App = () => {
+  const [score, setScore] = useState(0);
+  
+  const animals = {
+    snake: { x: 10, y: 70, outline: { x: 275, y: 350 } },
+    giraffe: { x: 90, y: 70, outline: { x: 390, y: 250 } },
+    monkey: { x: 275, y: 70, outline: { x: 300, y: 420 } },
+    lion: { x: 400, y: 70, outline: { x: 100, y: 390 } }
+  };
+
+  return (
+    <Stage width={578} height={530}>
+      <Layer>
+        <Background />
+        <Text
+          text={score >= 4 ? 'You win! Enjoy your booty!' : 'Ahoy! Put the animals on the beach!'}
+          x={578 / 2}
+          y={40}
+          fontSize={20}
+          fontFamily="Calibri"
+          fill="white"
+          align="center"
+          offsetX={200}
+        />
+      </Layer>
+      <Layer>
+        {Object.entries(animals).map(([name, pos]) => (
+          <AnimalOutline
+            key={`${name}_outline`}
+            name={name}
+            x={pos.outline.x}
+            y={pos.outline.y}
+          />
+        ))}
+        {Object.entries(animals).map(([name, pos]) => (
+          <Animal
+            key={name}
+            name={name}
+            startX={pos.x}
+            startY={pos.y}
+            outline={pos.outline}
+            onScore={() => setScore(s => s + 1)}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<script>
+// Animal.vue component
+const Animal = {
+  template: `<v-image
+    :config="imageConfig"
+    @dragstart="handleDragStart"
+    @dragend="handleDragEnd"
+    @mouseover="handleMouseOver"
+    @mouseout="handleMouseOut"
+    @dragmove="handleDragMove"
+  />`,
+  props: ['name', 'startX', 'startY', 'outline'],
+  emits: ['score'],
+  setup(props, { emit }) {
+    const pos = ref({ x: props.startX, y: props.startY });
+    const isDraggable = ref(true);
+    const inRightPlace = ref(false);
+    
+    const [image] = useImage(`https://konvajs.org/assets/${props.name}.png`);
+    const [glowImage] = useImage(`https://konvajs.org/assets/${props.name}-glow.png`);
+    
+    const imageConfig = computed(() => ({
+      image: image.value,
+      x: pos.value.x,
+      y: pos.value.y,
+      draggable: isDraggable.value
+    }));
+
+    const isNearOutline = (pos, outline) => {
+      const { x, y } = pos;
+      return (
+        x > outline.x - 20 &&
+        x < outline.x + 20 &&
+        y > outline.y - 20 &&
+        y < outline.y + 20
+      );
+    };
+
+    const handleDragStart = (e) => e.target.moveToTop();
+    
+    const handleDragEnd = (e) => {
+      const newPos = { x: e.target.x(), y: e.target.y() };
+      pos.value = newPos;
+      
+      if (!inRightPlace.value && isNearOutline(newPos, props.outline)) {
+        pos.value = { x: props.outline.x, y: props.outline.y };
+        inRightPlace.value = true;
+        isDraggable.value = false;
+        emit('score');
+      }
+    };
+
+    const handleMouseOver = (e) => {
+      e.target.image(glowImage.value);
+      const stage = e.target.getStage();
+      stage.container().style.cursor = 'pointer';
+    };
+
+    const handleMouseOut = (e) => {
+      e.target.image(image.value);
+      const stage = e.target.getStage();
+      stage.container().style.cursor = 'default';
+    };
+
+    const handleDragMove = (e) => {
+      const stage = e.target.getStage();
+      stage.container().style.cursor = 'pointer';
+    };
+
+    return {
+      imageConfig,
+      handleDragStart,
+      handleDragEnd,
+      handleMouseOver,
+      handleMouseOut,
+      handleDragMove
+    };
+  }
+};
+
+// AnimalOutline.vue component
+const AnimalOutline = {
+  template: `<v-image v-if="image" :config="imageConfig" />`,
+  props: ['name', 'x', 'y'],
+  setup(props) {
+    const [image] = useImage(`https://konvajs.org/assets/${props.name}-black.png`);
+    
+    const imageConfig = computed(() => ({
+      image: image.value,
+      x: props.x,
+      y: props.y
+    }));
+
+    return { image, imageConfig };
+  }
+};
+
+// Background.vue component
+const Background = {
+  template: `<v-image v-if="image" :config="imageConfig" />`,
+  setup() {
+    const [image] = useImage('https://konvajs.org/assets/beach.png');
+    
+    const imageConfig = computed(() => ({
+      image: image.value,
+      width: 578,
+      height: 530
+    }));
+
+    return { image, imageConfig };
+  }
+};
+</script>
+
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <Background />
+      <v-text
+        :config="{
+          text: score >= 4 ? 'You win! Enjoy your booty!' : 'Ahoy! Put the animals on the beach!',
+          x: 578 / 2,
+          y: 40,
+          fontSize: 20,
+          fontFamily: 'Calibri',
+          fill: 'white',
+          align: 'center',
+          offsetX: 200
+        }"
+      />
+    </v-layer>
+    <v-layer>
+      <AnimalOutline
+        v-for="(pos, name) in animals"
+        :key="`${name}_outline`"
+        :name="name"
+        :x="pos.outline.x"
+        :y="pos.outline.y"
+      />
+      <Animal
+        v-for="(pos, name) in animals"
+        :key="name"
+        :name="name"
+        :start-x="pos.x"
+        :start-y="pos.y"
+        :outline="pos.outline"
+        @score="handleScore"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: 578,
+  height: 530
+};
+
+const score = ref(0);
+
+const animals = {
+  snake: { x: 10, y: 70, outline: { x: 275, y: 350 } },
+  giraffe: { x: 90, y: 70, outline: { x: 390, y: 250 } },
+  monkey: { x: 275, y: 70, outline: { x: 300, y: 420 } },
+  lion: { x: 400, y: 70, outline: { x: 100, y: 390 } }
+};
+
+const handleScore = () => score.value++;
+</script>
+```
+  </TabItem>
+</Tabs>
+
+**操作说明：** 将动物拖放到海滩上对应的剪影中。正确放置所有动物后，你就获胜了！ 

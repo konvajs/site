@@ -1,0 +1,88 @@
+---
+title: 交互式图形中的 Canvas 与 SVG
+sidebar_label: Canvas 与 SVG
+sidebar_position: 3
+slug: canvas-vs-svg.html
+description: "比较交互式网页图形中的 Canvas 和 SVG，并了解 Konva 的 Canvas 对象模型适合哪些场景。"
+---
+
+Canvas 和 SVG 使用不同的绘制模型。这种差异会影响性能、交互代码、无障碍支持和导出行为。
+
+SVG 将每个图形保留为 DOM 元素。浏览器工具和 CSS 可以检查每个元素。这种模型适合图形数量较少的图表。
+
+Canvas 将像素绘制到一张位图中。浏览器不会保留已绘制的图形。对于包含大量图形或频繁重绘的场景，Canvas 通常更合适。
+
+| 要求 | 通常选择 |
+| --- | --- |
+| 每个图形都需要无障碍 DOM 元素 | SVG |
+| 每个图形都需要 CSS 选择器和 DOM 事件 | SVG |
+| 数千个频繁变化的图形 | Canvas |
+| 像素编辑或图像滤镜 | Canvas |
+| 在 Canvas 上使用保留式图形模型 | Konva |
+
+这些选择并不是绝对的。请在用户实际使用的设备上测量真实场景。
+
+## 原生 Canvas 的取舍
+
+`fillRect()` 返回后，Canvas API 不会记住这个矩形：
+
+```js
+const canvas = document.querySelector('canvas');
+const context = canvas.getContext('2d');
+
+context.fillStyle = '#4dabf7';
+context.fillRect(40, 40, 120, 80);
+```
+
+应用程序必须存储矩形数据。它还必须重绘场景并检测指针命中。
+
+## 使用 Konva 添加对象模型
+
+Konva 在场景图中存储节点。每个节点都有属性、事件和方法。Konva 也负责命中检测和重绘。
+
+在此示例中拖动矩形：
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: 360,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rectangle = new Konva.Rect({
+  x: 40,
+  y: 60,
+  width: 160,
+  height: 100,
+  fill: '#4dabf7',
+  stroke: '#1c7ed6',
+  strokeWidth: 3,
+  cornerRadius: 8,
+  draggable: true,
+});
+
+const label = new Konva.Text({
+  x: 40,
+  y: 20,
+  text: 'Drag the rectangle',
+  fontSize: 18,
+  fill: '#212529',
+});
+
+rectangle.on('dragmove', () => {
+  label.text(`Position: ${Math.round(rectangle.x())}, ${Math.round(rectangle.y())}`);
+});
+
+layer.add(label, rectangle);
+```
+
+Konva 不会为 Canvas 图形创建无障碍 DOM 元素。请将必要的控件和内容保留在 HTML 中。
+
+请为这些 HTML 元素添加键盘控件和无障碍标签。
+
+如果每个图形元素都必须参与 DOM，请使用 SVG。如果场景需要 Canvas 性能和交互式对象模型，请使用 Konva。

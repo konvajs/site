@@ -1,0 +1,353 @@
+---
+title: "Canvas 贴纸——使用 JavaScript 为图像添加可拖放贴纸"
+sidebar_label: Canvas 贴纸
+hide_table_of_contents: true
+slug: Canvas_Sticker.html
+description: "使用 JavaScript 为 HTML5 Canvas 上的图像添加贴纸。使用 Konva.js 在照片上拖放、调整大小和旋转装饰图形。包含可导出的交互式贴纸示例。"
+---
+
+在图像上放置星形、心形、徽章和箭头等贴纸。单击以添加，拖动以移动，使用控制柄调整大小和旋转。将结果导出为 PNG。
+
+**操作说明：** 单击贴纸按钮以添加贴纸。单击贴纸以选择它并对其进行变换。单击图像以取消选择。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var container = document.getElementById('container');
+
+var controls = document.createElement('div');
+controls.style.cssText = 'display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:center;';
+
+var stickerTypes = [
+  { name: 'Star', emoji: '⭐' },
+  { name: 'Heart', emoji: '❤️' },
+  { name: 'Badge', emoji: '🔴' },
+  { name: 'Arrow', emoji: '➡️' },
+];
+
+stickerTypes.forEach(function(s) {
+  var btn = document.createElement('button');
+  btn.textContent = s.emoji + ' ' + s.name;
+  btn.style.cssText = 'padding:6px 12px;cursor:pointer;border:1px solid #ddd;border-radius:4px;background:#f8f9fa;font-size:13px;';
+  btn.onclick = function() { addSticker(s.name); };
+  controls.appendChild(btn);
+});
+
+var exportBtn = document.createElement('button');
+exportBtn.textContent = 'Export PNG';
+exportBtn.style.cssText = 'padding:6px 12px;cursor:pointer;border:none;border-radius:4px;background:#333;color:white;font-size:13px;font-weight:600;';
+exportBtn.onclick = function() {
+  transformer.nodes([]);
+  layer.draw();
+  var link = document.createElement('a');
+  link.href = stage.toDataURL({ pixelRatio: 2 });
+  link.download = 'sticker-canvas.png';
+  link.click();
+};
+controls.appendChild(exportBtn);
+container.parentNode.insertBefore(controls, container);
+
+var imageObj = new Image();
+imageObj.onload = function() {
+  layer.add(new Konva.Image({ image: imageObj, width: width, height: height }));
+  layer.add(transformer);
+  layer.draw();
+};
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+
+var transformer = new Konva.Transformer();
+
+function addSticker(type) {
+  var shape;
+  var x = 100 + Math.random() * (width - 200);
+  var y = 80 + Math.random() * (height - 160);
+  if (type === 'Star') {
+    shape = new Konva.Star({ x: x, y: y, numPoints: 5, innerRadius: 15, outerRadius: 35, fill: '#FFD700', stroke: '#FFA500', strokeWidth: 2, draggable: true });
+  } else if (type === 'Heart') {
+    shape = new Konva.Path({ x: x, y: y, data: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z', scaleX: 2, scaleY: 2, fill: '#FF69B4', draggable: true });
+  } else if (type === 'Badge') {
+    shape = new Konva.Circle({ x: x, y: y, radius: 25, fill: '#FF4444', stroke: '#fff', strokeWidth: 3, draggable: true });
+  } else if (type === 'Arrow') {
+    shape = new Konva.Arrow({ x: x, y: y, points: [0, 0, 60, 0], fill: '#20C997', stroke: '#20C997', strokeWidth: 3, pointerLength: 12, pointerWidth: 12, draggable: true });
+  }
+  if (shape) {
+    layer.add(shape);
+    shape.moveToTop();
+    transformer.moveToTop();
+    transformer.nodes([shape]);
+    layer.draw();
+  }
+}
+
+stage.on('click tap', function(e) {
+  if (e.target === stage || e.target.getClassName() === 'Image') {
+    transformer.nodes([]);
+    layer.draw();
+    return;
+  }
+  if (e.target.getParent() && e.target.getParent().getClassName() === 'Transformer') return;
+  transformer.nodes([e.target]);
+  layer.draw();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image as KonvaImage, Star, Circle, Arrow, Path, Transformer } from 'react-konva';
+import { useRef, useState, useEffect } from 'react';
+
+var App = function() {
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  var stageRef = useRef(null);
+  var trRef = useRef(null);
+  var [selectedId, setSelectedId] = useState(null);
+  var [image, setImage] = useState(null);
+  var [shapes, setShapes] = useState([]);
+  var shapeRefs = useRef({});
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.onload = function() { setImage(img); };
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+  }, []);
+
+  useEffect(function() {
+    if (selectedId && trRef.current && shapeRefs.current[selectedId]) {
+      trRef.current.nodes([shapeRefs.current[selectedId]]);
+      trRef.current.getLayer().batchDraw();
+    } else if (trRef.current) {
+      trRef.current.nodes([]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [selectedId]);
+
+  var addSticker = function(type) {
+    var id = 'shape_' + Date.now();
+    setShapes(function(prev) {
+      return prev.concat([{ id: id, type: type, x: 100 + Math.random() * (width - 200), y: 80 + Math.random() * (height - 160) }]);
+    });
+    setSelectedId(id);
+  };
+
+  var handleExport = function() {
+    setSelectedId(null);
+    setTimeout(function() {
+      var link = document.createElement('a');
+      link.href = stageRef.current.toDataURL({ pixelRatio: 2 });
+      link.download = 'sticker-canvas.png';
+      link.click();
+    }, 100);
+  };
+
+  var handleStageClick = function(e) {
+    if (e.target === e.target.getStage() || e.target.getClassName() === 'Image') {
+      setSelectedId(null);
+    }
+  };
+
+  var stickerButtons = [
+    { emoji: '⭐', name: 'Star', type: 'star' },
+    { emoji: '❤️', name: 'Heart', type: 'heart' },
+    { emoji: '🔴', name: 'Badge', type: 'badge' },
+    { emoji: '➡️', name: 'Arrow', type: 'arrow' },
+  ];
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+        {stickerButtons.map(function(s) {
+          return <button key={s.type} onClick={function() { addSticker(s.type); }} style={{ padding: '6px 12px', cursor: 'pointer', border: '1px solid #ddd', borderRadius: '4px', background: '#f8f9fa', fontSize: '13px' }}>{s.emoji} {s.name}</button>;
+        })}
+        <button onClick={handleExport} style={{ padding: '6px 12px', cursor: 'pointer', border: 'none', borderRadius: '4px', background: '#333', color: 'white', fontSize: '13px', fontWeight: '600' }}>Export PNG</button>
+      </div>
+      <Stage ref={stageRef} width={width} height={height} onClick={handleStageClick} onTap={handleStageClick}>
+        <Layer>
+          {image && <KonvaImage image={image} width={width} height={height} />}
+          {shapes.map(function(item) {
+            var common = {
+              ref: function(node) { shapeRefs.current[item.id] = node; },
+              x: item.x,
+              y: item.y,
+              draggable: true,
+              onClick: function() { setSelectedId(item.id); },
+              onTap: function() { setSelectedId(item.id); },
+            };
+            if (item.type === 'star') return <Star key={item.id} {...common} numPoints={5} innerRadius={15} outerRadius={35} fill="#FFD700" stroke="#FFA500" strokeWidth={2} />;
+            if (item.type === 'heart') return <Path key={item.id} {...common} data="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" scaleX={2} scaleY={2} fill="#FF69B4" />;
+            if (item.type === 'badge') return <Circle key={item.id} {...common} radius={25} fill="#FF4444" stroke="#fff" strokeWidth={3} />;
+            if (item.type === 'arrow') return <Arrow key={item.id} {...common} points={[0, 0, 60, 0]} fill="#20C997" stroke="#20C997" strokeWidth={3} pointerLength={12} pointerWidth={12} />;
+            return null;
+          })}
+          <Transformer ref={trRef} />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:center;">
+      <button v-for="s in stickerButtons" :key="s.type" @click="addSticker(s.type)" style="padding:6px 12px;cursor:pointer;border:1px solid #ddd;border-radius:4px;background:#f8f9fa;font-size:13px;">{{ s.emoji }} {{ s.name }}</button>
+      <button @click="handleExport" style="padding:6px 12px;cursor:pointer;border:none;border-radius:4px;background:#333;color:white;font-size:13px;font-weight:600;">Export PNG</button>
+    </div>
+    <v-stage ref="stageRef" :config="stageConfig" @click="handleStageClick" @tap="handleStageClick">
+      <v-layer ref="layerRef">
+        <v-image v-if="image" :config="imageConfig" />
+        <template v-for="s in shapes" :key="s.id">
+          <v-star v-if="s.type === 'star'" :config="starConfig(s)" @click="selectShape(s)" @tap="selectShape(s)" />
+          <v-path v-if="s.type === 'heart'" :config="heartConfig(s)" @click="selectShape(s)" @tap="selectShape(s)" />
+          <v-circle v-if="s.type === 'badge'" :config="badgeConfig(s)" @click="selectShape(s)" @tap="selectShape(s)" />
+          <v-arrow v-if="s.type === 'arrow'" :config="arrowConfig(s)" @click="selectShape(s)" @tap="selectShape(s)" />
+        </template>
+        <v-transformer ref="trRef" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, nextTick } from 'vue';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stageRef = ref(null);
+var layerRef = ref(null);
+var trRef = ref(null);
+var image = ref(null);
+var shapes = ref([]);
+var selectedId = ref(null);
+
+var stageConfig = { width: width, height: height };
+var imageConfig = { image: null, width: width, height: height };
+
+var stickerButtons = [
+  { emoji: '⭐', name: 'Star', type: 'star' },
+  { emoji: '❤️', name: 'Heart', type: 'heart' },
+  { emoji: '🔴', name: 'Badge', type: 'badge' },
+  { emoji: '➡️', name: 'Arrow', type: 'arrow' },
+];
+
+onMounted(function() {
+  var img = new window.Image();
+  img.onload = function() { 
+    image.value = img;
+    imageConfig.image = img;
+  };
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+});
+
+function baseConfig(s) {
+  return { x: s.x, y: s.y, draggable: true, name: 'sticker-' + s.id };
+}
+
+function starConfig(s) {
+  var c = baseConfig(s);
+  c.numPoints = 5; c.innerRadius = 15; c.outerRadius = 35;
+  c.fill = '#FFD700'; c.stroke = '#FFA500'; c.strokeWidth = 2;
+  return c;
+}
+
+function heartConfig(s) {
+  var c = baseConfig(s);
+  c.data = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
+  c.scaleX = 2; c.scaleY = 2; c.fill = '#FF69B4';
+  return c;
+}
+
+function badgeConfig(s) {
+  var c = baseConfig(s);
+  c.radius = 25; c.fill = '#FF4444'; c.stroke = '#fff'; c.strokeWidth = 3;
+  return c;
+}
+
+function arrowConfig(s) {
+  var c = baseConfig(s);
+  c.points = [0, 0, 60, 0]; c.fill = '#20C997'; c.stroke = '#20C997';
+  c.strokeWidth = 3; c.pointerLength = 12; c.pointerWidth = 12;
+  return c;
+}
+
+function addSticker(type) {
+  var id = Date.now();
+  shapes.value.push({
+    id: id,
+    type: type,
+    x: 100 + Math.random() * (width - 200),
+    y: 80 + Math.random() * (height - 160),
+  });
+  nextTick(function() {
+    selectShapeById(id);
+  });
+}
+
+function selectShape(s) {
+  selectShapeById(s.id);
+}
+
+function selectShapeById(id) {
+  selectedId.value = id;
+  if (!layerRef.value || !trRef.value) return;
+  var layerNode = layerRef.value.getNode();
+  var node = layerNode.findOne('.sticker-' + id);
+  var trNode = trRef.value.getNode();
+  if (node) {
+    trNode.nodes([node]);
+  } else {
+    trNode.nodes([]);
+  }
+  layerNode.batchDraw();
+}
+
+function handleStageClick(e) {
+  var target = e.target;
+  if (target === stageRef.value.getNode() || target.getClassName() === 'Image') {
+    selectedId.value = null;
+    if (trRef.value) {
+      trRef.value.getNode().nodes([]);
+      layerRef.value.getNode().batchDraw();
+    }
+  }
+}
+
+function handleExport() {
+  if (trRef.value) {
+    trRef.value.getNode().nodes([]);
+    layerRef.value.getNode().batchDraw();
+  }
+  nextTick(function() {
+    var stage = stageRef.value.getNode();
+    var link = document.createElement('a');
+    link.href = stage.toDataURL({ pixelRatio: 2 });
+    link.download = 'sticker-canvas.png';
+    link.click();
+  });
+}
+</script>
+```
+  </TabItem>
+</Tabs>

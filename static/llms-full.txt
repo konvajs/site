@@ -1,18 +1,18 @@
 # Konva.js
 
-> Konva.js is the most popular open-source 2D HTML5 Canvas JavaScript framework. It provides an object-oriented API for canvas graphics with shapes, animations, events, drag-and-drop, filters, and official integrations with React, Vue, Svelte, and Angular. MIT licensed, created in 2014, used by Meta, Microsoft, Labelbox, Zazzle, and thousands of developers.
+> Konva.js is an open-source 2D HTML5 Canvas JavaScript framework. It provides an object-oriented API for canvas graphics with shapes, animations, events, drag-and-drop, filters, and integrations with React, Vue, Svelte, and Angular.
 
 Konva uses a Stage → Layer → Group → Shape hierarchy. You create a Stage (attached to a DOM container), add Layers (each is a separate `<canvas>` element), and draw Shapes (Rect, Circle, Ellipse, Line, Text, Image, Path, Star, Ring, Arc, Arrow, Label, RegularPolygon, Wedge, Sprite, TextPath) on those layers.
 
-Key capabilities: object-oriented shape management, full event system (click, hover, touch, drag), built-in drag-and-drop, animations and tweens, image filters (blur, brighten, contrast, grayscale, etc.), canvas serialization/deserialization (toJSON/fromJSON), high-quality image export (toDataURL, toBlob), node nesting and grouping, hit detection, and caching for performance.
+Key capabilities: object-oriented shape management, full event system (click, hover, touch, drag), built-in drag-and-drop, animations and tweens, image filters (blur, brighten, contrast, grayscale, etc.), canvas serialization with `toJSON()`, high-quality image export (`toDataURL()`, `toBlob()`), node nesting and grouping, hit detection, and caching for performance.
 
 Framework bindings:
 - React: `react-konva` — declarative React components for canvas shapes
 - Vue: `vue-konva` — Vue components for Konva
 - Svelte: `svelte-konva` — Svelte components for Konva
-- Angular: `ng2-konva` — Angular directives for Konva
+- Angular: `ng2-konva` — Angular components for Konva
 
-Install: `npm install konva` (and `react-konva` / `vue-konva` / `svelte-konva` for frameworks)
+Install: `npm install konva` (and `react-konva`, `vue-konva`, `svelte-konva`, or `ng2-konva` for frameworks)
 
 ## Docs
 
@@ -26,6 +26,17 @@ Install: `npm install konva` (and `react-konva` / `vue-konva` / `svelte-konva` f
 
 - [Why Konva?](https://konvajs.org/docs/guides/why-konva.html): When to use Konva, ideal use cases, what Konva is NOT
 - [Best JavaScript Canvas Libraries](https://konvajs.org/docs/guides/best-canvas-library.html): Comparison of Konva vs Fabric.js vs PixiJS vs Paper.js vs p5.js
+
+## Application Demos
+
+- [Design Editor](https://konvajs.org/docs/sandbox/Canvas_Editor.html): Selection, transforms, history, and export
+- [Infinite Canvas Whiteboard](https://konvajs.org/docs/sandbox/Infinite_Canvas.html): Pan, zoom, movable cards, and coordinate conversion
+- [Flowchart / Node Editor](https://konvajs.org/docs/sandbox/Connected_Objects.html): Draggable nodes with live connectors
+- [Image Annotation Tool](https://konvajs.org/docs/sandbox/Image_Labeling.html): Draw and export image annotations
+- [Floor Plan](https://konvajs.org/docs/sandbox/Interactive_Building_Map.html): Interactive rooms and selection
+- [Seat Reservation Map](https://konvajs.org/docs/sandbox/Seats_Reservation.html): Large selectable seat grids
+- [Image Crop and Editing](https://konvajs.org/docs/sandbox/Canvas_Crop_Image.html): Crop, transform, and export images
+- [Multiplayer Whiteboard](https://konvajs.org/docs/sandbox/Multiplayer_Whiteboard.html): Shared state with Yjs
 
 ## Framework Integrations
 
@@ -44,7 +55,7 @@ Install: `npm install konva` (and `react-konva` / `vue-konva` / `svelte-konva` f
 - [Performance](https://konvajs.org/docs/performance/All_Performance_Tips.html): Optimization tips for large applications
 - [Serialization](https://konvajs.org/docs/data_and_serialization/Serialize_a_Stage.html): Save and load canvas state
 - [Select and Transform](https://konvajs.org/docs/select_and_transform/Basic_demo.html): Resize, rotate, and transform shapes interactively
-- [Node.js](https://konvajs.org/docs/nodejs/index.html): Server-side canvas rendering
+- [Node.js](https://konvajs.org/docs/nodejs/nodejs-setup): Server-side canvas rendering
 
 ## Demos
 
@@ -2498,6 +2509,7 @@ Transform constructor. In most of the cases you don't need to use it in your app
   HSL(imageData: Object) — HSL Filter. Adjusts the hue, saturation and luminance (or lightness)
   HSV(imageData: Object) — HSV Filter. Adjusts the hue, saturation and value
   Invert(imageData: Object) — Invert Filter
+  Kaleidoscope() — Kaleidoscope Filter.
   Mask(imageData: Object) — Mask Filter
   Noise(imageData: Object) — Noise Filter. Randomly adds or substracts to the color channels
   Pixelate(imageData: Object) — Pixelate Filter. Averages groups of pixels and redraws  them as larger pixels

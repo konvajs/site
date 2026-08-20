@@ -1,0 +1,74 @@
+---
+title: 如何使用 Vue 和 Konva 监听 Canvas 图形事件？
+sidebar_label: 事件
+hide_table_of_contents: true
+slug: Events.html
+description: "学习如何使用 Vue 和 Konva 监听 Canvas 图形上的鼠标、触摸和拖动事件。"
+---
+
+使用 `vue-konva` 可以监听用户输入事件（`click`、`dblclick`、`mouseover`、`tap`、`dbltap`、`touchstart` 等）和拖放事件（`dragstart`、`dragmove`、`dragend`）。
+
+如需查看完整的事件列表，请参阅 [on() 方法文档](/api/Konva.Node.html#on)。
+
+操作说明：将鼠标移到三角形上方以查看坐标。将鼠标移出三角形以查看 mouseout 事件。
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-regular-polygon
+        @mousemove="handleMouseMove"
+        @mouseout="handleMouseOut"
+        :config="{
+          x: 80,
+          y: 120,
+          sides: 3,
+          radius: 80,
+          fill: '#00D2FF',
+          stroke: 'black',
+          strokeWidth: 4
+        }"
+      />
+      <v-text ref="text" :config="{
+        x: 10,
+        y: 10,
+        fontFamily: 'Calibri',
+        fontSize: 24,
+        text: text,
+        fill: 'black'
+      }" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+export default {
+  data() {
+    return {
+      stageSize: {
+        width: width,
+        height: height
+      },
+      text: ''
+    };
+  },
+  methods: {
+    writeMessage(message) {
+      this.text = message;
+    },
+    handleMouseOut(event) {
+      this.writeMessage('Mouseout triangle');
+    },
+    handleMouseMove(event) {
+      const mousePos = this.$refs.stage.getNode().getPointerPosition();
+      const x = mousePos.x - 190;
+      const y = mousePos.y - 40;
+      this.writeMessage('x: ' + x + ', y: ' + y);
+    }
+  }
+};
+</script> 
+```

@@ -1,0 +1,431 @@
+---
+title: 如何使用 JavaScript Canvas 在线旋转和翻转图像
+sidebar_label: 旋转和翻转图像
+hide_table_of_contents: true
+slug: Rotate_Flip_Image.html
+description: "使用 Konva.js、JavaScript 和 HTML5 Canvas 在线旋转和翻转图像。上传任意图像，将其旋转 90 度、水平或垂直翻转，并将结果导出为 PNG。"
+---
+
+简单的图像旋转和翻转工具是最常见的 Canvas 实用工具之一。使用 Konva，可以加载任意图像，以 90 度为步长旋转图像，水平或垂直翻转图像，并导出结果。所有操作均在浏览器中完成，无需服务器。
+
+**操作说明：** 单击“Load Image”以上传照片（或使用默认图像）。使用按钮顺时针或逆时针旋转 90°，或水平或垂直翻转图像。单击“Save as PNG”下载结果。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// --- Controls ---
+const controls = document.createElement('div');
+controls.style.cssText = 'display:flex;gap:6px;align-items:center;margin-bottom:4px;flex-wrap:wrap;';
+
+const loadBtn = document.createElement('button');
+loadBtn.textContent = 'Load Image';
+const rotateCW = document.createElement('button');
+rotateCW.textContent = 'Rotate 90° →';
+const rotateCCW = document.createElement('button');
+rotateCCW.textContent = '← Rotate 90°';
+const flipH = document.createElement('button');
+flipH.textContent = 'Flip Horizontal';
+const flipV = document.createElement('button');
+flipV.textContent = 'Flip Vertical';
+const saveBtn = document.createElement('button');
+saveBtn.textContent = 'Save as PNG';
+const resetBtn = document.createElement('button');
+resetBtn.textContent = 'Reset';
+
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+
+[loadBtn, rotateCCW, rotateCW, flipH, flipV, saveBtn, resetBtn].forEach(b => controls.appendChild(b));
+controls.appendChild(fileInput);
+const container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+
+// --- Stage ---
+const stageWidth = window.innerWidth;
+const stageHeight = window.innerHeight - 40;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: stageWidth,
+  height: stageHeight,
+});
+
+const bgLayer = new Konva.Layer();
+stage.add(bgLayer);
+
+// checkerboard background to show transparency
+const gridSize = 20;
+for (let x = 0; x < stageWidth; x += gridSize) {
+  for (let y = 0; y < stageHeight; y += gridSize) {
+    const isEven = ((x / gridSize) + (y / gridSize)) % 2 === 0;
+    if (!isEven) {
+      bgLayer.add(new Konva.Rect({
+        x, y, width: gridSize, height: gridSize,
+        fill: '#f0f0f0', listening: false,
+      }));
+    }
+  }
+}
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+let konvaImage = null;
+let currentRotation = 0;
+let currentScaleX = 1;
+let currentScaleY = 1;
+
+function loadImage(src) {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function () {
+    if (konvaImage) konvaImage.destroy();
+
+    // fit image to stage
+    const ratio = Math.min(
+      (stageWidth - 40) / img.width,
+      (stageHeight - 40) / img.height,
+      1
+    );
+    const w = img.width * ratio;
+    const h = img.height * ratio;
+
+    currentRotation = 0;
+    currentScaleX = 1;
+    currentScaleY = 1;
+
+    konvaImage = new Konva.Image({
+      image: img,
+      x: stageWidth / 2,
+      y: stageHeight / 2,
+      width: w,
+      height: h,
+      offsetX: w / 2,
+      offsetY: h / 2,
+      rotation: 0,
+    });
+    layer.add(konvaImage);
+  };
+  img.src = src;
+}
+
+// Load default image
+loadImage('https://konvajs.org/assets/darth-vader.jpg');
+
+loadBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => loadImage(ev.target.result);
+  reader.readAsDataURL(file);
+});
+
+rotateCW.addEventListener('click', () => {
+  if (!konvaImage) return;
+  currentRotation += 90;
+  konvaImage.rotation(currentRotation);
+});
+
+rotateCCW.addEventListener('click', () => {
+  if (!konvaImage) return;
+  currentRotation -= 90;
+  konvaImage.rotation(currentRotation);
+});
+
+flipH.addEventListener('click', () => {
+  if (!konvaImage) return;
+  currentScaleX *= -1;
+  konvaImage.scaleX(currentScaleX);
+});
+
+flipV.addEventListener('click', () => {
+  if (!konvaImage) return;
+  currentScaleY *= -1;
+  konvaImage.scaleY(currentScaleY);
+});
+
+resetBtn.addEventListener('click', () => {
+  if (!konvaImage) return;
+  currentRotation = 0;
+  currentScaleX = 1;
+  currentScaleY = 1;
+  konvaImage.rotation(0);
+  konvaImage.scaleX(1);
+  konvaImage.scaleY(1);
+});
+
+saveBtn.addEventListener('click', () => {
+  if (!konvaImage) return;
+  // hide checkerboard and export only the image area
+  bgLayer.hide();
+  const rect = konvaImage.getClientRect();
+  const dataURL = stage.toDataURL({
+    x: rect.x,
+    y: rect.y,
+    width: rect.width,
+    height: rect.height,
+    pixelRatio: 2,
+  });
+  const link = document.createElement('a');
+  link.download = 'rotated-image.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  bgLayer.show();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Image as KonvaImage, Rect } from 'react-konva';
+
+const App = () => {
+  const [image, setImage] = React.useState(null);
+  const [rotation, setRotation] = React.useState(0);
+  const [scaleX, setScaleX] = React.useState(1);
+  const [scaleY, setScaleY] = React.useState(1);
+  const [imgSize, setImgSize] = React.useState({ w: 200, h: 137 });
+  const stageRef = React.useRef(null);
+  const bgLayerRef = React.useRef(null);
+  const fileRef = React.useRef(null);
+
+  const W = window.innerWidth;
+  const H = window.innerHeight - 50;
+
+  React.useEffect(() => {
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const ratio = Math.min((W - 40) / img.width, (H - 40) / img.height, 1);
+      setImgSize({ w: img.width * ratio, h: img.height * ratio });
+      setImage(img);
+    };
+    img.src = 'https://konvajs.org/assets/darth-vader.jpg';
+  }, []);
+
+  const loadFile = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const ratio = Math.min((W - 40) / img.width, (H - 40) / img.height, 1);
+        setImgSize({ w: img.width * ratio, h: img.height * ratio });
+        setImage(img);
+        setRotation(0);
+        setScaleX(1);
+        setScaleY(1);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const imgRef = React.useRef(null);
+
+  const handleSave = () => {
+    // hide checkerboard and export only the image area
+    bgLayerRef.current.hide();
+    const rect = imgRef.current.getClientRect();
+    const dataURL = stageRef.current.toDataURL({
+      x: rect.x,
+      y: rect.y,
+      width: rect.width,
+      height: rect.height,
+      pixelRatio: 2,
+    });
+    const link = document.createElement('a');
+    link.download = 'rotated-image.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    bgLayerRef.current.show();
+  };
+
+  // checkerboard squares
+  const gridSize = 20;
+  const checkers = [];
+  for (let x = 0; x < W; x += gridSize) {
+    for (let y = 0; y < H; y += gridSize) {
+      if (((x / gridSize) + (y / gridSize)) % 2 !== 0) {
+        checkers.push({ x, y, key: `${x}-${y}` });
+      }
+    }
+  }
+
+  return (
+    <>
+      <div style={{ display:'flex', gap:6, alignItems:'center', flexWrap:'wrap', marginBottom:4 }}>
+        <button onClick={() => fileRef.current.click()}>Load Image</button>
+        <button onClick={() => setRotation(r => r - 90)}>← Rotate 90°</button>
+        <button onClick={() => setRotation(r => r + 90)}>Rotate 90° →</button>
+        <button onClick={() => setScaleX(s => s * -1)}>Flip Horizontal</button>
+        <button onClick={() => setScaleY(s => s * -1)}>Flip Vertical</button>
+        <button onClick={handleSave}>Save as PNG</button>
+        <button onClick={() => { setRotation(0); setScaleX(1); setScaleY(1); }}>Reset</button>
+        <input ref={fileRef} type="file" accept="image/*" style={{ display:'none' }} onChange={loadFile} />
+      </div>
+      <Stage ref={stageRef} width={W} height={H}>
+        <Layer ref={bgLayerRef}>
+          {checkers.map(c => (
+            <Rect key={c.key} x={c.x} y={c.y} width={gridSize} height={gridSize} fill="#f0f0f0" listening={false} />
+          ))}
+        </Layer>
+        <Layer>
+          {image && (
+            <KonvaImage
+              ref={imgRef}
+              image={image}
+              x={W / 2}
+              y={H / 2}
+              width={imgSize.w}
+              height={imgSize.h}
+              offsetX={imgSize.w / 2}
+              offsetY={imgSize.h / 2}
+              rotation={rotation}
+              scaleX={scaleX}
+              scaleY={scaleY}
+            />
+          )}
+        </Layer>
+      </Stage>
+
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+      <button @click="$refs.fileInput.click()">Load Image</button>
+      <button @click="rotation -= 90">← Rotate 90°</button>
+      <button @click="rotation += 90">Rotate 90° →</button>
+      <button @click="flipScaleX *= -1">Flip Horizontal</button>
+      <button @click="flipScaleY *= -1">Flip Vertical</button>
+      <button @click="handleSave">Save as PNG</button>
+      <button @click="handleReset">Reset</button>
+      <input ref="fileInput" type="file" accept="image/*" style="display:none" @change="loadFile" />
+    </div>
+    <v-stage ref="stageRef" :config="stageConfig">
+      <v-layer ref="bgLayerRef">
+        <v-rect
+          v-for="c in checkers" :key="c.key"
+          :config="{ x: c.x, y: c.y, width: 20, height: 20, fill: '#f0f0f0', listening: false }"
+        />
+      </v-layer>
+      <v-layer>
+        <v-image ref="imageRef" v-if="image" :config="imageConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const W = window.innerWidth;
+const H = window.innerHeight - 50;
+
+const image = ref(null);
+const imgW = ref(200);
+const imgH = ref(137);
+const rotation = ref(0);
+const flipScaleX = ref(1);
+const flipScaleY = ref(1);
+const stageRef = ref(null);
+const bgLayerRef = ref(null);
+const imageRef = ref(null);
+
+const stageConfig = { width: W, height: H };
+
+const imageConfig = computed(() => ({
+  image: image.value,
+  x: W / 2, y: H / 2,
+  width: imgW.value, height: imgH.value,
+  offsetX: imgW.value / 2, offsetY: imgH.value / 2,
+  rotation: rotation.value,
+  scaleX: flipScaleX.value,
+  scaleY: flipScaleY.value,
+}));
+
+const gridSize = 20;
+const checkers = [];
+for (let x = 0; x < W; x += gridSize) {
+  for (let y = 0; y < H; y += gridSize) {
+    if (((x / gridSize) + (y / gridSize)) % 2 !== 0) {
+      checkers.push({ x, y, key: `${x}-${y}` });
+    }
+  }
+}
+
+function loadImg(src) {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const ratio = Math.min((W - 40) / img.width, (H - 40) / img.height, 1);
+    imgW.value = img.width * ratio;
+    imgH.value = img.height * ratio;
+    image.value = img;
+    rotation.value = 0;
+    flipScaleX.value = 1;
+    flipScaleY.value = 1;
+  };
+  img.src = src;
+}
+
+onMounted(() => loadImg('https://konvajs.org/assets/darth-vader.jpg'));
+
+const loadFile = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => loadImg(ev.target.result);
+  reader.readAsDataURL(file);
+};
+
+const handleSave = () => {
+  // hide checkerboard and export only the image area
+  bgLayerRef.value.getNode().hide();
+  const rect = imageRef.value.getNode().getClientRect();
+  const dataURL = stageRef.value.getNode().toDataURL({
+    x: rect.x,
+    y: rect.y,
+    width: rect.width,
+    height: rect.height,
+    pixelRatio: 2,
+  });
+  bgLayerRef.value.getNode().show();
+  const link = document.createElement('a');
+  link.download = 'rotated-image.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+const handleReset = () => {
+  rotation.value = 0;
+  flipScaleX.value = 1;
+  flipScaleY.value = 1;
+};
+</script>
+```
+  </TabItem>
+</Tabs>

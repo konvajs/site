@@ -1,0 +1,384 @@
+---
+title: Konva 调整大小压力测试
+sidebar_label: 调整大小压力测试
+hide_table_of_contents: true
+slug: Resizing_Stress_Test.html
+description: "选择并同时调整数千个图形大小的压力测试示例，使用图层和缓存来提升性能。"
+---
+
+这是一个同时选择许多图形并调整其大小的压力测试示例。
+
+此示例使用两项核心 `Konva` 功能来提高性能：
+
+### 1. 图层
+
+正在调整大小的图形会被移动到另一个图层（即另一个 Canvas 元素）。因此，调整所选图形大小时，无需重绘其他图形。
+
+### 2. 缓存
+
+发生 `select` 事件时，我会将所有选中的图形移入一个组，并缓存该组。缓存操作会将该组转换为位图图像。在屏幕上重绘这样的组要快得多。
+
+**操作说明：尝试选择多个图形，然后调整其大小或旋转它们。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// first we need to create a stage
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+// layer for all shapes
+var layer = new Konva.Layer();
+stage.add(layer);
+for (var i = 0; i < 10000; i++) {
+  var shape = new Konva.Circle({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    radius: 10,
+    name: 'shape',
+    fill: Konva.Util.getRandomColor(),
+  });
+  layer.add(shape);
+}
+
+// top layer for transforming group
+var topLayer = new Konva.Layer();
+stage.add(topLayer);
+
+var group = new Konva.Group({
+  draggable: true,
+});
+topLayer.add(group);
+
+var tr = new Konva.Transformer();
+topLayer.add(tr);
+
+// add a new feature, lets add ability to draw selection rectangle
+var selectionRectangle = new Konva.Rect({
+  fill: 'rgba(0,0,255,0.5)',
+  visible: false,
+});
+topLayer.add(selectionRectangle);
+
+var x1, y1, x2, y2;
+stage.on('mousedown touchstart', (e) => {
+  // do nothing if we mousedown on the transformer
+  if (e.target.getParent() === tr) {
+    return;
+  }
+  // do nothing if we mousedown on the group
+  if (e.target.parent === group) {
+    return;
+  }
+  x1 = stage.getPointerPosition().x;
+  y1 = stage.getPointerPosition().y;
+  x2 = stage.getPointerPosition().x;
+  y2 = stage.getPointerPosition().y;
+
+  selectionRectangle.setAttrs({
+    x: x1,
+    y: y1,
+    width: 0,
+    height: 0,
+    visible: true,
+  });
+
+  // move old selection back to original layer
+  group.children.slice().forEach((shape) => {
+    const transform = shape.getAbsoluteTransform();
+    shape.moveTo(layer);
+    shape.setAttrs(transform.decompose());
+  });
+  // reset group transforms
+  group.setAttrs({
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+    rotation: 0,
+  });
+  group.clearCache();
+});
+
+stage.on('mousemove touchmove', () => {
+  // do nothing if we didn't start selection
+  if (!selectionRectangle.visible()) {
+    return;
+  }
+  x2 = stage.getPointerPosition().x;
+  y2 = stage.getPointerPosition().y;
+
+  selectionRectangle.setAttrs({
+    x: Math.min(x1, x2),
+    y: Math.min(y1, y2),
+    width: Math.abs(x2 - x1),
+    height: Math.abs(y2 - y1),
+  });
+});
+
+stage.on('mouseup touchend', () => {
+  // no nothing if we didn't start selection
+  if (!selectionRectangle.visible()) {
+    return;
+  }
+  // update visibility in timeout, so we can check it in click event
+  setTimeout(() => {
+    selectionRectangle.visible(false);
+  });
+
+  var shapes = stage.find('.shape');
+  var box = selectionRectangle.getClientRect();
+
+  // remove all children for better performance
+  layer.removeChildren();
+
+  // then check intersections and add all shape into correct container
+  shapes.forEach((shape) => {
+    var intersected = Konva.Util.haveIntersection(
+      box,
+      shape.getClientRect()
+    );
+    if (intersected) {
+      group.add(shape);
+      shape.stroke('blue');
+    } else {
+      layer.add(shape);
+      shape.stroke(null);
+    }
+  });
+
+  if (group.children.length) {
+    tr.nodes([group]);
+    group.cache();
+  } else {
+    tr.nodes([]);
+    group.clearCache();
+  }
+});
+
+// clicks should select/deselect shapes
+stage.on('click tap', function (e) {
+  // if we are selecting with rect, do nothing
+  if (selectionRectangle.visible()) {
+    return;
+  }
+
+  // if click on empty area - remove all selections
+  if (e.target === stage) {
+    tr.nodes([]);
+    return;
+  }
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useRef, useEffect } from 'react';
+import { Stage, Layer, Circle, Group, Transformer, Rect } from 'react-konva';
+import Konva from 'konva';
+
+const App = () => {
+  const [shapes, setShapes] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectionRect, setSelectionRect] = useState({
+    visible: false,
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0,
+  });
+  const [groupKey, setGroupKey] = useState(0);
+
+  const groupRef = useRef();
+  const trRef = useRef();
+  const selectionRectRef = useRef();
+
+  // Generate 10k shapes once
+  useEffect(() => {
+    const items = [];
+    for (let i = 0; i < 10000; i++) {
+      items.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: 10,
+        fill: Konva.Util.getRandomColor(),
+      });
+    }
+    setShapes(items);
+  }, []);
+
+  // Attach/Detach transformer & cache
+  useEffect(() => {
+    if (selectedIds.length && groupRef.current) {
+      trRef.current.nodes([groupRef.current]);
+      groupRef.current.cache();
+    } else {
+      trRef.current.nodes([]);
+      if (groupRef.current) groupRef.current.clearCache();
+    }
+  }, [selectedIds]);
+
+  // Utility to apply group transform to shapes and commit into React state
+  const applyGroupTransform = () => {
+    if (!selectedIds.length || !groupRef.current) return;
+
+    const transform = groupRef.current.getAbsoluteTransform();
+    const { scaleX } = transform.decompose();
+
+    setShapes((prev) =>
+      prev.map((shape) => {
+        if (!selectedIds.includes(shape.id)) return shape;
+        const pos = transform.point({ x: shape.x, y: shape.y });
+        return {
+          ...shape,
+          x: pos.x,
+          y: pos.y,
+          radius: shape.radius * scaleX,
+        };
+      })
+    );
+  };
+
+  const pointerPos = (e) => e.target.getStage().getPointerPosition();
+
+  const handleMouseDown = (e) => {
+    // ignore click on transformer or group
+    if (e.target.getParent() === trRef.current || e.target.parent === groupRef.current) {
+      return;
+    }
+
+    // finalise previous selection (if any)
+    applyGroupTransform();
+    if (selectedIds.length) {
+      setSelectedIds([]);
+      setGroupKey((k) => k + 1); // reset group for fresh transform
+    }
+
+    const p = pointerPos(e);
+    setSelectionRect({ visible: true, x1: p.x, y1: p.y, x2: p.x, y2: p.y });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!selectionRect.visible) return;
+    const p = pointerPos(e);
+    setSelectionRect((prev) => ({ ...prev, x2: p.x, y2: p.y }));
+  };
+
+  const handleMouseUp = (e) => {
+    if (!selectionRect.visible) return;
+
+    setTimeout(() => setSelectionRect((prev) => ({ ...prev, visible: false })), 0);
+
+    const stage = e.target.getStage();
+    const nodes = stage.find('.shape');
+
+    const box = {
+      x: Math.min(selectionRect.x1, selectionRect.x2),
+      y: Math.min(selectionRect.y1, selectionRect.y2),
+      width: Math.abs(selectionRect.x2 - selectionRect.x1),
+      height: Math.abs(selectionRect.y2 - selectionRect.y1),
+    };
+
+    const ids = [];
+    nodes.forEach((node) => {
+      if (Konva.Util.haveIntersection(box, node.getClientRect())) {
+        ids.push(Number(node.id()));
+      }
+    });
+
+    setSelectedIds(ids);
+  };
+
+  const handleStageClick = (e) => {
+    // ignore clicks that are part of selection rectangle drawing
+    if (selectionRect.visible) return;
+
+    if (e.target === e.target.getStage()) {
+      // clicked on empty area: apply transform and clear selection
+      applyGroupTransform();
+      if (selectedIds.length) {
+        setSelectedIds([]);
+        setGroupKey((k) => k + 1);
+      }
+    }
+  };
+
+  const selectionRectProps = {
+    fill: 'rgba(0,0,255,0.5)',
+    visible: selectionRect.visible,
+    x: Math.min(selectionRect.x1, selectionRect.x2),
+    y: Math.min(selectionRect.y1, selectionRect.y2),
+    width: Math.abs(selectionRect.x2 - selectionRect.x1),
+    height: Math.abs(selectionRect.y2 - selectionRect.y1),
+    ref: selectionRectRef,
+  };
+
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onTouchEnd={handleMouseUp}
+      onClick={handleStageClick}
+      onTap={handleStageClick}
+    >
+      <Layer>
+        {shapes
+          .filter((s) => !selectedIds.includes(s.id))
+          .map((shape) => (
+            <Circle
+              key={shape.id}
+              id={String(shape.id)}
+              x={shape.x}
+              y={shape.y}
+              radius={shape.radius}
+              fill={shape.fill}
+              name="shape"
+            />
+          ))}
+      </Layer>
+      <Layer>
+        <Group key={groupKey} ref={groupRef} draggable>
+          {shapes
+            .filter((s) => selectedIds.includes(s.id))
+            .map((shape) => (
+              <Circle
+                key={shape.id}
+                id={String(shape.id)}
+                x={shape.x}
+                y={shape.y}
+                radius={shape.radius}
+                fill={shape.fill}
+                stroke="blue"
+                strokeWidth={2}
+                name="shape"
+              />
+            ))}
+        </Group>
+        <Transformer ref={trRef} />
+        <Rect {...selectionRectProps} />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>

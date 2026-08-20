@@ -1,7 +1,17 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": "."
-  }
+  },
+  "include": [
+    "docusaurus.config.ts",
+    "sidebars.ts",
+    "src/components/**/*.ts",
+    "src/components/**/*.tsx",
+    "src/pages/**/*.ts",
+    "src/pages/**/*.tsx",
+    "src/theme/**/*.ts",
+    "src/theme/**/*.tsx",
+    "src/utils/**/*.ts"
+  ]
 }

@@ -4,9 +4,10 @@ title: Konva.js Tools and Plugins
 sidebar_label: Tools
 slug: tools.html
 sidebar_class_name: hidden
-description: "Explore Konva.js ecosystem tools and plugins including react-konva, vue-konva, and svelte-konva integrations."
+description: "Explore the official Konva integrations for React, Vue, Svelte, and Angular."
 ---
 
 - [Konva + React](https://github.com/konvajs/react-konva/)
 - [Konva + Vue](https://github.com/konvajs/vue-konva)
 - [Konva + Svelte](https://github.com/konvajs/svelte-konva)
+- [Konva + Angular](https://github.com/konvajs/ng2-konva)

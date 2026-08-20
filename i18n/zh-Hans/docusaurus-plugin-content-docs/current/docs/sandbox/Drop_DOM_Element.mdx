@@ -1,0 +1,360 @@
+---
+title: 如何将 DOM 图像拖放到 Canvas
+sidebar_label: 拖放 DOM 元素
+hide_table_of_contents: true
+slug: Drop_DOM_Element.html
+description: "使用 HTML5 拖放 API 和 Konva，将外部 DOM 图像拖放到 HTML5 Canvas 舞台上。"
+---
+
+此示例演示如何将 Canvas 外部的 DOM 元素放到舞台中。
+
+第一个图像是 DOM 图像。可以使用 [HTML5 拖放](https://www.html5rocks.com/en/tutorials/dnd/basics/) 启用拖动功能。
+
+要在触摸设备上为 DOM 元素启用拖放，需要执行一些额外步骤。有关详细信息，请阅读[此文](https://mobiforge.com/design-development/touch-friendly-drag-and-drop)。
+
+**操作说明：**将尤达拖放到 Canvas 中。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// Add DOM elements to render outside the container
+document.getElementById('container').insertAdjacentHTML(
+  'beforebegin',
+  `
+  <p>Drag&drop yoda into the grey area.</p>
+  <div id="drag-items">
+    <img src="https://konvajs.org/assets/yoda.jpg" draggable="true" style="height: 100px; margin: 5px;" />
+    <img src="https://konvajs.org/assets/darth-vader.jpg" draggable="true" style="height: 100px; margin: 5px;" />
+  </div>
+`
+);
+
+// Style the container with grey background
+document.getElementById('container').style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+
+// Create stage and layer
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height - 150, // leave space for the DOM elements
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Track URL of the dragging element
+let itemURL = '';
+document
+  .getElementById('drag-items')
+  .addEventListener('dragstart', function (e) {
+    itemURL = e.target.src;
+  });
+
+// Handle dragover on container
+const container = stage.container();
+container.addEventListener('dragover', function (e) {
+  e.preventDefault(); // important - must prevent default behavior
+});
+
+// Handle drop on container
+container.addEventListener('drop', function (e) {
+  e.preventDefault();
+  
+  // Register the pointer position manually since this is a DOM event
+  stage.setPointersPositions(e);
+  
+  // Load the image and add it to the layer
+  Konva.Image.fromURL(itemURL, function (image) {
+    // Calculate appropriate size based on image dimensions
+    const img = image.image();
+    const maxDimension = 100;
+    let width = img.width;
+    let height = img.height;
+    
+    if (width > height) {
+      height = (height / width) * maxDimension;
+      width = maxDimension;
+    } else {
+      width = (width / height) * maxDimension;
+      height = maxDimension;
+    }
+    
+    image.size({
+      width: width,
+      height: height
+    });
+    
+    layer.add(image);
+    image.position(stage.getPointerPosition());
+    image.draggable(true);
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useRef, useEffect } from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+import { useImage } from 'react-konva-utils';
+
+const DragItem = ({ src, onDragStart }) => {
+  return (
+    <img 
+      src={src} 
+      draggable={true}
+      style={{ height: '100px', margin: '5px' }}
+      onDragStart={() => onDragStart(src)} 
+    />
+  );
+};
+
+const App = () => {
+  const [images, setImages] = useState([]);
+  const [dragImageSrc, setDragImageSrc] = useState('');
+  const stageRef = useRef(null);
+  
+  const handleDragStart = (src) => {
+    setDragImageSrc(src);
+  };
+  
+  const handleDragOver = (e) => {
+    e.preventDefault(); // prevent default behavior
+  };
+  
+  const handleDrop = (e) => {
+    e.preventDefault();
+    
+    if (!dragImageSrc || !stageRef.current) return;
+    
+    // Get stage and pointer position
+    const stage = stageRef.current;
+    
+    // Register the pointer position manually since this is a DOM event
+    stage.setPointersPositions(e);
+    const position = stage.getPointerPosition();
+    
+    // Add new image to the list
+    setImages([
+      ...images,
+      {
+        src: dragImageSrc,
+        x: position.x,
+        y: position.y,
+        id: Date.now().toString()
+      }
+    ]);
+  };
+  
+  return (
+    <div>
+      <p>Drag&drop yoda into the grey area.</p>
+      <div style={{ marginBottom: '10px' }}>
+        <DragItem 
+          src="https://konvajs.org/assets/yoda.jpg" 
+          onDragStart={handleDragStart} 
+        />
+        <DragItem 
+          src="https://konvajs.org/assets/darth-vader.jpg" 
+          onDragStart={handleDragStart} 
+        />
+      </div>
+      
+      <div 
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+      >
+        <Stage
+          width={window.innerWidth}
+          height={window.innerHeight - 150}
+          ref={stageRef}
+        >
+          <Layer>
+            {images.map((img) => (
+              <KonvaImage
+                key={img.id}
+                src={img.src}
+                x={img.x}
+                y={img.y}
+                draggable
+              />
+            ))}
+          </Layer>
+        </Stage>
+      </div>
+    </div>
+  );
+};
+
+// Separate component for Konva Image with proper loading
+const KonvaImage = ({ src, x, y, draggable }) => {
+  const [image] = useImage(src);
+  
+  if (!image) return null;
+  
+  // Calculate appropriate size
+  const maxDimension = 100;
+  let width = image.width;
+  let height = image.height;
+  
+  if (width > height) {
+    height = (height / width) * maxDimension;
+    width = maxDimension;
+  } else {
+    width = (width / height) * maxDimension;
+    height = maxDimension;
+  }
+  
+  return (
+    <Image
+      image={image}
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      draggable={draggable}
+    />
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <p>Drag&drop yoda into the grey area.</p>
+    <div style="margin-bottom: 10px;">
+      <img 
+        src="https://konvajs.org/assets/yoda.jpg" 
+        draggable="true" 
+        style="height: 100px; margin: 5px;"
+        @dragstart="handleDragStart('https://konvajs.org/assets/yoda.jpg')" 
+      />
+      <img 
+        src="https://konvajs.org/assets/darth-vader.jpg" 
+        draggable="true" 
+        style="height: 100px; margin: 5px;"
+        @dragstart="handleDragStart('https://konvajs.org/assets/darth-vader.jpg')" 
+      />
+    </div>
+    
+    <div 
+      @dragover.prevent
+      @drop="handleDrop"
+      style="background-color: rgba(0, 0, 0, 0.1);"
+    >
+      <v-stage 
+        ref="stageRef"
+        :config="stageConfig"
+      >
+        <v-layer>
+          <v-image
+            v-for="img in images"
+            :key="img.id"
+            :config="getImageConfig(img)"
+          />
+        </v-layer>
+      </v-stage>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight - 150
+};
+
+const stageRef = ref(null);
+const images = ref([]);
+const dragImageSrc = ref('');
+const loadedImages = ref({});
+
+// Handle drag start to track the image being dragged
+const handleDragStart = (src) => {
+  dragImageSrc.value = src;
+};
+
+// Handle drop event to add image to stage
+const handleDrop = (e) => {
+  e.preventDefault();
+  
+  if (!dragImageSrc.value || !stageRef.value) return;
+  
+  // Get stage reference and register pointer positions
+  const stage = stageRef.value.getNode();
+  stage.setPointersPositions(e);
+  const position = stage.getPointerPosition();
+  
+  // Load the image if not loaded already
+  if (!loadedImages.value[dragImageSrc.value]) {
+    const img = new Image();
+    img.onload = () => {
+      loadedImages.value = {
+        ...loadedImages.value,
+        [dragImageSrc.value]: img
+      };
+      
+      // Add image to the stage
+      addImageToStage(dragImageSrc.value, position);
+    };
+    img.src = dragImageSrc.value;
+  } else {
+    // Image already loaded, add it to stage
+    addImageToStage(dragImageSrc.value, position);
+  }
+};
+
+// Helper to add image to stage
+const addImageToStage = (src, position) => {
+  images.value.push({
+    src: src,
+    x: position.x,
+    y: position.y,
+    id: Date.now().toString()
+  });
+};
+
+// Configure image properties 
+const getImageConfig = (img) => {
+  const image = loadedImages.value[img.src];
+  if (!image) return { x: img.x, y: img.y, draggable: true };
+  
+  // Calculate appropriate size
+  const maxDimension = 100;
+  let width = image.width;
+  let height = image.height;
+  
+  if (width > height) {
+    height = (height / width) * maxDimension;
+    width = maxDimension;
+  } else {
+    width = (width / height) * maxDimension;
+    height = maxDimension;
+  }
+  
+  return {
+    image: image,
+    x: img.x,
+    y: img.y,
+    width: width,
+    height: height,
+    draggable: true
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs>

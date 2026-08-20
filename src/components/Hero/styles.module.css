@@ -1,0 +1,81 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/*
+ * The card stays light in both site themes. It sits on the dark hero, so it
+ * reads as a sheet of canvas and the shape colours never need a theme variant.
+ */
+.demoCard {
+  margin: 0;
+  padding: 0.75rem 0.75rem 0.25rem;
+  background: linear-gradient(180deg, #ffffff, #eef4fb);
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 1rem;
+  box-shadow: 0 24px 60px rgb(3 16 38 / 45%);
+}
+
+.demoStage {
+  overflow: hidden;
+  border-radius: 0.6rem;
+  touch-action: none;
+}
+
+.demoCaption {
+  padding: 0.6rem 0.35rem 0.5rem;
+  color: #5b7089;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.install {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  overflow: hidden;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 0.5rem;
+}
+
+.installCommand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  overflow-x: auto;
+  color: #ffffff;
+  background: none;
+  border: 0;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.installPrompt {
+  color: rgb(255 255 255 / 55%);
+}
+
+.installCopy {
+  flex: none;
+  padding: 0 0.9rem;
+  color: #ffffff;
+  background: rgb(255 255 255 / 12%);
+  border: 0;
+  border-left: 1px solid rgb(255 255 255 / 22%);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.installCopy:hover {
+  background: rgb(255 255 255 / 22%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .installCopy {
+    transition: none;
+  }
+}

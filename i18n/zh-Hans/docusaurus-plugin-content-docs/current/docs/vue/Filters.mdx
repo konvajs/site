@@ -1,0 +1,67 @@
+---
+title: 如何使用 Vue 和 Konva 应用 Canvas 滤镜？
+sidebar_label: 滤镜
+hide_table_of_contents: true
+slug: Filters.html
+description: "学习如何在 Vue 中使用 Konva，通过缓存和重新缓存为图形应用噪声和模糊等 Canvas 滤镜。"
+---
+
+如需应用滤镜，必须手动缓存 `Konva.Node`。可以在 `mounted()` hook 中完成此操作。
+每次更新节点样式时，都必须重新缓存节点。
+
+操作说明：将鼠标移到矩形上方，查看应用噪声滤镜后的颜色变化。
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-rect
+        ref="rect"
+        @mousemove="handleMouseMove"
+        :config="{
+          filters: filters,
+          noise: 1,
+          x: 10,
+          y: 10,
+          width: 50,
+          height: 50,
+          fill: color,
+          shadowBlur: 10
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+const width = window.innerWidth;
+const height = window.innerHeight;
+import Konva from 'konva';
+
+export default {
+  data() {
+    return {
+      stageSize: {
+        width: width,
+        height: height
+      },
+      color: 'green',
+      filters: [Konva.Filters.Noise]
+    };
+  },
+  methods: {
+    handleMouseMove() {
+      this.color = Konva.Util.getRandomColor();
+      // recache after changing properties
+      const rectNode = this.$refs.rect.getNode();
+      rectNode.cache();
+    }
+  },
+  mounted() {
+    // initial cache
+    const rectNode = this.$refs.rect.getNode();
+    rectNode.cache();
+  }
+};
+</script> 
+```

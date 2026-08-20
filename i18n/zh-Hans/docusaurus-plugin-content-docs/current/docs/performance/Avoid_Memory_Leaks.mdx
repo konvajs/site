@@ -1,0 +1,213 @@
+---
+title: HTML5 Canvas 避免内存泄漏技巧
+sidebar_label: 避免内存泄漏
+hide_table_of_contents: true
+slug: Avoid_Memory_Leaks.html
+description: "使用 Konva.js 防止 HTML5 Canvas 应用发生内存泄漏。学习如何正确销毁图形、移除事件并管理 Canvas 资源。"
+---
+
+### 删除图形
+
+`remove()` 和 `destroy()` 是两个非常相似的方法。如果需要彻底删除节点，请使用 `destroy()`。`destroy()` 方法从 KonvaJS 引擎中删除对该节点的所有引用。如果要重复使用节点，请使用 `remove()`，之后可以再次将该节点添加到任何容器。
+
+### 补间
+
+使用 `Konva.Tween` 实例时，必须在使用后将其销毁。
+
+以下示例展示了正确的内存管理：
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create circle
+const circle = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 30,
+  fill: 'red'
+});
+
+layer.add(circle);
+
+// Add buttons
+const addButton = document.createElement('button');
+addButton.textContent = 'Add Circle';
+document.body.appendChild(addButton);
+
+const removeButton = document.createElement('button');
+removeButton.textContent = 'Remove Circle';
+document.body.appendChild(removeButton);
+
+const animateButton = document.createElement('button');
+animateButton.textContent = 'Animate';
+document.body.appendChild(animateButton);
+
+// Handle adding/removing
+addButton.addEventListener('click', () => {
+  layer.add(circle);
+});
+
+removeButton.addEventListener('click', () => {
+  // Just remove from layer, can be added back
+  circle.remove();
+});
+
+animateButton.addEventListener('click', () => {
+  // Using to() method which auto-destroys the tween
+  circle.to({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    duration: 1
+  });
+  
+  // If using Tween directly, make sure to destroy it
+  const tween = new Konva.Tween({
+    node: circle,
+    rotation: 360,
+    duration: 1,
+    onFinish: function() {
+      // Clean up the tween
+      tween.destroy();
+    }
+  }).play();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [rotation, setRotation] = useState(0);
+
+  const handleAdd = () => {
+    setIsVisible(true);
+  };
+
+  const handleRemove = () => {
+    setIsVisible(false);
+  };
+
+  const handleAnimate = () => {
+    // Update position
+    setPosition({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight
+    });
+    
+    // Update rotation
+    setRotation(rotation + 360);
+  };
+
+  return (
+    <div>
+      <button onClick={handleAdd} style={{ marginRight: '10px' }}>Add Circle</button>
+      <button onClick={handleRemove} style={{ marginRight: '10px' }}>Remove Circle</button>
+      <button onClick={handleAnimate}>Animate</button>
+      
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {isVisible && (
+            <Circle
+              x={position.x}
+              y={position.y}
+              radius={30}
+              fill="red"
+              rotation={rotation}
+            />
+          )}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handleAdd" style="margin-right: 10px">Add Circle</button>
+    <button @click="handleRemove" style="margin-right: 10px">Remove Circle</button>
+    <button @click="handleAnimate">Animate</button>
+    
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-circle
+          v-if="isVisible"
+          :config="circleConfig"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const isVisible = ref(true);
+const position = ref({ x: 100, y: 100 });
+const rotation = ref(0);
+
+const circleConfig = ref({
+  x: position.value.x,
+  y: position.value.y,
+  radius: 30,
+  fill: 'red',
+  rotation: rotation.value
+});
+
+const handleAdd = () => {
+  isVisible.value = true;
+};
+
+const handleRemove = () => {
+  isVisible.value = false;
+};
+
+const handleAnimate = () => {
+  // Update position
+  position.value = {
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight
+  };
+  
+  // Update rotation
+  rotation.value += 360;
+  
+  // Update config
+  circleConfig.value = {
+    ...circleConfig.value,
+    x: position.value.x,
+    y: position.value.y,
+    rotation: rotation.value
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

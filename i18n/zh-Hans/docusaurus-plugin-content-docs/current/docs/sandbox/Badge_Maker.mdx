@@ -1,0 +1,502 @@
+---
+title: 如何使用 JavaScript Canvas 构建姓名牌和徽章制作器
+sidebar_label: 徽章制作器
+hide_table_of_contents: true
+slug: Badge_Maker.html
+description: "使用 JavaScript、HTML5 Canvas 和 Konva.js 创建自定义姓名牌、徽章和标签。支持拖放文本、图形和图标，并可实时预览和导出 PNG。"
+---
+
+姓名牌、徽章和标签随处可见，从会议和活动到产品包装和学校项目。使用 Konva，你可以构建完整的交互式徽章制作器，其中包含可拖动文本、图形模板、自定义颜色和一键导出功能。
+
+**操作说明：** 单击徽章模板开始制作。编辑文本字段，拖动元素以调整位置，更改颜色，然后单击“Export as PNG”保存徽章。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// --- Controls ---
+const controls = document.createElement('div');
+controls.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:4px;flex-wrap:wrap;';
+
+const bgLabel = document.createElement('label');
+bgLabel.textContent = 'Badge Color: ';
+const bgColor = document.createElement('input');
+bgColor.type = 'color';
+bgColor.value = '#3b82f6';
+bgLabel.appendChild(bgColor);
+
+const textColorLabel = document.createElement('label');
+textColorLabel.textContent = 'Text Color: ';
+const textColor = document.createElement('input');
+textColor.type = 'color';
+textColor.value = '#ffffff';
+textColorLabel.appendChild(textColor);
+
+const exportBtn = document.createElement('button');
+exportBtn.textContent = 'Export as PNG';
+const clearBtn = document.createElement('button');
+clearBtn.textContent = 'Reset';
+
+controls.appendChild(bgLabel);
+controls.appendChild(textColorLabel);
+controls.appendChild(exportBtn);
+controls.appendChild(clearBtn);
+const container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+
+// --- Stage ---
+const stageWidth = window.innerWidth;
+const stageHeight = window.innerHeight - 40;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: stageWidth,
+  height: stageHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Badge dimensions
+const badgeW = 340;
+const badgeH = 220;
+const badgeX = (stageWidth - badgeW) / 2;
+const badgeY = (stageHeight - badgeH) / 2;
+
+// Badge background
+const badge = new Konva.Rect({
+  x: badgeX,
+  y: badgeY,
+  width: badgeW,
+  height: badgeH,
+  fill: bgColor.value,
+  cornerRadius: 16,
+  shadowColor: 'rgba(0,0,0,0.15)',
+  shadowBlur: 12,
+  shadowOffset: { x: 0, y: 4 },
+});
+layer.add(badge);
+
+// Decorative top stripe
+const stripe = new Konva.Rect({
+  x: badgeX,
+  y: badgeY,
+  width: badgeW,
+  height: 50,
+  fill: 'rgba(0,0,0,0.15)',
+  cornerRadius: [16, 16, 0, 0],
+});
+layer.add(stripe);
+
+// "HELLO" header
+const helloText = new Konva.Text({
+  x: badgeX,
+  y: badgeY + 8,
+  width: badgeW,
+  text: 'HELLO',
+  fontSize: 14,
+  fontFamily: 'Arial',
+  fontStyle: 'bold',
+  fill: 'rgba(255,255,255,0.8)',
+  align: 'center',
+  letterSpacing: 4,
+});
+layer.add(helloText);
+
+// "my name is" subtitle
+const subtitleText = new Konva.Text({
+  x: badgeX,
+  y: badgeY + 26,
+  width: badgeW,
+  text: 'my name is',
+  fontSize: 12,
+  fontFamily: 'Arial',
+  fill: 'rgba(255,255,255,0.6)',
+  align: 'center',
+});
+layer.add(subtitleText);
+
+// Editable name
+const nameText = new Konva.Text({
+  x: badgeX + 20,
+  y: badgeY + 70,
+  width: badgeW - 40,
+  text: 'Your Name',
+  fontSize: 36,
+  fontFamily: 'Arial',
+  fontStyle: 'bold',
+  fill: textColor.value,
+  align: 'center',
+  draggable: true,
+});
+layer.add(nameText);
+
+// Editable title/role
+const roleText = new Konva.Text({
+  x: badgeX + 20,
+  y: badgeY + 120,
+  width: badgeW - 40,
+  text: 'Job Title',
+  fontSize: 18,
+  fontFamily: 'Arial',
+  fill: 'rgba(255,255,255,0.75)',
+  align: 'center',
+  draggable: true,
+});
+layer.add(roleText);
+
+// Editable company
+const companyText = new Konva.Text({
+  x: badgeX + 20,
+  y: badgeY + 150,
+  width: badgeW - 40,
+  text: 'Company',
+  fontSize: 16,
+  fontFamily: 'Arial',
+  fill: 'rgba(255,255,255,0.55)',
+  align: 'center',
+  draggable: true,
+});
+layer.add(companyText);
+
+// Small circle decoration
+const circle = new Konva.Circle({
+  x: badgeX + badgeW - 30,
+  y: badgeY + badgeH - 30,
+  radius: 14,
+  fill: 'rgba(255,255,255,0.2)',
+});
+layer.add(circle);
+
+// Transformer for selection
+const tr = new Konva.Transformer({
+  rotateEnabled: false,
+  borderStrokeWidth: 1,
+  anchorSize: 8,
+});
+layer.add(tr);
+
+// Select on click
+stage.on('click tap', function (e) {
+  const target = e.target;
+  if (target === stage || target === badge || target === stripe || target === circle) {
+    tr.nodes([]);
+    return;
+  }
+  if (target.draggable()) {
+    tr.nodes([target]);
+  }
+});
+
+// Double-click to edit text
+function enableTextEdit(textNode) {
+  textNode.on('dblclick dbltap', () => {
+    textNode.hide();
+    tr.hide();
+    const textPosition = textNode.absolutePosition();
+    const stageBox = stage.container().getBoundingClientRect();
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = textNode.text();
+    input.style.position = 'absolute';
+    input.style.top = stageBox.top + textPosition.y + 'px';
+    input.style.left = stageBox.left + textPosition.x + 'px';
+    input.style.width = textNode.width() + 'px';
+    input.style.fontSize = textNode.fontSize() + 'px';
+    input.style.fontFamily = textNode.fontFamily();
+    input.style.textAlign = textNode.align();
+    input.style.border = '2px solid #3b82f6';
+    input.style.borderRadius = '4px';
+    input.style.padding = '2px 4px';
+    input.style.outline = 'none';
+    input.style.background = '#fff';
+    input.style.zIndex = '1000';
+    document.body.appendChild(input);
+    input.focus();
+    input.select();
+
+    function finish() {
+      textNode.text(input.value);
+      textNode.show();
+      tr.show();
+      tr.forceUpdate();
+      document.body.removeChild(input);
+    }
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') finish();
+    });
+    input.addEventListener('blur', finish);
+  });
+}
+
+enableTextEdit(nameText);
+enableTextEdit(roleText);
+enableTextEdit(companyText);
+
+// Controls
+bgColor.addEventListener('input', () => {
+  badge.fill(bgColor.value);
+});
+
+textColor.addEventListener('input', () => {
+  nameText.fill(textColor.value);
+});
+
+exportBtn.addEventListener('click', () => {
+  // hide transformer for clean export
+  tr.nodes([]);
+  const dataURL = stage.toDataURL({
+    x: badgeX - 4,
+    y: badgeY - 4,
+    width: badgeW + 8,
+    height: badgeH + 8,
+    pixelRatio: 3,
+  });
+  const link = document.createElement('a');
+  link.download = 'badge.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+clearBtn.addEventListener('click', () => {
+  nameText.text('Your Name');
+  roleText.text('Job Title');
+  companyText.text('Company');
+  bgColor.value = '#3b82f6';
+  badge.fill('#3b82f6');
+  textColor.value = '#ffffff';
+  nameText.fill('#ffffff');
+  tr.nodes([]);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Rect, Text, Circle, Transformer } from 'react-konva';
+
+const App = () => {
+  const [bgFill, setBgFill] = React.useState('#3b82f6');
+  const [textFill, setTextFill] = React.useState('#ffffff');
+  const [name, setName] = React.useState('Your Name');
+  const [role, setRole] = React.useState('Job Title');
+  const [company, setCompany] = React.useState('Company');
+  const [selected, setSelected] = React.useState(null);
+  const stageRef = React.useRef(null);
+  const trRef = React.useRef(null);
+  const nameRef = React.useRef(null);
+  const roleRef = React.useRef(null);
+  const companyRef = React.useRef(null);
+
+  const W = window.innerWidth;
+  const H = window.innerHeight - 60;
+  const bW = 340, bH = 220;
+  const bX = (W - bW) / 2, bY = (H - bH) / 2;
+
+  React.useEffect(() => {
+    if (trRef.current && selected) {
+      trRef.current.nodes([selected]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [selected]);
+
+  const handleStageClick = (e) => {
+    const target = e.target;
+    if (target === e.target.getStage() || !target.draggable()) {
+      setSelected(null);
+      if (trRef.current) trRef.current.nodes([]);
+      return;
+    }
+    setSelected(target);
+  };
+
+  const handleDblClick = (e, setText) => {
+    const textNode = e.target;
+    textNode.hide();
+    if (trRef.current) trRef.current.hide();
+
+    const pos = textNode.absolutePosition();
+    const box = stageRef.current.container().getBoundingClientRect();
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = textNode.text();
+    input.style.cssText = `position:absolute;top:${box.top+pos.y}px;left:${box.left+pos.x}px;width:${textNode.width()}px;font-size:${textNode.fontSize()}px;font-family:${textNode.fontFamily()};text-align:${textNode.align()};border:2px solid #3b82f6;border-radius:4px;padding:2px 4px;outline:none;z-index:1000;background:#fff;`;
+    document.body.appendChild(input);
+    input.focus();
+    input.select();
+
+    const finish = () => {
+      setText(input.value);
+      textNode.show();
+      if (trRef.current) trRef.current.show();
+      if (document.body.contains(input)) document.body.removeChild(input);
+    };
+    input.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') finish(); });
+    input.addEventListener('blur', finish);
+  };
+
+  const handleExport = () => {
+    setSelected(null);
+    if (trRef.current) trRef.current.nodes([]);
+    setTimeout(() => {
+      const dataURL = stageRef.current.toDataURL({ x: bX-4, y: bY-4, width: bW+8, height: bH+8, pixelRatio: 3 });
+      const link = document.createElement('a');
+      link.download = 'badge.png';
+      link.href = dataURL;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 50);
+  };
+
+  return (
+    <>
+      <div style={{ display:'flex', gap:8, alignItems:'center', flexWrap:'wrap', marginBottom:4 }}>
+        <label>Badge Color: <input type="color" value={bgFill} onChange={e=>setBgFill(e.target.value)} /></label>
+        <label>Text Color: <input type="color" value={textFill} onChange={e=>setTextFill(e.target.value)} /></label>
+        <button onClick={handleExport}>Export as PNG</button>
+        <button onClick={() => { setName('Your Name'); setRole('Job Title'); setCompany('Company'); setBgFill('#3b82f6'); setTextFill('#ffffff'); }}>Reset</button>
+      </div>
+      <Stage ref={stageRef} width={W} height={H} onClick={handleStageClick} onTap={handleStageClick}>
+        <Layer>
+          <Rect x={bX} y={bY} width={bW} height={bH} fill={bgFill} cornerRadius={16} shadowColor="rgba(0,0,0,0.15)" shadowBlur={12} shadowOffsetY={4} />
+          <Rect x={bX} y={bY} width={bW} height={50} fill="rgba(0,0,0,0.15)" cornerRadius={[16,16,0,0]} />
+          <Text x={bX} y={bY+8} width={bW} text="HELLO" fontSize={14} fontFamily="Arial" fontStyle="bold" fill="rgba(255,255,255,0.8)" align="center" letterSpacing={4} />
+          <Text x={bX} y={bY+26} width={bW} text="my name is" fontSize={12} fontFamily="Arial" fill="rgba(255,255,255,0.6)" align="center" />
+          <Text ref={nameRef} x={bX+20} y={bY+70} width={bW-40} text={name} fontSize={36} fontFamily="Arial" fontStyle="bold" fill={textFill} align="center" draggable onDblClick={e=>handleDblClick(e,setName)} onDblTap={e=>handleDblClick(e,setName)} />
+          <Text ref={roleRef} x={bX+20} y={bY+120} width={bW-40} text={role} fontSize={18} fontFamily="Arial" fill="rgba(255,255,255,0.75)" align="center" draggable onDblClick={e=>handleDblClick(e,setRole)} onDblTap={e=>handleDblClick(e,setRole)} />
+          <Text ref={companyRef} x={bX+20} y={bY+150} width={bW-40} text={company} fontSize={16} fontFamily="Arial" fill="rgba(255,255,255,0.55)" align="center" draggable onDblClick={e=>handleDblClick(e,setCompany)} onDblTap={e=>handleDblClick(e,setCompany)} />
+          <Circle x={bX+bW-30} y={bY+bH-30} radius={14} fill="rgba(255,255,255,0.2)" />
+          <Transformer ref={trRef} rotateEnabled={false} borderStrokeWidth={1} anchorSize={8} />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+      <label>Badge Color: <input type="color" v-model="bgFill" @input="updateBg" /></label>
+      <label>Text Color: <input type="color" v-model="textFill" @input="updateTextColor" /></label>
+      <button @click="handleExport">Export as PNG</button>
+      <button @click="handleReset">Reset</button>
+    </div>
+    <v-stage ref="stageRef" :config="stageConfig" @click="handleStageClick" @tap="handleStageClick">
+      <v-layer ref="layerRef">
+        <v-rect :config="badgeConfig" />
+        <v-rect :config="stripeConfig" />
+        <v-text :config="helloConfig" />
+        <v-text :config="subConfig" />
+        <v-text ref="nameRef" :config="nameConfig" @dblclick="e => editText(e, 'name')" />
+        <v-text ref="roleRef" :config="roleConfig" @dblclick="e => editText(e, 'role')" />
+        <v-text ref="companyRef" :config="companyConfig" @dblclick="e => editText(e, 'company')" />
+        <v-circle :config="circleConfig" />
+        <v-transformer ref="trRef" :config="{ rotateEnabled: false, borderStrokeWidth: 1, anchorSize: 8 }" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch } from 'vue';
+
+const W = window.innerWidth;
+const H = window.innerHeight - 60;
+const bW = 340, bH = 220;
+const bX = (W - bW) / 2, bY = (H - bH) / 2;
+
+const bgFill = ref('#3b82f6');
+const textFill = ref('#ffffff');
+const name = ref('Your Name');
+const role = ref('Job Title');
+const company = ref('Company');
+const stageRef = ref(null);
+const layerRef = ref(null);
+const trRef = ref(null);
+const nameRef = ref(null);
+const roleRef = ref(null);
+const companyRef = ref(null);
+
+const stageConfig = { width: W, height: H };
+const badgeConfig = computed(() => ({ x: bX, y: bY, width: bW, height: bH, fill: bgFill.value, cornerRadius: 16, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 12, shadowOffsetY: 4 }));
+const stripeConfig = { x: bX, y: bY, width: bW, height: 50, fill: 'rgba(0,0,0,0.15)', cornerRadius: [16,16,0,0] };
+const helloConfig = { x: bX, y: bY+8, width: bW, text: 'HELLO', fontSize: 14, fontFamily: 'Arial', fontStyle: 'bold', fill: 'rgba(255,255,255,0.8)', align: 'center', letterSpacing: 4 };
+const subConfig = { x: bX, y: bY+26, width: bW, text: 'my name is', fontSize: 12, fontFamily: 'Arial', fill: 'rgba(255,255,255,0.6)', align: 'center' };
+const nameConfig = computed(() => ({ x: bX+20, y: bY+70, width: bW-40, text: name.value, fontSize: 36, fontFamily: 'Arial', fontStyle: 'bold', fill: textFill.value, align: 'center', draggable: true }));
+const roleConfig = computed(() => ({ x: bX+20, y: bY+120, width: bW-40, text: role.value, fontSize: 18, fontFamily: 'Arial', fill: 'rgba(255,255,255,0.75)', align: 'center', draggable: true }));
+const companyConfig = computed(() => ({ x: bX+20, y: bY+150, width: bW-40, text: company.value, fontSize: 16, fontFamily: 'Arial', fill: 'rgba(255,255,255,0.55)', align: 'center', draggable: true }));
+const circleConfig = { x: bX+bW-30, y: bY+bH-30, radius: 14, fill: 'rgba(255,255,255,0.2)' };
+
+const updateBg = () => {};
+const updateTextColor = () => {};
+
+const handleStageClick = (e) => {
+  if (!e.target.draggable || !e.target.draggable()) {
+    if (trRef.value) trRef.value.getNode().nodes([]);
+    return;
+  }
+  if (trRef.value) {
+    trRef.value.getNode().nodes([e.target]);
+    trRef.value.getNode().getLayer().batchDraw();
+  }
+};
+
+const editText = (e, field) => {
+  const textNode = e.target;
+  textNode.hide();
+  const refs = { name, role, company };
+  const pos = textNode.absolutePosition();
+  const box = stageRef.value.getNode().container().getBoundingClientRect();
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = textNode.text();
+  input.style.cssText = `position:absolute;top:${box.top+pos.y}px;left:${box.left+pos.x}px;width:${textNode.width()}px;font-size:${textNode.fontSize()}px;text-align:center;border:2px solid #3b82f6;border-radius:4px;padding:2px 4px;outline:none;z-index:1000;background:#fff;`;
+  document.body.appendChild(input);
+  input.focus();
+  input.select();
+  const finish = () => {
+    refs[field].value = input.value;
+    textNode.show();
+    if (document.body.contains(input)) document.body.removeChild(input);
+  };
+  input.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') finish(); });
+  input.addEventListener('blur', finish);
+};
+
+const handleExport = () => {
+  if (trRef.value) trRef.value.getNode().nodes([]);
+  setTimeout(() => {
+    const dataURL = stageRef.value.getNode().toDataURL({ x: bX-4, y: bY-4, width: bW+8, height: bH+8, pixelRatio: 3 });
+    const link = document.createElement('a');
+    link.download = 'badge.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, 50);
+};
+
+const handleReset = () => {
+  name.value = 'Your Name';
+  role.value = 'Job Title';
+  company.value = 'Company';
+  bgFill.value = '#3b82f6';
+  textFill.value = '#ffffff';
+  if (trRef.value) trRef.value.getNode().nodes([]);
+};
+</script>
+```
+  </TabItem>
+</Tabs>

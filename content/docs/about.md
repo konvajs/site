@@ -8,7 +8,7 @@ description: "Konva.js is an open-source MIT-licensed 2D HTML5 Canvas JavaScript
 
 ## About Konva.js
 
-Konva.js is the most popular open-source 2D HTML5 Canvas JavaScript framework, providing an object-oriented API for building interactive canvas applications. It supports shapes, animations, events, drag-and-drop, filters, serialization, and high-quality exports. Konva has official integrations with React, Vue, Svelte, and Angular, making it the go-to canvas solution across all major JavaScript frameworks. It is MIT-licensed, free for both commercial and personal use, and actively maintained since 2014.
+Konva.js is an open-source 2D HTML5 Canvas JavaScript framework. It provides an object-oriented API for interactive canvas applications. It supports shapes, animations, events, drag-and-drop, filters, serialization, and high-quality exports. Konva has integrations for React, Vue, Svelte, and Angular. It uses the MIT license and has been maintained since 2014.
 
 ## Key Facts
 

@@ -1,0 +1,750 @@
+---
+title: HTML5 Canvas 图形选择、调整尺寸和旋转
+sidebar_label: 基础示例
+hide_table_of_contents: true
+slug: Basic_demo.html
+description: "学习如何使用 Konva.js Transformer 选择、调整 HTML5 Canvas 图形的尺寸并旋转图形。为任意图形添加可交互的调整尺寸和旋转手柄。"
+---
+
+`Transformer` 是一种特殊的 `Konva.Group`。使用它可以调整任意节点或一组节点的尺寸并旋转这些节点。
+
+要启用它，请执行以下操作：
+
+1. 使用 `new Konva.Transformer()` 创建新实例
+2. 将它添加到图层
+3. 使用 `transformer.nodes([shape]);` 将它附加到节点
+
+_注意：_ 调整节点尺寸时，变换工具不会更改节点的 `width` 和 `height` 属性。它会改为更改 `scaleX` 和 `scaleY` 属性。
+
+**操作说明：尝试调整图形尺寸并旋转图形。单击空白区域可取消选择。使用 SHIFT 或 CTRL 将图形添加到选区或从选区移除。尝试在 Canvas 上框选一个区域。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create rectangle
+const rect1 = new Konva.Rect({
+  x: 60,
+  y: 60,
+  width: 100,
+  height: 90,
+  fill: 'red',
+  name: 'rect',
+  draggable: true,
+});
+layer.add(rect1);
+
+const rect2 = new Konva.Rect({
+  x: 250,
+  y: 100,
+  width: 150,
+  height: 90,
+  fill: 'green',
+  name: 'rect',
+  draggable: true,
+});
+layer.add(rect2);
+
+// create transformer
+const tr = new Konva.Transformer();
+layer.add(tr);
+
+// add a new feature, lets add ability to draw selection rectangle
+let selectionRectangle = new Konva.Rect({
+  fill: 'rgba(0,0,255,0.5)',
+  visible: false,
+});
+layer.add(selectionRectangle);
+
+let x1, y1, x2, y2;
+stage.on('mousedown touchstart', (e) => {
+  // do nothing if we mousedown on any shape
+  if (e.target !== stage) {
+  return;
+  }
+  x1 = stage.getPointerPosition().x;
+  y1 = stage.getPointerPosition().y;
+  x2 = stage.getPointerPosition().x;
+  y2 = stage.getPointerPosition().y;
+
+  selectionRectangle.setAttrs({
+    x: x1,
+    y: y1,
+    width: 0,
+    height: 0,
+    visible: true,
+  });
+});
+
+stage.on('mousemove touchmove', () => {
+  // do nothing if we didn't start selection
+  if (!selectionRectangle.visible()) {
+  return;
+  }
+  x2 = stage.getPointerPosition().x;
+  y2 = stage.getPointerPosition().y;
+
+  selectionRectangle.setAttrs({
+    x: Math.min(x1, x2),
+    y: Math.min(y1, y2),
+    width: Math.abs(x2 - x1),
+    height: Math.abs(y2 - y1),
+  });
+});
+
+stage.on('mouseup touchend', () => {
+  // do nothing if we didn't start selection
+  if (!selectionRectangle.visible()) {
+    return;
+  }
+  // update visibility in timeout, so we can check it in click event
+  setTimeout(() => {
+    selectionRectangle.visible(false);
+  });
+
+  var shapes = stage.find('.rect');
+  var box = selectionRectangle.getClientRect();
+  var selected = shapes.filter((shape) =>
+    Konva.Util.haveIntersection(box, shape.getClientRect())
+  );
+  tr.nodes(selected);
+});
+
+// clicks should select/deselect shapes
+stage.on('click tap', function (e) {
+// if we are selecting with rect, do nothing
+if (selectionRectangle.visible() && selectionRectangle.width() > 0 && selectionRectangle.height() > 0) {
+  return;
+}
+
+  // if click on empty area - remove all selections
+  if (e.target === stage) {
+    tr.nodes([]);
+    return;
+  }
+
+  // do nothing if clicked NOT on our rectangles
+  if (!e.target.hasName('rect')) {
+    return;
+  }
+
+  // do we pressed shift or ctrl?
+  const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+  const isSelected = tr.nodes().indexOf(e.target) >= 0;
+
+  if (!metaPressed && !isSelected) {
+    // if no key pressed and the node is not selected
+    // select just one
+    tr.nodes([e.target]);
+  } else if (metaPressed && isSelected) {
+    // if we pressed keys and node was selected
+    // we need to remove it from selection:
+    const nodes = tr.nodes().slice(); // use slice to have new copy of array
+    // remove node from array
+    nodes.splice(nodes.indexOf(e.target), 1);
+    tr.nodes(nodes);
+  } else if (metaPressed && !isSelected) {
+    // add the node into selection
+    const nodes = tr.nodes().concat([e.target]);
+    tr.nodes(nodes);
+  }
+});
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
+import { useState, useEffect, useRef } from 'react';
+
+const initialRectangles = [
+  {
+    x: 60,
+    y: 60,
+    width: 100,
+    height: 90,
+    fill: 'red',
+    id: 'rect1',
+    name: 'rect',
+    rotation: 0,
+  },
+  {
+    x: 250,
+    y: 100,
+    width: 150,
+    height: 90,
+    fill: 'green',
+    id: 'rect2',
+    name: 'rect',
+    rotation: 0,
+  },
+];
+
+// Helper functions for calculating bounding boxes of rotated rectangles
+const degToRad = (angle) => (angle / 180) * Math.PI;
+
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (element) => {
+  const { x, y, width, height, rotation = 0 } = element;
+  const rad = degToRad(rotation);
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
+
+const App = () => {
+  const [rectangles, setRectangles] = useState(initialRectangles);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectionRectangle, setSelectionRectangle] = useState({
+    visible: false,
+    x1: 0,
+    y1: 0,
+    x2: 0,
+    y2: 0,
+  });
+  
+  const isSelecting = useRef(false);
+  const transformerRef = useRef();
+  const rectRefs = useRef(new Map());
+  
+  // Update transformer when selection changes
+  useEffect(() => {
+    if (selectedIds.length && transformerRef.current) {
+      // Get the nodes from the refs Map
+      const nodes = selectedIds
+        .map(id => rectRefs.current.get(id))
+        .filter(node => node);
+      
+      transformerRef.current.nodes(nodes);
+    } else if (transformerRef.current) {
+      // Clear selection
+      transformerRef.current.nodes([]);
+    }
+  }, [selectedIds]);
+  
+  // Click handler for stage
+  const handleStageClick = (e) => {
+    // If we are selecting with rect, do nothing
+    // But allow point clicks through (when width/height are 0)
+    const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+    const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+    if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
+      return;
+    }
+
+    // If click on empty area - remove all selections
+    if (e.target === e.target.getStage()) {
+      setSelectedIds([]);
+      return;
+    }
+
+    // Do nothing if clicked NOT on our rectangles
+    if (!e.target.hasName('rect')) {
+      return;
+    }
+
+    const clickedId = e.target.id();
+    
+    // Do we pressed shift or ctrl?
+    const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+    const isSelected = selectedIds.includes(clickedId);
+
+    if (!metaPressed && !isSelected) {
+      // If no key pressed and the node is not selected
+      // select just one
+      setSelectedIds([clickedId]);
+    } else if (metaPressed && isSelected) {
+      // If we pressed keys and node was selected
+      // we need to remove it from selection
+      setSelectedIds(selectedIds.filter(id => id !== clickedId));
+    } else if (metaPressed && !isSelected) {
+      // Add the node into selection
+      setSelectedIds([...selectedIds, clickedId]);
+    }
+  };
+  
+  const handleMouseDown = (e) => {
+    // Do nothing if we mousedown on any shape
+    if (e.target !== e.target.getStage()) {
+      return;
+    }
+    
+    // Start selection rectangle
+    isSelecting.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setSelectionRectangle({
+      visible: true,
+      x1: pos.x,
+      y1: pos.y,
+      x2: pos.x,
+      y2: pos.y,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    // Do nothing if we didn't start selection
+    if (!isSelecting.current) {
+      return;
+    }
+    
+    const pos = e.target.getStage().getPointerPosition();
+    setSelectionRectangle({
+      ...selectionRectangle,
+      x2: pos.x,
+      y2: pos.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    // Do nothing if we didn't start selection
+    if (!isSelecting.current) {
+      return;
+    }
+    isSelecting.current = false;
+    
+    // Update visibility in timeout, so we can check it in click event
+    setTimeout(() => {
+      setSelectionRectangle({
+        ...selectionRectangle,
+        visible: false,
+      });
+    });
+
+    const selBox = {
+      x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
+      y: Math.min(selectionRectangle.y1, selectionRectangle.y2),
+      width: Math.abs(selectionRectangle.x2 - selectionRectangle.x1),
+      height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
+    };
+
+    // Only select shapes if selection box has actual size (not just a point click)
+    if (selBox.width > 0 && selBox.height > 0) {
+      const selected = rectangles.filter(rect => {
+        // Check if rectangle intersects with selection box
+        return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+      });
+      
+      setSelectedIds(selected.map(rect => rect.id));
+    }
+  };
+
+  const handleDragEnd = (e) => {
+    const id = e.target.id();
+    setRectangles(prevRects => {
+      const newRects = [...prevRects];
+      const index = newRects.findIndex(r => r.id === id);
+      if (index !== -1) {
+        newRects[index] = {
+          ...newRects[index],
+          x: e.target.x(),
+          y: e.target.y()
+        };
+      }
+      return newRects;
+    });
+  };
+
+  const handleTransformEnd = (e) => {
+    // Find which rectangle(s) were transformed
+    const id = e.target.id();
+    const node = e.target;
+    
+    setRectangles(prevRects => {
+      const newRects = [...prevRects];
+      
+      // Update each transformed node
+      const index = newRects.findIndex(r => r.id === id);
+      
+      if (index !== -1) {
+        const scaleX = node.scaleX();
+        const scaleY = node.scaleY();
+        
+        // Reset scale
+        node.scaleX(1);
+        node.scaleY(1);
+        
+        // Update the state with new values
+        newRects[index] = {
+          ...newRects[index],
+          x: node.x(),
+          y: node.y(),
+          width: Math.max(5, node.width() * scaleX),
+          height: Math.max(node.height() * scaleY),
+          rotation: node.rotation(),
+        };
+      }
+      
+      return newRects;
+    });
+  };
+
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      onMouseDown={handleMouseDown}
+      onMousemove={handleMouseMove}
+      onMouseup={handleMouseUp}
+      onClick={handleStageClick}
+    >
+      <Layer>
+        {/* Render rectangles directly */}
+        {rectangles.map(rect => (
+          <Rect
+            key={rect.id}
+            id={rect.id}
+            x={rect.x}
+            y={rect.y}
+            width={rect.width}
+            height={rect.height}
+            fill={rect.fill}
+            name={rect.name}
+            rotation={rect.rotation}
+            draggable
+            ref={node => {
+              if (node) {
+                rectRefs.current.set(rect.id, node);
+              }
+            }}
+            onDragEnd={handleDragEnd}
+            onTransformEnd={handleTransformEnd}
+          />
+        ))}
+        
+        {/* Single transformer for all selected shapes */}
+        <Transformer
+          ref={transformerRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // Limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+          
+        />
+        
+        {/* Selection rectangle */}
+        {selectionRectangle.visible && (
+          <Rect
+            x={Math.min(selectionRectangle.x1, selectionRectangle.x2)}
+            y={Math.min(selectionRectangle.y1, selectionRectangle.y2)}
+            width={Math.abs(selectionRectangle.x2 - selectionRectangle.x1)}
+            height={Math.abs(selectionRectangle.y2 - selectionRectangle.y1)}
+            fill="rgba(0,0,255,0.5)"
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage
+    :config="stageSize"
+    @mousedown="handleMouseDown"
+    @mousemove="handleMouseMove"
+    @mouseup="handleMouseUp"
+    @click="handleStageClick"
+    ref="stageRef"
+  >
+    <v-layer ref="layerRef">
+      <v-rect
+        v-for="(rect, i) in rectangles"
+        :key="i"
+        :config="{
+          ...rect,
+          name: 'rect', // Important to match vanilla version's logic
+          draggable: true
+        }"
+        @dragend="(e) => handleDragEnd(e, i)"
+        @transformend="(e) => handleTransformEnd(e, i)"
+        ref="rectRefs"
+      />
+      <v-transformer
+        ref="transformerRef"
+        :config="{
+          boundBoxFunc: (oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          },
+        }"
+      />
+      <v-rect
+        v-if="selectionRectangle.visible"
+        :config="{
+          x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
+          y: Math.min(selectionRectangle.y1, selectionRectangle.y2),
+          width: Math.abs(selectionRectangle.x2 - selectionRectangle.x1),
+          height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
+          fill: 'rgba(0,0,255,0.5)'
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, watch, reactive, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const rectangles = ref([
+  {
+    x: 60,
+    y: 60,
+    width: 100,
+    height: 90,
+    fill: 'red',
+    id: 'rect1',
+    rotation: 0,
+  },
+  {
+    x: 250,
+    y: 100,
+    width: 150,
+    height: 90,
+    fill: 'green',
+    id: 'rect2',
+    rotation: 0,
+  },
+]);
+
+const selectedIds = ref([]);
+const rectRefs = ref([]);
+const transformerRef = ref(null);
+const stageRef = ref(null);
+const layerRef = ref(null);
+const isSelecting = ref(false);
+const selectionRectangle = reactive({
+  visible: false,
+  x1: 0,
+  y1: 0,
+  x2: 0,
+  y2: 0
+});
+
+// Helper functions for calculating bounding boxes of rotated rectangles
+const degToRad = (angle) => (angle / 180) * Math.PI;
+
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (element) => {
+  const { x, y, width, height, rotation = 0 } = element;
+  const rad = degToRad(rotation);
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
+
+// Update transformer nodes when selection changes
+watch(selectedIds, () => {
+  if (!transformerRef.value) return;
+  
+  const nodes = selectedIds.value.map(id => {
+    return rectRefs.value.find(ref => ref.getNode().attrs.id === id)?.getNode();
+  }).filter(Boolean);
+  
+  transformerRef.value.getNode().nodes(nodes);
+});
+
+const handleStageClick = (e) => {
+  // if we are selecting with rect, do nothing
+  // But allow point clicks through (when width/height are 0)
+  const selWidth = Math.abs(selectionRectangle.x2 - selectionRectangle.x1);
+  const selHeight = Math.abs(selectionRectangle.y2 - selectionRectangle.y1);
+  if (selectionRectangle.visible && selWidth > 0 && selHeight > 0) {
+    return;
+  }
+
+  // if click on empty area - remove all selections
+  if (e.target === e.target.getStage()) {
+    selectedIds.value = [];
+    return;
+  }
+
+  // do nothing if clicked NOT on our rectangles
+  if (!e.target.hasName('rect')) {
+    return;
+  }
+  
+  const clickedId = e.target.attrs.id;
+  
+  // do we pressed shift or ctrl?
+  const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
+  const isSelected = selectedIds.value.includes(clickedId);
+
+  if (!metaPressed && !isSelected) {
+    // if no key pressed and the node is not selected
+    // select just one
+    selectedIds.value = [clickedId];
+  } else if (metaPressed && isSelected) {
+    // if we pressed keys and node was selected
+    // we need to remove it from selection:
+    selectedIds.value = selectedIds.value.filter(id => id !== clickedId);
+  } else if (metaPressed && !isSelected) {
+    // add the node into selection
+    selectedIds.value = [...selectedIds.value, clickedId];
+  }
+};
+
+const handleMouseDown = (e) => {
+  // do nothing if we mousedown on any shape
+  if (e.target !== e.target.getStage()) {
+    return;
+  }
+  
+  // start selection rectangle
+  isSelecting.value = true;
+  const pos = e.target.getStage().getPointerPosition();
+  selectionRectangle.visible = true;
+  selectionRectangle.x1 = pos.x;
+  selectionRectangle.y1 = pos.y;
+  selectionRectangle.x2 = pos.x;
+  selectionRectangle.y2 = pos.y;
+};
+
+const handleMouseMove = (e) => {
+  // do nothing if we didn't start selection
+  if (!isSelecting.value) {
+    return;
+  }
+  
+  const pos = e.target.getStage().getPointerPosition();
+  selectionRectangle.x2 = pos.x;
+  selectionRectangle.y2 = pos.y;
+};
+
+const handleMouseUp = () => {
+  // do nothing if we didn't start selection
+  if (!isSelecting.value) {
+    return;
+  }
+  
+  isSelecting.value = false;
+  
+  // update visibility in timeout, so we can check it in click event
+  setTimeout(() => {
+    selectionRectangle.visible = false;
+  });
+
+  const selBox = {
+    x: Math.min(selectionRectangle.x1, selectionRectangle.x2),
+    y: Math.min(selectionRectangle.y1, selectionRectangle.y2),
+    width: Math.abs(selectionRectangle.x2 - selectionRectangle.x1),
+    height: Math.abs(selectionRectangle.y2 - selectionRectangle.y1),
+  };
+
+  // Only select shapes if selection box has actual size (not just a point click)
+  if (selBox.width > 0 && selBox.height > 0) {
+    const selected = rectangles.value.filter(rect => {
+      // Check if rectangle intersects with selection box
+      return Konva.Util.haveIntersection(selBox, getClientRect(rect));
+    });
+    
+    selectedIds.value = selected.map(rect => rect.id);
+  }
+};
+
+const handleDragEnd = (e, index) => {
+  const rects = [...rectangles.value];
+  rects[index] = {
+    ...rects[index],
+    x: e.target.x(),
+    y: e.target.y(),
+  };
+  rectangles.value = rects;
+};
+
+const handleTransformEnd = (e, index) => {
+  const node = rectRefs.value[index].getNode();
+  const scaleX = node.scaleX();
+  const scaleY = node.scaleY();
+
+  node.scaleX(1);
+  node.scaleY(1);
+  
+  const rects = [...rectangles.value];
+  rects[index] = {
+    ...rects[index],
+    x: node.x(),
+    y: node.y(),
+    width: Math.max(5, node.width() * scaleX),
+    height: Math.max(node.height() * scaleY),
+    rotation: node.rotation(),
+  };
+  rectangles.value = rects;
+};
+</script>
+
+```
+  </TabItem>
+</Tabs>

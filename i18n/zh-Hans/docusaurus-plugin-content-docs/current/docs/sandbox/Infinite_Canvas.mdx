@@ -1,0 +1,269 @@
+---
+title: 带缩放和平移的无限 Canvas——使用 JavaScript 构建
+sidebar_label: 无限 Canvas
+hide_table_of_contents: true
+slug: Infinite_Canvas.html
+description: "使用 JavaScript 和 Konva.js 构建带缩放、平移和网格背景的无限 Canvas。滚动以缩放，拖动以平移。包含 React、Vue 和原生 JS 交互式示例。"
+---
+
+无限 Canvas 让用户可以在无边界工作区中自由平移和缩放，它是 Figma、Miro 和 tldraw 等工具的基础。此示例展示如何使用 Konva 构建无限 Canvas：滚动时以光标为中心缩放，拖动空白区域进行平移，并通过拖动移动图形。
+
+**操作说明：**滚动以缩放。拖动背景以平移。拖动图形以移动它们。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  draggable: true,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+// Generate grid of dots
+var gridSpacing = 40;
+var gridRange = 2000;
+for (var x = -gridRange; x <= gridRange; x += gridSpacing) {
+  for (var y = -gridRange; y <= gridRange; y += gridSpacing) {
+    layer.add(new Konva.Circle({
+      x: x,
+      y: y,
+      radius: 1,
+      fill: '#ccc',
+      listening: false,
+    }));
+  }
+}
+
+// Scatter colorful shapes across the space
+var shapeDefs = [
+  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+  { type: 'rect', x: -100, y: -500, width: 110, height: 70, fill: '#A3E4D7', rotation: 8 },
+];
+
+shapeDefs.forEach(function(d) {
+  var shape;
+  if (d.type === 'rect') {
+    shape = new Konva.Rect({
+      x: d.x, y: d.y, width: d.width, height: d.height,
+      fill: d.fill, cornerRadius: 8, rotation: d.rotation || 0,
+      draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4,
+    });
+  } else if (d.type === 'circle') {
+    shape = new Konva.Circle({
+      x: d.x, y: d.y, radius: d.radius,
+      fill: d.fill, draggable: true,
+      shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4,
+    });
+  } else {
+    shape = new Konva.Star({
+      x: d.x, y: d.y, numPoints: d.numPoints,
+      innerRadius: d.innerRadius, outerRadius: d.outerRadius,
+      fill: d.fill, draggable: true,
+      shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4,
+    });
+  }
+  layer.add(shape);
+});
+
+// Zoom relative to pointer
+var scaleBy = 1.05;
+stage.on('wheel', function(e) {
+  e.evt.preventDefault();
+  var oldScale = stage.scaleX();
+  var pointer = stage.getPointerPosition();
+  var mousePointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
+  var direction = e.evt.deltaY > 0 ? -1 : 1;
+  if (e.evt.ctrlKey) { direction = -direction; }
+  var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  newScale = Math.max(0.1, Math.min(10, newScale));
+  stage.scale({ x: newScale, y: newScale });
+  var newPos = {
+    x: pointer.x - mousePointTo.x * newScale,
+    y: pointer.y - mousePointTo.y * newScale,
+  };
+  stage.position(newPos);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect, Circle, Star } from 'react-konva';
+import { useRef } from 'react';
+
+var shapes = [
+  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+];
+
+// Pre-generate grid dots
+var gridDots = [];
+var spacing = 40;
+var range = 2000;
+for (var gx = -range; gx <= range; gx += spacing) {
+  for (var gy = -range; gy <= range; gy += spacing) {
+    gridDots.push({ x: gx, y: gy });
+  }
+}
+
+var App = function() {
+  var stageRef = useRef(null);
+  var W = window.innerWidth;
+  var H = window.innerHeight;
+  var scaleBy = 1.05;
+
+  var handleWheel = function(e) {
+    e.evt.preventDefault();
+    var stage = stageRef.current;
+    var oldScale = stage.scaleX();
+    var pointer = stage.getPointerPosition();
+    var mousePointTo = {
+      x: (pointer.x - stage.x()) / oldScale,
+      y: (pointer.y - stage.y()) / oldScale,
+    };
+    var direction = e.evt.deltaY > 0 ? -1 : 1;
+    if (e.evt.ctrlKey) { direction = -direction; }
+    var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    newScale = Math.max(0.1, Math.min(10, newScale));
+    stage.scale({ x: newScale, y: newScale });
+    stage.position({
+      x: pointer.x - mousePointTo.x * newScale,
+      y: pointer.y - mousePointTo.y * newScale,
+    });
+  };
+
+  return (
+    <Stage ref={stageRef} width={W} height={H} draggable onWheel={handleWheel}>
+      <Layer>
+        {gridDots.map(function(d, i) {
+          return <Circle key={'g'+i} x={d.x} y={d.y} radius={1} fill="#ccc" listening={false} />;
+        })}
+        {shapes.map(function(s, i) {
+          if (s.type === 'rect') return <Rect key={i} x={s.x} y={s.y} width={s.width} height={s.height} fill={s.fill} cornerRadius={8} rotation={s.rotation||0} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+          if (s.type === 'circle') return <Circle key={i} x={s.x} y={s.y} radius={s.radius} fill={s.fill} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+          return <Star key={i} x={s.x} y={s.y} numPoints={s.numPoints} innerRadius={s.innerRadius} outerRadius={s.outerRadius} fill={s.fill} draggable shadowColor="rgba(0,0,0,0.15)" shadowBlur={10} shadowOffsetY={4} />;
+        })}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage ref="stageRef" :config="stageConfig" @wheel="handleWheel">
+    <v-layer>
+      <v-circle
+        v-for="(dot, i) in gridDots"
+        :key="'g'+i"
+        :config="{ x: dot.x, y: dot.y, radius: 1, fill: '#ccc', listening: false }"
+      />
+      <template v-for="(s, i) in shapes" :key="i">
+        <v-rect
+          v-if="s.type === 'rect'"
+          :config="{ x: s.x, y: s.y, width: s.width, height: s.height, fill: s.fill, cornerRadius: 8, rotation: s.rotation || 0, draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4 }"
+        />
+        <v-circle
+          v-if="s.type === 'circle'"
+          :config="{ x: s.x, y: s.y, radius: s.radius, fill: s.fill, draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4 }"
+        />
+        <v-star
+          v-if="s.type === 'star'"
+          :config="{ x: s.x, y: s.y, numPoints: s.numPoints, innerRadius: s.innerRadius, outerRadius: s.outerRadius, fill: s.fill, draggable: true, shadowColor: 'rgba(0,0,0,0.15)', shadowBlur: 10, shadowOffsetY: 4 }"
+        />
+      </template>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+var stageRef = ref(null);
+var W = window.innerWidth;
+var H = window.innerHeight;
+var stageConfig = { width: W, height: H, draggable: true };
+var scaleBy = 1.05;
+
+var shapes = [
+  { type: 'rect', x: 80, y: 60, width: 120, height: 80, fill: '#FF6B6B', rotation: 5 },
+  { type: 'circle', x: 350, y: 120, radius: 50, fill: '#4ECDC4' },
+  { type: 'rect', x: 600, y: -80, width: 90, height: 90, fill: '#45B7D1', rotation: -10 },
+  { type: 'star', x: -150, y: 250, numPoints: 5, innerRadius: 20, outerRadius: 45, fill: '#FFE66D' },
+  { type: 'circle', x: -400, y: -200, radius: 65, fill: '#DDA0DD' },
+  { type: 'rect', x: 200, y: -350, width: 140, height: 60, fill: '#98D8C8', rotation: 15 },
+  { type: 'star', x: 500, y: 300, numPoints: 6, innerRadius: 25, outerRadius: 55, fill: '#F7DC6F' },
+  { type: 'circle', x: -300, y: 450, radius: 40, fill: '#82E0AA' },
+  { type: 'rect', x: -550, y: 100, width: 100, height: 100, fill: '#F1948A', rotation: -20 },
+  { type: 'star', x: 750, y: -250, numPoints: 5, innerRadius: 30, outerRadius: 60, fill: '#AED6F1' },
+  { type: 'circle', x: 100, y: 550, radius: 55, fill: '#D2B4DE' },
+];
+
+var gridDots = [];
+var spacing = 40;
+var range = 2000;
+for (var gx = -range; gx <= range; gx += spacing) {
+  for (var gy = -range; gy <= range; gy += spacing) {
+    gridDots.push({ x: gx, y: gy });
+  }
+}
+
+function handleWheel(e) {
+  e.evt.preventDefault();
+  var stage = stageRef.value.getNode();
+  var oldScale = stage.scaleX();
+  var pointer = stage.getPointerPosition();
+  var mousePointTo = {
+    x: (pointer.x - stage.x()) / oldScale,
+    y: (pointer.y - stage.y()) / oldScale,
+  };
+  var direction = e.evt.deltaY > 0 ? -1 : 1;
+  if (e.evt.ctrlKey) { direction = -direction; }
+  var newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  newScale = Math.max(0.1, Math.min(10, newScale));
+  stage.scale({ x: newScale, y: newScale });
+  stage.position({
+    x: pointer.x - mousePointTo.x * newScale,
+    y: pointer.y - mousePointTo.y * newScale,
+  });
+}
+</script>
+```
+  </TabItem>
+</Tabs>

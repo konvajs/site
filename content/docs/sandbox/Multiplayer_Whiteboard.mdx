@@ -1,0 +1,293 @@
+---
+title: "Multiplayer Whiteboard — Real-Time Collaborative Canvas with Konva and Yjs"
+sidebar_label: Multiplayer Whiteboard
+hide_table_of_contents: true
+slug: Multiplayer_Whiteboard.html
+description: "Build a real-time collaborative whiteboard on HTML5 Canvas with Konva, React, and Yjs. Learn shared document state, conflict-free sync, and what a production setup still needs."
+keywords: [collaborative canvas, multiplayer whiteboard, yjs konva, real-time canvas, crdt whiteboard]
+---
+
+Collaborative canvases — Figma, Miro, Excalidraw — all separate two things: the
+document everyone shares, and the drawing surface each person looks at. Konva is
+the second one. It renders the document and handles pointer interaction, but it
+never synchronizes state for you.
+
+This demo puts the shared half in [Yjs](https://yjs.dev/), a CRDT library that
+merges concurrent edits without a central authority. `BroadcastChannel` carries
+the updates between tabs, so you can try real collaboration without a server.
+
+**Instructions:** Open this page in two browser tabs, then drag a note in one.
+The other tab follows.
+
+## Try it in two tabs
+
+```jsx live react
+import React, { useEffect, useRef, useState } from 'react';
+import { Stage, Layer, Group, Rect, Text } from 'react-konva';
+import * as Y from 'yjs';
+
+const WIDTH = 760;
+const HEIGHT = 400;
+const REMOTE_ORIGIN = Symbol('broadcast-channel');
+
+function useResponsiveWidth(maxWidth) {
+  const containerRef = React.useRef(null);
+  const [width, setWidth] = React.useState(1);
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateWidth = () =>
+      setWidth(Math.max(1, Math.min(maxWidth, container.clientWidth)));
+    updateWidth();
+
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [maxWidth]);
+
+  return { containerRef, width, scale: width / maxWidth };
+}
+const initialNotes = [
+  { id: 'note-1', x: 80, y: 90, text: 'Define the problem', color: '#fde68a', updatedBy: 'initial-data' },
+  { id: 'note-2', x: 310, y: 190, text: 'Sketch the flow', color: '#bfdbfe', updatedBy: 'initial-data' },
+  { id: 'note-3', x: 540, y: 80, text: 'List the risks', color: '#fecdd3', updatedBy: 'initial-data' },
+];
+
+export default function App() {
+  const {
+    containerRef,
+    width: displayWidth,
+    scale: displayScale,
+  } = useResponsiveWidth(WIDTH);
+  const [notes, setNotes] = useState(initialNotes);
+  const [selectedId, setSelectedId] = useState('note-1');
+  const [channelReady, setChannelReady] = useState(false);
+  const [clientName] = useState(() => `tab-${Math.floor(Math.random() * 900 + 100)}`);
+  const notesMapRef = useRef(null);
+  const docRef = useRef(null);
+
+  useEffect(() => {
+    const doc = new Y.Doc();
+    const notesMap = doc.getMap('notes');
+    const channel = new BroadcastChannel('konva-yjs-whiteboard-v1');
+    docRef.current = doc;
+    notesMapRef.current = notesMap;
+
+    const readNotes = () => {
+      const nextNotes = Array.from(notesMap.values()).sort((a, b) =>
+        a.id.localeCompare(b.id)
+      );
+      setNotes(nextNotes);
+    };
+
+    const publishLocalUpdate = (update, origin) => {
+      if (origin === REMOTE_ORIGIN) return;
+      channel.postMessage({ type: 'update', update });
+    };
+
+    channel.onmessage = (event) => {
+      if (event.data.type === 'sync-request') {
+        channel.postMessage({
+          type: 'update',
+          update: Y.encodeStateAsUpdate(doc),
+        });
+        return;
+      }
+
+      if (event.data.type === 'update') {
+        Y.applyUpdate(doc, new Uint8Array(event.data.update), REMOTE_ORIGIN);
+      }
+    };
+
+    notesMap.observe(readNotes);
+    doc.on('update', publishLocalUpdate);
+
+    readNotes();
+    channel.postMessage({ type: 'sync-request' });
+    const seedTimer = window.setTimeout(() => {
+      if (notesMap.size > 0) return;
+      doc.transact(() => {
+        initialNotes.forEach((note) => notesMap.set(note.id, note));
+      });
+    }, 120);
+    setChannelReady(true);
+
+    return () => {
+      window.clearTimeout(seedTimer);
+      notesMap.unobserve(readNotes);
+      doc.off('update', publishLocalUpdate);
+      channel.close();
+      doc.destroy();
+      notesMapRef.current = null;
+      docRef.current = null;
+    };
+  }, []);
+
+  const updateNote = (id, patch) => {
+    const notesMap = notesMapRef.current;
+    const doc = docRef.current;
+    if (!notesMap || !doc) return;
+    const current = notesMap.get(id);
+    if (!current) return;
+
+    doc.transact(() => {
+      notesMap.set(id, { ...current, ...patch, updatedBy: clientName });
+    });
+  };
+
+  const moveSelected = (dx, dy) => {
+    const selected = notes.find((note) => note.id === selectedId);
+    if (!selected) return;
+    updateNote(selected.id, { x: selected.x + dx, y: selected.y + dy });
+  };
+
+  const selectedNote = notes.find((note) => note.id === selectedId);
+
+  return (
+    <div style={{ fontFamily: 'sans-serif', maxWidth: 820 }}>
+      <p role="status" aria-live="polite">
+        {channelReady ? `Local channel ready as ${clientName}.` : 'Opening local channel.'}
+        {' '}
+        {selectedNote ? `${selectedNote.text} was changed by ${selectedNote.updatedBy}.` : ''}
+      </p>
+
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+        {notes.map((note) => (
+          <button
+            key={note.id}
+            type="button"
+            aria-pressed={selectedId === note.id}
+            onClick={() => setSelectedId(note.id)}
+          >
+            {note.text}
+          </button>
+        ))}
+        <button type="button" aria-label="Move selected note left" onClick={() => moveSelected(-10, 0)}>
+          ←
+        </button>
+        <button type="button" aria-label="Move selected note right" onClick={() => moveSelected(10, 0)}>
+          →
+        </button>
+        <button type="button" aria-label="Move selected note up" onClick={() => moveSelected(0, -10)}>
+          ↑
+        </button>
+        <button type="button" aria-label="Move selected note down" onClick={() => moveSelected(0, 10)}>
+          ↓
+        </button>
+      </div>
+
+      <div ref={containerRef} style={{ width: '100%', maxWidth: WIDTH }}>
+        <Stage
+        width={displayWidth}
+        height={HEIGHT * displayScale}
+        scaleX={displayScale}
+        scaleY={displayScale}
+        style={{ background: '#f8fafc', boxShadow: 'inset 0 0 0 1px #cbd5e1' }}
+        onClick={(event) => {
+          if (event.target === event.target.getStage()) setSelectedId(null);
+        }}
+      >
+        <Layer>
+          {notes.map((note) => {
+            const selected = note.id === selectedId;
+            return (
+              <Group
+                key={note.id}
+                x={note.x}
+                y={note.y}
+                draggable
+                onClick={() => setSelectedId(note.id)}
+                onTap={() => setSelectedId(note.id)}
+                onDragEnd={(event) =>
+                  updateNote(note.id, {
+                    x: event.target.x(),
+                    y: event.target.y(),
+                  })
+                }
+              >
+                <Rect
+                  width={150}
+                  height={100}
+                  fill={note.color}
+                  stroke={selected ? '#2563eb' : '#475569'}
+                  strokeWidth={selected ? 4 : 1}
+                  shadowColor="black"
+                  shadowOpacity={0.12}
+                  shadowBlur={8}
+                />
+                <Text
+                  x={12}
+                  y={14}
+                  width={126}
+                  text={note.text}
+                  fontSize={16}
+                  lineHeight={1.3}
+                  fill="#0f172a"
+                  listening={false}
+                />
+              </Group>
+            );
+          })}
+        </Layer>
+        </Stage>
+      </div>
+    </div>
+  );
+}
+```
+
+## Shared data design
+
+Yjs is the shared document model. The `notes` Y.Map stores plain records, and React state stores a view of those records.
+
+Konva nodes do not enter the shared document. Each client creates its own nodes from the same shared data.
+
+This demo replaces a complete note record for each position change. If users can change separate properties concurrently, use nested Y.Map values.
+
+Keep local viewport data outside Yjs. A user can pan or zoom without moving the viewport for all other users.
+
+## Synchronization and feedback loops
+
+Each local Yjs update goes to `BroadcastChannel`. Each received update enters Yjs with the `REMOTE_ORIGIN` marker.
+
+The publish handler ignores that marker. This rule prevents a received update from returning to the channel in a feedback loop.
+
+Yjs updates are commutative and idempotent. The sync request sends the current document state to a newly opened tab.
+
+`BroadcastChannel` works only between supported browser contexts on the same origin and local browser profile. It does not connect remote users.
+
+## Coordinates and interaction
+
+Shared note positions use whiteboard coordinates. Each client must convert pointer positions through its local Stage transform after pan or zoom.
+
+Send final drag positions for simple objects. For live drag previews, limit update frequency and send awareness data separately from document data.
+
+Do not synchronize pointer movement as permanent document changes. Presence data can expire without a document update.
+
+## Accessibility
+
+The HTML buttons select and move each note without a pointer. The live region identifies the client and the source of the latest selected-note change.
+
+A production whiteboard needs an ordered HTML representation of all objects. Text editing must use native HTML inputs with labels.
+
+Remote cursors need text alternatives for necessary information. Decorative cursor motion can remain hidden from assistive technology.
+
+## Performance
+
+Apply Yjs updates to the data model first. Then let React update only the nodes with changed values.
+
+If the application sends intermediate positions, limit the drag update frequency. Large boards also need viewport culling and simple distant shapes.
+
+Compact persistent update logs on the server. Measure document load time and memory use with representative boards.
+
+## Production limits
+
+This demo has no remote network provider, user identity, authorization, persistence, presence, or offline status interface.
+
+Use a Yjs WebSocket or WebRTC provider for remote users. Authenticate connections, authorize document access, and persist updates on trusted infrastructure.
+
+Add schema versions before the data format changes. Use a Y.UndoManager with tracked local origins for per-user undo behavior.
+
+Test network loss, reconnects, duplicate updates, large documents, and concurrent edits. A local two-tab demo cannot make sure that these cases work.

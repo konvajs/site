@@ -1,0 +1,101 @@
+---
+title: 如何使用 React 在 Canvas 上实现自由绘制？
+sidebar_label: 自由绘制
+hide_table_of_contents: true
+slug: Free_Drawing.html
+description: "学习如何在 React 中使用 react-konva 实现 Canvas 自由绘制（白板）。跟踪鼠标和触摸事件以徒手绘制线条。"
+---
+
+本示例展示如何以“React 方式”实现具有完整矢量表示的自由绘制应用。
+
+这种实现适用于许多白板应用。你可以添加 [撤销/重做功能](/docs/react/Undo-Redo.html)，并将完整 state 保存到后端。
+
+注意：如果 state 中包含太多线条，应用速度会变慢。如果要支持绘制成百上千条线，需要进行额外优化。
+
+本示例展示以下操作：
+1. 使用 `React.useRef` 跟踪绘制 state，以提高性能
+2. 将线条以矢量数据形式存储在 React state 中
+3. 处理绘制所需的鼠标和触摸事件
+4. 使用 `globalCompositeOperation` 实现画笔和橡皮擦工具
+5. 使用圆角端点和张力创建平滑线条
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Line, Text } from 'react-konva';
+
+const App = () => {
+  const [tool, setTool] = React.useState('pen');
+  const [lines, setLines] = React.useState([]);
+  const isDrawing = React.useRef(false);
+
+  const handleMouseDown = (e) => {
+    isDrawing.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+  };
+
+  const handleMouseMove = (e) => {
+    // no drawing - skipping
+    if (!isDrawing.current) {
+      return;
+    }
+    const stage = e.target.getStage();
+    const point = stage.getPointerPosition();
+    let lastLine = lines[lines.length - 1];
+    // add point
+    lastLine.points = lastLine.points.concat([point.x, point.y]);
+
+    // replace last
+    lines.splice(lines.length - 1, 1, lastLine);
+    setLines(lines.concat());
+  };
+
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  return (
+    <div>
+      <select
+        value={tool}
+        onChange={(e) => {
+          setTool(e.target.value);
+        }}
+      >
+        <option value="pen">Pen</option>
+        <option value="eraser">Eraser</option>
+      </select>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onMouseDown={handleMouseDown}
+        onMousemove={handleMouseMove}
+        onMouseup={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Layer>
+          <Text text="Just start drawing" x={5} y={30} />
+          {lines.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke="#df4b26"
+              strokeWidth={5}
+              tension={0.5}
+              lineCap="round"
+              lineJoin="round"
+              globalCompositeOperation={
+                line.tool === 'eraser' ? 'destination-out' : 'source-over'
+              }
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```

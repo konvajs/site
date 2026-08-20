@@ -3,45 +3,387 @@ title: Canvas Editor — Build a Design Editor with JavaScript and HTML5 Canvas
 sidebar_label: Canvas Editor
 hide_table_of_contents: true
 slug: Canvas_Editor.html
-description: "Build a full-featured canvas editor with JavaScript. Drag-and-drop, resize, rotate, text, images, filters, undo/redo — all on HTML5 Canvas. Powered by Konva.js and Polotno SDK."
+description: "Build a design editor on HTML5 Canvas with Konva and React. Selection, resize handles, undo and redo, and PNG export — plus an honest look at what a production editor still needs."
+keywords: [canvas editor, design editor javascript, html5 canvas editor, react design editor, konva editor]
 ---
 
-A canvas editor lets users create and manipulate visual designs directly in the browser — think Canva-style tools for social media graphics, presentations, marketing materials, and more. Building one from scratch requires handling object selection, drag-and-drop, transformations, text editing, image placement, layering, undo/redo, and export.
+A design editor lets people arrange text, images, and shapes on a page and export
+the result — the pattern behind Canva, Figma, and every social-media graphic tool.
+Konva is a good foundation for one: it gives you an object model over Canvas, hit
+detection, events, drag and drop, and resize handles.
 
-This demo shows a fully working canvas editor built with [Konva.js](/) and [Polotno SDK](https://polotno.com/). Polotno handles the high-level editor logic (toolbars, panels, templates, export) while Konva powers the underlying canvas rendering.
+This page builds a working editor with selection, movement, resize controls, undo,
+redo, and PNG export. It ends with an honest account of what separates this from a
+product.
 
-### What you can do with a canvas editor
+## See a finished editor
 
-A canvas editor typically supports drag-and-drop objects onto the canvas, resize and rotate with transform handles, add and style text with fonts and colors, insert and crop images, layer management (bring to front, send to back), undo/redo history, and export to PNG, JPEG, or PDF.
+[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=canvas-editor)
+is a commercial design-editor SDK built on Konva. It is the clearest picture of
+how far this pattern scales, so it is worth a minute before you read any code:
 
-Building all of this on raw HTML5 Canvas is a significant engineering effort. `Konva.js` provides the foundation — an object model on top of Canvas with built-in hit detection, events, drag-and-drop, and transformations. For a complete, ready-to-integrate editor UI, [Polotno SDK](https://polotno.com/) adds the full editor experience on top of Konva.
-
-### Live demo
-
-Try the editor below — add text, images, and shapes, then rearrange and export your design.
-
-**For the best experience, [open the editor in a new window](https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview).**
-
-<iframe 
-  src="https://codesandbox.io/embed/github/polotno-project/polotno-site/tree/source/examples/polotno-demo?fontsize=11&hidenavigation=1&theme=dark&view=preview" 
+<iframe
+  src="https://polotno.com/docs/examples/polotno-demo/index.html?utm_source=konvajs&utm_medium=docs&utm_content=canvas-editor-embed"
   style={{
     width: "100%",
-    height: "500px",
-    border: 0,
-    borderRadius: "4px",
+    height: "640px",
+    border: "1px solid var(--ifm-color-emphasis-300)",
+    borderRadius: "8px",
     overflow: "hidden"
   }}
+  title="Polotno design editor demo"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 />
 
-### Build your own canvas editor
+Everything you just used — the toolbar, side panels, templates, fonts, and export
+— sits on top of the same Konva primitives covered below.
 
-If you need a canvas editor in your web application, you have two paths:
+## Try building one yourself
 
-**Use Polotno SDK** for a ready-made solution. Polotno gives you a complete design editor component that you can integrate into any React app with just a few lines of code. It includes a toolbar, side panels, templates, export, and all the editing features users expect. Learn more at [polotno.com](https://polotno.com/) or check the [Polotno documentation](https://polotno.com/docs/overview).
+**Instructions:** Click an object on the canvas or in the object list. Drag it, or
+use the resize handles. Add objects, undo, and export the result.
 
-**Build from scratch with Konva.js** if you need full control over every aspect of the editor. Start with the [Konva.js getting started guide](/docs/index.html), use [Transformers](/docs/select_and_transform/Basic_demo.html) for selection and resize, and explore the [sandbox demos](/docs/sandbox.html) for patterns like [free drawing](/docs/sandbox/Free_Drawing.html), [image crop](/docs/sandbox/Canvas_Crop_Image.html), and [image export](/docs/data_and_serialization/Stage_Data_URL.html).
+```jsx live react
+import React from 'react';
+import { Stage, Layer, Rect, Circle, Star, Text, Transformer } from 'react-konva';
 
----
+const WIDTH = 760;
+const HEIGHT = 420;
 
-*This demo is powered by [Polotno SDK](https://polotno.com/) — a JavaScript framework for building design editors on the web, built on top of Konva.js and React.*
+const initialShapes = [
+  { id: 'card', type: 'rect', x: 60, y: 60, width: 300, height: 300, fill: '#1e3a8a', cornerRadius: 16 },
+  { id: 'accent', type: 'circle', x: 470, y: 150, radius: 74, fill: '#f59e0b' },
+  { id: 'badge', type: 'star', x: 620, y: 300, numPoints: 5, innerRadius: 26, outerRadius: 58, fill: '#ec4899' },
+  { id: 'headline', type: 'text', x: 92, y: 120, text: 'Spring\nSale', fontSize: 58, fontStyle: 'bold', lineHeight: 1.1, fill: '#ffffff' },
+  { id: 'caption', type: 'text', x: 92, y: 268, text: 'up to 40% off', fontSize: 22, fill: '#bfdbfe' },
+];
+
+function useResponsiveWidth(maxWidth) {
+  const containerRef = React.useRef(null);
+  const [width, setWidth] = React.useState(1);
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const update = () =>
+      setWidth(Math.max(1, Math.min(maxWidth, container.clientWidth)));
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [maxWidth]);
+
+  return { containerRef, width, scale: width / maxWidth };
+}
+
+// One renderer per shape type. The document stores plain data, never Konva nodes.
+function EditableShape({ shape, selected, onSelect, onCommit }) {
+  const shapeRef = React.useRef(null);
+  const transformerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (selected && shapeRef.current && transformerRef.current) {
+      transformerRef.current.nodes([shapeRef.current]);
+      transformerRef.current.getLayer().batchDraw();
+    }
+  }, [selected]);
+
+  // The Transformer resizes by changing node scale. Fold that scale back into
+  // the shape's own size properties so the saved document stays readable.
+  const handleTransformEnd = () => {
+    const node = shapeRef.current;
+    const scaleX = node.scaleX();
+    const scaleY = node.scaleY();
+    const average = (scaleX + scaleY) / 2;
+    node.scaleX(1);
+    node.scaleY(1);
+
+    const base = { ...shape, x: node.x(), y: node.y(), rotation: node.rotation() };
+
+    if (shape.type === 'rect') {
+      onCommit({
+        ...base,
+        width: Math.max(20, node.width() * scaleX),
+        height: Math.max(20, node.height() * scaleY),
+      });
+    } else if (shape.type === 'circle') {
+      onCommit({ ...base, radius: Math.max(10, shape.radius * average) });
+    } else if (shape.type === 'star') {
+      onCommit({
+        ...base,
+        innerRadius: Math.max(6, shape.innerRadius * average),
+        outerRadius: Math.max(12, shape.outerRadius * average),
+      });
+    } else {
+      onCommit({ ...base, fontSize: Math.max(8, shape.fontSize * average) });
+    }
+  };
+
+  const common = {
+    ref: shapeRef,
+    draggable: true,
+    onClick: onSelect,
+    onTap: onSelect,
+    onDragEnd: (event) =>
+      onCommit({ ...shape, x: event.target.x(), y: event.target.y() }),
+    onTransformEnd: handleTransformEnd,
+  };
+
+  const { id, type, ...props } = shape;
+
+  return (
+    <>
+      {type === 'rect' && <Rect {...props} {...common} />}
+      {type === 'circle' && <Circle {...props} {...common} />}
+      {type === 'star' && <Star {...props} {...common} />}
+      {type === 'text' && <Text {...props} {...common} />}
+      {selected && (
+        <Transformer
+          ref={transformerRef}
+          rotateAnchorOffset={26}
+          anchorStroke="#2563eb"
+          borderStroke="#2563eb"
+          anchorSize={9}
+          flipEnabled={false}
+          boundBoxFunc={(oldBox, newBox) =>
+            newBox.width < 20 || newBox.height < 20 ? oldBox : newBox
+          }
+        />
+      )}
+    </>
+  );
+}
+
+export default function App() {
+  const stageRef = React.useRef(null);
+  const nextId = React.useRef(1);
+  const { containerRef, width: displayWidth, scale } = useResponsiveWidth(WIDTH);
+  const [selectedId, setSelectedId] = React.useState('headline');
+  const [history, setHistory] = React.useState({
+    past: [],
+    present: initialShapes,
+    future: [],
+  });
+
+  // One history entry per finished action — never one per pointer move.
+  const commit = (nextShapes) =>
+    setHistory((current) => ({
+      past: [...current.past, current.present],
+      present: nextShapes,
+      future: [],
+    }));
+
+  const updateShape = (next) =>
+    commit(history.present.map((s) => (s.id === next.id ? next : s)));
+
+  const addShape = (type) => {
+    const id = `${type}-${nextId.current++}`;
+    const offset = history.present.length * 14;
+    const presets = {
+      rect: { width: 150, height: 100, fill: '#10b981', cornerRadius: 10 },
+      circle: { radius: 52, fill: '#8b5cf6' },
+      text: { text: 'Double-click to retype', fontSize: 24, fill: '#0f172a' },
+    };
+    commit([
+      ...history.present,
+      { id, type, x: 160 + offset, y: 150 + offset, ...presets[type] },
+    ]);
+    setSelectedId(id);
+  };
+
+  const undo = () =>
+    setHistory((c) =>
+      c.past.length === 0
+        ? c
+        : {
+            past: c.past.slice(0, -1),
+            present: c.past[c.past.length - 1],
+            future: [c.present, ...c.future],
+          }
+    );
+
+  const redo = () =>
+    setHistory((c) =>
+      c.future.length === 0
+        ? c
+        : {
+            past: [...c.past, c.present],
+            present: c.future[0],
+            future: c.future.slice(1),
+          }
+    );
+
+  // Hide the selection handles so they never appear in the exported file.
+  const exportPng = () => {
+    const stage = stageRef.current;
+    const transformers = stage.find('Transformer');
+    transformers.forEach((t) => t.hide());
+    let dataUrl;
+    try {
+      dataUrl = stage.toDataURL({ pixelRatio: 2 / scale });
+    } finally {
+      transformers.forEach((t) => t.show());
+      stage.batchDraw();
+    }
+    const link = document.createElement('a');
+    link.download = 'design.png';
+    link.href = dataUrl;
+    link.click();
+  };
+
+  const button = {
+    padding: '6px 12px',
+    border: '1px solid #cbd5e1',
+    borderRadius: 6,
+    background: '#fff',
+    cursor: 'pointer',
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
+        <button style={button} onClick={() => addShape('rect')}>Add rectangle</button>
+        <button style={button} onClick={() => addShape('circle')}>Add circle</button>
+        <button style={button} onClick={() => addShape('text')}>Add text</button>
+        <button style={button} onClick={undo} disabled={history.past.length === 0}>Undo</button>
+        <button style={button} onClick={redo} disabled={history.future.length === 0}>Redo</button>
+        <button style={button} onClick={exportPng}>Export PNG</button>
+      </div>
+
+      <div ref={containerRef} style={{ width: '100%', maxWidth: WIDTH }}>
+        <Stage
+          ref={stageRef}
+          width={displayWidth}
+          height={HEIGHT * scale}
+          scaleX={scale}
+          scaleY={scale}
+          style={{ background: '#f1f5f9', borderRadius: 8 }}
+          onMouseDown={(e) => {
+            if (e.target === e.target.getStage()) setSelectedId(null);
+          }}
+          onTouchStart={(e) => {
+            if (e.target === e.target.getStage()) setSelectedId(null);
+          }}
+        >
+          <Layer>
+            {history.present.map((shape) => (
+              <EditableShape
+                key={shape.id}
+                shape={shape}
+                selected={shape.id === selectedId}
+                onSelect={() => setSelectedId(shape.id)}
+                onCommit={updateShape}
+              />
+            ))}
+          </Layer>
+        </Stage>
+      </div>
+
+      {/* Canvas pixels mean nothing to a screen reader. Mirror the document in HTML. */}
+      <p style={{ marginTop: 12, marginBottom: 6 }}>Objects:</p>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {history.present.map((shape) => (
+          <button
+            key={shape.id}
+            style={{
+              ...button,
+              borderColor: shape.id === selectedId ? '#2563eb' : '#cbd5e1',
+            }}
+            aria-pressed={shape.id === selectedId}
+            onClick={() => setSelectedId(shape.id)}
+          >
+            {shape.id}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+## Keep document data separate from Konva nodes
+
+The `history.present` array is the document. Every object has a stable ID and
+plain, serializable properties. The Konva node is only an interaction surface —
+the example reads values off it when a drag or transform *ends*, never during.
+
+The `Transformer` resizes by changing node **scale**. If you save that scale, your
+document fills with compounding multipliers. The example folds scale back into
+width, height, radius, or font size before it commits, so a saved file stays
+readable and independent from Konva internals.
+
+That split is what later makes history, collaboration, and server-side rendering
+possible. Get it wrong early and every one of those becomes expensive.
+
+## Define history boundaries
+
+Save one entry per completed user action, not per pointer event. Dragging a shape
+across the canvas is *one* undo step, not two hundred.
+
+The example commits when a drag or transform ends. For text, commit when the user
+accepts the edit; for a colour control, commit when the control closes. Related
+demo: [undo and redo on canvas](/docs/posts/canvas-undo-redo.html).
+
+## Handle coordinates and export
+
+This editor has no camera transform, so document coordinates match stage
+coordinates. Add pan or zoom and you must convert pointer positions through the
+inverse stage transform — see
+[zoom relative to pointer](/docs/sandbox/Zooming_Relative_To_Pointer.html) and
+[infinite canvas](/docs/sandbox/Infinite_Canvas.html).
+
+The preview scales to its container, so the export divides `pixelRatio` by that
+scale to produce a stable 1520 × 840 image regardless of screen size. It also
+hides the Transformer first, so selection handles never reach the file.
+
+Images from another origin need correct CORS headers, or the browser taints the
+canvas and blocks the export. See
+[high-quality export](/docs/data_and_serialization/High-Quality-Export.html).
+
+## Add an accessible interface
+
+Canvas is a single element. Assistive technology sees no objects, no selection,
+and no structure inside it. Everything a user can do with the pointer needs an
+equivalent in HTML.
+
+The example mirrors the document as a list of buttons. A production editor also
+needs keyboard movement, a sensible focus order, and announcements when selection
+changes. Keep text editing in a real `input` or `textarea` — native inputs give
+you selection, caret movement, and input-method support that canvas cannot.
+See [editable text](/docs/sandbox/Editable_Text.html).
+
+## Plan for production scale
+
+Use normalized entity maps once a document holds many objects, memoize
+components, and re-render only what changed. Never put image data in the history
+array — store an asset reference and manage the asset outside the document.
+
+The example leaves out persistence, copy and paste, grouping, alignment, and
+concurrent editing. Add each to the document model *before* you build its UI.
+
+## Build or integrate
+
+The example above is a real editor, and it is also a fair measure of the distance
+still to go. Konva gives you rendering, hit testing, events, and the Transformer.
+A product-grade design editor adds:
+
+- a text engine with reflow, per-character styling, and web-font metrics
+- font loading and fallbacks that still match at export time
+- templates, multiple pages, and asset management
+- history that groups operations and survives a reload
+- an export pipeline, including sizes above the browser canvas limit and
+  print-ready output
+
+That list is normally months of work, and most of it is not canvas work.
+
+Build it when the editor *is* your product, when your document model is unusual,
+or when you need full control of the output. Integrate an SDK when the editor
+merely supports the thing you actually sell. Polotno covers the list above; it is
+paid software and it is opinionated about the document model, so read its
+documentation before you commit.
+
+If you read this far and still want to build it, the example above is the right
+starting point. Continue with
+[transformers](/docs/select_and_transform/Basic_demo.html),
+[objects snapping](/docs/sandbox/Objects_Snapping.html), and
+[free drawing](/docs/sandbox/Free_Drawing.html).

@@ -1,0 +1,153 @@
+---
+title: 从 JSON 加载简单 HTML5 Canvas 舞台教程
+sidebar_label: 简单加载
+hide_table_of_contents: true
+slug: Simple_Load.html
+description: "学习如何使用 Konva.js 从 JSON 加载 HTML5 Canvas 舞台，以及如何使用 Konva.Node.create() 恢复已保存的 Canvas 状态。"
+---
+
+要使用 Konva 从 JSON 加载简单舞台，可以使用 `Konva.Node.create()` 方法。
+`create()` 方法接受 JSON 字符串和容器 id 作为参数。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// JSON string from a previous save
+const json = '{"attrs":{"width":400,"height":400},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"radius":50,"fill":"red","stroke":"black","strokeWidth":3},"className":"Circle"}]}]}';
+
+// create node using json string
+const stage = Konva.Node.create(json, 'container');
+
+// you can keep adding events, etc
+const circle = stage.findOne('Circle');
+circle.on('click', () => {
+  circle.fill(Konva.Util.getRandomColor());
+});
+```
+  </TabItem>
+  <TabItem value="React">
+**注意：**在 React 或 Vue 中直接使用 `Konva.Node.create()` 是一种反模式。在这些框架中，应分别管理状态（数据）和视图（组件）。不要序列化和加载完整的节点结构，而应保存和加载定义图形的数据，然后让框架组件处理渲染。这种方法更符合 React 和 Vue 的声明式、状态驱动模式，也能更好地控制组件生命周期和事件。
+
+```js live react
+import { Stage, Layer, Circle } from 'react-konva';
+import { useState, useEffect } from 'react';
+import Konva from 'konva';
+
+const App = () => {
+  // In React, we store shape data as state instead of using Konva.Node.create()
+  const [shapeData, setShapeData] = useState(null);
+  
+  useEffect(() => {
+    // Simulating loading JSON data from storage or API
+    const savedShapeData = {
+      circle: {
+        x: 100,
+        y: 100,
+        radius: 50,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 3
+      },
+      // We could have more shapes here
+    };
+    
+    // In a real app, this might be:
+    // fetch('/api/shapes').then(response => response.json()).then(setShapeData)
+    setShapeData(savedShapeData);
+  }, []);
+  
+  const handleCircleClick = () => {
+    setShapeData({
+      ...shapeData,
+      circle: {
+        ...shapeData.circle,
+        fill: Konva.Util.getRandomColor()
+      }
+    });
+  };
+  
+  // Don't render until we have data
+  if (!shapeData) return <div>Loading...</div>;
+  
+  return (
+    <Stage width={400} height={400}>
+      <Layer>
+        <Circle
+          {...shapeData.circle}
+          onClick={handleCircleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+**注意：**在 React 或 Vue 中直接使用 `Konva.Node.create()` 是一种反模式。在这些框架中，应分别管理状态（数据）和视图（组件）。不要序列化和加载完整的节点结构，而应保存和加载定义图形的数据，然后让框架组件处理渲染。这种方法更符合 React 和 Vue 的声明式、状态驱动模式，也能更好地控制组件生命周期和事件。
+
+```js live vue
+<template>
+  <v-stage :config="stageSize" v-if="shapeData">
+    <v-layer>
+      <v-circle
+        :config="shapeData.circle"
+        @click="handleCircleClick"
+      />
+    </v-layer>
+  </v-stage>
+  <div v-else>Loading...</div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+// In Vue, we store shape data as reactive state
+const shapeData = ref(null);
+
+onMounted(() => {
+  // Simulating loading JSON data from storage or API
+  const savedShapeData = {
+    circle: {
+      x: 100,
+      y: 100,
+      radius: 50,
+      fill: 'red',
+      stroke: 'black',
+      strokeWidth: 3
+    }
+    // We could have more shapes here
+  };
+  
+  // In a real app, this might be:
+  // fetch('/api/shapes').then(response => response.json()).then(data => shapeData.value = data)
+  shapeData.value = savedShapeData;
+});
+
+const handleCircleClick = () => {
+  if (shapeData.value) {
+    shapeData.value = {
+      ...shapeData.value,
+      circle: {
+        ...shapeData.value.circle,
+        fill: Konva.Util.getRandomColor()
+      }
+    };
+  }
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,90 @@
+---
+title: HTML5 Canvas 多边形教程
+sidebar_label: 线条 - 多边形
+hide_table_of_contents: true
+slug: /docs/shapes/Line_-_Polygon.html
+description: "学习如何使用 Konva 在 HTML5 Canvas 上绘制多边形，以及如何将 Konva.Line 的 closed 属性设置为 true。"
+---
+
+要使用 `Konva` 创建多边形，可以实例化一个 `Konva.Line()` 对象，并将 `closed` 属性设置为 `true`。
+
+有关完整的属性和方法列表，请参阅 [Line API 参考](/api/Konva.Line.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const polygon = new Konva.Line({
+  points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 5,
+  closed: true
+});
+
+layer.add(polygon);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93]}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={5}
+          closed
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="polygonConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const polygonConfig = {
+  points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 5,
+  closed: true
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

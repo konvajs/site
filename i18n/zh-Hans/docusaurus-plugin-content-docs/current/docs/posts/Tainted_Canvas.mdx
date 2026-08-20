@@ -1,0 +1,124 @@
+---
+title: 解决 Konva 中的“Tainted canvases may not be exported”错误
+sidebar_label: 被污染的 Canvas
+hide_table_of_contents: true
+slug: Tainted_Canvas.html
+description: "修复在 Konva 中导出或过滤跨源图像时出现的 'Tainted canvases may not be exported' CORS 错误。"
+---
+
+尝试导出 Canvas 时，可能出现如下错误：
+
+> Unable to get data URL. Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+
+> Unable to get image data from canvas because the canvas has been tainted by cross-origin data.
+
+应用滤镜时，也可能出现如下错误：
+
+> Unable to apply filter. Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data.
+
+> Unable to apply filter. The operation is insecure.
+
+## 为什么会出现不安全错误？
+
+这是一个 [CORS 错误](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image)。出于安全原因，从其他域加载图像时，浏览器可能将 Canvas 标记为已污染。在这种情况下，浏览器会阻止将 Canvas 导出为 `dataURL` 或 `imageData`，而导出或使用滤镜时正需要执行此操作。
+
+## 如何修复 CORS 问题？
+
+首先，可以尝试为加载的图像设置 `crossOrigin = Anonymous` 属性。仅当请求的域返回允许共享请求的 `Access-Control-Allow-Origin` 标头时，此方法才有效。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js
+import Konva from 'konva';
+
+// Method 1: native image loading
+const imageObj = new Image();
+imageObj.onload = () => {
+   const image = new Konva.Image({
+     x: 50,
+     y: 50,
+     image: imageObj
+   });
+   layer.add(image);
+};
+imageObj.crossOrigin = 'Anonymous';
+imageObj.src = url;
+
+// Method 2: using Konva helper method
+// crossOrigin is set automatically to Anonymous
+Konva.Image.fromURL(url, (image) => {
+  image.setAttrs({
+    x: 50,
+    y: 50
+  });
+  layer.add(image);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js
+import { Stage, Layer, Image } from 'react-konva';
+import useImage from 'use-image';
+
+const MyImage = ({ url }) => {
+  // useImage hook handles crossOrigin automatically
+  const [image] = useImage(url, 'Anonymous');
+  
+  return (
+    <Image
+      x={50}
+      y={50}
+      image={image}
+    />
+  );
+}
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <MyImage url="your-image-url" />
+      </Layer>
+    </Stage>
+  );
+};
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        v-if="image"
+        :config="{
+          x: 50,
+          y: 50,
+          image: image
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+// useImage hook handles crossOrigin automatically
+const [image] = useImage('your-image-url', 'Anonymous');
+</script>
+```
+  </TabItem>
+</Tabs>
+
+### 如果此方法无效，该怎么办？
+
+**此方法可能仍不适用于所有情况。如果无效，则必须以其他方式配置服务器（这不属于 Konva 的范围），或尝试将图像存储在支持 CORS 请求的其他位置。**

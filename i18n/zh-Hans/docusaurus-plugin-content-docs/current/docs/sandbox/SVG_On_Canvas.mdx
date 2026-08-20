@@ -1,0 +1,210 @@
+---
+title: 如何使用 Konva 在 Canvas 上绘制 SVG 图像
+sidebar_label: Canvas 上的 SVG
+hide_table_of_contents: true
+slug: SVG_On_Canvas.html
+description: "使用 Konva.Image、Konva.Path 或 canvg 库在 HTML5 Canvas 上渲染 SVG 图像。"
+---
+
+## 如何在 Canvas 上显示 SVG 图像？
+
+浏览器以前并非总能在 Canvas 上绘制 `*.svg` 图像。不过，这种情况已经改善。要使用 `Konva` 渲染矢量图像，现在有以下几种选择：
+
+### 选项 1：使用 Konva.Image
+
+在大多数情况下，可以使用 `*.svg` 图像，方法与使用 `*.png` 或 `*.jpg` 等其他图像相同。可以使用 [Konva.Image](/docs/shapes/Image.html) 图形。
+
+```js
+Konva.Image.fromURL('/image.svg', (image) => {
+  layer.add(image);
+});
+```
+
+此方法在许多情况下效果良好，但并非完全跨浏览器兼容。例如，某些 SVG 可能无法在 Firefox 浏览器中显示（[此问题有一种解决方法](https://github.com/konvajs/konva/issues/677#issuecomment-504596837)）。
+
+### 选项 2：使用 Konva.Path
+
+使用 [Konva.Path](/docs/shapes/Path.html)。此方法适合简单的路径图形。如果大型 SVG 包含许多路径，可能需要手动将其拆分成多个 `Konva.Path` 图形。
+
+### 选项 3：使用外部库将 SVG 渲染到 Canvas
+
+使用外部库（例如 [canvg](https://github.com/canvg/canvg)）将 SVG 绘制到 `<canvas>` 元素中。然后，将该 Canvas 用于 [Konva.Image](/docs/shapes/Image.html)。
+
+至少有一个大型生产应用程序测试过此方法，并验证了它的可靠性和渲染准确性。
+
+### 示例
+
+以下示例演示原生绘制和使用库绘制的效果。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Load canvg library
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
+document.head.appendChild(script);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const SOURCE = 'https://konvajs.org/assets/tiger.svg';
+
+// try to draw SVG natively
+Konva.Image.fromURL(SOURCE, (imageNode) => {
+  layer.add(imageNode);
+  imageNode.setAttrs({
+    width: 150,
+    height: 150,
+  });
+});
+
+// draw svg with external library
+script.onload = () => {
+  const canvas = document.createElement('canvas');
+  canvg(canvas, SOURCE, {
+    renderCallback: function () {
+      const image = new Konva.Image({
+        image: canvas,
+        x: 200,
+        width: 150,
+        height: 150,
+      });
+      layer.add(image);
+    },
+  });
+};
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+import { useImage } from 'react-konva-utils';
+
+const SOURCE = 'https://konvajs.org/assets/tiger.svg';
+
+const App = () => {
+  const [nativeImage] = useImage(SOURCE);
+  const [canvgImage, setCanvgImage] = React.useState(null);
+
+  React.useEffect(() => {
+    // Load canvg library and render SVG
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
+    script.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvg(canvas, SOURCE, {
+        renderCallback: function () {
+          setCanvgImage(canvas);
+        },
+      });
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {nativeImage && (
+          <Image
+            image={nativeImage}
+            width={150}
+            height={150}
+          />
+        )}
+        {canvgImage && (
+          <Image
+            image={canvgImage}
+            x={200}
+            width={150}
+            height={150}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-image
+        v-if="nativeImage"
+        :config="{
+          image: nativeImage,
+          width: 150,
+          height: 150
+        }"
+      />
+      <v-image
+        v-if="canvgImage"
+        :config="{
+          image: canvgImage,
+          x: 200,
+          width: 150,
+          height: 150
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useImage } from 'vue-konva';
+
+const SOURCE = 'https://konvajs.org/assets/tiger.svg';
+const [nativeImage] = useImage(SOURCE);
+const canvgImage = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+onMounted(() => {
+  // Load canvg library and render SVG
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js';
+  script.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvg(canvas, SOURCE, {
+      renderCallback: function () {
+        canvgImage.value = canvas;
+      },
+    });
+  };
+  document.head.appendChild(script);
+
+  return () => {
+    script.remove();
+  };
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+操作说明：本示例演示以不同方式渲染的两个 SVG 图像：
+1. 左侧图像：使用 Konva.Image 原生渲染 SVG
+2. 右侧图像：使用 canvg 库渲染 SVG 

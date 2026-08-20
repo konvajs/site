@@ -1,0 +1,159 @@
+---
+title: 从 JSON 加载 HTML5 Canvas 舞台教程
+sidebar_label: 复杂加载
+hide_table_of_contents: true
+slug: Complex_Load.html
+description: "使用 Konva.Node.create 和 find 选择器，从 JSON 加载包含图像和事件绑定的 Konva 舞台。"
+---
+
+要使用 Konva 加载原来包含图像和事件绑定的复杂舞台，
+需要使用 `Konva.Node.create()` 创建舞台节点，然后配合选择器使用 `find()` 方法
+设置图像和事件处理程序。
+图像和事件处理程序无法序列化，因此必须手动设置。
+
+**这些方法适用于小型应用。对于更复杂的情况，请参阅[最佳实践](/docs/data_and_serialization/Best_Practices.html)。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// JSON string from a previous save
+const json = '{"attrs":{"width":578,"height":200},"className":"Stage","children":[{"attrs":{},"className":"Layer","children":[{"attrs":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4},"className":"RegularPolygon"}]}]}';
+
+// create node using json string
+const stage = Konva.Node.create(json, 'container');
+
+// get reference to the hexagon
+const hexagon = stage.findOne('RegularPolygon');
+
+// bind events
+hexagon.on('click', () => {
+  hexagon.fill(Konva.Util.getRandomColor());
+});
+```
+  </TabItem>
+  <TabItem value="React">
+**注意：**在 React 中直接使用 `Konva.Node.create()` 是一种反模式。在 React 应用中，应分别管理状态和视图。不要反序列化完整的节点结构，而应加载定义图形的数据，并让 React 组件处理渲染。以下示例演示如何在 React 中将图形数据加载为 state：
+
+```js live react
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+import { useState, useEffect } from 'react';
+import Konva from 'konva';
+
+const App = () => {
+  const [shapeData, setShapeData] = useState(null);
+  
+  useEffect(() => {
+    // Simulating loading JSON data from storage or API
+    const loadData = () => {
+      // This would typically come from localStorage, API, etc.
+      const jsonString = '{"hexagon":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4}}';
+      
+      try {
+        // Parse the JSON into a JavaScript object
+        const data = JSON.parse(jsonString);
+        setShapeData(data);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
+    };
+    
+    loadData();
+  }, []);
+  
+  const handleClick = () => {
+    if (shapeData) {
+      setShapeData({
+        ...shapeData,
+        hexagon: {
+          ...shapeData.hexagon,
+          fill: Konva.Util.getRandomColor()
+        }
+      });
+    }
+  };
+  
+  // Don't render until we have data
+  if (!shapeData) return <div>Loading...</div>;
+  
+  return (
+    <Stage width={578} height={200}>
+      <Layer>
+        <RegularPolygon
+          {...shapeData.hexagon}
+          onClick={handleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+**注意：**在 Vue 中直接使用 `Konva.Node.create()` 是一种反模式。在 Vue 应用中，应使用响应式数据管理状态，并将状态与视图分开。不要反序列化完整的节点结构，而应加载定义图形的数据，并让 Vue 组件处理渲染。以下示例演示如何在 Vue 中将图形数据加载为响应式状态：
+
+```js live vue
+<template>
+  <div>
+    <v-stage :config="stageSize" v-if="shapeData">
+      <v-layer>
+        <v-regular-polygon
+          :config="shapeData.hexagon"
+          @click="handleClick"
+        />
+      </v-layer>
+    </v-stage>
+    <div v-else>Loading...</div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: 578,
+  height: 200
+};
+
+const shapeData = ref(null);
+
+onMounted(() => {
+  // Simulating loading JSON data from storage or API
+  const loadData = () => {
+    // This would typically come from localStorage, API, etc.
+    const jsonString = '{"hexagon":{"x":100,"y":100,"sides":6,"radius":70,"fill":"red","stroke":"black","strokeWidth":4}}';
+    
+    try {
+      // Parse the JSON into a JavaScript object
+      const data = JSON.parse(jsonString);
+      shapeData.value = data;
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+    }
+  };
+  
+  loadData();
+});
+
+const handleClick = () => {
+  if (shapeData.value) {
+    shapeData.value = {
+      ...shapeData.value,
+      hexagon: {
+        ...shapeData.value.hexagon,
+        fill: Konva.Util.getRandomColor()
+      }
+    };
+  }
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://konvajs.org/sitemap.xml
+Sitemap: https://konvajs.org/zh-Hans/sitemap.xml

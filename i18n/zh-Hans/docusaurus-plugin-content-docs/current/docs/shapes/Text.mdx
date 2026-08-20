@@ -1,0 +1,188 @@
+---
+title: HTML5 Canvas 文本教程
+sidebar_label: 文本
+hide_table_of_contents: true
+slug: /docs/shapes/Text.html
+description: "学习如何使用 Konva.js 在 HTML5 Canvas 上绘制文本。使用 Konva.Text 图形设置字体、字号、样式、对齐、换行、内边距和装饰。"
+---
+
+要使用 `Konva` 创建文本，可以实例化一个 `Konva.Text()` 对象。
+
+有关完整的属性和方法列表，请参阅 [Text API 参考](/api/Konva.Text.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Simple text
+const simpleText = new Konva.Text({
+  x: stage.width() / 2,
+  y: 15,
+  text: 'Simple Text',
+  fontSize: 30,
+  fontFamily: 'Calibri',
+  fill: 'green'
+});
+
+simpleText.offsetX(simpleText.width() / 2);
+
+// Complex text with background
+const complexText = new Konva.Text({
+  x: 20,
+  y: 60,
+  text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+  fontSize: 18,
+  fontFamily: 'Calibri',
+  fill: '#555',
+  width: 300,
+  padding: 20,
+  align: 'center'
+});
+
+const rect = new Konva.Rect({
+  x: 20,
+  y: 60,
+  stroke: '#555',
+  strokeWidth: 5,
+  fill: '#ddd',
+  width: 300,
+  height: complexText.height(),
+  shadowColor: 'black',
+  shadowBlur: 10,
+  shadowOffsetX: 10,
+  shadowOffsetY: 10,
+  shadowOpacity: 0.2,
+  cornerRadius: 10
+});
+
+layer.add(rect);
+layer.add(simpleText);
+layer.add(complexText);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text, Rect } from 'react-konva';
+
+const text = `COMPLEX TEXT
+
+All the world's a stage, and all the men and women merely players. They have their exits and their entrances.`;
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={window.innerWidth / 2}
+          y={15}
+          text="Simple Text"
+          fontSize={30}
+          fontFamily="Calibri"
+          fill="green"
+          offsetX={60} // Approximate half width
+        />
+        <Rect
+          x={20}
+          y={60}
+          stroke="#555"
+          strokeWidth={5}
+          fill="#ddd"
+          width={300}
+          height={200} // Approximate height
+          shadowColor="black"
+          shadowBlur={10}
+          shadowOffsetX={10}
+          shadowOffsetY={10}
+          shadowOpacity={0.2}
+          cornerRadius={10}
+        />
+        <Text
+          x={20}
+          y={60}
+          text={text}
+          fontSize={18}
+          fontFamily="Calibri"
+          fill="#555"
+          width={300}
+          padding={20}
+          align="center"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-rect :config="rectConfig" />
+      <v-text :config="simpleTextConfig" />
+      <v-text :config="complexTextConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const simpleTextConfig = {
+  x: window.innerWidth / 2,
+  y: 15,
+  text: 'Simple Text',
+  fontSize: 30,
+  fontFamily: 'Calibri',
+  fill: 'green',
+  offsetX: 60 // Approximate half width
+};
+
+const complexTextConfig = {
+  x: 20,
+  y: 60,
+  text: "COMPLEX TEXT\n\nAll the world's a stage, and all the men and women merely players. They have their exits and their entrances.",
+  fontSize: 18,
+  fontFamily: 'Calibri',
+  fill: '#555',
+  width: 300,
+  padding: 20,
+  align: 'center'
+};
+
+const rectConfig = {
+  x: 20,
+  y: 60,
+  stroke: '#555',
+  strokeWidth: 5,
+  fill: '#ddd',
+  width: 300,
+  height: 200, // Approximate height
+  shadowColor: 'black',
+  shadowBlur: 10,
+  shadowOffsetX: 10,
+  shadowOffsetY: 10,
+  shadowOpacity: 0.2,
+  cornerRadius: 10
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

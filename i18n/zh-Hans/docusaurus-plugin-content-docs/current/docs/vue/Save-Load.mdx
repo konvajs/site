@@ -1,0 +1,74 @@
+---
+title: 如何使用 Vue 和 Konva 保存及加载 Canvas？
+sidebar_label: 保存与加载
+hide_table_of_contents: true
+slug: Save-Load.html
+description: "学习如何使用 Konva 将应用 state 序列化到 localStorage，以在 Vue 中保存和加载 Canvas state。"
+---
+
+## 如何使用 Vue 序列化和反序列化 Konva 舞台？
+
+原生 `Konva` 提供一种特殊机制，可以使用 `node.toJSON()` 和 `Node.create(json)` 函数保存或加载完整的 Canvas 舞台。
+[查看示例](/docs/data_and_serialization/Simple_Load.html)。
+
+但是，使用 `vue-konva` 时，建议在 Vue 组件中定义应用 state。state 通过模板映射到节点。如需保存或加载完整舞台，只需保存或加载应用 state。**无需保存 Konva 内部数据和节点**。
+
+操作说明：单击 Canvas 以创建圆形。重新加载页面后，圆形应继续存在。
+
+```js live vue
+<template>
+  <div>
+    Click on canvas to create a circle.
+    <a href=".">Reload the page</a>. Circles should stay here.
+    <v-stage
+      ref="stage"
+      :config="stageSize"
+      @click="handleClick"
+    >
+      <v-layer ref="layer">
+        <v-circle
+          v-for="item in list"
+          :key="item.id"
+          :config="item"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const list = ref([{ x: 100, y: 100, radius: 50, fill: 'blue' }]);
+
+const handleClick = (evt) => {
+  const stage = evt.target.getStage();
+  const pos = stage.getPointerPosition();
+  list.value.push({
+    radius: 50,
+    fill: 'red',
+    ...pos
+  });
+
+  save();
+};
+
+const load = () => {
+  const data = localStorage.getItem('storage');
+  if (data) list.value = JSON.parse(data);
+};
+
+const save = () => {
+  localStorage.setItem('storage', JSON.stringify(list.value));
+};
+
+onMounted(() => {
+  load();
+});
+</script> 
+```

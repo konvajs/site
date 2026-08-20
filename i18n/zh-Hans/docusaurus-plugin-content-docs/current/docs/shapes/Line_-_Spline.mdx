@@ -1,0 +1,93 @@
+---
+title: HTML5 Canvas 样条曲线教程
+sidebar_label: 线条 - 样条曲线
+hide_table_of_contents: true
+slug: /docs/shapes/Line_-_Spline.html
+description: "学习如何使用 Konva 在 HTML5 Canvas 上绘制平滑的样条曲线，以及如何为 Konva.Line 使用 tension 属性。"
+---
+
+要使用 `Konva` 创建样条曲线，可以实例化一个 `Konva.Line()` 对象，并设置 `tension` 属性。
+
+有关完整的属性和方法列表，请参阅 [Line API 参考](/api/Konva.Line.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const line = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  tension: 1
+});
+
+layer.add(line);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="red"
+          strokeWidth={15}
+          lineCap="round"
+          lineJoin="round"
+          tension={1}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="lineConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const lineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  tension: 1
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

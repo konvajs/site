@@ -1,0 +1,131 @@
+---
+title: HTML5 Canvas 拖放舞台
+sidebar_label: 拖放舞台
+hide_table_of_contents: true
+slug: Drag_a_Stage.html
+description: "学习如何使整个 Konva 舞台可以拖动，让用户通过拖动任意区域来平移 Canvas。"
+---
+
+如需使用 Konva 拖放舞台，可以在创建组时将配置对象的 `draggable` 属性
+设置为 `true`，也可以使用 `draggable()` 方法。
+
+与图形、组和图层等其他节点的拖放不同，
+你可以拖动舞台的任意部分来拖动整个舞台。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+  draggable: true
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create circle
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+// create text
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'Drag the stage anywhere',
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'black'
+});
+
+layer.add(circle);
+layer.add(text);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      draggable
+    >
+      <Layer>
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+        />
+        <Text
+          x={10}
+          y={10}
+          text="Drag the stage anywhere"
+          fontSize={20}
+          fontFamily="Calibri"
+          fill="black"
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-circle :config="circleConfig" />
+      <v-text :config="textConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  draggable: true
+};
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const textConfig = {
+  x: 10,
+  y: 10,
+  text: 'Drag the stage anywhere',
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'black'
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

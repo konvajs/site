@@ -1,0 +1,50 @@
+---
+title: Canvas 图形拖放
+sidebar_label: 拖放
+hide_table_of_contents: true
+slug: Drag_And_Drop.html
+description: "学习如何在 React 中使用 react-konva 实现 Canvas 拖放。通过 draggable 属性使图形可拖动，并处理拖动事件。"
+---
+
+要为 Canvas 上的任何节点启用拖放，只需将 `draggable` 属性传给组件。
+
+拖放图形时，建议将图形位置保存到应用的数据存储中。可以为此使用 `onDragMove` 和 `onDragEnd` 事件。
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Text } from 'react-konva';
+
+const App = () => {
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [position, setPosition] = React.useState({
+    x: 50,
+    y: 50,
+  });
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          text="Draggable Text"
+          x={position.x}
+          y={position.y}
+          draggable
+          fill={isDragging ? 'green' : 'black'}
+          onDragStart={() => {
+            setIsDragging(true);
+          }}
+          onDragEnd={(e) => {
+            setIsDragging(false);
+            setPosition({
+              x: e.target.x(),
+              y: e.target.y(),
+            });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+``` 

@@ -1,21 +1,23 @@
 ---
-title: How to snap shapes positions on dragging with Konva?
+title: How to Snap Canvas Shapes While Dragging with Konva
 sidebar_label: Objects Snapping
 hide_table_of_contents: true
 slug: Objects_Snapping.html
 description: "Snap draggable shapes to edges and centers of other objects and stage boundaries with guide lines in Konva."
 ---
 
-## How to snap draggable shapes to each other?
+## How to snap draggable shapes to each other
 
-This demo will demonstrate how to implement snapping of objects to all edges of the stage on to all edges of other objects.
+This demo snaps a dragged shape to the stage and other shapes. Each shape can
+snap at its left, center, right, top, middle, and bottom edges.
 
-Also I found another related demos on the internet that may be useful:
+These external examples show grid snapping:
 
-1. Post: https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f
-2. Demo:https://codepen.io/pierrebleroux/pen/gGpvxJ
+1. [Snap to grid post](https://medium.com/@pierrebleroux/snap-to-grid-with-konvajs-c41eae97c13f)
+2. [Snap to grid demo](https://codepen.io/pierrebleroux/pen/gGpvxJ)
 
-**Instruction:** try to drag and object. See how it snaps to other objects.
+**Instructions:** Drag a rectangle near another rectangle or a stage edge.
+The blue guides show the active snap positions.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -253,4 +255,201 @@ layer.on('dragend', function (e) {
 });
 ```
   </TabItem>
-</Tabs> 
+  <TabItem value="React">
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Rect, Line } from 'react-konva';
+
+const GUIDELINE_OFFSET = 5;
+const WIDTH = window.innerWidth;
+const HEIGHT = 500;
+
+const initialShapes = [
+  { id: 'one', x: 80, y: 90, width: 90, height: 70, fill: '#ff6b6b', rotation: 8 },
+  { id: 'two', x: 300, y: 230, width: 110, height: 80, fill: '#4dabf7', rotation: -6 },
+  { id: 'three', x: 560, y: 100, width: 80, height: 100, fill: '#69db7c', rotation: 4 },
+];
+
+function getLineGuideStops(stage, skipShape) {
+  const vertical = [0, stage.width() / 2, stage.width()];
+  const horizontal = [0, stage.height() / 2, stage.height()];
+
+  stage.find('.object').forEach((guideItem) => {
+    if (guideItem === skipShape) {
+      return;
+    }
+
+    const box = guideItem.getClientRect();
+    vertical.push(box.x, box.x + box.width / 2, box.x + box.width);
+    horizontal.push(box.y, box.y + box.height / 2, box.y + box.height);
+  });
+
+  return { vertical, horizontal };
+}
+
+function getObjectSnappingEdges(node) {
+  const box = node.getClientRect();
+  const absolutePosition = node.absolutePosition();
+
+  return {
+    vertical: [
+      {
+        guide: Math.round(box.x),
+        offset: Math.round(absolutePosition.x - box.x),
+      },
+      {
+        guide: Math.round(box.x + box.width / 2),
+        offset: Math.round(absolutePosition.x - box.x - box.width / 2),
+      },
+      {
+        guide: Math.round(box.x + box.width),
+        offset: Math.round(absolutePosition.x - box.x - box.width),
+      },
+    ],
+    horizontal: [
+      {
+        guide: Math.round(box.y),
+        offset: Math.round(absolutePosition.y - box.y),
+      },
+      {
+        guide: Math.round(box.y + box.height / 2),
+        offset: Math.round(absolutePosition.y - box.y - box.height / 2),
+      },
+      {
+        guide: Math.round(box.y + box.height),
+        offset: Math.round(absolutePosition.y - box.y - box.height),
+      },
+    ],
+  };
+}
+
+function getGuides(lineGuideStops, itemBounds) {
+  const verticalMatches = [];
+  const horizontalMatches = [];
+
+  lineGuideStops.vertical.forEach((lineGuide) => {
+    itemBounds.vertical.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        verticalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'V',
+        });
+      }
+    });
+  });
+
+  lineGuideStops.horizontal.forEach((lineGuide) => {
+    itemBounds.horizontal.forEach((itemBound) => {
+      const diff = Math.abs(lineGuide - itemBound.guide);
+
+      if (diff < GUIDELINE_OFFSET) {
+        horizontalMatches.push({
+          lineGuide,
+          diff,
+          offset: itemBound.offset,
+          orientation: 'H',
+        });
+      }
+    });
+  });
+
+  const closestVertical = verticalMatches.sort((a, b) => a.diff - b.diff)[0];
+  const closestHorizontal = horizontalMatches.sort((a, b) => a.diff - b.diff)[0];
+
+  return [closestVertical, closestHorizontal].filter(Boolean);
+}
+
+const App = () => {
+  const [shapes, setShapes] = useState(initialShapes);
+  const [guides, setGuides] = useState([]);
+
+  const handleDragMove = (event) => {
+    const node = event.target;
+    const stage = node.getStage();
+    const lineGuideStops = getLineGuideStops(stage, node);
+    const itemBounds = getObjectSnappingEdges(node);
+    const nextGuides = getGuides(lineGuideStops, itemBounds);
+
+    setGuides(nextGuides);
+
+    if (!nextGuides.length) {
+      return;
+    }
+
+    const absolutePosition = node.absolutePosition();
+
+    nextGuides.forEach((guide) => {
+      if (guide.orientation === 'V') {
+        absolutePosition.x = guide.lineGuide + guide.offset;
+      } else {
+        absolutePosition.y = guide.lineGuide + guide.offset;
+      }
+    });
+
+    node.absolutePosition(absolutePosition);
+  };
+
+  const handleDragEnd = (event, id) => {
+    setGuides([]);
+    setShapes((currentShapes) =>
+      currentShapes.map((shape) =>
+        shape.id === id
+          ? { ...shape, x: event.target.x(), y: event.target.y() }
+          : shape
+      )
+    );
+  };
+
+  return (
+    <Stage width={WIDTH} height={HEIGHT}>
+      <Layer>
+        {shapes.map((shape) => (
+          <Rect
+            key={shape.id}
+            {...shape}
+            name="object"
+            draggable
+            stroke="#1f2937"
+            strokeWidth={2}
+            onDragMove={handleDragMove}
+            onDragEnd={(event) => handleDragEnd(event, shape.id)}
+          />
+        ))}
+        {guides.map((guide, index) =>
+          guide.orientation === 'H' ? (
+            <Line
+              key={`H-${index}`}
+              points={[-6000, 0, 6000, 0]}
+              x={0}
+              y={guide.lineGuide}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          ) : (
+            <Line
+              key={`V-${index}`}
+              points={[0, -6000, 0, 6000]}
+              x={guide.lineGuide}
+              y={0}
+              stroke="#00a1ff"
+              strokeWidth={1}
+              dash={[4, 6]}
+              listening={false}
+            />
+          )
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>

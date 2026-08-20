@@ -107,3 +107,11 @@ export default class App {
   }
 }
 ```
+
+## Where a hand-built history stops
+
+The history above records one value per step. A production editor has to record
+grouped operations, so that a multi-select drag undoes as a single step, plus
+transforms and images that finish loading after the action. That state machine
+usually grows larger than the drawing code, so plan the history around document
+operations rather than around raw node state.

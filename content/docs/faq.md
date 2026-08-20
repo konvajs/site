@@ -166,7 +166,6 @@ Both are 2D Canvas frameworks, but they differ in key areas:
 - **Architecture**: Konva uses a multi-layer approach (each Layer is a separate canvas) for better rendering performance. Fabric.js uses a single canvas.
 - **Drag and drop**: Both have built-in drag-and-drop. Konva's event system supports event bubbling and delegation.
 - **TypeScript**: Both ship with TypeScript definitions.
-- **npm downloads**: Konva has more weekly downloads on npm.
 
 Choose Konva for interactive applications, especially with React/Vue/Svelte. Choose Fabric.js if you need its specific image manipulation features.
 

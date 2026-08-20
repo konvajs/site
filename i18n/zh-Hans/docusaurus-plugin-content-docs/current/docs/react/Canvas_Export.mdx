@@ -1,0 +1,71 @@
+---
+title: 如何从 react-konva 将 Canvas 导出为图像？
+sidebar_label: Canvas 导出
+hide_table_of_contents: true
+slug: Canvas_Export.html
+description: "学习如何在 React 中使用 react-konva 将 Canvas 导出为图像。使用 stage.toDataURL() 将 Canvas 保存为 PNG 或 JPEG。"
+---
+
+## 如何保存 react-konva 绘图？
+
+要将任何 `Konva` 节点导出为图像，可以使用 [node.toDataURL()](/api/Konva.Node.html#toDataURL) 或 [node.toImage()](https://konvajs.org/api/Konva.Node.html#toImage) API。请参阅 [Vanilla Konva 图像导出示例](https://konvajs.org/docs/data_and_serialization/Stage_Data_URL.html)。
+
+你需要使用 [Refs API](/docs/react/Access_Konva_Nodes.html) 直接访问 `Konva` 节点，才能调用这些方法。
+
+```js live react
+import React, { Fragment } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
+
+// function from https://stackoverflow.com/a/15832662/512042
+function downloadURI(uri, name) {
+  var link = document.createElement('a');
+  link.download = name;
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+const App = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const stageRef = React.useRef(null);
+
+  const handleExport = () => {
+    const uri = stageRef.current.toDataURL();
+    console.log(uri);
+    // we also can save uri as file
+    downloadURI(uri, 'stage.png');
+  };
+
+  return (
+    <Fragment>
+      <button onClick={handleExport}>Click here to export stage as image</button>
+      <Stage width={width} height={height} ref={stageRef}>
+        <Layer>
+          <Rect x={0} y={0} width={80} height={80} fill="red" />
+          <Rect x={width - 80} y={0} width={80} height={80} fill="red" />
+          <Rect
+            x={width - 80}
+            y={height - 80}
+            width={80}
+            height={80}
+            fill="red"
+          />
+          <Rect x={0} y={height - 80} width={80} height={80} fill="red" />
+        </Layer>
+      </Stage>
+    </Fragment>
+  );
+};
+
+export default App;
+``` 
+
+## 提高像素比之前
+
+浏览器会限制 Canvas 的宽度、高度和总面积，因此较高的 `pixelRatio` 可能
+返回空白图像，而不会报错。请参阅
+[高质量导出](/docs/data_and_serialization/High-Quality-Export.html)，
+了解这些限制和解决方法。

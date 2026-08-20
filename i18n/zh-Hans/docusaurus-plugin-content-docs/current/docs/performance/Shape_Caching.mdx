@@ -1,0 +1,460 @@
+---
+title: HTML5 Canvas 图形缓存性能技巧
+sidebar_label: 图形缓存
+hide_table_of_contents: true
+slug: Shape_Caching.html
+description: "使用 Konva.js 图形缓存加快 HTML5 Canvas 渲染。将复杂图形缓存为图像，以明显提高性能。"
+---
+
+如果复杂图形包含许多绘制操作，或你正在应用滤镜，
+可以通过缓存图形提高性能。缓存图形时，Konva 会将其绘制到
+内部 Canvas 缓冲区。之后，Konva 不会每次重新绘制图形，
+而会直接使用缓存版本。
+
+此方法特别适用于：
+1. 包含许多绘制操作的复杂图形
+2. 带滤镜的图形
+3. 不经常变化但需要频繁重绘的图形
+
+要缓存图形，请调用 `cache()` 方法。可以使用 `clearCache()` 清除缓存。
+
+## 缓存如何工作？
+
+对图形调用 `cache()` 方法时，Konva 会：
+1. 创建内部 Canvas 缓冲区
+2. 将图形绘制到缓冲区
+3. 存储缓冲区供以后使用
+
+缓存后，当图形需要显示时，Konva 会使用缓冲区中的缓存版本，而不每次重新绘制。这比反复绘制图形快得多。
+
+## 指南
+
+1. 不要缓存不带滤镜的简单图形。直接渲染可能比使用缓存版本更快。
+2. 每个缓存节点都会创建多个 Canvas 缓冲区。不要过度使用缓存，否则会占用大量内存。
+3. 缓存图形组通常比单独缓存每个图形更好。
+4. 请分别测量启用和禁用缓存时的性能，以了解实际差异。
+
+
+以下示例展示了使用和不使用缓存时复杂图形的性能差异：
+
+**操作说明：**
+- 单击舞台任意位置以再添加 1000 个圆形
+- 切换复选框以启用或禁用缓存
+- 查看 FPS 计数器以了解性能差异
+- 圆形组会持续旋转
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create a group of circles
+const group = new Konva.Group({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+});
+layer.add(group);
+
+// Add initial circles
+const addCircles = (count) => {
+  const radius = 300;
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * radius;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    const circle = new Konva.Circle({
+      x,
+      y,
+      radius: 5 + Math.random() * 10,
+      fill: Konva.Util.getRandomColor(),
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOpacity: 0.5,
+      shadowOffset: { x: 2, y: 2 },
+      listening: false,
+    });
+
+    group.add(circle);
+  }
+};
+
+// Add initial circles
+addCircles(5000);
+
+// Add FPS counter
+const fpsText = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'FPS: 0',
+  fontSize: 16,
+  fill: 'white',
+  shadowColor: 'black',
+  shadowBlur: 5,
+  shadowOffset: { x: 1, y: 1 }
+});
+layer.add(fpsText);
+
+// Add circle count text
+const countText = new Konva.Text({
+  x: 10,
+  y: 40,
+  text: 'Circles: 1000',
+  fontSize: 16,
+  fill: 'white',
+  shadowColor: 'black',
+  shadowBlur: 5,
+  shadowOffset: { x: 1, y: 1 }
+});
+layer.add(countText);
+
+// Create animation
+const anim = new Konva.Animation((frame) => {
+  group.rotation(frame.time * 0.05);
+  
+  // Update FPS counter
+  fpsText.text('FPS: ' + frame.frameRate.toFixed(1));
+}, layer);
+
+// Add click handler to add more circles
+stage.on('click', () => {
+  addCircles(1000);
+  countText.text('Circles: ' + group.children.length);
+});
+
+// Add DOM checkbox
+const container = stage.container();
+const checkbox = document.createElement('input');
+checkbox.type = 'checkbox';
+checkbox.id = 'cache-toggle';
+checkbox.style.position = 'absolute';
+checkbox.style.top = '70px';
+checkbox.style.left = '10px';
+checkbox.style.zIndex = '100';
+container.appendChild(checkbox);
+
+const label = document.createElement('label');
+label.htmlFor = 'cache-toggle';
+label.textContent = 'Enable Caching';
+label.style.position = 'absolute';
+label.style.top = '70px';
+label.style.left = '30px';
+label.style.color = 'white';
+label.style.textShadow = '0 0 5px black';
+label.style.zIndex = '100';
+container.appendChild(label);
+
+// Toggle caching
+checkbox.addEventListener('change', () => {
+  if (checkbox.checked) {
+    group.cache();
+  } else {
+    group.clearCache();
+  }
+});
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Text, Group } from 'react-konva';
+import { useEffect, useRef, useState } from 'react';
+import Konva from 'konva';
+
+const App = () => {
+  const [circles, setCircles] = useState([]);
+  const [isCached, setIsCached] = useState(false);
+  const fpsTextRef = useRef(null);
+  const groupRef = useRef(null);
+
+  useEffect(() => {
+    // Add initial circles
+    addCircles(5000);
+
+    // Setup animation
+    const anim = new Konva.Animation((frame) => {
+      if (groupRef.current) {
+        groupRef.current.rotation(frame.time * 0.05);
+      }
+      
+      // Update FPS counter
+      fpsTextRef.current.text('FPS: ' + frame.frameRate.toFixed(1));
+    }, fpsTextRef.current.getLayer());
+
+    anim.start();
+    return () => anim.stop();
+  }, []);
+
+  // Toggle caching
+  useEffect(() => {
+    if (groupRef.current) {
+      if (isCached) {
+        groupRef.current.cache();
+      } else {
+        groupRef.current.clearCache();
+      }
+    }
+  }, [isCached]);
+
+  // Add circles
+  const addCircles = (count) => {
+    const newCircles = [];
+    const radius = 300;
+
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * radius;
+      const x = Math.cos(angle) * distance;
+      const y = Math.sin(angle) * distance;
+
+      newCircles.push({
+        id: circles.length + i,
+        x,
+        y,
+        radius: 5 + Math.random() * 10,
+        fill: Konva.Util.getRandomColor(),
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOpacity: 0.5,
+        shadowOffset: { x: 2, y: 2 },
+        listening: false
+      });
+    }
+
+    setCircles(prev => [...prev, ...newCircles]);
+  };
+
+  return (
+    <>
+      <Stage 
+        width={window.innerWidth} 
+        height={window.innerHeight}
+        onClick={() => addCircles(1000)}
+      >
+        <Layer>
+          <Group
+            ref={groupRef}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+          >
+            {circles.map((circle) => (
+              <Circle
+                key={circle.id}
+                {...circle}
+              />
+            ))}
+          </Group>
+
+          <Text
+            ref={fpsTextRef}
+            x={10}
+            y={10}
+            text="FPS: 0"
+            fontSize={16}
+            fill="white"
+            shadowColor="black"
+            shadowBlur={5}
+            shadowOffset={{ x: 1, y: 1 }}
+          />
+
+          <Text
+            x={10}
+            y={40}
+            text={`Circles: ${circles.length}`}
+            fontSize={16}
+            fill="white"
+            shadowColor="black"
+            shadowBlur={5}
+            shadowOffset={{ x: 1, y: 1 }}
+          />
+        </Layer>
+      </Stage>
+
+      <div style={{ position: 'absolute', top: '70px', left: '10px', zIndex: 100 }}>
+        <input
+          type="checkbox"
+          id="cache-toggle"
+          checked={isCached}
+          onChange={(e) => setIsCached(e.target.checked)}
+        />
+        <label
+          htmlFor="cache-toggle"
+          style={{
+            color: 'white',
+            textShadow: '0 0 5px black',
+            marginLeft: '10px'
+          }}
+        >
+          Enable Caching
+        </label>
+      </div>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage 
+    :config="stageSize"
+    @click="addCircles(1000)"
+  >
+    <v-layer ref="layerRef">
+      <v-group
+        ref="groupRef"
+        :config="{
+          x: stageSize.width / 2,
+          y: stageSize.height / 2
+        }"
+      >
+        <v-circle
+          v-for="circle in circles"
+          :key="circle.id"
+          :config="circle"
+        />
+      </v-group>
+
+      <v-text
+        ref="fpsTextRef"
+        :config="fpsConfig"
+      />
+
+      <v-text
+        :config="{
+          x: 10,
+          y: 40,
+          text: `Circles: ${circles.length}`,
+          fontSize: 16,
+          fill: 'white',
+          shadowColor: 'black',
+          shadowBlur: 5,
+          shadowOffset: { x: 1, y: 1 }
+        }"
+      />
+    </v-layer>
+  </v-stage>
+    <div style="position: absolute; top: 70px; left: 10px; z-index: 100">
+      <input
+        type="checkbox"
+        id="cache-toggle"
+        v-model="isCached"
+      />
+      <label
+        for="cache-toggle"
+        style="color: white; text-shadow: 0 0 5px black; margin-left: 10px"
+      >
+        Enable Caching
+      </label>
+    </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const isCached = ref(false);
+const layerRef = ref(null);
+const fpsTextRef = ref(null);
+const groupRef = ref(null);
+const circles = ref([]);
+
+// Add circles
+const addCircles = (count) => {
+  console.log('addCircles', count);
+  const radius = 300;
+  const newCircles = [];
+
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * radius;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    newCircles.push({
+      id: (circles.value.length + i).toString(),
+      x,
+      y,
+      radius: 5 + Math.random() * 10,
+      fill: Konva.Util.getRandomColor(),
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOpacity: 0.5,
+      shadowOffset: { x: 2, y: 2 },
+      listening: false
+    });
+  }
+
+  circles.value = [...circles.value, ...newCircles];
+};
+
+// Toggle caching
+watch(isCached, (value) => {
+  if (groupRef.value) {
+    if (value) {
+      groupRef.value.getNode().cache();
+    } else {
+      groupRef.value.getNode().clearCache();
+    }
+  }
+});
+
+const fpsConfig = ref({
+  x: 10,
+  y: 10,
+  text: 'FPS: 0',
+  fontSize: 16,
+  fill: 'white',
+  shadowColor: 'black',
+  shadowBlur: 5,
+  shadowOffset: { x: 1, y: 1 }
+});
+
+let anim = null;
+
+onMounted(() => {
+  // Add initial circles
+  addCircles(5000);
+
+  anim = new Konva.Animation((frame) => {
+    if (groupRef.value) {
+      groupRef.value.getNode().rotation(frame.time * 0.05);
+    }
+    
+    // Update FPS counter
+    fpsTextRef.value.getNode().text('FPS: ' + frame.frameRate.toFixed(1));
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs> 

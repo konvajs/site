@@ -1,0 +1,248 @@
+---
+title: 拖放多个图形
+sidebar_label: 拖放多个图形
+hide_table_of_contents: true
+slug: Drag_and_Drop_Multiple_Shapes.html
+description: "使用 Konva 在 Canvas 上拖放多个彩色矩形，并通过双击移除图形。"
+---
+
+**操作说明：**拖放图形。双击或双点按图形可将其移除。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+for (let i = 0; i < 6; i++) {
+  const box = new Konva.Rect({
+    x: i * 30 + 50,
+    y: i * 18 + 40,
+    fill: colors[i],
+    stroke: 'black',
+    strokeWidth: 4,
+    draggable: true,
+    width: 100,
+    height: 50,
+  });
+
+  box.on('dragstart', function () {
+    this.moveToTop();
+  });
+
+  box.on('dragmove', function () {
+    document.body.style.cursor = 'pointer';
+  });
+  
+  // dblclick to remove box for desktop app
+  // and dbltap to remove box for mobile app
+  box.on('dblclick dbltap', function () {
+    this.destroy();
+  });
+
+  box.on('mouseover', function () {
+    document.body.style.cursor = 'pointer';
+  });
+  
+  box.on('mouseout', function () {
+    document.body.style.cursor = 'default';
+  });
+
+  layer.add(box);
+}
+
+// add the layer to the stage
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
+
+const App = () => {
+  const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+  
+  // Initialize boxes with proper IDs and positions
+  const initialBoxes = colors.map((color, i) => ({
+    id: i.toString(),
+    x: i * 30 + 50,
+    y: i * 18 + 40,
+    width: 100,
+    height: 50,
+    fill: color,
+    stroke: 'black',
+    strokeWidth: 4
+  }));
+  
+  const [boxes, setBoxes] = useState(initialBoxes);
+  
+  const handleDragStart = (e) => {
+    // Move the dragged box to the end of the array to simulate moveToTop
+    const id = e.target.id();
+    const box = boxes.find(b => b.id === id);
+    const filteredBoxes = boxes.filter(b => b.id !== id);
+    setBoxes([...filteredBoxes, box]);
+  };
+  
+  const handleDragMove = (e) => {
+    // Update the position of the box
+    const id = e.target.id();
+    const newBoxes = boxes.map(box => {
+      if (box.id === id) {
+        return {
+          ...box,
+          x: e.target.x(),
+          y: e.target.y()
+        };
+      }
+      return box;
+    });
+    setBoxes(newBoxes);
+  };
+  
+  const handleDoubleClick = (id) => {
+    // Remove the box on double click
+    setBoxes(boxes.filter(box => box.id !== id));
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {boxes.map((box) => (
+          <Rect
+            key={box.id}
+            id={box.id}
+            x={box.x}
+            y={box.y}
+            width={box.width}
+            height={box.height}
+            fill={box.fill}
+            stroke={box.stroke}
+            strokeWidth={box.strokeWidth}
+            draggable
+            onDragStart={handleDragStart}
+            onDragMove={handleDragMove}
+            onDblClick={() => handleDoubleClick(box.id)}
+            onDblTap={() => handleDoubleClick(box.id)}
+            onMouseOver={(e) => {
+              document.body.style.cursor = 'pointer';
+            }}
+            onMouseOut={(e) => {
+              document.body.style.cursor = 'default';
+            }}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-rect
+        v-for="box in boxes"
+        :key="box.id"
+        :config="box"
+        @dragstart="handleDragStart"
+        @dragmove="handleDragMove"
+        @mouseover="handleMouseOver"
+        @mouseout="handleMouseOut"
+        @dblclick="handleDoubleClick"
+        @dbltap="handleDoubleClick"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+// Initialize boxes with proper configuration
+const initialBoxes = colors.map((color, i) => ({
+  id: i.toString(),
+  x: i * 30 + 50,
+  y: i * 18 + 40,
+  width: 100,
+  height: 50,
+  fill: color,
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true
+}));
+
+const boxes = ref(initialBoxes);
+
+const handleDragStart = (e) => {
+  const id = e.target.id();
+  
+  // Move the dragged box to the end of the array to simulate moveToTop
+  const box = boxes.value.find(b => b.id === id);
+  const filteredBoxes = boxes.value.filter(b => b.id !== id);
+  boxes.value = [...filteredBoxes, box];
+};
+
+const handleDragMove = (e) => {
+  const id = e.target.id();
+  const index = boxes.value.findIndex(b => b.id === id);
+  
+  if (index !== -1) {
+    // Update position
+    const updatedBox = { ...boxes.value[index] };
+    updatedBox.x = e.target.x();
+    updatedBox.y = e.target.y();
+    
+    // Replace the box in the array
+    const newBoxes = [...boxes.value];
+    newBoxes[index] = updatedBox;
+    boxes.value = newBoxes;
+  }
+  
+  document.body.style.cursor = 'pointer';
+};
+
+const handleMouseOver = () => {
+  document.body.style.cursor = 'pointer';
+};
+
+const handleMouseOut = () => {
+  document.body.style.cursor = 'default';
+};
+
+const handleDoubleClick = (e) => {
+  const id = e.target.id();
+  // Remove the box
+  boxes.value = boxes.value.filter(box => box.id !== id);
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

@@ -1,0 +1,84 @@
+---
+title: HTML5 Canvas Performance with Konva
+sidebar_label: Canvas Performance
+sidebar_position: 6
+slug: canvas-performance.html
+description: "Improve HTML5 canvas performance with fewer redraws, separate Konva layers, disabled hit detection, and measured optimizations."
+---
+
+Canvas performance depends on scene complexity, redraw frequency, pixel count,
+and hit detection. Optimize the measured limit, not the node count alone.
+
+Use browser performance tools on a representative device. Record frame time,
+memory use, and interaction delay for the real scene.
+
+## High-value Konva changes
+
+- Put static and changing content on separate layers.
+- Set `listening(false)` on nodes or layers that do not receive events.
+- Hide nodes that are outside the visible area when the scene is very large.
+- Cache a complex, stable node after measurement shows a rendering benefit.
+- Reduce shadows, filters, and large transparent areas when they dominate frame time.
+- Draw only after a data change. Konva batches layer draws automatically.
+
+Do not cache every node. Each cache uses memory and creates extra work when its
+content changes.
+
+## Separate the interactive layer
+
+This example puts 2,000 noninteractive circles on one layer. The layer skips
+the hit canvas because `listening` is false. A second layer contains one
+draggable shape.
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: 420,
+});
+
+const backgroundLayer = new Konva.Layer({ listening: false });
+const interactionLayer = new Konva.Layer();
+stage.add(backgroundLayer, interactionLayer);
+
+for (let index = 0; index < 2000; index += 1) {
+  backgroundLayer.add(
+    new Konva.Circle({
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      radius: 2 + Math.random() * 4,
+      fill: Konva.Util.getRandomColor(),
+      opacity: 0.55,
+      perfectDrawEnabled: false,
+    })
+  );
+}
+
+const handle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 36,
+  fill: '#ff922b',
+  stroke: '#7c2d12',
+  strokeWidth: 3,
+  draggable: true,
+});
+
+const label = new Konva.Text({
+  x: 16,
+  y: 16,
+  text: 'The orange circle stays interactive',
+  fontSize: 18,
+  fill: '#111827',
+});
+
+interactionLayer.add(handle, label);
+```
+
+Layer separation has a cost because each layer creates scene and hit canvases.
+Use a small number of layers with clear update patterns.
+
+Read [all Konva performance tips](/docs/performance/All_Performance_Tips.html)
+for animation, caching, pixel ratio, and shape-specific guidance.

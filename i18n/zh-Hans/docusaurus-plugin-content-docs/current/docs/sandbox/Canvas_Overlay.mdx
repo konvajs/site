@@ -1,0 +1,243 @@
+---
+title: Canvas 叠加层——使用 JavaScript 添加颜色、文本和渐变叠加层
+sidebar_label: Canvas 叠加层
+hide_table_of_contents: true
+slug: Canvas_Overlay.html
+description: 使用 JavaScript 为 HTML5 Canvas 上的图像添加叠加层。使用 Konva.js 创建色调、文字说明和渐变叠加层。包含带不透明度控件的交互式示例。
+---
+
+在图像上叠加视觉效果，包括色调、文字说明和渐变晕影。可以分别启用或关闭每个叠加层，并控制其不透明度。
+
+**操作说明：** 单击按钮以启用或关闭叠加层。调整不透明度滑块。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var container = document.getElementById('container');
+
+var controls = document.createElement('div');
+controls.style.cssText = 'margin-bottom: 8px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font: 13px Arial, sans-serif;';
+
+function makeBtn(label) {
+  var btn = document.createElement('button');
+  btn.textContent = label;
+  btn.dataset.active = 'false';
+  btn.style.cssText = 'padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f5f5f5; cursor: pointer; font-size: 13px;';
+  return btn;
+}
+
+var colorBtn = makeBtn('Color');
+var textBtn = makeBtn('Text');
+var gradientBtn = makeBtn('Gradient');
+
+var opLabel = document.createElement('label');
+opLabel.style.cssText = 'display: flex; align-items: center; gap: 6px; font-size: 13px;';
+opLabel.appendChild(document.createTextNode('Opacity:'));
+var opSlider = document.createElement('input');
+opSlider.type = 'range';
+opSlider.min = '0';
+opSlider.max = '1';
+opSlider.step = '0.1';
+opSlider.value = '0.5';
+opSlider.style.width = '80px';
+opLabel.appendChild(opSlider);
+
+controls.appendChild(colorBtn);
+controls.appendChild(textBtn);
+controls.appendChild(gradientBtn);
+controls.appendChild(opLabel);
+container.parentNode.insertBefore(controls, container);
+
+var colorOverlay = null;
+var textOverlay = null;
+var gradientOverlay = null;
+var currentOpacity = 0.5;
+
+var imageObj = new Image();
+imageObj.onload = function() {
+  layer.add(new Konva.Image({ image: imageObj, width: width, height: height }));
+
+  colorOverlay = new Konva.Rect({
+    width: width, height: height,
+    fill: '#0066ff', opacity: currentOpacity, visible: false,
+  });
+  layer.add(colorOverlay);
+
+  textOverlay = new Konva.Text({
+    x: 20, y: height - 50,
+    text: 'Sunset Valley', fontSize: 26,
+    fontFamily: 'Arial', fill: 'white',
+    opacity: currentOpacity, visible: false,
+    shadowColor: 'rgba(0,0,0,0.6)', shadowBlur: 6,
+  });
+  layer.add(textOverlay);
+
+  gradientOverlay = new Konva.Rect({
+    width: width, height: height,
+    fillLinearGradientStartPoint: { x: 0, y: 0 },
+    fillLinearGradientEndPoint: { x: 0, y: height },
+    fillLinearGradientColorStops: [0, 'rgba(0,0,0,0)', 0.5, 'rgba(0,0,0,0)', 1, 'rgba(0,0,0,0.7)'],
+    opacity: currentOpacity, visible: false,
+  });
+  layer.add(gradientOverlay);
+  layer.draw();
+};
+imageObj.src = 'https://konvajs.org/assets/landscape.jpg';
+
+function toggleBtn(btn, overlay) {
+  if (!overlay) return;
+  var active = btn.dataset.active === 'true';
+  btn.dataset.active = active ? 'false' : 'true';
+  overlay.visible(!active);
+  btn.style.background = !active ? '#0066ff' : '#f5f5f5';
+  btn.style.color = !active ? 'white' : 'black';
+  layer.draw();
+}
+
+colorBtn.onclick = function() { toggleBtn(colorBtn, colorOverlay); };
+textBtn.onclick = function() { toggleBtn(textBtn, textOverlay); };
+gradientBtn.onclick = function() { toggleBtn(gradientBtn, gradientOverlay); };
+
+opSlider.oninput = function() {
+  currentOpacity = parseFloat(this.value);
+  if (colorOverlay) colorOverlay.opacity(currentOpacity);
+  if (textOverlay) textOverlay.opacity(currentOpacity);
+  if (gradientOverlay) gradientOverlay.opacity(currentOpacity);
+  layer.draw();
+};
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image as KonvaImage, Rect, Text } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+var App = function() {
+  var [image, setImage] = useState(null);
+  var [colorOn, setColorOn] = useState(false);
+  var [textOn, setTextOn] = useState(false);
+  var [gradientOn, setGradientOn] = useState(false);
+  var [opacity, setOpacity] = useState(0.5);
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  useEffect(function() {
+    var img = new window.Image();
+    img.onload = function() { setImage(img); };
+    img.src = 'https://konvajs.org/assets/landscape.jpg';
+  }, []);
+
+  function btnStyle(active) {
+    return { padding: '6px 12px', border: '1px solid #ddd', borderRadius: '4px', background: active ? '#0066ff' : '#f5f5f5', color: active ? 'white' : 'black', cursor: 'pointer', fontSize: '13px' };
+  }
+
+  return (
+    <div>
+      <div style={{ marginBottom: '8px', display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', font: '13px Arial,sans-serif' }}>
+        <button onClick={function() { setColorOn(!colorOn); }} style={btnStyle(colorOn)}>Color</button>
+        <button onClick={function() { setTextOn(!textOn); }} style={btnStyle(textOn)}>Text</button>
+        <button onClick={function() { setGradientOn(!gradientOn); }} style={btnStyle(gradientOn)}>Gradient</button>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          Opacity:
+          <input type="range" min="0" max="1" step="0.1" value={opacity} onChange={function(e) { setOpacity(parseFloat(e.target.value)); }} style={{ width: '80px' }} />
+        </label>
+      </div>
+      <Stage width={width} height={height}>
+        <Layer>
+          {image && <KonvaImage image={image} width={width} height={height} />}
+          {colorOn && <Rect width={width} height={height} fill="#0066ff" opacity={opacity} />}
+          {textOn && <Text x={20} y={height - 50} text="Sunset Valley" fontSize={26} fontFamily="Arial" fill="white" opacity={opacity} shadowColor="rgba(0,0,0,0.6)" shadowBlur={6} />}
+          {gradientOn && <Rect width={width} height={height} fillLinearGradientStartPoint={{ x: 0, y: 0 }} fillLinearGradientEndPoint={{ x: 0, y: height }} fillLinearGradientColorStops={[0, 'rgba(0,0,0,0)', 0.5, 'rgba(0,0,0,0)', 1, 'rgba(0,0,0,0.7)']} opacity={opacity} />}
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="margin-bottom: 8px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font: 13px Arial, sans-serif;">
+      <button @click="toggleColor" :style="btnStyle(colorOn)">Color</button>
+      <button @click="toggleText" :style="btnStyle(textOn)">Text</button>
+      <button @click="toggleGradient" :style="btnStyle(gradientOn)">Gradient</button>
+      <label style="display: flex; align-items: center; gap: 6px;">
+        Opacity:
+        <input type="range" min="0" max="1" step="0.1" :value="opacity" @input="updateOpacity" style="width: 80px;" />
+      </label>
+    </div>
+    <v-stage :config="{ width: width, height: height }">
+      <v-layer>
+        <v-image v-if="image" :config="{ image: image, width: width, height: height }" />
+        <v-rect v-if="colorOn" :config="{ width: width, height: height, fill: '#0066ff', opacity: opacity }" />
+        <v-text v-if="textOn" :config="{ x: 20, y: height - 50, text: 'Sunset Valley', fontSize: 26, fontFamily: 'Arial', fill: 'white', opacity: opacity, shadowColor: 'rgba(0,0,0,0.6)', shadowBlur: 6 }" />
+        <v-rect v-if="gradientOn" :config="gradientConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+var colorOn = ref(false);
+var textOn = ref(false);
+var gradientOn = ref(false);
+var opacity = ref(0.5);
+var image = ref(null);
+
+var gradientConfig = computed(function() {
+  return {
+    width: width, height: height,
+    fillLinearGradientStartPoint: { x: 0, y: 0 },
+    fillLinearGradientEndPoint: { x: 0, y: height },
+    fillLinearGradientColorStops: [0, 'rgba(0,0,0,0)', 0.5, 'rgba(0,0,0,0)', 1, 'rgba(0,0,0,0.7)'],
+    opacity: opacity.value,
+  };
+});
+
+function btnStyle(active) {
+  return {
+    padding: '6px 12px', border: '1px solid #ddd', borderRadius: '4px',
+    background: active ? '#0066ff' : '#f5f5f5', color: active ? 'white' : 'black',
+    cursor: 'pointer', fontSize: '13px',
+  };
+}
+
+function toggleColor() { colorOn.value = !colorOn.value; }
+function toggleText() { textOn.value = !textOn.value; }
+function toggleGradient() { gradientOn.value = !gradientOn.value; }
+function updateOpacity(e) { opacity.value = parseFloat(e.target.value); }
+
+onMounted(function() {
+  var img = new window.Image();
+  img.onload = function() { image.value = img; };
+  img.src = 'https://konvajs.org/assets/landscape.jpg';
+});
+</script>
+```
+  </TabItem>
+</Tabs>

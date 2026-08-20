@@ -1,0 +1,236 @@
+---
+title: 振荡 Blob 图形
+sidebar_label: 振荡 Blob 图形
+hide_table_of_contents: true
+slug: Quantum_Squiggle.html
+description: "使用 Konva 线条图形，在 HTML5 Canvas 上为具有动态张力的彩色 Blob 图形设置动画。"
+---
+
+**操作说明：刷新页面以生成新的 Blob 图形。还可以在 Blob 图形播放动画时拖放它们。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+var layer = new Konva.Layer();
+var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+var blobs = [];
+
+// create 6 blobs
+for (var n = 0; n < 6; n++) {
+  // build array of random points
+  var points = [];
+  for (var i = 0; i < 5; i++) {
+    points.push(stage.width() * Math.random());
+    points.push(height * Math.random());
+  }
+
+  var blob = new Konva.Line({
+    points: points,
+    fill: colors[n],
+    stroke: 'black',
+    strokeWidth: 2,
+    tension: 0,
+    opacity: Math.random(),
+    draggable: true,
+    closed: true,
+  });
+
+  layer.add(blob);
+  blobs.push(blob);
+}
+
+stage.add(layer);
+
+var period = 2000;
+var centerTension = 0;
+var amplitude = 1;
+
+var anim = new Konva.Animation(function (frame) {
+  for (var n = 0; n < blobs.length; n++) {
+    blobs[n].tension(
+      amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
+        centerTension
+    );
+  }
+}, layer);
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+import { useState, useEffect } from 'react';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+const App = () => {
+  const [blobs, setBlobs] = useState([]);
+  const [tension, setTension] = useState(0);
+
+  useEffect(() => {
+    // Generate initial blobs
+    const newBlobs = COLORS.map((color) => {
+      const points = [];
+      for (let i = 0; i < 5; i++) {
+        points.push(window.innerWidth * Math.random());
+        points.push(window.innerHeight * Math.random());
+      }
+      return {
+        points,
+        fill: color,
+        opacity: Math.random(),
+        x: 0,
+        y: 0
+      };
+    });
+    setBlobs(newBlobs);
+  }, []);
+
+  useEffect(() => {
+    const period = 2000;
+    const centerTension = 0;
+    const amplitude = 1;
+
+    const interval = setInterval(() => {
+      const time = new Date().getTime();
+      setTension(
+        amplitude * Math.sin((time * 2 * Math.PI) / period) + centerTension
+      );
+    }, 1000 / 60);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleDragEnd = (e, index) => {
+    const newBlobs = [...blobs];
+    newBlobs[index] = {
+      ...newBlobs[index],
+      x: e.target.x(),
+      y: e.target.y()
+    };
+    setBlobs(newBlobs);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {blobs.map((blob, i) => (
+          <Line
+            key={i}
+            points={blob.points}
+            fill={blob.fill}
+            stroke="black"
+            strokeWidth={2}
+            tension={tension}
+            opacity={blob.opacity}
+            draggable
+            closed
+            x={blob.x}
+            y={blob.y}
+            onDragEnd={(e) => handleDragEnd(e, i)}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line
+        v-for="(blob, i) in blobs"
+        :key="i"
+        :config="{
+          points: blob.points,
+          fill: blob.fill,
+          stroke: 'black',
+          strokeWidth: 2,
+          tension: tension,
+          opacity: blob.opacity,
+          draggable: true,
+          closed: true,
+          x: blob.x,
+          y: blob.y
+        }"
+        @dragend="handleDragEnd($event, i)"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const blobs = ref([]);
+const tension = ref(0);
+
+onMounted(() => {
+  // Generate initial blobs
+  blobs.value = COLORS.map(color => {
+    const points = [];
+    for (let i = 0; i < 5; i++) {
+      points.push(window.innerWidth * Math.random());
+      points.push(window.innerHeight * Math.random());
+    }
+    return {
+      points,
+      fill: color,
+      opacity: Math.random(),
+      x: 0,
+      y: 0
+    };
+  });
+
+  const period = 2000;
+  const centerTension = 0;
+  const amplitude = 1;
+
+  const interval = setInterval(() => {
+    const time = new Date().getTime();
+    tension.value =
+      amplitude * Math.sin((time * 2 * Math.PI) / period) + centerTension;
+  }, 1000 / 60);
+
+  onUnmounted(() => clearInterval(interval));
+});
+
+const handleDragEnd = (e, index) => {
+  const newBlobs = [...blobs.value];
+  newBlobs[index] = {
+    ...newBlobs[index],
+    x: e.target.x(),
+    y: e.target.y()
+  };
+  blobs.value = newBlobs;
+};
+</script>
+```
+  </TabItem>
+</Tabs>

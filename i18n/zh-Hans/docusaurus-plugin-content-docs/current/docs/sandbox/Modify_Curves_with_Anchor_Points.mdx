@@ -1,0 +1,477 @@
+---
+title: 使用锚点修改曲线
+sidebar_label: 使用锚点修改曲线
+hide_table_of_contents: true
+slug: Modify_Curves_with_Anchor_Points.html
+description: "通过拖动 Konva Canvas 上的锚点控制点，以交互方式编辑二次曲线和贝塞尔曲线。"
+---
+
+# 如何使用锚点修改线条的点？
+
+本示例演示如何创建可通过拖动锚点修改的交互式曲线（二次曲线和贝塞尔曲线）。矢量图形编辑器经常使用此技术，让用户可以创建和调整自定义曲线。
+
+**操作说明：** 使用鼠标或手指拖放锚点，以修改二次曲线（红色）和贝塞尔曲线（蓝色）的曲率。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+// Create stage and layer
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Function to build anchor point
+function buildAnchor(x, y) {
+  const anchor = new Konva.Circle({
+    x: x,
+    y: y,
+    radius: 20,
+    stroke: '#666',
+    fill: '#ddd',
+    strokeWidth: 2,
+    draggable: true,
+  });
+  layer.add(anchor);
+
+  // Add hover styling
+  anchor.on('mouseover', function () {
+    document.body.style.cursor = 'pointer';
+    this.strokeWidth(4);
+  });
+  
+  anchor.on('mouseout', function () {
+    document.body.style.cursor = 'default';
+    this.strokeWidth(2);
+  });
+
+  // Update curves when anchor is moved
+  anchor.on('dragmove', function () {
+    updateDottedLines();
+  });
+
+  return anchor;
+}
+
+// Function to update dashed line points (showing control points)
+function updateDottedLines() {
+  const q = quad;
+  const b = bezier;
+
+  const quadLinePath = layer.findOne('#quadLinePath');
+  const bezierLinePath = layer.findOne('#bezierLinePath');
+
+  // Update control point lines for quadratic curve
+  quadLinePath.points([
+    q.start.x(),
+    q.start.y(),
+    q.control.x(),
+    q.control.y(),
+    q.end.x(),
+    q.end.y(),
+  ]);
+
+  // Update control point lines for bezier curve
+  bezierLinePath.points([
+    b.start.x(),
+    b.start.y(),
+    b.control1.x(),
+    b.control1.y(),
+    b.control2.x(),
+    b.control2.y(),
+    b.end.x(),
+    b.end.y(),
+  ]);
+}
+
+// Create quadratic curve with custom shape
+const quadraticLine = new Konva.Shape({
+  stroke: 'red',
+  strokeWidth: 4,
+  sceneFunc: (ctx, shape) => {
+    ctx.beginPath();
+    ctx.moveTo(quad.start.x(), quad.start.y());
+    ctx.quadraticCurveTo(
+      quad.control.x(),
+      quad.control.y(),
+      quad.end.x(),
+      quad.end.y()
+    );
+    ctx.fillStrokeShape(shape);
+  },
+});
+layer.add(quadraticLine);
+
+// Create bezier curve with custom shape
+const bezierLine = new Konva.Shape({
+  stroke: 'blue',
+  strokeWidth: 5,
+  sceneFunc: (ctx, shape) => {
+    ctx.beginPath();
+    ctx.moveTo(bezier.start.x(), bezier.start.y());
+    ctx.bezierCurveTo(
+      bezier.control1.x(),
+      bezier.control1.y(),
+      bezier.control2.x(),
+      bezier.control2.y(),
+      bezier.end.x(),
+      bezier.end.y()
+    );
+    ctx.fillStrokeShape(shape);
+  },
+});
+layer.add(bezierLine);
+
+// Create dashed line to show control points for quadratic curve
+const quadLinePath = new Konva.Line({
+  dash: [10, 10, 0, 10],
+  strokeWidth: 3,
+  stroke: 'black',
+  lineCap: 'round',
+  id: 'quadLinePath',
+  opacity: 0.3,
+  points: [0, 0],
+});
+layer.add(quadLinePath);
+
+// Create dashed line to show control points for bezier curve
+const bezierLinePath = new Konva.Line({
+  dash: [10, 10, 0, 10],
+  strokeWidth: 3,
+  stroke: 'black',
+  lineCap: 'round',
+  id: 'bezierLinePath',
+  opacity: 0.3,
+  points: [0, 0],
+});
+layer.add(bezierLinePath);
+
+// Create anchor points for the quadratic curve
+const quad = {
+  start: buildAnchor(60, 30),
+  control: buildAnchor(240, 110),
+  end: buildAnchor(80, 160),
+};
+
+// Create anchor points for the bezier curve
+const bezier = {
+  start: buildAnchor(280, 20),
+  control1: buildAnchor(530, 40),
+  control2: buildAnchor(480, 150),
+  end: buildAnchor(300, 150),
+};
+
+// Update the control point lines
+updateDottedLines();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle, Line, Shape } from 'react-konva';
+
+const ModifyCurvesDemo = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  const [quadPoints, setQuadPoints] = React.useState({
+    start: { x: 60, y: 30 },
+    control: { x: 240, y: 110 },
+    end: { x: 80, y: 160 },
+  });
+  
+  const [bezierPoints, setBezierPoints] = React.useState({
+    start: { x: 280, y: 20 },
+    control1: { x: 530, y: 40 },
+    control2: { x: 480, y: 150 },
+    end: { x: 300, y: 150 },
+  });
+
+  const [hoveredAnchor, setHoveredAnchor] = React.useState(null);
+
+  const handleDragMove = (e, points, setPoints, pointName) => {
+    setPoints({
+      ...points,
+      [pointName]: { x: e.target.x(), y: e.target.y() }
+    });
+  };
+
+  const handleCursor = (e, pointId, isEnter) => {
+    const stage = e.target.getStage();
+    stage.container().style.cursor = isEnter ? 'pointer' : 'default';
+    setHoveredAnchor(isEnter ? pointId : null);
+  };
+
+  const renderAnchor = (point, pointName, prefix, onDragMove) => (
+    <Circle
+      key={prefix + pointName}
+      x={point.x}
+      y={point.y}
+      radius={20}
+      stroke="#666"
+      fill="#ddd"
+      strokeWidth={hoveredAnchor === prefix + pointName ? 4 : 2}
+      draggable
+      onDragMove={onDragMove}
+      onMouseEnter={e => handleCursor(e, prefix + pointName, true)}
+      onMouseLeave={e => handleCursor(e, prefix + pointName, false)}
+    />
+  );
+
+  const quadAnchors = Object.entries(quadPoints).map(([name, point]) =>
+    renderAnchor(point, name, 'quad-', e => handleDragMove(e, quadPoints, setQuadPoints, name))
+  );
+
+  const bezierAnchors = Object.entries(bezierPoints).map(([name, point]) =>
+    renderAnchor(point, name, 'bezier-', e => handleDragMove(e, bezierPoints, setBezierPoints, name))
+  );
+  
+  return (
+    <Stage width={width} height={height}>
+      <Layer>
+        <Shape
+          sceneFunc={(ctx, shape) => {
+            ctx.beginPath();
+            ctx.moveTo(quadPoints.start.x, quadPoints.start.y);
+            ctx.quadraticCurveTo(
+              quadPoints.control.x, quadPoints.control.y,
+              quadPoints.end.x, quadPoints.end.y
+            );
+            ctx.fillStrokeShape(shape);
+          }}
+          stroke="red"
+          strokeWidth={4}
+        />
+        
+        <Shape
+          sceneFunc={(ctx, shape) => {
+            ctx.beginPath();
+            ctx.moveTo(bezierPoints.start.x, bezierPoints.start.y);
+            ctx.bezierCurveTo(
+              bezierPoints.control1.x, bezierPoints.control1.y,
+              bezierPoints.control2.x, bezierPoints.control2.y,
+              bezierPoints.end.x, bezierPoints.end.y
+            );
+            ctx.fillStrokeShape(shape);
+          }}
+          stroke="blue"
+          strokeWidth={5}
+        />
+        
+        <Line
+          points={[
+            quadPoints.start.x, quadPoints.start.y,
+            quadPoints.control.x, quadPoints.control.y,
+            quadPoints.end.x, quadPoints.end.y
+          ]}
+          dash={[10, 10, 0, 10]}
+          strokeWidth={3}
+          stroke="black"
+          lineCap="round"
+          opacity={0.3}
+        />
+        
+        <Line
+          points={[
+            bezierPoints.start.x, bezierPoints.start.y,
+            bezierPoints.control1.x, bezierPoints.control1.y,
+            bezierPoints.control2.x, bezierPoints.control2.y,
+            bezierPoints.end.x, bezierPoints.end.y
+          ]}
+          dash={[10, 10, 0, 10]}
+          strokeWidth={3}
+          stroke="black"
+          lineCap="round"
+          opacity={0.3}
+        />
+        
+        {quadAnchors}
+        {bezierAnchors}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default ModifyCurvesDemo;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <!-- Quadratic Curve -->
+      <v-shape :config="quadraticConfig" />
+      
+      <!-- Bezier Curve -->
+      <v-shape :config="bezierConfig" />
+      
+      <!-- Control Lines -->
+      <v-line :config="quadLineConfig" />
+      <v-line :config="bezierLineConfig" />
+      
+      <!-- Anchor Points for Quadratic Curve -->
+      <v-circle
+        v-for="(point, name) in quadPoints"
+        :key="`quad-${name}`"
+        :config="{
+          x: point.x,
+          y: point.y,
+          radius: 20,
+          stroke: '#666',
+          fill: '#ddd',
+          strokeWidth: hoveredPoint === `quad-${name}` ? 4 : 2,
+          draggable: true
+        }"
+        @dragend="e => handleQuadDragEnd(e, name)"
+        @mouseenter="handleMouseEnter(`quad-${name}`, e)"
+        @mouseleave="handleMouseLeave(`quad-${name}`, e)"
+      />
+      
+      <!-- Anchor Points for Bezier Curve -->
+      <v-circle
+        v-for="(point, name) in bezierPoints"
+        :key="`bezier-${name}`"
+        :config="{
+          x: point.x,
+          y: point.y,
+          radius: 20,
+          stroke: '#666',
+          fill: '#ddd',
+          strokeWidth: hoveredPoint === `bezier-${name}` ? 4 : 2,
+          draggable: true
+        }"
+        @dragend="e => handleBezierDragEnd(e, name)"
+        @mouseenter="handleMouseEnter(`bezier-${name}`, e)"
+        @mouseleave="handleMouseLeave(`bezier-${name}`, e)"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, reactive, computed } from 'vue';
+
+// Stage configuration
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const hoveredPoint = ref(null);
+
+// Anchor points for quadratic curve
+const quadPoints = reactive({
+  start: { x: 60, y: 30 },
+  control: { x: 240, y: 110 },
+  end: { x: 80, y: 160 }
+});
+
+// Anchor points for bezier curve
+const bezierPoints = reactive({
+  start: { x: 280, y: 20 },
+  control1: { x: 530, y: 40 },
+  control2: { x: 480, y: 150 },
+  end: { x: 300, y: 150 }
+});
+
+// Configuration for quadratic curve
+const quadraticConfig = computed(() => ({
+  stroke: 'red',
+  strokeWidth: 4,
+  sceneFunc: (ctx, shape) => {
+    ctx.beginPath();
+    ctx.moveTo(quadPoints.start.x, quadPoints.start.y);
+    ctx.quadraticCurveTo(
+      quadPoints.control.x, quadPoints.control.y,
+      quadPoints.end.x, quadPoints.end.y
+    );
+    ctx.fillStrokeShape(shape);
+  }
+}));
+
+// Configuration for bezier curve
+const bezierConfig = computed(() => ({
+  stroke: 'blue',
+  strokeWidth: 5,
+  sceneFunc: (ctx, shape) => {
+    ctx.beginPath();
+    ctx.moveTo(bezierPoints.start.x, bezierPoints.start.y);
+    ctx.bezierCurveTo(
+      bezierPoints.control1.x, bezierPoints.control1.y,
+      bezierPoints.control2.x, bezierPoints.control2.y,
+      bezierPoints.end.x, bezierPoints.end.y
+    );
+    ctx.fillStrokeShape(shape);
+  }
+}));
+
+// Configuration for quadratic curve control lines
+const quadLineConfig = computed(() => ({
+  points: [
+    quadPoints.start.x, quadPoints.start.y,
+    quadPoints.control.x, quadPoints.control.y,
+    quadPoints.end.x, quadPoints.end.y
+  ],
+  dash: [10, 10, 0, 10],
+  strokeWidth: 3,
+  stroke: 'black',
+  lineCap: 'round',
+  opacity: 0.3
+}));
+
+// Configuration for bezier curve control lines
+const bezierLineConfig = computed(() => ({
+  points: [
+    bezierPoints.start.x, bezierPoints.start.y,
+    bezierPoints.control1.x, bezierPoints.control1.y,
+    bezierPoints.control2.x, bezierPoints.control2.y,
+    bezierPoints.end.x, bezierPoints.end.y
+  ],
+  dash: [10, 10, 0, 10],
+  strokeWidth: 3,
+  stroke: 'black',
+  lineCap: 'round',
+  opacity: 0.3
+}));
+
+// Handle mouse events for hover effects
+const handleMouseEnter = (pointId, e) => {
+  const stage = e.target.getStage();
+  stage.container().style.cursor = 'pointer';
+  hoveredPoint.value = pointId;
+};
+
+const handleMouseLeave = (pointId, e) => {
+  const stage = e.target.getStage();
+  stage.container().style.cursor = 'default';
+  hoveredPoint.value = null;
+};
+
+// Handle drag for quadratic curve points
+const handleQuadDragEnd = (e, pointName) => {
+  quadPoints[pointName].x = e.target.x();
+  quadPoints[pointName].y = e.target.y();
+};
+
+// Handle drag for bezier curve points
+const handleBezierDragEnd = (e, pointName) => {
+  bezierPoints[pointName].x = e.target.x();
+  bezierPoints[pointName].y = e.target.y();
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

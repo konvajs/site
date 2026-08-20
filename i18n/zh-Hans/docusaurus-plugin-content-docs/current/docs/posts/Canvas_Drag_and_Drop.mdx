@@ -1,0 +1,82 @@
+---
+title: 使用 JavaScript 和 Konva 实现 Canvas 拖放
+sidebar_label: Canvas 拖放
+sidebar_position: 5
+slug: canvas-drag-and-drop.html
+description: "在 JavaScript 或 React 中使用指针事件、命中检测和 Konva 可拖动节点实现 Canvas 拖放。"
+---
+
+Canvas API 不为绘制的图形提供拖放功能。原生 Canvas
+应用程序必须实现以下四个部分：
+
+1. 存储每个图形及其位置。
+2. 检测指针下方的图形。
+3. 将浏览器坐标转换为 Canvas 坐标。
+4. 在拖动期间更新图形并重绘场景。
+
+指针事件通过统一的事件模型支持鼠标、触控笔和触摸输入。
+在原生 Canvas 实现中，请调用 `setPointerCapture()`。该调用应在 `pointerdown` 之后进行。
+捕获指针后，移动事件在 Canvas 外仍保持活动状态。
+
+## 拖动 Konva 节点
+
+Konva 实现命中检测和指针跟踪。为节点设置 `draggable`。
+然后，将其最终位置存储在应用程序 state 中。
+
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+
+const App = () => {
+  const [position, setPosition] = useState({ x: 80, y: 100 });
+  const [dragging, setDragging] = useState(false);
+
+  return (
+    <Stage width={window.innerWidth} height={380}>
+      <Layer>
+        <Text
+          x={20}
+          y={20}
+          text={`Position: ${Math.round(position.x)}, ${Math.round(position.y)}`}
+          fontSize={18}
+        />
+        <Rect
+          x={position.x}
+          y={position.y}
+          width={160}
+          height={100}
+          fill={dragging ? '#ff922b' : '#4dabf7'}
+          stroke="#1f2937"
+          strokeWidth={3}
+          shadowBlur={dragging ? 12 : 0}
+          cornerRadius={10}
+          draggable
+          onDragStart={() => setDragging(true)}
+          onDragMove={(event) => {
+            setPosition({ x: event.target.x(), y: event.target.y() });
+          }}
+          onDragEnd={(event) => {
+            setDragging(false);
+            setPosition({ x: event.target.x(), y: event.target.y() });
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+Konva 在拖动期间更改节点位置。此示例还将该
+位置写入 React state。该 state 使应用程序模型保持同步。
+
+对于大型场景，不要在每个 `dragmove` 事件中更新无关的 React state。
+在拖动期间更新 Konva 节点。如果其他组件不需要实时坐标，请在
+`dragend` 时保存最终的应用程序 state。
+
+Canvas 图形不是键盘控件。请为每项必要的拖动操作提供一个 HTML
+控件。该控件可以按固定步长移动同一图形。
+
+有关 Vanilla、React、Vue、Svelte 和 Angular 示例，请参阅
+[拖放指南](/docs/drag_and_drop/Drag_and_Drop.html)。

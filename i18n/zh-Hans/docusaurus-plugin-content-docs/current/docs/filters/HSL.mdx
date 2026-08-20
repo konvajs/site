@@ -1,0 +1,252 @@
+---
+title: HTML5 Canvas 图像色相、饱和度和亮度滤镜教程
+sidebar_label: HSL
+hide_table_of_contents: true
+slug: HSL.html
+description: "学习如何使用 Konva.js HSL 滤镜调整 HTML5 Canvas 图像的色相、饱和度和亮度。"
+---
+
+要对 `Konva.Node` 应用滤镜，必须先使用 `cache()` 函数缓存它。然后使用 `filters()` 函数应用滤镜。
+
+要使用 Konva 更改图像的色相、饱和度和亮度分量，可以使用 `Konva.Filters.HSL`。
+
+**操作说明**：滑动控件以更改 HSL 值。
+
+有关全部可用滤镜，请参阅 [滤镜文档](/api/Konva.Filters.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const imageObj = new Image();
+imageObj.onload = () => {
+  const image = new Konva.Image({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    draggable: true,
+  });
+
+  layer.add(image);
+
+  image.cache();
+  image.filters([Konva.Filters.HSL]);
+  
+  // create sliders
+  const createSlider = (label, min, max, defaultValue, property) => {
+    const container = document.createElement('div');
+    container.style.position = 'absolute';
+    container.style.left = '20px';
+    
+    const text = document.createElement('span');
+    text.textContent = `${label}: `;
+    container.appendChild(text);
+    
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = min;
+    slider.max = max;
+    slider.step = '0.1';
+    slider.value = defaultValue;
+    slider.style.width = '200px';
+    
+    slider.addEventListener('input', (e) => {
+      const value = parseFloat(e.target.value);
+      image[property](value);
+    });
+    
+    container.appendChild(slider);
+    return container;
+  };
+
+  const hueSlider = createSlider('Hue', -180, 180, 0, 'hue');
+  hueSlider.style.top = '20px';
+  document.body.appendChild(hueSlider);
+
+  const saturationSlider = createSlider('Saturation', -2, 10, 0, 'saturation');
+  saturationSlider.style.top = '45px';
+  document.body.appendChild(saturationSlider);
+
+  const luminanceSlider = createSlider('Luminance', -2, 2, 0, 'luminance');
+  luminanceSlider.style.top = '70px';
+  document.body.appendChild(luminanceSlider);
+};
+imageObj.src = 'https://konvajs.org/assets/darth-vader.jpg';
+imageObj.crossOrigin = 'anonymous';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useState, useEffect, useRef } from 'react';
+import useImage from 'use-image';
+
+const App = () => {
+  const [hue, setHue] = useState(0);
+  const [saturation, setSaturation] = useState(0);
+  const [luminance, setLuminance] = useState(0);
+  const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    if (image && imageRef.current) {
+      imageRef.current.cache();
+    }
+  }, [image]);
+
+  return (
+    <>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Image
+            ref={imageRef}
+            x={50}
+            y={50}
+            image={image}
+            draggable
+            filters={[Konva.Filters.HSL]}
+            hue={hue}
+            saturation={saturation}
+            luminance={luminance}
+          />
+        </Layer>
+      </Stage>
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <div>
+          Hue
+          <input
+            type="range"
+            min="-259"
+            max="259"
+            value={hue}
+            onChange={(e) => setHue(parseInt(e.target.value))}
+          />
+        </div>
+        <div>
+          Saturation
+          <input
+            type="range"
+            min="-2"
+            max="10"
+            step="0.1"
+            value={saturation}
+            onChange={(e) => setSaturation(parseFloat(e.target.value))}
+          />
+        </div>
+        <div>
+          Luminance
+          <input
+            type="range"
+            min="-2"
+            max="2"
+            step="0.1"
+            value={luminance}
+            onChange={(e) => setLuminance(parseFloat(e.target.value))}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          ref="imageNode"
+          :config="{
+            x: 50,
+            y: 50,
+            image: image,
+            draggable: true,
+            filters: [Konva.Filters.HSL],
+            hue: hue,
+            saturation: saturation,
+            luminance: luminance,
+          }"
+        />
+      </v-layer>
+    </v-stage>
+    <div style="position: absolute; top: 20px; left: 20px">
+      <div>
+        Hue
+        <input
+          type="range"
+          min="-259"
+          max="259"
+          :value="hue"
+          @input="(e) => hue = parseInt(e.target.value)"
+        />
+      </div>
+      <div>
+        Saturation
+        <input
+          type="range"
+          min="-2"
+          max="10"
+          step="0.1"
+          :value="saturation"
+          @input="(e) => saturation = parseFloat(e.target.value)"
+        />
+      </div>
+      <div>
+        Luminance
+        <input
+          type="range"
+          min="-2"
+          max="2"
+          step="0.1"
+          :value="luminance"
+          @input="(e) => luminance = parseFloat(e.target.value)"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch, nextTick } from 'vue';
+import { useImage } from 'vue-konva';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const hue = ref(0);
+const saturation = ref(0);
+const luminance = ref(0);
+const imageNode = ref(null);
+const [image] = useImage('https://konvajs.org/assets/darth-vader.jpg', 'anonymous');
+
+watch(image, async (newImage) => {
+  if (newImage) {
+    await nextTick();
+    imageNode.value.getNode().cache();
+  }
+});
+</script>
+```
+
+</TabItem>
+</Tabs>

@@ -1,0 +1,207 @@
+---
+title: 如何查找相对鼠标位置？
+sidebar_label: 相对鼠标位置
+hide_table_of_contents: true
+slug: Relative_Pointer_Position.html
+description: "使用绝对变换的逆变换，在经过变换和嵌套的 Konva 节点内查找相对鼠标指针位置。"
+---
+
+在某些情况下，可能需要查找一个点相对于节点的位置。为此，可以使用 `Konva.Transform` 的数学方法。
+
+本示例包含深层嵌套且经过变换的节点：移动的舞台、缩放的图层和旋转的组。
+现在，我们想在单击时将圆形添加到组中。但是，如何查找这些圆形的位置？
+不能直接使用 `stage.getPointerPosition()`，因为它返回相对于舞台左上角的位置。
+
+思路很简单。只需使用绝对变换的逆变换。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+  x: 20,
+  y: 50,
+});
+
+var layer = new Konva.Layer({
+  scaleX: 1.2,
+  scaleY: 0.8,
+  rotation: 5,
+});
+stage.add(layer);
+
+var group = new Konva.Group({
+  x: 30,
+  rotation: 10,
+  scaleX: 1.5,
+});
+layer.add(group);
+
+var text = new Konva.Text({
+  text: 'Click on the canvas to draw a circle',
+  fontSize: 20,
+});
+group.add(text);
+
+stage.on('click', function () {
+  var pos = group.getRelativePointerPosition();
+  var shape = new Konva.Circle({
+    x: pos.x,
+    y: pos.y,
+    fill: 'red',
+    radius: 20,
+  });
+
+  group.add(shape);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState } from 'react';
+import { Stage, Layer, Group, Text, Circle } from 'react-konva';
+
+const App = () => {
+  const [circles, setCircles] = useState([]);
+  
+  const handleStageClick = (e) => {
+    // Get the group reference from konva tree
+    const group = e.target.getStage().findOne('Group');
+    if (!group) return;
+    
+    // Get position relative to the group
+    const pos = group.getRelativePointerPosition();
+    
+    // Add new circle
+    setCircles([
+      ...circles,
+      {
+        x: pos.x,
+        y: pos.y,
+        radius: 20,
+        fill: 'red',
+        id: Date.now().toString()
+      }
+    ]);
+  };
+
+  return (
+    <Stage 
+      width={window.innerWidth} 
+      height={window.innerHeight}
+      x={20}
+      y={50}
+      onClick={handleStageClick}
+    >
+      <Layer
+        scaleX={1.2}
+        scaleY={0.8}
+        rotation={5}
+      >
+        <Group
+          x={30}
+          rotation={10}
+          scaleX={1.5}
+        >
+          <Text 
+            text="Click on the canvas to draw a circle" 
+            fontSize={20}
+          />
+          {circles.map((circle) => (
+            <Circle
+              key={circle.id}
+              x={circle.x}
+              y={circle.y}
+              radius={circle.radius}
+              fill={circle.fill}
+            />
+          ))}
+        </Group>
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage 
+    :config="stageConfig"
+    @click="handleStageClick"
+  >
+    <v-layer :config="layerConfig">
+      <v-group :config="groupConfig">
+        <v-text :config="textConfig" />
+        <v-circle 
+          v-for="circle in circles"
+          :key="circle.id"
+          :config="circle"
+        />
+      </v-group>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  x: 20,
+  y: 50
+};
+
+const layerConfig = {
+  scaleX: 1.2,
+  scaleY: 0.8,
+  rotation: 5
+};
+
+const groupConfig = {
+  x: 30,
+  rotation: 10,
+  scaleX: 1.5
+};
+
+const textConfig = {
+  text: 'Click on the canvas to draw a circle',
+  fontSize: 20
+};
+
+const circles = ref([]);
+
+const handleStageClick = (e) => {
+  // Get the group reference from konva tree
+  const group = e.target.getStage().findOne('Group');
+  if (!group) return;
+  
+  // Get position relative to the group
+  const pos = group.getRelativePointerPosition();
+  
+  // Add new circle
+  circles.value.push({
+    x: pos.x,
+    y: pos.y,
+    radius: 20,
+    fill: 'red',
+    id: Date.now().toString()
+  });
+};
+</script>
+```
+  </TabItem>
+</Tabs>

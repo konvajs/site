@@ -1,0 +1,251 @@
+---
+title: 使用 Konva 对 10,000 个带工具提示的图形进行压力测试
+sidebar_label: 10,000 个带工具提示的图形
+hide_table_of_contents: true
+slug: 10000_Shapes_with_Tooltip.html
+description: "使用 Konva 对 Canvas 上的 10,000 个圆形进行渲染压力测试，并在鼠标悬停时通过交互式工具提示显示图形信息。"
+---
+
+此示例展示如何高效处理大量图形（10,000 个圆形）和工具提示。将鼠标悬停在任意圆形上时，工具提示会显示其索引和颜色。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+<TabItem value="vanilla" label="Vanilla">
+
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const circlesLayer = new Konva.Layer();
+const tooltipLayer = new Konva.Layer();
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
+let colorIndex = 0;
+
+for (let i = 0; i < 10000; i++) {
+  const color = colors[colorIndex++];
+  if (colorIndex >= colors.length) {
+    colorIndex = 0;
+  }
+
+  const randX = Math.random() * stage.width();
+  const randY = Math.random() * stage.height();
+  const circle = new Konva.Circle({
+    x: randX,
+    y: randY,
+    radius: 3,
+    fill: color,
+    name: i.toString(),
+  });
+
+  circlesLayer.add(circle);
+}
+
+const tooltip = new Konva.Text({
+  text: '',
+  fontFamily: 'Calibri',
+  fontSize: 12,
+  padding: 5,
+  visible: false,
+  fill: 'black',
+  opacity: 0.75,
+});
+
+tooltipLayer.add(tooltip);
+stage.add(circlesLayer);
+stage.add(tooltipLayer);
+
+circlesLayer.on('mousemove', (e) => {
+  const mousePos = stage.getPointerPosition();
+  tooltip.position({
+    x: mousePos.x + 5,
+    y: mousePos.y + 5,
+  });
+  tooltip.text('node: ' + e.target.name() + ', color: ' + e.target.fill());
+  tooltip.show();
+});
+
+circlesLayer.on('mouseout', () => {
+  tooltip.hide();
+});
+```
+
+</TabItem>
+<TabItem value="react" label="React">
+
+```js live react
+import React from 'react';
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const [tooltipProps, setTooltipProps] = React.useState({
+    text: '',
+    visible: false,
+    x: 0,
+    y: 0
+  });
+
+  const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
+  const circles = React.useMemo(() => {
+    const items = [];
+    let colorIndex = 0;
+    
+    for (let i = 0; i < 10000; i++) {
+      const color = colors[colorIndex++];
+      if (colorIndex >= colors.length) {
+        colorIndex = 0;
+      }
+      
+      items.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        color
+      });
+    }
+    return items;
+  }, []);
+
+  const handleMouseMove = (e) => {
+    const mousePos = e.target.getStage().getPointerPosition();
+    setTooltipProps({
+      text: `node: ${e.target.name()}, color: ${e.target.attrs.fill}`,
+      visible: true,
+      x: mousePos.x + 5,
+      y: mousePos.y + 5
+    });
+  };
+
+  const handleMouseOut = () => {
+    setTooltipProps(prev => ({ ...prev, visible: false }));
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer onMouseMove={handleMouseMove} onMouseOut={handleMouseOut}>
+        {circles.map(({ id, x, y, color }) => (
+          <Circle
+            key={id}
+            x={x}
+            y={y}
+            radius={3}
+            fill={color}
+            name={id.toString()}
+          />
+        ))}
+      </Layer>
+      <Layer>
+        <Text
+          {...tooltipProps}
+          fontFamily="Calibri"
+          fontSize={12}
+          padding={5}
+          fill="black"
+          opacity={0.75}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+</TabItem>
+<TabItem value="vue" label="Vue">
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer @mousemove="handleMouseMove" @mouseout="handleMouseOut">
+      <v-circle
+        v-for="circle in circles"
+        :key="circle.id"
+        :config="{
+          x: circle.x,
+          y: circle.y,
+          radius: 3,
+          fill: circle.color,
+          name: circle.id.toString()
+        }"
+      />
+    </v-layer>
+    <v-layer>
+      <v-text
+        :config="{
+          ...tooltipProps,
+          fontFamily: 'Calibri',
+          fontSize: 12,
+          padding: 5,
+          fill: 'black',
+          opacity: 0.75,
+          textFill: 'white'
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const tooltipProps = ref({
+  text: '',
+  visible: false,
+  x: 0,
+  y: 0
+});
+
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple'];
+const circles = computed(() => {
+  const items = [];
+  let colorIndex = 0;
+  
+  for (let i = 0; i < 10000; i++) {
+    const color = colors[colorIndex++];
+    if (colorIndex >= colors.length) {
+      colorIndex = 0;
+    }
+    
+    items.push({
+      id: i,
+      x: Math.random() * stageSize.width,
+      y: Math.random() * stageSize.height,
+      color
+    });
+  }
+  return items;
+});
+
+const handleMouseMove = (e) => {
+  const mousePos = e.target.getStage().getPointerPosition();
+  tooltipProps.value = {
+    text: `node: ${e.target.name()}, color: ${e.target.attrs.fill}`,
+    visible: true,
+    x: mousePos.x + 5,
+    y: mousePos.y + 5
+  };
+};
+
+const handleMouseOut = () => {
+  tooltipProps.value.visible = false;
+};
+</script>
+```
+
+</TabItem>
+</Tabs>

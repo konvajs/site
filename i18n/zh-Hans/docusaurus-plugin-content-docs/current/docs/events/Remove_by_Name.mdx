@@ -1,0 +1,136 @@
+---
+title: 使用 Konva 按名称移除 HTML5 Canvas 事件监听器
+sidebar_label: 按名称移除
+hide_table_of_contents: true
+slug: Remove_by_Name.html
+description: "学习如何在 Konva 中配合命名事件使用 on() 和 off() 方法，按命名空间移除特定的事件监听器。"
+---
+
+Konva 事件命名空间用于在命令式代码中标识相关的监听器。将命名空间添加到事件类型后，
+例如 `click.menu`。然后将相同名称传给 `off()`，以移除该监听器。
+
+**操作说明：**选择圆形以运行两个监听器。分别使用两个按钮移除一个监听器。
+然后再次选择圆形。
+
+`react-konva` 不通过 React 事件 props 公开 Konva 事件命名空间。
+React 为每种事件类型提供一个 prop，例如 `onClick`。在 React 中存储启用状态，
+并根据条件向该 prop 传入一个分派函数。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+// add click listeners
+circle.on('click.event1', function () {
+  alert('first click listener');
+});
+
+circle.on('click.event2', function () {
+  alert('second click listener');
+});
+
+layer.add(circle);
+
+// add buttons to remove listeners
+const button1 = document.createElement('button');
+button1.innerHTML = 'Remove first listener';
+button1.style.position = 'absolute';
+button1.style.top = '0';
+button1.style.left = '0';
+button1.onclick = function() {
+  circle.off('click.event1');
+};
+document.getElementById('container').appendChild(button1);
+
+const button2 = document.createElement('button');
+button2.innerHTML = 'Remove second listener';
+button2.style.position = 'absolute';
+button2.style.top = '30px';
+button2.style.left = '0';
+button2.onclick = function() {
+  circle.off('click.event2');
+};
+document.getElementById('container').appendChild(button2);
+```
+  </TabItem>
+  <TabItem value="React">
+
+```jsx live react
+import { useState } from 'react';
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const [firstEnabled, setFirstEnabled] = useState(true);
+  const [secondEnabled, setSecondEnabled] = useState(true);
+  const [message, setMessage] = useState('Select the circle');
+
+  const handleClick =
+    firstEnabled || secondEnabled
+      ? () => {
+          const messages = [];
+
+          if (firstEnabled) {
+            messages.push('first listener');
+          }
+          if (secondEnabled) {
+            messages.push('second listener');
+          }
+
+          setMessage(messages.join(' + '));
+        }
+      : undefined;
+
+  return (
+    <>
+      <button onClick={() => setFirstEnabled(false)}>
+        Remove first listener
+      </button>
+      <button onClick={() => setSecondEnabled(false)}>
+        Remove second listener
+      </button>
+      <Stage width={window.innerWidth} height={360}>
+        <Layer>
+          <Text x={20} y={20} text={message} fontSize={18} />
+          <Circle
+            x={window.innerWidth / 2}
+            y={180}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+            onClick={handleClick}
+            onTap={handleClick}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+</Tabs>

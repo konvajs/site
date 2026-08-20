@@ -3,218 +3,405 @@
  * and scoped locally.
  */
 
+/* ---------------------------------------------------------------- hero --- */
+
 .heroBanner {
-  padding: 6rem 0;
-  text-align: center;
   position: relative;
   overflow: hidden;
-  background-color: #0d83cd;
+  padding: 4.5rem 0 5rem;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 12% 18%, rgb(80 180 255 / 30%), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgb(124 92 255 / 32%), transparent 40%),
+    linear-gradient(160deg, #0b2f68, #071c3f 65%);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  align-items: center;
+  gap: 3.5rem;
+}
+
+/* Grid items default to min-width:auto, which lets long content force overflow. */
+.heroCopy {
+  min-width: 0;
+}
+
+.heroTitle {
+  margin-bottom: 1rem;
+  font-size: clamp(2.2rem, 4.4vw, 3.35rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.heroDescription {
+  max-width: 34rem;
+  margin-bottom: 2rem;
+  color: rgb(255 255 255 / 82%);
+  font-size: 1.15rem;
+  line-height: 1.6;
 }
 
 .buttons {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.secondaryButton {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgb(255 255 255 / 40%);
+  text-underline-offset: 5px;
+}
+
+.secondaryButton:hover {
+  color: #ffffff;
+  text-decoration-color: #ffffff;
+}
+
+.heroFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  color: rgb(255 255 255 / 70%);
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.heroFacts li + li::before {
+  margin-right: 1.5rem;
+  color: rgb(255 255 255 / 35%);
+  content: '·';
+}
+
+.frameworkLine {
+  margin: 1.25rem 0 0;
+  color: rgb(255 255 255 / 70%);
+  font-size: 0.95rem;
 }
 
 .frameworkWrapper {
-  display: inline-block;
-  min-width: 150px;
   position: relative;
+  display: inline-block;
+  min-width: 8.5rem;
 }
 
 .framework {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: opacity 0.3s ease-in-out;
+  color: #ffffff;
+  font-weight: 600;
   opacity: 1;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .framework svg {
   width: 17px;
   height: 17px;
-  margin-right: 4px;
 }
 
 .fadeOut {
   opacity: 0;
 }
 
-.animatedSubtitle {
-  min-height: 60px;
+.heroDemo {
+  position: relative;
 }
+
+@media (max-width: 996px) {
+  .heroBanner {
+    padding: 3rem 0 3.5rem;
+  }
+
+  .heroContainer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .heroDescription {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .buttons,
+  .heroFacts {
+    justify-content: center;
+  }
+}
+
+/* ----------------------------------------------------------- companies --- */
 
 .companiesSection {
-  padding: 4rem 0;
-  background: var(--ifm-color-emphasis-100);
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
-.companiesHeader {
+.companiesEyebrow {
+  margin-bottom: 2rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-align: center;
-  margin-bottom: 3rem;
-}
-
-.companiesHeader h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.companiesHeader p {
-  font-size: 1.2rem;
-  color: var(--ifm-color-emphasis-700);
-  margin: 0;
+  text-transform: uppercase;
 }
 
 .companiesGrid {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem 3rem;
 }
 
 .companyItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-}
-
-.companyLogo {
+  gap: 0.6rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 1rem;
+  font-weight: 500;
   filter: grayscale(100%);
   opacity: 0.7;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
+  transition: filter 150ms ease, opacity 150ms ease;
 }
 
-.companyItem:hover .companyLogo {
-  filter: grayscale(0%);
+.companyItem:hover {
+  filter: none;
   opacity: 1;
 }
 
-.companyName {
-  font-size: 1rem;
-  color: var(--ifm-color-emphasis-700);
+/* The logos are square icons, so they are normalised by height. */
+.companyLogo {
+  width: auto;
+  height: 26px;
 }
 
-@media (max-width: 768px) {
-  .companiesGrid {
-    gap: 2rem;
-  }
+/*
+ * Several of these marks are dark on transparent, so on the dark theme they
+ * need a light chip behind them to stay visible.
+ */
+[data-theme='dark'] .companyLogo {
+  padding: 3px;
+  background: rgb(255 255 255 / 90%);
+  border-radius: 6px;
 }
+
+/* ------------------------------------------------------- build guides --- */
+
+.sectionHeader {
+  max-width: 42rem;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.sectionHeader h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+}
+
+.sectionHeader p {
+  margin: 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 1.1rem;
+}
+
+.buildSection {
+  padding: 5rem 0;
+}
+
+.buildGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.buildCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.75rem;
+  transition: transform 150ms ease, box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.buildCard:hover {
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 10%);
+  transform: translateY(-3px);
+}
+
+.buildCard h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.buildCard p {
+  margin: 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.buildCardLink {
+  margin-top: 0.35rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------ polotno --- */
+
+.polotnoSection {
+  padding: 3.5rem 0;
+  color: #ffffff;
+  background: linear-gradient(120deg, #16233a, #0f1a2c);
+}
+
+.polotnoInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.polotnoInner h2 {
+  margin-bottom: 0.6rem;
+  font-size: 1.6rem;
+}
+
+.polotnoInner p {
+  max-width: 44rem;
+  margin: 0;
+  color: rgb(255 255 255 / 75%);
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------- users --- */
 
 .usersSection {
-  padding: 4rem 0;
-}
-
-.usersHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.usersHeader h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  padding: 5rem 0;
+  background: var(--ifm-color-emphasis-100);
 }
 
 .usersGrid {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1.5rem;
 }
 
-.gridItem {
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  display: inline-block;
-  overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .gridItem {
-    width: 50%;
-  }
-
-  .gridItem.small {
-    width: 33.333%;
-  }
-}
-
-.gridItem a {
-  overflow: hidden;
-  box-sizing: border-box;
+.userCard {
   display: block;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  border-radius: 0.25rem;
+  overflow: hidden;
   color: inherit;
+  text-decoration: none;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.6rem;
+  transition: transform 150ms ease, box-shadow 150ms ease;
 }
 
-.gridItem a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 18px 0 rgba(0, 0, 0, 0.15);
+.userCard:hover {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 12px 24px rgb(0 0 0 / 12%);
+  transform: translateY(-3px);
 }
 
 .preview {
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  padding-top: 57.77777778%;
-  background-size: cover;
-  background-position: center center;
+  padding-top: 57.7778%;
   background-color: #272d37;
-  border-bottom: 1px solid #e6e6e6;
-}
-
-.gridItem.small .description {
-  min-height: 50px !important;
+  background-position: center center;
+  background-size: cover;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .description {
-  box-sizing: border-box;
-  display: block;
-  padding: 20px;
-  min-height: 110px;
+  padding: 1rem 1.1rem 1.2rem;
 }
 
 .name {
-  margin: 0 0 10px;
-  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
   font-weight: 600;
 }
 
 .description p {
   margin: 0;
-  font-size: 0.9rem;
   color: var(--ifm-color-emphasis-700);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .addAppWrapper {
+  margin-top: 3rem;
   text-align: center;
-  margin-top: 50px;
 }
 
 .addApp {
-  text-decoration: none;
-  font-size: 1.2rem;
   color: var(--ifm-color-emphasis-600);
+  font-size: 1.1rem;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .addApp:hover {
   color: var(--ifm-color-emphasis-800);
   text-decoration: none;
+}
+
+/* -------------------------------------------------------- breakpoints --- */
+
+@media (max-width: 996px) {
+  .buildGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .buildGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .companiesGrid {
+    gap: 1.5rem 2.5rem;
+  }
+
+  .polotnoInner {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .framework,
+  .buildCard,
+  .userCard,
+  .companyItem {
+    transition: none;
+  }
+
+  .buildCard:hover,
+  .userCard:hover {
+    transform: none;
+  }
 }

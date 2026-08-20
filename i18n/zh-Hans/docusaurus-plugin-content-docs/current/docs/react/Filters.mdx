@@ -1,0 +1,94 @@
+---
+title: 如何使用 React 和 Konva 应用 Canvas 滤镜？
+sidebar_label: 滤镜
+hide_table_of_contents: true
+slug: Filters.html
+description: "学习如何配合缓存使用 react-konva，对图形和图像应用模糊、噪点等 Canvas 滤镜。"
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+要对 Konva 节点应用滤镜，请执行以下操作：
+1. 使用 `node.cache()` 缓存节点
+2. 使用 `filters` props 应用滤镜
+3. 节点属性更改时，重新缓存节点
+
+```js live react
+import React from 'react';
+import Konva from 'konva';
+import { Stage, Layer, Rect, Image } from 'react-konva';
+import useImage from 'use-image';
+
+// Example of functional component with image filter
+const FilterImage = () => {
+  const [image] = useImage('https://konvajs.org/assets/lion.png', 'anonymous');
+  const imageRef = React.useRef();
+
+  // when image is loaded we need to cache the shape
+  React.useEffect(() => {
+    if (image) {
+      // you many need to reapply cache on some props changes like shadow, stroke, etc.
+      imageRef.current.cache();
+    }
+  }, [image]);
+
+  return (
+    <Image
+      ref={imageRef}
+      x={10}
+      y={10}
+      image={image}
+      filters={[Konva.Filters.Blur]}
+      blurRadius={10}
+    />
+  );
+};
+
+// Example of class component with noise filter
+// Try to click on rect to see color updates
+const FilterRect = () => {
+  const [color, setColor] = React.useState('green');
+  const rectRef = React.useRef();
+
+  React.useEffect(() => {
+    if (rectRef.current) {
+      rectRef.current.cache();
+    }
+  }, []);
+
+  const handleClick = () => {
+    setColor(Konva.Util.getRandomColor());
+    // recache shape when we updated it
+    rectRef.current.cache();
+  };
+
+  return (
+    <Rect
+      filters={[Konva.Filters.Noise]}
+      noise={1}
+      x={200}
+      y={10}
+      width={50}
+      height={50}
+      fill={color}
+      shadowBlur={10}
+      ref={rectRef}
+      onClick={handleClick}
+    />
+  );
+};
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <FilterImage />
+        <FilterRect />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```

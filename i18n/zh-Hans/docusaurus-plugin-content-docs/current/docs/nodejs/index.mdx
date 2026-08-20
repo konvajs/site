@@ -1,0 +1,108 @@
+---
+title: Node.js 配置
+sidebar_label: 配置
+hide_table_of_contents: true
+slug: nodejs-setup
+description: "使用 canvas 或 skia-canvas 后端，在 Node.js 中配置 Konva 以进行服务器端渲染、图像生成和批处理。"
+---
+
+Konva 可以在 Node.js 环境中用于服务器端渲染、图像处理和 Canvas 操作。本指南帮助你在 Node.js 项目中配置 Konva。
+
+## Konva 版本 10+
+
+Konva v10+ 不再默认支持 Node.js 环境。现在需要显式导入 Canvas 后端。
+
+### 安装
+
+Konva v10+ 为 Node.js 提供两种后端选项：
+
+**Canvas 后端（默认）**：
+```bash
+npm install konva canvas
+```
+
+**Skia 后端（性能更好）**：
+```bash
+npm install konva skia-canvas
+```
+
+
+### 使用方法
+
+导入 Konva 和所选后端：
+
+**Canvas 后端**：
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend';
+```
+
+**Skia 后端**：
+```js
+import Konva from 'konva';
+import 'konva/skia-backend';
+```
+
+**完整示例**：
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend'; // or 'konva/skia-backend'
+
+// Create a stage
+const stage = new Konva.Stage({
+  container: 'container', // This will be ignored in Node.js
+  width: 800,
+  height: 600
+});
+
+// ... the rest of your konva code
+
+// Export as data URL
+const dataURL = stage.toDataURL();
+```
+
+
+## Konva 版本 ≤ 9（旧版）
+
+旧版 Konva 的配置更简单：
+
+### 安装
+
+```bash
+npm install konva
+```
+
+### 配置
+
+```js
+const Konva = require('konva');
+
+// Create a stage
+const stage = new Konva.Stage({
+  container: 'container', // This will be ignored in Node.js
+  width: 800,
+  height: 600
+});
+
+// ... the rest of your konva code
+
+// Export as data URL
+const dataURL = stage.toDataURL();
+```
+
+## 服务器端渲染注意事项
+
+在 Node.js 中使用 Konva 时，请注意以下事项：
+
+1. **无 DOM**：Konva 不需要 DOM，因此非常适合服务器端渲染
+2. **Canvas 导出**：使用 `stage.toDataURL()` 将 Canvas 导出为图像
+3. **内存管理**：处理多个 Canvas 时，请注意内存用量
+4. **性能**：Konva 在 Node.js 环境中执行批处理操作时性能良好
+5. **SSR 框架**：对于 Next.js 和其他 SSR 框架，可以考虑仅在客户端渲染 Canvas 内容
+
+## 常见使用场景
+
+- **图像生成**：为电子邮件、报告或社交媒体创建动态图像
+- **图表生成**：在服务器端生成图表
+- **文档处理**：向 PDF 或其他文档添加图形
+- **批处理**：并行处理多个图像或图形

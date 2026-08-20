@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 416" width="720" height="416" role="img" aria-label="Three sticky notes on a shared whiteboard with two remote cursors">
+  <rect width="720" height="416" fill="#f1f5f9"/>
+  <g stroke="#e2e8f0" stroke-width="1">
+    <path d="M0 64h720M0 128h720M0 192h720M0 256h720M0 320h720M0 384h720"/>
+    <path d="M64 0v416M128 0v416M192 0v416M256 0v416M320 0v416M384 0v416M448 0v416M512 0v416M576 0v416M640 0v416"/>
+  </g>
+  <g font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" fill="#0f172a">
+    <g transform="rotate(-3 96 78)">
+      <rect x="56" y="62" width="182" height="118" rx="8" fill="#fde68a"/>
+      <text x="76" y="112">Define the</text><text x="76" y="140">problem</text>
+    </g>
+    <g transform="rotate(2 300 200)">
+      <rect x="272" y="182" width="182" height="118" rx="8" fill="#bfdbfe"/>
+      <text x="292" y="232">Sketch the</text><text x="292" y="260">flow</text>
+    </g>
+    <g transform="rotate(-1 520 70)">
+      <rect x="486" y="56" width="182" height="118" rx="8" fill="#fecdd3"/>
+      <text x="506" y="106">List the</text><text x="506" y="134">risks</text>
+    </g>
+  </g>
+  <g font-family="Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600">
+    <path d="M392 268l0 34 9-9 6 13 7-3-6-13 12-1z" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+    <rect x="414" y="300" width="52" height="21" rx="5" fill="#2563eb"/>
+    <text x="422" y="315" fill="#fff">Tab A</text>
+    <path d="M572 176l0 34 9-9 6 13 7-3-6-13 12-1z" fill="#db2777" stroke="#fff" stroke-width="2"/>
+    <rect x="594" y="208" width="52" height="21" rx="5" fill="#db2777"/>
+    <text x="602" y="223" fill="#fff">Tab B</text>
+  </g>
+  <g font-family="Inter, Helvetica, Arial, sans-serif">
+    <text x="40" y="368" font-size="30" font-weight="700" fill="#0f172a">Multiplayer Whiteboard</text>
+    <text x="40" y="394" font-size="17" fill="#475569">Real-time sync with Yjs</text>
+  </g>
+</svg>

@@ -1,0 +1,164 @@
+---
+title: HTML5 Canvas 桌面端和移动端事件支持教程
+sidebar_label: 桌面端和移动端
+hide_table_of_contents: true
+slug: Desktop_and_Mobile.html
+description: "学习如何在 Konva 中使用 mousedown/touchstart 和 mouseup/touchend 等事件对，同时处理桌面端和移动端事件。"
+---
+
+_注意：此示例可能已过时，因为现代浏览器支持指针事件。Konva 也支持指针事件。请参阅[指针事件示例](/docs/events/Pointer_Events.html)。如果你不想使用指针事件，请继续阅读。_
+
+要使用 Konva 为图形添加同时适用于桌面端和移动端应用的事件处理程序，可以使用 `on()` 方法并传入事件对。
+例如，要在桌面端和移动端应用中触发 `mousedown` 事件，可以使用 `"mousedown touchstart"` 事件对来覆盖这两种环境。
+要在桌面端和移动端应用中触发 `mouseup` 事件，可以使用 `"mouseup touchend"` 事件对。
+还可以使用 `"dblclick dbltap"` 事件对绑定同时适用于桌面端和移动端设备的双击事件。
+
+**操作说明：在桌面端或移动端设备上，对圆形触发 mousedown、mouseup、touchstart 或 touchend，以观察相同的功能。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: '',
+  fill: 'black',
+});
+
+const circle = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+function writeMessage(message) {
+  text.text(message);
+}
+
+// desktop and mobile events
+circle.on('mousedown touchstart', function () {
+  writeMessage('Mousedown or touchstart');
+});
+
+circle.on('mouseup touchend', function () {
+  writeMessage('Mouseup or touchend');
+});
+
+layer.add(circle);
+layer.add(text);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [message, setMessage] = useState('');
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={10}
+          y={10}
+          fontFamily="Calibri"
+          fontSize={24}
+          text={message}
+          fill="black"
+        />
+        <Circle
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onMousedown={() => setMessage('Mousedown or touchstart')}
+          onTouchstart={() => setMessage('Mousedown or touchstart')}
+          onMouseup={() => setMessage('Mouseup or touchend')}
+          onTouchend={() => setMessage('Mouseup or touchend')}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-circle
+        :config="circleConfig"
+        @mousedown="handleStart"
+        @touchstart="handleStart"
+        @mouseup="handleEnd"
+        @touchend="handleEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const message = ref('');
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'black'
+}));
+
+const circleConfig = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handleStart = () => {
+  message.value = 'Mousedown or touchstart';
+};
+
+const handleEnd = () => {
+  message.value = 'Mouseup or touchend';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

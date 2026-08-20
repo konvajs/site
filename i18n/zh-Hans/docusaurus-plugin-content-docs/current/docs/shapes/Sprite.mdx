@@ -1,0 +1,236 @@
+---
+title: HTML5 Canvas 精灵教程
+sidebar_label: 精灵
+hide_table_of_contents: true
+slug: /docs/shapes/Sprite.html
+description: "学习如何使用 Konva.js 在 HTML5 Canvas 上通过精灵图制作动画。使用 Konva.Sprite 图形播放逐帧动画。"
+---
+
+要使用 `Konva` 创建动画精灵，可以实例化一个 `Konva.Sprite()` 对象。
+
+有关完整的属性和方法列表，请参阅 [Sprite API 参考](/api/Konva.Sprite.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const animations = {
+  idle: [
+    2, 2, 70, 119,      // frame 1
+    71, 2, 74, 119,     // frame 2
+    146, 2, 81, 119,    // frame 3
+    226, 2, 76, 119,    // frame 4
+  ],
+  punch: [
+    2, 138, 74, 122,    // frame 1
+    76, 138, 84, 122,   // frame 2
+    346, 138, 120, 122, // frame 3
+  ],
+};
+
+const imageObj = new Image();
+imageObj.onload = function() {
+  const sprite = new Konva.Sprite({
+    x: 50,
+    y: 50,
+    image: imageObj,
+    animation: 'idle',
+    animations: animations,
+    frameRate: 7,
+    frameIndex: 0
+  });
+
+  layer.add(sprite);
+  sprite.start();
+
+  // Add punch button functionality
+  const button = document.createElement('button');
+  button.textContent = 'Punch';
+  button.style.position = 'absolute';
+  button.style.top = '0';
+  button.style.left = '0';
+  document.body.appendChild(button);
+
+  button.addEventListener('click', () => {
+    sprite.animation('punch');
+    sprite.on('frameIndexChange.button', function() {
+      if (this.frameIndex() === 2) {
+        setTimeout(() => {
+          sprite.animation('idle');
+          sprite.off('.button');
+        }, 1000 / sprite.frameRate());
+      }
+    });
+  });
+};
+imageObj.src = 'https://konvajs.org/assets/blob-sprite.png';
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Sprite } from 'react-konva';
+import { useEffect, useRef } from 'react';
+import useImage from 'use-image';
+
+const App = () => {
+  const spriteRef = useRef(null);
+  const [image] = useImage('https://konvajs.org/assets/blob-sprite.png');
+
+  const animations = {
+    idle: [
+      2, 2, 70, 119,      // frame 1
+      71, 2, 74, 119,     // frame 2
+      146, 2, 81, 119,    // frame 3
+      226, 2, 76, 119,    // frame 4
+    ],
+    punch: [
+      2, 138, 74, 122,    // frame 1
+      76, 138, 84, 122,   // frame 2
+      346, 138, 120, 122, // frame 3
+    ],
+  };
+
+  useEffect(() => {
+    if (spriteRef.current) {
+      spriteRef.current.start();
+    }
+  }, [image]);
+
+  const handlePunch = () => {
+    if (spriteRef.current) {
+      const sprite = spriteRef.current;
+      sprite.animation('punch');
+      sprite.on('frameIndexChange.button', function() {
+        if (this.frameIndex() === 2) {
+          setTimeout(() => {
+            sprite.animation('idle');
+            sprite.off('.button');
+          }, 1000 / sprite.frameRate());
+        }
+      });
+    }
+  };
+
+  return (
+    <>
+     
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Sprite
+            ref={spriteRef}
+            x={50}
+            y={50}
+            image={image}
+            animation="idle"
+            animations={animations}
+            frameRate={7}
+            frameIndex={0}
+          />
+        </Layer>
+      </Stage>
+      <button 
+        onClick={handlePunch}
+        style={{ position: 'absolute', top: 0, left: 0 }}
+      >
+        Punch
+      </button>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-sprite
+          :config="spriteConfig"
+          ref="spriteRef"
+        />
+      </v-layer>
+    </v-stage>
+    <button
+      @click="handlePunch"
+      style="position: absolute; top: 0; left: 0"
+    >
+      Punch
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch } from 'vue';
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const spriteRef = ref(null);
+const [image] = useImage('https://konvajs.org/assets/blob-sprite.png');
+
+const animations = {
+  idle: [
+    2, 2, 70, 119,      // frame 1
+    71, 2, 74, 119,     // frame 2
+    146, 2, 81, 119,    // frame 3
+    226, 2, 76, 119,    // frame 4
+  ],
+  punch: [
+    2, 138, 74, 122,    // frame 1
+    76, 138, 84, 122,   // frame 2
+    346, 138, 120, 122, // frame 3
+  ],
+};
+
+const spriteConfig = ref({
+  x: 50,
+  y: 50,
+  image: image,
+  animation: 'idle',
+  animations: animations,
+  frameRate: 7,
+  frameIndex: 0
+});
+
+watch(image, (newImage) => {
+  if (newImage) {
+    const sprite = spriteRef.value.getNode();
+    sprite.start();
+  }
+});
+
+const handlePunch = () => {
+  const sprite = spriteRef.value.getNode();
+  sprite.animation('punch');
+  sprite.on('frameIndexChange.button', function() {
+    if (this.frameIndex() === 2) {
+      setTimeout(() => {
+        sprite.animation('idle');
+        sprite.off('.button');
+      }, 1000 / sprite.frameRate());
+    }
+  });
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

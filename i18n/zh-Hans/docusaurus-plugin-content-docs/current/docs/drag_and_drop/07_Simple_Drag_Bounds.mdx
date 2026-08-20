@@ -1,0 +1,170 @@
+---
+title: HTML5 Canvas 简单拖动边界教程
+sidebar_label: 简单拖动边界
+hide_table_of_contents: true
+slug: Simple_Drag_Bounds.html
+description: "学习如何使用 Konva.js 限制 HTML5 Canvas 上的拖动。设置拖动边界，以限制图形可以拖动的区域。"
+---
+
+如需限制使用 Konva 拖放的图形的移动范围，
+可以使用 `dragmove` 事件，并在事件处理程序中重新设置拖放位置。
+
+可以使用此事件以多种方式限制拖放时的移动。例如，只允许水平、垂直、对角线或径向移动，甚至可以将节点
+限制在方框、圆形或其他路径内。
+
+```js
+shape.on('dragmove', () => {
+  // lock position of the shape on x axis
+  // keep y position as is
+  shape.x(0);
+});
+```
+
+_提示：你可以使用 `shape.absolutePosition()` 方法获取或设置节点的绝对位置，而不是使用相对的 `x` 和 `y`。_
+
+**操作说明：** 拖放横向文本，并观察它只能沿水平方向移动。
+拖放纵向文本，并观察它只能沿垂直方向移动。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const horizontalText = new Konva.Text({
+  x: 50,
+  y: 50,
+  text: 'Drag me horizontally',
+  fontSize: 16,
+  draggable: true,
+  fill: 'black',
+});
+
+horizontalText.on('dragmove', function () {
+  // horizontal only
+  this.y(50);
+});
+
+const verticalText = new Konva.Text({
+  x: 200,
+  y: 50,
+  text: 'Drag me vertically',
+  fontSize: 16,
+  draggable: true,
+  fill: 'black',
+});
+
+verticalText.on('dragmove', function () {
+  // vertical only
+  this.x(200);
+});
+
+layer.add(horizontalText);
+layer.add(verticalText);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Text } from 'react-konva';
+
+const App = () => {
+  const handleHorizontalDragMove = (e) => {
+    e.target.y(50);
+  };
+
+  const handleVerticalDragMove = (e) => {
+    e.target.x(200);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text
+          x={50}
+          y={50}
+          text="Drag me horizontally"
+          fontSize={16}
+          draggable
+          fill="black"
+          onDragMove={handleHorizontalDragMove}
+        />
+        <Text
+          x={200}
+          y={50}
+          text="Drag me vertically"
+          fontSize={16}
+          draggable
+          fill="black"
+          onDragMove={handleVerticalDragMove}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```vue live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text
+        :config="horizontalTextConfig"
+        @dragmove="handleHorizontalDragMove"
+      />
+      <v-text
+        :config="verticalTextConfig"
+        @dragmove="handleVerticalDragMove"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const horizontalTextConfig = {
+  x: 50,
+  y: 50,
+  text: 'Drag me horizontally',
+  fontSize: 16,
+  draggable: true,
+  fill: 'black'
+};
+
+const verticalTextConfig = {
+  x: 200,
+  y: 50,
+  text: 'Drag me vertically',
+  fontSize: 16,
+  draggable: true,
+  fill: 'black'
+};
+
+const handleHorizontalDragMove = (e) => {
+  e.target.y(50);
+};
+
+const handleVerticalDragMove = (e) => {
+  e.target.x(200);
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

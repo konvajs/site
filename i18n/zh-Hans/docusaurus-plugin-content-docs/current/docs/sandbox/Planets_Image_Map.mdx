@@ -1,0 +1,328 @@
+---
+title: 行星图像映射
+layout: demo_page
+hide_table_of_contents: true
+slug: Planets_Image_Map.html
+description: "使用 Konva 创建带有悬停提示和可切换叠加层的交互式行星图像映射。"
+---
+
+**操作说明：** 将鼠标悬停在行星上以查看其名称，并使用复选框显示或隐藏地图叠加层。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+container: 'container',
+width: window.innerWidth,
+height: window.innerHeight,
+});
+
+const planetsLayer = new Konva.Layer();
+const circlesLayer = new Konva.Layer();
+const messageLayer = new Konva.Layer();
+
+stage.add(planetsLayer);
+stage.add(circlesLayer);
+stage.add(messageLayer);
+
+const text = new Konva.Text({
+x: 10,
+y: 10,
+fontFamily: 'Calibri',
+fontSize: 24,
+text: '',
+fill: 'white',
+});
+messageLayer.add(text);
+
+function writeMessage(message) {
+text.text(message);
+}
+
+const planets = {
+Mercury: {
+x: 46,
+y: 126,
+radius: 32,
+},
+Venus: {
+x: 179,
+y: 126,
+radius: 79,
+},
+Earth: {
+x: 366,
+y: 127,
+radius: 85,
+},
+Mars: {
+x: 515,
+y: 127,
+radius: 45,
+},
+};
+
+// create checkbox
+const container = document.createElement('div');
+container.style.position = 'absolute';
+container.style.top = '10px';
+container.style.left = '10px';
+container.style.zIndex = '99999';
+container.innerHTML = `  <label style="color: white;">
+    <input type="checkbox" id="checkbox" />
+    Show map overlay
+  </label>`;
+document.body.appendChild(container);
+
+// draw shape overlays
+for (const key in planets) {
+const planet = planets[key];
+const planetOverlay = new Konva.Circle({
+x: planet.x,
+y: planet.y,
+radius: planet.radius,
+});
+
+planetOverlay.on('mouseover', () => {
+writeMessage(key);
+});
+planetOverlay.on('mouseout', () => {
+writeMessage('');
+});
+
+circlesLayer.add(planetOverlay);
+}
+
+const checkbox = document.getElementById('checkbox');
+checkbox.addEventListener('click', () => {
+const shapes = circlesLayer.getChildren();
+shapes.forEach(shape => {
+const f = shape.fill();
+shape.fill(f === 'red' ? null : 'red');
+});
+});
+
+// load the image
+Konva.Image.fromURL('https://konvajs.org/assets/planets.png', (planetsImage) => {
+planetsLayer.add(planetsImage);
+});
+
+````
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+import useImage from 'use-image';
+
+const planets = {
+  Mercury: {
+    x: 46,
+    y: 126,
+    radius: 32,
+  },
+  Venus: {
+    x: 179,
+    y: 126,
+    radius: 79,
+  },
+  Earth: {
+    x: 366,
+    y: 127,
+    radius: 85,
+  },
+  Mars: {
+    x: 515,
+    y: 127,
+    radius: 45,
+  },
+};
+
+const CheckboxStyles = {
+  container: {
+    position: 'absolute',
+    left: '10px',
+    top: '10px',
+    zIndex: 99999,
+  },
+  label: {
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+    cursor: 'pointer',
+  },
+  input: {
+    cursor: 'pointer',
+  },
+};
+
+const App = () => {
+  const [message, setMessage] = useState('');
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [planetsImage] = useImage('https://konvajs.org/assets/planets.png');
+
+  return (
+    <>
+      <div style={CheckboxStyles.container}>
+        <label style={CheckboxStyles.label}>
+          <input
+            type="checkbox"
+            style={CheckboxStyles.input}
+            checked={showOverlay}
+            onChange={(e) => setShowOverlay(e.target.checked)}
+          />
+          Show map overlay
+        </label>
+      </div>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {planetsImage && <Image image={planetsImage} />}
+        </Layer>
+        <Layer>
+          {Object.entries(planets).map(([name, planet]) => (
+            <Circle
+              key={name}
+              x={planet.x}
+              y={planet.y}
+              radius={planet.radius}
+              fill={showOverlay ? 'red' : null}
+              onMouseEnter={() => setMessage(name)}
+              onMouseLeave={() => setMessage('')}
+            />
+          ))}
+        </Layer>
+        <Layer>
+          <Text
+            x={10}
+            y={10}
+            fontFamily="Calibri"
+            fontSize={24}
+            text={message}
+            fill="white"
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+````
+
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div :style="styles.container">
+      <label :style="styles.label">
+        <input
+          type="checkbox"
+          :style="styles.input"
+          v-model="showOverlay"
+        />
+        Show map overlay
+      </label>
+    </div>
+    <v-stage :config="stageSize">
+      <v-layer>
+        <v-image
+          v-if="planetsImage"
+          :config="{ image: planetsImage }"
+        />
+      </v-layer>
+      <v-layer>
+        <v-circle
+          v-for="(planet, name) in planets"
+          :key="name"
+          :config="{
+            x: planet.x,
+            y: planet.y,
+            radius: planet.radius,
+            fill: showOverlay ? 'red' : null,
+          }"
+          @mouseenter="message = name"
+          @mouseleave="message = ''"
+        />
+      </v-layer>
+      <v-layer>
+        <v-text :config="textConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { useImage } from 'vue-konva';
+
+const message = ref('');
+const showOverlay = ref(false);
+const [planetsImage] = useImage('https://konvajs.org/assets/planets.png');
+
+const planets = {
+  Mercury: {
+    x: 46,
+    y: 126,
+    radius: 32,
+  },
+  Venus: {
+    x: 179,
+    y: 126,
+    radius: 79,
+  },
+  Earth: {
+    x: 366,
+    y: 127,
+    radius: 85,
+  },
+  Mars: {
+    x: 515,
+    y: 127,
+    radius: 45,
+  },
+};
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const styles = {
+  container: {
+    position: 'absolute',
+    left: '10px',
+    top: '10px',
+    zIndex: 99999,
+  },
+  label: {
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+    cursor: 'pointer',
+  },
+  input: {
+    cursor: 'pointer',
+  },
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'white',
+}));
+</script>
+
+```
+  </TabItem>
+</Tabs>

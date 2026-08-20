@@ -170715,6 +170715,28 @@
         "scope": "static"
       },
       {
+        "comment": "/**\n   * Kaleidoscope Filter.\n   * @function\n   * @name Kaleidoscope\n   * @author ippo615\n   * @memberof Konva.Filters\n   * @example\n   * node.cache();\n   * node.filters([Konva.Filters.Kaleidoscope]);\n   * node.kaleidoscopePower(3);\n   * node.kaleidoscopeAngle(45);\n   */",
+        "meta": {
+          "filename": "konva.js",
+          "lineno": 18964,
+          "columnno": 2,
+          "path": "/Users/lavrton/Projects/konva-site-new",
+          "code": {}
+        },
+        "description": "Kaleidoscope Filter.",
+        "kind": "function",
+        "name": "Kaleidoscope",
+        "author": [
+          "ippo615"
+        ],
+        "memberof": "Konva.Filters",
+        "examples": [
+          "node.cache();\nnode.filters([Konva.Filters.Kaleidoscope]);\nnode.kaleidoscopePower(3);\nnode.kaleidoscopeAngle(45);"
+        ],
+        "scope": "static",
+        "longname": "Konva.Filters.Kaleidoscope"
+      },
+      {
         "comment": "/**\n   * Mask Filter\n   * @function\n   * @name Mask\n   * @memberof Konva.Filters\n   * @param {Object} imageData\n   * @example\n   * node.cache();\n   * node.filters([Konva.Filters.Mask]);\n   * node.threshold(200);\n   */",
         "meta": {
           "filename": "konva.js",

@@ -1,0 +1,65 @@
+---
+title: Angular Konva 图像教程
+sidebar_label: 图像
+hide_table_of_contents: true
+slug: Images.html
+description: "学习如何在 Angular 中使用 ng2-konva Image 组件，在 HTML5 Canvas 上加载并显示图像。"
+---
+
+要在 Angular 中使用 `Konva` 显示图像，请使用 `ko-image`，并将已加载的 `HTMLImageElement` 分配给 `image` 属性。
+
+对于 Angular 21 应用，signals 是从 `Image.onload` 等异步回调更新图像配置的最简单方法。
+
+**操作说明**：本示例加载外部图像。浏览器完成加载后，示例会渲染该图像。
+
+有关更多详细信息，请参阅 [Image API 参考](/api/Konva.Image.html)。
+
+## 图像示例
+
+```js live angular
+import { Component, OnInit, signal } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { ImageConfig } from 'konva/lib/shapes/Image';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-image [config]="configImage()"></ko-image>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configImage = signal<ImageConfig>({
+    x: 50,
+    y: 50,
+    image: null,
+    width: 100,
+    height: 100
+  });
+
+  ngOnInit() {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      this.configImage.update((config) => ({
+        ...config,
+        image: imageObj
+      }));
+    };
+    imageObj.src = 'https://konvajs.org/assets/yoda.jpg';
+  }
+}
+``` 

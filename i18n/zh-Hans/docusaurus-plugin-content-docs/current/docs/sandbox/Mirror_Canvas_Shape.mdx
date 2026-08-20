@@ -1,0 +1,207 @@
+---
+title: Canvas 翻转图像——在 HTML5 Canvas 上镜像和翻转图形
+sidebar_label: 翻转图像
+hide_table_of_contents: true
+slug: Mirror_Canvas_Shape.html
+description: "使用 JavaScript 在 HTML5 Canvas 上翻转和镜像图像或图形。通过交互式示例学习如何使用 Konva.js 水平翻转、垂直翻转和旋转内容。"
+---
+
+在 HTML5 Canvas 上水平、垂直或同时翻转任意图像或图形。此技术对于构建图像编辑器、设计工具和基于 Canvas 的应用程序非常重要，因为这些应用程序需要让用户镜像内容。
+
+要使用 `Konva` 翻转任何节点，可以使用负的 `scaleX` 水平翻转，也可以使用负的 `scaleY` 垂直翻转。`scale` 属性相对于节点原点生效。矩形的原点是左上角，圆形的原点是中心。可以使用 `offsetX` 和 `offsetY` 更改原点。有关详细信息，请参阅[位置与偏移指南](/docs/posts/Position_vs_Offset.html)。
+
+根据使用场景，翻转后可能需要调整 `{x, y}`，以使节点保持在原来的位置。
+
+**操作说明：单击翻转按钮，查看图形的水平和垂直镜像效果。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var text1 = new Konva.Text({
+  x: 180,
+  y: 50,
+  text: 'Default text with no offset. Its origin is in top left corner.',
+  align: 'center',
+  width: 200,
+});
+layer.add(text1);
+
+var text2 = new Konva.Text({
+  text: 'Text with the origin in its center',
+  width: 200,
+  align: 'center',
+  y: 100,
+  x: 270,
+});
+layer.add(text2);
+// set horizontal origin in the center of the text
+text2.offsetX(text2.width() / 2);
+
+var button = document.createElement('button');
+button.innerText = 'Flip horizontally';
+button.style.position = 'absolute';
+button.style.top = '5px';
+button.style.left = '5px';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  layer.find('Text').forEach((text) => {
+    text.to({
+      scaleX: -text.scaleX(),
+    });
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text } from 'react-konva';
+import { useState, useRef } from 'react';
+
+const App = () => {
+  const [texts, setTexts] = useState([
+    {
+      id: 1,
+      text: 'Default text with no offset. Its origin is in top left corner.',
+      x: 180,
+      y: 50,
+      width: 200,
+      align: 'center',
+      scaleX: 1,
+      offsetX: 0
+    },
+    {
+      id: 2,
+      text: 'Text with the origin in its center',
+      x: 270,
+      y: 100,
+      width: 200,
+      align: 'center',
+      scaleX: 1,
+      offsetX: 100 // Half of the width to center it
+    }
+  ]);
+
+  const handleFlip = () => {
+    setTexts(texts.map(text => ({
+      ...text,
+      scaleX: -text.scaleX
+    })));
+  };
+
+  return (
+    <div>
+      
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          {texts.map((text) => (
+            <Text
+              key={text.id}
+              x={text.x}
+              y={text.y}
+              text={text.text}
+              width={text.width}
+              align={text.align}
+              scaleX={text.scaleX}
+              offsetX={text.offsetX}
+            />
+          ))}
+        </Layer>
+      </Stage>
+      <button
+        onClick={handleFlip}
+        style={{
+          position: 'absolute',
+          top: '5px',
+          left: '5px'
+        }}
+      >
+        Flip horizontally
+      </button>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-text
+          v-for="text in texts"
+          :key="text.id"
+          :config="text"
+        />
+      </v-layer>
+    </v-stage>
+    <button
+      @click="handleFlip"
+      style="position: absolute; top: 5px; left: 5px;"
+    >
+      Flip horizontally
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const texts = ref([
+  {
+    id: 1,
+    text: 'Default text with no offset. Its origin is in top left corner.',
+    x: 180,
+    y: 50,
+    width: 200,
+    align: 'center',
+    scaleX: 1,
+    offsetX: 0
+  },
+  {
+    id: 2,
+    text: 'Text with the origin in its center',
+    x: 270,
+    y: 100,
+    width: 200,
+    align: 'center',
+    scaleX: 1,
+    offsetX: 100 // Half of the width to center it
+  }
+]);
+
+const handleFlip = () => {
+  texts.value = texts.value.map(text => ({
+    ...text,
+    scaleX: -text.scaleX
+  }));
+};
+</script>
+```
+  </TabItem>
+</Tabs>

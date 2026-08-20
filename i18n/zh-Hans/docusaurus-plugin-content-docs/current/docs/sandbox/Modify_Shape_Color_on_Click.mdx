@@ -1,0 +1,165 @@
+---
+title: 单击时修改图形颜色
+sidebar_label: 单击时修改图形颜色
+hide_table_of_contents: true
+slug: Modify_Shape_Color_on_Click.html
+description: "单击 Konva Canvas 图形，通过单击事件处理程序动态更改其填充颜色。"
+---
+
+**操作说明：单击图形以更改其颜色**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+
+const triangle = new Konva.RegularPolygon({
+  x: 80,
+  y: 120,
+  sides: 3,
+  radius: 50,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+triangle.on('click', function () {
+  const fill = this.fill() === 'yellow' ? '#00D2FF' : 'yellow';
+  this.fill(fill);
+});
+
+layer.add(triangle);
+
+const circle = new Konva.Circle({
+  x: 180,
+  y: 120,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+circle.on('click', function () {
+  const fill = this.fill() === 'red' ? '#00d00f' : 'red';
+  this.fill(fill);
+});
+
+layer.add(circle);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, RegularPolygon, Circle } from 'react-konva';
+import { useState } from 'react';
+
+const App = () => {
+  const [triangleColor, setTriangleColor] = useState('#00D2FF');
+  const [circleColor, setCircleColor] = useState('red');
+
+  const handleTriangleClick = () => {
+    setTriangleColor(triangleColor === 'yellow' ? '#00D2FF' : 'yellow');
+  };
+
+  const handleCircleClick = () => {
+    setCircleColor(circleColor === 'red' ? '#00d00f' : 'red');
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <RegularPolygon
+          x={80}
+          y={120}
+          sides={3}
+          radius={50}
+          fill={triangleColor}
+          stroke="black"
+          strokeWidth={4}
+          onClick={handleTriangleClick}
+        />
+        <Circle
+          x={180}
+          y={120}
+          radius={50}
+          fill={circleColor}
+          stroke="black"
+          strokeWidth={4}
+          onClick={handleCircleClick}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-regular-polygon
+        :config="{
+          x: 80,
+          y: 120,
+          sides: 3,
+          radius: 50,
+          fill: triangleColor,
+          stroke: 'black',
+          strokeWidth: 4,
+        }"
+        @click="handleTriangleClick"
+      />
+      <v-circle
+        :config="{
+          x: 180,
+          y: 120,
+          radius: 50,
+          fill: circleColor,
+          stroke: 'black',
+          strokeWidth: 4,
+        }"
+        @click="handleCircleClick"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const triangleColor = ref('#00D2FF');
+const circleColor = ref('red');
+
+const handleTriangleClick = () => {
+  triangleColor.value = triangleColor.value === 'yellow' ? '#00D2FF' : 'yellow';
+};
+
+const handleCircleClick = () => {
+  circleColor.value = circleColor.value === 'red' ? '#00d00f' : 'red';
+};
+</script>
+```
+  </TabItem>
+</Tabs>

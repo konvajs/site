@@ -383,3 +383,12 @@ const handleExport = () => {
 ```
 </TabItem>
 </Tabs>
+
+## Print output
+
+The method above places a raster image into an RGB document. A commercial
+printer usually asks for CMYK separation, PDF/X compliance, bleed, and crop
+marks, and a browser canvas produces none of them — that needs a render step
+outside the browser.
+[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=canvas-to-pdf) is a commercial design editor SDK built with
+Konva that covers the editor and its export pipeline.

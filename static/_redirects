@@ -1,6 +1,11 @@
+https://new.konvajs.org/* https://konvajs.org/:splat 301!
+
 /docs/svelte /docs/svelte/index.html 301!
 /docs/react /docs/react/index.html 301!
 /docs/vue /docs/vue/index.html 301!
+
+/docs/sandbox/index.html /docs/sandbox.html 301!
+/kai / 301!
 
 # Broken backlink recovery (DR 80+ sites linking to old URLs)
 /docs/react/Intro.html /docs/react/index.html 301!
@@ -10,3 +15,14 @@
 /about     /docs/about.html    301
 /faq       /docs/faq.html      301
 /compare   /docs/guides/best-canvas-library.html  301
+
+# /build section folded into Demos (2026-08-20)
+/build/design-editor.html /docs/sandbox/Canvas_Editor.html 301!
+/build/infinite-canvas-whiteboard.html /docs/sandbox/Infinite_Canvas.html 301!
+/build/node-editor.html /docs/sandbox/Connected_Objects.html 301!
+/build/image-annotation-tool.html /docs/sandbox/Image_Labeling.html 301!
+/build/floor-plan.html /docs/sandbox/Interactive_Building_Map.html 301!
+/build/seat-reservation-map.html /docs/sandbox/Seats_Reservation.html 301!
+/build/image-editor.html /docs/sandbox/Canvas_Crop_Image.html 301!
+/build/multiplayer-whiteboard.html /docs/sandbox/Multiplayer_Whiteboard.html 301!
+/build/ /docs/sandbox.html 301!

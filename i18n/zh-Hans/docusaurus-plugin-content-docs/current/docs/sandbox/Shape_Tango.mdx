@@ -1,0 +1,297 @@
+---
+title: 使用 Konva 创建 HTML5 Canvas 图形探戈
+sidebar_label: 图形探戈
+hide_table_of_contents: true
+slug: Shape_Tango.html
+description: "使用 Konva 补间让动画图形在 Canvas 上移动，并随机改变位置、旋转角度和颜色。"
+---
+
+## 使用 Konva 创建 HTML5 Canvas 图形探戈
+
+此示例展示如何创建触发后在 Canvas 上舞动的动画图形。它演示以下内容：
+1. 创建具有不同属性的随机图形
+2. 使用 Konva 的补间系统创建平滑动画
+3. 处理用户交互（拖放和单击按钮）
+4. 同时管理多个动画
+
+**操作说明：** 拖放图形以确定其位置，然后单击“Tango!”按钮，让它们在 Canvas 上舞动。每个图形都会移动到随机位置，并改变旋转角度、大小和颜色。刷新页面以生成新的随机图形。 
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create button
+const button = document.createElement('button');
+button.textContent = 'Tango!';
+button.style.position = 'absolute';
+button.style.top = '10px';
+button.style.left = '10px';
+button.style.padding = '10px';
+document.body.appendChild(button);
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+
+function getRandomColor() {
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function tango(layer) {
+  layer.getChildren().forEach((shape) => {
+    const radius = Math.random() * 100 + 20;
+    
+    new Konva.Tween({
+      node: shape,
+      duration: 1,
+      x: Math.random() * stage.width(),
+      y: Math.random() * stage.height(),
+      rotation: Math.random() * 360,
+      radius: radius,
+      opacity: (radius - 20) / 100,
+      easing: Konva.Easings.EaseInOut,
+      fill: getRandomColor(),
+    }).play();
+  });
+}
+
+// Create initial shapes
+for (let n = 0; n < 10; n++) {
+  const radius = Math.random() * 100 + 20;
+  const shape = new Konva.RegularPolygon({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    sides: Math.ceil(Math.random() * 5 + 3),
+    radius: radius,
+    fill: getRandomColor(),
+    opacity: (radius - 20) / 100,
+    draggable: true,
+  });
+
+  layer.add(shape);
+}
+
+button.addEventListener('click', () => tango(layer));
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+const NUM_SHAPES = 10;
+
+const getRandomColor = () => COLORS[Math.floor(Math.random() * COLORS.length)];
+
+const getRandomShapeProps = (width, height) => {
+  const radius = Math.random() * 100 + 20;
+  return {
+    x: Math.random() * width,
+    y: Math.random() * height,
+    sides: Math.ceil(Math.random() * 5 + 3),
+    radius,
+    fill: getRandomColor(),
+    opacity: (radius - 20) / 100,
+  };
+};
+
+const App = () => {
+  const [shapes, setShapes] = React.useState([]);
+  const stageRef = React.useRef();
+
+  React.useEffect(() => {
+    const initialShapes = Array.from({ length: NUM_SHAPES }, () =>
+      getRandomShapeProps(window.innerWidth, window.innerHeight)
+    );
+    setShapes(initialShapes);
+  }, []);
+
+  const handleDragEnd = (e, index) => {
+    const newShapes = [...shapes];
+    newShapes[index] = {
+      ...newShapes[index],
+      x: e.target.x(),
+      y: e.target.y(),
+    };
+    setShapes(newShapes);
+  };
+
+  const handleTango = () => {
+    const layer = stageRef.current.findOne('Layer');
+    const shapeNodes = layer.find('RegularPolygon');
+
+    shapeNodes.forEach((node, i) => {
+      const radius = Math.random() * 100 + 20;
+      const newProps = {
+        duration: 1,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        rotation: Math.random() * 360,
+        radius: radius,
+        opacity: (radius - 20) / 100,
+        easing: Konva.Easings.EaseInOut,
+        fill: getRandomColor(),
+      };
+
+      node.to(newProps);
+
+      // Update state after animation
+      setTimeout(() => {
+        setShapes(prev => {
+          const newShapes = [...prev];
+          newShapes[i] = { ...newShapes[i], ...newProps };
+          return newShapes;
+        });
+      }, 1000);
+    });
+  };
+
+  return (
+    <>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        ref={stageRef}
+      >
+        <Layer>
+          {shapes.map((shape, i) => (
+            <RegularPolygon
+              key={i}
+              {...shape}
+              draggable
+              onDragEnd={(e) => handleDragEnd(e, i)}
+            />
+          ))}
+        </Layer>
+      </Stage>
+      <button
+        onClick={handleTango}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          padding: '10px',
+        }}
+      >
+        Tango!
+      </button>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <v-stage
+      :config="stageConfig"
+      ref="stageRef"
+    >
+      <v-layer>
+        <v-regular-polygon
+          v-for="(shape, i) in shapes"
+          :key="i"
+          :config="{ ...shape, draggable: true }"
+          @dragend="(e) => handleDragEnd(e, i)"
+        />
+      </v-layer>
+    </v-stage>
+    <button
+      @click="handleTango"
+      style="position: absolute; top: 10px; left: 10px; padding: 10px"
+    >
+      Tango!
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+const NUM_SHAPES = 10;
+
+const shapes = ref([]);
+const stageRef = ref(null);
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const getRandomColor = () => COLORS[Math.floor(Math.random() * COLORS.length)];
+
+const getRandomShapeProps = () => {
+  const radius = Math.random() * 100 + 20;
+  return {
+    x: Math.random() * stageConfig.width,
+    y: Math.random() * stageConfig.height,
+    sides: Math.ceil(Math.random() * 5 + 3),
+    radius,
+    fill: getRandomColor(),
+    opacity: (radius - 20) / 100,
+  };
+};
+
+const handleDragEnd = (e, index) => {
+  const newShapes = [...shapes.value];
+  newShapes[index] = {
+    ...newShapes[index],
+    x: e.target.x(),
+    y: e.target.y(),
+  };
+  shapes.value = newShapes;
+};
+
+const handleTango = () => {
+  const stage = stageRef.value.getStage();
+  const layer = stage.findOne('Layer');
+  const shapeNodes = layer.find('RegularPolygon');
+
+  shapeNodes.forEach((node, i) => {
+    const radius = Math.random() * 100 + 20;
+    const newProps = {
+      duration: 1,
+      x: Math.random() * stageConfig.width,
+      y: Math.random() * stageConfig.height,
+      rotation: Math.random() * 360,
+      radius: radius,
+      opacity: (radius - 20) / 100,
+      easing: Konva.Easings.EaseInOut,
+      fill: getRandomColor(),
+    };
+
+    node.to(newProps);
+
+    // Update state after animation
+    setTimeout(() => {
+      const newShapes = [...shapes.value];
+      newShapes[i] = { ...newShapes[i], ...newProps };
+      shapes.value = newShapes;
+    }, 1000);
+  });
+};
+
+onMounted(() => {
+  shapes.value = Array.from({ length: NUM_SHAPES }, getRandomShapeProps);
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+

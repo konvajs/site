@@ -1,0 +1,371 @@
+---
+title: Canvas 碰撞检测——使用 JavaScript 检测图形重叠
+sidebar_label: 碰撞检测
+hide_table_of_contents: true
+slug: Collision_Detection.html
+description: "使用 JavaScript 和 Konva.js 在 HTML5 Canvas 上实现碰撞检测。通过检查可拖动矩形的包围盒来检测重叠图形。"
+---
+
+## 如何查找 Canvas 上重叠的对象？
+
+本示例使用简单的碰撞检测突出显示相交对象。
+为简化示例，只使用包围盒检测碰撞。
+
+红色边框用于显示包围盒。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+function createShape() {
+  var group = new Konva.Group({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    draggable: true,
+  });
+  var shape = new Konva.Rect({
+    width: 30 + Math.random() * 30,
+    height: 30 + Math.random() * 30,
+    fill: 'grey',
+    rotation: 360 * Math.random(),
+    name: 'fillShape',
+  });
+  group.add(shape);
+
+  var boundingBox = shape.getClientRect({ relativeTo: group });
+
+  var box = new Konva.Rect({
+    x: boundingBox.x,
+    y: boundingBox.y,
+    width: boundingBox.width,
+    height: boundingBox.height,
+    stroke: 'red',
+    strokeWidth: 1,
+  });
+  group.add(box);
+  return group;
+}
+
+for (var i = 0; i < 10; i++) {
+  layer.add(createShape());
+}
+
+layer.on('dragmove', function (e) {
+  var target = e.target;
+  var targetRect = e.target.getClientRect();
+  layer.children.forEach(function (group) {
+    // do not check intersection with itself
+    if (group === target) {
+      return;
+    }
+    if (haveIntersection(group.getClientRect(), targetRect)) {
+      group.findOne('.fillShape').fill('red');
+    } else {
+      group.findOne('.fillShape').fill('grey');
+    }
+  });
+});
+
+function haveIntersection(r1, r2) {
+  return !(
+    r2.x > r1.x + r1.width ||
+    r2.x + r2.width < r1.x ||
+    r2.y > r1.y + r1.height ||
+    r2.y + r2.height < r1.y
+  );
+}
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Group, Rect } from 'react-konva';
+import { useState } from 'react';
+
+const createInitialShapes = () => {
+  const shapes = [];
+  for (let i = 0; i < 10; i++) {
+    const width = 30 + Math.random() * 30;
+    const height = 30 + Math.random() * 30;
+    const rotation = 360 * Math.random();
+
+    // calculate bounding box for rotated rectangle
+    const radians = (rotation * Math.PI) / 180;
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+
+    // calculate corners of the rectangle
+    const corners = [
+      { x: 0, y: 0 },
+      { x: width, y: 0 },
+      { x: width, y: height },
+      { x: 0, y: height }
+    ].map(point => ({
+      x: point.x * cos - point.y * sin,
+      y: point.x * sin + point.y * cos
+    }));
+
+    // find bounding box dimensions
+    const minX = Math.min(...corners.map(p => p.x));
+    const maxX = Math.max(...corners.map(p => p.x));
+    const minY = Math.min(...corners.map(p => p.y));
+    const maxY = Math.max(...corners.map(p => p.y));
+
+    shapes.push({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      rotation,
+      width,
+      height,
+      fill: 'grey',
+      box: {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      }
+    });
+  }
+  return shapes;
+};
+
+const haveIntersection = (r1, r2) => {
+  return !(
+    r2.x > r1.x + r1.width ||
+    r2.x + r2.width < r1.x ||
+    r2.y > r1.y + r1.height ||
+    r2.y + r2.height < r1.y
+  );
+};
+
+const App = () => {
+  const [shapes, setShapes] = useState(createInitialShapes());
+
+  const handleDragMove = (e, id) => {
+    const target = e.target;
+    const targetRect = target.getClientRect();
+    
+    setShapes(shapes.map(shape => {
+      if (shape.id === id) {
+        return shape;
+      }
+      const shapeGroup = target.parent.parent.findOne(`#group-${shape.id}`);
+      if (!shapeGroup) return shape;
+      
+      const isIntersecting = haveIntersection(
+        shapeGroup.getClientRect(),
+        targetRect
+      );
+      
+      return {
+        ...shape,
+        fill: isIntersecting ? 'red' : 'grey'
+      };
+    }));
+  };
+
+  const handleDragEnd = (e, id) => {
+    setShapes(shapes.map(shape => 
+      shape.id === id
+        ? { ...shape, x: e.target.x(), y: e.target.y() }
+        : shape
+    ));
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {shapes.map((shape) => (
+          <Group
+            key={shape.id}
+            id={`group-${shape.id}`}
+            x={shape.x}
+            y={shape.y}
+            draggable
+            onDragMove={(e) => handleDragMove(e, shape.id)}
+            onDragEnd={(e) => handleDragEnd(e, shape.id)}
+          >
+            <Rect
+              width={shape.width}
+              height={shape.height}
+              fill={shape.fill}
+              rotation={shape.rotation}
+              name="fillShape"
+            />
+            <Rect
+              x={shape.box.x}
+              y={shape.box.y}
+              width={shape.box.width}
+              height={shape.box.height}
+              stroke="red"
+              strokeWidth={1}
+            />
+          </Group>
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layer">
+      <template v-for="shape in shapes" :key="shape.id">
+        <v-group
+          :config="{
+            x: shape.x,
+            y: shape.y,
+            draggable: true,
+            id: `group-${shape.id}`
+          }"
+          @dragmove="(e) => handleDragMove(e, shape.id)"
+          @dragend="(e) => handleDragEnd(e, shape.id)"
+        >
+          <v-rect
+            :config="{
+              width: shape.width,
+              height: shape.height,
+              fill: shape.fill,
+              rotation: shape.rotation,
+              name: 'fillShape'
+            }"
+          />
+          <v-rect
+            :config="{
+              x: shape.box.x,
+              y: shape.box.y,
+              width: shape.box.width,
+              height: shape.box.height,
+              stroke: 'red',
+              strokeWidth: 1
+            }"
+          />
+        </v-group>
+      </template>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const createInitialShapes = () => {
+  const shapes = [];
+  for (let i = 0; i < 10; i++) {
+    const width = 30 + Math.random() * 30;
+    const height = 30 + Math.random() * 30;
+    const rotation = 360 * Math.random();
+
+    // calculate bounding box for rotated rectangle
+    const radians = (rotation * Math.PI) / 180;
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+
+    // calculate corners of the rectangle
+    const corners = [
+      { x: 0, y: 0 },
+      { x: width, y: 0 },
+      { x: width, y: height },
+      { x: 0, y: height }
+    ].map(point => ({
+      x: point.x * cos - point.y * sin,
+      y: point.x * sin + point.y * cos
+    }));
+
+    // find bounding box dimensions
+    const minX = Math.min(...corners.map(p => p.x));
+    const maxX = Math.max(...corners.map(p => p.x));
+    const minY = Math.min(...corners.map(p => p.y));
+    const maxY = Math.max(...corners.map(p => p.y));
+
+    shapes.push({
+      id: i,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      rotation,
+      width,
+      height,
+      fill: 'grey',
+      box: {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      }
+    });
+  }
+  return shapes;
+};
+
+const shapes = ref(createInitialShapes());
+
+const haveIntersection = (r1, r2) => {
+  return !(
+    r2.x > r1.x + r1.width ||
+    r2.x + r2.width < r1.x ||
+    r2.y > r1.y + r1.height ||
+    r2.y + r2.height < r1.y
+  );
+};
+
+const handleDragMove = (e, id) => {
+  const target = e.target;
+  const layer = target.getLayer();
+  const targetRect = target.getClientRect();
+  
+  shapes.value = shapes.value.map(shape => {
+    if (shape.id === id) {
+      return shape;
+    }
+    const shapeGroup = layer.findOne(`#group-${shape.id}`);
+    if (!shapeGroup) return shape;
+    
+    const isIntersecting = haveIntersection(
+      shapeGroup.getClientRect(),
+      targetRect
+    );
+    
+    return {
+      ...shape,
+      fill: isIntersecting ? 'red' : 'grey'
+    };
+  });
+};
+
+const handleDragEnd = (e, id) => {
+  shapes.value = shapes.value.map(shape => 
+    shape.id === id
+      ? { ...shape, x: e.target.x(), y: e.target.y() }
+      : shape
+  );
+};
+</script>
+```
+  </TabItem>
+</Tabs>

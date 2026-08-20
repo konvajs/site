@@ -1,0 +1,549 @@
+---
+title: 如何将图形的拖动和调整大小限制在 Canvas 舞台内
+sidebar_label: 限制拖动与调整大小
+hide_table_of_contents: true
+slug: Limited_Drag_And_Resize.html
+description: "通过自定义边界函数，将 Konva 图形的拖动和调整大小限制在 Canvas 舞台边界内。"
+---
+
+本示例演示如何将图形的拖动和调整大小限制在 Canvas 舞台边界内。通过实现自定义边界函数，可以防止图形被移动到可见区域外，也可以防止图形在调整大小后超出该区域。
+
+此实现结合了[拖动限制示例](https://konvajs.org/docs/drag_and_drop/Simple_Drag_Bounds.html)和[调整大小限制示例](https://konvajs.org/docs/select_and_transform/Resize_Limits.html)中的技术，以限制用户交互。
+
+**操作说明：** 尝试旋转、拖动图形或调整图形大小。观察这些图形如何被限制在 Canvas 边界内。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Helper functions for calculating bounding boxes
+function getCorner(pivotX, pivotY, diffX, diffY, angle) {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+  // Find angle from pivot to corner
+  angle += Math.atan2(diffY, diffX);
+
+  // Get new x and y coordinates
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+
+  return { x, y };
+}
+
+// Calculate client rect accounting for rotation
+function getClientRect(rotatedBox) {
+  const { x, y, width, height } = rotatedBox;
+  const rad = rotatedBox.rotation;
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+}
+
+// Calculate total bounding box of multiple shapes
+function getTotalBox(boxes) {
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+
+  boxes.forEach((box) => {
+    minX = Math.min(minX, box.x);
+    minY = Math.min(minY, box.y);
+    maxX = Math.max(maxX, box.x + box.width);
+    maxY = Math.max(maxY, box.y + box.height);
+  });
+  
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+}
+
+// Set up the stage
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create first shape (red rectangle)
+const shape1 = new Konva.Rect({
+  x: stage.width() / 2 - 60,
+  y: stage.height() / 2 - 60,
+  width: 50,
+  height: 50,
+  fill: 'red',
+  draggable: true,
+});
+layer.add(shape1);
+
+// Create second shape (green rectangle)
+const shape2 = shape1.clone({
+  x: stage.width() / 2 + 10,
+  y: stage.height() / 2 + 10,
+  fill: 'green',
+});
+layer.add(shape2);
+
+// Add transformer that includes both shapes
+const tr = new Konva.Transformer({
+  nodes: [shape1, shape2],
+  // Set boundary function for resize operations
+  boundBoxFunc: (oldBox, newBox) => {
+    // Calculate the actual bounding box of the transformed shape
+    const box = getClientRect(newBox);
+    
+    // Check if the new box is outside the stage boundaries
+    const isOut =
+      box.x < 0 ||
+      box.y < 0 ||
+      box.x + box.width > stage.width() ||
+      box.y + box.height > stage.height();
+
+    // If outside boundaries, keep the old box
+    if (isOut) {
+      return oldBox;
+    }
+    
+    // If within boundaries, allow the transformation
+    return newBox;
+  },
+});
+layer.add(tr);
+
+// Handle drag events to keep shapes within the stage
+tr.on('dragmove', () => {
+  // Get client rects for all selected nodes
+  const boxes = tr.nodes().map((node) => node.getClientRect());
+  
+  // Get the total bounding box of all shapes
+  const box = getTotalBox(boxes);
+  
+  // Keep shapes within stage boundaries
+  tr.nodes().forEach((shape) => {
+    const absPos = shape.getAbsolutePosition();
+    
+    // Calculate shape position relative to group bounding box
+    const offsetX = box.x - absPos.x;
+    const offsetY = box.y - absPos.y;
+
+    // Adjust position if outside boundaries
+    const newAbsPos = { ...absPos };
+    
+    if (box.x < 0) {
+      newAbsPos.x = -offsetX;
+    }
+    if (box.y < 0) {
+      newAbsPos.y = -offsetY;
+    }
+    if (box.x + box.width > stage.width()) {
+      newAbsPos.x = stage.width() - box.width - offsetX;
+    }
+    if (box.y + box.height > stage.height()) {
+      newAbsPos.y = stage.height() - box.height - offsetY;
+    }
+    
+    shape.setAbsolutePosition(newAbsPos);
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect, useRef } from 'react';
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
+
+// Helper functions for calculating bounding boxes
+const getCorner = (pivotX, pivotY, diffX, diffY, angle) => {
+  const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+  angle += Math.atan2(diffY, diffX);
+  const x = pivotX + distance * Math.cos(angle);
+  const y = pivotY + distance * Math.sin(angle);
+  return { x, y };
+};
+
+const getClientRect = (rotatedBox) => {
+  const { x, y, width, height } = rotatedBox;
+  const rad = rotatedBox.rotation;
+
+  const p1 = getCorner(x, y, 0, 0, rad);
+  const p2 = getCorner(x, y, width, 0, rad);
+  const p3 = getCorner(x, y, width, height, rad);
+  const p4 = getCorner(x, y, 0, height, rad);
+
+  const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+  const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+  const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+  const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
+
+const getTotalBox = (boxes) => {
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+
+  boxes.forEach((box) => {
+    minX = Math.min(minX, box.x);
+    minY = Math.min(minY, box.y);
+    maxX = Math.max(maxX, box.x + box.width);
+    maxY = Math.max(maxY, box.y + box.height);
+  });
+  
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY,
+  };
+};
+
+const LimitedDragAndResize = () => {
+  const [stageSize, setStageSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  
+  const [shapes, setShapes] = useState([
+    {
+      id: 'rect1',
+      x: window.innerWidth / 2 - 60,
+      y: window.innerHeight / 2 - 60,
+      width: 50,
+      height: 50,
+      fill: 'red',
+    },
+    {
+      id: 'rect2',
+      x: window.innerWidth / 2 + 10,
+      y: window.innerHeight / 2 + 10,
+      width: 50,
+      height: 50,
+      fill: 'green',
+    }
+  ]);
+  
+  const shapeRefs = useRef(new Map());
+  const trRef = useRef(null);
+  
+  // Set up Transformer after the layer mounts
+  useEffect(() => {
+    if (trRef.current) {
+      const nodes = shapes.map(shape => shapeRefs.current.get(shape.id));
+      trRef.current.nodes(nodes);
+    }
+  }, [shapes]);
+  
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setStageSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Boundary function for Transformer
+  const boundBoxFunc = (oldBox, newBox) => {
+    const box = getClientRect(newBox);
+    
+    const isOut =
+      box.x < 0 ||
+      box.y < 0 ||
+      box.x + box.width > stageSize.width ||
+      box.y + box.height > stageSize.height;
+      
+    if (isOut) {
+      return oldBox;
+    }
+    
+    return newBox;
+  };
+  
+  // Handle drag for transformer group
+  const handleTransformerDrag = (e) => {
+    if (!trRef.current) return;
+    
+    const nodes = trRef.current.nodes();
+    if (nodes.length === 0) return;
+    
+    const boxes = nodes.map(node => node.getClientRect());
+    const box = getTotalBox(boxes);
+    
+    nodes.forEach(shape => {
+      const absPos = shape.getAbsolutePosition();
+      const offsetX = box.x - absPos.x;
+      const offsetY = box.y - absPos.y;
+      
+      const newAbsPos = { ...absPos };
+      
+      if (box.x < 0) {
+        newAbsPos.x = -offsetX;
+      }
+      if (box.y < 0) {
+        newAbsPos.y = -offsetY;
+      }
+      if (box.x + box.width > stageSize.width) {
+        newAbsPos.x = stageSize.width - box.width - offsetX;
+      }
+      if (box.y + box.height > stageSize.height) {
+        newAbsPos.y = stageSize.height - box.height - offsetY;
+      }
+      
+      shape.setAbsolutePosition(newAbsPos);
+    });
+  };
+  
+  return (
+    <Stage width={stageSize.width} height={stageSize.height}>
+      <Layer>
+        {shapes.map(shape => (
+          <Rect
+            key={shape.id}
+            ref={(node) => {
+              if (node) shapeRefs.current.set(shape.id, node);
+            }}
+            x={shape.x}
+            y={shape.y}
+            width={shape.width}
+            height={shape.height}
+            fill={shape.fill}
+            draggable
+          />
+        ))}
+        <Transformer
+          ref={trRef}
+          boundBoxFunc={boundBoxFunc}
+          onDragMove={handleTransformerDrag}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default LimitedDragAndResize;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-rect
+        v-for="(rect, i) in rectangles"
+        :key="i"
+        :config="rect"
+        @dragmove="handleRectDragMove"
+      />
+      <v-transformer
+        ref="transformerRef"
+        :config="transformerConfig"
+        @dragmove="handleTransformerDragMove"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      stageConfig: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
+      rectangles: [
+        {
+          x: window.innerWidth / 2 - 60,
+          y: window.innerHeight / 2 - 60,
+          width: 50,
+          height: 50,
+          fill: 'red',
+          draggable: true,
+          id: 'rect1',
+          name: 'my-rect'
+        },
+        {
+          x: window.innerWidth / 2 + 10,
+          y: window.innerHeight / 2 + 10,
+          width: 50,
+          height: 50,
+          fill: 'green',
+          draggable: true,
+          id: 'rect2',
+          name: 'my-rect'
+        }
+      ],
+      transformerConfig: {
+        nodes: [],
+      }
+    };
+  },
+  mounted() {
+    // Setup transformer nodes after component is mounted
+    this.$nextTick(() => {
+      const transformer = this.$refs.transformerRef.getNode();
+      const rects = transformer.getStage().find('.my-rect');
+      
+      // Set transformer to work with both rectangles
+      transformer.nodes(rects);
+      
+      // Add boundary function for transformer
+      transformer.boundBoxFunc(this.boundBoxFunc);
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  methods: {
+    getCorner(pivotX, pivotY, diffX, diffY, angle) {
+      const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+      angle += Math.atan2(diffY, diffX);
+      const x = pivotX + distance * Math.cos(angle);
+      const y = pivotY + distance * Math.sin(angle);
+      return { x, y };
+    },
+    
+    getClientRect(rotatedBox) {
+      const { x, y, width, height } = rotatedBox;
+      const rad = rotatedBox.rotation || 0;
+
+      const p1 = this.getCorner(x, y, 0, 0, rad);
+      const p2 = this.getCorner(x, y, width, 0, rad);
+      const p3 = this.getCorner(x, y, width, height, rad);
+      const p4 = this.getCorner(x, y, 0, height, rad);
+
+      const minX = Math.min(p1.x, p2.x, p3.x, p4.x);
+      const minY = Math.min(p1.y, p2.y, p3.y, p4.y);
+      const maxX = Math.max(p1.x, p2.x, p3.x, p4.x);
+      const maxY = Math.max(p1.y, p2.y, p3.y, p4.y);
+
+      return {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY,
+      };
+    },
+    
+    getTotalBox(boxes) {
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+
+      boxes.forEach((box) => {
+        minX = Math.min(minX, box.x);
+        minY = Math.min(minY, box.y);
+        maxX = Math.max(maxX, box.x + box.width);
+        maxY = Math.max(maxY, box.y + box.height);
+      });
+      
+      return {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY,
+      };
+    },
+    
+    boundBoxFunc(oldBox, newBox) {
+      const box = this.getClientRect(newBox);
+      
+      const isOut =
+        box.x < 0 ||
+        box.y < 0 ||
+        box.x + box.width > this.stageConfig.width ||
+        box.y + box.height > this.stageConfig.height;
+        
+      if (isOut) {
+        return oldBox;
+      }
+      
+      return newBox;
+    },
+    
+    handleTransformerDragMove(e) {
+      const transformer = this.$refs.transformerRef.getNode();
+      const nodes = transformer.nodes();
+      
+      if (!nodes.length) return;
+      
+      const boxes = nodes.map(node => node.getClientRect());
+      const box = this.getTotalBox(boxes);
+      
+      nodes.forEach(shape => {
+        const absPos = shape.getAbsolutePosition();
+        const offsetX = box.x - absPos.x;
+        const offsetY = box.y - absPos.y;
+        
+        const newAbsPos = { x: absPos.x, y: absPos.y };
+        
+        if (box.x < 0) {
+          newAbsPos.x = -offsetX;
+        }
+        if (box.y < 0) {
+          newAbsPos.y = -offsetY;
+        }
+        if (box.x + box.width > this.stageConfig.width) {
+          newAbsPos.x = this.stageConfig.width - box.width - offsetX;
+        }
+        if (box.y + box.height > this.stageConfig.height) {
+          newAbsPos.y = this.stageConfig.height - box.height - offsetY;
+        }
+        
+        shape.setAbsolutePosition(newAbsPos);
+      });
+    },
+    
+    handleRectDragMove(e) {
+      // Individual rect drag handling is handled by transformer
+    },
+    
+    handleResize() {
+      this.stageConfig.width = window.innerWidth;
+      this.stageConfig.height = window.innerHeight;
+    }
+  }
+}
+</script>
+```
+  </TabItem>
+</Tabs> 

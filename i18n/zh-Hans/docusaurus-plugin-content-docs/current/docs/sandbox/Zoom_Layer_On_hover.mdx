@@ -1,0 +1,184 @@
+---
+title: 鼠标悬停时缩放图像
+sidebar_label: 鼠标悬停时缩放图像
+hide_table_of_contents: true
+slug: Zoom_Layer_On_hover.html
+description: "鼠标悬停时，通过缩放 Konva 图层并跟随指针位置来放大图像。"
+---
+
+**操作说明：将鼠标悬停在图像上。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const imageObj = new Image();
+imageObj.onload = function () {
+  const backgroundImage = new Konva.Image({
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    image: imageObj,
+  });
+  layer.add(backgroundImage);
+};
+
+imageObj.src = 'https://konvajs.org/assets/space.jpg';
+
+const zoomLevel = 2;
+layer.on('mouseenter', function () {
+  layer.scale({
+    x: zoomLevel,
+    y: zoomLevel,
+  });
+});
+
+layer.on('mousemove', function (e) {
+  const pos = stage.getPointerPosition();
+  layer.x(-pos.x);
+  layer.y(-pos.y);
+});
+
+layer.on('mouseleave', function () {
+  layer.x(0);
+  layer.y(0);
+  layer.scale({
+    x: 1,
+    y: 1,
+  });
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Image } from 'react-konva';
+import { useEffect, useState } from 'react';
+import useImage from 'use-image';
+
+const App = () => {
+  const [image] = useImage('https://konvajs.org/assets/space.jpg');
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = () => {
+    setScale(2);
+  };
+
+  const handleMouseMove = (e) => {
+    const stage = e.target.getStage();
+    const pos = stage.getPointerPosition();
+    setPosition({
+      x: -pos.x,
+      y: -pos.y,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer
+        scaleX={scale}
+        scaleY={scale}
+        x={position.x}
+        y={position.y}
+        onMouseEnter={handleMouseEnter}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        {image && (
+          <Image
+            image={image}
+            width={window.innerWidth}
+            height={window.innerHeight}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer
+      :config="{
+        scaleX: scale,
+        scaleY: scale,
+        x: position.x,
+        y: position.y
+      }"
+      @mouseenter="handleMouseEnter"
+      @mousemove="handleMouseMove"
+      @mouseleave="handleMouseLeave"
+    >
+      <v-image
+        v-if="image"
+        :config="{
+          image: image,
+          width: stageSize.width,
+          height: stageSize.height
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const scale = ref(1);
+const position = ref({ x: 0, y: 0 });
+const [image] = useImage('https://konvajs.org/assets/space.jpg');
+
+const handleMouseEnter = () => {
+  scale.value = 2;
+};
+
+const handleMouseMove = (e) => {
+  const stage = e.target.getStage();
+  const pos = stage.getPointerPosition();
+  position.value = {
+    x: -pos.x,
+    y: -pos.y
+  };
+};
+
+const handleMouseLeave = () => {
+  scale.value = 1;
+  position.value = { x: 0, y: 0 };
+};
+</script>
+```
+  </TabItem>
+</Tabs>

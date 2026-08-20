@@ -1,0 +1,207 @@
+---
+title: HTML5 Canvas 禁用完美绘制技巧
+sidebar_label: 禁用完美绘制
+hide_table_of_contents: true
+slug: Disable_Perfect_Draw.html
+description: "禁用 perfectDrawEnabled 以跳过具有不透明度的图形的缓冲 Canvas 渲染，从而提高 Konva Canvas 性能。"
+---
+
+在某些情况下，Canvas 上的绘制结果与预期不同。
+例如，绘制一个具有填充、描边和不透明度的图形。
+由于描边绘制在填充上方，图形内部会出现一条宽度为描边一半的深色线条，
+因为这里是填充和描边的交叉区域。
+
+这可能不是你期望的结果。因此，`Konva` 使用缓冲 Canvas 修正此行为。
+
+在这种情况下，`Konva` 执行以下步骤：
+
+1. 在缓冲 Canvas 上绘制图形
+2. 在不应用不透明度的情况下填充图形并绘制描边
+3. 在图层的 Canvas 上应用不透明度
+4. 将缓冲区中的结果绘制到图层 Canvas 上
+
+但使用缓冲 Canvas 可能降低性能。因此，可以禁用此修正：
+
+```javascript
+shape.perfectDrawEnabled(false);
+```
+
+在此处查看差异：
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// With perfect drawing (default)
+const perfectCircle = new Konva.Circle({
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5,
+});
+
+// Without perfect drawing
+const nonPerfectCircle = new Konva.Circle({
+  x: 250,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5,
+  perfectDrawEnabled: false,
+});
+
+// Add labels
+const perfectLabel = new Konva.Text({
+  x: 50,
+  y: 170,
+  text: 'Perfect Drawing',
+  fontSize: 16,
+});
+
+const nonPerfectLabel = new Konva.Text({
+  x: 200,
+  y: 170,
+  text: 'Perfect Drawing Disabled',
+  fontSize: 16,
+});
+
+layer.add(perfectCircle);
+layer.add(nonPerfectCircle);
+layer.add(perfectLabel);
+layer.add(nonPerfectLabel);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {/* With perfect drawing (default) */}
+        <Circle
+          x={100}
+          y={100}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={10}
+          opacity={0.5}
+        />
+        
+        {/* Without perfect drawing */}
+        <Circle
+          x={250}
+          y={100}
+          radius={50}
+          fill="red"
+          stroke="black"
+          strokeWidth={10}
+          opacity={0.5}
+          perfectDrawEnabled={false}
+        />
+        
+        {/* Labels */}
+        <Text
+          x={50}
+          y={170}
+          text="Perfect Drawing"
+          fontSize={16}
+        />
+        <Text
+          x={200}
+          y={170}
+          text="Perfect Drawing Disabled"
+          fontSize={16}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <!-- With perfect drawing (default) -->
+      <v-circle :config="perfectCircleConfig" />
+      
+      <!-- Without perfect drawing -->
+      <v-circle :config="nonPerfectCircleConfig" />
+      
+      <!-- Labels -->
+      <v-text :config="perfectLabelConfig" />
+      <v-text :config="nonPerfectLabelConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const perfectCircleConfig = {
+  x: 100,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5
+};
+
+const nonPerfectCircleConfig = {
+  x: 250,
+  y: 100,
+  radius: 50,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 10,
+  opacity: 0.5,
+  perfectDrawEnabled: false
+};
+
+const perfectLabelConfig = {
+  x: 50,
+  y: 170,
+  text: 'Perfect Drawing',
+  fontSize: 16
+};
+
+const nonPerfectLabelConfig = {
+  x: 200,
+  y: 170,
+  text: 'Perfect Drawing Disabled',
+  fontSize: 16
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

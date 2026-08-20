@@ -1,0 +1,1179 @@
+---
+title: HTML5 Canvas 简易窗框设计器
+sidebar_label: 简易窗框设计器
+hide_table_of_contents: true
+slug: Simple_Window_Frame.html
+description: "使用 Konva 在 Canvas 上绘制可调整宽度和高度的简易窗框。"
+---
+
+这是绘制窗框的简单示例。
+
+**操作说明：** 更改窗框的宽度和高度
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+var layer = new Konva.Layer();
+stage.add(layer);
+
+var widthInput = document.createElement('input');
+widthInput.type = 'number';
+widthInput.value = '1000';
+var widthLabel = document.createElement('span');
+widthLabel.innerText = 'Width: ';
+var widthContainer = document.createElement('div');
+widthContainer.style.float = 'left';
+widthContainer.style.padding = '10px';
+widthContainer.appendChild(widthLabel);
+widthContainer.appendChild(widthInput);
+
+var heightInput = document.createElement('input');
+heightInput.type = 'number';
+heightInput.value = '2000';
+var heightLabel = document.createElement('span');
+heightLabel.innerText = 'Height: ';
+var heightContainer = document.createElement('div');
+heightContainer.style.float = 'left';
+heightContainer.style.padding = '10px';
+heightContainer.appendChild(heightLabel);
+heightContainer.appendChild(heightInput);
+
+var controls = document.createElement('div');
+controls.style.position = 'absolute';
+controls.style.top = '4px';
+controls.style.left = '4px';
+controls.appendChild(widthContainer);
+controls.appendChild(heightContainer);
+document.body.appendChild(controls);
+
+function createFrame(frameWidth, frameHeight) {
+  var padding = 70;
+  var group = new Konva.Group();
+  var top = new Konva.Line({
+    points: [
+      0,
+      0,
+      frameWidth,
+      0,
+      frameWidth - padding,
+      padding,
+      padding,
+      padding,
+    ],
+    fill: 'white',
+  });
+
+  var left = new Konva.Line({
+    points: [
+      0,
+      0,
+      padding,
+      padding,
+      padding,
+      frameHeight - padding,
+      0,
+      frameHeight,
+    ],
+    fill: 'white',
+  });
+
+  var bottom = new Konva.Line({
+    points: [
+      0,
+      frameHeight,
+      padding,
+      frameHeight - padding,
+      frameWidth - padding,
+      frameHeight - padding,
+      frameWidth,
+      frameHeight,
+    ],
+    fill: 'white',
+  });
+
+  var right = new Konva.Line({
+    points: [
+      frameWidth,
+      0,
+      frameWidth,
+      frameHeight,
+      frameWidth - padding,
+      frameHeight - padding,
+      frameWidth - padding,
+      padding,
+    ],
+    fill: 'white',
+  });
+
+  var glass = new Konva.Rect({
+    x: padding,
+    y: padding,
+    width: frameWidth - padding * 2,
+    height: frameHeight - padding * 2,
+    fill: 'lightblue',
+  });
+
+  group.add(glass, top, left, bottom, right);
+
+  group.find('Line').forEach((line) => {
+    line.closed(true);
+    line.stroke('black');
+    line.strokeWidth(1);
+  });
+
+  return group;
+}
+
+function createInfo(frameWidth, frameHeight) {
+  var offset = 20;
+  var arrowOffset = offset / 2;
+  var arrowSize = 5;
+
+  var group = new Konva.Group();
+  var lines = new Konva.Shape({
+    sceneFunc: function (ctx) {
+      ctx.fillStyle = 'grey';
+      ctx.lineWidth = 0.5;
+
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-offset, 0);
+
+      ctx.moveTo(0, frameHeight);
+      ctx.lineTo(-offset, frameHeight);
+
+      ctx.moveTo(0, frameHeight);
+      ctx.lineTo(0, frameHeight + offset);
+
+      ctx.moveTo(frameWidth, frameHeight);
+      ctx.lineTo(frameWidth, frameHeight + offset);
+
+      ctx.stroke();
+    },
+  });
+
+  var leftArrow = new Konva.Shape({
+    sceneFunc: function (ctx) {
+      // top pointer
+      ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
+      ctx.lineTo(-arrowOffset, 0);
+      ctx.lineTo(-arrowOffset + arrowSize, arrowSize);
+
+      // line
+      ctx.moveTo(-arrowOffset, 0);
+      ctx.lineTo(-arrowOffset, frameHeight);
+
+      // bottom pointer
+      ctx.moveTo(-arrowOffset - arrowSize, frameHeight - arrowSize);
+      ctx.lineTo(-arrowOffset, frameHeight);
+      ctx.lineTo(-arrowOffset + arrowSize, frameHeight - arrowSize);
+
+      ctx.strokeShape(this);
+    },
+    stroke: 'grey',
+    strokeWidth: 0.5,
+  });
+
+  var bottomArrow = new Konva.Shape({
+    sceneFunc: function (ctx) {
+      // top pointer
+      ctx.translate(0, frameHeight + arrowOffset);
+      ctx.moveTo(arrowSize, -arrowSize);
+      ctx.lineTo(0, 0);
+      ctx.lineTo(arrowSize, arrowSize);
+
+      // line
+      ctx.moveTo(0, 0);
+      ctx.lineTo(frameWidth, 0);
+
+      // bottom pointer
+      ctx.moveTo(frameWidth - arrowSize, -arrowSize);
+      ctx.lineTo(frameWidth, 0);
+      ctx.lineTo(frameWidth - arrowSize, arrowSize);
+
+      ctx.strokeShape(this);
+    },
+    stroke: 'grey',
+    strokeWidth: 0.5,
+  });
+
+  // left text
+  var leftLabel = new Konva.Label();
+
+  leftLabel.add(
+    new Konva.Tag({
+      fill: 'white',
+      stroke: 'grey',
+    })
+  );
+  var leftText = new Konva.Text({
+    text: heightInput.value + 'mm',
+    padding: 2,
+    fill: 'black',
+  });
+
+  leftLabel.add(leftText);
+  leftLabel.position({
+    x: -arrowOffset - leftText.width(),
+    y: frameHeight / 2 - leftText.height() / 2,
+  });
+
+  leftLabel.on('click tap', function () {
+    createInput('height', this.getAbsolutePosition(), leftText.size());
+  });
+
+  // bottom text
+  var bottomLabel = new Konva.Label();
+
+  bottomLabel.add(
+    new Konva.Tag({
+      fill: 'white',
+      stroke: 'grey',
+    })
+  );
+  var bottomText = new Konva.Text({
+    text: widthInput.value + 'mm',
+    padding: 2,
+    fill: 'black',
+  });
+
+  bottomLabel.add(bottomText);
+  bottomLabel.position({
+    x: frameWidth / 2 - bottomText.width() / 2,
+    y: frameHeight + arrowOffset,
+  });
+
+  bottomLabel.on('click tap', function () {
+    createInput('width', this.getAbsolutePosition(), bottomText.size());
+  });
+
+  group.add(lines, leftArrow, bottomArrow, leftLabel, bottomLabel);
+
+  return group;
+}
+
+function createInput(metric, pos, size) {
+  var wrap = document.createElement('div');
+  wrap.style.position = 'absolute';
+  wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
+  wrap.style.top = 0;
+  wrap.style.left = 0;
+  wrap.style.width = '100%';
+  wrap.style.height = '100%';
+
+  document.body.appendChild(wrap);
+
+  var input = document.createElement('input');
+  input.type = 'number';
+
+  var similarInput = metric === 'width' ? widthInput : heightInput;
+  input.value = similarInput.value;
+
+  input.style.position = 'absolute';
+  input.style.top = pos.y + 3 + 'px';
+  input.style.left = pos.x + 'px';
+
+  input.style.height = size.height + 3 + 'px';
+  input.style.width = size.width + 3 + 'px';
+
+  wrap.appendChild(input);
+
+  input.addEventListener('change', function () {
+    similarInput.value = input.value;
+    updateCanvas();
+  });
+
+  input.addEventListener('input', function () {
+    similarInput.value = input.value;
+    updateCanvas();
+  });
+
+  wrap.addEventListener('click', function (e) {
+    if (e.target === wrap) {
+      document.body.removeChild(wrap);
+    }
+  });
+
+  input.addEventListener('keyup', function (e) {
+    if (e.key === 'Enter') {
+      document.body.removeChild(wrap);
+    }
+  });
+}
+
+function updateCanvas() {
+  layer.children.forEach((child) => child.destroy());
+
+  var frameWidth = parseInt(widthInput.value, 10);
+  var frameHeight = parseInt(heightInput.value, 10);
+
+  var wr = stage.width() / frameWidth;
+  var hr = stage.height() / frameHeight;
+
+  var ratio = Math.min(wr, hr) * 0.8;
+
+  var frameOnScreenWidth = frameWidth * ratio;
+  var frameOnScreenHeight = frameHeight * ratio;
+
+  var group = new Konva.Group({});
+
+  group.x(Math.round(stage.width() / 2 - frameOnScreenWidth / 2) + 0.5);
+  group.y(Math.round(stage.height() / 2 - frameOnScreenHeight / 2) + 0.5);
+
+  layer.add(group);
+
+  var frameGroup = createFrame(frameWidth, frameHeight);
+  frameGroup.scale({ x: ratio, y: ratio });
+  group.add(frameGroup);
+
+  var infoGroup = createInfo(frameOnScreenWidth, frameOnScreenHeight);
+  group.add(infoGroup);
+}
+
+widthInput.addEventListener('change', updateCanvas);
+widthInput.addEventListener('input', updateCanvas);
+
+heightInput.addEventListener('change', updateCanvas);
+heightInput.addEventListener('input', updateCanvas);
+
+updateCanvas();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Group, Line, Rect, Shape, Label, Tag, Text } from 'react-konva';
+import { useState, useEffect, useRef, useCallback, useMemo, useReducer } from 'react';
+
+// Constants
+const MIN_DIMENSION = 100;
+const MAX_DIMENSION = 5000;
+const DEFAULT_WIDTH = 1000;
+const DEFAULT_HEIGHT = 2000;
+const PADDING = 70;
+
+// Reducer for dimensions state
+const dimensionsReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_WIDTH':
+      return { ...state, width: Math.min(Math.max(parseInt(action.payload, 10) || MIN_DIMENSION, MIN_DIMENSION), MAX_DIMENSION) };
+    case 'SET_HEIGHT':
+      return { ...state, height: Math.min(Math.max(parseInt(action.payload, 10) || MIN_DIMENSION, MIN_DIMENSION), MAX_DIMENSION) };
+    default:
+      return state;
+  }
+};
+
+// Custom hook for window size
+const useWindowSize = () => {
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  return size;
+};
+
+// Custom hook for overlay input
+const useInputOverlay = (dimensions, dispatch) => {
+  const [overlay, setOverlay] = useState(null);
+  
+  // Handle creating overlay
+  const createOverlay = useCallback((metric, position, size) => {
+    setOverlay({ metric, position, size });
+  }, []);
+  
+  // Handle closing overlay
+  const closeOverlay = useCallback(() => {
+    setOverlay(null);
+  }, []);
+  
+  // Handle overlay effects
+  useEffect(() => {
+    if (!overlay) return;
+    
+    // Create overlay elements
+    const wrap = document.createElement('div');
+    wrap.style.position = 'absolute';
+    wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
+    wrap.style.top = 0;
+    wrap.style.left = 0;
+    wrap.style.width = '100%';
+    wrap.style.height = '100%';
+    wrap.style.zIndex = 999;
+    wrap.setAttribute('aria-modal', 'true');
+    wrap.setAttribute('role', 'dialog');
+    
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = MIN_DIMENSION;
+    input.max = MAX_DIMENSION;
+    input.value = overlay.metric === 'width' ? dimensions.width : dimensions.height;
+    input.style.position = 'absolute';
+    input.style.top = `${overlay.position.y + 3}px`;
+    input.style.left = `${overlay.position.x}px`;
+    input.style.width = `${overlay.size.width + 3}px`;
+    input.style.height = `${overlay.size.height + 3}px`;
+    input.setAttribute('aria-label', `Edit ${overlay.metric}`);
+    
+    wrap.appendChild(input);
+    document.body.appendChild(wrap);
+    
+    // Handle input changes
+    const handleChange = () => {
+      const value = input.value;
+      dispatch({
+        type: overlay.metric === 'width' ? 'SET_WIDTH' : 'SET_HEIGHT',
+        payload: value
+      });
+    };
+    
+    // Handle click outside
+    const handleWrapClick = (e) => {
+      if (e.target === wrap) {
+        closeOverlay();
+        document.body.removeChild(wrap);
+      }
+    };
+    
+    // Handle keyboard events
+    const handleKeyUp = (e) => {
+      if (e.key === 'Enter' || e.key === 'Escape') {
+        closeOverlay();
+        document.body.removeChild(wrap);
+      }
+    };
+    
+    input.addEventListener('change', handleChange);
+    input.addEventListener('input', handleChange);
+    wrap.addEventListener('click', handleWrapClick);
+    input.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('keyup', handleKeyUp);
+    
+    // Focus the input
+    input.focus();
+    
+    // Cleanup
+    return () => {
+      input.removeEventListener('change', handleChange);
+      input.removeEventListener('input', handleChange);
+      wrap.removeEventListener('click', handleWrapClick);
+      input.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('keyup', handleKeyUp);
+      
+      if (document.body.contains(wrap)) {
+        document.body.removeChild(wrap);
+      }
+    };
+  }, [overlay, dimensions, dispatch, closeOverlay]);
+  
+  return { createOverlay, closeOverlay };
+};
+
+// WindowFrame component for the actual frame rendering
+const WindowFrame = ({ width, height }) => {
+  // Generate the points for each side of the frame
+  const framePoints = useMemo(() => ({
+    top: [0, 0, width, 0, width - PADDING, PADDING, PADDING, PADDING],
+    left: [0, 0, PADDING, PADDING, PADDING, height - PADDING, 0, height],
+    bottom: [0, height, PADDING, height - PADDING, width - PADDING, height - PADDING, width, height],
+    right: [width, 0, width, height, width - PADDING, height - PADDING, width - PADDING, PADDING]
+  }), [width, height]);
+  
+  return (
+    <Group>
+      {/* Glass panel */}
+      <Rect
+        x={PADDING}
+        y={PADDING}
+        width={width - PADDING * 2}
+        height={height - PADDING * 2}
+        fill="lightblue"
+      />
+      
+      {/* Frame sides */}
+      {Object.entries(framePoints).map(([key, points]) => (
+        <Line
+          key={key}
+          points={points}
+          fill="white"
+          closed={true}
+          stroke="black"
+          strokeWidth={1}
+        />
+      ))}
+    </Group>
+  );
+};
+
+// MeasurementInfo component for dimensions and arrows
+const MeasurementInfo = ({ width, height, dimensions, createOverlay }) => {
+  const offset = 20;
+  const arrowOffset = offset / 2;
+  const arrowSize = 5;
+  
+  // Handle label clicks
+  const handleLabelClick = useCallback((metric, e) => {
+    const pos = e.target.getAbsolutePosition();
+    const size = e.target.getSize();
+    createOverlay(metric, pos, size);
+  }, [createOverlay]);
+  
+  return (
+    <Group>
+      {/* Guide lines */}
+      <Shape
+        sceneFunc={(ctx, shape) => {
+          ctx.fillStyle = 'grey';
+          ctx.lineWidth = 0.5;
+          
+          ctx.moveTo(0, 0);
+          ctx.lineTo(-offset, 0);
+          
+          ctx.moveTo(0, height);
+          ctx.lineTo(-offset, height);
+          
+          ctx.moveTo(0, height);
+          ctx.lineTo(0, height + offset);
+          
+          ctx.moveTo(width, height);
+          ctx.lineTo(width, height + offset);
+          
+          ctx.stroke();
+        }}
+      />
+      
+      {/* Left arrow (height) */}
+      <Shape
+        sceneFunc={(ctx, shape) => {
+          // top pointer
+          ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
+          ctx.lineTo(-arrowOffset, 0);
+          ctx.lineTo(-arrowOffset + arrowSize, arrowSize);
+          
+          // line
+          ctx.moveTo(-arrowOffset, 0);
+          ctx.lineTo(-arrowOffset, height);
+          
+          // bottom pointer
+          ctx.moveTo(-arrowOffset - arrowSize, height - arrowSize);
+          ctx.lineTo(-arrowOffset, height);
+          ctx.lineTo(-arrowOffset + arrowSize, height - arrowSize);
+          
+          ctx.strokeShape(shape);
+        }}
+        stroke="grey"
+        strokeWidth={0.5}
+      />
+      
+      {/* Bottom arrow (width) */}
+      <Shape
+        sceneFunc={(ctx, shape) => {
+          // translate for bottom arrow
+          ctx.translate(0, height + arrowOffset);
+          
+          // left pointer
+          ctx.moveTo(arrowSize, -arrowSize);
+          ctx.lineTo(0, 0);
+          ctx.lineTo(arrowSize, arrowSize);
+          
+          // line
+          ctx.moveTo(0, 0);
+          ctx.lineTo(width, 0);
+          
+          // right pointer
+          ctx.moveTo(width - arrowSize, -arrowSize);
+          ctx.lineTo(width, 0);
+          ctx.lineTo(width - arrowSize, arrowSize);
+          
+          ctx.strokeShape(shape);
+        }}
+        stroke="grey"
+        strokeWidth={0.5}
+      />
+      
+      {/* Height label */}
+      <Label
+        x={-arrowOffset - 40}
+        y={height / 2 - 10}
+        onClick={(e) => handleLabelClick('height', e)}
+      >
+        <Tag
+          fill="white"
+          stroke="grey"
+          cornerRadius={2}
+        />
+        <Text
+          text={`${dimensions.height}mm`}
+          padding={2}
+          fill="black"
+          fontStyle="bold"
+        />
+      </Label>
+      
+      {/* Width label */}
+      <Label
+        x={width / 2 - 20}
+        y={height + arrowOffset}
+        onClick={(e) => handleLabelClick('width', e)}
+      >
+        <Tag
+          fill="white"
+          stroke="grey"
+          cornerRadius={2}
+        />
+        <Text
+          text={`${dimensions.width}mm`}
+          padding={2}
+          fill="black"
+          fontStyle="bold"
+        />
+      </Label>
+    </Group>
+  );
+};
+
+// DimensionControls component for input fields
+const DimensionControls = ({ dimensions, dispatch }) => {
+  // Styles
+  const inputStyle = {
+    float: 'left',
+    padding: '10px'
+  };
+  
+  const controlsStyle = {
+    position: 'absolute',
+    top: '4px',
+    left: '4px'
+  };
+  
+  // Handle input changes
+  const handleInputChange = useCallback((e, type) => {
+    dispatch({
+      type: type === 'width' ? 'SET_WIDTH' : 'SET_HEIGHT',
+      payload: e.target.value
+    });
+  }, [dispatch]);
+  
+  return (
+    <div style={controlsStyle}>
+      <div style={inputStyle}>
+        Width:
+        <input 
+          type="number"
+          value={dimensions.width}
+          onChange={(e) => handleInputChange(e, 'width')}
+          min={MIN_DIMENSION}
+          max={MAX_DIMENSION}
+          aria-label="Window width"
+        />
+      </div>
+      <div style={inputStyle}>
+        Height:
+        <input 
+          type="number"
+          value={dimensions.height}
+          onChange={(e) => handleInputChange(e, 'height')}
+          min={MIN_DIMENSION}
+          max={MAX_DIMENSION}
+          aria-label="Window height"
+        />
+      </div>
+    </div>
+  );
+};
+
+// Main App component
+const App = () => {
+  // State
+  const [dimensions, dispatch] = useReducer(dimensionsReducer, {
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT
+  });
+  
+  // Get window size
+  const windowSize = useWindowSize();
+  
+  // Setup overlay management
+  const { createOverlay } = useInputOverlay(dimensions, dispatch);
+  
+  // Calculate frame positioning
+  const frameCalculation = useMemo(() => {
+    const { width, height } = dimensions;
+    const wr = windowSize.width / width;
+    const hr = windowSize.height / height;
+    
+    const ratio = Math.min(wr, hr) * 0.8;
+    
+    const frameOnScreenWidth = width * ratio;
+    const frameOnScreenHeight = height * ratio;
+    
+    const x = Math.round(windowSize.width / 2 - frameOnScreenWidth / 2) + 0.5;
+    const y = Math.round(windowSize.height / 2 - frameOnScreenHeight / 2) + 0.5;
+    
+    return {
+      scale: ratio,
+      position: { x, y },
+      screenWidth: frameOnScreenWidth,
+      screenHeight: frameOnScreenHeight
+    };
+  }, [dimensions, windowSize]);
+  
+  return (
+    <div 
+      style={{ position: 'relative', width: '100%', height: '100%' }}
+      role="application"
+      aria-label="Window Frame Designer"
+    >
+      
+      {/* Canvas */}
+      <Stage 
+        width={windowSize.width} 
+        height={windowSize.height}
+      >
+        <Layer>
+          <Group
+            x={frameCalculation.position.x}
+            y={frameCalculation.position.y}
+          >
+            {/* Scaled window frame */}
+            <Group scale={{ x: frameCalculation.scale, y: frameCalculation.scale }}>
+              <WindowFrame 
+                width={dimensions.width} 
+                height={dimensions.height} 
+              />
+            </Group>
+            
+            {/* Measurement info */}
+            <MeasurementInfo 
+              width={frameCalculation.screenWidth}
+              height={frameCalculation.screenHeight}
+              dimensions={dimensions}
+              createOverlay={createOverlay}
+            />
+          </Group>
+        </Layer>
+      </Stage>
+            {/* Input controls */}
+      <DimensionControls 
+        dimensions={dimensions} 
+        dispatch={dispatch} 
+      />
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div ref="containerRef" style="position: relative; width: 100%; height: 100%">
+    <div :style="controlsStyle">
+      <div :style="inputStyle">
+        Width:
+        <input 
+          type="number"
+          v-model="dimensions.width"
+          @input="updateCanvas"
+        />
+      </div>
+      <div :style="inputStyle">
+        Height:
+        <input 
+          type="number"
+          v-model="dimensions.height"
+          @input="updateCanvas"
+        />
+      </div>
+    </div>
+    
+    <v-stage :config="stageConfig">
+      <v-layer>
+        <v-group :config="mainGroupConfig">
+          <v-group :config="frameScaleConfig">
+            <v-rect :config="glassConfig" />
+            <v-line
+              v-for="(line, i) in frameLines"
+              :key="i"
+              :config="line"
+            />
+          </v-group>
+          
+          <!-- Info elements -->
+          <v-shape :config="linesConfig" />
+          <v-shape :config="leftArrowConfig" />
+          <v-shape :config="bottomArrowConfig" />
+          
+          <!-- Labels -->
+          <v-label :config="heightLabelConfig" @click="handleLabelClick('height', $event)">
+            <v-tag :config="tagConfig" />
+            <v-text :config="heightTextConfig" />
+          </v-label>
+          
+          <v-label :config="widthLabelConfig" @click="handleLabelClick('width', $event)">
+            <v-tag :config="tagConfig" />
+            <v-text :config="widthTextConfig" />
+          </v-label>
+        </v-group>
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, reactive, onMounted, onBeforeUnmount, watch } from 'vue';
+
+const containerRef = ref(null);
+const stageSize = reactive({
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const dimensions = reactive({
+  width: 1000,
+  height: 2000
+});
+
+const inputOverlay = ref(null);
+
+const padding = 70;
+const offset = 20;
+const arrowOffset = offset / 2;
+const arrowSize = 5;
+
+// Style objects
+const inputStyle = {
+  float: 'left',
+  padding: '10px'
+};
+
+const controlsStyle = {
+  position: 'absolute',
+  top: '4px',
+  left: '4px',
+  zIndex: 100
+};
+
+// Window frame calculations
+const frameCalculation = computed(() => {
+  const wr = stageSize.width / dimensions.width;
+  const hr = stageSize.height / dimensions.height;
+
+  const ratio = Math.min(wr, hr) * 0.8;
+
+  const frameOnScreenWidth = dimensions.width * ratio;
+  const frameOnScreenHeight = dimensions.height * ratio;
+
+  const x = Math.round(stageSize.width / 2 - frameOnScreenWidth / 2) + 0.5;
+  const y = Math.round(stageSize.height / 2 - frameOnScreenHeight / 2) + 0.5;
+
+  return {
+    scale: ratio,
+    position: { x, y },
+    screenWidth: frameOnScreenWidth,
+    screenHeight: frameOnScreenHeight
+  };
+});
+
+// Stage config
+const stageConfig = computed(() => ({
+  width: stageSize.width,
+  height: stageSize.height
+}));
+
+// Main group
+const mainGroupConfig = computed(() => ({
+  x: frameCalculation.value.position.x,
+  y: frameCalculation.value.position.y
+}));
+
+// Frame scale group
+const frameScaleConfig = computed(() => ({
+  scaleX: frameCalculation.value.scale,
+  scaleY: frameCalculation.value.scale
+}));
+
+// Glass config
+const glassConfig = computed(() => ({
+  x: padding,
+  y: padding,
+  width: dimensions.width - padding * 2,
+  height: dimensions.height - padding * 2,
+  fill: 'lightblue'
+}));
+
+// Frame lines
+const frameLines = computed(() => [
+  // Top line
+  {
+    points: [
+      0, 0,
+      dimensions.width, 0,
+      dimensions.width - padding, padding,
+      padding, padding
+    ],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1
+  },
+  // Left line
+  {
+    points: [
+      0, 0,
+      padding, padding,
+      padding, dimensions.height - padding,
+      0, dimensions.height
+    ],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1
+  },
+  // Bottom line
+  {
+    points: [
+      0, dimensions.height,
+      padding, dimensions.height - padding,
+      dimensions.width - padding, dimensions.height - padding,
+      dimensions.width, dimensions.height
+    ],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1
+  },
+  // Right line
+  {
+    points: [
+      dimensions.width, 0,
+      dimensions.width, dimensions.height,
+      dimensions.width - padding, dimensions.height - padding,
+      dimensions.width - padding, padding
+    ],
+    fill: 'white',
+    closed: true,
+    stroke: 'black',
+    strokeWidth: 1
+  }
+]);
+
+// Info elements
+const linesConfig = computed(() => ({
+  sceneFunc: function(ctx, shape) {
+    const frameWidth = frameCalculation.value.screenWidth;
+    const frameHeight = frameCalculation.value.screenHeight;
+    
+    ctx.fillStyle = 'grey';
+    ctx.lineWidth = 0.5;
+
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-offset, 0);
+
+    ctx.moveTo(0, frameHeight);
+    ctx.lineTo(-offset, frameHeight);
+
+    ctx.moveTo(0, frameHeight);
+    ctx.lineTo(0, frameHeight + offset);
+
+    ctx.moveTo(frameWidth, frameHeight);
+    ctx.lineTo(frameWidth, frameHeight + offset);
+
+    ctx.stroke();
+  }
+}));
+
+const leftArrowConfig = computed(() => ({
+  sceneFunc: function(ctx, shape) {
+    const frameHeight = frameCalculation.value.screenHeight;
+    
+    // top pointer
+    ctx.moveTo(-arrowOffset - arrowSize, arrowSize);
+    ctx.lineTo(-arrowOffset, 0);
+    ctx.lineTo(-arrowOffset + arrowSize, arrowSize);
+
+    // line
+    ctx.moveTo(-arrowOffset, 0);
+    ctx.lineTo(-arrowOffset, frameHeight);
+
+    // bottom pointer
+    ctx.moveTo(-arrowOffset - arrowSize, frameHeight - arrowSize);
+    ctx.lineTo(-arrowOffset, frameHeight);
+    ctx.lineTo(-arrowOffset + arrowSize, frameHeight - arrowSize);
+
+    ctx.strokeShape(shape);
+  },
+  stroke: 'grey',
+  strokeWidth: 0.5
+}));
+
+const bottomArrowConfig = computed(() => ({
+  sceneFunc: function(ctx, shape) {
+    const frameWidth = frameCalculation.value.screenWidth;
+    const frameHeight = frameCalculation.value.screenHeight;
+    
+    // translate for bottom arrow
+    ctx.translate(0, frameHeight + arrowOffset);
+    
+    // left pointer
+    ctx.moveTo(arrowSize, -arrowSize);
+    ctx.lineTo(0, 0);
+    ctx.lineTo(arrowSize, arrowSize);
+
+    // line
+    ctx.moveTo(0, 0);
+    ctx.lineTo(frameWidth, 0);
+
+    // right pointer
+    ctx.moveTo(frameWidth - arrowSize, -arrowSize);
+    ctx.lineTo(frameWidth, 0);
+    ctx.lineTo(frameWidth - arrowSize, arrowSize);
+
+    ctx.strokeShape(shape);
+  },
+  stroke: 'grey',
+  strokeWidth: 0.5
+}));
+
+// Label config
+const tagConfig = {
+  fill: 'white',
+  stroke: 'grey'
+};
+
+const heightLabelConfig = computed(() => ({
+  x: -arrowOffset - 40,
+  y: frameCalculation.value.screenHeight / 2 - 10
+}));
+
+const heightTextConfig = computed(() => ({
+  text: `${dimensions.height}mm`,
+  padding: 2,
+  fill: 'black'
+}));
+
+const widthLabelConfig = computed(() => ({
+  x: frameCalculation.value.screenWidth / 2 - 20,
+  y: frameCalculation.value.screenHeight + arrowOffset
+}));
+
+const widthTextConfig = computed(() => ({
+  text: `${dimensions.width}mm`,
+  padding: 2,
+  fill: 'black'
+}));
+
+// Event handlers
+const handleLabelClick = (metric, e) => {
+  const pos = e.target.getAbsolutePosition();
+  const size = { width: 50, height: 20 }; // Approximate size
+  
+  createInputOverlay(metric, pos, size);
+};
+
+const createInputOverlay = (metric, pos, size) => {
+  // Create overlay
+  const wrap = document.createElement('div');
+  wrap.style.position = 'absolute';
+  wrap.style.backgroundColor = 'rgba(0,0,0,0.1)';
+  wrap.style.top = 0;
+  wrap.style.left = 0;
+  wrap.style.width = '100%';
+  wrap.style.height = '100%';
+  wrap.style.zIndex = 999;
+
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.value = metric === 'width' ? dimensions.width : dimensions.height;
+  input.style.position = 'absolute';
+  input.style.top = `${pos.y + 3}px`;
+  input.style.left = `${pos.x}px`;
+  input.style.width = `${size.width + 3}px`;
+  input.style.height = `${size.height + 3}px`;
+
+  wrap.appendChild(input);
+  document.body.appendChild(wrap);
+
+  const handleChange = () => {
+    const value = parseInt(input.value, 10);
+    dimensions[metric] = value;
+  };
+
+  input.addEventListener('change', handleChange);
+  input.addEventListener('input', handleChange);
+
+  const handleWrapClick = (e) => {
+    if (e.target === wrap) {
+      document.body.removeChild(wrap);
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === 'Enter') {
+      document.body.removeChild(wrap);
+    }
+  };
+
+  wrap.addEventListener('click', handleWrapClick);
+  input.addEventListener('keyup', handleKeyUp);
+
+  input.focus();
+  
+  inputOverlay.value = { wrap, input };
+};
+
+// Window resize handler
+const handleResize = () => {
+  stageSize.width = window.innerWidth;
+  stageSize.height = window.innerHeight;
+};
+
+// Setup and cleanup
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+  
+  // Cleanup any input overlay
+  if (inputOverlay.value) {
+    if (document.body.contains(inputOverlay.value.wrap)) {
+      document.body.removeChild(inputOverlay.value.wrap);
+    }
+  }
+});
+
+const updateCanvas = () => {
+  // This is handled reactively by Vue
+};
+</script>
+```
+  </TabItem>
+</Tabs>

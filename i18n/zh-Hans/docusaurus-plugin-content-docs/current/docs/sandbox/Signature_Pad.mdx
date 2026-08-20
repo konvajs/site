@@ -1,0 +1,376 @@
+---
+title: 如何使用 JavaScript Canvas 构建签名板
+sidebar_label: 签名板
+hide_table_of_contents: true
+slug: Signature_Pad.html
+description: "使用 JavaScript、HTML5 Canvas 和 Konva.js 构建流畅的数字签名板。支持可变描边宽度、自定义画笔颜色，并可导出为 PNG 或数据 URL。"
+---
+
+签名板是常用的 UI 组件，用于在 Web 表单、合同和电子签名工作流中采集数字签名。使用 Konva 可以构建支持平滑线条绘制、自定义画笔设置和一键导出 PNG 的签名板。
+
+**操作说明：** 在下方绘制签名。使用控件更改画笔颜色、清空签名板，或将签名保存或导出为 PNG 图像。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// --- UI Controls ---
+const controls = document.createElement('div');
+controls.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:4px;flex-wrap:wrap;';
+
+const colorLabel = document.createElement('label');
+colorLabel.textContent = 'Pen Color: ';
+const colorInput = document.createElement('input');
+colorInput.type = 'color';
+colorInput.value = '#000000';
+colorLabel.appendChild(colorInput);
+
+const widthLabel = document.createElement('label');
+widthLabel.textContent = 'Width: ';
+const widthSelect = document.createElement('select');
+[2, 3, 4, 5, 6].forEach((w) => {
+  const opt = document.createElement('option');
+  opt.value = w;
+  opt.textContent = w + 'px';
+  if (w === 3) opt.selected = true;
+  widthSelect.appendChild(opt);
+});
+widthLabel.appendChild(widthSelect);
+
+const clearBtn = document.createElement('button');
+clearBtn.textContent = 'Clear';
+const saveBtn = document.createElement('button');
+saveBtn.textContent = 'Save as PNG';
+
+controls.appendChild(colorLabel);
+controls.appendChild(widthLabel);
+controls.appendChild(clearBtn);
+controls.appendChild(saveBtn);
+const container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+
+// --- Stage Setup ---
+const width = window.innerWidth;
+const height = window.innerHeight - 40;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const bgLayer = new Konva.Layer();
+stage.add(bgLayer);
+
+// signature line at bottom
+const signLine = new Konva.Line({
+  points: [40, height - 60, width - 40, height - 60],
+  stroke: '#ccc',
+  strokeWidth: 1,
+  dash: [6, 4],
+});
+bgLayer.add(signLine);
+
+const signLabel = new Konva.Text({
+  x: 40,
+  y: height - 50,
+  text: 'Sign here',
+  fontSize: 14,
+  fill: '#aaa',
+  fontFamily: 'Arial',
+});
+bgLayer.add(signLabel);
+
+const drawLayer = new Konva.Layer();
+stage.add(drawLayer);
+
+let isPaint = false;
+let lastLine;
+let lastPointerPosition;
+
+stage.on('mousedown touchstart', function (e) {
+  isPaint = true;
+  lastPointerPosition = stage.getPointerPosition();
+  lastLine = new Konva.Line({
+    stroke: colorInput.value,
+    strokeWidth: parseInt(widthSelect.value),
+    lineCap: 'round',
+    lineJoin: 'round',
+    tension: 0.3,
+    points: [lastPointerPosition.x, lastPointerPosition.y],
+  });
+  drawLayer.add(lastLine);
+});
+
+stage.on('mouseup touchend', function () {
+  isPaint = false;
+});
+
+stage.on('mousemove touchmove', function (e) {
+  if (!isPaint) return;
+  e.evt.preventDefault();
+  const pos = stage.getPointerPosition();
+  const newPoints = lastLine.points().concat([pos.x, pos.y]);
+  lastLine.points(newPoints);
+  lastPointerPosition = pos;
+});
+
+clearBtn.addEventListener('click', function () {
+  drawLayer.destroyChildren();
+});
+
+saveBtn.addEventListener('click', function () {
+  // temporarily hide background elements for clean export
+  bgLayer.hide();
+  const dataURL = stage.toDataURL({ pixelRatio: 2 });
+  bgLayer.show();
+
+  const link = document.createElement('a');
+  link.download = 'signature.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Line, Text } from 'react-konva';
+
+const App = () => {
+  const [lines, setLines] = React.useState([]);
+  const [color, setColor] = React.useState('#000000');
+  const [strokeWidth, setStrokeWidth] = React.useState(3);
+  const isDrawing = React.useRef(false);
+  const stageRef = React.useRef(null);
+  const bgLayerRef = React.useRef(null);
+
+  const stageWidth = window.innerWidth;
+  const stageHeight = window.innerHeight - 50;
+
+  const handleMouseDown = (e) => {
+    isDrawing.current = true;
+    const pos = e.target.getStage().getPointerPosition();
+    setLines([
+      ...lines,
+      { color, strokeWidth, points: [pos.x, pos.y] },
+    ]);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDrawing.current) return;
+    e.evt.preventDefault();
+    const stage = e.target.getStage();
+    const point = stage.getPointerPosition();
+    const lastLine = lines[lines.length - 1];
+    lastLine.points = lastLine.points.concat([point.x, point.y]);
+    lines.splice(lines.length - 1, 1, lastLine);
+    setLines(lines.concat());
+  };
+
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  const handleClear = () => setLines([]);
+
+  const handleSave = () => {
+    const stage = stageRef.current;
+    bgLayerRef.current.hide();
+    const dataURL = stage.toDataURL({ pixelRatio: 2 });
+    bgLayerRef.current.show();
+    const link = document.createElement('a');
+    link.download = 'signature.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 4 }}>
+        <label>
+          Pen Color:{' '}
+          <input
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
+        </label>
+        <label>
+          Width:{' '}
+          <select
+            value={strokeWidth}
+            onChange={(e) => setStrokeWidth(Number(e.target.value))}
+          >
+            {[2, 3, 4, 5, 6].map((w) => (
+              <option key={w} value={w}>{w}px</option>
+            ))}
+          </select>
+        </label>
+        <button onClick={handleClear}>Clear</button>
+        <button onClick={handleSave}>Save as PNG</button>
+      </div>
+      <Stage
+        ref={stageRef}
+        width={stageWidth}
+        height={stageHeight}
+        onMouseDown={handleMouseDown}
+        onMousemove={handleMouseMove}
+        onMouseup={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Layer ref={bgLayerRef}>
+          <Line
+            points={[40, stageHeight - 60, stageWidth - 40, stageHeight - 60]}
+            stroke="#ccc"
+            strokeWidth={1}
+            dash={[6, 4]}
+          />
+          <Text
+            x={40}
+            y={stageHeight - 50}
+            text="Sign here"
+            fontSize={14}
+            fill="#aaa"
+            fontFamily="Arial"
+          />
+        </Layer>
+        <Layer>
+          {lines.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke={line.color}
+              strokeWidth={line.strokeWidth}
+              tension={0.3}
+              lineCap="round"
+              lineJoin="round"
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+      <label>
+        Pen Color:
+        <input type="color" v-model="color" />
+      </label>
+      <label>
+        Width:
+        <select v-model.number="strokeWidth">
+          <option v-for="w in [2,3,4,5,6]" :key="w" :value="w">{{ w }}px</option>
+        </select>
+      </label>
+      <button @click="handleClear">Clear</button>
+      <button @click="handleSave">Save as PNG</button>
+    </div>
+    <v-stage
+      ref="stageRef"
+      :config="stageConfig"
+      @mousedown="handleMouseDown"
+      @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
+      @touchstart="handleMouseDown"
+      @touchmove="handleMouseMove"
+      @touchend="handleMouseUp"
+    >
+      <v-layer ref="bgLayerRef">
+        <v-line :config="signLineConfig" />
+        <v-text :config="signLabelConfig" />
+      </v-layer>
+      <v-layer>
+        <v-line
+          v-for="(line, i) in lines"
+          :key="i"
+          :config="{
+            points: line.points,
+            stroke: line.color,
+            strokeWidth: line.strokeWidth,
+            tension: 0.3,
+            lineCap: 'round',
+            lineJoin: 'round'
+          }"
+        />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const color = ref('#000000');
+const strokeWidth = ref(3);
+const lines = ref([]);
+const isDrawing = ref(false);
+const stageRef = ref(null);
+const bgLayerRef = ref(null);
+
+const stageWidth = window.innerWidth;
+const stageHeight = window.innerHeight - 50;
+
+const stageConfig = { width: stageWidth, height: stageHeight };
+const signLineConfig = {
+  points: [40, stageHeight - 60, stageWidth - 40, stageHeight - 60],
+  stroke: '#ccc', strokeWidth: 1, dash: [6, 4]
+};
+const signLabelConfig = {
+  x: 40, y: stageHeight - 50, text: 'Sign here',
+  fontSize: 14, fill: '#aaa', fontFamily: 'Arial'
+};
+
+const handleMouseDown = (e) => {
+  isDrawing.value = true;
+  const pos = e.target.getStage().getPointerPosition();
+  lines.value.push({ color: color.value, strokeWidth: strokeWidth.value, points: [pos.x, pos.y] });
+};
+
+const handleMouseMove = (e) => {
+  if (!isDrawing.value) return;
+  e.evt.preventDefault();
+  const point = e.target.getStage().getPointerPosition();
+  const lastLine = lines.value[lines.value.length - 1];
+  lastLine.points = lastLine.points.concat([point.x, point.y]);
+  lines.value.splice(lines.value.length - 1, 1, { ...lastLine });
+};
+
+const handleMouseUp = () => { isDrawing.value = false; };
+
+const handleClear = () => { lines.value = []; };
+
+const handleSave = () => {
+  const stage = stageRef.value.getNode();
+  bgLayerRef.value.getNode().hide();
+  const dataURL = stage.toDataURL({ pixelRatio: 2 });
+  bgLayerRef.value.getNode().show();
+  const link = document.createElement('a');
+  link.download = 'signature.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+</script>
+```
+  </TabItem>
+</Tabs>

@@ -1,0 +1,175 @@
+---
+title: Canvas 图形上的手势事件
+sidebar_label: 手势事件
+hide_table_of_contents: true
+slug: Gestures.html
+description: "了解如何使用 Hammer.js 处理 Konva Canvas 图形上的轻扫、双指缩放、旋转和其他多点触控手势事件。"
+---
+
+## 如何监听 Canvas 图形上的轻扫、双指缩放、旋转和其他多点触控手势事件？
+
+默认情况下，`Konva` 只支持 `touchstart`、`touchmove` 和 `touchend` 等基本触摸事件。
+
+必须基于这些触摸事件手动实现手势事件。
+
+如果要了解整个舞台的平移和缩放逻辑，请参阅[多点触控缩放舞台示例](/docs/sandbox/Multi-touch_Scale_Stage.html)。
+
+不过，我稍微修改了 [Hammer.js](https://hammerjs.github.io/)，使其可以与 Konva 配合使用。
+
+可以在[此处查看修改后的 hammer.js 源代码](/js/hammer-konva.js)。
+
+**操作说明：可以在矩形上尝试轻扫、旋转、缩放、拖放和长按等不同手势。在桌面浏览器中，可以按住 `Shift` 键来模拟触摸事件。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Load required scripts
+const loadScript = (src) => {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) {
+      resolve();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+};
+
+// Initialize the demo after loading dependencies
+async function initDemo() {
+  try {
+    await loadScript('https://cdn.rawgit.com/hammerjs/touchemulator/master/touch-emulator.js');
+    await loadScript('https://konvajs.org/js/hammer-konva.js');
+
+    // emulate touches on desktop
+    TouchEmulator();
+    Konva.hitOnDragEnabled = true;
+    Konva.captureTouchEventsEnabled = true;
+
+    const stage = new Konva.Stage({
+      container: 'container',
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+
+    const layer = new Konva.Layer();
+    stage.add(layer);
+
+    const originalAttrs = {
+      x: stage.width() / 2,
+      y: stage.height() / 2,
+      scaleX: 1,
+      scaleY: 1,
+      draggable: true,
+      rotation: 0,
+    };
+
+    const group = new Konva.Group(originalAttrs);
+    layer.add(group);
+
+    const size = 200;
+
+    const rect = new Konva.Rect({
+      width: size,
+      height: size,
+      fill: 'yellow',
+      offsetX: size / 2,
+      offsetY: size / 2,
+      cornerRadius: 5,
+      shadowBlur: 10,
+      shadowColor: 'grey',
+    });
+    group.add(rect);
+
+    const defaultText = 'Try\ndrag, swipe, pinch zoom, rotate, press...';
+    const text = new Konva.Text({
+      text: defaultText,
+      x: -size / 2,
+      width: size,
+      align: 'center',
+    });
+    group.add(text);
+
+    // attach modified version of Hammer.js
+    // "domEvents" property will allow triggering events on group
+    // instead of "hammertime" instance
+    const hammertime = new Hammer(group, { domEvents: true });
+
+    // add rotate gesture
+    hammertime.get('rotate').set({ enable: true });
+
+    // now attach all possible events
+    group.on('swipe', function (ev) {
+      text.text('swiping');
+      group.to({
+        x: group.x() + ev.evt.gesture.deltaX,
+        y: group.y() + ev.evt.gesture.deltaY,
+        onFinish: function () {
+          group.to(Object.assign({}, originalAttrs));
+          text.text(defaultText);
+        },
+      });
+    });
+
+    group.on('press', function (ev) {
+      text.text('Under press');
+      rect.to({
+        fill: 'green',
+      });
+    });
+
+    group.on('touchend', function (ev) {
+      rect.to({
+        fill: 'yellow',
+      });
+
+      setTimeout(() => {
+        text.text(defaultText);
+      }, 300);
+    });
+
+    group.on('dragend', () => {
+      group.to(Object.assign({}, originalAttrs));
+    });
+
+    let oldRotation = 0;
+    let startScale = 0;
+    group.on('rotatestart', function (ev) {
+      oldRotation = ev.evt.gesture.rotation;
+      startScale = rect.scaleX();
+      group.stopDrag();
+      group.draggable(false);
+      text.text('rotating...');
+    });
+
+    group.on('rotate', function (ev) {
+      const delta = oldRotation - ev.evt.gesture.rotation;
+      group.rotate(-delta);
+      oldRotation = ev.evt.gesture.rotation;
+      group.scaleX(startScale * ev.evt.gesture.scale);
+      group.scaleY(startScale * ev.evt.gesture.scale);
+    });
+
+    group.on('rotateend rotatecancel', function (ev) {
+      group.to(Object.assign({}, originalAttrs));
+      text.text(defaultText);
+      group.draggable(true);
+    });
+  } catch (error) {
+    console.error('Failed to initialize demo:', error);
+  }
+}
+
+// Start the demo
+initDemo();
+```
+  </TabItem>
+</Tabs>

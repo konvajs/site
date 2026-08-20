@@ -1,0 +1,154 @@
+---
+title: HTML5 Canvas 线条教程
+sidebar_label: 线条 - 简单线条
+hide_table_of_contents: true
+slug: /docs/shapes/Line_-_Simple_Line.html
+description: "学习如何使用 Konva.Line 在 HTML5 Canvas 上绘制简单线条、虚线和点线。"
+---
+
+要使用 `Konva` 创建简单线条，可以实例化一个 `Konva.Line()` 对象。
+
+有关完整的属性和方法列表，请参阅 [Line API 参考](/api/Konva.Line.html)。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const redLine = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round'
+});
+
+// line segments with a length of 33px with a gap of 10px
+const greenLine = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'green',
+  strokeWidth: 2,
+  lineJoin: 'round',
+  dash: [33, 10]
+});
+
+// line segments with a length of 29px with a gap of 20px
+// followed by a dot (0.001px) and another gap of 20px
+const blueLine = new Konva.Line({
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'blue',
+  strokeWidth: 10,
+  lineCap: 'round',
+  lineJoin: 'round',
+  dash: [29, 20, 0.001, 20]
+});
+
+redLine.move({ x: 0, y: 5 });
+greenLine.move({ x: 0, y: 55 });
+blueLine.move({ x: 0, y: 105 });
+
+layer.add(redLine, greenLine, blueLine);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Line } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="red"
+          strokeWidth={15}
+          lineCap="round"
+          lineJoin="round"
+          y={5}
+        />
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="green"
+          strokeWidth={2}
+          lineJoin="round"
+          dash={[33, 10]}
+          y={55}
+        />
+        <Line
+          points={[5, 70, 140, 23, 250, 60, 300, 20]}
+          stroke="blue"
+          strokeWidth={10}
+          lineCap="round"
+          lineJoin="round"
+          dash={[29, 20, 0.001, 20]}
+          y={105}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-line :config="redLineConfig" />
+      <v-line :config="greenLineConfig" />
+      <v-line :config="blueLineConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const redLineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'red',
+  strokeWidth: 15,
+  lineCap: 'round',
+  lineJoin: 'round',
+  y: 5
+};
+
+const greenLineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'green',
+  strokeWidth: 2,
+  lineJoin: 'round',
+  dash: [33, 10],
+  y: 55
+};
+
+const blueLineConfig = {
+  points: [5, 70, 140, 23, 250, 60, 300, 20],
+  stroke: 'blue',
+  strokeWidth: 10,
+  lineCap: 'round',
+  lineJoin: 'round',
+  dash: [29, 20, 0.001, 20],
+  y: 105
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

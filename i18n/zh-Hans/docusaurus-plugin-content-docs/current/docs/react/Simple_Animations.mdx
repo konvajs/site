@@ -1,0 +1,57 @@
+---
+title: 如何使用 React 和 Konva 应用 Canvas 动画？
+sidebar_label: 简单动画
+hide_table_of_contents: true
+slug: Simple_Animations.html
+description: "学习如何在 React 中使用 react-konva 为 Canvas 图形添加动画。使用 React state、requestAnimationFrame 和 Konva.Tween 创建平滑动画。"
+---
+
+Konva 提供两种动画方法：[补间](/docs/tweens/Linear_Easing.html)和[动画](/docs/animations/Rotation.html)。你可以手动将它们应用于节点。
+
+对于简单用例，建议使用 `node.to()` 方法。对于更复杂的动画，请参阅 [复杂的 react-konva 动画示例](/docs/react/Complex_Animations.html)。
+
+本示例使用 [refs API](/docs/react/Access_Konva_Nodes.html) 直接访问图形实例。
+
+操作说明：尝试拖动矩形并观察其动画。
+
+```js live react
+import React, { useRef } from 'react';
+import { Stage, Layer, Rect } from 'react-konva';
+
+const MyRect = () => {
+  const rectRef = useRef(null);
+
+  const changeSize = () => {
+    // to() is a method of `Konva.Node` instances
+    rectRef.current.to({
+      scaleX: Math.random() + 0.8,
+      scaleY: Math.random() + 0.8,
+      duration: 0.2,
+    });
+  };
+
+  return (
+    <Rect
+      ref={rectRef}
+      width={50}
+      height={50}
+      fill="green"
+      draggable
+      onDragEnd={changeSize}
+      onDragStart={changeSize}
+    />
+  );
+};
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <MyRect />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```

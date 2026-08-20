@@ -1,0 +1,53 @@
+---
+title: 如何使用 Vue 在 Canvas 上绘制图像？
+sidebar_label: 图像
+hide_table_of_contents: true
+slug: Images.html
+description: "学习如何在 Vue 中使用 vue-konva 的 useImage hook，在 HTML5 Canvas 上加载并显示图像。"
+---
+
+对于图像，可以使用 `useImage` hook（来自 `vue-konva`）在组件中加载和处理图像。
+
+操作说明：此示例展示如何在 Canvas 上加载并显示多个图像。
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        v-if="yodaImage"
+        :config="{
+          x: 50,
+          y: 50,
+          image: yodaImage,
+          width: 106,
+          height: 118
+        }"
+      />
+      <v-image
+        v-if="vaderImage"
+        :config="{
+          x: 200,
+          y: 50,
+          image: vaderImage,
+          scaleX: 0.5,
+          scaleY: 0.5,
+          cornerRadius: 20
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const [yodaImage] = useImage('https://konvajs.org/assets/yoda.jpg');
+const [vaderImage] = useImage('https://konvajs.org/assets/darth-vader.jpg');
+</script> 
+```

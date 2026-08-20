@@ -1,0 +1,408 @@
+---
+title: 热图生成器——使用 JavaScript Canvas 构建交互式热图
+sidebar_label: 热图生成器
+hide_table_of_contents: true
+slug: Heatmap_Generator.html
+description: "使用 JavaScript 和 Konva.js 在 HTML5 Canvas 上生成交互式热图。单击或移动鼠标以添加数据点，并调整半径和强度。导出为 PNG。"
+---
+
+通过在 Canvas 上单击或拖动来创建交互式热图。调整半径和强度滑块，以控制热点的扩散和混合方式。然后将热图导出为 PNG 图像。
+
+**操作说明：**单击 Canvas 以添加热点，或通过单击并拖动来连续绘制。使用半径和强度滑块微调热图外观。单击“Clear”以重置，单击“Export PNG”以下载热图。
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+<TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// --- Controls ---
+const controls = document.createElement('div');
+controls.style.cssText = 'display:flex;gap:10px;align-items:center;margin-bottom:4px;flex-wrap:wrap;font-size:13px;';
+
+const radiusLabel = document.createElement('label');
+radiusLabel.textContent = 'Radius: ';
+const radiusSlider = document.createElement('input');
+radiusSlider.type = 'range';
+radiusSlider.min = '10';
+radiusSlider.max = '80';
+radiusSlider.value = '40';
+radiusSlider.style.width = '80px';
+const radiusVal = document.createElement('span');
+radiusVal.textContent = '40px';
+radiusLabel.appendChild(radiusSlider);
+radiusLabel.appendChild(radiusVal);
+
+const intensityLabel = document.createElement('label');
+intensityLabel.textContent = 'Intensity: ';
+const intensitySlider = document.createElement('input');
+intensitySlider.type = 'range';
+intensitySlider.min = '1';
+intensitySlider.max = '10';
+intensitySlider.value = '5';
+intensitySlider.style.width = '80px';
+const intensityVal = document.createElement('span');
+intensityVal.textContent = '0.5';
+intensityLabel.appendChild(intensitySlider);
+intensityLabel.appendChild(intensityVal);
+
+const clearBtn = document.createElement('button');
+clearBtn.textContent = 'Clear';
+const exportBtn = document.createElement('button');
+exportBtn.textContent = 'Export PNG';
+
+controls.appendChild(radiusLabel);
+controls.appendChild(intensityLabel);
+controls.appendChild(clearBtn);
+controls.appendChild(exportBtn);
+const container = document.getElementById('container');
+container.parentNode.insertBefore(controls, container);
+
+radiusSlider.addEventListener('input', () => { radiusVal.textContent = radiusSlider.value + 'px'; });
+intensitySlider.addEventListener('input', () => { intensityVal.textContent = (intensitySlider.value / 10).toFixed(1); });
+
+// --- Stage ---
+const width = window.innerWidth;
+const height = window.innerHeight - 40;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Dark background
+const bg = new Konva.Rect({ x: 0, y: 0, width, height, fill: '#1a1a2e' });
+layer.add(bg);
+
+// Offscreen canvas for heatmap rendering
+const shadowCanvas = document.createElement('canvas');
+shadowCanvas.width = width;
+shadowCanvas.height = height;
+const shadowCtx = shadowCanvas.getContext('2d');
+
+const heatPoints = [];
+let heatImage = null;
+let isDrawing = false;
+
+function drawHeatPoint(ctx, x, y, radius, intensity) {
+  // Use additive blending with colored gradients — no pixel loop needed
+  ctx.globalCompositeOperation = 'lighter';
+  const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+  // Center: warm red/orange, edges: cool blue, fading to transparent
+  grad.addColorStop(0, 'rgba(255, 80, 0, ' + intensity + ')');
+  grad.addColorStop(0.3, 'rgba(255, 200, 0, ' + (intensity * 0.7) + ')');
+  grad.addColorStop(0.6, 'rgba(0, 200, 100, ' + (intensity * 0.3) + ')');
+  grad.addColorStop(0.85, 'rgba(0, 100, 255, ' + (intensity * 0.15) + ')');
+  grad.addColorStop(1, 'rgba(0, 0, 100, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function renderHeatmap() {
+  shadowCtx.globalCompositeOperation = 'source-over';
+  shadowCtx.clearRect(0, 0, shadowCanvas.width, shadowCanvas.height);
+
+  heatPoints.forEach(function(p) {
+    drawHeatPoint(shadowCtx, p.x, p.y, p.r, p.i);
+  });
+
+  if (heatImage) {
+    heatImage.destroy();
+  }
+  heatImage = new Konva.Image({
+    image: shadowCanvas,
+    x: 0,
+    y: 0,
+    listening: false,
+  });
+  layer.add(heatImage);
+  bg.moveToBottom();
+}
+
+function addPoint(pos) {
+  heatPoints.push({
+    x: pos.x,
+    y: pos.y,
+    r: parseInt(radiusSlider.value),
+    i: parseInt(intensitySlider.value) / 10,
+  });
+  renderHeatmap();
+}
+
+stage.on('mousedown touchstart', function(e) {
+  isDrawing = true;
+  addPoint(stage.getPointerPosition());
+});
+
+stage.on('mousemove touchmove', function() {
+  if (!isDrawing) return;
+  addPoint(stage.getPointerPosition());
+});
+
+stage.on('mouseup touchend mouseleave', function() {
+  isDrawing = false;
+});
+
+clearBtn.addEventListener('click', function() {
+  heatPoints.length = 0;
+  renderHeatmap();
+});
+
+exportBtn.addEventListener('click', function() {
+  const dataURL = stage.toDataURL({ pixelRatio: 2 });
+  const link = document.createElement('a');
+  link.download = 'heatmap.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+```
+</TabItem>
+<TabItem value="React">
+```js live react
+import React from 'react';
+import { Stage, Layer, Rect, Image } from 'react-konva';
+
+const App = () => {
+  const stageRef = React.useRef(null);
+  const shadowRef = React.useRef(null);
+  const heatImageRef = React.useRef(null);
+  const pointsRef = React.useRef([]);
+  const drawingRef = React.useRef(false);
+  const radiusRef = React.useRef(40);
+  const intensityRef = React.useRef(5);
+  const [radius, setRadius] = React.useState(40);
+  const [intensity, setIntensity] = React.useState(5);
+
+  const W = window.innerWidth;
+  const H = window.innerHeight - 60;
+
+  React.useEffect(() => {
+    const c = document.createElement('canvas');
+    c.width = W;
+    c.height = H;
+    shadowRef.current = c;
+  }, []);
+
+  function drawHeatPoint(ctx, x, y, r, inten) {
+    ctx.globalCompositeOperation = 'lighter';
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+    grad.addColorStop(0, 'rgba(255, 80, 0, ' + inten + ')');
+    grad.addColorStop(0.3, 'rgba(255, 200, 0, ' + (inten * 0.7) + ')');
+    grad.addColorStop(0.6, 'rgba(0, 200, 100, ' + (inten * 0.3) + ')');
+    grad.addColorStop(0.85, 'rgba(0, 100, 255, ' + (inten * 0.15) + ')');
+    grad.addColorStop(1, 'rgba(0, 0, 100, 0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function renderHeatmap() {
+    var c = shadowRef.current;
+    if (!c || !heatImageRef.current) return;
+    var ctx = c.getContext('2d');
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, c.width, c.height);
+    pointsRef.current.forEach(function(p) {
+      drawHeatPoint(ctx, p.x, p.y, p.r, p.i);
+    });
+    // Update Konva node directly — no state change, no flicker
+    var node = heatImageRef.current;
+    node.image(c);
+    node.getLayer().batchDraw();
+  }
+
+  function addPoint(pos) {
+    pointsRef.current.push({ x: pos.x, y: pos.y, r: radiusRef.current, i: intensityRef.current / 10 });
+    renderHeatmap();
+  }
+
+  var handleDown = function() {
+    drawingRef.current = true;
+    addPoint(stageRef.current.getPointerPosition());
+  };
+
+  var handleMove = function() {
+    if (!drawingRef.current) return;
+    addPoint(stageRef.current.getPointerPosition());
+  };
+
+  var handleUp = function() {
+    drawingRef.current = false;
+  };
+
+  var handleClear = function() {
+    pointsRef.current = [];
+    renderHeatmap();
+  };
+
+  var handleExport = function() {
+    var dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
+    var link = document.createElement('a');
+    link.download = 'heatmap.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <>
+      <div style={{ display:'flex', gap:10, alignItems:'center', flexWrap:'wrap', marginBottom:4, fontSize:13 }}>
+        <label>Radius: <input type="range" min="10" max="80" value={radius} onChange={function(e) { var v = parseInt(e.target.value); setRadius(v); radiusRef.current = v; }} style={{width:80}} /> {radius}px</label>
+        <label>Intensity: <input type="range" min="1" max="10" value={intensity} onChange={function(e) { var v = parseInt(e.target.value); setIntensity(v); intensityRef.current = v; }} style={{width:80}} /> {(intensity/10).toFixed(1)}</label>
+        <button onClick={handleClear}>Clear</button>
+        <button onClick={handleExport}>Export PNG</button>
+      </div>
+      <Stage
+        ref={stageRef}
+        width={W}
+        height={H}
+        onMouseDown={handleDown}
+        onTouchStart={handleDown}
+        onMouseMove={handleMove}
+        onTouchMove={handleMove}
+        onMouseUp={handleUp}
+        onTouchEnd={handleUp}
+        onMouseLeave={handleUp}
+      >
+        <Layer>
+          <Rect x={0} y={0} width={W} height={H} fill="#1a1a2e" />
+          <Image ref={heatImageRef} x={0} y={0} listening={false} />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+</TabItem>
+<TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:4px;font-size:13px;">
+      <label>Radius: <input type="range" min="10" max="80" :value="radius" @input="onRadius" style="width:80px" /> {{ radius }}px</label>
+      <label>Intensity: <input type="range" min="1" max="10" :value="intensityRaw" @input="onIntensity" style="width:80px" /> {{ (intensityRaw / 10).toFixed(1) }}</label>
+      <button @click="handleClear">Clear</button>
+      <button @click="handleExport">Export PNG</button>
+    </div>
+    <v-stage ref="stageRef" :config="stageConfig" @mousedown="handleDown" @touchstart="handleDown" @mousemove="handleMove" @touchmove="handleMove" @mouseup="stopDraw" @touchend="stopDraw" @mouseleave="stopDraw">
+      <v-layer ref="layerRef">
+        <v-rect :config="{ x: 0, y: 0, width: W, height: H, fill: '#1a1a2e' }" />
+        <v-image ref="heatImageRef" :config="{ x: 0, y: 0, listening: false }" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageRef = ref(null);
+const layerRef = ref(null);
+const heatImageRef = ref(null);
+const W = window.innerWidth;
+const H = window.innerHeight - 60;
+const stageConfig = { width: W, height: H };
+
+const radius = ref(40);
+const intensityRaw = ref(5);
+const drawing = ref(false);
+
+let shadowCanvas = null;
+let points = [];
+
+onMounted(function() {
+  shadowCanvas = document.createElement('canvas');
+  shadowCanvas.width = W;
+  shadowCanvas.height = H;
+});
+
+function onRadius(e) {
+  radius.value = parseInt(e.target.value);
+}
+
+function onIntensity(e) {
+  intensityRaw.value = parseInt(e.target.value);
+}
+
+function drawHeat(ctx, x, y, r, inten) {
+  ctx.globalCompositeOperation = 'lighter';
+  const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+  grad.addColorStop(0, 'rgba(255, 80, 0, ' + inten + ')');
+  grad.addColorStop(0.3, 'rgba(255, 200, 0, ' + (inten * 0.7) + ')');
+  grad.addColorStop(0.6, 'rgba(0, 200, 100, ' + (inten * 0.3) + ')');
+  grad.addColorStop(0.85, 'rgba(0, 100, 255, ' + (inten * 0.15) + ')');
+  grad.addColorStop(1, 'rgba(0, 0, 100, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function updateMap() {
+  if (!shadowCanvas || !heatImageRef.value) return;
+  const ctx = shadowCanvas.getContext('2d');
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.clearRect(0, 0, shadowCanvas.width, shadowCanvas.height);
+  points.forEach(function(p) {
+    drawHeat(ctx, p.x, p.y, p.r, p.i);
+  });
+  // Update Konva node directly — no reactivity flicker
+  var node = heatImageRef.value.getNode();
+  node.image(shadowCanvas);
+  node.getLayer().batchDraw();
+}
+
+function addPoint(pos) {
+  points.push({ x: pos.x, y: pos.y, r: radius.value, i: intensityRaw.value / 10 });
+  updateMap();
+}
+
+function handleDown() {
+  drawing.value = true;
+  var stage = stageRef.value.getNode();
+  addPoint(stage.getPointerPosition());
+}
+
+function handleMove() {
+  if (!drawing.value) return;
+  var stage = stageRef.value.getNode();
+  addPoint(stage.getPointerPosition());
+}
+
+function stopDraw() {
+  drawing.value = false;
+}
+
+function handleClear() {
+  points = [];
+  updateMap();
+}
+
+function handleExport() {
+  var stage = stageRef.value.getNode();
+  var dataURL = stage.toDataURL({ pixelRatio: 2 });
+  var link = document.createElement('a');
+  link.download = 'heatmap.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+```
+</TabItem>
+</Tabs>

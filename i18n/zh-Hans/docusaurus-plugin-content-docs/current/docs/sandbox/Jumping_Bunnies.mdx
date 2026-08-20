@@ -1,0 +1,496 @@
+---
+title: 跳跃兔子性能压力测试
+sidebar_label: 跳跃兔子
+hide_table_of_contents: true
+slug: Jumping_Bunnies.html
+description: "Konva 的 Bunnymark 性能压力测试，在 HTML5 Canvas 上为数百个弹跳的兔子精灵应用动画。"
+---
+
+## 弹跳兔子性能压力测试
+
+此示例展示同时移动多个 `Konva.Image` 对象时的性能。它改编自 [Bunnymark 示例](https://www.goodboydigital.com/pixijs/bunnymark/)，该示例属于 [PixiJS 框架](https://www.pixijs.com/)。
+
+注意：你可能发现 `Konva` 版本比原始 `PixiJS` 版本慢。这是因为 PixiJS 针对 WebGL 渲染和这种特定动画进行了高度优化。Konva 会继续优化内部实现，但此示例并不能代表使用 Konva 构建的典型应用的性能。
+
+对于包含大量动画对象的应用，可以考虑使用[原生 Canvas 访问](/docs/sandbox/Native_Context_Access.html)，甚至改用其他框架。请根据应用的具体需求选择合适的工具。
+
+**操作说明：**单击或触摸 Canvas 以添加更多兔子。计数器会显示当前参与动画的兔子数量。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Set up stage and layer
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.FastLayer();
+stage.add(layer);
+
+// Create stats and counter display
+const counterDiv = document.createElement('div');
+counterDiv.style.position = 'absolute';
+counterDiv.style.top = '50px';
+counterDiv.style.backgroundColor = 'white';
+counterDiv.style.fontSize = '12px';
+counterDiv.style.padding = '5px';
+counterDiv.innerHTML = '0 BUNNIES';
+document.getElementById('container').appendChild(counterDiv);
+
+// Define variables
+const bunnys = [];
+const GRAVITY = 0.75;
+const maxX = width;
+const minX = 0;
+const maxY = height;
+const minY = 0;
+const startBunnyCount = 100; // Starting with fewer bunnies for better initial performance
+const amount = 10; // Add this many bunnies at a time
+let isAdding = false;
+let count = 0;
+let wabbitTexture;
+
+// Load the bunny image
+wabbitTexture = new Image();
+wabbitTexture.onload = function() {
+  addBunnies(startBunnyCount);
+  counterDiv.innerHTML = startBunnyCount + ' BUNNIES';
+  count = startBunnyCount;
+  
+  // Start animation loop
+  requestAnimationFrame(update);
+};
+wabbitTexture.src = 'https://konvajs.org/assets/bunny.png';
+
+// Add event listeners
+stage.on('mousedown touchstart', function() {
+  isAdding = true;
+});
+
+stage.on('mouseup touchend', function() {
+  isAdding = false;
+});
+
+// Function to add bunnies
+function addBunnies(num) {
+  for (let i = 0; i < num; i++) {
+    const bunny = new Konva.Image({
+      image: wabbitTexture,
+      transformsEnabled: 'position',
+      perfectDrawEnabled: false,
+      x: Math.random() * width,
+      y: Math.random() * height,
+    });
+
+    bunny.speedX = Math.random() * 10;
+    bunny.speedY = Math.random() * 10 - 5;
+
+    bunnys.push(bunny);
+    layer.add(bunny);
+  }
+}
+
+// Animation update function
+function update() {
+  // Add more bunnies if mouse is down
+  if (isAdding) {
+    addBunnies(amount);
+    count += amount;
+    counterDiv.innerHTML = count + ' BUNNIES';
+  }
+
+  // Update all bunnies
+  for (let i = 0; i < bunnys.length; i++) {
+    const bunny = bunnys[i];
+    let x = bunny.x();
+    let y = bunny.y();
+
+    x += bunny.speedX;
+    y += bunny.speedY;
+    bunny.speedY += GRAVITY;
+
+    // Bounce off the edges
+    if (x > maxX - wabbitTexture.width) {
+      bunny.speedX *= -1;
+      x = maxX - wabbitTexture.width;
+    } else if (x < minX) {
+      bunny.speedX *= -1;
+      x = minX;
+    }
+
+    if (y > maxY - wabbitTexture.height) {
+      bunny.speedY *= -0.85;
+      y = maxY - wabbitTexture.height;
+      if (Math.random() > 0.5) {
+        bunny.speedY -= Math.random() * 6;
+      }
+    } else if (y < minY) {
+      bunny.speedY = 0;
+      y = minY;
+    }
+
+    bunny.position({ x, y });
+  }
+
+  layer.batchDraw();
+  requestAnimationFrame(update);
+}
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect, useRef } from 'react';
+import { Stage, FastLayer, Image } from 'react-konva';
+import { useImage } from 'react-konva-utils';
+
+const BunnyMark = () => {
+  // Constants
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const GRAVITY = 0.75;
+  const START_COUNT = 100;
+  const ADD_AMOUNT = 10;
+  
+  // State and refs
+  const [count, setCount] = useState(0);
+  const [isAdding, setIsAdding] = useState(false);
+  const layerRef = useRef(null);
+  const bunniesRef = useRef([]);
+  const bunnyNodesRef = useRef([]); // Store references to the actual Konva nodes
+  const [bunnyImage] = useImage('https://konvajs.org/assets/bunny.png');
+  
+  // Create a bunny with position and velocity
+  const createBunny = (x, y) => ({
+    x,
+    y,
+    speedX: Math.random() * 10,
+    speedY: Math.random() * 10 - 5
+  });
+  
+  // Store references to Konva image nodes
+  const storeNodeRef = (index, node) => {
+    if (node) {
+      bunnyNodesRef.current[index] = node;
+    }
+  };
+  
+  // Initialize bunnies when image loads
+  useEffect(() => {
+    if (!bunnyImage) return;
+    
+    const initialBunnies = Array(START_COUNT).fill(0).map(() => createBunny(
+      Math.random() * width,
+      Math.random() * height
+    ));
+    
+    bunniesRef.current = initialBunnies;
+    bunnyNodesRef.current = new Array(START_COUNT);
+    setCount(START_COUNT);
+  }, [bunnyImage]);
+  
+  // Animation loop
+  useEffect(() => {
+    if (!bunnyImage) return;
+    
+    let animationFrameId;
+    
+    const update = () => {
+      // Add more bunnies if needed
+      if (isAdding) {
+        const currentLength = bunniesRef.current.length;
+        const newBunnies = Array(ADD_AMOUNT).fill(0).map(() => 
+          createBunny(
+            Math.random() * width,
+            Math.random() * height
+          )
+        );
+        
+        bunniesRef.current = [...bunniesRef.current, ...newBunnies];
+        // Extend the nodes array to accommodate new bunnies
+        bunnyNodesRef.current = [...bunnyNodesRef.current, ...new Array(ADD_AMOUNT)];
+        setCount(prevCount => prevCount + ADD_AMOUNT);
+      }
+      
+      // Update all bunnies - DIRECT NODE MANIPULATION FOR PERFORMANCE
+      // This avoids expensive React re-renders for position updates
+      bunniesRef.current.forEach((bunny, i) => {
+        // Update data model
+        bunny.x += bunny.speedX;
+        bunny.y += bunny.speedY;
+        bunny.speedY += GRAVITY;
+        
+        // Bounce off edges
+        if (bunny.x > width - bunnyImage.width) {
+          bunny.speedX *= -1;
+          bunny.x = width - bunnyImage.width;
+        } else if (bunny.x < 0) {
+          bunny.speedX *= -1;
+          bunny.x = 0;
+        }
+        
+        if (bunny.y > height - bunnyImage.height) {
+          bunny.speedY *= -0.85;
+          bunny.y = height - bunnyImage.height;
+          if (Math.random() > 0.5) {
+            bunny.speedY -= Math.random() * 6;
+          }
+        } else if (bunny.y < 0) {
+          bunny.speedY = 0;
+          bunny.y = 0;
+        }
+        
+        // Direct node update if we have a reference (much faster than React updates)
+        const node = bunnyNodesRef.current[i];
+        if (node) {
+          node.x(bunny.x);
+          node.y(bunny.y);
+        }
+      });
+      
+      // Batch draw the layer once instead of updating each node individually
+      if (layerRef.current) {
+        layerRef.current.getLayer().batchDraw();
+      }
+      
+      animationFrameId = requestAnimationFrame(update);
+    };
+    
+    update();
+    
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isAdding, bunnyImage]);
+  
+  // Handle mouse/touch events
+  const handleDown = () => setIsAdding(true);
+  const handleUp = () => setIsAdding(false);
+  
+  if (!bunnyImage) return <div>Loading bunny image...</div>;
+  
+  return (
+    <>
+      
+      <Stage
+        width={width}
+        height={height}
+        onMouseDown={handleDown}
+        onMouseUp={handleUp}
+        onTouchStart={handleDown}
+        onTouchEnd={handleUp}
+      >
+        <FastLayer ref={layerRef}>
+          {bunniesRef.current.map((bunny, i) => (
+            <Image
+              key={i}
+              ref={(node) => storeNodeRef(i, node)}
+              image={bunnyImage}
+              x={bunny.x}
+              y={bunny.y}
+              transformsEnabled="position"
+              perfectDrawEnabled={false}
+            />
+          ))}
+        </FastLayer>
+      </Stage>
+      <div 
+        style={{
+          position: 'absolute',
+          top: '50px',
+          backgroundColor: 'white',
+          fontSize: '12px',
+          padding: '5px'
+        }}
+      >
+        {count} BUNNIES
+      </div>
+    </>
+  );
+};
+
+export default BunnyMark;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    
+    <v-stage
+      :config="stageConfig"
+      @mousedown="isAdding = true"
+      @mouseup="isAdding = false"
+      @touchstart="isAdding = true"
+      @touchend="isAdding = false"
+    >
+      <v-fast-layer ref="layerRef">
+        <v-image
+          v-for="(bunny, index) in bunnies"
+          :key="index"
+          :config="{
+            image: bunnyImage,
+            x: bunny.x,
+            y: bunny.y,
+            transformsEnabled: 'position',
+            perfectDrawEnabled: false
+          }"
+          :ref="el => storeNodeRef(index, el)"
+        />
+      </v-fast-layer>
+    </v-stage>
+    <div 
+      style="position: absolute; top: 50px; background-color: white; font-size: 12px; padding: 5px;"
+    >
+      {{ count }} BUNNIES
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive, onMounted, onUnmounted } from 'vue';
+
+// Stage setup with fixed dimensions
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+// Refs
+const layerRef = ref(null);
+const bunnyImage = ref(null);
+const bunnies = ref([]);
+const count = ref(0);
+const isAdding = ref(false);
+const animationFrameId = ref(null);
+const bunnyNodesMap = ref({}); // Store references to Konva nodes by index
+
+// Constants
+const GRAVITY = 0.75;
+const START_COUNT = 100;
+const ADD_AMOUNT = 10;
+
+// Store references to Konva image nodes
+const storeNodeRef = (index, el) => {
+  if (el) {
+    bunnyNodesMap.value[index] = el;
+  }
+};
+
+// Create a bunny with position and velocity
+const createBunny = (x, y) => ({
+  x,
+  y,
+  speedX: Math.random() * 10,
+  speedY: Math.random() * 10 - 5
+});
+
+// Animation update function - Using direct node manipulation for performance
+const update = () => {
+  // Add more bunnies if needed
+  if (isAdding.value) {
+    const newBunnies = Array(ADD_AMOUNT)
+      .fill(0)
+      .map(() => 
+        createBunny(
+          Math.random() * stageConfig.width,
+          Math.random() * stageConfig.height
+        )
+      );
+    
+    // Update the reactive array only once for the new bunnies
+    bunnies.value.push(...newBunnies);
+    count.value += ADD_AMOUNT;
+  }
+  
+  // Update all bunnies - DIRECT NODE MANIPULATION FOR PERFORMANCE
+  // This avoids expensive Vue reactivity for position updates
+  bunnies.value.forEach((bunny, index) => {
+    // Update data model
+    bunny.x += bunny.speedX;
+    bunny.y += bunny.speedY;
+    bunny.speedY += GRAVITY;
+    
+    // Bounce off edges
+    if (bunny.x > stageConfig.width - bunnyImage.value.width) {
+      bunny.speedX *= -1;
+      bunny.x = stageConfig.width - bunnyImage.value.width;
+    } else if (bunny.x < 0) {
+      bunny.speedX *= -1;
+      bunny.x = 0;
+    }
+    
+    if (bunny.y > stageConfig.height - bunnyImage.value.height) {
+      bunny.speedY *= -0.85;
+      bunny.y = stageConfig.height - bunnyImage.value.height;
+      if (Math.random() > 0.5) {
+        bunny.speedY -= Math.random() * 6;
+      }
+    } else if (bunny.y < 0) {
+      bunny.speedY = 0;
+      bunny.y = 0;
+    }
+    
+    // Direct node update if we have a reference (much faster than Vue reactivity)
+    const node = bunnyNodesMap.value[index];
+    if (node) {
+      // Get the Konva node and update position directly
+      const konvaNode = node.getNode();
+      if (konvaNode) {
+        konvaNode.x(bunny.x);
+        konvaNode.y(bunny.y);
+      }
+    }
+  });
+  
+  // Batch draw the layer once instead of updating each node individually
+  if (layerRef.value) {
+    layerRef.value.getNode().batchDraw();
+  }
+  
+  animationFrameId.value = requestAnimationFrame(update);
+};
+
+// Load the bunny image
+onMounted(() => {
+  const img = new Image();
+  img.src = 'https://konvajs.org/assets/bunny.png';
+  img.onload = () => {
+    bunnyImage.value = img;
+    
+    // Add initial bunnies
+    const initialBunnies = Array(START_COUNT)
+      .fill(0)
+      .map(() => 
+        createBunny(
+          Math.random() * stageConfig.width,
+          Math.random() * stageConfig.height
+        )
+      );
+    
+    bunnies.value = initialBunnies;
+    count.value = START_COUNT;
+    
+    // Start animation
+    animationFrameId.value = requestAnimationFrame(update);
+  };
+  
+  onUnmounted(() => {
+    if (animationFrameId.value) {
+      cancelAnimationFrame(animationFrameId.value);
+    }
+  });
+});
+</script>
+```
+  </TabItem>
+</Tabs> 

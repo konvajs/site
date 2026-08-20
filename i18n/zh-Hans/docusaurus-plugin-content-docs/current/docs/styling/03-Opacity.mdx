@@ -1,0 +1,158 @@
+---
+title: HTML5 Canvas 设置图形不透明度教程
+sidebar_label: 不透明度
+hide_table_of_contents: true
+slug: Opacity.html
+description: "学习如何使用 Konva.js 通过 0 到 1 之间的值设置和更改 HTML5 Canvas 图形的不透明度。"
+---
+
+要使用 Konva 设置图形的不透明度，可以在实例化节点时设置 `opacity` 属性，也可以使用 `opacity()` 方法。
+
+图形的不透明度值可以介于 0 和 1 之间。0 表示完全透明，1 表示完全不透明。除非另有指定，否则所有图形的不透明度默认值均为 1。
+
+如果你要为多个图形应用透明度，而不显示重叠区域，请参阅[透明组示例](/docs/sandbox/Transparent_Group.html)
+
+操作说明：将鼠标移到五边形上以更改其不透明度。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+
+```js live vanilla
+import Konva from 'konva';
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+var stage = new Konva.Stage({
+    container: 'container',
+    width: width,
+    height: height,
+});
+var layer = new Konva.Layer();
+
+var pentagon = new Konva.RegularPolygon({
+    x: stage.width() / 2,
+    y: stage.height() / 2,
+    sides: 5,
+    radius: 70,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4,
+    opacity: 0.5,
+});
+
+pentagon.on('mouseover', function () {
+    this.opacity(1);
+});
+
+pentagon.on('mouseout', function () {
+    this.opacity(0.5);
+});
+
+// add the shape to the layer
+layer.add(pentagon);
+
+// add the layer to the stage
+stage.add(layer);
+```
+
+  </TabItem>
+  <TabItem value="React">
+
+```jsx live react
+import React, { useState } from 'react';
+import { Stage, Layer, RegularPolygon } from 'react-konva';
+
+const App = () => {
+  const [opacity, setOpacity] = useState(0.5);
+  const [cursor, setCursor] = useState('default');
+
+  const handleMouseEnter = () => {
+    setOpacity(1);
+    setCursor('pointer');
+  };
+
+  const handleMouseLeave = () => {
+    setOpacity(0.5);
+    setCursor('default');
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight} style={{ cursor: cursor }}>
+      <Layer>
+        <RegularPolygon
+          x={window.innerWidth / 2}
+          y={window.innerHeight / 2}
+          sides={5}
+          radius={70}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          opacity={opacity}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+
+  </TabItem>
+  <TabItem value="Vue">
+
+```vue live vue
+<template>
+  <v-stage :config="stageSize" :style="{ cursor: cursor }">
+    <v-layer>
+      <v-regular-polygon
+        :config="{
+          x: stageSize.width / 2,
+          y: stageSize.height / 2,
+          sides: 5,
+          radius: 70,
+          fill: 'red',
+          stroke: 'black',
+          strokeWidth: 4,
+          opacity: opacity,
+        }"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      stageSize: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
+      opacity: 0.5,
+      cursor: 'default',
+    };
+  },
+  methods: {
+    onMouseEnter() {
+      this.opacity = 1;
+      this.cursor = 'pointer';
+    },
+    onMouseLeave() {
+      this.opacity = 0.5;
+      this.cursor = 'default';
+    },
+  },
+};
+</script>
+```
+
+  </TabItem>
+</Tabs>

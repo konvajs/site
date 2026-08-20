@@ -1,0 +1,61 @@
+---
+title: Angular Konva 滤镜教程
+sidebar_label: 滤镜
+hide_table_of_contents: true
+slug: Filters.html
+description: "学习如何在 Angular 中配合缓存使用 ng2-konva，对 Canvas 图形应用模糊等视觉滤镜。"
+---
+
+要在 Konva 中应用滤镜，请设置 `filters` 属性，并在节点挂载后缓存该节点。
+
+本示例对圆形使用模糊滤镜，并在底层 Konva 节点可用后调用 `cache()`。
+
+**操作说明**：本示例渲染一个模糊的红色圆形。在编辑器中移除 `cache()`，以了解滤镜为何需要缓存。
+
+有关更多详细信息，请参阅 [Filters API 参考](/api/Konva.Filters.html) 和 [`cache()` 文档](/api/Konva.Node.html#cache)。
+
+## 滤镜示例
+
+```js live angular
+import { Component, ViewChild } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+import Konva from 'konva';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle #circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  @ViewChild('circle') circle!: any;
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 150,
+    y: 150,
+    radius: 50,
+    fill: 'red',
+    filters: [Konva.Filters.Blur],
+    blurRadius: 15
+  };
+
+  ngAfterViewInit() {
+    this.circle.getNode().cache({ offset: 10 });
+  }
+}
+``` 

@@ -395,3 +395,33 @@ export default {
 ```
   </TabItem>
 </Tabs>
+
+## Designing the graph data
+
+The demo above keeps every node in one place and lets each connection store only
+two node IDs. That normalization matters more than it looks: never copy a node's
+position into its edges, or every move leaves stale duplicates behind. Read the
+current node positions when you draw instead.
+
+For a small graph, saving a position on every drag-move event and recalculating
+the arrows is clear and fast enough. For a large one, move the dragged node
+directly during the gesture and commit a single document change when the drag
+ends — one history entry per action, not one per frame.
+
+This example joins the horizontal sides of two rectangles, which reads well for a
+left-to-right flow. Real editors need explicit **ports**: store the port ID on the
+edge and derive its absolute position from the node that owns it. Route orthogonal
+connectors once positions settle — recalculating a route on every frame is
+expensive.
+
+If you add pan and zoom, convert pointer positions through the inverse stage
+transform before any hit or drop test, and keep graph coordinates independent of
+the camera. See [zoom relative to pointer](/docs/sandbox/Zooming_Relative_To_Pointer.html).
+
+For large graphs, draw only visible nodes, use a spatial index for viewport and
+selection queries, keep connectors below the node shapes, and set `listening: false`
+on connectors that never receive pointer input. See
+[performance tips](/docs/performance/All_Performance_Tips.html).
+
+Ports, edge selection, cycle rules, automatic layout, history, and persistence are
+all graph rules. Define each one in the data model before you build its interface.

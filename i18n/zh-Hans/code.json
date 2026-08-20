@@ -1,0 +1,1123 @@
+{
+  "homepage.hero.frameworkPrefix": {
+    "message": "使用你熟悉的框架："
+  },
+  "homepage.fact.license": {
+    "message": "MIT 许可"
+  },
+  "homepage.fact.maintained": {
+    "message": "自 2015 年起持续维护"
+  },
+  "homepage.build.title": {
+    "message": "构建真实的 Canvas 应用"
+  },
+  "homepage.build.description": {
+    "message": "每个都是可运行的示例，你可以直接阅读并改造使用。"
+  },
+  "homepage.build.openGuide": {
+    "message": "打开示例 →"
+  },
+  "homepage.showcase.title": {
+    "message": "使用 Konva 构建"
+  },
+  "homepage.showcase.description": {
+    "message": "生产工具使用 Konva 构建编辑器、图表、标注和游戏。"
+  },
+  "homepage.showcase.addApp": {
+    "message": "将你的应用添加到案例展示"
+  },
+  "homepage.hero.title": {
+    "message": "为 Web 构建交互式图形"
+  },
+  "homepage.hero.description": {
+    "message": "Konva 是一个 2D Canvas 场景图库。绘制图形、处理指针和触摸输入、制作动画并导出，无需编写 Canvas 样板代码。"
+  },
+  "homepage.hero.getStarted": {
+    "message": "开始使用"
+  },
+  "homepage.companies.title": {
+    "message": "这些团队在生产环境中使用"
+  },
+  "homepage.polotno.title": {
+    "message": "需要更快交付生产级设计编辑器？"
+  },
+  "homepage.polotno.description": {
+    "message": "设计编辑器在 Canvas 之上还需要文本引擎、字体加载、模板、历史记录和导出流程。Polotno 是基于 Konva 构建的商业 SDK，这些功能都已内置。"
+  },
+  "homepage.polotno.open": {
+    "message": "了解 Polotno"
+  },
+  "homepage.feature.sceneGraph": {
+    "message": "面向对象的场景图"
+  },
+  "homepage.feature.sceneGraph.description": {
+    "message": "使用舞台、图层、组和图形节点，而不是底层绘图命令。"
+  },
+  "homepage.feature.input": {
+    "message": "指针和触摸输入"
+  },
+  "homepage.feature.input.description": {
+    "message": "桌面指针和触摸屏使用同一套事件系统。"
+  },
+  "homepage.feature.animation": {
+    "message": "动画和补间"
+  },
+  "homepage.feature.animation.description": {
+    "message": "逐帧更新图形，或使用补间让数值随时间变化。"
+  },
+  "homepage.feature.nodes": {
+    "message": "节点树和事件"
+  },
+  "homepage.feature.nodes.description": {
+    "message": "嵌套节点、组合相关图形，并使用事件冒泡或委托。"
+  },
+  "homepage.feature.export": {
+    "message": "光栅图导出"
+  },
+  "homepage.feature.export.description": {
+    "message": "按指定像素比，将舞台或节点导出为 Canvas、数据 URL 或 Blob。"
+  },
+  "homepage.feature.filters": {
+    "message": "图像滤镜"
+  },
+  "homepage.feature.filters.description": {
+    "message": "缓存节点，并应用模糊、对比度和灰度等内置滤镜。"
+  },
+  "homepage.feature.frameworks": {
+    "message": "框架集成"
+  },
+  "homepage.feature.frameworks.description": {
+    "message": "在 JavaScript、React、Vue、Svelte 或 Angular 中使用 Konva。"
+  },
+  "homepage.feature.drag": {
+    "message": "拖放和变换"
+  },
+  "homepage.feature.drag.description": {
+    "message": "让节点可拖动，再用 Transformer 添加调整大小和旋转控件。"
+  },
+  "theme.ErrorPageContent.title": {
+    "message": "页面已崩溃。",
+    "description": "The title of the fallback page when the page crashed"
+  },
+  "theme.BackToTopButton.buttonAriaLabel": {
+    "message": "回到顶部",
+    "description": "The ARIA label for the back to top button"
+  },
+  "theme.blog.archive.title": {
+    "message": "历史博文",
+    "description": "The page & hero title of the blog archive page"
+  },
+  "theme.blog.archive.description": {
+    "message": "历史博文",
+    "description": "The page & hero description of the blog archive page"
+  },
+  "theme.blog.paginator.navAriaLabel": {
+    "message": "博文列表分页导航",
+    "description": "The ARIA label for the blog pagination"
+  },
+  "theme.blog.paginator.newerEntries": {
+    "message": "较新的博文",
+    "description": "The label used to navigate to the newer blog posts page (previous page)"
+  },
+  "theme.blog.paginator.olderEntries": {
+    "message": "较旧的博文",
+    "description": "The label used to navigate to the older blog posts page (next page)"
+  },
+  "theme.blog.post.paginator.navAriaLabel": {
+    "message": "博文分页导航",
+    "description": "The ARIA label for the blog posts pagination"
+  },
+  "theme.blog.post.paginator.newerPost": {
+    "message": "较新一篇",
+    "description": "The blog post button label to navigate to the newer/previous post"
+  },
+  "theme.blog.post.paginator.olderPost": {
+    "message": "较旧一篇",
+    "description": "The blog post button label to navigate to the older/next post"
+  },
+  "theme.tags.tagsPageLink": {
+    "message": "查看所有标签",
+    "description": "The label of the link targeting the tag list page"
+  },
+  "theme.docs.breadcrumbs.navAriaLabel": {
+    "message": "页面路径",
+    "description": "The ARIA label for the breadcrumbs"
+  },
+  "theme.colorToggle.ariaLabel.mode.system": {
+    "message": "系统模式",
+    "description": "The name for the system color mode"
+  },
+  "theme.colorToggle.ariaLabel.mode.light": {
+    "message": "浅色模式",
+    "description": "The name for the light color mode"
+  },
+  "theme.colorToggle.ariaLabel.mode.dark": {
+    "message": "暗黑模式",
+    "description": "The name for the dark color mode"
+  },
+  "theme.colorToggle.ariaLabel": {
+    "message": "切换浅色/暗黑模式（当前为{mode}）",
+    "description": "The ARIA label for the color mode toggle"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "{count} 个项目",
+    "description": "The default description for a category card in the generated index about how many items this category includes"
+  },
+  "theme.docs.paginator.navAriaLabel": {
+    "message": "文件选项卡",
+    "description": "The ARIA label for the docs pagination"
+  },
+  "theme.docs.paginator.previous": {
+    "message": "上一页",
+    "description": "The label used to navigate to the previous doc"
+  },
+  "theme.docs.paginator.next": {
+    "message": "下一页",
+    "description": "The label used to navigate to the next doc"
+  },
+  "theme.docs.tagDocListPageTitle.nDocsTagged": {
+    "message": "{count} 篇文档带有标签",
+    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.docs.tagDocListPageTitle": {
+    "message": "{nDocsTagged}「{tagName}」",
+    "description": "The title of the page for a docs tag"
+  },
+  "theme.docs.versionBadge.label": {
+    "message": "版本：{versionLabel}"
+  },
+  "theme.common.editThisPage": {
+    "message": "编辑此页",
+    "description": "The link label to edit the current page"
+  },
+  "theme.docs.versions.unreleasedVersionLabel": {
+    "message": "此为 {siteTitle} {versionLabel} 版尚未发行的文档。",
+    "description": "The label used to tell the user that he's browsing an unreleased doc version"
+  },
+  "theme.docs.versions.unmaintainedVersionLabel": {
+    "message": "此为 {siteTitle} {versionLabel} 版的文档，现已不再积极维护。",
+    "description": "The label used to tell the user that he's browsing an unmaintained doc version"
+  },
+  "theme.docs.versions.latestVersionSuggestionLabel": {
+    "message": "最新的文档请参阅 {latestVersionLink} ({versionLabel})。",
+    "description": "The label used to tell the user to check the latest version"
+  },
+  "theme.docs.versions.latestVersionLinkLabel": {
+    "message": "最新版本",
+    "description": "The label used for the latest version suggestion link label"
+  },
+  "theme.common.headingLinkTitle": {
+    "message": "{heading}的直接链接",
+    "description": "Title for link to heading"
+  },
+  "theme.lastUpdated.atDate": {
+    "message": "于 {date} ",
+    "description": "The words used to describe on which date a page has been last updated"
+  },
+  "theme.lastUpdated.byUser": {
+    "message": "由 {user} ",
+    "description": "The words used to describe by who the page has been last updated"
+  },
+  "theme.lastUpdated.lastUpdatedAtBy": {
+    "message": "最后{byUser}{atDate}更新",
+    "description": "The sentence used to display when a page has been last updated, and by who"
+  },
+  "theme.NotFound.title": {
+    "message": "找不到页面",
+    "description": "The title of the 404 page"
+  },
+  "theme.navbar.mobileVersionsDropdown.label": {
+    "message": "选择版本",
+    "description": "The label for the navbar versions dropdown on mobile view"
+  },
+  "theme.tags.tagsListLabel": {
+    "message": "标签：",
+    "description": "The label alongside a tag list"
+  },
+  "theme.AnnouncementBar.closeButtonAriaLabel": {
+    "message": "关闭",
+    "description": "The ARIA label for close button of announcement bar"
+  },
+  "theme.admonition.caution": {
+    "message": "警告",
+    "description": "The default label used for the Caution admonition (:::caution)"
+  },
+  "theme.admonition.danger": {
+    "message": "危险",
+    "description": "The default label used for the Danger admonition (:::danger)"
+  },
+  "theme.admonition.info": {
+    "message": "信息",
+    "description": "The default label used for the Info admonition (:::info)"
+  },
+  "theme.admonition.note": {
+    "message": "备注",
+    "description": "The default label used for the Note admonition (:::note)"
+  },
+  "theme.admonition.tip": {
+    "message": "提示",
+    "description": "The default label used for the Tip admonition (:::tip)"
+  },
+  "theme.admonition.warning": {
+    "message": "注意",
+    "description": "The default label used for the Warning admonition (:::warning)"
+  },
+  "theme.blog.sidebar.navAriaLabel": {
+    "message": "最近博文导航",
+    "description": "The ARIA label for recent posts in the blog sidebar"
+  },
+  "theme.DocSidebarItem.expandCategoryAriaLabel": {
+    "message": "展开侧边栏分类 '{label}'",
+    "description": "The ARIA label to expand the sidebar category"
+  },
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
+    "message": "折叠侧边栏分类 '{label}'",
+    "description": "The ARIA label to collapse the sidebar category"
+  },
+  "theme.IconExternalLink.ariaLabel": {
+    "message": "（在新标签页中打开）",
+    "description": "The ARIA label for the external link icon"
+  },
+  "theme.NotFound.p1": {
+    "message": "我们找不到您要找的页面。",
+    "description": "The first paragraph of the 404 page"
+  },
+  "theme.NotFound.p2": {
+    "message": "请联系原始链接来源网站的所有者，并告知他们链接已损坏。",
+    "description": "The 2nd paragraph of the 404 page"
+  },
+  "theme.NavBar.navAriaLabel": {
+    "message": "主导航",
+    "description": "The ARIA label for the main navigation"
+  },
+  "theme.navbar.mobileLanguageDropdown.label": {
+    "message": "选择语言",
+    "description": "The label for the mobile language switcher dropdown"
+  },
+  "theme.TOCCollapsible.toggleButtonLabel": {
+    "message": "本页总览",
+    "description": "The label used by the button on the collapsible TOC component"
+  },
+  "theme.blog.post.readingTime.plurals": {
+    "message": "阅读需 {readingTime} 分钟",
+    "description": "Pluralized label for \"{readingTime} min read\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.blog.post.readMore": {
+    "message": "阅读更多",
+    "description": "The label used in blog post item excerpts to link to full blog posts"
+  },
+  "theme.blog.post.readMoreLabel": {
+    "message": "阅读 {title} 的全文",
+    "description": "The ARIA label for the link to full blog posts from excerpts"
+  },
+  "theme.CodeBlock.wordWrapToggle": {
+    "message": "切换自动换行",
+    "description": "The title attribute for toggle word wrapping button of code block lines"
+  },
+  "theme.CodeBlock.copy": {
+    "message": "复制",
+    "description": "The copy button label on code blocks"
+  },
+  "theme.CodeBlock.copied": {
+    "message": "复制成功",
+    "description": "The copied button label on code blocks"
+  },
+  "theme.CodeBlock.copyButtonAriaLabel": {
+    "message": "复制代码到剪贴板",
+    "description": "The ARIA label for copy code blocks button"
+  },
+  "theme.docs.breadcrumbs.home": {
+    "message": "主页面",
+    "description": "The ARIA label for the home page in the breadcrumbs"
+  },
+  "theme.docs.sidebar.collapseButtonTitle": {
+    "message": "收起侧边栏",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapseButtonAriaLabel": {
+    "message": "收起侧边栏",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.navAriaLabel": {
+    "message": "文档侧边栏",
+    "description": "The ARIA label for the sidebar navigation"
+  },
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
+    "message": "关闭导航栏",
+    "description": "The ARIA label for close button of mobile sidebar"
+  },
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
+    "message": "← 回到主菜单",
+    "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
+  },
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
+    "message": "切换导航栏",
+    "description": "The ARIA label for hamburger menu button of mobile navigation"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
+    "message": "展开下拉菜单",
+    "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
+    "message": "收起下拉菜单",
+    "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
+  },
+  "theme.docs.sidebar.expandButtonTitle": {
+    "message": "展开侧边栏",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.expandButtonAriaLabel": {
+    "message": "展开侧边栏",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.SearchBar.label": {
+    "message": "搜索",
+    "description": "The ARIA label and placeholder for search button"
+  },
+  "theme.SearchModal.searchBox.resetButtonTitle": {
+    "message": "清除查询",
+    "description": "The label and ARIA label for search box reset button"
+  },
+  "theme.SearchModal.searchBox.cancelButtonText": {
+    "message": "取消",
+    "description": "The label and ARIA label for search box cancel button"
+  },
+  "theme.SearchModal.searchBox.placeholderText": {
+    "message": "搜索文档",
+    "description": "The placeholder text for the main search input field"
+  },
+  "theme.SearchModal.searchBox.placeholderTextAskAi": {
+    "message": "提出另一个问题...",
+    "description": "The placeholder text when in AI question mode"
+  },
+  "theme.SearchModal.searchBox.placeholderTextAskAiStreaming": {
+    "message": "正在回答...",
+    "description": "The placeholder text for search box when AI is streaming an answer"
+  },
+  "theme.SearchModal.searchBox.enterKeyHint": {
+    "message": "搜索",
+    "description": "The hint for the search box enter key text"
+  },
+  "theme.SearchModal.searchBox.enterKeyHintAskAi": {
+    "message": "提交",
+    "description": "The hint for the Ask AI search box enter key text"
+  },
+  "theme.SearchModal.searchBox.searchInputLabel": {
+    "message": "搜索",
+    "description": "The ARIA label for search input"
+  },
+  "theme.SearchModal.searchBox.backToKeywordSearchButtonText": {
+    "message": "返回关键词搜索",
+    "description": "The text for back to keyword search button"
+  },
+  "theme.SearchModal.searchBox.backToKeywordSearchButtonAriaLabel": {
+    "message": "返回关键词搜索",
+    "description": "The ARIA label for back to keyword search button"
+  },
+  "theme.SearchModal.startScreen.recentSearchesTitle": {
+    "message": "最近搜索",
+    "description": "The title for recent searches"
+  },
+  "theme.SearchModal.startScreen.noRecentSearchesText": {
+    "message": "没有最近搜索",
+    "description": "The text when there are no recent searches"
+  },
+  "theme.SearchModal.startScreen.saveRecentSearchButtonTitle": {
+    "message": "保存这个搜索",
+    "description": "The title for save recent search button"
+  },
+  "theme.SearchModal.startScreen.removeRecentSearchButtonTitle": {
+    "message": "从历史记录中删除这个搜索",
+    "description": "The title for remove recent search button"
+  },
+  "theme.SearchModal.startScreen.favoriteSearchesTitle": {
+    "message": "收藏",
+    "description": "The title for favorite searches"
+  },
+  "theme.SearchModal.startScreen.removeFavoriteSearchButtonTitle": {
+    "message": "从收藏列表中删除这个搜索",
+    "description": "The title for remove favorite search button"
+  },
+  "theme.SearchModal.startScreen.recentConversationsTitle": {
+    "message": "最近对话",
+    "description": "The title for recent conversations"
+  },
+  "theme.SearchModal.startScreen.removeRecentConversationButtonTitle": {
+    "message": "从历史记录中删除此对话",
+    "description": "The title for remove recent conversation button"
+  },
+  "theme.SearchModal.errorScreen.titleText": {
+    "message": "无法获取结果",
+    "description": "The title for error screen"
+  },
+  "theme.SearchModal.errorScreen.helpText": {
+    "message": "你可能需要检查网络连接。",
+    "description": "The help text for error screen"
+  },
+  "theme.SearchModal.resultsScreen.askAiPlaceholder": {
+    "message": "询问 AI：",
+    "description": "The placeholder text for Ask AI input"
+  },
+  "theme.SearchModal.askAiScreen.disclaimerText": {
+    "message": "答案由 AI 生成，可能包含错误。请核实答案。",
+    "description": "The disclaimer text for AI answers"
+  },
+  "theme.SearchModal.askAiScreen.relatedSourcesText": {
+    "message": "相关来源",
+    "description": "The text for related sources"
+  },
+  "theme.SearchModal.askAiScreen.thinkingText": {
+    "message": "正在思考...",
+    "description": "The text when AI is thinking"
+  },
+  "theme.SearchModal.askAiScreen.copyButtonText": {
+    "message": "复制",
+    "description": "The text for copy button"
+  },
+  "theme.SearchModal.askAiScreen.copyButtonCopiedText": {
+    "message": "已复制！",
+    "description": "The text for copy button when copied"
+  },
+  "theme.SearchModal.askAiScreen.copyButtonTitle": {
+    "message": "复制",
+    "description": "The title for copy button"
+  },
+  "theme.SearchModal.askAiScreen.likeButtonTitle": {
+    "message": "赞同",
+    "description": "The title for like button"
+  },
+  "theme.SearchModal.askAiScreen.dislikeButtonTitle": {
+    "message": "不赞同",
+    "description": "The title for dislike button"
+  },
+  "theme.SearchModal.askAiScreen.thanksForFeedbackText": {
+    "message": "感谢你的反馈！",
+    "description": "The text for thanks for feedback"
+  },
+  "theme.SearchModal.askAiScreen.preToolCallText": {
+    "message": "正在搜索...",
+    "description": "The text before tool call"
+  },
+  "theme.SearchModal.askAiScreen.duringToolCallText": {
+    "message": "正在搜索 ",
+    "description": "The text during tool call"
+  },
+  "theme.SearchModal.askAiScreen.afterToolCallText": {
+    "message": "已搜索",
+    "description": "The text after tool call"
+  },
+  "theme.SearchModal.footer.selectText": {
+    "message": "选中",
+    "description": "The select text for footer"
+  },
+  "theme.SearchModal.footer.submitQuestionText": {
+    "message": "提交问题",
+    "description": "The submit question text for footer"
+  },
+  "theme.SearchModal.footer.selectKeyAriaLabel": {
+    "message": "Enter 键",
+    "description": "The ARIA label for select key in footer"
+  },
+  "theme.SearchModal.footer.navigateText": {
+    "message": "导航",
+    "description": "The navigate text for footer"
+  },
+  "theme.SearchModal.footer.navigateUpKeyAriaLabel": {
+    "message": "向上键",
+    "description": "The ARIA label for navigate up key in footer"
+  },
+  "theme.SearchModal.footer.navigateDownKeyAriaLabel": {
+    "message": "向下键",
+    "description": "The ARIA label for navigate down key in footer"
+  },
+  "theme.SearchModal.footer.closeText": {
+    "message": "关闭",
+    "description": "The close text for footer"
+  },
+  "theme.SearchModal.footer.closeKeyAriaLabel": {
+    "message": "Esc 键",
+    "description": "The ARIA label for close key in footer"
+  },
+  "theme.SearchModal.footer.searchByText": {
+    "message": "搜索提供",
+    "description": "The 'Powered by' text for footer"
+  },
+  "theme.SearchModal.footer.backToSearchText": {
+    "message": "返回搜索",
+    "description": "The back to search text for footer"
+  },
+  "theme.SearchModal.noResultsScreen.noResultsText": {
+    "message": "没有结果：",
+    "description": "The text when there are no results"
+  },
+  "theme.SearchModal.noResultsScreen.suggestedQueryText": {
+    "message": "试试搜索",
+    "description": "The text for suggested query"
+  },
+  "theme.SearchModal.noResultsScreen.reportMissingResultsText": {
+    "message": "认为这个查询应该有结果？",
+    "description": "The text for reporting missing results"
+  },
+  "theme.SearchModal.noResultsScreen.reportMissingResultsLinkText": {
+    "message": "请告知我们。",
+    "description": "The link text for reporting missing results"
+  },
+  "theme.SearchModal.placeholder": {
+    "message": "搜索文档",
+    "description": "The placeholder of the input of the DocSearch pop-up modal"
+  },
+  "theme.SearchPage.documentsFound.plurals": {
+    "message": "找到 {count} 份文件",
+    "description": "Pluralized label for \"{count} documents found\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.SearchPage.existingResultsTitle": {
+    "message": "「{query}」的搜索结果",
+    "description": "The search page title for non-empty query"
+  },
+  "theme.SearchPage.emptyResultsTitle": {
+    "message": "在文档中搜索",
+    "description": "The search page title for empty query"
+  },
+  "theme.SearchPage.inputPlaceholder": {
+    "message": "在此输入搜索词",
+    "description": "The placeholder for search page input"
+  },
+  "theme.SearchPage.inputLabel": {
+    "message": "搜索",
+    "description": "The ARIA label for search page input"
+  },
+  "theme.SearchPage.algoliaLabel": {
+    "message": "由 Algolia 提供",
+    "description": "The description label for Algolia mention"
+  },
+  "theme.SearchPage.noResultsText": {
+    "message": "未找到结果",
+    "description": "The paragraph for empty search result"
+  },
+  "theme.SearchPage.fetchingNewResults": {
+    "message": "正在获取新的搜索结果...",
+    "description": "The paragraph for fetching new search results"
+  },
+  "theme.SearchBar.seeAll": {
+    "message": "查看全部 {count} 个结果"
+  },
+  "theme.blog.post.plurals": {
+    "message": "{count} 篇博文",
+    "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.blog.tagTitle": {
+    "message": "{nPosts} 含有标签「{tagName}」",
+    "description": "The title of the page for a blog tag"
+  },
+  "theme.blog.author.pageTitle": {
+    "message": "{authorName} - {nPosts}",
+    "description": "The title of the page for a blog author"
+  },
+  "theme.blog.authorsList.pageTitle": {
+    "message": "作者",
+    "description": "The title of the authors page"
+  },
+  "theme.blog.authorsList.viewAll": {
+    "message": "查看所有作者",
+    "description": "The label of the link targeting the blog authors page"
+  },
+  "theme.blog.author.noPosts": {
+    "message": "该作者尚未撰写任何文章。",
+    "description": "The text for authors with 0 blog post"
+  },
+  "theme.contentVisibility.unlistedBanner.title": {
+    "message": "未列出页",
+    "description": "The unlisted content banner title"
+  },
+  "theme.contentVisibility.unlistedBanner.message": {
+    "message": "此页面未列出。搜索引擎不会对其索引，只有拥有直接链接的用户才能访问。",
+    "description": "The unlisted content banner message"
+  },
+  "theme.contentVisibility.draftBanner.title": {
+    "message": "草稿页",
+    "description": "The draft content banner title"
+  },
+  "theme.contentVisibility.draftBanner.message": {
+    "message": "此页面是草稿，仅在开发环境中可见，不会包含在正式版本中。",
+    "description": "The draft content banner message"
+  },
+  "theme.ErrorPageContent.tryAgain": {
+    "message": "重试",
+    "description": "The label of the button to try again rendering when the React error boundary captures an error"
+  },
+  "theme.common.skipToMainContent": {
+    "message": "跳到主要内容",
+    "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
+  },
+  "theme.tags.tagsPageTitle": {
+    "message": "标签",
+    "description": "The title of the tag list page"
+  },
+  "homepage.showcase.polotno": {
+    "message": "面向 Web 的设计编辑器 SDK"
+  },
+  "homepage.showcase.smmplanner": {
+    "message": "用于社交媒体故事和定时发布的编辑器"
+  },
+  "homepage.showcase.grid": {
+    "message": "面向 React 的类 Excel 数据网格"
+  },
+  "homepage.showcase.windoor": {
+    "message": "用于门窗设计的拖放工具"
+  },
+  "homepage.showcase.pixteller": {
+    "message": "用于创建和自定义图像的工具"
+  },
+  "homepage.showcase.paddee": {
+    "message": "照片亭模板市场和编辑器"
+  },
+  "homepage.build.designEditor.title": {
+    "message": "设计编辑器"
+  },
+  "homepage.build.designEditor.description": {
+    "message": "选择、调整大小、旋转、保存、撤销和导出对象。"
+  },
+  "homepage.build.whiteboard.title": {
+    "message": "无限画布白板"
+  },
+  "homepage.build.whiteboard.description": {
+    "message": "使用稳定坐标平移和缩放大型工作区。"
+  },
+  "homepage.build.nodeEditor.title": {
+    "message": "节点编辑器"
+  },
+  "homepage.build.nodeEditor.description": {
+    "message": "连接可拖动节点，并实时更新每条连线。"
+  },
+  "homepage.build.annotation.title": {
+    "message": "图像标注工具"
+  },
+  "homepage.build.annotation.description": {
+    "message": "在图像上绘制、编辑和导出结构化区域。"
+  },
+  "homepage.build.floorPlan.title": {
+    "message": "平面图"
+  },
+  "homepage.build.floorPlan.description": {
+    "message": "让房间可交互，同时保留源几何数据。"
+  },
+  "homepage.build.seatMap.title": {
+    "message": "座位预订图"
+  },
+  "homepage.build.seatMap.description": {
+    "message": "高效渲染和选择大量座位。"
+  },
+  "homepage.build.imageEditor.title": {
+    "message": "图像编辑器"
+  },
+  "homepage.build.imageEditor.description": {
+    "message": "裁剪、变换图像，并按所需尺寸导出。"
+  },
+  "homepage.build.multiplayer.title": {
+    "message": "多人白板"
+  },
+  "homepage.build.multiplayer.description": {
+    "message": "将 Konva 状态连接到共享的 Yjs 文档。"
+  },
+  "homepage.hero.seeDemos": {
+    "message": "查看示例"
+  },
+  "homepage.fact.dependencies": {
+    "message": "无依赖"
+  },
+  "homepage.hero.demoCaption": {
+    "message": "这是一个真实的 Konva 舞台。拖动图形，或使用控制点调整大小和旋转。"
+  },
+  "homepage.hero.copyInstall": {
+    "message": "复制安装命令"
+  },
+  "homepage.hero.copied": {
+    "message": "已复制"
+  },
+  "homepage.hero.copy": {
+    "message": "复制"
+  },
+  "homepage.features.title": {
+    "message": "这个库为你提供什么"
+  },
+  "homepage.features.description": {
+    "message": "Konva 位于 canvas 元素与应用状态之间。"
+  },
+  "demos.title": {
+    "message": "示例",
+    "description": "Demos gallery page"
+  },
+  "demos.heading": {
+    "message": "Konva 示例",
+    "description": "Demos gallery page"
+  },
+  "demos.intro": {
+    "message": "这些交互式示例展示了你可以使用 Konva.js 和 HTML5 Canvas 构建什么。",
+    "description": "Demos gallery page"
+  },
+  "demos.description": {
+    "message": "使用 Konva.js 构建的交互式示例：签名板、图像编辑器、游戏、拖放和动画等。可在浏览器中直接运行。",
+    "description": "Demos gallery page"
+  },
+  "demos.section.CAD Systems": {
+    "message": "CAD 系统",
+    "description": "Demos gallery page"
+  },
+  "demos.section.Tools": {
+    "message": "工具",
+    "description": "Demos gallery page"
+  },
+  "demos.section.Games and Apps": {
+    "message": "游戏与应用",
+    "description": "Demos gallery page"
+  },
+  "demos.section.Common use cases": {
+    "message": "常见用例",
+    "description": "Demos gallery page"
+  },
+  "demos.section.Performance tests": {
+    "message": "性能测试",
+    "description": "Demos gallery page"
+  },
+  "demos.section.Other random demos": {
+    "message": "其他示例",
+    "description": "Demos gallery page"
+  },
+  "demos.item.Canvas_Editor": {
+    "message": "Canvas 编辑器",
+    "description": "Demo gallery label for sandbox/Canvas_Editor.html"
+  },
+  "demos.item.Simple_Window_Frame": {
+    "message": "简易窗框设计器",
+    "description": "Demo gallery label for sandbox/Simple_Window_Frame.html"
+  },
+  "demos.item.Window_Frame_Designer": {
+    "message": "窗框设计器",
+    "description": "Demo gallery label for sandbox/Window_Frame_Designer.html"
+  },
+  "demos.item.Seats_Reservation": {
+    "message": "座位预订",
+    "description": "Demo gallery label for sandbox/Seats_Reservation.html"
+  },
+  "demos.item.Image_Labeling": {
+    "message": "图像标注",
+    "description": "Demo gallery label for sandbox/Image_Labeling.html"
+  },
+  "demos.item.Interactive_Building_Map": {
+    "message": "交互式建筑地图",
+    "description": "Demo gallery label for sandbox/Interactive_Building_Map.html"
+  },
+  "demos.item.Signature_Pad": {
+    "message": "签名板",
+    "description": "Demo gallery label for sandbox/Signature_Pad.html"
+  },
+  "demos.item.Badge_Maker": {
+    "message": "徽章制作器",
+    "description": "Demo gallery label for sandbox/Badge_Maker.html"
+  },
+  "demos.item.Rotate_Flip_Image": {
+    "message": "旋转和翻转图像",
+    "description": "Demo gallery label for sandbox/Rotate_Flip_Image.html"
+  },
+  "demos.item.Infinite_Canvas": {
+    "message": "无限 Canvas",
+    "description": "Demo gallery label for sandbox/Infinite_Canvas.html"
+  },
+  "demos.item.Multiplayer_Whiteboard": {
+    "message": "多人白板",
+    "description": "Demo gallery label for sandbox/Multiplayer_Whiteboard.html"
+  },
+  "demos.item.Heatmap_Generator": {
+    "message": "热图生成器",
+    "description": "Demo gallery label for sandbox/Heatmap_Generator.html"
+  },
+  "demos.item.Canvas_Crop_Image": {
+    "message": "裁剪图像",
+    "description": "Demo gallery label for sandbox/Canvas_Crop_Image.html"
+  },
+  "demos.item.Canvas_Watermark": {
+    "message": "Canvas 水印",
+    "description": "Demo gallery label for sandbox/Canvas_Watermark.html"
+  },
+  "demos.item.Canvas_Overlay": {
+    "message": "Canvas 叠加层",
+    "description": "Demo gallery label for sandbox/Canvas_Overlay.html"
+  },
+  "demos.item.Canvas_Sticker": {
+    "message": "Canvas 贴纸",
+    "description": "Demo gallery label for sandbox/Canvas_Sticker.html"
+  },
+  "demos.item.Wheel_of_Fortune": {
+    "message": "幸运转盘",
+    "description": "Demo gallery label for sandbox/Wheel_of_Fortune.html"
+  },
+  "demos.item.Free_Drawing": {
+    "message": "自由绘制",
+    "description": "Demo gallery label for sandbox/Free_Drawing.html"
+  },
+  "demos.item.Animals_on_the_Beach_Game": {
+    "message": "海滩动物游戏",
+    "description": "Demo gallery label for sandbox/Animals_on_the_Beach_Game.html"
+  },
+  "demos.item.Planets_Image_Map": {
+    "message": "行星图像映射",
+    "description": "Demo gallery label for sandbox/Planets_Image_Map.html"
+  },
+  "demos.item.Physics_Simulator": {
+    "message": "物理模拟器",
+    "description": "Demo gallery label for sandbox/Physics_Simulator.html"
+  },
+  "demos.item.Editable_Text": {
+    "message": "可编辑文本",
+    "description": "Demo gallery label for sandbox/Editable_Text.html"
+  },
+  "demos.item.Rich_Text": {
+    "message": "富文本",
+    "description": "Demo gallery label for sandbox/Rich_Text.html"
+  },
+  "demos.item.Canvas_Scrolling": {
+    "message": "Canvas 滚动",
+    "description": "Demo gallery label for sandbox/Canvas_Scrolling.html"
+  },
+  "demos.item.Scroll_By_Edge_Drag": {
+    "message": "通过边缘拖动滚动",
+    "description": "Demo gallery label for sandbox/Scroll_By_Edge_Drag.html"
+  },
+  "demos.item.GIF_On_Canvas": {
+    "message": "Canvas 上的 GIF",
+    "description": "Demo gallery label for sandbox/GIF_On_Canvas.html"
+  },
+  "demos.item.Video_On_Canvas": {
+    "message": "Canvas 上的视频",
+    "description": "Demo gallery label for sandbox/Video_On_Canvas.html"
+  },
+  "demos.item.SVG_On_Canvas": {
+    "message": "Canvas 上的 SVG",
+    "description": "Demo gallery label for sandbox/SVG_On_Canvas.html"
+  },
+  "demos.item.Canvas_Background": {
+    "message": "Canvas 背景",
+    "description": "Demo gallery label for sandbox/Canvas_Background.html"
+  },
+  "demos.item.Transparent_Group": {
+    "message": "透明组",
+    "description": "Demo gallery label for sandbox/Transparent_Group.html"
+  },
+  "demos.item.Mirror_Canvas_Shape": {
+    "message": "翻转图像",
+    "description": "Demo gallery label for sandbox/Mirror_Canvas_Shape.html"
+  },
+  "demos.item.Canvas_to_PDF": {
+    "message": "Canvas 转 PDF",
+    "description": "Demo gallery label for sandbox/Canvas_to_PDF.html"
+  },
+  "demos.item.Custom_Font": {
+    "message": "自定义字体",
+    "description": "Demo gallery label for sandbox/Custom_Font.html"
+  },
+  "demos.item.Relative_Pointer_Position": {
+    "message": "相对鼠标位置",
+    "description": "Demo gallery label for sandbox/Relative_Pointer_Position.html"
+  },
+  "demos.item.Drop_DOM_Element": {
+    "message": "拖放 DOM 元素",
+    "description": "Demo gallery label for sandbox/Drop_DOM_Element.html"
+  },
+  "demos.item.Objects_Snapping": {
+    "message": "对象吸附",
+    "description": "Demo gallery label for sandbox/Objects_Snapping.html"
+  },
+  "demos.item.Zooming_Relative_To_Pointer": {
+    "message": "相对于指针缩放",
+    "description": "Demo gallery label for sandbox/Zooming_Relative_To_Pointer.html"
+  },
+  "demos.item.Canvas_Context_Menu": {
+    "message": "Canvas 上下文菜单",
+    "description": "Demo gallery label for sandbox/Canvas_Context_Menu.html"
+  },
+  "demos.item.Scale_Image_To_Fit": {
+    "message": "缩放图像以适应区域",
+    "description": "Demo gallery label for sandbox/Scale_Image_To_Fit.html"
+  },
+  "demos.item.Limited_Drag_And_Resize": {
+    "message": "限制拖动与调整大小",
+    "description": "Demo gallery label for sandbox/Limited_Drag_And_Resize.html"
+  },
+  "demos.item.Drag_and_Drop_Stress_Test": {
+    "message": "拖放压力测试",
+    "description": "Demo gallery label for sandbox/Drag_and_Drop_Stress_Test.html"
+  },
+  "demos.item.Animation_Stress_Test": {
+    "message": "动画压力测试",
+    "description": "Demo gallery label for sandbox/Animation_Stress_Test.html"
+  },
+  "demos.item.Jumping_Bunnies": {
+    "message": "跳跃兔子",
+    "description": "Demo gallery label for sandbox/Jumping_Bunnies.html"
+  },
+  "demos.item.10000_Shapes_with_Tooltip": {
+    "message": "10,000 个带工具提示的图形",
+    "description": "Demo gallery label for sandbox/10000_Shapes_with_Tooltip.html"
+  },
+  "demos.item.20000_Nodes": {
+    "message": "20000 个节点",
+    "description": "Demo gallery label for sandbox/20000_Nodes.html"
+  },
+  "demos.item.Resizing_Stress_Test": {
+    "message": "调整大小压力测试",
+    "description": "Demo gallery label for sandbox/Resizing_Stress_Test.html"
+  },
+  "demos.item.Quantum_Squiggle": {
+    "message": "振荡 Blob 图形",
+    "description": "Demo gallery label for sandbox/Quantum_Squiggle.html"
+  },
+  "demos.item.Web_Worker": {
+    "message": "Web Worker",
+    "description": "Demo gallery label for sandbox/Web_Worker.html"
+  },
+  "demos.item.Star_Spinner": {
+    "message": "星形旋转器",
+    "description": "Demo gallery label for sandbox/Star_Spinner.html"
+  },
+  "demos.item.Connected_Objects": {
+    "message": "流程图",
+    "description": "Demo gallery label for sandbox/Connected_Objects.html"
+  },
+  "demos.item.Image_Resize": {
+    "message": "调整图像大小",
+    "description": "Demo gallery label for sandbox/Image_Resize.html"
+  },
+  "demos.item.Stage_Preview": {
+    "message": "舞台预览",
+    "description": "Demo gallery label for sandbox/Stage_Preview.html"
+  },
+  "demos.item.Modify_Curves_with_Anchor_Points": {
+    "message": "使用锚点修改曲线",
+    "description": "Demo gallery label for sandbox/Modify_Curves_with_Anchor_Points.html"
+  },
+  "demos.item.Image_Border": {
+    "message": "图像边框",
+    "description": "Demo gallery label for sandbox/Image_Border.html"
+  },
+  "demos.item.Collision_Detection": {
+    "message": "碰撞检测",
+    "description": "Demo gallery label for sandbox/Collision_Detection.html"
+  },
+  "demos.item.Elastic_Stars": {
+    "message": "弹性星形",
+    "description": "Demo gallery label for sandbox/Elastic_Stars.html"
+  },
+  "demos.item.Shape_Tango": {
+    "message": "图形探戈",
+    "description": "Demo gallery label for sandbox/Shape_Tango.html"
+  },
+  "demos.item.Image_Border_Highlighting": {
+    "message": "图像边框突出显示",
+    "description": "Demo gallery label for sandbox/Image_Border_Highlighting.html"
+  },
+  "demos.item.Zoom_Layer_On_hover": {
+    "message": "鼠标悬停时缩放图像",
+    "description": "Demo gallery label for sandbox/Zoom_Layer_On_hover.html"
+  },
+  "demos.item.Responsive_Canvas": {
+    "message": "响应式 Canvas",
+    "description": "Demo gallery label for sandbox/Responsive_Canvas.html"
+  },
+  "demos.item.Gestures": {
+    "message": "手势事件",
+    "description": "Demo gallery label for sandbox/Gestures.html"
+  },
+  "demos.item.Multi-touch_Scale_Shape": {
+    "message": "多点触控缩放图形",
+    "description": "Demo gallery label for sandbox/Multi-touch_Scale_Shape.html"
+  },
+  "demos.item.Multi-touch_Scale_Stage": {
+    "message": "多点触控缩放舞台",
+    "description": "Demo gallery label for sandbox/Multi-touch_Scale_Stage.html"
+  },
+  "demos.item.Modify_Shape_Color_on_Click": {
+    "message": "单击时修改图形颜色",
+    "description": "Demo gallery label for sandbox/Modify_Shape_Color_on_Click.html"
+  },
+  "demos.item.Expand_Images_on_Hover": {
+    "message": "悬停时放大图像",
+    "description": "Demo gallery label for sandbox/Expand_Images_on_Hover.html"
+  },
+  "demos.item.Shape_Tooltips": {
+    "message": "图形工具提示",
+    "description": "Demo gallery label for sandbox/Shape_Tooltips.html"
+  },
+  "demos.item.Drag_and_Drop_Multiple_Shapes": {
+    "message": "拖放多个图形",
+    "description": "Demo gallery label for sandbox/Drag_and_Drop_Multiple_Shapes.html"
+  },
+  "homepage.showcase.grid2": {
+    "message": "JavaScript 图表库",
+    "description": "Showcase description for Some-charts"
+  },
+  "homepage.showcase.shelly": {
+    "message": "一门用于绘图的编程语言",
+    "description": "Showcase description for Shelly"
+  },
+  "homepage.showcase.boardos": {
+    "message": "在线白板协作系统",
+    "description": "Showcase description for BoardOS"
+  },
+  "homepage.showcase.vokal": {
+    "message": "为社交媒体制作播客视频片段",
+    "description": "Showcase description for Vokal"
+  },
+  "homepage.showcase.facetache": {
+    "message": "给照片加上胡子！",
+    "description": "Showcase description for facetache"
+  },
+  "homepage.showcase.scripturemark": {
+    "message": "在画布上与圣经文本交互",
+    "description": "Showcase description for ScriptureMark"
+  },
+  "homepage.showcase.letsrole": {
+    "message": "在虚拟环境中玩桌面角色扮演游戏",
+    "description": "Showcase description for Let's Role"
+  },
+  "homepage.showcase.csgoboard": {
+    "message": "面向 Valve 游戏《反恐精英》的交互式战术板",
+    "description": "Showcase description for csgoboard"
+  },
+  "homepage.showcase.brainzilla": {
+    "message": "在线拼图游戏",
+    "description": "Showcase description for brainzilla"
+  },
+  "homepage.showcase.reactavatar": {
+    "message": "使用 React 加载、裁剪和预览头像",
+    "description": "Showcase description for react-avatar"
+  },
+  "homepage.showcase.colorwars": {
+    "message": "同屏多人街机游戏，主打对战",
+    "description": "Showcase description for Color wars game"
+  },
+  "homepage.showcase.opdome": {
+    "message": "在线图片词典",
+    "description": "Showcase description for Opdome"
+  },
+  "homepage.showcase.ecards": {
+    "message": "商务电子贺卡在线商店",
+    "description": "Showcase description for E-cards"
+  },
+  "homepage.showcase.mystikaze": {
+    "message": "在线回合制六边形战棋策略游戏",
+    "description": "Showcase description for Mystikaze"
+  },
+  "homepage.showcase.moddy": {
+    "message": "为残障人士规划更安全的空间",
+    "description": "Showcase description for Moddy"
+  },
+  "homepage.hero.demoAria": {
+    "message": "一个可交互的 Konva 场景，包含矩形、圆形、星形、三角形和文本标签。每个对象都可以拖动、调整大小和旋转。"
+  },
+  "homepage.hero.dragMe": {
+    "message": "拖动我"
+  },
+  "homepage.meta.description": {
+    "message": "使用 Konva.js 构建设计编辑器、白板、图表、地图以及其他交互式 2D Canvas 应用。"
+  }
+}

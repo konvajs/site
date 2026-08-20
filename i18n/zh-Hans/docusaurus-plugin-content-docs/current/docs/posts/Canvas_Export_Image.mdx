@@ -1,0 +1,91 @@
+---
+title: 如何将 HTML5 Canvas 导出为图像
+sidebar_label: 导出 Canvas 图像
+sidebar_position: 7
+slug: canvas-export-image.html
+description: "使用 Konva 将 HTML5 Canvas 导出为 PNG 或 JPEG，控制输出分辨率，并避免跨源图像错误。"
+---
+
+浏览器可以将 Canvas 编码为数据 URL 或 `Blob`。Konva 在舞台和节点上提供
+`toDataURL()` 和 `toBlob()`。
+
+浏览器支持时，请对大型导出使用 `toBlob()`。`Blob` 不会
+创建数据 URL 所产生的大型编码字符串。
+
+## 从 React 导出 Konva 舞台
+
+此示例将舞台导出为 PNG。`pixelRatio` 值使每个
+输出尺寸扩大一倍。
+
+```jsx live react
+import { useRef } from 'react';
+import { Stage, Layer, Rect, Circle, Text } from 'react-konva';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const downloadImage = () => {
+    const dataUrl = stageRef.current.toDataURL({ pixelRatio: 2 });
+    const link = document.createElement('a');
+    link.download = 'konva-scene.png';
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  return (
+    <>
+      <button onClick={downloadImage}>Download PNG</button>
+      <Stage ref={stageRef} width={Math.min(window.innerWidth, 760)} height={360}>
+        <Layer>
+          <Rect width={760} height={360} fill="#e7f5ff" />
+          <Text
+            x={30}
+            y={28}
+            text="Export this scene"
+            fontSize={30}
+            fill="#1864ab"
+          />
+          <Circle x={180} y={190} radius={70} fill="#4dabf7" />
+          <Rect
+            x={330}
+            y={120}
+            width={220}
+            height={140}
+            fill="#ffd43b"
+            cornerRadius={16}
+          />
+        </Layer>
+      </Stage>
+    </>
+  );
+};
+
+export default App;
+```
+
+导出结果仅包含 Canvas 内容。舞台上方的 HTML 控件不属于
+图像的一部分。
+
+## 设置文件类型和区域
+
+传入 `mimeType: 'image/jpeg'` 以输出 JPEG。JPEG 不支持透明度，因此请在
+其他场景内容之前添加背景图形。
+
+传入 `x`、`y`、`width` 和 `height` 以导出舞台的一部分。传入
+`pixelRatio` 可在不更改场景坐标的情况下提高分辨率。
+
+高像素比会使用更多内存。2× 的比例会产生四倍数量的输出
+像素。请使用满足输出要求的最小比例。
+
+## 防止 Canvas 被污染
+
+Canvas 绘制没有跨源访问权限的图像后，浏览器会阻止
+导出。图像服务器必须返回合适的
+`Access-Control-Allow-Origin` 标头。加载图像时，请先设置 `crossOrigin`，
+再设置其 `src` 值。
+
+有关完整的图像加载示例，请阅读[污染 Canvas 指南](/docs/posts/Tainted_Canvas.html)。有关
+分辨率的更多详细信息，请阅读[高质量导出](/docs/data_and_serialization/High-Quality-Export.html)
+文档。

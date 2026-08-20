@@ -1,0 +1,76 @@
+---
+title: Angular Konva 简单动画教程
+sidebar_label: 简单动画
+hide_table_of_contents: true
+slug: Simple_Animations.html
+description: "学习如何在 Angular 中使用 ng2-konva 和 Konva.Animation 类创建简单的 Canvas 动画。"
+---
+
+Konva 提供两种主要动画工具：`node.to()` 用于简单过渡，`Konva.Animation` 用于逐帧更新。
+
+视图初始化后，本示例直接使用 `Konva.Animation`，使圆形沿正弦波移动。
+
+**操作说明**：本示例让红色圆形持续左右移动。
+
+有关更多详细信息，请参阅 [动画文档](/docs/animations/Rotation.html)和 [Node API 参考](/api/Konva.Node.html)。
+
+## 简单动画示例
+
+```js live angular
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+import Konva from 'konva';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-circle #circle [config]="configCircle"></ko-circle>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit, OnDestroy {
+  @ViewChild('circle') circle!: any;
+  private animation: any = null;
+
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configCircle: CircleConfig = {
+    x: 100,
+    y: 100,
+    radius: 50,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 4
+  };
+
+  ngAfterViewInit() {
+    const circle = this.circle.getNode();
+    this.animation = new Konva.Animation((frame: any) => {
+      const time = frame.time;
+      const x = 100 + Math.sin(time / 1000) * 100;
+      circle.x(x);
+    }, circle.getLayer());
+
+    this.animation.start();
+  }
+
+  ngOnDestroy() {
+    if (this.animation) {
+      this.animation.stop();
+    }
+  }
+}
+``` 

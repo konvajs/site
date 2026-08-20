@@ -1,0 +1,62 @@
+---
+title: 如何使用 JavaScript Canvas 构建窗框配置器
+sidebar_label: 窗框设计器
+slug: Window_Frame_Designer.html
+description: "使用 JavaScript、HTML5 Canvas 和 Konva.js 构建 CAD 风格的窗框配置器。此交互式产品配置器示例支持拆分区段和选择窗扇类型。"
+---
+
+# HTML5 Canvas 窗框设计器
+
+这是一个窗框构造器示例，最初作为大型 CAD 系统的原型创建。此示例展示如何使用 React、Konva 和 react-konva 构建复杂的交互式应用。
+
+如果你的公司需要类似产品，请[联系我们](https://lavrton.com/consulting)。
+
+## 功能
+- 选择窗框区段
+- 将区段拆分为多个子区段
+- 为每个区段设置不同的窗扇类型
+- 交互式视觉设计
+- 实时更新
+
+## 操作说明
+1. 单击区段以选择它
+2. 使用控件水平或垂直拆分所选区段
+3. 为每个区段选择不同的窗扇类型
+4. 尝试不同的窗框设计
+
+## 示例
+
+<iframe 
+  src="https://codesandbox.io/embed/github/konvajs/site/tree/master/react-demos/window-frame-design-app?hidenavigation=1&view=split&fontsize=10" 
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: "4px",
+    overflow: "hidden"
+  }}
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+/>
+
+## 实现细节
+
+此示例使用以下技术构建：
+- React，用于 UI 组件和 state 管理
+- Konva，用于 Canvas 渲染
+- react-konva，用于集成 Konva 与 React
+
+此应用展示以下高级概念：
+1. 使用树状数据结构表示窗框区段
+2. 使用复杂的鼠标交互进行选择
+3. 根据区段属性动态渲染图形
+4. 响应式布局计算
+5. 组合组件以创建可复用的 UI 元素
+
+上方 CodeSandbox 示例提供完整源代码。你可以查看该代码，了解如何：
+- 使用 Konva 构建复杂的 React 应用结构
+- 处理嵌套的交互式图形
+- 管理树状结构的 state
+- 实现撤销/重做功能
+- 创建响应式 Canvas 应用
+
+此示例展示如何使用 Konva 构建复杂的类 CAD 应用，并实现流畅交互和实时更新。 

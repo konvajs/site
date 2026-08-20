@@ -1,0 +1,62 @@
+---
+title: Angular Konva 自定义图形教程
+sidebar_label: 自定义图形
+hide_table_of_contents: true
+slug: Custom_Shape.html
+description: "学习如何在 Angular 中使用 ng2-konva 和 sceneFunc 绘制函数，在 Canvas 上绘制自定义图形。"
+---
+
+要使用 `ng2-konva` 创建自定义图形，请使用 `ko-shape` 组件并提供 `sceneFunc` 绘制函数。
+
+在 `sceneFunc` 中，可以结合使用原生 Canvas 上下文和 `context.fillStrokeShape(shape)` 等 Konva 辅助方法，正确应用填充、描边和阴影样式。
+
+**操作说明**：本示例使用 Canvas 路径命令绘制一个类似三角形的自定义图形。
+
+有关更多详细信息，请参阅 [Shape API 参考](/api/Konva.Shape.html)。
+
+## 自定义图形示例
+
+```js live angular
+import { Component } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { ShapeConfig } from 'konva/lib/shapes/Shape';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        <ko-shape [config]="configShape"></ko-shape>
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  public configShape: ShapeConfig = {
+    x: 100,
+    y: 100,
+    fill: 'red',
+    stroke: 'black',
+    strokeWidth: 2,
+    sceneFunc: (context: any, shape: any) => {
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(100, 0);
+      context.lineTo(50, 100);
+      context.closePath();
+      context.fillStrokeShape(shape);
+    }
+  };
+}
+```

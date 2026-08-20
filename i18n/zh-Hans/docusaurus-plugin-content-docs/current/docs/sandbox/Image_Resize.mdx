@@ -1,0 +1,173 @@
+---
+title: Canvas 图像大小调整——使用 JavaScript 拖放和缩放图像
+sidebar_label: 调整图像大小
+hide_table_of_contents: true
+slug: Image_Resize.html
+description: "了解如何使用 JavaScript 调整 HTML5 Canvas 上的图像大小。通过 Konva.js 使用角锚点拖放和缩放图像。交互式示例包含源代码。"
+---
+
+此示例展示如何通过可拖动的角锚点，在 Canvas 上调整图像大小。图像可以拖动，也可以调整大小。这是 Canvas 图像编辑的常见模式。
+
+注意：针对这类情况，我们还提供了使用特殊 `Konva.Transformer` 节点的内置方法。更简单的方法，请参阅[选择与变换示例](/docs/select_and_transform/Basic_demo.html)。
+
+**操作说明：**拖动图像以移动它们。单击并拖动角锚点以调整大小。
+
+
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Function to update image size based on anchor movement
+function update(activeAnchor) {
+  const group = activeAnchor.getParent();
+
+  const topLeft = group.findOne('.topLeft');
+  const topRight = group.findOne('.topRight');
+  const bottomRight = group.findOne('.bottomRight');
+  const bottomLeft = group.findOne('.bottomLeft');
+  const image = group.findOne('Image');
+
+  const anchorX = activeAnchor.x();
+  const anchorY = activeAnchor.y();
+
+  // Update anchor positions based on which anchor was moved
+  switch (activeAnchor.getName()) {
+    case 'topLeft':
+      topRight.y(anchorY);
+      bottomLeft.x(anchorX);
+      break;
+    case 'topRight':
+      topLeft.y(anchorY);
+      bottomRight.x(anchorX);
+      break;
+    case 'bottomRight':
+      bottomLeft.y(anchorY);
+      topRight.x(anchorX);
+      break;
+    case 'bottomLeft':
+      bottomRight.y(anchorY);
+      topLeft.x(anchorX);
+      break;
+  }
+
+  // Position image at top-left corner
+  image.position(topLeft.position());
+
+  // Update image dimensions
+  const width = topRight.x() - topLeft.x();
+  const height = bottomLeft.y() - topLeft.y();
+  if (width && height) {
+    image.width(width);
+    image.height(height);
+  }
+}
+
+// Function to add resize anchors to a group
+function addAnchor(group, x, y, name) {
+  const anchor = new Konva.Circle({
+    x: x,
+    y: y,
+    stroke: '#666',
+    fill: '#ddd',
+    strokeWidth: 2,
+    radius: 8,
+    name: name,
+    draggable: true,
+    dragOnTop: false,
+  });
+
+  // Add event listeners for resize behavior
+  anchor.on('dragmove', function () {
+    update(this);
+  });
+  
+  anchor.on('mousedown touchstart', function () {
+    group.draggable(false);
+    this.moveToTop();
+  });
+  
+  anchor.on('dragend', function () {
+    group.draggable(true);
+  });
+  
+  // Add hover styling
+  anchor.on('mouseover', function () {
+    document.body.style.cursor = 'pointer';
+    this.strokeWidth(4);
+  });
+  
+  anchor.on('mouseout', function () {
+    document.body.style.cursor = 'default';
+    this.strokeWidth(2);
+  });
+
+  group.add(anchor);
+}
+
+// Create Darth Vader Group with Image and anchors
+const darthVaderImg = new Konva.Image({
+  width: 200,
+  height: 137,
+});
+
+const darthVaderGroup = new Konva.Group({
+  x: 180,
+  y: 50,
+  draggable: true,
+});
+
+layer.add(darthVaderGroup);
+darthVaderGroup.add(darthVaderImg);
+
+// Add anchors at the corners
+addAnchor(darthVaderGroup, 0, 0, 'topLeft');
+addAnchor(darthVaderGroup, 200, 0, 'topRight');
+addAnchor(darthVaderGroup, 200, 137, 'bottomRight');
+addAnchor(darthVaderGroup, 0, 137, 'bottomLeft');
+
+// Create Yoda Group with Image and anchors
+const yodaImg = new Konva.Image({
+  width: 93,
+  height: 104,
+});
+
+const yodaGroup = new Konva.Group({
+  x: 20,
+  y: 110,
+  draggable: true,
+});
+
+layer.add(yodaGroup);
+yodaGroup.add(yodaImg);
+
+// Add anchors at the corners
+addAnchor(yodaGroup, 0, 0, 'topLeft');
+addAnchor(yodaGroup, 93, 0, 'topRight');
+addAnchor(yodaGroup, 93, 104, 'bottomRight');
+addAnchor(yodaGroup, 0, 104, 'bottomLeft');
+
+// Load the images
+const imageObj1 = new Image();
+imageObj1.onload = function () {
+  darthVaderImg.image(imageObj1);
+};
+imageObj1.src = 'https://konvajs.org/assets/darth-vader.jpg';
+
+const imageObj2 = new Image();
+imageObj2.onload = function () {
+  yodaImg.image(imageObj2);
+};
+imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
+```
+  

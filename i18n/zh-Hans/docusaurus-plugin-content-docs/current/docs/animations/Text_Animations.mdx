@@ -1,0 +1,261 @@
+---
+title: 文本动画教程
+sidebar_label: 文本动画
+hide_table_of_contents: true
+slug: Text_Animations.html
+description: "学习如何在 Konva 中使用 charRenderFunc 属性创建逐字符文本动画，为每个字符应用渲染效果。"
+---
+
+**注意：此功能仅在 Konva v10.0.0 及更高版本中可用。**
+
+Konva 通过 `charRenderFunc` 属性提供文本动画功能。此函数让你可以自定义每个字符的渲染方式，从而创建逐字符动画和效果。
+
+```js
+var text = new Konva.Text({
+  x: 10,
+  y: 10,
+  text: 'AB',
+  fontSize: 20,
+  charRenderFunc: function ({ context, index }) {
+    if (index === 1) {
+      // shift only the second character
+      context.translate(0, 10);
+    }
+  },
+});
+```
+
+`charRenderFunc` 接收一个上下文对象，其中包含以下参数：
+
+- **`char`** - 实际渲染的字符字符串
+- **`index`** - 字符在完整文本中的从零开始的索引
+- **`x`** - 渲染字符的 X 坐标
+- **`y`** - 渲染字符的 Y 坐标  
+- **`lineIndex`** - 包含此字符的行的从零开始的索引
+- **`column`** - 当前行中从零开始的列位置
+- **`isLastInLine`** - 指示此字符是否为所在行最后一个字符的布尔值
+- **`width`** - 字符宽度
+- **`context`** - Canvas 2D 渲染上下文，用于应用变换、不透明度和颜色等效果
+
+你可以根据各个字符的位置和属性，为它们应用变换、不透明度变化或其他效果。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+
+// we will store the opacity of each character in an array
+const charOpacities = [];
+
+const textNode = new Konva.Text({
+  x: window.innerWidth / 2 - 100,
+  y: window.innerHeight / 2 - 20,
+  text: 'ANIMATION',
+  fontSize: 40,
+  fontFamily: 'Arial',
+  fill: '#333',
+  charRenderFunc: function ({ context, index }) {
+    context.globalAlpha = charOpacities[index];
+  },
+});
+layer.add(textNode);
+
+const anim = new Konva.Animation(function(frame) {
+  const time = frame.time;
+  const cycleDuration = 4000; // 4 seconds total cycle
+  const fadeInDuration = 1500; // 1.5 seconds to fade in all
+  const holdDuration = 1000; // 1 second hold
+  const fadeOutDuration = 1500; // 1.5 seconds to fade out all
+  
+  const cycleTime = time % cycleDuration;
+  
+  for (let i = 0; i < textNode.text().length; i++) {
+    const charDelay = i * 150; // 150ms delay between characters
+    
+    if (cycleTime < fadeInDuration) {
+      // Fade in phase
+      const charStartTime = charDelay;
+      const charFadeTime = Math.max(0, cycleTime - charStartTime);
+      charOpacities[i] = Math.min(1, charFadeTime / 300);
+    } else if (cycleTime < fadeInDuration + holdDuration) {
+      // Hold phase - all characters visible
+      charOpacities[i] = 1;
+    } else {
+      // Fade out phase
+      const fadeOutStart = fadeInDuration + holdDuration;
+      const charFadeOutDelay = i * 150; // Same order as fade in
+      const charFadeOutTime = Math.max(0, cycleTime - fadeOutStart - charFadeOutDelay);
+      charOpacities[i] = Math.max(0, 1 - charFadeOutTime / 300);
+    }
+  }
+}, layer);
+
+anim.start();
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Text } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const App = () => {
+  const textRef = useRef(null);
+  const layerRef = useRef(null);
+  const charOpacitiesRef = useRef([]);
+  
+  useEffect(() => {
+    const anim = new Konva.Animation((frame) => {
+      const time = frame.time;
+      const cycleDuration = 4000; // 4 seconds total cycle
+      const fadeInDuration = 1500; // 1.5 seconds to fade in all
+      const holdDuration = 1000; // 1 second hold
+      const fadeOutDuration = 1500; // 1.5 seconds to fade out all
+      
+      const cycleTime = time % cycleDuration;
+      
+      for (let i = 0; i < textRef.current.text().length; i++) {
+        const charDelay = i * 150; // 150ms delay between characters
+        
+        if (cycleTime < fadeInDuration) {
+          // Fade in phase
+          const charStartTime = charDelay;
+          const charFadeTime = Math.max(0, cycleTime - charStartTime);
+          charOpacitiesRef.current[i] = Math.min(1, charFadeTime / 300);
+        } else if (cycleTime < fadeInDuration + holdDuration) {
+          // Hold phase - all characters visible
+          charOpacitiesRef.current[i] = 1;
+        } else {
+          // Fade out phase
+          const fadeOutStart = fadeInDuration + holdDuration;
+          const charFadeOutDelay = i * 150; // Same order as fade in
+          const charFadeOutTime = Math.max(0, cycleTime - fadeOutStart - charFadeOutDelay);
+          charOpacitiesRef.current[i] = Math.max(0, 1 - charFadeOutTime / 300);
+        }
+      }
+    }, layerRef.current);
+
+    anim.start();
+
+    return () => {
+      anim.stop();
+    };
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer ref={layerRef}>
+        <Text
+          ref={textRef}
+          x={window.innerWidth / 2 - 100}
+          y={window.innerHeight / 2 - 20}
+          text="ANIMATION"
+          fontSize={40}
+          fontFamily="Arial"
+          fill="#333"
+          charRenderFunc={({ context, index }) => {
+            context.globalAlpha = charOpacitiesRef.current[index] || 0;
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer ref="layerRef">
+      <v-text
+        ref="textRef"
+        :config="textConfig"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted, reactive } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = reactive({
+  x: window.innerWidth / 2 - 100,
+  y: window.innerHeight / 2 - 20,
+  text: 'ANIMATION',
+  fontSize: 40,
+  fontFamily: 'Arial',
+  fill: '#333',
+  charRenderFunc: ({ context, index }) => {
+    context.globalAlpha = charOpacities[index] || 0;
+  }
+});
+
+const charOpacities = reactive([]);
+const layerRef = ref(null);
+const textRef = ref(null);
+let anim = null;
+
+onMounted(() => {
+  anim = new Konva.Animation((frame) => {
+    const time = frame.time;
+    const cycleDuration = 4000; // 4 seconds total cycle
+    const fadeInDuration = 1500; // 1.5 seconds to fade in all
+    const holdDuration = 1000; // 1 second hold
+    const fadeOutDuration = 1500; // 1.5 seconds to fade out all
+    
+    const cycleTime = time % cycleDuration;
+    
+    for (let i = 0; i < textRef.value.getNode().text().length; i++) {
+      const charDelay = i * 150; // 150ms delay between characters
+      
+      if (cycleTime < fadeInDuration) {
+        // Fade in phase
+        const charStartTime = charDelay;
+        const charFadeTime = Math.max(0, cycleTime - charStartTime);
+        charOpacities[i] = Math.min(1, charFadeTime / 300);
+      } else if (cycleTime < fadeInDuration + holdDuration) {
+        // Hold phase - all characters visible
+        charOpacities[i] = 1;
+      } else {
+        // Fade out phase
+        const fadeOutStart = fadeInDuration + holdDuration;
+        const charFadeOutDelay = i * 150; // Same order as fade in
+        const charFadeOutTime = Math.max(0, cycleTime - fadeOutStart - charFadeOutDelay);
+        charOpacities[i] = Math.max(0, 1 - charFadeOutTime / 300);
+      }
+    }
+  }, layerRef.value.getNode());
+
+  anim.start();
+});
+
+onUnmounted(() => {
+  if (anim) {
+    anim.stop();
+  }
+});
+</script>
+```
+  </TabItem>
+</Tabs>

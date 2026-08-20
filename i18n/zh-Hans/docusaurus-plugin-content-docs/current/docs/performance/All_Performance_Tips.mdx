@@ -1,0 +1,282 @@
+---
+title: HTML5 Canvas Konva 全部性能技巧列表
+sidebar_label: 所有性能技巧
+hide_table_of_contents: true
+slug: All_Performance_Tips.html
+description: "Konva.js 的全部性能优化技巧，包括图层管理、图形缓存、禁用监听和批量绘制等内容。在 HTML5 Canvas 上高效渲染数千个图形。"
+---
+
+不想把时间花在性能问题上？申请[性能评审](https://lavrton.com/consulting)。
+
+### 为什么这很重要
+
+HTML5 Canvas 可以高效完成绘制工作，`Konva` 内部也有许多用于提高性能的功能。但是，随着项目复杂度增加或舞台上的图形数量增多，性能必然会受到影响。
+
+### 优化目标
+
+这里的优化主要遵循两条通用规则：
+
+* 尽量减少计算：所有计算都需要时间。单次计算可能只需极短时间，但你的代码、Konva、JavaScript 和更底层代码产生的数千或数百万次计算会不断累积。如果原本流畅的动画或效果出现卡顿，人眼就能察觉这种影响。
+
+* **尽量减少绘制**：所有绘制都有性能成本，因此这条规则很重要。成本分为两类：一类是上一点介绍的绘制计算，另一类是将绘制内容从内存传输到屏幕。某些情况下，还会有中间的离屏合成或逐像素处理。因此，请尽量减少绘制。
+
+### 舞台
+
+1. 优化舞台尺寸——按照“尽量减少绘制”的规则，请避免创建大型舞台。将大量字节从内存传输到屏幕会降低性能。[此处](/docs/sandbox/Canvas_Scrolling.html)提供了一些解决超大舞台问题的替代方法。
+
+2. 在移动端设置视口——缩放图像会明显降低性能。因此，请为移动端应用设置视口：`<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">`。这样可以避免对 Konva 输出进行不必要的缩放。
+
+3. 在 Retina 设备上使用 `Konva.pixelRatio = 1`——Konva 会自动调整像素比，从而在所有设备上清晰渲染。如果 Retina 设备的性能不佳，请设置 `Konva.pixelRatio = 1`，以减少 Konva 的缩放工作。在某些情况下，此设置可能影响输出，因此请确认结果质量符合要求。
+
+### 图层
+
+1. [图层管理](/docs/performance/Layer_Management.html)——在内部，每个 Konva 图层都是一个单独的 HTML5 Canvas 元素。这样可以只刷新发生变化的图层，从而避免刷新整个舞台的性能成本。但是，每个图层都会增加性能开销，因此应尽量减少图层数量。
+
+2. 使用 `layer.listening(false)`——Konva 为绘制的所有图形提供鼠标和触摸事件监听器。每个监听器都有性能成本。对于包含许多图形的图层，Konva 必须花费大量周期检查可能触发的监听器。如果图层中的所有图形都不需要响应事件，请设置 `layer.listening(false)` 以消除此开销。请参阅[示例](/docs/sandbox/Animation_Stress_Test.html)。图形部分也有类似技巧。
+
+3. 优化拖动成本——在图层上拖动图形时，每次移动事件循环都必须重绘该图层。为避免此性能成本，请在拖动时将图形移动到专用图层，并在拖动结束时将其移回原图层。请参阅[示例](/docs/sandbox/Drag_and_Drop_Stress_Test.html)
+
+### 图形
+
+1. [图形缓存](/docs/performance/Shape_Caching.html)——Konva 在内部创建图形的图像，并在需要绘制图形时使用该图像。绘制图像可以避免按照绘制指令组合图形的开销，并能明显提高复杂图形和组的性能。
+
+2. 整理图形——舞台中的每个图形都会产生存在成本。要优化性能，请隐藏或从图层中移除不可见、不透明度为 0 或移出视野的对象。
+
+3. 使用 `shape.listening(false)`——与图层一样（请参阅上文第 7 点），Konva 会检查何时应为图形触发事件，这会产生性能成本。让图形停止监听事件可以降低此成本，详情请参阅[禁用监听](/docs/performance/Listening_False.html)。
+
+4. 禁用完美绘制——在某些情况下，HTML5 Canvas 的绘制结果可能与预期不同。有关示例，请参阅[禁用完美绘制](/docs/performance/Disable_Perfect_Draw.html)。Konva 使用完美绘制功能执行额外工作以修正结果，但这会产生性能成本。当图形同时具有填充、描边和不透明度时，设置 `shape.perfectDrawEnabled(false)` 可以避免此成本，并且不会降低输出质量。
+
+5. [优化描边绘制](/docs/performance/Optimize_Strokes.html)——当图形同时具有描边和阴影时，Konva 会执行一次额外的内部绘制，以获得符合预期的结果。禁用 Konva 为描边添加的阴影，可以避免此性能负担。
+
+### 动画
+
+1. [优化动画](/docs/performance/Optimize_Animation.html)——避免为两次视觉变化之间的动画步骤执行不必要的重绘。
+
+### 内存
+
+1. [避免内存泄漏](/docs/performance/Avoid_Memory_Leaks.html)——Konva 会处理许多可能产生内存泄漏的情况，但你仍需正确创建和移除图形与补间。
+
+以下示例展示了其中一些性能技巧的实际效果：
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create stage with good performance settings
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+// Create layers with performance optimizations
+const backgroundLayer = new Konva.Layer({ listening: false });
+const mainLayer = new Konva.Layer();
+const dragLayer = new Konva.Layer();
+
+stage.add(backgroundLayer);
+stage.add(mainLayer);
+stage.add(dragLayer);
+
+// Create a shape with caching
+const star = new Konva.Star({
+  x: 200,
+  y: 200,
+  numPoints: 6,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+  perfectDrawEnabled: false, // performance optimization
+});
+
+// Cache the shape for better performance
+star.cache();
+
+// Optimize dragging performance
+star.on('dragstart', () => {
+  star.moveTo(dragLayer);
+});
+
+star.on('dragend', () => {
+  star.moveTo(mainLayer);
+});
+
+// Create background with listening disabled
+const rect = new Konva.Rect({
+  x: 0,
+  y: 0,
+  width: stage.width(),
+  height: stage.height(),
+  fill: 'lightgray',
+  listening: false,
+});
+
+backgroundLayer.add(rect);
+mainLayer.add(star);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Star, Rect } from 'react-konva';
+import { useState, useRef, useEffect } from 'react';
+
+const App = () => {
+  const [starLayer, setStarLayer] = useState('main');
+  const starRef = useRef(null);
+
+  useEffect(() => {
+    // Cache the shape for better performance
+    if (starRef.current) {
+      starRef.current.cache();
+    }
+  }, []);
+
+  const handleDragStart = () => {
+    setStarLayer('drag');
+  };
+
+  const handleDragEnd = () => {
+    setStarLayer('main');
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer listening={false}>
+        <Rect
+          x={0}
+          y={0}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          fill="lightgray"
+        />
+      </Layer>
+      <Layer>
+        {starLayer === 'main' && (
+          <Star
+            ref={starRef}
+            x={200}
+            y={200}
+            numPoints={6}
+            innerRadius={40}
+            outerRadius={70}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            perfectDrawEnabled={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        )}
+      </Layer>
+      <Layer>
+        {starLayer === 'drag' && (
+          <Star
+            ref={starRef}
+            x={200}
+            y={200}
+            numPoints={6}
+            innerRadius={40}
+            outerRadius={70}
+            fill="yellow"
+            stroke="black"
+            strokeWidth={4}
+            draggable
+            perfectDrawEnabled={false}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        )}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer :config="{ listening: false }">
+      <v-rect :config="rectConfig" />
+    </v-layer>
+    <v-layer>
+      <v-star
+        v-if="starLayer === 'main'"
+        ref="starRef"
+        :config="starConfig"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+    <v-layer>
+      <v-star
+        v-if="starLayer === 'drag'"
+        ref="starRef"
+        :config="starConfig"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const rectConfig = {
+  x: 0,
+  y: 0,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  fill: 'lightgray'
+};
+
+const starConfig = {
+  x: 200,
+  y: 200,
+  numPoints: 6,
+  innerRadius: 40,
+  outerRadius: 70,
+  fill: 'yellow',
+  stroke: 'black',
+  strokeWidth: 4,
+  draggable: true,
+  perfectDrawEnabled: false
+};
+
+const starLayer = ref('main');
+const starRef = ref(null);
+
+onMounted(() => {
+  // Cache the shape for better performance
+  if (starRef.value) {
+    starRef.value.getNode().cache();
+  }
+});
+
+const handleDragStart = () => {
+  starLayer.value = 'drag';
+};
+
+const handleDragEnd = () => {
+  starLayer.value = 'main';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

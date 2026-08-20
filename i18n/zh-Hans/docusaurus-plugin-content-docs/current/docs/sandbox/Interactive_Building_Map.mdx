@@ -1,0 +1,398 @@
+---
+title: 如何使用 JavaScript Canvas 构建交互式楼层平面图和地图
+sidebar_label: 交互式建筑地图
+hide_table_of_contents: true
+slug: Interactive_Building_Map.html
+description: "使用 JavaScript、HTML5 Canvas 和 Konva.js 构建交互式建筑楼层平面图和地图。将鼠标悬停在区域上以查看说明。"
+---
+
+交互式楼层平面图和建筑地图可用于房地产、设施管理和寻路应用。Konva.js 可绘制复杂的多边形图形，并为每个区域添加悬停检测、工具提示和自定义样式。
+
+**操作说明：将鼠标悬停在建筑物的各个区域上以查看其说明。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+function getData() {
+  return {
+    '1st Floor': {
+      color: 'blue',
+      points: [366, 298, 500, 284, 499, 204, 352, 183, 72, 228, 74, 274],
+    },
+    '2nd Floor': {
+      color: 'red',
+      points: [72, 228, 73, 193, 340, 96, 498, 154, 498, 191, 341, 171],
+    },
+    '3rd Floor': {
+      color: 'yellow',
+      points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+    },
+    Gym: {
+      color: 'green',
+      points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
+    },
+  };
+}
+
+function updateTooltip(tooltip, x, y, text) {
+  tooltip.getText().text(text);
+  tooltip.position({
+    x: x,
+    y: y,
+  });
+  tooltip.show();
+}
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+// add background image first
+const imageLayer = new Konva.Layer();
+stage.add(imageLayer);
+
+Konva.Image.fromURL('https://konvajs.org/assets/line-building.png', function (bgImage) {
+  bgImage.setAttrs({
+    x: 1,
+    y: 0,
+  });
+  imageLayer.add(bgImage);
+});
+
+const shapesLayer = new Konva.Layer();
+const tooltipLayer = new Konva.Layer();
+
+const tooltip = new Konva.Label({
+  opacity: 0.75,
+  visible: false,
+  listening: false,
+});
+
+tooltip.add(
+  new Konva.Tag({
+    fill: 'black',
+    pointerDirection: 'down',
+    pointerWidth: 10,
+    pointerHeight: 10,
+    lineJoin: 'round',
+    shadowColor: 'black',
+    shadowBlur: 10,
+    shadowOffsetX: 10,
+    shadowOffsetY: 10,
+    shadowOpacity: 0.5,
+  })
+);
+
+tooltip.add(
+  new Konva.Text({
+    text: '',
+    fontFamily: 'Calibri',
+    fontSize: 18,
+    padding: 5,
+    fill: 'white',
+  })
+);
+
+tooltipLayer.add(tooltip);
+
+// get areas data
+const areas = getData();
+
+// draw areas
+for (const key in areas) {
+  const area = areas[key];
+  const points = area.points;
+
+  const shape = new Konva.Line({
+    points: points,
+    fill: area.color,
+    opacity: 0,
+    closed: true,
+    name: 'area',
+    // custom attr
+    key: key,
+  });
+
+  shapesLayer.add(shape);
+}
+
+// add layers in correct order
+stage.add(shapesLayer);
+stage.add(tooltipLayer);
+
+stage.on('mouseover', (evt) => {
+  const shape = evt.target;
+  if (shape && shape.name() === 'area') {  // only change opacity if it's an area shape
+    shape.opacity(0.5);
+  }
+});
+
+stage.on('mouseout', (evt) => {
+  const shape = evt.target;
+  if (shape && shape.name() === 'area') {  // only change opacity if it's an area shape
+    shape.opacity(0);
+    tooltip.hide();
+  }
+});
+
+stage.on('mousemove', (evt) => {
+  const shape = evt.target;
+  if (shape && shape.name() === 'area') {  // only change opacity if it's an area shape
+    const mousePos = stage.getPointerPosition();
+    const x = mousePos.x;
+    const y = mousePos.y - 5;
+    updateTooltip(tooltip, x, y, shape.getAttr('key'));
+  }
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Line, Label, Tag, Text, Image } from 'react-konva';
+import { useState } from 'react';
+import useImage from 'use-image';
+
+const getData = () => ({
+  '1st Floor': {
+    color: 'blue',
+    points: [366, 298, 500, 284, 499, 204, 352, 183, 72, 228, 74, 274],
+  },
+  '2nd Floor': {
+    color: 'red',
+    points: [72, 228, 73, 193, 340, 96, 498, 154, 498, 191, 341, 171],
+  },
+  '3rd Floor': {
+    color: 'yellow',
+    points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+  },
+  Gym: {
+    color: 'green',
+    points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
+  },
+});
+
+const App = () => {
+  const [tooltipProps, setTooltipProps] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    text: '',
+  });
+  const [hoveredArea, setHoveredArea] = useState(null);
+  const [backgroundImage] = useImage('https://konvajs.org/assets/line-building.png');
+
+  const areas = getData();
+
+  const handleMouseOver = (key) => {
+    setHoveredArea(key);
+  };
+
+  const handleMouseOut = () => {
+    setHoveredArea(null);
+    setTooltipProps(prev => ({ ...prev, visible: false }));
+  };
+
+  const handleMouseMove = (e, key) => {
+    const stage = e.target.getStage();
+    const mousePos = stage.getPointerPosition();
+    setTooltipProps({
+      visible: true,
+      x: mousePos.x,
+      y: mousePos.y - 5,
+      text: key,
+    });
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Image
+          x={1}
+          y={0}
+          image={backgroundImage}
+        />
+      </Layer>
+      <Layer>
+        {Object.entries(areas).map(([key, area]) => (
+          <Line
+            key={key}
+            points={area.points}
+            fill={area.color}
+            opacity={hoveredArea === key ? 0.5 : 0}
+            closed={true}
+            onMouseOver={() => handleMouseOver(key)}
+            onMouseOut={handleMouseOut}
+            onMouseMove={(e) => handleMouseMove(e, key)}
+          />
+        ))}
+      </Layer>
+      <Layer>
+        <Label
+          x={tooltipProps.x}
+          y={tooltipProps.y}
+          opacity={0.75}
+          visible={tooltipProps.visible}
+        >
+          <Tag
+            fill="black"
+            pointerDirection="down"
+            pointerWidth={10}
+            pointerHeight={10}
+            lineJoin="round"
+            shadowColor="black"
+            shadowBlur={10}
+            shadowOffsetX={10}
+            shadowOffsetY={10}
+            shadowOpacity={0.5}
+          />
+          <Text
+            text={tooltipProps.text}
+            fontFamily="Calibri"
+            fontSize={18}
+            padding={5}
+            fill="white"
+          />
+        </Label>
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-image
+        v-if="backgroundImage"
+        :config="{
+          x: 1,
+          y: 0,
+          image: backgroundImage
+        }"
+      />
+    </v-layer>
+    <v-layer>
+      <v-line
+        v-for="(area, key) in areas"
+        :key="key"
+        :config="{
+          points: area.points,
+          fill: area.color,
+          opacity: hoveredArea === key ? 0.5 : 0,
+          closed: true
+        }"
+        @mouseover="handleMouseOver(key)"
+        @mouseout="handleMouseOut"
+        @mousemove="(e) => handleMouseMove(e, key)"
+      />
+    </v-layer>
+    <v-layer>
+      <v-label
+        :config="{
+          x: tooltipProps.x,
+          y: tooltipProps.y,
+          opacity: 0.75,
+          visible: tooltipProps.visible
+        }"
+      >
+        <v-tag
+          :config="{
+            fill: 'black',
+            pointerDirection: 'down',
+            pointerWidth: 10,
+            pointerHeight: 10,
+            lineJoin: 'round',
+            shadowColor: 'black',
+            shadowBlur: 10,
+            shadowOffsetX: 10,
+            shadowOffsetY: 10,
+            shadowOpacity: 0.5
+          }"
+        />
+        <v-text
+          :config="{
+            text: tooltipProps.text,
+            fontFamily: 'Calibri',
+            fontSize: 18,
+            padding: 5,
+            fill: 'white'
+          }"
+        />
+      </v-label>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { useImage } from 'vue-konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const [backgroundImage] = useImage('https://konvajs.org/assets/line-building.png');
+
+const getData = () => ({
+  '1st Floor': {
+    color: 'blue',
+    points: [366, 298, 500, 284, 499, 204, 352, 183, 72, 228, 74, 274],
+  },
+  '2nd Floor': {
+    color: 'red',
+    points: [72, 228, 73, 193, 340, 96, 498, 154, 498, 191, 341, 171],
+  },
+  '3rd Floor': {
+    color: 'yellow',
+    points: [73, 192, 73, 160, 340, 23, 500, 109, 499, 139, 342, 93],
+  },
+  Gym: {
+    color: 'green',
+    points: [498, 283, 503, 146, 560, 136, 576, 144, 576, 278, 500, 283],
+  },
+});
+
+const areas = getData();
+const hoveredArea = ref(null);
+const tooltipProps = ref({
+  visible: false,
+  x: 0,
+  y: 0,
+  text: '',
+});
+
+const handleMouseOver = (key) => {
+  hoveredArea.value = key;
+};
+
+const handleMouseOut = () => {
+  hoveredArea.value = null;
+  tooltipProps.value.visible = false;
+};
+
+const handleMouseMove = (e, key) => {
+  const stage = e.target.getStage();
+  const mousePos = stage.getPointerPosition();
+  tooltipProps.value = {
+    visible: true,
+    x: mousePos.x,
+    y: mousePos.y - 5,
+    text: key,
+  };
+};
+</script>
+```
+  </TabItem>
+</Tabs>

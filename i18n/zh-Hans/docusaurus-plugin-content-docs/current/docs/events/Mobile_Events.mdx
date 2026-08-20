@@ -1,0 +1,215 @@
+---
+title: HTML5 Canvas 移动端触摸事件教程
+sidebar_label: 移动端事件
+hide_table_of_contents: true
+slug: Mobile_Events.html
+description: "学习如何使用 Konva.js 在移动设备上处理 HTML5 Canvas 触摸事件，包括 tap、touchstart、touchmove、touchend 和多点触摸手势。"
+---
+
+要使用 Konva 在移动设备上为图形绑定事件处理程序，可以使用 `on()` 方法。
+`on()` 方法需要一个事件类型，以及一个在事件发生时执行的函数。
+Konva 支持 `touchstart`、`touchmove`、`touchend`、`tap`、`dbltap`、`dragstart`、`dragmove` 和 `dragend` 移动端事件。
+
+有关 `rotate` 等更复杂的手势，请参阅[手势示例](/docs/sandbox/Gestures.html)。
+
+如果你需要整个舞台的平移和缩放逻辑，请参阅[多点触摸缩放舞台示例](/docs/sandbox/Multi-touch_Scale_Stage.html)。
+
+*注意：此示例使用触摸事件而不是鼠标事件，因此仅适用于移动设备。*
+
+**操作说明：在三角形上移动手指以查看触摸坐标，并在圆形上触发 touchstart 和 touchend。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+
+const text = new Konva.Text({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: '',
+  fill: 'black',
+});
+
+const triangle = new Konva.RegularPolygon({
+  x: 80,
+  y: 120,
+  sides: 3,
+  radius: 80,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+const circle = new Konva.Circle({
+  x: 230,
+  y: 100,
+  radius: 60,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+
+function writeMessage(message) {
+  text.text(message);
+}
+
+triangle.on('touchmove', function () {
+  const touchPos = stage.getPointerPosition();
+  const x = touchPos.x;
+  const y = touchPos.y;
+  writeMessage('x: ' + x + ', y: ' + y);
+});
+
+circle.on('touchstart', function () {
+  writeMessage('touchstart circle');
+});
+circle.on('touchend', function () {
+  writeMessage('touchend circle');
+});
+
+layer.add(triangle);
+layer.add(circle);
+layer.add(text);
+stage.add(layer);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, RegularPolygon, Circle, Text } from 'react-konva';
+import { useState, useRef } from 'react';
+
+const App = () => {
+  const [message, setMessage] = useState('');
+  const stageRef = useRef();
+
+  const handleTriangleTouch = () => {
+    const touchPos = stageRef.current.getPointerPosition();
+    setMessage(`x: ${touchPos.x}, y: ${touchPos.y}`);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight} ref={stageRef}>
+      <Layer>
+        <Text
+          x={10}
+          y={10}
+          fontFamily="Calibri"
+          fontSize={24}
+          text={message}
+          fill="black"
+        />
+        <RegularPolygon
+          x={80}
+          y={120}
+          sides={3}
+          radius={80}
+          fill="#00D2FF"
+          stroke="black"
+          strokeWidth={4}
+          onTouchmove={handleTriangleTouch}
+        />
+        <Circle
+          x={230}
+          y={100}
+          radius={60}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          onTouchstart={() => setMessage('touchstart circle')}
+          onTouchend={() => setMessage('touchend circle')}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize" ref="stageRef">
+    <v-layer>
+      <v-text :config="textConfig" />
+      <v-regular-polygon
+        :config="triangleConfig"
+        @touchmove="handleTriangleTouch"
+      />
+      <v-circle
+        :config="circleConfig"
+        @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+
+const stageRef = ref(null);
+const message = ref('');
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const textConfig = computed(() => ({
+  x: 10,
+  y: 10,
+  fontFamily: 'Calibri',
+  fontSize: 24,
+  text: message.value,
+  fill: 'black'
+}));
+
+const triangleConfig = {
+  x: 80,
+  y: 120,
+  sides: 3,
+  radius: 80,
+  fill: '#00D2FF',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const circleConfig = {
+  x: 230,
+  y: 100,
+  radius: 60,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const handleTriangleTouch = () => {
+  const touchPos = stageRef.value.getNode().getPointerPosition();
+  message.value = `x: ${touchPos.x}, y: ${touchPos.y}`;
+};
+
+const handleTouchStart = () => {
+  message.value = 'touchstart circle';
+};
+
+const handleTouchEnd = () => {
+  message.value = 'touchend circle';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

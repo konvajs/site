@@ -1,0 +1,547 @@
+---
+title: Canvas 右键上下文菜单——为 Canvas 图形创建自定义菜单
+sidebar_label: Canvas 上下文菜单
+hide_table_of_contents: true
+slug: Canvas_Context_Menu.html
+description: "使用 JavaScript 和 Konva.js 为 HTML5 Canvas 图形添加自定义右键上下文菜单。包含脉冲动画和删除 Canvas 对象的操作。"
+---
+
+## 需要为 Canvas 图形显示上下文菜单吗？
+
+如需显示上下文菜单，必须：
+
+1. 监听 Canvas 容器（舞台）的 `contextmenu` 事件
+2. 阻止浏览器默认行为，以隐藏原生上下文菜单
+3. 使用 `Konva` 工具或常规 HTML 创建自定义上下文菜单
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+**操作说明：双击舞台以创建圆形。右键单击图形，打开上下文菜单。**
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+// Create a div to use as a context menu
+const menuNode = document.createElement('div');
+menuNode.id = 'menu';
+menuNode.style.display = 'none';
+menuNode.style.position = 'fixed';
+menuNode.style.width = '60px';
+menuNode.style.backgroundColor = 'white';
+menuNode.style.boxShadow = '0 0 5px grey';
+menuNode.style.borderRadius = '3px';
+
+// Create buttons for the menu
+const pulseButton = document.createElement('button');
+pulseButton.textContent = 'Pulse';
+pulseButton.style.width = '100%';
+pulseButton.style.backgroundColor = 'white';
+pulseButton.style.border = 'none';
+pulseButton.style.margin = '0';
+pulseButton.style.padding = '10px';
+
+const deleteButton = document.createElement('button');
+deleteButton.textContent = 'Delete';
+deleteButton.style.width = '100%';
+deleteButton.style.backgroundColor = 'white';
+deleteButton.style.border = 'none';
+deleteButton.style.margin = '0';
+deleteButton.style.padding = '10px';
+
+// Add hover effects
+pulseButton.addEventListener('mouseover', () => {
+  pulseButton.style.backgroundColor = 'lightgray';
+});
+pulseButton.addEventListener('mouseout', () => {
+  pulseButton.style.backgroundColor = 'white';
+});
+
+deleteButton.addEventListener('mouseover', () => {
+  deleteButton.style.backgroundColor = 'lightgray';
+});
+deleteButton.addEventListener('mouseout', () => {
+  deleteButton.style.backgroundColor = 'white';
+});
+
+// Add buttons to menu
+menuNode.appendChild(pulseButton);
+menuNode.appendChild(deleteButton);
+document.body.appendChild(menuNode);
+
+// Set up the stage
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// add default shape
+const shape = new Konva.Circle({
+  x: stage.width() / 2,
+  y: stage.height() / 2,
+  radius: 50,
+  fill: 'red',
+  shadowBlur: 10,
+});
+layer.add(shape);
+
+let currentShape;
+
+// Setup the menu functionality
+pulseButton.addEventListener('click', () => {
+  currentShape.to({
+    scaleX: 2,
+    scaleY: 2,
+    onFinish: () => {
+      currentShape.to({ scaleX: 1, scaleY: 1 });
+    },
+  });
+});
+
+deleteButton.addEventListener('click', () => {
+  currentShape.destroy();
+});
+
+// Hide menu on document click
+window.addEventListener('click', () => {
+  menuNode.style.display = 'none';
+});
+
+// Add double click event to create new shapes
+stage.on('dblclick dbltap', function () {
+  // add a new shape
+  const newShape = new Konva.Circle({
+    x: stage.getPointerPosition().x,
+    y: stage.getPointerPosition().y,
+    radius: 10 + Math.random() * 30,
+    fill: Konva.Util.getRandomColor(),
+    shadowBlur: 10,
+  });
+  layer.add(newShape);
+});
+
+// Add context menu event
+stage.on('contextmenu', function (e) {
+  // prevent default behavior
+  e.evt.preventDefault();
+  if (e.target === stage) {
+    // if we are on empty place of the stage we will do nothing
+    return;
+  }
+  currentShape = e.target;
+  // show menu
+  menuNode.style.display = 'initial';
+  const containerRect = stage.container().getBoundingClientRect();
+  menuNode.style.top =
+    containerRect.top + stage.getPointerPosition().y + 4 + 'px';
+  menuNode.style.left =
+    containerRect.left + stage.getPointerPosition().x + 4 + 'px';
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useRef, useEffect } from 'react';
+import { Stage, Layer, Circle } from 'react-konva';
+
+const App = () => {
+  const [circles, setCircles] = useState([
+    {
+      id: 'initial-circle',
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      radius: 50,
+      fill: 'red',
+      shadowBlur: 10
+    }
+  ]);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [showMenu, setShowMenu] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const stageRef = useRef(null);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  // Create and cleanup context menu
+  useEffect(() => {
+    // Hide menu on window click
+    const handleWindowClick = () => {
+      setShowMenu(false);
+    };
+    window.addEventListener('click', handleWindowClick);
+    
+    return () => {
+      window.removeEventListener('click', handleWindowClick);
+    };
+  }, []);
+
+  // Handle double click to create a new circle
+  const handleDblClick = (e) => {
+    const stage = e.target.getStage();
+    const pointerPosition = stage.getPointerPosition();
+    const newCircle = {
+      id: Date.now().toString(),
+      x: pointerPosition.x,
+      y: pointerPosition.y,
+      radius: 10 + Math.random() * 30,
+      fill: getRandomColor(),
+      shadowBlur: 10
+    };
+    setCircles([...circles, newCircle]);
+  };
+
+  // Handle context menu for circles
+  const handleContextMenu = (e) => {
+    e.evt.preventDefault();
+    if (e.target === e.target.getStage()) {
+      return;
+    }
+    
+    const stage = e.target.getStage();
+    const containerRect = stage.container().getBoundingClientRect();
+    const pointerPosition = stage.getPointerPosition();
+    
+    setMenuPosition({
+      x: containerRect.left + pointerPosition.x + 4,
+      y: containerRect.top + pointerPosition.y + 4
+    });
+    
+    setShowMenu(true);
+    setSelectedId(e.target.id());
+    e.cancelBubble = true;
+  };
+
+  // Menu action handlers
+  const handlePulse = () => {
+    const newCircles = circles.map(circle => {
+      if (circle.id === selectedId) {
+        return {
+          ...circle,
+          scaleX: 2,
+          scaleY: 2,
+          animation: 'pulse'
+        };
+      }
+      return circle;
+    });
+    setCircles(newCircles);
+    
+    // Reset scale after animation
+    setTimeout(() => {
+      const resetCircles = circles.map(circle => {
+        if (circle.id === selectedId) {
+          return {
+            ...circle,
+            scaleX: 1,
+            scaleY: 1,
+            animation: null
+          };
+        }
+        return circle;
+      });
+      setCircles(resetCircles);
+    }, 300);
+  };
+
+  const handleDelete = () => {
+    const newCircles = circles.filter(circle => circle.id !== selectedId);
+    setCircles(newCircles);
+    setShowMenu(false);
+  };
+
+  // Utility function for random color
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <Stage
+        width={width}
+        height={height}
+        onDblClick={handleDblClick}
+        onContextMenu={handleContextMenu}
+        ref={stageRef}
+      >
+        <Layer>
+          {circles.map((circle) => (
+            <Circle
+              key={circle.id}
+              id={circle.id}
+              x={circle.x}
+              y={circle.y}
+              radius={circle.radius}
+              fill={circle.fill}
+              shadowBlur={circle.shadowBlur}
+              scaleX={circle.scaleX || 1}
+              scaleY={circle.scaleY || 1}
+            />
+          ))}
+        </Layer>
+      </Stage>
+      
+      {/* Context Menu */}
+      {showMenu && (
+        <div
+          style={{
+            position: 'fixed',
+            top: menuPosition.y,
+            left: menuPosition.x,
+            width: '60px',
+            backgroundColor: 'white',
+            boxShadow: '0 0 5px grey',
+            borderRadius: '3px',
+            zIndex: 10
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            style={{
+              width: '100%',
+              backgroundColor: 'white',
+              border: 'none',
+              margin: 0,
+              padding: '10px',
+              cursor: 'pointer'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = 'lightgray'}
+            onMouseOut={(e) => e.target.style.backgroundColor = 'white'}
+            onClick={handlePulse}
+          >
+            Pulse
+          </button>
+          <button
+            style={{
+              width: '100%',
+              backgroundColor: 'white',
+              border: 'none',
+              margin: 0,
+              padding: '10px',
+              cursor: 'pointer'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = 'lightgray'}
+            onMouseOut={(e) => e.target.style.backgroundColor = 'white'}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div style="position: relative">
+    <v-stage
+      ref="stageRef"
+      :config="stageConfig"
+      @dblclick="handleDblClick"
+      @contextmenu="handleContextMenu"
+    >
+      <v-layer>
+        <v-circle
+          v-for="circle in circles"
+          :key="circle.id"
+          :config="{
+            id: circle.id,
+            x: circle.x,
+            y: circle.y,
+            radius: circle.radius,
+            fill: circle.fill,
+            shadowBlur: circle.shadowBlur,
+            scaleX: circle.scaleX || 1,
+            scaleY: circle.scaleY || 1,
+          }"
+        />
+      </v-layer>
+    </v-stage>
+    
+    <!-- Context Menu -->
+    <div
+      v-if="showMenu"
+      :style="{
+        position: 'fixed',
+        top: menuPosition.y + 'px',
+        left: menuPosition.x + 'px',
+        width: '60px',
+        backgroundColor: 'white',
+        boxShadow: '0 0 5px grey',
+        borderRadius: '3px',
+        zIndex: 10
+      }"
+      @click.stop
+    >
+      <button
+        :style="{
+          width: '100%',
+          backgroundColor: 'white',
+          border: 'none',
+          margin: 0,
+          padding: '10px',
+          cursor: 'pointer'
+        }"
+        @mouseover="e => e.target.style.backgroundColor = 'lightgray'"
+        @mouseout="e => e.target.style.backgroundColor = 'white'"
+        @click="handlePulse"
+      >
+        Pulse
+      </button>
+      <button
+        :style="{
+          width: '100%',
+          backgroundColor: 'white',
+          border: 'none',
+          margin: 0,
+          padding: '10px',
+          cursor: 'pointer'
+        }"
+        @mouseover="e => e.target.style.backgroundColor = 'lightgray'"
+        @mouseout="e => e.target.style.backgroundColor = 'white'"
+        @click="handleDelete"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const stageRef = ref(null);
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+// State for circles and context menu
+const circles = ref([
+  {
+    id: 'initial-circle',
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+    radius: 50,
+    fill: 'red',
+    shadowBlur: 10
+  }
+]);
+const menuPosition = ref({ x: 0, y: 0 });
+const showMenu = ref(false);
+const selectedId = ref(null);
+
+// Create and cleanup context menu
+onMounted(() => {
+  window.addEventListener('click', handleWindowClick);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('click', handleWindowClick);
+});
+
+// Hide menu on window click
+const handleWindowClick = () => {
+  showMenu.value = false;
+};
+
+// Handle double click to create a new circle
+const handleDblClick = (e) => {
+  const stage = e.target.getStage();
+  const pointerPosition = stage.getPointerPosition();
+  const newCircle = {
+    id: Date.now().toString(),
+    x: pointerPosition.x,
+    y: pointerPosition.y,
+    radius: 10 + Math.random() * 30,
+    fill: getRandomColor(),
+    shadowBlur: 10
+  };
+  circles.value.push(newCircle);
+};
+
+// Handle context menu for circles
+const handleContextMenu = (e) => {
+  e.evt.preventDefault();
+  if (e.target === e.target.getStage()) {
+    return;
+  }
+  
+  const stage = e.target.getStage();
+  const containerRect = stage.container().getBoundingClientRect();
+  const pointerPosition = stage.getPointerPosition();
+  
+  menuPosition.value = {
+    x: containerRect.left + pointerPosition.x + 4,
+    y: containerRect.top + pointerPosition.y + 4
+  };
+  
+  showMenu.value = true;
+  selectedId.value = e.target.id();
+  e.cancelBubble = true;
+};
+
+// Menu action handlers
+const handlePulse = () => {
+  circles.value = circles.value.map(circle => {
+    if (circle.id === selectedId.value) {
+      return {
+        ...circle,
+        scaleX: 2,
+        scaleY: 2
+      };
+    }
+    return circle;
+  });
+  
+  // Reset scale after animation
+  setTimeout(() => {
+    circles.value = circles.value.map(circle => {
+      if (circle.id === selectedId.value) {
+        return {
+          ...circle,
+          scaleX: 1,
+          scaleY: 1
+        };
+      }
+      return circle;
+    });
+  }, 300);
+};
+
+const handleDelete = () => {
+  circles.value = circles.value.filter(circle => circle.id !== selectedId.value);
+  showMenu.value = false;
+};
+
+// Utility function for random color
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

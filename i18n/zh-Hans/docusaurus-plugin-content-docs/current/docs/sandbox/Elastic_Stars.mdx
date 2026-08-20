@@ -1,0 +1,345 @@
+---
+title: 弹性星形
+sidebar_label: 弹性星形
+hide_table_of_contents: true
+slug: Elastic_Stars.html
+description: "使用 Konva 补间和缓动效果拖放星形，并在释放时播放弹性回弹动画。"
+---
+
+**操作说明：**拖放星形并观察 dragend 时的弹性回落效果。刷新页面可再次随机排列星形。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+let tween = null;
+
+function addStar(layer, stage) {
+  const scale = Math.random();
+
+  const star = new Konva.Star({
+    x: Math.random() * stage.width(),
+    y: Math.random() * stage.height(),
+    numPoints: 5,
+    innerRadius: 30,
+    outerRadius: 50,
+    fill: '#89b717',
+    opacity: 0.8,
+    draggable: true,
+    scale: {
+      x: scale,
+      y: scale,
+    },
+    rotation: Math.random() * 180,
+    shadowColor: 'black',
+    shadowBlur: 10,
+    shadowOffset: {
+      x: 5,
+      y: 5,
+    },
+    shadowOpacity: 0.6,
+    startScale: scale,
+  });
+
+  layer.add(star);
+}
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+
+for (let n = 0; n < 10; n++) {
+  addStar(layer, stage);
+}
+
+stage.add(layer);
+
+stage.on('dragstart', function (evt) {
+  const shape = evt.target;
+  if (tween) {
+    tween.pause();
+  }
+  shape.setAttrs({
+    shadowOffset: {
+      x: 15,
+      y: 15,
+    },
+    scale: {
+      x: shape.getAttr('startScale') * 1.2,
+      y: shape.getAttr('startScale') * 1.2,
+    },
+  });
+});
+
+stage.on('dragend', function (evt) {
+  const shape = evt.target;
+
+  tween = new Konva.Tween({
+    node: shape,
+    duration: 0.5,
+    easing: Konva.Easings.ElasticEaseOut,
+    scaleX: shape.getAttr('startScale'),
+    scaleY: shape.getAttr('startScale'),
+    shadowOffsetX: 5,
+    shadowOffsetY: 5,
+  });
+
+  tween.play();
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState, useEffect } from 'react';
+import { Stage, Layer, Star } from 'react-konva';
+
+const App = () => {
+  const [stars, setStars] = useState([]);
+  
+  // Generate initial stars
+  useEffect(() => {
+    const initialStars = [];
+    for (let n = 0; n < 10; n++) {
+      const scale = Math.random();
+      initialStars.push({
+        id: n.toString(),
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        numPoints: 5,
+        innerRadius: 30,
+        outerRadius: 50,
+        fill: '#89b717',
+        opacity: 0.8,
+        rotation: Math.random() * 180,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffset: {
+          x: 5,
+          y: 5,
+        },
+        shadowOpacity: 0.6,
+        scale: {
+          x: scale,
+          y: scale,
+        },
+        startScale: scale
+      });
+    }
+    setStars(initialStars);
+  }, []);
+  
+  const handleDragStart = (e) => {
+    // Get index directly from the target
+    const index = stars.findIndex(star => star.id === e.target.attrs.id);
+    
+    if (index === -1) return;
+    
+    // Create a new array with the updated star
+    const newStars = [...stars];
+    newStars[index] = {
+      ...newStars[index],
+      shadowOffset: {
+        x: 15,
+        y: 15,
+      },
+      scale: {
+        x: newStars[index].startScale * 1.2,
+        y: newStars[index].startScale * 1.2,
+      }
+    };
+    
+    setStars(newStars);
+  };
+  
+  const handleDragEnd = (e) => {
+    // Get index directly from the target
+    const index = stars.findIndex(star => star.id === e.target.attrs.id);
+    
+    if (index === -1) return;
+    
+    // Create a new array with the updated star
+    const newStars = [...stars];
+    newStars[index] = {
+      ...newStars[index],
+      shadowOffset: {
+        x: 5,
+        y: 5,
+      },
+      scale: {
+        x: newStars[index].startScale,
+        y: newStars[index].startScale,
+      }
+    };
+    
+    setStars(newStars);
+  };
+  
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {stars.map(star => (
+          <Star
+            key={star.id}
+            id={star.id}
+            x={star.x}
+            y={star.y}
+            numPoints={star.numPoints}
+            innerRadius={star.innerRadius}
+            outerRadius={star.outerRadius}
+            fill={star.fill}
+            opacity={star.opacity}
+            rotation={star.rotation}
+            shadowColor={star.shadowColor}
+            shadowBlur={star.shadowBlur}
+            shadowOffset={star.shadowOffset}
+            shadowOpacity={star.shadowOpacity}
+            scale={star.scale}
+            draggable
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <v-star
+        v-for="star in stars"
+        :key="star.id"
+        :config="star"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+        @dragmove="handleDragMove"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const stars = ref([]);
+
+// Generate initial stars
+onMounted(() => {
+  const initialStars = [];
+  
+  for (let n = 0; n < 10; n++) {
+    const scale = Math.random();
+    const id = n.toString();
+    
+    initialStars.push({
+      id: id,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      numPoints: 5,
+      innerRadius: 30,
+      outerRadius: 50,
+      fill: '#89b717',
+      opacity: 0.8,
+      rotation: Math.random() * 180,
+      shadowColor: 'black',
+      shadowBlur: 10,
+      shadowOffset: {
+        x: 5,
+        y: 5,
+      },
+      shadowOpacity: 0.6,
+      scale: {
+        x: scale,
+        y: scale,
+      },
+      startScale: scale,
+      draggable: true
+    });
+  }
+  
+  stars.value = initialStars;
+});
+
+const handleDragStart = (e) => {
+  const id = e.target.id();
+  const starIndex = stars.value.findIndex(star => star.id === id);
+  
+  if (starIndex === -1) return;
+  
+  // Update the star's properties
+  const star = {...stars.value[starIndex]};
+  star.shadowOffset = {
+    x: 15,
+    y: 15
+  };
+  star.scale = {
+    x: star.startScale * 1.2,
+    y: star.startScale * 1.2
+  };
+  
+  // Update star in the array
+  stars.value[starIndex] = star;
+};
+
+const handleDragEnd = (e) => {
+  const id = e.target.id();
+  const starIndex = stars.value.findIndex(star => star.id === id);
+  
+  if (starIndex === -1) return;
+  
+  // Update the star's properties for animation back
+  const star = {...stars.value[starIndex]};
+  star.shadowOffset = {
+    x: 5,
+    y: 5
+  };
+  star.scale = {
+    x: star.startScale,
+    y: star.startScale
+  };
+  
+  // Update star in the array
+  stars.value[starIndex] = star;
+};
+
+const handleDragMove = (e) => {
+  const id = e.target.id();
+  const starIndex = stars.value.findIndex(star => star.id === id);
+  
+  if (starIndex === -1) return;
+  
+  // Update the star's position
+  const star = {...stars.value[starIndex]};
+  star.x = e.target.x();
+  star.y = e.target.y();
+  
+  // Update star in the array
+  stars.value[starIndex] = star;
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

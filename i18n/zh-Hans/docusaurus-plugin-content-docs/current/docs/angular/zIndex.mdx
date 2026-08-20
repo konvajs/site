@@ -1,0 +1,99 @@
+---
+title: Angular Konva 层叠顺序教程
+sidebar_label: 层叠顺序
+hide_table_of_contents: true
+slug: zIndex.html
+description: "学习如何在 Angular 中使用 ng2-konva，通过管理数据数组控制图形层叠顺序和 z-index。"
+---
+
+要在 Angular 中控制图形层叠顺序，请更新用于渲染图形的数据数组顺序。
+
+本示例展示以下操作：
+1. 创建一个包含随机位置和颜色的圆形图形数组
+2. 处理拖动事件以更新图形的视觉顺序
+3. 通过操作数组顺序保持正确的层叠顺序
+4. 通过 Angular state 驱动渲染，而不是以命令式方式调用 `zIndex()`
+
+**操作说明**：尝试拖动圆形。开始拖动时，它会自动移到层叠顶部。此示例通过操作数据中的圆形数组实现该效果，而不是手动更改 zIndex。
+
+```js live angular
+import { Component, OnInit } from '@angular/core';
+import { StageConfig } from 'konva/lib/Stage';
+import { CircleConfig } from 'konva/lib/shapes/Circle';
+
+import {
+  CoreShapeComponent,
+  StageComponent,
+} from 'ng2-konva';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: `
+    <ko-stage [config]="configStage">
+      <ko-layer>
+        @for (item of items; track trackById($index, item)) {
+          <ko-circle
+            [config]="item"
+            (dragstart)="handleDragstart($event.event)"
+            (dragend)="handleDragend()"
+          ></ko-circle>
+        }
+      </ko-layer>
+    </ko-stage>
+  `,
+  imports: [StageComponent, CoreShapeComponent],
+})
+export default class App implements OnInit {
+  public configStage: StageConfig = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  
+  public items: CircleConfig[] = [];
+  private dragItemId: string | null = null;
+
+  ngOnInit() {
+    this.generateItems();
+  }
+
+  private generateItems(): void {
+    const newItems: CircleConfig[] = [];
+    for (let i = 0; i < 10; i++) {
+      newItems.push({
+        x: Math.random() * this.configStage.width!,
+        y: Math.random() * this.configStage.height!,
+        radius: 50,
+        id: "node-" + i,
+        fill: this.getRandomColor(),
+        draggable: true
+      });
+    }
+    this.items = newItems;
+  }
+
+  private getRandomColor(): string {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  public handleDragstart(event: any): void {
+    this.dragItemId = event.target.id();
+    const item = this.items.find(i => i.id === this.dragItemId);
+    if (item) {
+      this.items = [
+        ...this.items.filter((i) => i.id !== this.dragItemId),
+        item
+      ];
+    }
+  }
+
+  public handleDragend(): void {
+    this.dragItemId = null;
+  }
+
+  public trackById(index: number, item: CircleConfig): string {
+    return item.id as string;
+  }
+}
+```

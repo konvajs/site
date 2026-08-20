@@ -1,0 +1,89 @@
+---
+title: 如何使用 Vue 和 Konva 应用 Canvas 动画？
+sidebar_label: 简单动画
+hide_table_of_contents: true
+slug: Simple_Animations.html
+description: "学习如何在 Vue 中使用 Konva 补间、node.to() 方法和 Konva.Animation，为 Canvas 图形设置连续运动动画。"
+---
+
+Konva 提供两种动画方法：[补间](/docs/tweens/Linear_Easing.html)和[动画](/docs/animations/Rotation.html)。对于简单用例，建议使用 `node.to()` 方法，它是 Tween 的简化版本。
+
+操作说明：尝试拖动绿色矩形，查看它随机缩放。观察红色六边形如何按正弦波轨迹移动。
+
+```js live vue
+<template>
+  <v-stage ref="stage" :config="stageSize">
+    <v-layer ref="layer">
+      <v-rect
+        ref="rect"
+        @dragstart="changeSize"
+        @dragend="changeSize"
+        :config="{
+          width: 50,
+          height: 50,
+          fill: 'green',
+          draggable: true,
+          x: 100,
+          y: 100
+        }"
+      />
+      <v-regular-polygon
+        ref="hexagon"
+        :config="{
+          x: 200,
+          y: 200,
+          sides: 6,
+          radius: 20,
+          fill: 'red',
+          stroke: 'black',
+          strokeWidth: 4
+        }"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import Konva from 'konva';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const stage = ref(null);
+const hexagon = ref(null);
+
+const changeSize = (e) => {
+  // to() is a method of `Konva.Node` instances
+  e.target.to({
+    scaleX: Math.random() + 0.8,
+    scaleY: Math.random() + 0.8,
+    duration: 0.2
+  });
+};
+
+onMounted(() => {
+  const amplitude = 100;
+  const period = 5000; // in ms
+  const centerX = stage.value.getNode().getWidth() / 2;
+  const hexagonNode = hexagon.value.getNode();
+
+  // example of Konva.Animation
+  const anim = new Konva.Animation((frame) => {
+    hexagonNode.setX(
+      amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + centerX
+    );
+  }, hexagonNode.getLayer());
+
+  anim.start();
+});
+</script>
+```
+
+上述示例展示两种动画：
+1. 使用 `node.to()` 方法（Tween）在拖动绿色矩形时为其缩放设置动画
+2. 使用 `Konva.Animation` 让红色六边形连续进行正弦波运动
+
+`node.to()` 方法适合简单过渡，而 `Konva.Animation` 更适合需要逐帧运行的复杂连续动画。

@@ -12,17 +12,21 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "check:i18n-drift": "node scripts/check-i18n-drift.js",
+    "check:code-drift": "node scripts/check-code-drift.js",
+    "update:i18n-sources": "node scripts/check-i18n-drift.js --write && node scripts/check-code-drift.js --write",
+    "check": "npm run check:i18n-drift && npm run check:code-drift && npm run typecheck && npm run build && node checksitemap.js && node checksitemap.js build/zh-Hans/sitemap.xml"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",
     "@docusaurus/core": "3.9.1",
     "@docusaurus/preset-classic": "3.9.1",
-    "@docusaurus/theme-live-codeblock": "^3.9.1",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.1.1",
     "disqus-react": "^1.1.7",
-    "jsdoc-to-markdown": "^9.1.2",
+    "jsdoc-api": "^9.3.4",
+    "konva": "^10.3.1",
     "prism-react-renderer": "^2.4.1",
     "react": "^18",
     "react-dom": "^18"

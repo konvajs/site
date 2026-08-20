@@ -1,0 +1,92 @@
+---
+title: 如何使用 React 更改节点的 zIndex？
+sidebar_label: zIndex
+hide_table_of_contents: true
+slug: zIndex.html
+description: "学习如何通过管理组件 state，而不是手动调整 z 轴顺序，在 react-konva 中控制 zIndex 并重新排序图形。"
+---
+
+## 如何在 `react-konva` 中更改 zIndex 并重新排序组件？
+
+直接使用 `Konva` 时，可以通过多种方法更改节点顺序，例如 `node.zIndex(5)`、`node.moveToTop()` 等。请参阅 [教程](/docs/groups_and_layers/Layering.html)。
+
+但使用 React 框架时，不建议使用这些方法。
+
+`react-konva` 严格遵循组件中定义的节点顺序。因此，不要手动更改 zIndex，只需正确更新应用 state。
+
+不要为 Canvas 组件使用 `zIndex`。
+
+如果要将节点临时移动到另一个容器，例如显示覆盖层，请参阅 [Canvas Portal 示例](/docs/react/Canvas_Portal.html)。
+
+**操作说明：尝试拖动圆形。观察它如何移动到最上层。此示例通过操作 state，使组件按正确顺序渲染。**
+
+```js live react
+import React, { Component } from 'react';
+import Konva from 'konva';
+import { Stage, Layer, Circle } from 'react-konva';
+
+function generateItems() {
+  const items = [];
+  for (let i = 0; i < 10; i++) {
+    items.push({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      id: 'node-' + i,
+      color: Konva.Util.getRandomColor(),
+    });
+  }
+  return items;
+}
+
+const App = () => {
+  const [items, setItems] = React.useState(generateItems());
+
+  const handleDragStart = (e) => {
+    const id = e.target.name();
+    const itemsCopy = items.slice();
+    const item = itemsCopy.find((i) => i.id === id);
+    const index = itemsCopy.indexOf(item);
+    // remove from the list:
+    itemsCopy.splice(index, 1);
+    // add to the top
+    itemsCopy.push(item);
+    setItems(itemsCopy);
+  };
+
+  const onDragEnd = (e) => {
+    const id = e.target.name();
+    const itemsCopy = items.slice();
+    const item = items.find((i) => i.id === id);
+    const index = items.indexOf(item);
+    // update item position
+    itemsCopy[index] = {
+      ...item,
+      x: e.target.x(),
+      y: e.target.y(),
+    };
+    setItems(itemsCopy);
+  };
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {items.map((item) => (
+          <Circle
+            key={item.id}
+            name={item.id}
+            draggable
+            x={item.x}
+            y={item.y}
+            fill={item.color}
+            radius={50}
+            onDragStart={handleDragStart}
+            onDragEnd={onDragEnd}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+``` 

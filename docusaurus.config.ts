@@ -7,7 +7,6 @@ const config: Config = {
   tagline:
     'The ultimate bridge between your Vanilla/React/Vue/Svelte/Angular app and canvas graphics',
   favicon: 'img/favicon.ico',
-  themes: ['./src/theme-live-codeblock'],
 
   // Set the production url of your site here
   url: 'https://konvajs.org',
@@ -20,16 +19,21 @@ const config: Config = {
   organizationName: 'konvajs', // Usually your GitHub org/user name.
   projectName: 'konva', // Usually your repo name.
 
-  // TODO: change to 'throw'
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+  onBrokenAnchors: 'throw',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
+  },
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'zh-Hans'],
+    localeConfigs: {
+      en: {label: 'English'},
+      'zh-Hans': {label: '简体中文'},
+    },
   },
 
   scripts: [
@@ -38,6 +42,10 @@ const config: Config = {
       async: true,
       defer: true,
       'data-domain': 'konvajs.org',
+    },
+    {
+      src: '/js/plausible-events.js',
+      defer: true,
     },
     {
       src: 'https://cdn.convertbox.com/convertbox/js/embed.js',
@@ -70,19 +78,9 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl: 'https://github.com/konvajs/site/tree/new/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/konvajs/site/tree/new/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
+        blog: false,
+        sitemap: {
+          ignorePatterns: ['/search', '/zh-Hans/search', '/zh-Hans/api/**'],
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -206,6 +204,10 @@ const config: Config = {
           ],
         },
         {
+          type: 'localeDropdown',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/konvajs/konva',
           className: 'header-github-link',
           position: 'right',
@@ -277,6 +279,10 @@ const config: Config = {
               label: 'Changelog',
               href: 'https://github.com/konvajs/konva/blob/master/CHANGELOG.md',
             },
+            {
+              label: 'Star Konva on GitHub',
+              href: 'https://github.com/konvajs/konva',
+            },
           ],
         },
         {
@@ -284,19 +290,19 @@ const config: Config = {
           items: [
             {
               label: 'React',
-              href: '/docs/react/index.html',
+              to: '/docs/react/index.html',
             },
             {
               label: 'Vue',
-              href: '/docs/vue/index.html',
+              to: '/docs/vue/index.html',
             },
             {
               label: 'Svelte',
-              href: '/docs/svelte/index.html',
+              to: '/docs/svelte/index.html',
             },
             {
               label: 'Angular',
-              href: '/docs/angular/index.html',
+              to: '/docs/angular/index.html',
             },
           ],
         },
@@ -305,7 +311,8 @@ const config: Config = {
           items: [
             {
               label: 'Design Editor SDK',
-              href: 'https://polotno.com',
+              href:
+                'https://polotno.com/?utm_source=konvajs&utm_medium=footer&utm_content=footer-link',
             },
           ],
         },

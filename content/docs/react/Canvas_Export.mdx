@@ -62,3 +62,10 @@ const App = () => {
 
 export default App;
 ``` 
+
+## Before you raise the pixel ratio
+
+Browsers cap canvas width, height, and total area, so a high `pixelRatio` can
+return a blank image rather than an error. See
+[high quality export](/docs/data_and_serialization/High-Quality-Export.html) for
+the limits and the ways around them.

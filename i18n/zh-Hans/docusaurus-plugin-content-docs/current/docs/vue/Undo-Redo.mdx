@@ -1,0 +1,112 @@
+---
+title: 如何使用 Vue 在 Canvas 上实现撤销/重做？
+sidebar_label: 撤销/重做
+hide_table_of_contents: true
+slug: Undo-Redo.html
+description: "学习如何通过 Vue 响应式系统记录 state 历史，在 Vue 中为 Canvas 图形实现撤销和重做。"
+---
+
+如需使用 Vue 实现撤销/重做功能，无需使用 Konva 的序列化和反序列化方法。
+
+只需保存应用内所有 state 变化的历史记录。实现方法有很多。如果使用不可变数据结构，此操作可能更简单。
+
+操作说明：尝试通过拖动移动正方形。然后使用“undo”和“redo”按钮撤销或重做操作。
+
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text
+        :config="{
+          text: 'undo',
+          x: 10,
+          y: 10
+        }"
+        @click="handleUndo"
+      />
+      <v-text
+        :config="{
+          text: 'redo',
+          x: 50,
+          y: 10
+        }"
+        @click="handleRedo"
+      />
+      <v-rect
+        :config="{
+          x: position.x,
+          y: position.y,
+          width: 50,
+          height: 50,
+          fill: 'black',
+          draggable: true
+        }"
+        @dragend="handleDragEnd"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const position = reactive({ x: 20, y: 20 });
+// We use refs to keep history to avoid unnecessary re-renders
+const history = ref([{ x: 20, y: 20 }]);
+const historyStep = ref(0);
+
+const handleUndo = () => {
+  if (historyStep.value === 0) {
+    return;
+  }
+  historyStep.value -= 1;
+  const previous = history.value[historyStep.value];
+  position.x = previous.x;
+  position.y = previous.y;
+};
+
+const handleRedo = () => {
+  if (historyStep.value === history.value.length - 1) {
+    return;
+  }
+  historyStep.value += 1;
+  const next = history.value[historyStep.value];
+  position.x = next.x;
+  position.y = next.y;
+};
+
+const handleDragEnd = (e) => {
+  // Remove all states after current step
+  history.value = history.value.slice(0, historyStep.value + 1);
+  const pos = {
+    x: e.target.x(),
+    y: e.target.y()
+  };
+  // Push the new state
+  history.value = history.value.concat([pos]);
+  historyStep.value += 1;
+  position.x = pos.x;
+  position.y = pos.y;
+};
+</script>
+```
+
+此示例展示如何：
+1. 使用 Vue 响应式系统记录位置历史
+2. 通过在历史记录中导航来实现撤销/重做功能
+3. 在拖动结束时更新历史记录
+4. 对当前位置使用 `reactive`，对历史记录使用 `ref`，以保持响应性
+
+请注意，我们使用 Vue 响应式系统管理 state，但会将历史记录保存在 `ref` 中，以避免不必要的重新渲染。
+
+## 手动构建历史记录的局限
+
+上述历史记录每一步只记录一个值。生产级编辑器必须记录
+分组操作，使多选拖动可以作为一个步骤撤销，还必须记录
+变换，以及在操作后才完成加载的图像。这个状态机
+通常会变得比绘图代码更大，因此请围绕文档操作而不是原始节点状态来设计历史记录。

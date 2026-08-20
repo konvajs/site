@@ -1,0 +1,136 @@
+---
+title: 使用 Konva 控制 HTML5 Canvas 移动端滚动和原生事件
+sidebar_label: 移动端滚动
+hide_table_of_contents: true
+slug: Mobile_Scrolling.html
+description: "学习如何使用图形的 preventDefault 属性控制 Konva 舞台上的移动端滚动行为。"
+---
+
+默认情况下，`Konva` 会阻止与舞台进行的所有指针交互的默认行为。
+这会防止你在移动设备上拖放图形时意外滚动页面。
+
+但在某些情况下，你可能要保留浏览器事件的默认行为。此时，可以将图形的 `preventDefault` 属性设置为 `false`。
+
+**操作说明：如果你使用移动设备，请尝试通过每个矩形滚动页面。
+绿色矩形会阻止默认行为（页面不滚动）。
+红色矩形会保留默认行为（页面可以滚动）。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// green rectangle - will prevent scrolling
+const greenRect = new Konva.Rect({
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4,
+});
+layer.add(greenRect);
+
+// red rectangle - will NOT prevent scrolling
+const redRect = new Konva.Rect({
+  x: 200,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  preventDefault: false,
+});
+layer.add(redRect);
+```
+  </TabItem>
+  <TabItem value="React">
+```jsx live react
+import { Stage, Layer, Rect } from 'react-konva';
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect
+          x={50}
+          y={50}
+          width={100}
+          height={600}
+          fill="green"
+          stroke="black"
+          strokeWidth={4}
+        />
+        <Rect
+          x={200}
+          y={50}
+          width={100}
+          height={600}
+          fill="red"
+          stroke="black"
+          strokeWidth={4}
+          preventDefault={false}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```html live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-rect :config="greenRectConfig" />
+      <v-rect :config="redRectConfig" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const greenRectConfig = {
+  x: 50,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'green',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const redRectConfig = {
+  x: 200,
+  y: 50,
+  width: 100,
+  height: 600,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4,
+  preventDefault: false
+};
+</script>
+```
+  </TabItem>
+</Tabs> 

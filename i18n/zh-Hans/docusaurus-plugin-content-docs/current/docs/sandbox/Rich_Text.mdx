@@ -1,0 +1,150 @@
+---
+title: 如何使用 Konva 在 Canvas 上显示富 HTML
+sidebar_label: 富文本
+hide_table_of_contents: true
+slug: Rich_Text.html
+description: "使用 Konva 和 render-tag 在 Canvas 上显示具有粗体、斜体和颜色样式的富 HTML 文本。"
+---
+
+## 如何显示复杂样式（如粗体）并启用富文本编辑功能？
+
+Canvas 的文本 API 非常有限。[Konva.Text](/docs/shapes/Text.html) 支持添加多种样式和多行文本等功能，但目前仍有局限。不能为 `Konva.Text` 的不同部分使用不同样式。在这种情况下，必须使用多个 `Konva.Text` 实例。
+
+如果想在 Canvas 上显示复杂样式，可以使用 [render-tag](https://polotno.com/render-tag/?utm_source=konvajs&utm_medium=docs&utm_content=rich-text)。该库使用 2D API 将 HTML + CSS 直接渲染到 Canvas 上，无需 SVG，不使用 `foreignObject`，并且完全同步。
+
+实现思路如下：
+
+1. 创建一个自定义 `Konva.Shape`，并为其添加 `html` 属性
+2. 使用 `render-tag` 计算布局，并在 Canvas 上下文中绘制带样式文本
+3. 图形会根据 HTML 内容自动调整自身高度
+
+操作说明：尝试在编辑器中输入文本并设置其格式。设置格式后的文本会渲染到下方的 Canvas 上。可以拖动渲染后的文本。
+
+```js live vanilla
+import Konva from 'konva';
+import { Factory } from 'konva/lib/Factory';
+// render-tag: renders HTML+CSS onto canvas via pure 2D API
+// loaded from CDN to avoid Sandpack transpilation issues
+var computeLayout, drawLayout;
+
+// Create a custom Konva shape that renders HTML via render-tag
+// Use Reflect.construct to extend ES6 class from transpiled code
+function RichText(config) {
+  var instance = Reflect.construct(Konva.Shape, [config], RichText);
+  instance._layoutResult = null;
+  instance.on('htmlChange widthChange', function () {
+    this._recomputeLayout();
+  });
+  instance._recomputeLayout();
+  return instance;
+}
+RichText.prototype = Object.create(Konva.Shape.prototype);
+RichText.prototype.constructor = RichText;
+RichText.prototype.className = 'RichText';
+
+RichText.prototype._recomputeLayout = function () {
+  var html = this.html();
+  var width = this.width() || 200;
+  if (!html) {
+    this._layoutResult = null;
+    return;
+  }
+  this._layoutResult = computeLayout({ html: html, width: width });
+};
+
+RichText.prototype._sceneFunc = function (context) {
+  if (!this._layoutResult) return;
+  var width = this.width() || 200;
+  drawLayout({
+    layout: this._layoutResult,
+    width: width,
+    ctx: context._context,
+    pixelRatio: 1,
+  });
+};
+
+RichText.prototype._hitFunc = function (context) {
+  var width = this.width() || 200;
+  var height = this.height() || (this._layoutResult ? this._layoutResult.height : 0);
+  context.beginPath();
+  context.rect(0, 0, width, height);
+  context.closePath();
+  context.fillStrokeShape(this);
+};
+
+Factory.addGetterSetter(RichText, 'html', '');
+Factory.addGetterSetter(RichText, 'width', 200);
+Factory.addGetterSetter(RichText, 'height', 0);
+
+// --- Toolbar + contenteditable editor ---
+function execCmd(cmd, val) {
+  document.execCommand(cmd, false, val || null);
+  editor.focus();
+}
+
+var toolbar = document.createElement('div');
+toolbar.innerHTML = [
+  '<button onclick="return false" data-cmd="bold"><b>B</b></button>',
+  '<button onclick="return false" data-cmd="italic"><i>I</i></button>',
+  '<button onclick="return false" data-cmd="underline"><u>U</u></button>',
+  '<button onclick="return false" data-cmd="formatBlock" data-val="h1">H1</button>',
+  '<button onclick="return false" data-cmd="formatBlock" data-val="h2">H2</button>',
+  '<button onclick="return false" data-cmd="foreColor" data-val="red" style="color:red">A</button>',
+].join('');
+toolbar.style.cssText = 'display:flex;gap:4px;margin-bottom:4px;';
+toolbar.querySelectorAll('button').forEach(function (btn) {
+  btn.style.cssText = 'padding:2px 8px;cursor:pointer;';
+  btn.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    execCmd(btn.dataset.cmd, btn.dataset.val);
+  });
+});
+document.body.prepend(toolbar);
+
+var editor = document.createElement('div');
+editor.contentEditable = true;
+editor.style.cssText = 'border:1px solid #ccc;padding:8px;min-height:60px;margin-bottom:8px;';
+editor.innerHTML =
+  'That is <u>some</u> <span style="color:red"> styled text</span> on <strong>canvas</strong>!' +
+  '<h2>What do you think about it?</h2>';
+var container = document.getElementById('container');
+document.body.insertBefore(editor, container);
+
+// --- Load render-tag and set up canvas ---
+var loadScript = function (src) {
+  return new Promise(function (resolve, reject) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+};
+
+loadScript('https://cdn.jsdelivr.net/npm/render-tag/lib/render-tag.umd.js').then(function () {
+  computeLayout = RenderTag.layout;
+  drawLayout = RenderTag.drawLayout;
+
+  var stage = new Konva.Stage({
+    container: 'container',
+    width: window.innerWidth,
+    height: 200,
+  });
+
+  var layer = new Konva.Layer();
+  stage.add(layer);
+
+  var shape = new RichText({
+    x: 10,
+    y: 10,
+    width: 400,
+    draggable: true,
+    html: editor.innerHTML,
+  });
+  layer.add(shape);
+
+  editor.addEventListener('input', function () {
+    shape.html(editor.innerHTML);
+  });
+});
+```

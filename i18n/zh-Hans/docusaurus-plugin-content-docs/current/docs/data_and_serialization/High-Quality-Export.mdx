@@ -1,0 +1,204 @@
+---
+title: HTML5 Canvas 导出高质量图像教程
+sidebar_label: 高质量导出
+hide_table_of_contents: true
+slug: High-Quality-Export.html
+description: "学习如何使用 Konva.js 将 HTML5 Canvas 导出为高质量 PNG 或 JPEG 图像，以及如何配合 pixelRatio 使用 stage.toDataURL() 实现 Retina 质量的导出。"
+---
+
+如果需要将舞台导出为图像或 base64，可以使用 `stage.toDataURL()` 或 `stage.toImage()` 方法。
+
+默认情况下，`Konva` 将导出图像的 `pixelRatio` 属性设置为 `1`。这意味着，如果导出尺寸为 `500x500` 的舞台，导出图像的尺寸也为 `500x500`。
+
+在某些情况下，你可能要导出更适合较高或较低分辨率的图像。例如，你可能要导出一个图像，然后在 HDPI 设备的 Canvas 上使用它。这类设备具有较高的像素比，例如 Retina 显示屏。另一种情况是，你需要为使用高分辨率显示器的计算机导出用户的绘图。
+
+如果使用默认设置执行此操作，图像会变得模糊。有关全局 `pixelRatio` 属性的更多信息，请参阅 [MDN - devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio)。
+
+对于这两种情况，可以使用：
+
+```javascript
+stage.toDataURL({
+  pixelRatio: 2 // or other value you need
+})
+```
+
+现在，尺寸为 `500x500` 的舞台会导出为尺寸为 `1000x1000` 的图像。除了位图图像和缓存节点外，`Konva` 中几乎所有节点都存储为矢量数据。因此可以导出高质量图像。
+
+**操作说明：**尝试将舞台保存为图像。你会看到该图像具有较高分辨率。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: 400,
+  height: 400
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// create some shapes
+const circle = new Konva.Circle({
+  x: 200,
+  y: 200,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+});
+
+const text = new Konva.Text({
+  x: 150,
+  y: 190,
+  text: 'High Quality Export',
+  fontSize: 20,
+  fill: 'white'
+});
+
+layer.add(circle);
+layer.add(text);
+
+// add button
+const button = document.createElement('button');
+button.textContent = 'Save as High Quality Image';
+document.body.appendChild(button);
+
+button.addEventListener('click', () => {
+  // save stage as a high quality image
+  const dataURL = stage.toDataURL({
+    pixelRatio: 2 // double resolution
+  });
+  
+  // create link to download
+  const link = document.createElement('a');
+  link.download = 'stage.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Circle, Text } from 'react-konva';
+import { useRef } from 'react';
+
+const App = () => {
+  const stageRef = useRef(null);
+
+  const handleExport = () => {
+    const dataURL = stageRef.current.toDataURL({
+      pixelRatio: 2 // double resolution
+    });
+    
+    const link = document.createElement('a');
+    link.download = 'stage.png';
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div>
+      <button onClick={handleExport} style={{ marginBottom: '10px' }}>
+        Save as High Quality Image
+      </button>
+      <Stage width={400} height={400} ref={stageRef}>
+        <Layer>
+          <Circle
+            x={200}
+            y={200}
+            radius={70}
+            fill="red"
+            stroke="black"
+            strokeWidth={4}
+          />
+          <Text
+            x={150}
+            y={190}
+            text="High Quality Export"
+            fontSize={20}
+            fill="white"
+          />
+        </Layer>
+      </Stage>
+    </div>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <div>
+    <button @click="handleExport" style="margin-bottom: 10px">
+      Save as High Quality Image
+    </button>
+    <v-stage ref="stageRef" :config="stageSize">
+      <v-layer>
+        <v-circle :config="circleConfig" />
+        <v-text :config="textConfig" />
+      </v-layer>
+    </v-stage>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const stageSize = {
+  width: 400,
+  height: 400
+};
+
+const circleConfig = {
+  x: 200,
+  y: 200,
+  radius: 70,
+  fill: 'red',
+  stroke: 'black',
+  strokeWidth: 4
+};
+
+const textConfig = {
+  x: 150,
+  y: 190,
+  text: 'High Quality Export',
+  fontSize: 20,
+  fill: 'white'
+};
+
+const stageRef = ref(null);
+
+const handleExport = () => {
+  const dataURL = stageRef.value.getNode().toDataURL({
+    pixelRatio: 2 // double resolution
+  });
+  
+  const link = document.createElement('a');
+  link.download = 'stage.png';
+  link.href = dataURL;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+</script>
+```
+  </TabItem>
+</Tabs> 
+
+## 浏览器尺寸限制
+
+每个浏览器都会限制 Canvas 的宽度、高度和总面积，移动端的限制更低。
+超过限制后，较大的 `pixelRatio` 会静默失败：调用返回空白或截断的图像，
+而不会引发错误。大幅面输出必须分块处理，或在浏览器外渲染。

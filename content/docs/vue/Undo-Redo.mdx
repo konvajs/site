@@ -103,3 +103,11 @@ The demo shows how to:
 4. Use `reactive` for the current position and `ref` for the history to maintain reactivity
 
 Note that we're using Vue's reactivity system to manage the state, but we're careful to avoid unnecessary re-renders by keeping the history in a `ref`. 
+
+## Where a hand-built history stops
+
+The history above records one value per step. A production editor has to record
+grouped operations, so that a multi-select drag undoes as a single step, plus
+transforms and images that finish loading after the action. That state machine
+usually grows larger than the drawing code, so plan the history around document
+operations rather than around raw node state.

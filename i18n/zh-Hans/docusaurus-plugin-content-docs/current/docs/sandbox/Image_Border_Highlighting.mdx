@@ -1,0 +1,231 @@
+---
+title: 拖放多个带边框突出显示的图像
+sidebar_label: 图像边框突出显示
+hide_table_of_contents: true
+slug: Image_Border_Highlighting.html
+description: "使用 Konva 事件委托拖放多个图像，并在悬停时切换边框突出显示效果。"
+---
+
+此示例展示如何为图像实现突出显示效果。将鼠标悬停在图像上时，边框会消失。将鼠标移开后，边框会再次出现。
+
+**操作说明：**将鼠标悬停在图像上以隐藏边框，并在舞台上拖动图像。
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// Create Darth Vader image
+const darthVaderImg = new Konva.Image({
+  x: 20,
+  y: 20,
+  width: 200,
+  height: 137,
+  stroke: 'red',
+  strokeWidth: 10,
+  draggable: true,
+});
+layer.add(darthVaderImg);
+
+// Create Yoda image
+const yodaImg = new Konva.Image({
+  x: 240,
+  y: 20,
+  width: 93,
+  height: 104,
+  draggable: true,
+  stroke: 'red',
+  strokeWidth: 10,
+});
+layer.add(yodaImg);
+
+// Load Darth Vader image
+const imageObj1 = new Image();
+imageObj1.onload = function () {
+  darthVaderImg.image(imageObj1);
+};
+imageObj1.src = 'https://konvajs.org/assets/darth-vader.jpg';
+
+// Load Yoda image
+const imageObj2 = new Image();
+imageObj2.onload = function () {
+  yodaImg.image(imageObj2);
+};
+imageObj2.src = 'https://konvajs.org/assets/yoda.jpg';
+
+// Use event delegation to update pointer style and borders
+layer.on('mouseover', function (evt) {
+  const shape = evt.target;
+  document.body.style.cursor = 'pointer';
+  shape.strokeEnabled(false);
+});
+
+layer.on('mouseout', function (evt) {
+  const shape = evt.target;
+  document.body.style.cursor = 'default';
+  shape.strokeEnabled(true);
+});
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { useState } from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+import { useImage } from 'react-konva-utils';
+
+const DraggableImage = ({ src, x, y, width, height }) => {
+  const [image] = useImage(src);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <Image
+      image={image}
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      stroke="red"
+      strokeWidth={10}
+      strokeEnabled={!isHovered}
+      draggable
+      onMouseEnter={() => {
+        setIsHovered(true);
+        document.body.style.cursor = 'pointer';
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        document.body.style.cursor = 'default';
+      }}
+    />
+  );
+};
+
+const App = () => {
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <DraggableImage
+          src="https://konvajs.org/assets/darth-vader.jpg"
+          x={20}
+          y={20}
+          width={200}
+          height={137}
+        />
+        <DraggableImage
+          src="https://konvajs.org/assets/yoda.jpg"
+          x={240}
+          y={20}
+          width={93}
+          height={104}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer ref="layerRef">
+      <v-image
+        v-for="(img, index) in images"
+        :key="index"
+        :config="getImageConfig(img, index)"
+        @mouseenter="handleMouseEnter(index)"
+        @mouseleave="handleMouseLeave(index)"
+      />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+
+const stageConfig = {
+  width: window.innerWidth,
+  height: window.innerHeight
+};
+
+const layerRef = ref(null);
+const hoveredIndex = ref(null);
+const loadedImages = ref({});
+
+// Define image data
+const images = ref([
+  {
+    src: 'https://konvajs.org/assets/darth-vader.jpg',
+    x: 20,
+    y: 20,
+    width: 200,
+    height: 137
+  },
+  {
+    src: 'https://konvajs.org/assets/yoda.jpg',
+    x: 240,
+    y: 20,
+    width: 93,
+    height: 104
+  }
+]);
+
+// Load images
+onMounted(() => {
+  images.value.forEach((img, index) => {
+    const imageObj = new Image();
+    imageObj.onload = () => {
+      loadedImages.value = {
+        ...loadedImages.value,
+        [index]: imageObj
+      };
+    };
+    imageObj.src = img.src;
+  });
+});
+
+// Get configuration for each image
+const getImageConfig = (img, index) => {
+  const isHovered = hoveredIndex.value === index;
+  
+  return {
+    image: loadedImages.value[index],
+    x: img.x,
+    y: img.y,
+    width: img.width,
+    height: img.height,
+    stroke: 'red',
+    strokeWidth: 10,
+    strokeEnabled: !isHovered,
+    draggable: true
+  };
+};
+
+// Mouse event handlers
+const handleMouseEnter = (index) => {
+  hoveredIndex.value = index;
+  document.body.style.cursor = 'pointer';
+};
+
+const handleMouseLeave = () => {
+  hoveredIndex.value = null;
+  document.body.style.cursor = 'default';
+};
+</script>
+```
+  </TabItem>
+</Tabs> 
