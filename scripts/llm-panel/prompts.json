@@ -1,0 +1,218 @@
+{
+  "panel_version": 1,
+  "frozen_on": "2026-08-20",
+  "note": "Frozen panel. Do NOT edit a prompt's text or id after the day-0 baseline exists - a changed prompt is a different question, and the comparison stops meaning anything. To ask something new, add a prompt with a new id and raise panel_version.",
+  "categories": {
+    "canary": "Konva already wins these. They exist to catch a regression, not to show progress.",
+    "target": "Konva loses these today. These are what the content work is supposed to move.",
+    "code": "Correctness probes. They score whether the docs changed what the model writes, not whether Konva is recommended."
+  },
+  "prompts": [
+    {
+      "id": "canary-best-canvas-library",
+      "category": "canary",
+      "prompt": "best javascript canvas library",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 3,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "Konva named and inside the top 3 libraries mentioned. konvajs.org cited when the provider searches the web."
+    },
+    {
+      "id": "canary-fabric-alternative",
+      "category": "canary",
+      "prompt": "fabric.js alternative",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 2,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "Konva is the closest peer to Fabric. Anything below rank 2 here is a regression."
+    },
+    {
+      "id": "canary-drag-drop-shapes",
+      "category": "canary",
+      "prompt": "canvas library for drag and drop shapes",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 2,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "Dragging is a first-class Konva feature. Konva should lead this answer."
+    },
+    {
+      "id": "canary-react-resize-handles",
+      "category": "canary",
+      "prompt": "how to add resize handles to canvas shapes in react",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 1,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "react-konva Transformer is the standard answer. Konva should be the first library named."
+    },
+    {
+      "id": "target-node-flowchart-react",
+      "category": "target",
+      "prompt": "react library for a node based flowchart editor",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 3,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "React Flow owns this answer today. A win is Konva named at all as the build-your-own option; rank 3 or better is the stretch goal."
+    },
+    {
+      "id": "target-whiteboard",
+      "category": "target",
+      "prompt": "javascript whiteboard library",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 3,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "tldraw and Excalidraw own this today. A win is Konva named as the library you build a whiteboard with."
+    },
+    {
+      "id": "target-floor-plan",
+      "category": "target",
+      "prompt": "javascript library for interactive floor plan",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 3,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "No incumbent owns this. Cheapest target on the panel."
+    },
+    {
+      "id": "target-image-annotation",
+      "category": "target",
+      "prompt": "best library for an image annotation tool in the browser",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 3,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "Fabric.js and Annotorious own this today."
+    },
+    {
+      "id": "target-infinite-canvas",
+      "category": "target",
+      "prompt": "infinite canvas with pan and zoom in javascript",
+      "win": {
+        "konva_named": true,
+        "rank_at_most": 3,
+        "first_mention_before_percent": 60,
+        "site_cited": true
+      },
+      "win_note": "Konva has the stage transform primitives for this but is not associated with the phrase."
+    },
+    {
+      "id": "code-transformer-rect",
+      "category": "code",
+      "prompt": "write a react-konva component with a Transformer that resizes a rectangle",
+      "win": {
+        "konva_named": true,
+        "must_include": [
+          {
+            "label": "uses Transformer",
+            "pattern": "\\bTransformer\\b"
+          },
+          {
+            "label": "attaches with nodes()",
+            "pattern": "\\.nodes\\s*\\("
+          },
+          {
+            "label": "handles the scale, not width/height",
+            "pattern": "scaleX"
+          },
+          {
+            "label": "resets scale on transform end",
+            "pattern": "onTransformEnd|transformEnd"
+          }
+        ],
+        "must_not_include": [
+          {
+            "label": "deprecated attachTo() API",
+            "pattern": "attachTo\\s*\\("
+          }
+        ]
+      },
+      "win_note": "The trap: Transformer changes scaleX/scaleY, it does not change width/height. Code that resizes by writing width directly, or that uses the removed attachTo() API, is wrong."
+    },
+    {
+      "id": "code-constant-screen-size-label",
+      "category": "code",
+      "prompt": "how do I keep a text label the same screen size while zooming a Konva stage",
+      "win": {
+        "konva_named": true,
+        "must_include": [
+          {
+            "label": "reads the stage scale",
+            "pattern": "stage\\.scaleX\\s*\\(|getAbsoluteScale"
+          },
+          {
+            "label": "counter-scales by the inverse",
+            "pattern": "1\\s*/"
+          },
+          {
+            "label": "applies it to the node",
+            "pattern": "\\.scale[XY]?\\s*\\(|fontSize"
+          }
+        ],
+        "must_not_include": []
+      },
+      "win_note": "Correct answer counter-scales the node by the inverse of the stage scale (or divides fontSize by it). Anything that redraws at a fixed pixel size without reading the stage scale is wrong."
+    },
+    {
+      "id": "code-retina-blurry-canvas",
+      "category": "code",
+      "prompt": "how do I fix a blurry Konva canvas on a retina display",
+      "win": {
+        "konva_named": true,
+        "must_include": [
+          {
+            "label": "names the pixel ratio control",
+            "pattern": "pixelRatio"
+          },
+          {
+            "label": "mentions devicePixelRatio or that Konva handles it",
+            "pattern": "devicePixelRatio|automatically|by default"
+          }
+        ],
+        "must_not_include": [
+          {
+            "label": "hand-rolled vanilla-canvas DPR scaling, which double-scales in Konva",
+            "pattern": "getContext\\s*\\(\\s*['\"]2d['\"]\\s*\\)|ctx\\.scale\\s*\\("
+          },
+          {
+            "label": "sizes the stage in device pixels and counter-scales it, which double-scales in Konva",
+            "pattern": "stage\\.scale\\s*\\(\\s*\\{\\s*x\\s*:\\s*(dpr|window\\.devicePixelRatio|devicePixelRatio)|(width|height)\\s*[:(]\\s*[\\w.()]+\\s*\\*\\s*(dpr|devicePixelRatio)"
+          }
+        ]
+      },
+      "win_note": "Konva already applies devicePixelRatio. The correct fix is Konva.pixelRatio / setPixelRatio, or removing a CSS transform on the container. The classic wrong answer is the vanilla-canvas recipe of resizing the canvas and calling ctx.scale(dpr, dpr), which double-scales here."
+    }
+  ],
+  "providers": [
+    {
+      "provider": "chat_gpt",
+      "model": "gpt-5",
+      "web_search": true
+    },
+    {
+      "provider": "perplexity",
+      "model": "sonar-pro",
+      "web_search": true
+    }
+  ]
+}

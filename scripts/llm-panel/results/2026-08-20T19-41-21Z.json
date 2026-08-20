@@ -1,0 +1,1656 @@
+{
+  "run_id": "2026-08-20T19-41-21Z",
+  "started_at": "2026-08-20T19:41:21.026Z",
+  "finished_at": "2026-08-20T19:41:21.026Z",
+  "source": "ingest",
+  "note": "day-0 baseline",
+  "capture": {
+    "method": "DataForSEO ai_optimization/llm_responses, reached through the MCP connector by the agent that built this harness, because no DATAFORSEO_LOGIN was available to Node at the time",
+    "answer_text": "verbatim, transcribed from the API response",
+    "reasoning_traces": "not captured in this run; run.js records them for every later run",
+    "perplexity_citation_titles": "not captured in this run; every citation URL is here, and run.js records the titles too for every later run"
+  },
+  "panel_version": 1,
+  "panel_sha256": "57eafebb666d40c7067110ed5ca9aca9af626fe254f37b08f538514bf126c774",
+  "results": [
+    {
+      "prompt_id": "canary-best-canvas-library",
+      "prompt": "best javascript canvas library",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:19:39 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "“Best” depends on what you’re drawing and how you’ll ship it. Quick picks by use case:\n\n- UI/annotations on images (selection, transforms, events)\n  - Fabric.js: mature, rich object model, text/images, freeform transforms, good docs. Great for editors/whiteboards.\n  - Konva.js: similar to Fabric, strong stage/layer model, excellent event handling and hit‑testing, solid TypeScript types.\n\n- 2D games, particle effects, high FPS, large sprites\n  - PixiJS: WebGL-first with Canvas fallback, very fast batching, filters, sprite/texture pipeline. The go‑to for performance.\n\n- Vector/illustration, paths, booleans, bezier work\n  - Paper.js: powerful vector geometry engine, path ops, typography helpers—ideal for illustrators and CAD‑like tools.\n  - Two.js: lightweight, declarative API for shapes; SVG/Canvas renderers, simpler than Paper when you don’t need heavy path ops.\n\n- Creative coding / teaching / quick sketches\n  - p5.js: approachable, batteries‑included (input, media), massive community and examples.\n\n- UI polish / hand‑drawn look\n  - Rough.js: renders shapes with a sketchy style; use alongside plain Canvas or another lib.\n\n- Legacy/Flash‑style display list\n  - EaselJS (CreateJS): classic display list API; fine for banners, simple games, animations.\n\n- Charts (if you actually need charts, not low‑level drawing)\n  - Chart.js or uPlot (Canvas-based), ECharts/ZRender (Canvas+SVG), instead of rolling your own.\n\nHow to choose fast\n- Need object selection, drag/resize/rotate, and easy events? Pick Fabric.js or Konva.js.\n- Need raw rendering speed, particles, filters, WebGL effects? Pick PixiJS.\n- Need complex vector math and path boolean ops? Pick Paper.js.\n- Need simple shapes with a small API surface? Pick Two.js.\n- Need a gentle on‑ramp for students/artists? Pick p5.js.\n\nOther considerations\n- Performance: PixiJS >> Konva/Fabric ≈ Paper/Two (depends on workload) >> plain Canvas loops.\n- Typings/ESM: Pixi, Konva, Fabric (v5+), and Two have good TS/ESM stories; Paper.js typings exist but can be quirky.\n- Bundle size: Pixi and Fabric are larger; Two, Rough are smaller. Tree‑shaking varies.\n- Accessibility: Canvas is a bitmap; expose semantics outside the canvas for screen readers.\n- Precision: For pixel‑perfect text/print, test font metrics across browsers.\n\nIf you share your use case (editor, game, data viz, animation, whiteboard, etc.), target devices, and constraints (bundle size, TS, React/Vue), I can recommend one and provide a starter template.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201919-2223-0612-0000-addd77886103",
+        "input_tokens": 4457,
+        "output_tokens": 858,
+        "money_spent": 0.01415125,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-best-canvas-library",
+      "prompt": "best javascript canvas library",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:34:38 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "The best **JavaScript canvas library** depends on what you want to build, but for most **interactive 2D apps**, **Konva.js** is a strong default choice because it provides an object model, event handling, drag-and-drop, resize/rotate controls, and official bindings for major frameworks.[2][9]\n\nIf you want a quick way to choose:\n\n| Library | Best for | Why it stands out |\n|---|---|---|\n| **Konva.js** | Interactive diagrams, editors, apps with lots of UI interaction | Scene graph, bubbling events, Transformer controls, React/Vue/Svelte/Angular bindings[2][9] |\n| **Fabric.js** | Canvas editors, object manipulation, SVG import/export | Simple but powerful object model and interactive canvas features[5][8][14] |\n| **PixiJS** | High-performance rendering, games, rich animations | Commonly recommended for performance-heavy canvas work in community discussions[1] |\n| **Paper.js** | Vector graphics and illustration tools | Designed for vector graphics on HTML5 canvas[10][17] |\n| **ZIM** | General-purpose creative/educational apps | Ranked highly in one comparative analysis, but this is a more opinionated source[3] |\n\nIf your goal is:\n- **A canvas editor or diagram tool**: choose **Konva.js**.[2][9]\n- **Object-based editing or SVG workflows**: choose **Fabric.js**.[5][8]\n- **Games or fast visual rendering**: choose **PixiJS**.[1]\n- **Vector art / drawing tools**: choose **Paper.js**.[10][17]\n\nIf you want, I can also give you a **“best by use case” recommendation** for React, games, drawing apps, or whiteboard editors.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://www.reddit.com/r/javascript/comments/pdib99/askjs_what_is_the_best_canvas_library_to_make_an/",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/",
+          "title": null
+        },
+        {
+          "url": "https://drabstract.medium.com/ranking-javascript-canvas-frameworks-3c3e407ab7d8",
+          "title": null
+        },
+        {
+          "url": "https://www.webdevtutor.net/blog/javascript-best-canvas-library",
+          "title": null
+        },
+        {
+          "url": "https://fabricjs.com/",
+          "title": null
+        },
+        {
+          "url": "https://js.libhunt.com/libs/canvas",
+          "title": null
+        },
+        {
+          "url": "https://webdesign.tutsplus.com/best-free-canvas-libraries-in-javascript--cms-37317a",
+          "title": null
+        },
+        {
+          "url": "https://github.com/fabricjs/fabric.js/",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/guides/best-canvas-library.html",
+          "title": null
+        },
+        {
+          "url": "https://freakify.com/javascript-canvas-libraries-create/",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/javascript/comments/4obpaf/whats_your_favorite_canvas_library/",
+          "title": null
+        },
+        {
+          "url": "https://www.sitepoint.com/10-cool-javascript-drawing-canvas-libraries/",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/javascript/comments/ldw63/favorite_canvas_libraries/",
+          "title": null
+        },
+        {
+          "url": "https://bestofjs.org/projects?tags=canvas",
+          "title": null
+        },
+        {
+          "url": "https://www.slant.co/topics/28/~best-javascript-drawing-libraries",
+          "title": null
+        },
+        {
+          "url": "https://dev.to/lico/react-comparison-of-js-canvas-libraries-konvajs-vs-fabricjs-1dan",
+          "title": null
+        },
+        {
+          "url": "https://drabstract.medium.com/your-guide-to-selecting-a-javascript-canvas-library-or-framework-3584f4512a30",
+          "title": null
+        },
+        {
+          "url": "https://velt.dev/blog/best-canvas-library-web-mobile-apps",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/3402316/powerful-javascript-canvas-libraries",
+          "title": null
+        },
+        {
+          "url": "https://code.tutsplus.com/best-free-and-open-source-drawing-libraries-in-javascript--cms-37731a",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201934-2223-0612-0000-8adf248e0d7b",
+        "input_tokens": 11,
+        "output_tokens": 387,
+        "money_spent": 0.011838,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-fabric-alternative",
+      "prompt": "fabric.js alternative",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:24:19 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "Here are solid Fabric.js alternatives, grouped by use case. Tell me your requirements (Canvas vs SVG, text/editing, filters, React/Vue, mobile performance) and I’ll narrow it down.\n\nClosest to Fabric-style object model on Canvas\n- Konva.js: Layered 2D canvas scene graph, strong transform/drag/selection, good React/Vue bindings (react-konva, vue-konva). Great for interactive editors/whiteboards.\n- Paper.js: Vector-focused with paths/booleans, good for illustration and tooling; Canvas-backed but vector APIs.\n\nHigh-performance 2D (WebGL-first)\n- PixiJS: Fast sprite/graphics rendering, filters, interaction; ideal for heavy scenes, games, rich UIs.\n- ZRender: Canvas/SVG hybrid renderer (used by ECharts); good for shapes, paths, and large datasets.\n\nSVG-centric (better accessibility and DOM integration)\n- SVG.js: Simple, modern API for shapes, transforms, and animations in SVG.\n- Snap.svg: Mature SVG library from Adobe; good for iconography and vector editing.\n\nCreative coding / drawing\n- p5.js: Beginner-friendly, lots of tutorials; great for sketches and interactive art.\n- Two.js: API for 2D drawing with multiple renderers (SVG/Canvas/WebGL).\n\nUI/whiteboard/editors\n- tldraw/core + utils: Building blocks for whiteboard-like apps.\n- Excalidraw libraries: For hand-drawn style whiteboards; good UX primitives.\n\nImage manipulation / filters\n- glfx.js or GPU-based shader stacks: WebGL filters; fast effects.\n- CanvasKit (Skia via WebAssembly): Powerful, high-quality text and vector rendering (heavier dependency).\n\nGame/scene frameworks (if you need more structure)\n- Phaser: 2D game framework with physics, input, assets, animation.\n- three.js (with 2D overlays): If you might mix 2D with 3D later.\n\nHow to choose quickly\n- Need Fabric-like selection/transform boxes, JSON serialization: Konva.js or Paper.js.\n- Need thousands of objects at 60fps: PixiJS (WebGL) or ZRender.\n- Need DOM integration and CSS/styling: SVG.js (SVG).\n- Need React/Vue first-class support: Konva.js (react-konva/vue-konva), PixiJS (react-pixi).\n- Need vector boolean ops/path tooling: Paper.js.\n- Need whiteboard primitives: tldraw/excalidraw libs.\n\nShare what you’re building (editor, diagrammer, whiteboard, game, data viz), required features (text editing, hit-testing, filters, export), and target stack, and I’ll recommend a short list with example snippets.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201923-2223-0612-0000-9513b8bec45c",
+        "input_tokens": 4456,
+        "output_tokens": 880,
+        "money_spent": 0.01437,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-fabric-alternative",
+      "prompt": "fabric.js alternative",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:35:13 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "If you want a **Fabric.js alternative**, the most common open-source choice is **Konva.js** for interactive 2D canvas apps, especially when you care about layering, drag-and-drop, and animation performance.[7][10][14] If you need more of a **design/editor SDK** with more built-in product features, **IMG.LY CreativeEditor SDK** is a commercial alternative often positioned as a Fabric.js replacement.[1]\n\nA quick way to choose:\n\n| Alternative | Best for | Notes |\n|---|---|---|\n| **Konva.js** | Interactive canvas apps, editors, diagrams | Frequently compared with Fabric.js; strong for layering and event handling.[7][10][14] |\n| **Paper.js** | Vector graphics and illustration tools | Open-source vector scripting framework on top of HTML5 Canvas.[6][9] |\n| **PixiJS** | High-performance rendering | Better fit for WebGL-heavy graphics than object-editing workflows.[9] |\n| **SVG.js** | SVG-based editors | Better if you want scalable vector output rather than canvas-first editing.[8] |\n| **GoJS / jsPlumb** | Diagrams, flowcharts, org charts | More specialized for diagramming than general canvas editing.[3] |\n| **IMG.LY CreativeEditor SDK** | Production-grade creative editors | Commercial SDK with advanced customization and editor features.[1] |\n\nIf your goal is specifically **“Fabric.js but faster / more modern”**, **Konva.js** is usually the first thing to evaluate.[7][10][14] If your goal is **image editing or a Canva-like editor**, **IMG.LY** is the most directly relevant paid option in the results.[1]\n\nIf you want, I can narrow this down to the **best alternative for React**, **best open-source alternative**, or **best for image editing vs diagrams**.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://img.ly/fabricjs-alternative/",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/javascript/comments/pdib99/askjs_what_is_the_best_canvas_library_to_make_an/",
+          "title": null
+        },
+        {
+          "url": "https://www.saashub.com/fabricjs-alternatives",
+          "title": null
+        },
+        {
+          "url": "https://www.slant.co/options/142/alternatives/~fabric-js-alternatives",
+          "title": null
+        },
+        {
+          "url": "https://stackshare.io/fabricjs/alternatives",
+          "title": null
+        },
+        {
+          "url": "https://alternativeto.net/software/fabricjs/",
+          "title": null
+        },
+        {
+          "url": "https://dev.to/lico/react-comparison-of-js-canvas-libraries-konvajs-vs-fabricjs-1dan",
+          "title": null
+        },
+        {
+          "url": "https://www.libhunt.com/compare-fabric.js-vs-konva",
+          "title": null
+        },
+        {
+          "url": "https://js.libhunt.com/fabric-js-alternatives",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/guides/best-canvas-library.html",
+          "title": null
+        },
+        {
+          "url": "https://www.libhunt.com/r/konva",
+          "title": null
+        },
+        {
+          "url": "https://www.similarweb.com/website/fabricjs.com/competitors/",
+          "title": null
+        },
+        {
+          "url": "https://0ro.github.io/posts/how-i-choose-fabricjs-again/",
+          "title": null
+        },
+        {
+          "url": "https://velt.dev/blog/best-canvas-library-web-mobile-apps",
+          "title": null
+        },
+        {
+          "url": "https://github.com/slaylines/canvas-engines-comparison",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/11847320/paper-js-vs-easeljs-vs-fabric-js-vs-kineticjs",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/cdri/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BA%94%EB%B2%84%EC%8A%A4-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%B9%84%EA%B5%90-konvajs-vs-fabricjs-3e1c92622d7d",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/webdev/comments/1ngkiem/wip_building_a_2d_graphics_library_fabricjs/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/konva/issues/637",
+          "title": null
+        },
+        {
+          "url": "https://stackshare.io/react-canvas/alternatives",
+          "title": null
+        },
+        {
+          "url": "https://fabricjs.com/",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201935-2223-0612-0000-5466ab6a3fbe",
+        "input_tokens": 10,
+        "output_tokens": 406,
+        "money_spent": 0.01212,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-drag-drop-shapes",
+      "prompt": "canvas library for drag and drop shapes",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:24:33 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "Got it—are you targeting HTML5 2D canvas in the browser? And what do you need beyond drag-and-drop (resize/rotate, grouping, connectors, text editing, serialization, mobile support, React/Angular/Vue bindings)?\n\nPopular choices for drag-and-drop shapes on canvas\n- Konva.js\n  - High-level shape APIs, built‑in drag/resize/rotate, layers, hit detection, good performance.\n  - Ecosystem: react-konva, vue-konva, ng2-konva.\n- Fabric.js\n  - Rich object model (rects, paths, images, text, groups), controls for transform, serialization to JSON/SVG, filters.\n  - Mature, great for editors/whiteboards.\n- Paper.js\n  - Vector/paths powerhouse with strong geometry tools; supports interaction, grouping, booleans; a bit more code for DnD UX.\n- PixiJS (with interaction manager)\n  - WebGL-first renderer with canvas fallback; excellent performance for many objects; you implement shape tools and transforms or use add‑ons.\n- EaselJS (CreateJS)\n  - Simple display list and interaction model; easier than raw canvas; fewer modern conveniences than Fabric/Konva.\n- Two.js\n  - Simple 2D vector scene graph that can render to canvas/SVG/WebGL; light, but you’ll implement more UI affordances yourself.\n\nIf you’re open to SVG/DOM (often easier for connectors and text):\n- SVG.js, D3 + d3-drag, or libraries like React Flow (flow/graph editors) — but those aren’t canvas.\n\nTiny Konva example: draggable rectangle\n- Include Konva via script tag or npm, then:\n\n1) HTML\n- <div id=\"stage\"></div>\n\n2) JS\n- const stage = new Konva.Stage({ container: 'stage', width: 600, height: 400 });\n- const layer = new Konva.Layer();\n- stage.add(layer);\n- const rect = new Konva.Rect({\n    x: 50, y: 50, width: 120, height: 80,\n    fill: '#4e9',\n    stroke: '#0a6',\n    strokeWidth: 2,\n    draggable: true\n  });\n- layer.add(rect);\n- layer.draw();\n\nAdd resize/rotate handles (Konva Transformer)\n- const tr = new Konva.Transformer({ nodes: [rect], rotateEnabled: true });\n- layer.add(tr); layer.draw();\n\nRecommendation cheat sheet\n- Need an editor/whiteboard with text, images, serialize to JSON/SVG: Fabric.js\n- Need performant layers, easy DnD/transforms, React/Vue bindings: Konva.js\n- Need thousands of interactive objects at high FPS or WebGL: PixiJS\n- Need strong vector/path operations (boolean ops, smoothing): Paper.js\n\nTell me:\n- Framework (vanilla, React, Vue, Angular)?\n- Must-have features (connectors, snapping, multi-select, grouping, keyboard shortcuts, export)?\n- Scale (dozens vs thousands of shapes)?\n- Mobile support requirements?\n\nI’ll tailor a starter stack and example to match.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201924-2223-0612-0000-31c92696119e",
+        "input_tokens": 4460,
+        "output_tokens": 1035,
+        "money_spent": 0.015925,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-drag-drop-shapes",
+      "prompt": "canvas library for drag and drop shapes",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:35:41 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "If you want a **canvas library for drag-and-drop shapes**, the strongest fit is **Konva.js**. It has built-in shape objects, drag support, event handling, and official React/Vue/Svelte/Angular bindings[4][5][16][7].\n\nOther good options include **Fabric.js**, which is widely used for interactive canvas objects and supports dragging/resizing/rotation[13][10], and **Imagine.js**, which explicitly supports drag-and-drop canvas elements including text, shapes, and images[2]. If you want something lighter or more custom, **dragjs** is a small HTML5 canvas dragging library[9].\n\nA quick comparison:\n\n| Library | Best for | Drag support | Notes |\n|---|---|---|---|\n| **Konva.js** | Interactive canvas apps with many shapes | Built in | Strongest all-around choice for shape manipulation[4][5][16] |\n| **Fabric.js** | Rich object editing on canvas | Built in | Good for dragging, resizing, rotating, SVG import[13][10] |\n| **Imagine.js** | Lightweight canvas object interactions | Built in | Explicitly supports dragging text, shapes, images[2] |\n| **dragjs** | Simple custom drag behavior | Built in | Minimal library focused on draggable canvas objects[9] |\n\nIf you are using **React**, Konva is especially convenient because its React bindings let you set `draggable` directly on shapes and use `onDragMove` / `onDragEnd` for state updates[7]. If you want, I can recommend the best library based on your stack, such as **plain JS**, **React**, or **Vue**.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://www.reddit.com/r/react/comments/1dls3vw/which_library_is_better_suited_for_dragging_and/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/vladakilov/imagine",
+          "title": null
+        },
+        {
+          "url": "https://www.oreilly.com/library/view/html5-canvas-cookbook/9781849691369/ch06s07.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/",
+          "title": null
+        },
+        {
+          "url": "https://new.konvajs.org/docs/drag_and_drop/Drag_and_Drop.html",
+          "title": null
+        },
+        {
+          "url": "https://2015fallhw.github.io/arcidau/CanvasGraphics.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/react/Drag_And_Drop.html",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/konvajs.github.io/blob/master/docs/drag_and_drop/Simple_Drag_Bounds.html",
+          "title": null
+        },
+        {
+          "url": "https://github.com/Ojas-Gulati/dragjs",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/7996924/html5-framework-library-for-drag-and-drop-on-canvas",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@lukyuhyun/11-canvas-drag-drop-objects-tutorial-d3dd0c15eae1",
+          "title": null
+        },
+        {
+          "url": "https://www.tutorialspoint.com/HTML5-Canvas-and-select-drag-and-drop-features-in-a-JS-library",
+          "title": null
+        },
+        {
+          "url": "https://fabricjs.com/",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/lsbardel/b1133566e01d6d45fa7d11523dcb3e70",
+          "title": null
+        },
+        {
+          "url": "https://interactjs.io/",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/guides/best-canvas-library.html",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/2801416/html5-canvas-select-drag-and-drop-features-in-a-js-lib/2801550",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/30804305/how-can-i-make-different-shapes-of-a-canvas-draggable-and-particular-area-of-it",
+          "title": null
+        },
+        {
+          "url": "https://forum.freecodecamp.org/t/html-5-drag-and-drop-on-canvas/298244",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201935-2223-0612-0000-4dcc3b7f4999",
+        "input_tokens": 14,
+        "output_tokens": 351,
+        "money_spent": 0.011307,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-react-resize-handles",
+      "prompt": "how to add resize handles to canvas shapes in react",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:26:03 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "There are three common ways to add resize handles to shapes on a canvas in a React app:\n\n1) Use a canvas library that already supports selection/resize handles\n- react-konva (Konva under the hood) – has a built-in Transformer for resize/rotate handles.\n- Fabric.js – has built-in controls for move/resize/rotate on objects.\n\n2) Use SVG (not canvas) and a helper like react–use–gesture, d3-drag, or interact.js to draw/drag handles. This is simpler if you need DOM-level events, accessibility, or CSS.\n\n3) Roll your own on <canvas> – you draw the handles yourself and implement hit-testing and pointer math. Most flexible, most work.\n\nBelow are concise examples for the first two (recommended) and an outline for a custom canvas approach.\n\nA) React + Konva (easiest for pure canvas)\n- What you get: draggable shapes, selection, resize/rotate handles with bounding box, constraints, and transformer anchors.\n\nInstall:\n- npm i konva react-konva\n\nExample:\nimport React from \"react\";\nimport { Stage, Layer, Rect, Transformer } from \"react-konva\";\n\nfunction SelectableRect({ shapeProps, isSelected, onSelect, onChange }) {\n  const shapeRef = React.useRef();\n  const trRef = React.useRef();\n\n  React.useEffect(() => {\n    if (isSelected && trRef.current && shapeRef.current) {\n      trRef.current.nodes([shapeRef.current]);\n      trRef.current.getLayer().batchDraw();\n    }\n  }, [isSelected]);\n\n  return (\n    <>\n      <Rect\n        ref={shapeRef}\n        {...shapeProps}\n        draggable\n        onClick={onSelect}\n        onTap={onSelect}\n        onDragEnd={(e) =>\n          onChange({ ...shapeProps, x: e.target.x(), y: e.target.y() })\n        }\n        onTransformEnd={() => {\n          const node = shapeRef.current;\n          const scaleX = node.scaleX();\n          const scaleY = node.scaleY();\n\n          // apply transform to width/height and reset scales\n          onChange({\n            ...shapeProps,\n            x: node.x(),\n            y: node.y(),\n            width: Math.max(5, node.width() * scaleX),\n            height: Math.max(5, node.height() * scaleY),\n          });\n          node.scaleX(1);\n          node.scaleY(1);\n        }}\n      />\n      {isSelected && (\n        <Transformer\n          ref={trRef}\n          rotateEnabled={true}\n          // limit resizing so it doesn't flip or get too small\n          boundBoxFunc={(oldBox, newBox) => {\n            if (newBox.width < 5 || newBox.height < 5) {\n              return oldBox;\n            }\n            return newBox;\n          }}\n          // customize visible handles (anchors)\n          anchorSize={8}\n          enabledAnchors={[\n            \"top-left\",\n            \"top-right\",\n            \"bottom-left\",\n            \"bottom-right\",\n            \"middle-left\",\n            \"middle-right\",\n            \"top-center\",\n            \"bottom-center\",\n          ]}\n        />\n      )}\n    </>\n  );\n}\n\nexport default function App() {\n  const [rects, setRects] = React.useState([\n    { id: \"r1\", x: 40, y: 50, width: 120, height: 80, fill: \"#4F46E5\" },\n    { id: \"r2\", x: 240, y: 120, width: 160, height: 100, fill: \"#10B981\" },\n  ]);\n  const [selectedId, selectShape] = React.useState(null);\n\n  const updateRect = (id, newAttrs) => {\n    setRects((rs) => rs.map((r) => (r.id === id ? { ...r, ...newAttrs } : r)));\n  };\n\n  // click on empty area clears selection\n  const handleStageMouseDown = (e) => {\n    const clickedOnEmpty = e.target === e.target.getStage();\n    if (clickedOnEmpty) selectShape(null);\n  };\n\n  return (\n    <Stage\n      width={800}\n      height={500}\n      onMouseDown={handleStageMouseDown}\n      onTouchStart={handleStageMouseDown}\n    >\n      <Layer>\n        {rects.map((r) => (\n          <SelectableRect\n            key={r.id}\n            shapeProps={r}\n            isSelected={r.id === selectedId}\n            onSelect={() => selectShape(r.id)}\n            onChange={(newAttrs) => updateRect(r.id, newAttrs)}\n          />\n        ))}\n      </Layer>\n    </Stage>\n  );\n}\n\nNotes:\n- For circles, lines, images, etc., swap Rect for Circle, Line, Image; Transformer works the same.\n- Keep the shapes in React state; apply transforms on onTransformEnd.\n- For high-DPI clarity, set Stage pixelRatio={window.devicePixelRatio}.\n\nB) React + Fabric.js (object-based canvas with controls)\n- What you get: built-in selection box, corner handles, rotation, keyboard interactions.\n\nInstall:\n- npm i fabric\n\nExample:\nimport React, { useEffect, useRef } from \"react\";\nimport { fabric } from \"fabric\";\n\nexport default function FabricCanvas() {\n  const canvasRef = useRef(null);\n  const fabricRef = useRef(null);\n\n  useEffect(() => {\n    const c = new fabric.Canvas(canvasRef.current, {\n      selection: true,\n      preserveObjectStacking: true,\n    });\n    fabricRef.current = c;\n\n    const rect = new fabric.Rect({\n      left: 60,\n      top: 60,\n      fill: \"#EF4444\",\n      width: 120,\n      height: 80,\n      selectable: true,\n      hasBorders: true,\n      hasControls: true, // shows resize/rotate handles\n      cornerStyle: \"circle\",\n      cornerColor: \"#2563EB\",\n    });\n\n    c.add(rect);\n    c.setActiveObject(rect);\n\n    // listen to scaling events\n    c.on(\"object:scaled\", (e) => {\n      const obj = e.target;\n      // normalize scale into width/height if you prefer\n      obj.set({\n        width: obj.width * obj.scaleX,\n        height: obj.height * obj.scaleY,\n        scaleX: 1,\n        scaleY: 1,\n      });\n      obj.setCoords();\n      c.requestRenderAll();\n    });\n\n    return () => c.dispose();\n  }, []);\n\n  return <canvas ref={canvasRef} width={800} height={500} />;\n}\n\nNotes:\n- You can enable/disable specific controls, lock aspect ratio, set minScaleLimit, add custom control handlers.\n- Fabric supports many shapes, images, paths, and serialization to JSON/SVG.\n\nC) Rolling your own on <canvas> (outline)\nIf you need minimal deps or very custom behavior:\n- State:\n  - Keep an array of shapes with x, y, width, height, rotation, id, selected.\n  - When selected, compute 8 handle rectangles (or circles) around the shape’s bounding box; store their screen-space bounds.\n- Rendering loop:\n  - Clear canvas, draw all shapes.\n  - If a shape is selected, draw a selection rectangle and the handles.\n- Hit testing:\n  - On pointerdown, check handles first (from topmost to bottom). If a handle is hit, set mode=\"resize\" and remember which handle.\n  - Else if inside the shape, mode=\"drag\".\n  - Else, clear selection.\n- Resizing math:\n  - On pointermove in resize mode, update width/height and optionally x/y depending on the handle being dragged.\n  - Support constraints: min size, aspect ratio (hold Shift), snapping to grid/guides.\n  - For rotated shapes, transform the pointer into the shape’s local coordinate system before hit tests and updates.\n- Device pixel ratio:\n  - Resize the canvas’ internal resolution to width*devicePixelRatio and scale the context to keep drawings crisp.\n- Pointer events:\n  - Use pointerdown/pointermove/pointerup for mouse + touch + pen.\n- Performance:\n  - Avoid re-rendering React for every mousemove; either:\n    - Keep the drawing in imperative code (useRef + requestAnimationFrame), with React state updated only on end of interaction, or\n    - Use a lib like react-konva that batches efficiently.\n\nChoosing an approach\n- Need fast results, solid UX, and pure canvas? Use react-konva + Transformer.\n- Want a feature-rich editor (grouping, guides, text editing)? Use Fabric.js.\n- Need pixel-perfect custom behavior or unusual handles? Roll your own.\n\nIf you tell me what shapes and interactions you need (rects/circles/paths, rotation, aspect lock,",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201925-2223-0612-0000-1aa629ab5f2b",
+        "input_tokens": 4463,
+        "output_tokens": 2048,
+        "money_spent": 0.02605875,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "canary-react-resize-handles",
+      "prompt": "how to add resize handles to canvas shapes in react",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:36:09 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "The usual way is to use a **canvas scene library** that supports a selection transformer, rather than trying to draw resize handles directly on the raw `<canvas>` element. In React, the most common option is **Konva**: you render shapes, select one, then attach a `Konva.Transformer` to that shape to show drag handles for resizing and rotating[2].\n\nIf you want a simpler “resizable wrapper” for a DOM element, `react-resizable` provides **resize handles** around a component, but it is meant for React elements in the DOM, not for individual canvas-drawn shapes[1][5].\n\nFor canvas shapes specifically, the typical pattern with Konva is:\n\n- keep the shapes in React state\n- track which shape is selected\n- when selected, create a `Konva.Transformer`\n- attach it to the selected node with a ref\n- update the shape’s size/position from the transformer on transform end[2]\n\n`react-resizable` can be useful if your “shape” is actually an overlayed React component, and it supports custom handles and scaling via `transformScale` when the parent is zoomed[1][5].\n\nIf you want, I can give you:\n- a **Konva example** with selectable rectangle resize handles, or\n- a **pure canvas** approach using manual mouse hit-testing and drag handles.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://react-grid-layout.github.io/react-resizable/",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/react/Transformer.html",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/58067044/how-to-handle-window-resize-for-displaying-canvas-for-mobile-devices-with-device",
+          "title": null
+        },
+        {
+          "url": "https://www.npmjs.com/package/@flowscape-ui/canvas-react",
+          "title": null
+        },
+        {
+          "url": "https://github.com/react-grid-layout/react-resizable",
+          "title": null
+        },
+        {
+          "url": "https://discourse.threejs.org/t/resize-canvas-in-a-react-component-with-useeffect/55346",
+          "title": null
+        },
+        {
+          "url": "https://github.com/pmndrs/react-three-offscreen/issues/20",
+          "title": null
+        },
+        {
+          "url": "https://discourse.threejs.org/t/responsive-canvas/74780",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/66254850/how-to-resize-canvas-according-to-the-parent-div-element-react",
+          "title": null
+        },
+        {
+          "url": "https://www.pluralsight.com/resources/blog/guides/render-window-resize-react",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/ChrisDobby/c6a78efd2e40db587333a761320623c7",
+          "title": null
+        },
+        {
+          "url": "https://github.com/rosszurowski/react-responsive-canvas",
+          "title": null
+        },
+        {
+          "url": "https://www.pluralsight.com/resources/blog/guides/re-render-react-component-on-window-resize",
+          "title": null
+        },
+        {
+          "url": "https://app.studyraid.com/en/read/14997/518242/handling-window-resizing-in-animations",
+          "title": null
+        },
+        {
+          "url": "https://forum.babylonjs.com/t/canvas-doesnt-resize-properly-in-react/39291",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/reactjs/comments/ze3398/problem_trying_to_resize_a_canvas_component/",
+          "title": null
+        },
+        {
+          "url": "https://tympanus.net/codrops/2014/10/30/resizing-cropping-images-canvas/",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/cam-gists/3405301",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/phocks/32de710036aefd1e470483a3dc4fc285",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/adriancmiranda/e859a902bee91e5f3229cb894972ba9a",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201936-2223-0612-0000-12ac00d7aba4",
+        "input_tokens": 17,
+        "output_tokens": 284,
+        "money_spent": 0.010311,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "target-node-flowchart-react",
+      "prompt": "react library for a node based flowchart editor",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:27:03 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "Top React options for a node-based flowchart/editor\n\n- React Flow (aka @xyflow/react)\n  - What it is: A popular React component for building node-based editors, flow charts, and interactive diagrams.\n  - Why use it: Great DX, built-in zoom/pan/selection, custom nodes/edges, active maintenance, and a Pro add‑on if you need enterprise features.\n  - Install: npm i @xyflow/react. ([reactflow.dev](https://reactflow.dev/?utm_source=openai))\n\n- Rete.js (with the React renderer)\n  - What it is: A framework for node editors with a pluggable architecture; use the rete-react-plugin to render in React.\n  - Why use it: Very flexible when you need a dataflow/logic editor with deep control over the engine and UI layers.\n  - Install (renderer): npm i rete-react-plugin rete-render-utils styled-components. ([retejs.org](https://retejs.org/docs/guides/renderers/react/?utm_source=openai))\n\n- AntV X6 / XFlow\n  - What it is: X6 is a graph editing engine; XFlow is a higher-level solution tailored for React on top of X6.\n  - Why use it: Strong graph fundamentals, good for large diagrams, rich features; fits well if you’re already in the Ant Design/AntV ecosystem.\n  - Docs: XFlow intro for React users. ([x6-v2.antv.vision](https://x6-v2.antv.vision/en/xflow/guide/introduction/?utm_source=openai))\n\nQuick guidance\n- Fastest path for most apps (custom nodes, edges, mini‑map, controls): React Flow. ([reactflow.dev](https://reactflow.dev/?utm_source=openai))\n- If you’re building a domain-specific node/logic editor and want tight control over execution/dataflow plus React rendering: Rete.js + rete-react-plugin. ([retejs.org](https://retejs.org/docs/guides/renderers/react/?utm_source=openai))\n- If you need an enterprise-grade graph foundation and plan to integrate with AntV/Ant Design: X6/XFlow. ([x6-v2.antv.vision](https://x6-v2.antv.vision/en/xflow/guide/introduction/?utm_source=openai))\n\nFollow-up questions to narrow it down\n- What’s your primary use case? (e.g., workflow automation builder, visual programming, DAG editor)\n- Must-have features? (auto‑layout, undo/redo, mini‑map, keyboard shortcuts, large graph performance)\n- Constraints? (license, bundle size, SSR/Electron, TypeScript)\n- Do you need commercial support?\n\nIf you share those, I can recommend one and sketch a minimal starter (with custom nodes and edges) for that library.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://reactflow.dev/?utm_source=openai",
+          "title": "Node-Based UIs in React - React Flow"
+        },
+        {
+          "url": "https://retejs.org/docs/guides/renderers/react/?utm_source=openai",
+          "title": "React.js - Rete.js"
+        },
+        {
+          "url": "https://x6-v2.antv.vision/en/xflow/guide/introduction/?utm_source=openai",
+          "title": "Introduction | X6"
+        },
+        {
+          "url": "https://reactflow.dev/?utm_source=openai",
+          "title": "Node-Based UIs in React - React Flow"
+        },
+        {
+          "url": "https://retejs.org/docs/guides/renderers/react/?utm_source=openai",
+          "title": "React.js - Rete.js"
+        },
+        {
+          "url": "https://x6-v2.antv.vision/en/xflow/guide/introduction/?utm_source=openai",
+          "title": "Introduction | X6"
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201926-2223-0612-0000-8a9c4c71ca7c",
+        "input_tokens": 9168,
+        "output_tokens": 1051,
+        "money_spent": 0.04197,
+        "fan_out_queries": [
+          "best React library node-based flowchart editor 2026",
+          "React Flow library node editor",
+          "Rete.js React integration node editor",
+          "AntV X6 React flowchart editor",
+          "Reaflow React library node-based editor",
+          "Project Storm react diagrams library",
+          "AWS Diagram Maker react library"
+        ]
+      }
+    },
+    {
+      "prompt_id": "target-node-flowchart-react",
+      "prompt": "react library for a node based flowchart editor",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:36:34 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "For a **React library for a node-based flowchart editor**, the strongest match in your results is **React Flow**. It is described as a customizable React component for building **node-based editors**, **interactive diagrams**, **workflow editors**, and **flow charts**.[2][14]\n\nA few practical options from the results:\n\n| Library | Best for | Notes |\n|---|---|---|\n| **React Flow** | General-purpose node-based flowchart/editor UI | Most recommended in the results; supports custom nodes and interactive diagrams.[2][14][17] |\n| **react-flow-chart** | Flexible, declarative flow charts | Stateless and customizable, but appears less commonly used than React Flow.[11] |\n| **react-diagrams** | Highly customizable diagram editors | Mentioned as a customizable alternative in discussions.[16][18] |\n| **Rete.js** | Visual programming / node editor | Good if your “flowchart editor” is more like a logic graph or visual programming tool.[16] |\n\nIf you want the safest default choice, use **React Flow** (`@xyflow/react` in the current package naming).[2][10][14]\n\nIf you want, I can also recommend:\n- the **best library for your exact use case**,\n- a **starter React Flow example**, or\n- a **comparison of React Flow vs Rete.js vs react-diagrams**.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://github.com/kiroboio/react-flow",
+          "title": null
+        },
+        {
+          "url": "https://reactflow.dev/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/michaeltheobald/react-flow",
+          "title": null
+        },
+        {
+          "url": "https://github.com/filipeborelli/react-flow",
+          "title": null
+        },
+        {
+          "url": "https://app.unpkg.com/reactflow@11.11.4",
+          "title": null
+        },
+        {
+          "url": "https://www.jsdelivr.com/package/npm/@xyflow/react",
+          "title": null
+        },
+        {
+          "url": "https://github.com/orenmizr/react-flow",
+          "title": null
+        },
+        {
+          "url": "https://github.com/100le/react-flow",
+          "title": null
+        },
+        {
+          "url": "https://github.com/jaderd-jh/react-flow",
+          "title": null
+        },
+        {
+          "url": "https://app.unpkg.com/@xyflow/react@12.10.2",
+          "title": null
+        },
+        {
+          "url": "https://best-of-web.builder.io/library/MrBlenny/react-flow-chart",
+          "title": null
+        },
+        {
+          "url": "https://github.com/xyflow/awesome-node-based-uis",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/reactjs/comments/j656de/react_flow_library_for_building_interactive/",
+          "title": null
+        },
+        {
+          "url": "https://velt.dev/blog/react-flow-guide-advanced-node-based-ui",
+          "title": null
+        },
+        {
+          "url": "https://dev.to/plazarev/collection-of-diagrams-to-use-in-your-react-app-for-effective-data-visualization-4o7n",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/72164885/tools-for-building-a-graph-node-based-user-interface-in-a-webapp",
+          "title": null
+        },
+        {
+          "url": "https://www.synergycodes.com/blog/react-flow-everything-you-need-to-know",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/reactjs/comments/u894mi/looking_for_node_editor_gui_logic_block_editor/",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/reactjs/comments/xo9qtj/react_library_to_create_dynamic_flowcharts/",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201936-2223-0612-0000-d33cbbb874be",
+        "input_tokens": 16,
+        "output_tokens": 298,
+        "money_spent": 0.010518,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "target-whiteboard",
+      "prompt": "javascript whiteboard library",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:27:57 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "Do you want a quick recommendation or a shortlist to compare? Here are solid, up‑to‑date JavaScript/TypeScript options depending on what you need:\n\nIf you want a ready‑made whiteboard UI you can embed\n- Excalidraw (React component): Drop‑in whiteboard with hand‑drawn style, shapes, text, images, export, and an embeddable component you can customize. Great DX for React apps. ([excalidraw-excalidraw.mintlify.app](https://excalidraw-excalidraw.mintlify.app/guides/embedding?utm_source=openai))\n- tldraw (SDK): Modern whiteboard/canvas with extensibility (custom shapes, embed shapes) and a strong developer‑focused API surface. Good if you plan to build custom tools on top of a whiteboard. ([tldraw.dev](https://tldraw.dev/sdk-features/embed-shape?utm_source=openai))\n\nIf you want a canvas/vector foundation to build your own whiteboard UX\n- Konva.js (with react‑konva): Canvas 2D scene graph, layers, hit detection, events, and lots of built‑in shapes. Solid for performant interactive drawing editors. ([konvajs.org](https://konvajs.org/docs/overview.html?utm_source=openai))\n- Fabric.js: Battle‑tested canvas library with free‑drawing mode, object selection/transform controls, serialization, and image/shape support—handy for building a whiteboard from primitives. ([fabricjs.com](https://fabricjs.com/?utm_source=openai))\n\nHow to choose quickly\n- Need something you can embed in a React app today with minimal code and a friendly, hand‑drawn look? Pick Excalidraw. ([excalidraw-excalidraw.mintlify.app](https://excalidraw-excalidraw.mintlify.app/guides/embedding?utm_source=openai))\n- Need a whiteboard you can extend heavily with custom shapes, embeds, or AI features? Pick tldraw. ([tldraw.dev](https://tldraw.dev/sdk-features/embed-shape?utm_source=openai))\n- Building a bespoke editor (custom tools, constraints, layers, very large canvases) and you want lower‑level control? Start with Konva or Fabric. ([konvajs.org](https://konvajs.org/docs/overview.html?utm_source=openai))\n\nTiny starter snippets (very minimal)\n\n- Excalidraw (React)\n  - Install: npm i @excalidraw/excalidraw\n  - Use: <Excalidraw onChange={...} initialData={...} />. See the embedding guide for props and examples. ([excalidraw-excalidraw.mintlify.app](https://excalidraw-excalidraw.mintlify.app/guides/embedding?utm_source=openai))\n\n- tldraw (React)\n  - Install: npm i tldraw\n  - Use: <Tldraw /> and extend with the SDK (custom shapes, embed shape, etc.). ([tldraw.dev](https://tldraw.dev/sdk-features/embed-shape?utm_source=openai))\n\n- Konva (React)\n  - Install: npm i konva react-konva\n  - Use: <Stage><Layer><Rect ... /></Layer></Stage>. ([konvajs.org](https://konvajs.org/docs/react/Shapes.html?utm_source=openai))\n\n- Fabric.js\n  - Install: npm i fabric\n  - Use: const canvas = new fabric.Canvas('c'); canvas.isDrawingMode = true;. ([fabricjs.com](https://fabricjs.com/demos/free-drawing/?utm_source=openai))\n\nA few clarifying questions so I can point you to the best fit (and sample code):\n- React, Vue, Svelte, or vanilla JS?\n- Do you need real‑time collaboration now, later, or not at all?\n- Must‑have tools? (pen/eraser, shapes, text, images, selection, connectors, sticky notes)\n- Any constraints on licensing, bundle size, or mobile support?",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://excalidraw-excalidraw.mintlify.app/guides/embedding?utm_source=openai",
+          "title": "Embedding - Excalidraw"
+        },
+        {
+          "url": "https://tldraw.dev/sdk-features/embed-shape?utm_source=openai",
+          "title": "Embed shape • tldraw Docs"
+        },
+        {
+          "url": "https://konvajs.org/docs/overview.html?utm_source=openai",
+          "title": "Konva Framework Overview | Konva - JavaScript Canvas 2d Library"
+        },
+        {
+          "url": "https://fabricjs.com/?utm_source=openai",
+          "title": "Fabric.js Javascript Library"
+        },
+        {
+          "url": "https://excalidraw-excalidraw.mintlify.app/guides/embedding?utm_source=openai",
+          "title": "Embedding - Excalidraw"
+        },
+        {
+          "url": "https://tldraw.dev/sdk-features/embed-shape?utm_source=openai",
+          "title": "Embed shape • tldraw Docs"
+        },
+        {
+          "url": "https://konvajs.org/docs/overview.html?utm_source=openai",
+          "title": "Konva Framework Overview | Konva - JavaScript Canvas 2d Library"
+        },
+        {
+          "url": "https://excalidraw-excalidraw.mintlify.app/guides/embedding?utm_source=openai",
+          "title": "Embedding - Excalidraw"
+        },
+        {
+          "url": "https://tldraw.dev/sdk-features/embed-shape?utm_source=openai",
+          "title": "Embed shape • tldraw Docs"
+        },
+        {
+          "url": "https://konvajs.org/docs/react/Shapes.html?utm_source=openai",
+          "title": "Drawing canvas shapes with React | Konva - JavaScript Canvas 2d Library"
+        },
+        {
+          "url": "https://fabricjs.com/demos/free-drawing/?utm_source=openai",
+          "title": "Fabric.js"
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201927-2223-0612-0000-10f16cf4e450",
+        "input_tokens": 9321,
+        "output_tokens": 1460,
+        "money_spent": 0.04625125,
+        "fan_out_queries": [
+          "best JavaScript whiteboard library 2026",
+          "Excalidraw embed library",
+          "tldraw library embed documentation",
+          "Fabric.js whiteboard drawing library",
+          "Konva.js canvas stage drawing shapes",
+          "Paper.js vector graphics scripting framework whiteboard drawing",
+          "Rough.js hand-drawn sketchy graphics library",
+          "Perfect Freehand library JavaScript",
+          "Yjs CRDT real-time collaboration canvas whiteboard",
+          "Liveblocks collaborative presence storage real-time canvas whiteboard"
+        ]
+      }
+    },
+    {
+      "prompt_id": "target-whiteboard",
+      "prompt": "javascript whiteboard library",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:20:03 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "If you want a **JavaScript whiteboard library**, the strongest general-purpose options in the results are **tldraw**, **Excalidraw**, and **Fabric.js-based whiteboard SDKs** like EnableX’s whiteboard.[4][7][8][15]\n\nA few practical choices from the results:\n\n- **tldraw** — best for an *infinite-canvas* whiteboard/diagramming experience with a modern SDK.[15][7]\n- **Excalidraw** — good for hand-drawn-style diagrams and wireframes; the results describe it as easy to use with shapes, text, images, and layers.[4]\n- **Fabric.js** — not a whiteboard app by itself, but a strong canvas foundation if you want to build your own whiteboard UI.[7][17][8]\n- **simple-white-board** — a lightweight npm package for basic drawing on a `<canvas>` element.[2]\n- **whiteboard.js** — a small framework for building whiteboard web apps, with custom brushes and stroke actions.[1]\n- **Caboodle whiteboard** — a standalone browser-based whiteboard that transforms a DIV into a whiteboard.[3]\n\nIf you need a recommendation by use case:\n\n| Use case | Best fit |\n|---|---|\n| Fastest modern whiteboard app | **tldraw**[15][7] |\n| Sketchy diagrams / wireframes | **Excalidraw**[4] |\n| Custom whiteboard implementation | **Fabric.js**[7][17] |\n| Minimal drawing on canvas | **simple-white-board**[2] |\n| Older-style framework with brush hooks | **whiteboard.js**[1] |\n| Real-time collaborative whiteboard SDK | **EnableX Whiteboard** or **ConnectyCube Whiteboard API**[8][12] |\n\nIf you want, I can also narrow this down to:\n- **open-source only**\n- **React-compatible**\n- **collaborative / real-time**\n- **smallest/lightest library**",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://github.com/winfred/whiteboard",
+          "title": null
+        },
+        {
+          "url": "https://www.npmjs.com/package/simple-white-board",
+          "title": null
+        },
+        {
+          "url": "https://github.com/caboodle-tech/whiteboard",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@rajeshmanikumarg/top-5-open-source-javascript-whiteboard-canvas-libraries-9866d6f545a4",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/nextjs/comments/1gos5jy/suggestions_for_libraries_to_build_a/",
+          "title": null
+        },
+        {
+          "url": "https://sourceforge.net/directory/whiteboard/javascript/",
+          "title": null
+        },
+        {
+          "url": "https://insights.linuxfoundation.org/collection/whiteboard-sdks",
+          "title": null
+        },
+        {
+          "url": "https://developer.enablex.io/video/collaboration/whiteboard.html",
+          "title": null
+        },
+        {
+          "url": "https://github.com/alisani081/whiteboard",
+          "title": null
+        },
+        {
+          "url": "https://zwibbler.com/",
+          "title": null
+        },
+        {
+          "url": "https://www.libhunt.com/l/javascript/topic/whiteboard",
+          "title": null
+        },
+        {
+          "url": "https://developers.connectycube.com/js/whiteboard/",
+          "title": null
+        },
+        {
+          "url": "https://www.geeksforgeeks.org/javascript/how-to-create-virtual-whiteboard-using-javascript-and-tailwind/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/topics/whiteboard",
+          "title": null
+        },
+        {
+          "url": "https://tldraw.dev/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/saranyan/Sample-html5-whiteboard/blob/master/index.html",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@aydankirk92/building-a-real-time-multi-user-collaborative-whiteboard-using-fabric-js-part-i-23405823ee03",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@mauryaishika100/online-whiteboard-using-html-css-and-javascript-72175d07316a",
+          "title": null
+        },
+        {
+          "url": "https://www.npmjs.com/package/ng2-canvas-whiteboard",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/6845682/real-time-collaborative-drawing-whiteboard-in-html5-js-and-websockets",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201919-2223-0612-0000-54b3c039b5db",
+        "input_tokens": 11,
+        "output_tokens": 437,
+        "money_spent": 0.012588,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "target-floor-plan",
+      "prompt": "javascript library for interactive floor plan",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:28:53 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "A few solid JavaScript options depend on what you need the floor plan to do. Pick by use case:\n\n- Clickable image/SVG with tooltips, zoom, multi-floor\n  - Mapplic (jQuery/hosted or WP). Great for hotspots over JPG/SVG and multi-floor switching; quick to launch. ([docs.mapplic.com](https://docs.mapplic.com/?utm_source=openai))\n\n- Full indoor mapping and floor switching (map-style UX, vector tiles)\n  - Mapbox GL JS (Indoor guide with floor selector examples). ([docs.mapbox.com](https://docs.mapbox.com/mapbox-gl-js/guides/indoor/?utm_source=openai))\n  - HERE Maps JS (supports indoor map data structures). ([docs-be.here.com](https://docs-be.here.com/bundle/maps-api-for-javascript-developer-guide-3.1.31.0/raw/resource/enus/Maps_API_for_JavaScript_HLP_v3.1.31.0_Developer_Guide.pdf?utm_source=openai))\n  - ArcGIS API for JavaScript + ArcGIS Indoors (floor-aware web maps). ([esri.com](https://www.esri.com/content/dam/esrisites/en-us/events/conferences/2021/developer-summit/12320-arcgis-indoors-developing-indoors-mapping-apps.pdf?utm_source=openai))\n  - Mappedin JS (commercial SDK; 2D/3D indoor maps, multi-floor views). ([mappedin.com](https://www.mappedin.com/resources/blog/mappedin-js-the-next-generation-of-indoor-mapping/?utm_source=openai))\n\n- Purpose-built floor plan SDKs (events, workplaces, editors)\n  - ExpoFP JS SDK (expos/venues). ([js-sdk.expofp.com](https://js-sdk.expofp.com/?utm_source=openai))\n  - GoSpace Floorplan SDK (workplace/real-time floorplans). ([developer.gospace.com](https://developer.gospace.com/floorplan-sdk/overview?utm_source=openai))\n  - Floorplan.js (TypeScript/JS for interactive 2D floor plans). ([floorplanjs.org](https://floorplanjs.org/?utm_source=openai))\n\n- General mapping/graphics you can adapt\n  - Leaflet (open-source mapping; often repurposed for floor plans). ([en.wikipedia.org](https://en.wikipedia.org/wiki/Leaflet_%28software%29?utm_source=openai))\n  - D3.js or Raphaël (SVG interaction/annotation on top of your plan). ([en.wikipedia.org](https://en.wikipedia.org/wiki/D3.js?utm_source=openai))\n\n- Open-source examples to study or fork\n  - ai_room_planner (2D floor plan editor, Canvas with SVG export). ([github.com](https://github.com/countzero/ai_room_planner?utm_source=openai))\n  - homeRoughEditor (SVG-based floor plan editor). ([github.com](https://github.com/ekymo/homeRoughEditor?utm_source=openai))\n\nQuick steer:\n- Need a fast, low-code clickable plan: Mapplic.\n- Need indoor navigation with floor filters: Mapbox GL JS / HERE / ArcGIS Indoors or Mappedin JS.\n- Need an event/expo map with booths: ExpoFP.\n- Need a custom editor or special workflow: Floorplan.js or build on SVG with D3/Raphaël; study the open-source editors above.\n\nIf you share a bit more detail (2D vs 3D, multi-floor, editing vs viewing only, data source: SVG/CAD/BIM, and your framework), I’ll narrow this to 1–2 specific picks and a starter snippet.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://docs.mapplic.com/?utm_source=openai",
+          "title": "Mapplic"
+        },
+        {
+          "url": "https://docs.mapbox.com/mapbox-gl-js/guides/indoor/?utm_source=openai",
+          "title": "Indoor mapping | Mapbox GL JS | Mapbox"
+        },
+        {
+          "url": "https://docs-be.here.com/bundle/maps-api-for-javascript-developer-guide-3.1.31.0/raw/resource/enus/Maps_API_for_JavaScript_HLP_v3.1.31.0_Developer_Guide.pdf?utm_source=openai",
+          "title": "Maps API for JavaScript"
+        },
+        {
+          "url": "https://www.esri.com/content/dam/esrisites/en-us/events/conferences/2021/developer-summit/12320-arcgis-indoors-developing-indoors-mapping-apps.pdf?utm_source=openai",
+          "title": "ArcGIS Indoors:"
+        },
+        {
+          "url": "https://www.mappedin.com/resources/blog/mappedin-js-the-next-generation-of-indoor-mapping/?utm_source=openai",
+          "title": "Mappedin JS: Next-Gen Indoor Mapping SDK | Mappedin"
+        },
+        {
+          "url": "https://js-sdk.expofp.com/?utm_source=openai",
+          "title": "ExpoFP JavaScript SDK"
+        },
+        {
+          "url": "https://developer.gospace.com/floorplan-sdk/overview?utm_source=openai",
+          "title": "Overview | gospace API"
+        },
+        {
+          "url": "https://floorplanjs.org/?utm_source=openai",
+          "title": "Floorplan.js"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Leaflet_%28software%29?utm_source=openai",
+          "title": "Leaflet (software)"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/D3.js?utm_source=openai",
+          "title": "D3.js"
+        },
+        {
+          "url": "https://github.com/countzero/ai_room_planner?utm_source=openai",
+          "title": "GitHub - countzero/ai_room_planner: A browser-based 2D floor plan editor."
+        },
+        {
+          "url": "https://github.com/ekymo/homeRoughEditor?utm_source=openai",
+          "title": "GitHub - ekymo/homeRoughEditor: Floorplan editor SVG to create houseplan and homeplan with Javascript for client"
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201928-2223-0612-0000-bb84fb067568",
+        "input_tokens": 8939,
+        "output_tokens": 1723,
+        "money_spent": 0.04840375,
+        "fan_out_queries": [
+          "interactive floor plan JavaScript library",
+          "JavaScript library floor plan SVG",
+          "indoor floor plan mapping library JavaScript",
+          "Mapplic jQuery floorplan plugin"
+        ]
+      }
+    },
+    {
+      "prompt_id": "target-floor-plan",
+      "prompt": "javascript library for interactive floor plan",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:36:59 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "If you want a **JavaScript library for an interactive floor plan**, the strongest dedicated options in the results are **Floorplan.js / Smplrspace** and the **Archilogic Floor Plan SDK**.[1][3]\n\n- **Floorplan.js (Smplrspace)**: explicitly described as “Interactive digital floor plans in Javascript & Typescript,” and it is now part of Smplrspace’s 2D/3D floor-plan platform.[1]\n- **Archilogic Floor Plan SDK**: a modern TypeScript SDK for embedding customizable, interactive floor plans in websites using JavaScript or TypeScript.[3]\n- **Syncfusion JavaScript Diagram**: a general diagramming library that can be used to build interactive floor-planner diagrams, including features like undo/redo, save/load, export, and print.[2][17]\n- **Konva.js**: useful if you want to draw polygonal room shapes with hover detection, tooltips, and custom styling for each section.[4]\n- **OpenPlans**: a JavaScript library for creating 2D floor plans and architectural drawings using Three.js, aimed at web-based CAD-style apps.[5]\n\nIf you want a quick recommendation:\n- Choose **Archilogic** if you need a polished embedded SDK for real floor-plan models.[3]\n- Choose **Floorplan.js / Smplrspace** if you want a dedicated floor-plan-focused library.[1]\n- Choose **Konva.js** or **Syncfusion Diagram** if you want more control and are building the interaction yourself.[2][4]\n\nIf you tell me your stack, I can narrow it down to the best fit:\n- **React / Vue / plain JS**\n- **2D only or 2D + 3D**\n- **drag/drop furniture, room clickability, zoom/pan, or editing**\n- **open-source vs commercial**",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://floorplanjs.org/",
+          "title": null
+        },
+        {
+          "url": "https://www.syncfusion.com/blogs/post/floor-planner-diagrams-in-javascript",
+          "title": null
+        },
+        {
+          "url": "https://developers.archilogic.com/floor-plan-engine/guide",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Interactive_Building_Map.html",
+          "title": null
+        },
+        {
+          "url": "https://opengeometry-io-openplans.mintlify.app/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/OpenAutomationProject/JSFloorPlan",
+          "title": null
+        },
+        {
+          "url": "https://developers.archilogic.com/floor-plan-engine/v3/guide",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@kamiviolet/using-d3-and-topojson-to-create-a-basic-interactive-floor-map-247eec866c8f",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/chicken2019/ed19ef6315b9257dba884e212e200061",
+          "title": null
+        },
+        {
+          "url": "https://github.com/topics/floorplan?l=javascript",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/64022625/2d-floor-plan-javascript-library",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/reactjs/comments/fjjc6x/zoomable_floor_plan_with_overlaying_interactive/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/ekymo/homeRoughEditor",
+          "title": null
+        },
+        {
+          "url": "https://www.coohom.com/article/creating-2d-floor-map-with-javascript",
+          "title": null
+        },
+        {
+          "url": "https://softwarerecs.stackexchange.com/questions/50602/using-javascript-html5-canvas-drag-drop-floor-layout-design-in-web",
+          "title": null
+        },
+        {
+          "url": "https://leafletjs.com/",
+          "title": null
+        },
+        {
+          "url": "https://www.syncfusion.com/showcase-apps/javascript/floor-planner",
+          "title": null
+        },
+        {
+          "url": "https://softwarerecs.stackexchange.com/questions/65560/looking-for-interactive-floor-plan-editor-creator-javascript",
+          "title": null
+        },
+        {
+          "url": "https://github.com/topics/floorplans?l=javascript",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/61603510/how-can-i-draw-the-plan-of-one-floor-of-the-building-using-javascript",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201936-2223-0612-0000-23bf0010c078",
+        "input_tokens": 13,
+        "output_tokens": 400,
+        "money_spent": 0.012039,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "target-image-annotation",
+      "prompt": "best library for an image annotation tool in the browser",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:29:57 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "A “best” choice depends on what you’re annotating and your stack. Quick picks:\n\n- Annotorious (vanilla JS; React wrapper available): great general-purpose image annotation with rectangles, polygons, tags, events, storage hooks; follows the W3C Web Annotation Data Model and works well with zoomable/tiled viewers (e.g., OpenSeadragon/IIIF). Good balance of features vs. weight. ([annotorious.dev](https://annotorious.dev/getting-started/?utm_source=openai))\n- marker.js 3 (vanilla JS + Web Components): best for “markup-style” callouts (arrows, highlights, text) you want to burn into images quickly. Dead-simple drop-in, no external deps. ([markerjs.com](https://markerjs.com/docs-v3/?utm_source=openai))\n- react-image-annotate (React): strong choice for ML/data-labeling UIs; supports boxes, polygons, points out of the box. ([github.com](https://github.com/UniversalDataTool/react-image-annotate?utm_source=openai))\n- react-image-annotation (React): lightweight, highly customizable primitives for building your own annotation UX. ([npmjs.com](https://www.npmjs.com/package/react-image-annotation?utm_source=openai))\n\nQuick guidance\n- Need standards-compliant JSON and/or very large/zoomable images? Choose Annotorious. ([annotorious.dev](https://annotorious.dev/guides/annotating-images/?utm_source=openai))\n- Need the fastest way to add simple arrows/highlights and export annotated bitmaps? marker.js 3. ([markerjs.com](https://markerjs.com/docs-v3/?utm_source=openai))\n- Building a labeling tool for CV datasets in React? react-image-annotate first; fall back to react-image-annotation if you want lower-level control. ([github.com](https://github.com/UniversalDataTool/react-image-annotate?utm_source=openai))\n\nIf you share a bit more:\n- Framework (vanilla, React, Vue, etc.)\n- Shapes needed (boxes, polygons, keypoints, freehand)\n- Image sizes/zooming needs (gigapixel/IIIF? OpenSeadragon?)\n- Output format (W3C Web Annotation, COCO/YOLO, or custom)\n- Persistence (local only vs. API/backend)\n\n…I can recommend one and sketch the minimal integration code.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://annotorious.dev/getting-started/?utm_source=openai",
+          "title": "Getting Started | Annotorious"
+        },
+        {
+          "url": "https://markerjs.com/docs-v3/?utm_source=openai",
+          "title": "marker.js 3 Documentation"
+        },
+        {
+          "url": "https://github.com/UniversalDataTool/react-image-annotate?utm_source=openai",
+          "title": "GitHub - UniversalDataTool/react-image-annotate"
+        },
+        {
+          "url": "https://www.npmjs.com/package/react-image-annotation?utm_source=openai",
+          "title": "react-image-annotation - npm"
+        },
+        {
+          "url": "https://annotorious.dev/guides/annotating-images/?utm_source=openai",
+          "title": "Annotating Images | Annotorious"
+        },
+        {
+          "url": "https://markerjs.com/docs-v3/?utm_source=openai",
+          "title": "marker.js 3 Documentation"
+        },
+        {
+          "url": "https://github.com/UniversalDataTool/react-image-annotate?utm_source=openai",
+          "title": "GitHub - UniversalDataTool/react-image-annotate"
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201929-2223-0612-0000-c0cd3b99ea80",
+        "input_tokens": 9180,
+        "output_tokens": 1616,
+        "money_spent": 0.047635,
+        "fan_out_queries": [
+          "Annotorious image annotation library browser",
+          "markerjs2 image annotation library",
+          "react-image-annotate library",
+          "Pintura image editor annotations",
+          "Fabric.js canvas library annotations shapes images",
+          "Konva.js canvas library React Konva"
+        ]
+      }
+    },
+    {
+      "prompt_id": "target-image-annotation",
+      "prompt": "best library for an image annotation tool in the browser",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:37:35 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "For a **browser-based image annotation tool**, **Annotorious** is the strongest default choice if you want a mature, open-source JavaScript library with broad image-annotation support and minimal setup.[1][2][4][11] If you want a simpler commercial alternative focused on easy integration, **marker.js / markerjs2** is also a good option for adding annotation to web apps.[3][7]\n\n- **Best overall open-source choice:** **Annotorious** — described as a mature, feature-rich open-source JavaScript image annotation library, with support for JavaScript, TypeScript, and React.[1][4]\n- **Best for quick integration:** **marker.js / markerjs2** — positioned as a JavaScript library that makes it easy to add image annotation to web applications.[3][7]\n- **Best for enterprise/full-suite needs:** **LEADTOOLS** — a broader HTML5/JavaScript annotation SDK with more comprehensive tooling, but it is not the simplest lightweight browser library.[5]\n\nIf your priority is **open source + browser + production-ready**, choose **Annotorious**.[1][2][4] If you want, I can also compare **Annotorious vs marker.js vs VIA** by features, licensing, and framework support.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://www.blog.brightcoding.dev/2025/12/24/the-guide-to-javascript-image-annotation-libraries-build-interactive-web-apps-with-annotorious-more-2025",
+          "title": null
+        },
+        {
+          "url": "https://rainersimon.io/portfolio/annotorious/",
+          "title": null
+        },
+        {
+          "url": "https://markerjs.com/",
+          "title": null
+        },
+        {
+          "url": "https://annotorious.dev/",
+          "title": null
+        },
+        {
+          "url": "https://www.leadtools.com/sdk/annotation",
+          "title": null
+        },
+        {
+          "url": "https://products.documentprocessing.com/annotation/javascript/annotorious/",
+          "title": null
+        },
+        {
+          "url": "https://www.npmjs.com/package/markerjs2",
+          "title": null
+        },
+        {
+          "url": "https://new.annotorious.com/getting-started/",
+          "title": null
+        },
+        {
+          "url": "https://context7.com/annotorious/annotorious",
+          "title": null
+        },
+        {
+          "url": "https://www.jqueryscript.net/blog/best-image-annotation.html",
+          "title": null
+        },
+        {
+          "url": "https://github.com/annotorious/annotorious/blob/main/README.md",
+          "title": null
+        },
+        {
+          "url": "https://github.com/annotorious/annotorious",
+          "title": null
+        },
+        {
+          "url": "https://blog.roboflow.com/best-image-annotation-tools/",
+          "title": null
+        },
+        {
+          "url": "https://annotorious.github.io/api-docs/annotorious/",
+          "title": null
+        },
+        {
+          "url": "https://github.com/zenml-io/awesome-open-data-annotation",
+          "title": null
+        },
+        {
+          "url": "https://vidocu.ai/blog/9-best-free-image-annotation-tools-online-2026",
+          "title": null
+        },
+        {
+          "url": "https://bugherd.com/blog/best-image-annotation-tools",
+          "title": null
+        },
+        {
+          "url": "https://fabric.so/comparison/best-image-annotation-tool",
+          "title": null
+        },
+        {
+          "url": "https://github.com/AntoninoBonanno/annotorious",
+          "title": null
+        },
+        {
+          "url": "https://github.com/PPilger/image-annotation-js",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201937-2223-0612-0000-9666906f3a35",
+        "input_tokens": 17,
+        "output_tokens": 276,
+        "money_spent": 0.010191,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "target-infinite-canvas",
+      "prompt": "infinite canvas with pan and zoom in javascript",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:30:41 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "Below is a minimal, no-dependency pattern for an “infinite” canvas you can pan (drag) and zoom (wheel/pinch). It keeps a world transform (scale + translation), draws a repeating grid to suggest infinity, and renders your scene in world coordinates.\n\nHTML\n```\n<canvas id=\"c\" style=\"width:100vw;height:100vh;display:block;\"></canvas>\n```\n\nJavaScript\n```js\nconst canvas = document.getElementById('c');\nconst ctx = canvas.getContext('2d', { alpha: false });\n\n// Camera (world transform)\nlet scale = 1;                 // zoom\nlet translateX = 0, translateY = 0; // pan\n\n// Pan state\nlet isPanning = false;\nlet lastX = 0, lastY = 0;\n\n// Zoom limits\nconst MIN_SCALE = 0.1;\nconst MAX_SCALE = 8;\n\n// Resize with HiDPI support\nfunction resize() {\n  const dpr = window.devicePixelRatio || 1;\n  const cssW = canvas.clientWidth;\n  const cssH = canvas.clientHeight;\n  canvas.width = Math.round(cssW * dpr);\n  canvas.height = Math.round(cssH * dpr);\n  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // reset to CSS pixels\n  draw(); // redraw on resize\n}\nwindow.addEventListener('resize', resize);\nresize();\n\n// Convert screen -> world coordinates\nfunction screenToWorld(x, y) {\n  return {\n    x: (x - translateX) / scale,\n    y: (y - translateY) / scale,\n  };\n}\n\n// Mouse/touch pan\ncanvas.addEventListener('pointerdown', (e) => {\n  isPanning = true;\n  lastX = e.clientX;\n  lastY = e.clientY;\n  canvas.setPointerCapture(e.pointerId);\n});\n\ncanvas.addEventListener('pointermove', (e) => {\n  if (!isPanning) return;\n  const dx = e.clientX - lastX;\n  const dy = e.clientY - lastY;\n  lastX = e.clientX;\n  lastY = e.clientY;\n  translateX += dx;\n  translateY += dy;\n  requestRender();\n});\n\ncanvas.addEventListener('pointerup', (e) => {\n  isPanning = false;\n  canvas.releasePointerCapture(e.pointerId);\n});\ncanvas.addEventListener('pointercancel', () => (isPanning = false));\n\n// Wheel zoom (trackpads included)\ncanvas.addEventListener('wheel', (e) => {\n  e.preventDefault();\n  // Normalize wheel delta (pixels)\n  const delta = (e.deltaMode === 1) ? e.deltaY * 16 : e.deltaY;\n  const zoomIntensity = 0.0015; // lower = gentler\n  const zoom = Math.exp(-delta * zoomIntensity);\n\n  const rect = canvas.getBoundingClientRect();\n  const mx = e.clientX - rect.left;\n  const my = e.clientY - rect.top;\n\n  // World coord at mouse before zoom\n  const wx = (mx - translateX) / scale;\n  const wy = (my - translateY) / scale;\n\n  // Apply zoom with clamp\n  const newScale = clamp(scale * zoom, MIN_SCALE, MAX_SCALE);\n  const actualZoom = newScale / scale;\n  scale = newScale;\n\n  // Keep mouse position stable: adjust translation\n  translateX = mx - wx * scale;\n  translateY = my - wy * scale;\n\n  requestRender();\n}, { passive: false });\n\nfunction clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }\n\n// Draw loop with camera transform\nlet rafId = 0, needsRender = true;\nfunction requestRender() {\n  if (!needsRender) {\n    needsRender = true;\n    rafId = requestAnimationFrame(draw);\n  }\n}\n\nfunction draw() {\n  needsRender = false;\n\n  // Clear to white\n  ctx.save();\n  ctx.setTransform(1, 0, 0, 1, 0, 0);\n  ctx.clearRect(0, 0, canvas.width, canvas.height);\n  ctx.restore();\n\n  // Apply camera transform (CSS pixel space)\n  ctx.save();\n  ctx.translate(translateX, translateY);\n  ctx.scale(scale, scale);\n\n  drawGrid(ctx);\n  drawScene(ctx);\n\n  ctx.restore();\n}\n\n// Infinite grid (world space)\nfunction drawGrid(ctx) {\n  const rect = canvas.getBoundingClientRect();\n  const w = rect.width;\n  const h = rect.height;\n\n  // View bounds in world units\n  const topLeft = screenToWorld(0, 0);\n  const bottomRight = screenToWorld(w, h);\n\n  const gridSmall = 25;\n  const gridBig = 125;\n\n  ctx.lineWidth = 1 / scale;\n\n  // Small grid\n  ctx.strokeStyle = '#e6e6e6';\n  ctx.beginPath();\n  for (let x = Math.floor(topLeft.x / gridSmall) * gridSmall; x <= bottomRight.x; x += gridSmall) {\n    ctx.moveTo(x, topLeft.y);\n    ctx.lineTo(x, bottomRight.y);\n  }\n  for (let y = Math.floor(topLeft.y / gridSmall) * gridSmall; y <= bottomRight.y; y += gridSmall) {\n    ctx.moveTo(topLeft.x, y);\n    ctx.lineTo(bottomRight.x, y);\n  }\n  ctx.stroke();\n\n  // Big grid\n  ctx.strokeStyle = '#cfcfcf';\n  ctx.beginPath();\n  for (let x = Math.floor(topLeft.x / gridBig) * gridBig; x <= bottomRight.x; x += gridBig) {\n    ctx.moveTo(x, topLeft.y);\n    ctx.lineTo(x, bottomRight.y);\n  }\n  for (let y = Math.floor(topLeft.y / gridBig) * gridBig; y <= bottomRight.y; y += gridBig) {\n    ctx.moveTo(topLeft.x, y);\n    ctx.lineTo(bottomRight.x, y);\n  }\n  ctx.stroke();\n\n  // Origin axes\n  ctx.strokeStyle = '#888';\n  ctx.beginPath();\n  ctx.moveTo(topLeft.x, 0);\n  ctx.lineTo(bottomRight.x, 0);\n  ctx.moveTo(0, topLeft.y);\n  ctx.lineTo(0, bottomRight.y);\n  ctx.stroke();\n}\n\n// Example scene content in world space\nfunction drawScene(ctx) {\n  // A few sample shapes at fixed world coordinates\n  ctx.fillStyle = '#2d8cf0';\n  ctx.fillRect(-50, -50, 100, 100);\n\n  ctx.fillStyle = '#f05a2d';\n  ctx.beginPath();\n  ctx.arc(200, 120, 40, 0, Math.PI * 2);\n  ctx.fill();\n\n  ctx.fillStyle = '#111';\n  ctx.font = `${14}px system-ui, sans-serif`;\n  ctx.fillText('Drag to pan, wheel to zoom', 10, -10);\n}\n\nrequestRender();\n```\n\nNotes and tips\n- World transform: Keep all your content in “world” coordinates. Only the camera changes (translateX/Y, scale).\n- Zoom to cursor: Recompute translation so the world point under the cursor stays fixed after zoom.\n- HiDPI: Use devicePixelRatio and reset to CSS pixel space before applying your own transform.\n- Performance: Only redraw on changes (use requestAnimationFrame). For very large scenes, cull by the world view bounds.\n- Touch pinch: Pointer events + Gesture handling can be added by tracking two pointers and updating scale around their midpoint.\n\nWant a version with inertia, pinch-to-zoom on touch, or using SVG/WebGL (e.g., PixiJS/Konva)? Tell me your target scenario and I’ll adapt this.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201930-2223-0612-0000-394021e10f21",
+        "input_tokens": 4462,
+        "output_tokens": 1915,
+        "money_spent": 0.0247275,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "target-infinite-canvas",
+      "prompt": "infinite canvas with pan and zoom in javascript",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:38:03 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "For an **infinite canvas with pan and zoom in JavaScript**, the standard approach is to treat the canvas like a movable **camera** with three values: **x**, **y**, and **scale/zoom**.[7][8][17] On each pan or zoom event, update that camera state and redraw the scene using transformed coordinates rather than resizing the canvas element itself.[8][13]\n\nA simple implementation pattern is:\n\n- Track `offsetX`, `offsetY`, and `scale` as your viewport/camera state.[7][8]\n- On **pan**, add the mouse or touch movement to the offsets, usually dividing by the current scale so dragging feels consistent at different zoom levels.[7][18]\n- On **zoom**, change `scale` and adjust the offsets so the point under the cursor stays fixed while zooming.[17]\n- Redraw all visible content using the updated transform on every interaction frame.[8][13]\n\nA minimal vanilla Canvas example looks like this:\n\n```javascript\nconst canvas = document.querySelector(\"canvas\");\nconst ctx = canvas.getContext(\"2d\");\n\nlet scale = 1;\nlet offsetX = 0;\nlet offsetY = 0;\nlet isPanning = false;\nlet lastX = 0;\nlet lastY = 0;\n\nfunction draw() {\n  ctx.setTransform(scale, 0, 0, scale, offsetX, offsetY);\n  ctx.clearRect(-offsetX / scale, -offsetY / scale, canvas.width / scale, canvas.height / scale);\n\n  // draw your infinite content here\n  for (let x = -1000; x <= 1000; x += 100) {\n    for (let y = -1000; y <= 1000; y += 100) {\n      ctx.fillRect(x, y, 10, 10);\n    }\n  }\n}\n\ncanvas.addEventListener(\"mousedown\", (e) => {\n  isPanning = true;\n  lastX = e.clientX;\n  lastY = e.clientY;\n});\n\nwindow.addEventListener(\"mouseup\", () => {\n  isPanning = false;\n});\n\nwindow.addEventListener(\"mousemove\", (e) => {\n  if (!isPanning) return;\n  offsetX += e.clientX - lastX;\n  offsetY += e.clientY - lastY;\n  lastX = e.clientX;\n  lastY = e.clientY;\n  draw();\n});\n\ncanvas.addEventListener(\"wheel\", (e) => {\n  e.preventDefault();\n\n  const zoomFactor = Math.exp(-e.deltaY * 0.001);\n  const rect = canvas.getBoundingClientRect();\n  const mouseX = e.clientX - rect.left;\n  const mouseY = e.clientY - rect.top;\n\n  const worldX = (mouseX - offsetX) / scale;\n  const worldY = (mouseY - offsetY) / scale;\n\n  scale *= zoomFactor;\n  offsetX = mouseX - worldX * scale;\n  offsetY = mouseY - worldY * scale;\n\n  draw();\n}, { passive: false });\n\ndraw();\n```\n\nIf you want a ready-made library, **Konva** has an infinite canvas demo with wheel zoom and drag-to-pan,[1] and **Panzoom** is a small library for adding pan/zoom behavior to elements.[16] If you need a canvas wrapper specifically, **ef-infinite-canvas** supports zoom, pan, and rotate around an HTML5 canvas.[3]\n\nIf you want, I can also give you:\n- a **better production-ready vanilla Canvas version**\n- a **React version**\n- an **SVG version**\n- or a **grid/whiteboard-style infinite canvas** implementation",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://konvajs.org/docs/sandbox/Infinite_Canvas.html",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/senecafron/bc6c9ff220641306c77ec9c2a6a1675f",
+          "title": null
+        },
+        {
+          "url": "https://github.com/emilefokkema/infinite-canvas",
+          "title": null
+        },
+        {
+          "url": "https://docs.jsplumbtoolkit.com/toolkit/6.x/lib/navigating-the-canvas",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/12332542/infinite-zoom-with-javascript-jquery-or-html5-canvas",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/74307643/js-canvas-simulate-infinite-pan-and-zoomable-grid",
+          "title": null
+        },
+        {
+          "url": "https://www.sandromaglione.com/articles/infinite-canvas-html-with-zoom-and-pan",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/64835486/how-to-make-an-infinite-html5-canvas-which-can-be-zoomed-and-panned",
+          "title": null
+        },
+        {
+          "url": "https://github.com/roblouie/canvas-pan-and-zoom",
+          "title": null
+        },
+        {
+          "url": "https://www.npmjs.com/package/@amit.rajput/react-infinite-canvas",
+          "title": null
+        },
+        {
+          "url": "https://github.com/willhoag/infinite-canvas",
+          "title": null
+        },
+        {
+          "url": "https://www.cs.colostate.edu/~anderson/wp/2012/09/01/javascript-for-zooming-and-panning-in-a-canvas/",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@tom.humph/creating-an-infinite-whiteboard-97527e886712",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/learnprogramming/comments/1j3p79w/how_to_code_an_infinitely_zoomable_and_pannable/",
+          "title": null
+        },
+        {
+          "url": "https://tympanus.net/codrops/2026/01/07/infinite-canvas-building-a-seamless-pan-anywhere-image-space/",
+          "title": null
+        },
+        {
+          "url": "https://www.npmjs.com/package/@panzoom/panzoom",
+          "title": null
+        },
+        {
+          "url": "https://harrisonmilbradt.com/blog/canvas-panning-and-zooming",
+          "title": null
+        },
+        {
+          "url": "https://www.steveruiz.me/posts/zoom-ui",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201937-2223-0612-0000-7d5e5e30a7bc",
+        "input_tokens": 15,
+        "output_tokens": 781,
+        "money_spent": 0.01776,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "code-transformer-rect",
+      "prompt": "write a react-konva component with a Transformer that resizes a rectangle",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:34:12 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "Here’s a minimal, self-contained example that shows a rectangle you can select and resize with a Konva Transformer in React. It keeps the rectangle’s width/height in state (resetting scale after transform), enforces a minimum size, and supports dragging.\n\nimport React, { useRef, useState, useEffect } from \"react\";\nimport { Stage, Layer, Rect, Transformer } from \"react-konva\";\n\nfunction ResizableRect({ shapeProps, isSelected, onSelect, onChange }) {\n  const shapeRef = useRef(null);\n  const trRef = useRef(null);\n\n  useEffect(() => {\n    if (isSelected && trRef.current && shapeRef.current) {\n      trRef.current.nodes([shapeRef.current]);\n      trRef.current.getLayer().batchDraw();\n    }\n  }, [isSelected]);\n\n  return (\n    <>\n      <Rect\n        onClick={onSelect}\n        onTap={onSelect}\n        ref={shapeRef}\n        {...shapeProps}\n        draggable\n        onDragEnd={(e) => {\n          onChange({\n            ...shapeProps,\n            x: e.target.x(),\n            y: e.target.y(),\n          });\n        }}\n        onTransformEnd={() => {\n          const node = shapeRef.current;\n          const scaleX = node.scaleX();\n          const scaleY = node.scaleY();\n\n          // reset scale to 1 and update size (Konva transforms via scale)\n          node.scaleX(1);\n          node.scaleY(1);\n\n          const newWidth = Math.max(20, node.width() * scaleX);\n          const newHeight = Math.max(20, node.height() * scaleY);\n\n          onChange({\n            ...shapeProps,\n            x: node.x(),\n            y: node.y(),\n            width: newWidth,\n            height: newHeight,\n          });\n        }}\n      />\n      {isSelected && (\n        <Transformer\n          ref={trRef}\n          rotateEnabled={false}\n          enabledAnchors={[\n            \"top-left\",\n            \"top-center\",\n            \"top-right\",\n            \"middle-left\",\n            \"middle-right\",\n            \"bottom-left\",\n            \"bottom-center\",\n            \"bottom-right\",\n          ]}\n          boundBoxFunc={(oldBox, newBox) => {\n            const minSize = 20;\n            if (newBox.width < minSize || newBox.height < minSize) {\n              return oldBox;\n            }\n            return newBox;\n          }}\n        />\n      )}\n    </>\n  );\n}\n\nexport default function Canvas() {\n  const [rectProps, setRectProps] = useState({\n    x: 80,\n    y: 60,\n    width: 200,\n    height: 120,\n    fill: \"#66aaff\",\n    stroke: \"#1e3a8a\",\n    strokeWidth: 2,\n    cornerRadius: 6,\n  });\n  const [selectedId, setSelectedId] = useState(\"rect1\");\n\n  const handleDeselect = (e) => {\n    // deselect when clicked on empty area\n    const clickedOnEmpty = e.target === e.target.getStage();\n    if (clickedOnEmpty) setSelectedId(null);\n  };\n\n  return (\n    <Stage width={800} height={500} onMouseDown={handleDeselect} onTouchStart={handleDeselect}>\n      <Layer>\n        <ResizableRect\n          shapeProps={rectProps}\n          isSelected={selectedId === \"rect1\"}\n          onSelect={() => setSelectedId(\"rect1\")}\n          onChange={(newAttrs) => setRectProps(newAttrs)}\n        />\n      </Layer>\n    </Stage>\n  );\n}\n\nNotes:\n- Install: npm i react-konva konva\n- Key points: use Transformer with a ref, attach it to the Rect when selected, and in onTransformEnd read the scale, update width/height, then reset scale to 1. boundBoxFunc enforces a minimum size.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201933-2223-0612-0000-bfa6edd1009e",
+        "input_tokens": 4467,
+        "output_tokens": 1143,
+        "money_spent": 0.01701375,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "code-transformer-rect",
+      "prompt": "write a react-konva component with a Transformer that resizes a rectangle",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:38:56 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "```jsx\nimport React, { useEffect, useRef, useState } from \"react\";\nimport { Stage, Layer, Rect, Transformer } from \"react-konva\";\n\nconst MIN_SIZE = 20;\n\nconst ResizableRect = ({ isSelected, onSelect, shapeProps, onChange }) => {\n  const shapeRef = useRef(null);\n  const trRef = useRef(null);\n\n  useEffect(() => {\n    if (isSelected && trRef.current && shapeRef.current) {\n      trRef.current.nodes([shapeRef.current]);\n      trRef.current.getLayer()?.batchDraw();\n    }\n  }, [isSelected]);\n\n  return (\n    <>\n      <Rect\n        ref={shapeRef}\n        {...shapeProps}\n        draggable\n        onClick={onSelect}\n        onTap={onSelect}\n        onTransformEnd={() => {\n          const node = shapeRef.current;\n          if (!node) return;\n\n          const scaleX = node.scaleX();\n          const scaleY = node.scaleY();\n\n          node.scaleX(1);\n          node.scaleY(1);\n\n          onChange({\n            ...shapeProps,\n            x: node.x(),\n            y: node.y(),\n            width: Math.max(MIN_SIZE, node.width() * scaleX),\n            height: Math.max(MIN_SIZE, node.height() * scaleY),\n          });\n        }}\n        onDragEnd={() => {\n          const node = shapeRef.current;\n          if (!node) return;\n\n          onChange({\n            ...shapeProps,\n            x: node.x(),\n            y: node.y(),\n          });\n        }}\n      />\n\n      {isSelected && (\n        <Transformer\n          ref={trRef}\n          rotateEnabled={true}\n          flipEnabled={false}\n          boundBoxFunc={(oldBox, newBox) => {\n            if (newBox.width < MIN_SIZE || newBox.height < MIN_SIZE) {\n              return oldBox;\n            }\n            return newBox;\n          }}\n        />\n      )}\n    </>\n  );\n};\n\nexport default function App() {\n  const [selectedId, setSelectedId] = useState(null);\n  const [rect, setRect] = useState({\n    id: \"rect1\",\n    x: 80,\n    y: 80,\n    width: 140,\n    height: 100,\n    fill: \"#4f46e5\",\n    stroke: \"black\",\n    strokeWidth: 2,\n  });\n\n  return (\n    <Stage\n      width={window.innerWidth}\n      height={window.innerHeight}\n      onMouseDown={(e) => {\n        const clickedOnEmpty = e.target === e.target.getStage();\n        if (clickedOnEmpty) setSelectedId(null);\n      }}\n      onTouchStart={(e) => {\n        const clickedOnEmpty = e.target === e.target.getStage();\n        if (clickedOnEmpty) setSelectedId(null);\n      }}\n    >\n      <Layer>\n        <ResizableRect\n          isSelected={selectedId === rect.id}\n          onSelect={() => setSelectedId(rect.id)}\n          shapeProps={rect}\n          onChange={(newAttrs) => setRect((prev) => ({ ...prev, ...newAttrs }))}\n        />\n      </Layer>\n    </Stage>\n  );\n}\n```\n\nThis follows the standard React-Konva pattern: attach a `Transformer` to the selected `Rect` with a ref, and in `onTransformEnd` convert Konva’s temporary `scaleX/scaleY` back into `width/height` so the rectangle stays correctly sized in React state.[1][3][8]\n\nIf you want, I can also provide:\n- a version with multiple rectangles\n- a version that disables aspect-ratio locking\n- a version that preserves stroke width while resizing",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://konvajs.org/docs/react/Transformer.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Ignore_Stroke_On_Transform.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Basic_demo.html",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/55949163/rectangle-does-not-re-render-properly-after-transformation-in-react-konva",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Resize_Limits.html",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/react-konva/issues/822",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Transform_Events.html",
+          "title": null
+        },
+        {
+          "url": "https://blog.logrocket.com/canvas-manipulation-react-konva/",
+          "title": null
+        },
+        {
+          "url": "https://medium.com/@anand.butani/part-3-building-a-video-editor-create-a-canvas-with-react-konva-2528b9056c04",
+          "title": null
+        },
+        {
+          "url": "https://cloud.tencent.com/developer/ask/sof/343666/answer/579207",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/react-konva/issues/461",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/70676321/konva-js-resize-rect-by-bounds-in-transform-js",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/api/Konva.Transformer.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Limited_Drag_And_Resize.html",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/77302338/react-konva-resize-anchors-not-shown-outside-canvas",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Transformer_Styling.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Keep_Ratio.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Resizing_Stress_Test.html",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/react-konva",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201938-2223-0612-0000-d31534d95805",
+        "input_tokens": 22,
+        "output_tokens": 785,
+        "money_spent": 0.017841,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "code-constant-screen-size-label",
+      "prompt": "how do I keep a text label the same screen size while zooming a Konva stage",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:32:43 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "You have two common cases. Pick the one you want.\n\nA) Keep a label attached to a world point but visually the same size\n- Idea: whenever you zoom the stage, counter-scale the label (or a group containing it) by the inverse of the stage scale. Its position stays in world coordinates; only its drawn size is neutralized.\n\nExample (wheel-zoom around mouse, single uniform scale):\n- Assume stage.scaleX() === stage.scaleY()\n\n// setup\nconst label = new Konva.Label({ x: 200, y: 150 });\nlabel.add(new Konva.Tag({ fill: 'black', cornerRadius: 4 }));\nlabel.add(new Konva.Text({ text: 'Hello', fill: 'white', padding: 6 }));\nlayer.add(label);\n\nconst scaleBy = 1.05;\n\nstage.on('wheel', (e) => {\n  e.evt.preventDefault();\n\n  const oldScale = stage.scaleX();\n  const pointer = stage.getPointerPosition();\n\n  // position in stage coords before zoom\n  const mousePointTo = {\n    x: (pointer.x - stage.x()) / oldScale,\n    y: (pointer.y - stage.y()) / oldScale\n  };\n\n  // compute new scale\n  const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;\n  stage.scale({ x: newScale, y: newScale });\n\n  // keep zoom centered on pointer\n  const newPos = {\n    x: pointer.x - mousePointTo.x * newScale,\n    y: pointer.y - mousePointTo.y * newScale\n  };\n  stage.position(newPos);\n\n  // keep the label the same screen size\n  const inv = 1 / newScale;\n  label.scale({ x: inv, y: inv }); // do this for every label you want fixed-size\n\n  layer.batchDraw();\n});\n\nNotes:\n- If you have many labels, put them inside a Konva.Group and counter-scale the group instead of each label.\n- If you use non-uniform scaling (scaleX != scaleY), invert both axes separately.\n\nB) Keep a label fixed on the screen (HUD), ignoring pan and zoom\n- Idea: draw the main content on one layer that is scaled/panned, and a HUD layer that cancels those transforms each frame.\n\nconst worldLayer = new Konva.Layer();\nconst hudLayer = new Konva.Layer();\nstage.add(worldLayer, hudLayer);\n\n// a HUD label that should stay in the top-right corner of the canvas\nconst hud = new Konva.Label();\nhud.add(new Konva.Tag({ fill: 'rgba(0,0,0,0.6)', cornerRadius: 4 }));\nconst hudText = new Konva.Text({ text: 'Scale: 1.00', fill: 'white', padding: 6 });\nhud.add(hudText);\nhudLayer.add(hud);\n\n// helper to keep HUD pinned to the screen\nfunction updateHUD() {\n  const sX = stage.scaleX();\n  const sY = stage.scaleY();\n  const invX = 1 / sX;\n  const invY = 1 / sY;\n\n  // cancel stage scale and pan for HUD layer\n  hudLayer.scale({ x: invX, y: invY });\n  hudLayer.position({\n    x: -stage.x() * invX,\n    y: -stage.y() * invY\n  });\n\n  // place HUD at screen corner in screen pixels\n  const pad = 10;\n  const w = stage.width();\n  hud.position({\n    x: (w - pad) * invX - hud.width() / 2, // adjust as desired\n    y: pad * invY\n  });\n\n  hudText.text(`Scale: ${sX.toFixed(2)}`);\n  hudLayer.batchDraw();\n}\n\nstage.on('wheel dragmove', () => {\n  // ... your zoom/pan logic that changes stage.scale/position ...\n  updateHUD();\n});\n\n// call once initially\nupdateHUD();\n\nKey points\n- For “same visual size at a world location,” counter-scale the node: node.scale({x: 1/scaleX, y: 1/scaleY}).\n- For “fixed to the screen,” counter-scale the entire HUD layer and also shift it by -stage.position()/scale to cancel panning, then position HUD elements in screen pixels on that layer.\n- If you change zoom anywhere (buttons, gestures), remember to update the inverse scaling accordingly.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201932-2223-0612-0000-575a0a80041d",
+        "input_tokens": 4471,
+        "output_tokens": 1706,
+        "money_spent": 0.02264875,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "code-constant-screen-size-label",
+      "prompt": "how do I keep a text label the same screen size while zooming a Konva stage",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:39:28 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "Keep the label **outside the zoomed stage/layer** or give it the **inverse scale** of the stage so its absolute screen size stays constant.[1][2]\n\nA practical approach is:\n\n- If you zoom by changing `stage.scale({ x: s, y: s })`, set the label to `scale({ x: 1 / s, y: 1 / s })`.[1]\n- Update that inverse scale every time the stage zoom changes, so the label’s *absolute scale* remains `1`.[1]\n- If the label is inside a transformed group, move it out of that group and into the layer instead, because group scaling will affect all children, including the text.[2]\n\nExample pattern:\n\n```js\nconst zoom = stage.scaleX();\nlabel.scale({ x: 1 / zoom, y: 1 / zoom });\n```\n\nIf you want the label to stay in the same *screen position* too, also recompute its position based on the stage transform after each zoom. Konva’s zoom demos show the stage is typically scaled directly, so this inverse-scale technique is the usual way to keep UI text readable while the canvas content zooms.[19][12]",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://stackoverflow.com/questions/70132562/resize-konva-label-on-zoom",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/59461415/keep-konva-label-size-in-a-group-after-transform",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/tagged/konvajs?tab=newest&page=16",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Multi-touch_Scale_Stage.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Canvas_Watermark.html",
+          "title": null
+        },
+        {
+          "url": "https://blog.csdn.net/weixin_41171651/article/details/120633827",
+          "title": null
+        },
+        {
+          "url": "https://cloud.tencent.com/developer/ask/sof/1151764",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Resize_Text.html",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/select_and_transform/Centered_Scaling.html",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/54726049/konvajs-how-to-prevent-some-shapes-from-scaling-when-scaling-whole-stage",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/77974650/proportional-text-scaling-konva",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Responsive_Canvas.html",
+          "title": null
+        },
+        {
+          "url": "https://forum.obsidian.md/t/canvas-link-labels-do-not-scale-with-note-labels-when-zooming-out/53681",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/konva/issues/857",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/52251635/konvajs-how-to-change-the-text-class-properties-fontsize-height-width-on-r",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Gestures.html",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/colinfwren/1546aaf5d314dc43ac0970b9a677ac6e",
+          "title": null
+        },
+        {
+          "url": "https://codepen.io/JEE42/pen/QWvGvGQ",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/sandbox/Zooming_Relative_To_Pointer.html",
+          "title": null
+        },
+        {
+          "url": "https://www.reddit.com/r/QGIS/comments/15679ts/how_do_i_make_the_label_size_static_at_every_zoom/",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201939-2223-0612-0000-5d5cb9a57f9f",
+        "input_tokens": 25,
+        "output_tokens": 254,
+        "money_spent": 0.009885,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "code-retina-blurry-canvas",
+      "prompt": "how do I fix a blurry Konva canvas on a retina display",
+      "provider": "chat_gpt",
+      "model_requested": "gpt-5",
+      "model_version": "gpt-5-2025-08-07",
+      "queried_at": "2026-08-20 19:33:22 +00:00",
+      "web_search_requested": true,
+      "web_search_used": false,
+      "answer": "Short answer: size the backing canvas to device pixels, then scale the stage to look correct in CSS pixels. Also bump pixelRatio when you cache nodes.\n\nHere’s a solid pattern:\n\n- Get the device pixel ratio (dpr)\n  const dpr = window.devicePixelRatio || 1;\n\n- Measure your container in CSS pixels\n  const container = document.getElementById('konva-container');\n  const cssWidth = container.clientWidth;\n  const cssHeight = container.clientHeight;\n\n- Create/resize the stage in device pixels and scale it back\n  const stage = new Konva.Stage({\n    container,\n    width: cssWidth * dpr,\n    height: cssHeight * dpr\n  });\n  stage.scale({ x: dpr, y: dpr });\n\n- Keep the container’s CSS size in CSS pixels\n  container.style.width = cssWidth + 'px';\n  container.style.height = cssHeight + 'px';\n\n- On resize, recompute the above\n  function resize() {\n    const w = container.clientWidth;\n    const h = container.clientHeight;\n    const dpr = window.devicePixelRatio || 1;\n    stage.width(w * dpr);\n    stage.height(h * dpr);\n    stage.scale({ x: dpr, y: dpr });\n    container.style.width = w + 'px';\n    container.style.height = h + 'px';\n    stage.batchDraw();\n  }\n  window.addEventListener('resize', resize);\n\nImportant gotchas\n\n- Cached nodes (filters, complex shapes, text effects)\n  By default Konva caches at 1x. On retina this looks soft. When you cache, pass pixelRatio:\n  shape.cache({ pixelRatio: window.devicePixelRatio || 1 });\n  If you recache on zoom changes, update the pixelRatio accordingly.\n\n- Images\n  If you scale images up, they’ll blur regardless of canvas DPI. Prefer using source images at least dpr times larger than their displayed size. If you want a sharper but more pixelated look for low-res images, you can disable smoothing on the layer:\n  const layer = new Konva.Layer({ imageSmoothingEnabled: false });\n\n- Text\n  Text is rasterized to the canvas; it benefits from the dpr scaling above. If you cache Text nodes, remember the pixelRatio note.\n\n- Hit graph vs. draw canvas\n  Konva manages a separate hit canvas. You don’t need to change it for sharp visuals, but if you manually touch hit/caching, keep dpr in mind.\n\n- Exporting\n  For sharp exports (e.g., toDataURL), use:\n  stage.toDataURL({ pixelRatio: 2 }); // or use window.devicePixelRatio\n\nMinimal working example\n\n  const container = document.getElementById('konva');\n  function setup() {\n    const dpr = window.devicePixelRatio || 1;\n    const w = container.clientWidth;\n    const h = container.clientHeight;\n\n    const stage = new Konva.Stage({\n      container,\n      width: w * dpr,\n      height: h * dpr\n    });\n    stage.scale({ x: dpr, y: dpr });\n    container.style.width = w + 'px';\n    container.style.height = h + 'px';\n\n    const layer = new Konva.Layer();\n    stage.add(layer);\n\n    const rect = new Konva.Rect({\n      x: 20, y: 20, width: 200, height: 100,\n      fill: '#09f', stroke: '#036', strokeWidth: 2\n    });\n    layer.add(rect);\n\n    const text = new Konva.Text({\n      x: 24, y: 28, text: 'Hello Retina', fontSize: 24, fill: 'white'\n    });\n    layer.add(text);\n\n    layer.draw();\n\n    window.addEventListener('resize', () => {\n      const w = container.clientWidth;\n      const h = container.clientHeight;\n      const dpr = window.devicePixelRatio || 1;\n      stage.width(w * dpr);\n      stage.height(h * dpr);\n      stage.scale({ x: dpr, y: dpr });\n      container.style.width = w + 'px';\n      container.style.height = h + 'px';\n      stage.batchDraw();\n    });\n  }\n  setup();\n\nIf you share a snippet of how you’re creating the stage/layers (and whether you use cache/filters), I can tailor the fix precisely.",
+      "reasoning": null,
+      "citations": [],
+      "error": null,
+      "meta": {
+        "task_id": "08201933-2223-0612-0000-a87ef29ff314",
+        "input_tokens": 4466,
+        "output_tokens": 1425,
+        "money_spent": 0.0198325,
+        "fan_out_queries": null
+      }
+    },
+    {
+      "prompt_id": "code-retina-blurry-canvas",
+      "prompt": "how do I fix a blurry Konva canvas on a retina display",
+      "provider": "perplexity",
+      "model_requested": "sonar-pro",
+      "model_version": "sonar-pro",
+      "queried_at": "2026-08-20 19:39:54 +00:00",
+      "web_search_requested": true,
+      "web_search_used": true,
+      "answer": "Konva usually handles Retina automatically, so the first thing to check is whether you or your code are forcing `Konva.pixelRatio = 1`, which Konva docs note will reduce quality on high-DPI screens and can make output look blurred.[2][1]\n\nIf the canvas is still blurry, the fix is to ensure the canvas is rendered at the **device pixel ratio** while keeping its CSS size unchanged.[3][11] In plain terms: increase the internal drawing resolution by `window.devicePixelRatio`, then scale the drawing context or stage so your shapes still use normal coordinates.[3][10][14]\n\nFor Konva, the most common approaches are:\n\n- **Let Konva manage it automatically** by not overriding `Konva.pixelRatio`, which is the default behavior intended to render crisp drawings on Retina displays.[2][5]\n- **If you changed `Konva.pixelRatio` to 1**, remove that override unless you specifically need it for performance, because Konva says that setting is for reducing work on Retina devices, not for improving sharpness.[2][1]\n- **For exported images**, set a higher export ratio such as `stage.toDataURL({ pixelRatio: 2 })` to get sharper output.[12]\n\nA typical retina-safe canvas pattern is:\n\n```js\nconst dpr = window.devicePixelRatio || 1;\n\n// keep CSS size the same\nstage.width(container.clientWidth * dpr);\nstage.height(container.clientHeight * dpr);\nstage.scale({ x: dpr, y: dpr });\n```\n\nThat follows the standard HiDPI canvas approach: enlarge the backing store, keep the displayed size fixed with CSS, and scale drawing operations accordingly.[3][10][14]\n\nIf you are zooming the stage or resizing it dynamically, note that already-created layers may not update their pixel ratio automatically, so you may need to recreate or reconfigure the layers after the zoom/resize.[8]\n\nIf you want, I can show the exact Konva setup for React, plain Konva, or Next.js.",
+      "reasoning": null,
+      "citations": [
+        {
+          "url": "https://stackoverflow.com/questions/55272767/react-konva-disable-canvas-element-devicepixelratio-scale/55278975",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/performance/All_Performance_Tips.html",
+          "title": null
+        },
+        {
+          "url": "https://cloud.tencent.com/developer/article/1774902",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/filters/Blur.html",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/47449375/proper-hidpi-rendering-of-canvas-elements-with-konva-js",
+          "title": null
+        },
+        {
+          "url": "https://github.com/niklasvh/html2canvas/issues/390",
+          "title": null
+        },
+        {
+          "url": "https://github.com/konvajs/konva/issues/563",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/76181780/konvajs-avoid-blurriness-when-zooming-in-out",
+          "title": null
+        },
+        {
+          "url": "https://note.com/morinokabu/n/na50cf98e30de?hl=en",
+          "title": null
+        },
+        {
+          "url": "https://geoexamples.com/d3/2017-10-24-canvas-mapping-with-retina/",
+          "title": null
+        },
+        {
+          "url": "https://www.kirupa.com/canvas/canvas_high_dpi_retina.htm",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/docs/data_and_serialization/High-Quality-Export.html",
+          "title": null
+        },
+        {
+          "url": "https://app.studyraid.com/en/read/15045/520529/implementing-responsive-canvas-design",
+          "title": null
+        },
+        {
+          "url": "https://gist.github.com/callumlocke/cc258a193839691f60dd",
+          "title": null
+        },
+        {
+          "url": "https://davidmatthew.ie/the-canvas-api-part-3-a-retina-ready-responsive-canvas/",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/34309228/html-canvas-at-varying-pixel-densities",
+          "title": null
+        },
+        {
+          "url": "https://crowdfavorite.com/insights/hidpi-canvas/",
+          "title": null
+        },
+        {
+          "url": "https://stackoverflow.com/questions/41763580/svg-rendered-into-canvas-blurred-on-retina-display",
+          "title": null
+        },
+        {
+          "url": "https://bugzilla.mozilla.org/show_bug.cgi?id=780362",
+          "title": null
+        },
+        {
+          "url": "https://konvajs.org/api/Konva.Image.html",
+          "title": null
+        }
+      ],
+      "error": null,
+      "meta": {
+        "task_id": "08201939-2223-0612-0000-9a2a4547b917",
+        "input_tokens": 20,
+        "output_tokens": 438,
+        "money_spent": 0.01263,
+        "fan_out_queries": null
+      }
+    }
+  ]
+}
