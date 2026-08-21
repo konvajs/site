@@ -328,11 +328,16 @@
 }
 
 .preview {
-  padding-top: 57.7778%;
+  overflow: hidden;
+  aspect-ratio: 1.73;
   background-color: #272d37;
-  background-position: center center;
-  background-size: cover;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .description {

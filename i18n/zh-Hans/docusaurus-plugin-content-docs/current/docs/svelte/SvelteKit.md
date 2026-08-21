@@ -85,4 +85,4 @@ _+page.svelte_
 
 操作说明：此 SvelteKit 应用中的每个可用页面都使用不同的渲染方式，并包含一个 `svelte-konva` Canvas。示例展示了两种动态导入方法。预渲染页面通过 SvelteKit browser 检查仅在客户端使用 Canvas，SSR 页面则动态导入 svelte-konva Canvas。检查每次导航产生的网络请求，以了解 SvelteKit 中不同的渲染方法。
 
-<iframe src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe loading="lazy" src="https://codesandbox.io/p/sandbox/github/konvajs/site/tree/master/svelte-demos/sveltekit?file=/src/routes/%2Bpage.svelte" style={{width: '100%', height:'800px', border: '0px', borderRadius: '4px', overflow: 'hidden'}} sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>

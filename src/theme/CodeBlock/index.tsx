@@ -1,11 +1,59 @@
-import React from 'react';
+import React, {Suspense, useEffect, useRef, useState} from 'react';
 import CodeBlock from '@theme-original/CodeBlock';
 import type CodeBlockType from '@theme/CodeBlock';
 import type { WrapperProps } from '@docusaurus/types';
-import { Sandpack } from '@codesandbox/sandpack-react';
 import dependencyVersions from './dependencies.json';
 
 type Props = WrapperProps<typeof CodeBlockType>;
+type SandpackComponent = (typeof import('@codesandbox/sandpack-react'))['Sandpack'];
+type SandpackComponentProps = React.ComponentProps<SandpackComponent>;
+
+const Sandpack: React.LazyExoticComponent<SandpackComponent> = React.lazy(() =>
+  import('@codesandbox/sandpack-react').then((module) => ({
+    default: module.Sandpack,
+  }))
+);
+
+function DeferredSandpack({
+  code,
+  language,
+  ...props
+}: SandpackComponentProps & {code: string; language: string}): JSX.Element {
+  const markerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const marker = markerRef.current;
+    if (!marker || !('IntersectionObserver' in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoad(true);
+        observer.disconnect();
+      },
+      {rootMargin: '600px 0px'}
+    );
+    observer.observe(marker);
+    return () => observer.disconnect();
+  }, []);
+
+  const staticCode = <CodeBlock language={language}>{code}</CodeBlock>;
+  return (
+    <div ref={markerRef}>
+      {shouldLoad ? (
+        <Suspense fallback={staticCode}>
+          <Sandpack {...props} />
+        </Suspense>
+      ) : (
+        staticCode
+      )}
+    </div>
+  );
+}
 
 function packageVersion(packageName: keyof typeof dependencyVersions): string {
   return dependencyVersions[packageName];
@@ -44,7 +92,9 @@ const resetCss = `body, html { margin: 0; padding: 0; }`;
 
 function Vanilla({ code }: { code: string }) {
   return (
-    <Sandpack
+    <DeferredSandpack
+      code={code}
+      language="js"
       options={editorOptions}
       template="vanilla"
       customSetup={{
@@ -66,7 +116,9 @@ function Vanilla({ code }: { code: string }) {
 
 function ReactKonva({ code }: { code: string }) {
   return (
-    <Sandpack
+    <DeferredSandpack
+      code={code}
+      language="jsx"
       template="react"
       options={editorOptions}
       customSetup={{
@@ -97,7 +149,9 @@ root.render(<App />);`,
 
 function AngularKonva({ code }: { code: string }) {
   return (
-    <Sandpack
+    <DeferredSandpack
+      code={code}
+      language="typescript"
       template="angular"
       options={editorOptions}
       customSetup={{
@@ -130,7 +184,9 @@ bootstrapApplication(App);`,
 
 function VueKonva({ code }: { code: string }) {
   return (
-    <Sandpack
+    <DeferredSandpack
+      code={code}
+      language="vue"
       template="vue"
       options={editorOptions}
       customSetup={{
@@ -159,7 +215,9 @@ createApp(App).use(VueKonva).mount('#app')`,
 
 function SvelteKonva({ code }: { code: string }) {
   return (
-    <Sandpack
+    <DeferredSandpack
+      code={code}
+      language="svelte"
       template="svelte"
       options={editorOptions}
       customSetup={{

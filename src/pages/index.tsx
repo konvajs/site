@@ -472,10 +472,14 @@ function KonvaUsersSection() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div
-                className={styles.preview}
-                style={{backgroundImage: `url(${withBaseUrl(user.image)})`}}
-              />
+              <div className={styles.preview}>
+                <img
+                  src={withBaseUrl(user.image)}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
               <div className={styles.description}>
                 <h3 className={styles.name}>{user.name}</h3>
                 <p>{user.description}</p>

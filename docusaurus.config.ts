@@ -55,14 +55,16 @@ const config: Config = {
       defer: true,
     },
     {
-      src: 'https://cdn.convertbox.com/convertbox/js/embed.js',
-      id: 'app-convertbox-script',
-      async: true,
+      src: '/js/convertbox-loader.js',
+      id: 'convertbox-loader',
+      defer: true,
+      'data-src': 'https://cdn.convertbox.com/convertbox/js/embed.js',
       'data-uuid': 'db9e320b-6d6c-49c4-ba5c-b29e6d5fc91c',
     },
     {
       src: 'https://crawlchat.app/embed.js',
       id: 'crawlchat-script',
+      async: true,
       'data-id': '67d221efb4b9de65095a2579',
       'data-ask-ai': 'true',
       'data-ask-ai-background-color': 'rgba(5, 132, 206, 1)',
@@ -83,7 +85,7 @@ const config: Config = {
           routeBasePath: '/',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/konvajs/site/edit/new/',
+          editUrl: 'https://github.com/konvajs/site/edit/master/',
           editLocalizedFiles: true,
         },
         blog: false,

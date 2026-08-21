@@ -3,12 +3,6 @@
 konvajs.org — the Konva.js documentation site. Docusaurus 3.9. English content
 in `content/` is canonical. The optional Chinese translation is in `i18n/zh-Hans/`.
 
-**Read [CONTENT-ROADMAP.md](./CONTENT-ROADMAP.md) before proposing or writing new pages,
-and [REVIEW-TARGETS.md](./REVIEW-TARGETS.md) before auditing anything.**
-It records what was decided, what was rejected, and — importantly — several plausible
-ideas that were checked and found to be based on false premises. It exists so that work
-is not redone or re-argued after a context reset.
-
 ## Hard constraints
 
 **The English site must work without any translation files.** The presence of
@@ -27,8 +21,8 @@ affect the English core check. It excuses a *missing* mirror only.
 
 **Run `npm run check` before committing.** It checks English fence balance, the demo
 gallery, Sandpack dependencies, controlled React drag handlers, types, the English
-build, its sitemap, and its Markdown twins. It is the core gate. If you change
-Chinese files, also run `npm run check:i18n`.
+build, first-load performance rules, its sitemap, and its Markdown twins. It is
+the core gate. If you change Chinese files, also run `npm run check:i18n`.
 
 **Never commit internal strategy documents.** A file containing commercial positioning was
 once swept in by `git add -A` and pushed to this public repo; removing it required a history

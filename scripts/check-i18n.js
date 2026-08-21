@@ -28,6 +28,10 @@ try {
     stdio: 'inherit',
   });
   npmRun('build');
+  execFileSync('node', ['scripts/check-performance.js', '--translations'], {
+    cwd: ROOT,
+    stdio: 'inherit',
+  });
   execFileSync('node', ['checksitemap.js', 'build/zh-Hans/sitemap.xml'], {
     cwd: ROOT,
     stdio: 'inherit',

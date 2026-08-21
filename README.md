@@ -21,7 +21,7 @@ npm run check
 
 This command checks the canonical English site. It checks code fences, the demo
 gallery, Sandpack dependencies, controlled React drag handlers, TypeScript, the
-build, the sitemap, and generated Markdown pages.
+build, first-load performance rules, the sitemap, and generated Markdown pages.
 
 Use the separate commands when you must isolate a failure:
 

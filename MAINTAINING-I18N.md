@@ -246,9 +246,9 @@ npm run check:i18n
 ```
 
 `npm run check` validates only the English core. It checks fences, the demo
-gallery, Sandpack dependencies, TypeScript, the English build, its sitemap, and
-its Markdown twins.
+gallery, Sandpack dependencies, controlled React drag handlers, TypeScript, the
+English build, first-load performance rules, its sitemap, and its Markdown twins.
 
 `npm run check:i18n` validates the optional Chinese addition. It checks page
 drift, interface strings, code parity, the localized gallery, both locale builds,
-the Chinese sitemap, and localized Markdown output.
+first-load performance rules, the Chinese sitemap, and localized Markdown output.
