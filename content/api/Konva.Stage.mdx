@@ -44,6 +44,10 @@ Stage constructor.  A stage is used to contain multiple layers
 
 ## Own Methods
 
+### _getOwnerWindow() {#_getOwnerWindow}
+
+The window the stage is rendered in. It is not always the window Konva was imported into: the container may belong to an iframe, or to a window opened with `window.open`.
+
 ### setContainer(container) {#setContainer}
 
 set container dom element which contains the stage wrapper div element
@@ -84,13 +88,13 @@ var shape = stage.getIntersection({x: 50, y: 50});
 
 returns an array of layers
 
-### setPointersPositions(event) {#setPointersPositions}
+### setPointersPositions(evt) {#setPointersPositions}
 
 manually register pointers positions (mouse/touch) in the stage. So you can use stage.getPointerPosition(). Usually you don't need to use that method because all internal events are automatically registered. It may be useful if event is triggered outside of the stage, but you still want to use Konva methods to get pointers position.
 
 **Parameters:**
 
-- `event` (Object): Event object
+- `evt` (Object): Event object
 
 **Example:**
 
@@ -108,7 +112,7 @@ batch draw
 
 ### container() {#container}
 
-get/set container DOM element
+get/set container DOM element. The container may belong to another window than the one Konva was imported into: an iframe, or a window opened with `window.open`. The stage then uses the events and the frames of that window.
 
 **Returns:** `DomElement` <code>container</code>
 
@@ -121,6 +125,10 @@ var container = stage.container();
 var container = document.createElement('div');
 body.appendChild(container);
 stage.container(container);
+
+// a stage in a popout window
+var popout = window.open('', '', 'width=600,height=400');
+stage.container(popout.document.body);
 ```
 
 ## Inherited Methods
@@ -151,6 +159,7 @@ stage.container(container);
 - [cache(config)](/api/Konva.Node.html#cache)
 - [isCached()](/api/Konva.Node.html#isCached)
 - [getClientRect(config)](/api/Konva.Node.html#getClientRect)
+- [on(evtStr, handler)](/api/Konva.Node.html#on)
 - [off(evtStr)](/api/Konva.Node.html#off)
 - [remove()](/api/Konva.Node.html#remove)
 - [destroy()](/api/Konva.Node.html#destroy)
@@ -165,7 +174,7 @@ stage.container(container);
 - [getAbsoluteZIndex()](/api/Konva.Node.html#getAbsoluteZIndex)
 - [getDepth()](/api/Konva.Node.html#getDepth)
 - [getRelativePointerPosition()](/api/Konva.Node.html#getRelativePointerPosition)
-- [getAbsolutePosition(Ancestor)](/api/Konva.Node.html#getAbsolutePosition)
+- [getAbsolutePosition(top)](/api/Konva.Node.html#getAbsolutePosition)
 - [move(change)](/api/Konva.Node.html#move)
 - [rotate(theta)](/api/Konva.Node.html#rotate)
 - [moveToTop()](/api/Konva.Node.html#moveToTop)

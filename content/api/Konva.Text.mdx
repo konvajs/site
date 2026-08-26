@@ -493,10 +493,11 @@ get/set per-character render hook. The callback is invoked for each grapheme bef
 **Example:**
 
 ```javascript
-// apply small x-translation to every second character
+// apply small x-translation and a custom color to every second character
 text.charRenderFunc(function(props) {
   if (props.index % 2 === 1) {
     props.context.translate(2, 0);
+    props.context.fillStyle = 'red';
   }
 });
 ```
@@ -583,6 +584,7 @@ text.charRenderFunc(function(props) {
 - [cache(config)](/api/Konva.Node.html#cache)
 - [isCached()](/api/Konva.Node.html#isCached)
 - [getClientRect(config)](/api/Konva.Node.html#getClientRect)
+- [on(evtStr, handler)](/api/Konva.Node.html#on)
 - [off(evtStr)](/api/Konva.Node.html#off)
 - [remove()](/api/Konva.Node.html#remove)
 - [destroy()](/api/Konva.Node.html#destroy)
@@ -597,7 +599,7 @@ text.charRenderFunc(function(props) {
 - [getAbsoluteZIndex()](/api/Konva.Node.html#getAbsoluteZIndex)
 - [getDepth()](/api/Konva.Node.html#getDepth)
 - [getRelativePointerPosition()](/api/Konva.Node.html#getRelativePointerPosition)
-- [getAbsolutePosition(Ancestor)](/api/Konva.Node.html#getAbsolutePosition)
+- [getAbsolutePosition(top)](/api/Konva.Node.html#getAbsolutePosition)
 - [move(change)](/api/Konva.Node.html#move)
 - [rotate(theta)](/api/Konva.Node.html#rotate)
 - [moveToTop()](/api/Konva.Node.html#moveToTop)

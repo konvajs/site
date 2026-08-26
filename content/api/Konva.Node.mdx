@@ -148,6 +148,69 @@ rect.getClientRect();
 // returns Object {x: -2, y: 46, width: 104, height: 208}
 ```
 
+### on(evtStr, handler) {#on}
+
+bind events to the node. KonvaJS supports mouseover, mousemove,  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,  touchend, tap, dbltap, dragstart, dragmove, and dragend events.  Pass in a string of events delimited by a space to bind multiple events at once  such as 'mousedown mouseup mousemove'. Include a namespace to bind an  event by name such as 'click.foobar'.
+
+**Parameters:**
+
+- `evtStr` (String): e.g. 'click', 'mousedown touchstart', 'mousedown.foo touchstart.foo'
+- `handler` (function): The handler function. The first argument of that function is event object. Event object has `target` as main target of the event, `currentTarget` as current node listener and `evt` as native browser event.
+
+**Returns:** `Konva.Node` 
+
+**Example:**
+
+```javascript
+// add click listener
+node.on('click', function() {
+  console.log('you clicked me!');
+});
+
+// get the target node
+node.on('click', function(evt) {
+  console.log(evt.target);
+});
+
+// stop event propagation
+node.on('click', function(evt) {
+  evt.cancelBubble = true;
+});
+
+// bind multiple listeners
+node.on('click touchstart', function() {
+  console.log('you clicked/touched me!');
+});
+
+// namespace listener
+node.on('click.foo', function() {
+  console.log('you clicked/touched me!');
+});
+
+// get the event type
+node.on('click tap', function(evt) {
+  var eventType = evt.type;
+});
+
+// get native event object
+node.on('click tap', function(evt) {
+  var nativeEvent = evt.evt;
+});
+
+// for change events, get the old and new val
+node.on('xChange', function(evt) {
+  var oldVal = evt.oldVal;
+  var newVal = evt.newVal;
+});
+
+// get event targets
+// with event delegations
+layer.on('click', 'Group', function(evt) {
+  var shape = evt.target;
+  var group = evt.currentTarget;
+});
+```
+
 ### off(evtStr) {#off}
 
 remove event bindings from the node. Pass in a string of  event types delimmited by a space to remove multiple event  bindings at once such as 'mousedown mouseup mousemove'.  include a namespace to remove an event binding by name  such as 'click.foobar'. If you only give a name like '.foobar',  all events in that namespace will be removed.
@@ -299,13 +362,13 @@ get position of first pointer (like mouse or first touch) relative to local coor
 rect.getRelativePointerPosition();
 ```
 
-### getAbsolutePosition(Ancestor) {#getAbsolutePosition}
+### getAbsolutePosition(top) {#getAbsolutePosition}
 
 get absolute position of a node. That function can be used to calculate absolute position, but relative to any ancestor
 
 **Parameters:**
 
-- `Ancestor` (Object): optional ancestor node
+- `top` (Object) (optional): optional ancestor node
 
 **Returns:** `Konva.Node` 
 
@@ -773,13 +836,13 @@ var isOnScreen = node.isClientRectOnScreen()
 var isOnScreen = node.isClientRectOnScreen({ x: stage.width(), y: stage.height() })
 ```
 
-### Node.create(json, container) {#Node.create}
+### Node.create(data, container) {#Node.create}
 
 create node with JSON string or an Object.  De-serializtion does not generate custom  shape drawing functions, images, or event handlers (this would make the  serialized object huge).  If your app uses custom shapes, images, and  event handlers (it probably does), then you need to select the appropriate  shapes after loading the stage and set these properties via on(), setSceneFunc(),  and setImage() methods
 
 **Parameters:**
 
-- `json` (String|Object): string or object
+- `data` (String|Object): string or object
 - `container` (Element) (optional): optional container dom element used only if you're  creating a stage node
 
 ### zIndex(index) {#zIndex}
@@ -1230,7 +1293,7 @@ node.height(100);
 
 ### listening(listening) {#listening}
 
-get/set listening attr.  If you need to determine if a node is listening or not   by taking into account its parents, use the isListening() method   nodes with listening set to false will not be detected in hit graph   so they will be ignored in container.getIntersection() method
+get/set listening attr.  If you need to determine if a node is listening or not   by taking into account its parents, use the isListening() method   nodes with listening set to false will not be detected in hit graph   so they will be ignored in container.getIntersection() method   a non-listening layer (or a layer of a non-listening stage) also   releases its hit canvas, so it uses less memory
 
 **Parameters:**
 
@@ -1584,7 +1647,7 @@ get/set hsv value. Use with [Konva.Filters.HSV](/api/Konva.Filters.html#HSV) fil
 
 ### kaleidoscopePower(power) {#kaleidoscopePower}
 
-get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html) filter.
+get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html#Kaleidoscope) filter.
 
 **Parameters:**
 
@@ -1594,7 +1657,7 @@ get/set kaleidoscope power. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Fil
 
 ### kaleidoscopeAngle(degrees) {#kaleidoscopeAngle}
 
-get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html) filter.
+get/set kaleidoscope angle. Use with [Konva.Filters.Kaleidoscope](/api/Konva.Filters.html#Kaleidoscope) filter.
 
 **Parameters:**
 
