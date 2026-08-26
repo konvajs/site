@@ -8,7 +8,6 @@
     "build": "docusaurus build && node scripts/generate-llms.js",
     "build:core": "docusaurus build --locale en && node scripts/generate-llms.js --locale en",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",

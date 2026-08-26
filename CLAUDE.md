@@ -39,9 +39,9 @@ whether it is generated.
   `grep -rl PATTERN content/docs` instead.
 - **Check the live site before concluding something ships.** Committed is not deployed —
   several files in `static/` differ from what konvajs.org serves.
-- **Deployment is Netlify building `master` on push.** `npm run deploy` is unused
-  Docusaurus scaffolding — it targets a `gh-pages` branch of `konvajs/konva` that does
-  not exist and fails. To ship, push to `master` and verify a changed page on the live site.
+- **Deployment is Netlify building `master` on push.** There is no deploy script —
+  `docusaurus deploy` targets a `gh-pages` branch that does not exist here. To ship,
+  push to `master` and verify a changed page on the live site.
 
 - **`<Translate>` resolves by id, not by message.** Changing English text behind an existing
   id silently leaves the old Chinese in place. `scripts/check-code-drift.js` catches this.
