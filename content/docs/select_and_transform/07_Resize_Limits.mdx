@@ -11,6 +11,8 @@ It works a bit similar to [dragBoundFunc](/docs/drag_and_drop/Simple_Drag_Bounds
 
 **Instructions: Try to resize a shape. You will see that its width is limited to 200.**
 
+The demo clamps the new bounding box to the limit instead of rejecting it. If you simply `return oldBox` when the size is over the limit, a fast mouse move overshoots the boundary in one event, and the shape gets stuck below the limit. Interpolating between `oldBox` and `newBox` lands exactly on the limit and keeps the opposite side of the shape pinned for every anchor.
+
 Also you can control movement of every anchors individually. See [Resize Snap Demo](https://konvajs.org/docs/select_and_transform/Resize_Snaps.html).
 
 import Tabs from "@theme/Tabs";
@@ -47,9 +49,18 @@ layer.add(rect);
 const tr = new Konva.Transformer({
 nodes: [rect],
 boundBoxFunc: (oldBox, newBox) => {
-// limit resize
+// limit resize to a maximum width of 200.
+// clamp the box between oldBox and newBox instead of
+// rejecting it, so a fast drag still lands exactly on the limit
 if (newBox.width > 200) {
-return oldBox;
+const t = (200 - oldBox.width) / (newBox.width - oldBox.width);
+return {
+x: oldBox.x + t * (newBox.x - oldBox.x),
+y: oldBox.y + t * (newBox.y - oldBox.y),
+width: 200,
+height: oldBox.height + t * (newBox.height - oldBox.height),
+rotation: newBox.rotation,
+};
 }
 return newBox;
 },
@@ -90,9 +101,18 @@ const App = () => {
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
+            // limit resize to a maximum width of 200.
+            // clamp the box between oldBox and newBox instead of
+            // rejecting it, so a fast drag still lands exactly on the limit
             if (newBox.width > 200) {
-              return oldBox;
+              const t = (200 - oldBox.width) / (newBox.width - oldBox.width);
+              return {
+                x: oldBox.x + t * (newBox.x - oldBox.x),
+                y: oldBox.y + t * (newBox.y - oldBox.y),
+                width: 200,
+                height: oldBox.height + t * (newBox.height - oldBox.height),
+                rotation: newBox.rotation,
+              };
             }
             return newBox;
           }}
@@ -143,9 +163,18 @@ const rectConfig = {
 
 const transformerConfig = {
   boundBoxFunc: (oldBox, newBox) => {
-    // limit resize
+    // limit resize to a maximum width of 200.
+    // clamp the box between oldBox and newBox instead of
+    // rejecting it, so a fast drag still lands exactly on the limit
     if (newBox.width > 200) {
-      return oldBox;
+      const t = (200 - oldBox.width) / (newBox.width - oldBox.width);
+      return {
+        x: oldBox.x + t * (newBox.x - oldBox.x),
+        y: oldBox.y + t * (newBox.y - oldBox.y),
+        width: 200,
+        height: oldBox.height + t * (newBox.height - oldBox.height),
+        rotation: newBox.rotation,
+      };
     }
     return newBox;
   }
