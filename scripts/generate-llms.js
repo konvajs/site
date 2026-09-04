@@ -3,10 +3,12 @@
 /**
  * Post-build generator for the machine-readable surfaces.
  *
- * Two things happen here, and both must run AFTER `docusaurus build`:
+ * Three things happen here, and all must run AFTER `docusaurus build`:
  *
  *   1. build/zh-Hans/llms.txt  — a real Chinese index.
  *   2. build/**\/*.md          — a markdown twin of every documentation page.
+ *   3. build/llms-full.txt     — the index followed by every page, one file.
+ *      build/llms-small.txt    — the same without the sandbox demos.
  *
  * Why post-build: Docusaurus copies static/ verbatim into every locale
  * directory, so anything written to static/ before the build lands in
@@ -355,6 +357,68 @@ function writeMarkdownTwins(pages, buildRoot, label) {
   return written;
 }
 
+/* ------------------------------------- 3. llms-full.txt / llms-small.txt */
+
+/**
+ * The llmstxt.org companion file: the curated index first, then the full text
+ * of every page. Pages the index links to come first, in index order; the
+ * rest follow alphabetically, so the file is stable between builds.
+ *
+ * The sandbox demos are 69 full applications, each in up to three frameworks,
+ * and make up almost half of the tokens. llms-small.txt leaves them out so the
+ * tutorials and guides fit a single model context.
+ */
+const SMALL_EXCLUDES = (route) => route.startsWith('docs/sandbox/');
+
+function writeFullIndex(pages, buildRoot, label, fileName = 'llms-full.txt', exclude = () => false) {
+  const indexPath = path.join(buildRoot, 'llms.txt');
+  if (!fs.existsSync(indexPath)) {
+    console.warn(`  ${label}: no llms.txt in build, skipping ${fileName}`);
+    return 0;
+  }
+  const index = fs.readFileSync(indexPath, 'utf-8').trim();
+  const localized = buildRoot !== BUILD;
+  const prefix = localized ? 'zh-Hans/' : '';
+
+  const ordered = [];
+  for (const match of index.matchAll(/\]\(https:\/\/konvajs\.org\/(?:zh-Hans\/)?([^)#?]+)\)/g)) {
+    const route = match[1].replace(/\/$/, '');
+    if (pages.has(route) && !exclude(route) && !ordered.includes(route)) ordered.push(route);
+  }
+  for (const route of [...pages.keys()].sort()) {
+    if (!exclude(route) && !ordered.includes(route)) ordered.push(route);
+  }
+
+  const sections = [index];
+  for (const route of ordered) {
+    const page = pages.get(route);
+    const html = resolveBuiltPage(buildRoot, route);
+    const source = html
+      ? path.relative(buildRoot, html).split(path.sep).join('/')
+      : route;
+    const markdown = localized
+      ? page.markdown.replace(/\]\(\/(docs|api)\//g, '](/zh-Hans/$1/')
+      : page.markdown;
+    sections.push(
+      [
+        `# ${page.title}`,
+        page.description ? `\n> ${page.description}` : '',
+        `\nSource: ${SITE}/${prefix}${source}`,
+        '',
+        markdown,
+      ].join('\n')
+    );
+  }
+
+  fs.writeFileSync(
+    path.join(buildRoot, fileName),
+    sections.join('\n\n---\n\n') + '\n',
+    'utf-8'
+  );
+  console.log(`  ${label}: wrote ${fileName} with ${ordered.length} pages`);
+  return ordered.length;
+}
+
 /** Advertise only locale sitemaps that this build actually contains. */
 function writeRobotsSitemaps() {
   const robotsPath = path.join(BUILD, 'robots.txt');
@@ -393,6 +457,8 @@ function main() {
   const enPages = collect(EN_CONTENT);
   console.log(`Collected ${enPages.size} English pages.`);
   writeMarkdownTwins(enPages, BUILD, 'en');
+  writeFullIndex(enPages, BUILD, 'en');
+  writeFullIndex(enPages, BUILD, 'en', 'llms-small.txt', SMALL_EXCLUDES);
   writeRobotsSitemaps();
 
   const localeIndex = process.argv.indexOf('--locale');
@@ -446,6 +512,8 @@ function main() {
       (header ? ', translated intro applied' : ', NO translated intro (i18n/zh-Hans/llms-header.md missing)')
   );
   writeMarkdownTwins(zhPages, ZH_BUILD, 'zh-Hans');
+  writeFullIndex(zhPages, ZH_BUILD, 'zh-Hans');
+  writeFullIndex(zhPages, ZH_BUILD, 'zh-Hans', 'llms-small.txt', SMALL_EXCLUDES);
 }
 
 if (require.main === module) main();

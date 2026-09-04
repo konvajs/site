@@ -214,6 +214,21 @@ for (const [label, contentRoot, buildRoot] of locales) {
     console.log(`${label}: ${routes.length} pages, each with a markdown twin.`);
   }
 
+  const withoutSandbox = routes.filter((route) => !route.startsWith('docs/sandbox/')).length;
+  for (const [fileName, expected] of [['llms-full.txt', routes.length], ['llms-small.txt', withoutSandbox]]) {
+    const file = path.join(buildRoot, fileName);
+    if (!fs.existsSync(file)) {
+      failures.push(`${label}: ${fileName} was not generated.`);
+      continue;
+    }
+    const sources = (fs.readFileSync(file, 'utf8').match(/^Source: /gm) || []).length;
+    if (sources !== expected) {
+      failures.push(`${label}: ${fileName} has ${sources} pages, expected ${expected}.`);
+    } else {
+      console.log(`${label}: ${fileName} carries ${sources} pages.`);
+    }
+  }
+
   for (const route of routes) {
     const html = resolveBuiltPage(buildRoot, route);
     if (!html) continue;

@@ -13,6 +13,22 @@
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
 
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/zh-Hans/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/llms-small.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
+/zh-Hans/llms-small.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+
 
 
 # Docusaurus content-hashes these, so the filename changes whenever the bytes do.

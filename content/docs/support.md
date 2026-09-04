@@ -17,3 +17,4 @@ Here is what you should do:
 5. If you have something interesting to share use Twitter `#konvajs` hashtag
 6. Visit [Changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) to see what is changing.
 7. Need a consulting or strategy review? Go to the [consulting page](https://lavrton.com/consulting/).
+8. Building a full design editor rather than a custom canvas? [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=support) is a commercial design editor SDK built on Konva by the Konva maintainers, with its own documentation and support.

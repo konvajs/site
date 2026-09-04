@@ -137,3 +137,14 @@ const handleStageMouseDown = (e) => {
 };
 </script>
 ```
+
+## What Transformer does not do
+
+`Transformer` draws the handles and applies the scale. Snapping to other
+objects, alignment guides, a shared bounding box for a multi-selection, and
+per-shape aspect rules are all yours to build — see
+[objects snapping](/docs/sandbox/Objects_Snapping.html) for one approach.
+
+A production editor also needs text editing, templates, and export around the
+Transformer. If you would rather not build those, [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=vue-transformer) is a commercial
+design editor SDK built on Konva by the Konva maintainers that ships them.

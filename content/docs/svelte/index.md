@@ -12,6 +12,8 @@ description: "Get started with svelte-konva, the official Svelte binding for Kon
 
 In order to use svelte-konva a basic understanding of `Konva` is required. You can consult the [Konva overview](https://konvajs.org/docs/overview.html) for that.
 
+Building a full design editor? [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=svelte-index) is a commercial design editor SDK built on Konva by the Konva maintainers. It ships templates, text editing, and export, and has a [framework-agnostic integration guide](https://polotno.com/docs/frameworkless-integration?utm_source=konvajs&utm_medium=docs&utm_content=svelte-index) that applies to Svelte.
+
 ## Quick Start
 
 ### 1 Install via npm

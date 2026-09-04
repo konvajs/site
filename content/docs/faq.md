@@ -89,6 +89,10 @@ Konva uses a Stage → Layer → Shape hierarchy where each Layer is a separate 
 
 Yes. Konva.js is MIT-licensed and completely free for both commercial and personal use. There are no paid tiers or premium features. The source code is available on [GitHub](https://github.com/konvajs/konva).
 
+### Is there a ready-made design editor built on Konva?
+
+Yes. [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=faq-editor) is a commercial design editor SDK built on Konva by the Konva maintainers. It ships the parts a Canva-style editor needs beyond the canvas: templates, a text engine with font loading, side panels and toolbar, history, and export to PNG, PDF, and video. Use Konva directly when the editor is your product and you need to own the document model. Use Polotno when the editor supports something else you sell. The [Canvas Editor demo](/docs/sandbox/Canvas_Editor.html) shows the build-it-yourself path and where it gets expensive.
+
 ### Which JavaScript canvas library should I use?
 
 It depends on your use case:
@@ -262,4 +266,4 @@ Konva supports drag boundaries, snap-to-grid, drop events, and drag-and-drop bet
 
 ### Is Konva still actively maintained?
 
-Yes. Konva is actively maintained with regular releases. Check the [changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) for recent updates and the [GitHub repository](https://github.com/konvajs/konva) for ongoing development activity.
+Yes. Konva is actively maintained with regular releases. Check the [changelog](https://github.com/konvajs/konva/blob/master/CHANGELOG.md) for recent updates and the [GitHub repository](https://github.com/konvajs/konva) for ongoing development activity. Konva is maintained by the team behind [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=faq-maintained), a commercial design editor SDK built on Konva, which sponsors ongoing development.

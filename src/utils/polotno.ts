@@ -6,6 +6,10 @@
  *      polotno.dev the analytics could not be added up.
  *   2. Every link carries utm_content, so each placement is measured on its own
  *      instead of collapsing into a single "konvajs" bucket.
+ *
+ * Markdown pages, static/llms.txt, and the package READMEs cannot import this
+ * helper, so they hand-write the same shape: utm_source=konvajs, utm_medium of
+ * docs | llms | readme, and a per-placement utm_content.
  */
 const POLOTNO_ORIGIN = 'https://polotno.com';
 

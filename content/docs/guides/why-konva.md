@@ -36,6 +36,8 @@ Konva is the right choice when your application needs **interactive canvas graph
 - **Data visualization dashboards** — Custom visualizations beyond what charting libraries offer, with interactive tooltips and click-through
 - **Form builders and configurators** — Drag-and-drop layout editors, product configurators ([demo](/docs/sandbox/Window_Frame_Designer.html))
 
+If the design editor is a feature of your product rather than the product itself, [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=why-konva) is a commercial design editor SDK built on Konva by the Konva maintainers. It ships templates, text editing, and export, so you integrate an editor instead of building one. The [Canvas Editor demo](/docs/sandbox/Canvas_Editor.html#build-or-integrate) covers when to build and when to integrate.
+
 ## What Konva is NOT
 
 Konva is a focused tool. It doesn't try to do everything:

@@ -104,6 +104,8 @@ Developers use Konva for design editors, drawing apps, annotation tools, interac
 
 [See all 60+ demos →](/docs/sandbox.html)
 
+Need a complete design editor rather than a canvas library? [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=getting-started) is a commercial design editor SDK built on Konva by the Konva maintainers: `npm install polotno`.
+
 ## Next Steps
 
 - [Konva Overview](/docs/overview.html) — Understand the architecture (Stage → Layer → Shape)

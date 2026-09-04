@@ -89,9 +89,13 @@ npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 Konva provides machine-readable documentation files for AI tools:
 
 - [`/llms.txt`](/llms.txt) — Concise summary of Konva with key documentation links (follows the [llmstxt.org](https://llmstxt.org/) standard)
+- [`/llms-full.txt`](pathname:///llms-full.txt) — The same index followed by the full text of every documentation page, for tools that ingest one file
+- [`/llms-small.txt`](pathname:///llms-small.txt) — The same without the sandbox demos, small enough for a single model context
 - [`<page>.md`](pathname:///docs/overview.md) — Every documentation page is also served as plain markdown at the same path with a `.md` extension
 
 These files help AI assistants give accurate answers about Konva.
+
+If you are building a design editor with [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=ai-tools), the commercial design editor SDK built on Konva by the Konva maintainers, its [build with AI](https://polotno.com/docs/build-with-ai?utm_source=konvajs&utm_medium=docs&utm_content=ai-tools) page lists the equivalent files and MCP setup.
 
 ## Tips for Using AI with Konva
 

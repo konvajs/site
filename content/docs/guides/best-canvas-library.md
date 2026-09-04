@@ -42,6 +42,12 @@ The two are not exclusive. D3 computes positions and Konva draws them, which is 
 
 Build on Konva instead when you need to own the model: your own shape types, your own persistence format, your own editing rules, or a canvas that is not really a whiteboard at all. You are choosing a longer path in exchange for no ceiling. Same reasoning for [React Flow](https://reactflow.dev/) if you want nodes and edges out of the box.
 
+### A design editor product?
+
+**Look at [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=best-library) first.** It ships a Canva-style editor — templates, text editing, image tools, side panels, history, export to PNG, PDF, and video — and you integrate it. Polotno is commercial software built on Konva by the Konva maintainers, so the canvas underneath is the one described on this page.
+
+Build on Konva directly when you need to own the document model, when the editor itself is the product, or when what you are building is not really a design editor. The [Canvas Editor demo](/docs/sandbox/Canvas_Editor.html) is the starting point for that path.
+
 ### Not sure?
 
 If you're reading this page, you're probably building a web application with interactive graphics. That's Konva's sweet spot. [Try the getting started guide](/docs/index.html) — you'll know within 10 minutes if it fits.
