@@ -28,13 +28,13 @@ Check if canvas farbling is active (e.g., Brave browser fingerprinting protectio
 
 ### getHitColor() {#getHitColor}
 
-Get a random color for hit detection (normalized if farbling is active)
+Get a random color for hit detection (snapped to the hit color grid)
 
 **Returns:** `String` <code>hex color string</code>
 
 ### getHitColorKey(r, g, b) {#getHitColorKey}
 
-Get hit color key from RGB values (normalized if farbling is active)
+Get hit color key from RGB values (snapped to the hit color grid)
 
 **Parameters:**
 
@@ -46,13 +46,13 @@ Get hit color key from RGB values (normalized if farbling is active)
 
 ### getSnappedHexColor(hex) {#getSnappedHexColor}
 
-Snap hex color values to end with 0 (normalize for canvas farbling)
+Snap a hex color to the hit color grid
 
 **Parameters:**
 
 - `hex` (String): hex color string (e.g., "#ff00ff")
 
-**Returns:** `String` <code>normalized hex color string</code>
+**Returns:** `String` <code>snapped hex color string</code>
 
 ### getRGB(color) {#getRGB}
 

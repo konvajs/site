@@ -35,7 +35,7 @@
     "clsx": "^2.1.1",
     "disqus-react": "^1.1.7",
     "jsdoc-api": "^9.3.4",
-    "konva": "^10.3.2",
+    "konva": "^10.4.0",
     "prism-react-renderer": "^2.4.1",
     "react": "^18",
     "react-dom": "^18"

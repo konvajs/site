@@ -25,6 +25,7 @@ Transformer constructor.  Transformer is a special type of group that allow you 
 | rotationSnaps (optional) | `Array` | Array of angles for rotation snaps. Default is [] |
 | rotationSnapTolerance (optional) | `Number` | Snapping tolerance. If closer than this it will snap. Default is 5 |
 | rotateAnchorOffset (optional) | `Number` | Default is 50 |
+| rotateAnchorAngle (optional) | `Number` | Angle of the rotate anchor around the box, in degrees. Default is 0 (top) |
 | rotateAnchorCursor (optional) | `String` | Default is crosshair |
 | padding (optional) | `Number` | Default is 0 |
 | borderEnabled (optional) | `Boolean` | Should we draw border? Default is true |
@@ -33,7 +34,7 @@ Transformer constructor.  Transformer is a special type of group that allow you 
 | borderDash (optional) | `Array` | Array for border dash. |
 | anchorFill (optional) | `String` | Anchor fill color |
 | anchorStroke (optional) | `String` | Anchor stroke color |
-| anchorCornerRadius (optional) | `String` | Anchor corner radius |
+| anchorCornerRadius (optional) | `Number` | Anchor corner radius |
 | anchorStrokeWidth (optional) | `Number` | Anchor stroke size |
 | anchorSize (optional) | `Number` | Default is 10 |
 | keepRatio (optional) | `Boolean` | Should we keep ratio when we are moving edges? Default is true |
@@ -41,8 +42,10 @@ Transformer constructor.  Transformer is a special type of group that allow you 
 | centeredScaling (optional) | `Boolean` | Should we resize relative to node's center? Default is false |
 | enabledAnchors (optional) | `Array` | Array of names of enabled handles |
 | flipEnabled (optional) | `Boolean` | Can we flip/mirror shape on transform?. True by default |
-| boundBoxFunc (optional) | `function` | Bounding box function |
-| ignoreStroke (optional) | `function` | Should we ignore stroke size? Default is false |
+| boundBoxFunc (optional) | `function` | Bounding box function, see [Konva.Transformer#boundBoxFunc](/api/Konva.Transformer.html#boundBoxFunc) |
+| anchorDragBoundFunc (optional) | `function` | Function bounding the position of a dragged anchor, see [Konva.Transformer#anchorDragBoundFunc](/api/Konva.Transformer.html#anchorDragBoundFunc) |
+| anchorStyleFunc (optional) | `function` | Function styling every anchor, see [Konva.Transformer#anchorStyleFunc](/api/Konva.Transformer.html#anchorStyleFunc) |
+| ignoreStroke (optional) | `Boolean` | Should we ignore stroke size? Default is false |
 | useSingleNodeRotation (optional) | `Boolean` | When just one node attached, should we use its rotation for transformer? |
 | shouldOverdrawWholeArea (optional) | `Boolean` | Should we fill whole transformer area with fake transparent shape to enable dragging from empty spaces? |
 
@@ -627,7 +630,7 @@ transformer.nodes(newNodes);
 
 ### boundBoxFunc(func) {#boundBoxFunc}
 
-get/set bounding box function. **IMPORTANT!** boundBondFunc operates in absolute coordinates.
+get/set bounding box function. **IMPORTANT!** boundBoxFunc operates in absolute coordinates.  Both boxes are `\{ x, y, width, height, rotation \}`, with the rotation in radians.
 
 **Parameters:**
 
@@ -697,7 +700,7 @@ var anchorStyleFunc = transformer.anchorStyleFunc();
 transformer.anchorStyleFunc(function(anchor) {
  // anchor is a simple Konva.Rect instance
  // it will be executed AFTER all attributes are set, like 'anchorStrokeWidth' or 'anchorFill'
- if (anchor.hasName('.rotater')) {
+ if (anchor.hasName('rotater')) {
    // make rotater anchor filled black and looks like a circle
    anchor.fill('black');
    anchor.cornerRadius(anchor.width() / 2);

@@ -117,7 +117,7 @@ returns whether or not the shape will be stroked
 
 ### intersects(point) {#intersects}
 
-determines if point is in the shape, regardless if other shapes are on top of it.  Note: because  this method clears a temporary canvas and then redraws the shape, it performs very poorly if executed many times  consecutively.  Please use the [Konva.Stage#getIntersection](/api/Konva.Stage.html#getIntersection) method if at all possible  because it performs much better
+determines if point is in the shape, regardless if other shapes are on top of it.  Note: because  this method clears a temporary canvas and then redraws the shape, it performs very poorly if executed many times  consecutively.  Please use the [Konva.Stage#getIntersection](/api/Konva.Stage.html#getIntersection) method if at all possible  because it performs much better. A shape that is invisible, not listening or not on a stage  never intersects
 
 **Parameters:**
 
@@ -1149,7 +1149,7 @@ var startPointX = shape.fillLinearGradientStartPointX();
 shape.fillLinearGradientStartPointX(20);
 ```
 
-### linearLinearGradientStartPointX(x) {#linearLinearGradientStartPointX}
+### strokeLinearGradientStartPointX(x) {#strokeLinearGradientStartPointX}
 
 get/set stroke linear gradient start point x
 

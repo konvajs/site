@@ -25,14 +25,14 @@ Text constructor
 | fontStyle (optional) | `String` | can be 'normal', 'italic', or 'bold', '500' or even 'italic bold'.  'normal' is the default. |
 | fontVariant (optional) | `String` | can be normal or small-caps.  Default is normal |
 | textDecoration (optional) | `String` | can be line-through, underline or empty string. Default is empty string. |
-| underlineOffset (optional) | `String` | offset for underline line. Default is calculated based on font size. |
+| underlineOffset (optional) | `Number` | offset for underline line. Default is calculated based on font size. |
 | text | `String` |  |
 | align (optional) | `String` | can be left, center, right or justify |
 | verticalAlign (optional) | `String` | can be top, middle or bottom |
 | padding (optional) | `Number` |  |
 | lineHeight (optional) | `Number` | default is 1 |
 | wrap (optional) | `String` | can be "word", "char", or "none". Default is word |
-| ellipsis (optional) | `Boolean` | can be true or false. Default is false. if Konva.Text config is set to wrap="none" and ellipsis=true, then it will add "..." to the end |
+| ellipsis (optional) | `Boolean` | can be true or false. Default is false. If true, text that does not fit is cut and ends with "…". That needs a fixed height or wrap="none" |
 | fill (optional) | `String` | fill color |
 | fillPatternImage (optional) | `Image` | fill pattern image |
 | fillPatternX (optional) | `Number` |  |
@@ -388,7 +388,7 @@ text.wrap('word');
 
 ### ellipsis(ellipsis) {#ellipsis}
 
-get/set ellipsis. Can be true or false. Default is false. If ellipses is true, Konva will add "..." at the end of the text if it doesn't have enough space to write characters. That is possible only when you limit both width and height of the text
+get/set ellipsis. Can be true or false. Default is false. If ellipsis is true, Konva cuts the text that does not fit and ends it with "…" (one character). That needs a fixed height or wrap set to "none"
 
 **Parameters:**
 
@@ -560,7 +560,7 @@ text.charRenderFunc(function(props) {
 - [fillLinearGradientStartPoint(startPoint)](/api/Konva.Shape.html#fillLinearGradientStartPoint)
 - [strokeLinearGradientStartPoint(startPoint)](/api/Konva.Shape.html#strokeLinearGradientStartPoint)
 - [fillLinearGradientStartPointX(x)](/api/Konva.Shape.html#fillLinearGradientStartPointX)
-- [linearLinearGradientStartPointX(x)](/api/Konva.Shape.html#linearLinearGradientStartPointX)
+- [strokeLinearGradientStartPointX(x)](/api/Konva.Shape.html#strokeLinearGradientStartPointX)
 - [fillLinearGradientStartPointY(y)](/api/Konva.Shape.html#fillLinearGradientStartPointY)
 - [strokeLinearGradientStartPointY(y)](/api/Konva.Shape.html#strokeLinearGradientStartPointY)
 - [fillLinearGradientEndPoint(endPoint)](/api/Konva.Shape.html#fillLinearGradientEndPoint)

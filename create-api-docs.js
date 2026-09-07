@@ -157,6 +157,15 @@ data.forEach((item) => {
   }
 });
 
+// A class or namespace that was documented last time must still be documented.
+// A misplaced JSDoc block upstream silently drops a whole page otherwise
+// (Konva 10.4.0 lost Konva.Node this way), and nothing else in the build fails.
+const previous = JSON.parse(await fs.readFile('./docs.json', 'utf8'));
+const lost = Object.keys(previous).filter((name) => !docs[name]);
+if (lost.length) {
+  throw new Error(`Documented before, missing now: ${lost.join(', ')}`);
+}
+
 fs.writeFile(`./docs.json`, JSON.stringify(docs, null, 2));
 
 

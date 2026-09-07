@@ -101,7 +101,7 @@ Konva.legacyTextRendering = true;
 
 Global pixel ratio configuration. KonvaJS automatically detect pixel ratio of current device. But you may override such property, if you want to use your value. Set this value before any components initializations.
 
-**Default value:** `undefined`
+**Default value:** `window.devicePixelRatio || 1`
 
 **Example:**
 
@@ -112,7 +112,7 @@ Konva.pixelRatio = 1;
 
 ### static dragDistance
 
-Drag distance property. If you start to drag a node you may want to wait until pointer is moved to some distance from start point, only then start dragging. Default is 3px.
+Drag distance property. If you start to drag a node you may want to wait until pointer is moved to some distance from start point on either axis, only then start dragging. Default is 3px.
 
 **Default value:** `3`
 
@@ -138,7 +138,7 @@ node.rotation(Math.PI / 2); // PI/2 radian
 
 ### static showWarnings
 
-Show different warnings about errors or wrong API usage
+Show warnings about wrong API usage (`Konva.Util.warn`). Errors are always printed
 
 **Default value:** `true`
 
@@ -178,6 +178,10 @@ Konva.releaseCanvasOnDestroy = true;
 ### isDragging() {#isDragging}
 
 returns whether or not drag and drop is currently active
+
+### isTransforming() {#isTransforming}
+
+returns whether or not a Transformer is currently transforming a node
 
 ### isDragReady() {#isDragReady}
 

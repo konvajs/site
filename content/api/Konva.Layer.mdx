@@ -65,6 +65,23 @@ get layer hit canvas
 
 get layer canvas context
 
+### clear(bounds) {#clear}
+
+clear the scene and hit canvas of the layer. The nodes stay and are drawn again by the next `draw()`
+
+**Parameters:**
+
+- `bounds` (Object) (optional): clear only this rectangle: `\{ x, y, width, height \}`
+
+**Returns:** `Konva.Layer` 
+
+**Example:**
+
+```javascript
+layer.clear();
+layer.clear({ x: 0, y: 0, width: 100, height: 100 });
+```
+
 ### width() {#width}
 
 get/set width of layer. getter return width of stage. setter doing nothing. if you want change width use `stage.width(value);`
@@ -97,7 +114,7 @@ batch draw. this function will not do immediate draw but it will schedule drawin
 
 ### getIntersection(pos) {#getIntersection}
 
-get visible intersection shape. This is the preferred method for determining if a point intersects a shape or not also you may pass optional selector parameter to return ancestor of intersected shape nodes with listening set to false will not be detected
+get visible intersection shape. This is the preferred method for determining if a point intersects a shape or not. It reads the hit canvas, so it finds what pointer events would: nodes with listening set to false or invisible nodes are not detected, a shape with opacity 0 is, and `hitStrokeWidth` counts. The position is relative to the top left corner of the stage container, like `stage.getPointerPosition()`, without the stage transform
 
 **Parameters:**
 

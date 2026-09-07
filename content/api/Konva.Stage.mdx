@@ -68,7 +68,7 @@ returns ABSOLUTE pointer position which can be a touch position or mouse positio
 
 ### getIntersection(pos) {#getIntersection}
 
-get visible intersection shape. This is the preferred  method for determining if a point intersects a shape or not nodes with listening set to false will not be detected
+get visible intersection shape. This is the preferred  method for determining if a point intersects a shape or not.  It reads the hit canvas, so it finds what pointer events would: nodes with  listening set to false or invisible nodes are not detected, a shape with opacity 0  is, and `hitStrokeWidth` counts. The position is relative to the top left corner of the stage container, like `stage.getPointerPosition()`, without the stage transform
 
 **Parameters:**
 

@@ -66,7 +66,7 @@ cache node to improve drawing performance, apply filters, or create more accurat
 - `config.height` (Number) (optional)
 - `config.offset` (Number) (optional): increase canvas size by `offset` pixel in all directions.
 - `config.drawBorder` (Boolean) (optional): when set to true, a red border will be drawn around the cached  region for debugging purposes
-- `config.pixelRatio` (Number) (optional): change quality (or pixel ratio) of cached image. pixelRatio = 2 will produce 2x sized cache.
+- `config.pixelRatio` (Number) (optional): pixel ratio of the cache canvas, the canvas pixels per CSS pixel of the node. Default is `Konva.pixelRatio`, the device pixel ratio. A higher value keeps the cache sharp when the node is scaled up.
 - `config.imageSmoothingEnabled` (Boolean) (optional): control imageSmoothingEnabled property of created canvas for cache
 - `config.hitCanvasPixelRatio` (Number) (optional): change quality (or pixel ratio) of cached hit canvas.
 
@@ -150,7 +150,7 @@ rect.getClientRect();
 
 ### on(evtStr, handler) {#on}
 
-bind events to the node. KonvaJS supports mouseover, mousemove,  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,  touchend, tap, dbltap, dragstart, dragmove, and dragend events.  Pass in a string of events delimited by a space to bind multiple events at once  such as 'mousedown mouseup mousemove'. Include a namespace to bind an  event by name such as 'click.foobar'.
+bind events to the node. KonvaJS supports mouseover, mousemove,  mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel, contextmenu, click, dblclick, touchstart, touchmove,  touchend, tap, dbltap, dragstart, dragmove, dragend and destroy events.  Pass in a string of events delimited by a space to bind multiple events at once  such as 'mousedown mouseup mousemove'. Include a namespace to bind an  event by name such as 'click.foobar'.
 
 **Parameters:**
 
@@ -248,11 +248,12 @@ node.remove();
 
 ### destroy() {#destroy}
 
-remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy(). If the node is a container (Group, Stage or Layer) it will destroy all children too.
+remove and destroy a node. Kill it and delete forever! You should not reuse node after destroy(). If the node is a container (Group, Stage or Layer) it will destroy all children too. The node fires a `destroy` event first, so anything holding a reference to it can let go. When an ancestor is being destroyed the node is already detached from its parent at that point.
 
 **Example:**
 
 ```javascript
+node.on('destroy', () => console.log('gone'));
 node.destroy();
 ```
 
@@ -346,6 +347,12 @@ get absolute z-index which takes into account sibling  and ancestor indices
 get node depth in node tree.  Returns an integer.  e.g. Stage depth will always be 0.  Layers will always be 1.  Groups and Shapes will always  be >= 2
 
 **Returns:** `Integer` 
+
+**Example:**
+
+```javascript
+var depth = shape.getDepth(); // 2 for a shape right inside of a layer
+```
 
 ### getRelativePointerPosition() {#getRelativePointerPosition}
 
@@ -838,7 +845,7 @@ var isOnScreen = node.isClientRectOnScreen({ x: stage.width(), y: stage.height()
 
 ### Node.create(data, container) {#Node.create}
 
-create node with JSON string or an Object.  De-serializtion does not generate custom  shape drawing functions, images, or event handlers (this would make the  serialized object huge).  If your app uses custom shapes, images, and  event handlers (it probably does), then you need to select the appropriate  shapes after loading the stage and set these properties via on(), setSceneFunc(),  and setImage() methods
+create node with JSON string or an Object. Deserialization restores attributes only,  not functions, images or event handlers (that would make the serialized object huge):  `sceneFunc`/`hitFunc` of custom shapes, images and `fillPatternImage`, `clipFunc`,  `dragBoundFunc`, filter functions, the `nodes`, `boundBoxFunc` and `anchorStyleFunc`  of a Transformer, typed arrays and the `cache()` state. If your app uses them (it probably  does), select the nodes after loading the stage and set these properties again with  `on()`, `sceneFunc()`, `image()` and so on
 
 **Parameters:**
 
@@ -1230,7 +1237,7 @@ node.offsetY(3);
 
 ### dragDistance(distance) {#dragDistance}
 
-get/set drag distance
+get/set drag distance. A drag starts once the pointer moved this far from where it  went down, on either axis. Default is `Konva.dragDistance`
 
 **Parameters:**
 
@@ -1438,11 +1445,11 @@ node.size({
 
 ### dragBoundFunc(dragBoundFunc) {#dragBoundFunc}
 
-get/set drag bound function.  This is used to override the default  drag and drop position.
+get/set drag bound function.  This is used to override the default  drag and drop position. The function is called with the absolute position  the node is about to get and the native event, and must return the  absolute position to use
 
 **Parameters:**
 
-- `dragBoundFunc` (function)
+- `dragBoundFunc` (function): function(pos, evt) returning `\{ x, y \}`
 
 **Returns:** `function` 
 
@@ -1494,6 +1501,8 @@ Tween node properties. Shorter usage of [Konva.Tween](/api/Konva.Tween.html) obj
 
 - `params` (Object) (optional): tween params
 
+**Returns:** `Konva.Tween` 
+
 **Example:**
 
 ```javascript
@@ -1517,11 +1526,11 @@ get/set blur radius. Use with [Konva.Filters.Blur](/api/Konva.Filters.html#Blur)
 
 ### brightness(brightness) {#brightness}
 
-get/set filter brightness.  The brightness is a number between -1 and 1.&nbsp; Positive values  brighten the pixels and negative values darken them. Use with [Konva.Filters.Brighten](/api/Konva.Filters.html#Brighten) filter.
+get/set filter brightness. With [Konva.Filters.Brighten](/api/Konva.Filters.html#Brighten) it is a number between -1 and 1  added to every channel: positive values brighten the pixels and negative values darken them.  With [Konva.Filters.Brightness](/api/Konva.Filters.html#Brightness) it is a CSS-like multiplier: 1 is no change, 1.5 is 50% brighter.
 
 **Parameters:**
 
-- `brightness` (Number): value between -1 and 1
+- `brightness` (Number)
 
 **Returns:** `Number` 
 
@@ -1697,7 +1706,7 @@ get/set levels.  Must be a number between 0 and 1.  Use with [Konva.Filters.Post
 
 ### red(red) {#red}
 
-get/set filter red value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) filter.
+get/set filter red value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) or [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
 
 **Parameters:**
 
@@ -1707,7 +1716,7 @@ get/set filter red value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#R
 
 ### green(green) {#green}
 
-get/set filter green value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) filter.
+get/set filter green value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) or [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
 
 **Parameters:**
 
@@ -1717,37 +1726,7 @@ get/set filter green value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html
 
 ### blue(blue) {#blue}
 
-get/set filter blue value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) filter.
-
-**Parameters:**
-
-- `blue` (Integer): value between 0 and 255
-
-**Returns:** `Integer` 
-
-### red(red) {#red}
-
-get/set filter red value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
-
-**Parameters:**
-
-- `red` (Integer): value between 0 and 255
-
-**Returns:** `Integer` 
-
-### green(green) {#green}
-
-get/set filter green value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
-
-**Parameters:**
-
-- `green` (Integer): value between 0 and 255
-
-**Returns:** `Integer` 
-
-### blue(blue) {#blue}
-
-get/set filter blue value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
+get/set filter blue value. Use with [Konva.Filters.RGB](/api/Konva.Filters.html#RGB) or [Konva.Filters.RGBA](/api/Konva.Filters.html#RGBA) filter.
 
 **Parameters:**
 
@@ -1767,7 +1746,7 @@ get/set filter alpha value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.htm
 
 ### threshold(threshold) {#threshold}
 
-get/set threshold.  Must be a value between 0 and 1. Use with [Konva.Filters.Threshold](/api/Konva.Filters.html#Threshold) or [Konva.Filters.Mask](/api/Konva.Filters.html#Mask) filter.
+get/set threshold. With [Konva.Filters.Threshold](/api/Konva.Filters.html#Threshold) it is a value between 0 and 1. With [Konva.Filters.Mask](/api/Konva.Filters.html#Mask) it is the colour distance to the background, 0 to 255, default 10.
 
 **Parameters:**
 

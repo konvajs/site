@@ -142,6 +142,30 @@ var data = path.data();
 path.data('M200,100h100v50z');
 ```
 
+### width() {#width}
+
+get width of the path. It is computed from the path data and cannot be set
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+var width = path.width();
+```
+
+### height() {#height}
+
+get height of the path. It is computed from the path data and cannot be set
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+var height = path.height();
+```
+
 ## Inherited Methods
 
 `Konva.Path` also has all methods of its parent classes. Each link below opens the full documentation of the method on the class that defines it.
@@ -200,7 +224,7 @@ path.data('M200,100h100v50z');
 - [fillLinearGradientStartPoint(startPoint)](/api/Konva.Shape.html#fillLinearGradientStartPoint)
 - [strokeLinearGradientStartPoint(startPoint)](/api/Konva.Shape.html#strokeLinearGradientStartPoint)
 - [fillLinearGradientStartPointX(x)](/api/Konva.Shape.html#fillLinearGradientStartPointX)
-- [linearLinearGradientStartPointX(x)](/api/Konva.Shape.html#linearLinearGradientStartPointX)
+- [strokeLinearGradientStartPointX(x)](/api/Konva.Shape.html#strokeLinearGradientStartPointX)
 - [fillLinearGradientStartPointY(y)](/api/Konva.Shape.html#fillLinearGradientStartPointY)
 - [strokeLinearGradientStartPointY(y)](/api/Konva.Shape.html#strokeLinearGradientStartPointY)
 - [fillLinearGradientEndPoint(endPoint)](/api/Konva.Shape.html#fillLinearGradientEndPoint)
@@ -295,8 +319,6 @@ path.data('M200,100h100v50z');
 - [offsetX(x)](/api/Konva.Node.html#offsetX)
 - [offsetY(y)](/api/Konva.Node.html#offsetY)
 - [dragDistance(distance)](/api/Konva.Node.html#dragDistance)
-- [width(width)](/api/Konva.Node.html#width)
-- [height(height)](/api/Konva.Node.html#height)
 - [listening(listening)](/api/Konva.Node.html#listening)
 - [preventDefault(preventDefault)](/api/Konva.Node.html#preventDefault)
 - [filters(filters)](/api/Konva.Node.html#filters)
