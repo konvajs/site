@@ -131,6 +131,16 @@ var popout = window.open('', '', 'width=600,height=400');
 stage.container(popout.document.body);
 ```
 
+### eventBatchFunc() {#eventBatchFunc}
+
+Get/set the callback used by framework integrations to batch native input. The callback must invoke its argument exactly once, synchronously. Existing node events keep their order and cancellation behavior. Direct node.fire() and programmatic mutations do not create a batch. Missing calls warn; duplicate or late calls warn and are ignored. Exceptions propagate and skipped input is not replayed, so an invalid callback can prevent input processing and drag cleanup. Each native Konva listener creates its own scope; a DOM event may invoke several listeners. Batching does not reorder or merge those listeners.
+
+**Example:**
+
+```javascript
+stage.eventBatchFunc((run) => frameworkBatch(run));
+```
+
 ## Inherited Methods
 
 `Konva.Stage` also has all methods of its parent classes. Each link below opens the full documentation of the method on the class that defines it.
