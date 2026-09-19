@@ -1,24 +1,26 @@
 import React from "react";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
+
+import store from "../store";
 
 class SectionEdit extends React.Component {
   handleTypeSelect = e => {
-    this.props.store.setSectionType(e.target.value);
+    store.setSectionType(e.target.value);
   };
 
   handleFrameSizeChange = e => {
-    this.props.store.selectedSection.frameSize = parseInt(e.target.value, 10);
+    store.selectedSection.frameSize = parseInt(e.target.value, 10);
   };
 
   handleVerticalSplit = () => {
-    this.props.store.splitCurrentSection("vertical");
+    store.splitCurrentSection("vertical");
   };
 
   handleHorizontalSplit = () => {
-    this.props.store.splitCurrentSection("horizontal");
+    store.splitCurrentSection("horizontal");
   };
   render() {
-    let { selectedSection } = this.props.store;
+    let { selectedSection } = store;
 
     const enabled = selectedSection;
     selectedSection = selectedSection || {};
@@ -52,4 +54,4 @@ class SectionEdit extends React.Component {
   }
 }
 
-export default inject("store")(observer(SectionEdit));
+export default observer(SectionEdit);

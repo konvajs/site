@@ -5,18 +5,13 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "array-move": "2.1.0",
-    "konva": "4.0.10",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-konva": "18.2.7",
-    "react-scripts": "3.0.1",
-    "react-sortable-hoc": "1.10.1",
-    "use-image": "1.0.4",
-    "zustand": "1.0.7"
-  },
-  "devDependencies": {
-    "typescript": "3.3.3"
+    "konva": "10.6.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-konva": "19.3.0",
+    "react-scripts": "5.0.1",
+    "use-image": "1.1.4",
+    "zustand": "5.0.15"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,8 +1,8 @@
 import React from "react";
-import { Provider } from "mobx-react";
 import { Stage, Layer, Rect } from "react-konva";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
 
+import store from "../store";
 import Section from "./Section";
 import Sash from "./Sash";
 import Metrics from "./Metrics";
@@ -20,13 +20,13 @@ class RootFrame extends React.Component {
 
   handleClick = (e) => {
     if (e.target.nodeType === "Stage") {
-      this.props.store.selectedSectionId = null;
+      store.selectedSectionId = null;
     }
   };
   render() {
     const padding = 150;
 
-    const { root } = this.props.store;
+    const { root } = store;
     const scale = (this.state.width - padding * 2) / root.width;
 
     const height = padding * 2 + root.height * scale;
@@ -44,25 +44,23 @@ class RootFrame extends React.Component {
           }}
           onClick={this.handleClick}
         >
-          <Provider store={window.store}>
-            <Layer scaleX={scale} scaleY={scale} y={20} x={20}>
-              <Section
-                section={root.sections[0]}
-                x={root.frameSize}
-                y={root.frameSize}
-              />
-              <Sash
-                width={root.width}
-                height={root.height}
-                size={root.frameSize}
-              />
-              <Metrics />
-            </Layer>
-          </Provider>
+          <Layer scaleX={scale} scaleY={scale} y={20} x={20}>
+            <Section
+              section={root.sections[0]}
+              x={root.frameSize}
+              y={root.frameSize}
+            />
+            <Sash
+              width={root.width}
+              height={root.height}
+              size={root.frameSize}
+            />
+            <Metrics />
+          </Layer>
         </Stage>
       </div>
     );
   }
 }
 
-export default inject("store")(observer(RootFrame));
+export default observer(RootFrame);

@@ -71,10 +71,8 @@ function limitAttributes(stage, newAttrs) {
 
 export default () => {
   const stageRef = React.useRef();
-  const { width, height } = useStore((s) => ({
-    width: s.width,
-    height: s.height,
-  }));
+  const width = useStore((s) => s.width);
+  const height = useStore((s) => s.height);
   const setSize = useStore((s) => s.setSize);
   const scale = useStore((state) => state.scale);
   const isDrawing = useStore((state) => state.isDrawing);

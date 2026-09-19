@@ -1,50 +1,37 @@
-import React, { Component } from 'react';
-import Konva from 'konva';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Stage, Layer, Rect, Text } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
+import { useTrail, animated } from '@react-spring/konva';
 
-import { Trail, animated, Globals } from 'react-spring/dist/konva';
+const items = ['item1', 'item2', 'item3', 'item4', 'item5'];
 
-Globals.injectFrame(
-  (x) => requestAnimationFrame(x),
-  (x) => cancelAnimationFrame(x)
-);
+const App = () => {
+  const [toggle, setToggle] = React.useState(true);
 
-class App extends Component {
-  state = {
-    toggle: true,
-    items: ['item1', 'item2', 'item3', 'item4', 'item5'],
-  };
-  toggle = () => this.setState((state) => ({ toggle: !state.toggle }));
+  const trail = useTrail(items.length, {
+    from: { opacity: 0, x: -100 },
+    opacity: toggle ? 1 : 0.25,
+    x: toggle ? 0 : 100,
+  });
 
-  render() {
-    const { toggle, items } = this.state;
-    return (
-      <Stage width={window.innerWidth} height={window.innerHeight}>
-        <Layer>
-          <Trail
-            native
-            from={{ opacity: 0, x: -100 }}
-            to={{ opacity: toggle ? 1 : 0.25, x: toggle ? 0 : 100 }}
-            keys={items}
-          >
-            {items.map((item, i) => ({ x, opacity }) => (
-              <animated.Rect
-                x={x}
-                y={50 * i}
-                width={50}
-                height={50}
-                fill="red"
-                opacity={opacity}
-                onClick={this.toggle}
-              />
-            ))}
-          </Trail>
-        </Layer>
-      </Stage>
-    );
-  }
-}
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        {trail.map((props, i) => (
+          <animated.Rect
+            key={items[i]}
+            {...props}
+            y={50 * i}
+            width={50}
+            height={50}
+            fill="red"
+            onClick={() => setToggle((prev) => !prev)}
+          />
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
 
 const container = document.getElementById('root');
 const root = createRoot(container);

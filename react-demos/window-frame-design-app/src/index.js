@@ -1,15 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "mobx-react";
-import createStore from "./store";
+import { createRoot } from "react-dom/client";
 import App from "./components/App";
 
-window.store = createStore();
-
 const rootElement = document.getElementById("root");
-ReactDOM.render(
-  <Provider store={window.store}>
-    <App />
-  </Provider>,
-  rootElement
-);
+const root = createRoot(rootElement);
+root.render(<App />);

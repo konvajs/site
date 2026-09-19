@@ -1,6 +1,8 @@
 import React from "react";
 import { Group, Line, Arrow, Label, Text, Tag } from "react-konva";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
+
+import store from "../store";
 
 const METRIC_SIZE = 100;
 
@@ -44,7 +46,7 @@ function HorizontalMetric({ x, y, width, height }) {
 
 class Metrics extends React.Component {
   render() {
-    const { width, height } = this.props.store.root;
+    const { width, height } = store.root;
 
     let totalOffsetX = 0;
     let totalIffsetY = 0;
@@ -55,6 +57,7 @@ class Metrics extends React.Component {
     function processSection(sec, verticalPos, horizontalPos) {
       verticalComponents.push(
         <VerticalMetric
+          key={sec.id}
           height={sec.height}
           x={verticalPos.x}
           y={verticalPos.y}
@@ -62,6 +65,7 @@ class Metrics extends React.Component {
       );
       horizontalComponents.push(
         <HorizontalMetric
+          key={sec.id}
           x={horizontalPos.x}
           y={horizontalPos.y}
           width={sec.width}
@@ -110,7 +114,7 @@ class Metrics extends React.Component {
       }
     }
 
-    processSection(this.props.store.root, { x: 0, y: 0 }, { x: 0, y: 0 });
+    processSection(store.root, { x: 0, y: 0 }, { x: 0, y: 0 });
 
     return (
       <Group>
@@ -121,4 +125,4 @@ class Metrics extends React.Component {
   }
 }
 
-export default inject("store")(observer(Metrics));
+export default observer(Metrics);

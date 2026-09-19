@@ -57,8 +57,8 @@ const App = () => {
           ref={stageRef}
         >
           <Layer>
-            {images.map((image) => {
-              return <URLImage image={image} />;
+            {images.map((image, i) => {
+              return <URLImage key={i} image={image} />;
             })}
           </Layer>
         </Stage>

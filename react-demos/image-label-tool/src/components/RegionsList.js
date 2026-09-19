@@ -1,60 +1,61 @@
 import React from "react";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import arrayMove from "array-move";
 
 import useStore from "../store";
-
-const SortableItem = SortableElement(({ region, sortIndex, onRemove }) => {
-  return (
-    <div
-      className="region"
-      style={{
-        boxShadow: `0 0 5px ${region.color}`,
-        border: `1px solid ${region.color}`
-      }}
-    >
-      Region #{region.id}
-      <button
-        onClick={() => {
-          onRemove(sortIndex);
-        }}
-      >
-        Delete
-      </button>
-    </div>
-  );
-});
-
-const SortableList = SortableContainer(({ items, onRemove }) => {
-  return (
-    <div className="regions-list">
-      {items.map((region, index) => (
-        <SortableItem
-          key={`item-${region.id}`}
-          index={index}
-          region={region}
-          onRemove={onRemove}
-          sortIndex={index}
-        />
-      ))}
-    </div>
-  );
-});
 
 export default () => {
   const regions = useStore(s => s.regions);
   const setRegions = useStore(s => s.setRegions);
 
+  // index of the item we are currently dragging
+  const draggedIndex = React.useRef(null);
+
+  const moveRegion = (from, to) => {
+    if (from === null || from === to) {
+      return;
+    }
+    const next = regions.slice();
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setRegions(next);
+  };
+
+  const removeRegion = index => {
+    const next = regions.slice();
+    next.splice(index, 1);
+    setRegions(next);
+  };
+
   return (
-    <SortableList
-      items={regions}
-      onSortEnd={({ oldIndex, newIndex }) => {
-        setRegions(arrayMove(regions, oldIndex, newIndex));
-      }}
-      onRemove={index => {
-        regions.splice(index, 1);
-        setRegions(regions.concat());
-      }}
-    />
+    <div className="regions-list">
+      {regions.map((region, index) => (
+        <div
+          key={region.id}
+          className="region"
+          draggable
+          onDragStart={() => {
+            draggedIndex.current = index;
+          }}
+          onDragOver={e => e.preventDefault()}
+          onDrop={() => {
+            moveRegion(draggedIndex.current, index);
+            draggedIndex.current = null;
+          }}
+          style={{
+            boxShadow: `0 0 5px ${region.color}`,
+            border: `1px solid ${region.color}`,
+            cursor: "move"
+          }}
+        >
+          Region #{region.id}
+          <button
+            onClick={() => {
+              removeRegion(index);
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
   );
 };

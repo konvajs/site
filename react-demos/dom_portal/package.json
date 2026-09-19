@@ -8,19 +8,25 @@
     "konva"
   ],
   "dependencies": {
-    "konva": "9.3.18",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-konva": "18.2.7",
-    "react-konva-utils": "^1.0.4"
+    "konva": "10.6.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-konva": "19.3.0",
+    "react-konva-utils": "2.1.0"
   },
   "devDependencies": {
-    "react-scripts": "2.0.4"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

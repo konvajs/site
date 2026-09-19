@@ -33,7 +33,7 @@ class App extends Component {
       items,
     });
   };
-  onDragEnd = (e) => {
+  handleDragEnd = (e) => {
     const id = e.target.name();
     const items = this.state.items.slice();
     const item = this.state.items.find((i) => i.id === id);

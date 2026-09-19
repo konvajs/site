@@ -1,6 +1,8 @@
 import React from "react";
 import { Group, Rect } from "react-konva";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
+
+import store from "../store";
 
 import Sash from "./Sash";
 import Glass from "./Glass";
@@ -12,23 +14,26 @@ class SectionInner extends React.Component {
   handleClick = e => {
     const firstSection = e.target.findAncestor(".section");
     if (firstSection === this.group) {
-      this.props.store.selectedSectionId = this.props.section.id;
+      store.selectedSectionId = this.props.section.id;
     }
   };
   render() {
     const { section, x, y } = this.props;
 
-    const isSelected = this.props.store.selectedSection === section;
+    const isSelected = store.selectedSection === section;
 
     const childSections = [];
     let offsetX = 0;
     let offsetY = 0;
     for (const child of section.sections) {
       if (child.nodeType === "section") {
-        childSections.push(<Section section={child} x={offsetX} y={offsetY} />);
+        childSections.push(
+          <Section key={child.id} section={child} x={offsetX} y={offsetY} />
+        );
       } else {
         childSections.push(
           <Devider
+            key={child.id}
             width={child.width}
             height={child.height}
             x={offsetX}
@@ -90,6 +95,6 @@ class SectionInner extends React.Component {
   }
 }
 
-const Section = inject("store")(observer(SectionInner));
+const Section = observer(SectionInner);
 
 export default Section;

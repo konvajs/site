@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Rect } from 'react-konva';
 import { Html } from 'react-konva-utils';
 
@@ -26,5 +26,5 @@ class App extends Component {
 }
 
 const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
+const root = createRoot(container);
 root.render(<App />);

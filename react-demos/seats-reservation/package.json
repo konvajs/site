@@ -5,14 +5,11 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "konva": "9.3.18",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-konva": "18.2.7",
-    "react-scripts": "3.0.1"
-  },
-  "devDependencies": {
-    "typescript": "3.3.3"
+    "konva": "10.6.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-konva": "19.3.0",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
