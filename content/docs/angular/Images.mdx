@@ -8,7 +8,7 @@ description: "Learn how to load and display images on an HTML5 canvas in Angular
 
 To display images with `Konva` in Angular, use `ko-image` and assign a loaded `HTMLImageElement` to the `image` property.
 
-For Angular 21 apps, signals are the simplest way to update image config from async callbacks such as `Image.onload`.
+Angular runs zoneless by default, so signals are the simplest way to update image config from async callbacks such as `Image.onload`.
 
 **Instructions**: The demo loads an external image and renders it after the browser finishes loading it.
 

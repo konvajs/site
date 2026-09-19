@@ -50,7 +50,7 @@
                 innerRadius={30}
                 outerRadius={50}
                 fill="#89b717"
-                opacity{0.8}
+                opacity={0.8}
                 draggable
                 scaleX={dragItemId === item.id ? item.scale * 1.2 : item.scale}
                 scaleY={dragItemId === item.id ? item.scale * 1.2 : item.scale}

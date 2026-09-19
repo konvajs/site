@@ -8,7 +8,7 @@ description: "学习如何在 Angular 中使用 ng2-konva Image 组件，在 HTM
 
 要在 Angular 中使用 `Konva` 显示图像，请使用 `ko-image`，并将已加载的 `HTMLImageElement` 分配给 `image` 属性。
 
-对于 Angular 21 应用，signals 是从 `Image.onload` 等异步回调更新图像配置的最简单方法。
+Angular 默认使用 zoneless 模式，因此 signals 是从 `Image.onload` 等异步回调更新图像配置的最简单方法。
 
 **操作说明**：本示例加载外部图像。浏览器完成加载后，示例会渲染该图像。
 
