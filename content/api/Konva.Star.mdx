@@ -33,7 +33,7 @@ Star constructor
 | fillPatternScaleX (optional) | `Number` |  |
 | fillPatternScaleY (optional) | `Number` |  |
 | fillPatternRotation (optional) | `Number` |  |
-| fillPatternRepeat (optional) | `String` | can be "repeat", "repeat-x", "repeat-y", or "no-repeat".  The default is "no-repeat" |
+| fillPatternRepeat (optional) | `String` | can be "repeat", "repeat-x", "repeat-y", or "no-repeat".  The default is "repeat" |
 | fillLinearGradientStartPoint (optional) | `Object` | object with x and y component |
 | fillLinearGradientStartPointX (optional) | `Number` |  |
 | fillLinearGradientStartPointY (optional) | `Number` |  |
@@ -51,12 +51,12 @@ Star constructor
 | fillRadialGradientEndRadius (optional) | `Number` |  |
 | fillRadialGradientColorStops (optional) | `Array` | array of color stops |
 | fillEnabled (optional) | `Boolean` | flag which enables or disables the fill.  The default value is true |
-| fillPriority (optional) | `String` | can be color, linear-gradient, radial-graident, or pattern.  The default value is color.  The fillPriority property makes it really easy to toggle between different fill types.  For example, if you want to toggle between a fill color style and a fill pattern style, simply set the fill property and the fillPattern properties, and then use setFillPriority('color') to render the shape with a color fill, or use setFillPriority('pattern') to render the shape with the pattern fill configuration |
+| fillPriority (optional) | `String` | can be color, linear-gradient, radial-gradient, or pattern.  The default value is color.  The fillPriority property makes it really easy to toggle between different fill types.  For example, if you want to toggle between a fill color style and a fill pattern style, simply set the fill property and the fillPattern properties, and then use setFillPriority('color') to render the shape with a color fill, or use setFillPriority('pattern') to render the shape with the pattern fill configuration |
 | stroke (optional) | `String` | stroke color |
 | strokeWidth (optional) | `Number` | stroke width |
 | fillAfterStrokeEnabled (optional) | `Boolean` | Should we draw fill AFTER stroke? Default is false. |
-| hitStrokeWidth (optional) | `Number` | size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth |
-| strokeHitEnabled (optional) | `Boolean` | flag which enables or disables stroke hit region.  The default is true |
+| hitStrokeWidth (optional) | `Number\|String` | size of the stroke on hit canvas.  The default is "auto" - equals to strokeWidth |
+| strokeHitEnabled (optional) | `Boolean` | deprecated; use hitStrokeWidth instead. Enables or disables the stroke hit region. The default is true |
 | perfectDrawEnabled (optional) | `Boolean` | flag which enables or disables using buffer canvas.  The default is true |
 | shadowForStrokeEnabled (optional) | `Boolean` | flag which enables or disables shadow for stroke.  The default is true |
 | strokeScaleEnabled (optional) | `Boolean` | flag which enables or disables stroke scale.  The default is true |

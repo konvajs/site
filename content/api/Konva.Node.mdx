@@ -108,7 +108,7 @@ determine if node is currently cached
 
 ### getClientRect(config) {#getClientRect}
 
-Return client rectangle \{x, y, width, height\} of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM.
+Return client rectangle \{x, y, width, height\} of node. This rectangle also include all styling (strokes, shadows, etc). The purpose of the method is similar to getBoundingClientRect API of the DOM. Non-scaling stroke padding is converted from its drawing canvas to the requested coordinates. Cached strokes use the cache's coordinates; their pixels scale with the cached bitmap.
 
 **Parameters:**
 
@@ -639,7 +639,7 @@ converts node into an canvas element.
 - `config.y` (Number) (optional): y position of canvas section
 - `config.width` (Number) (optional): width of canvas section
 - `config.height` (Number) (optional): height of canvas section
-- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. Higher pixel ratios increase export resolution. Cached nodes keep their cache resolution. Rebuild caches at the export pixel ratio to preserve detail. The pixel ratio multiplies the dimensions of the exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
 - `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
 **Example:**
@@ -661,7 +661,7 @@ Creates a composite data URL (base64 string). If MIME type is not specified, the
 - `config.width` (Number) (optional): width of canvas section
 - `config.height` (Number) (optional): height of canvas section
 - `config.quality` (Number) (optional): jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality
-- `config.pixelRatio` (Number) (optional): pixelRatio of output image url. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.pixelRatio` (Number) (optional): pixelRatio of output image url. Default is 1. Higher pixel ratios increase export resolution. Cached nodes keep their cache resolution. Rebuild caches at the export pixel ratio to preserve detail. The pixel ratio multiplies the dimensions of the exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
 - `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
 **Returns:** `String` 
@@ -680,7 +680,7 @@ converts node into an image.  Since the toImage  method is asynchronous, the res
 - `config.width` (Number) (optional): width of canvas section
 - `config.height` (Number) (optional): height of canvas section
 - `config.quality` (Number) (optional): jpeg quality.  If using an "image/jpeg" mimeType,  you can specify the quality from 0 to 1, where 0 is very poor quality and 1  is very high quality
-- `config.pixelRatio` (Number) (optional): pixelRatio of output image. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.pixelRatio` (Number) (optional): pixelRatio of output image. Default is 1. Higher pixel ratios increase export resolution. Cached nodes keep their cache resolution. Rebuild caches at the export pixel ratio to preserve detail. The pixel ratio multiplies the dimensions of the exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
 - `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
 **Returns:** `Promise<Image>` 
@@ -707,7 +707,7 @@ Converts node into a blob.  Since the toBlob method is asynchronous,  the result
 - `config.y` (Number) (optional): y position of canvas section
 - `config.width` (Number) (optional): width of canvas section
 - `config.height` (Number) (optional): height of canvas section
-- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. You can use that property to increase quality of the image, for example for super hight quality exports or usage on retina (or similar) displays. pixelRatio will be used to multiply the size of exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
+- `config.pixelRatio` (Number) (optional): pixelRatio of output canvas. Default is 1. Higher pixel ratios increase export resolution. Cached nodes keep their cache resolution. Rebuild caches at the export pixel ratio to preserve detail. The pixel ratio multiplies the dimensions of the exported image. If you export to 500x500 size with pixelRatio = 2, then produced image will have size 1000x1000.
 - `config.imageSmoothingEnabled` (Boolean) (optional): set this to false if you want to disable imageSmoothing
 
 **Returns:** `Promise<Blob>` <code>rejects if the canvas can not be encoded</code>
@@ -1343,7 +1343,7 @@ shape.preventDefault(false);
 
 ### filters(filters) {#filters}
 
-get/set filters. Supports function filters, CSS filter strings, or mixed arrays. CSS filters are applied using native browser performance when possible, function filters use ImageData manipulation. CSS filters automatically fall back to function filters in unsupported browsers.
+get/set filters. Supports function filters, CSS filter strings, or mixed arrays. CSS filters are applied using native browser performance when possible, function filters use ImageData manipulation. CSS filters automatically fall back to function filters in unsupported browsers. Blur radii, pixelation sizes and CSS lengths use node coordinates, independent of cache pixelRatio. Custom filters receive (imageData, pixelRatio). ImageData contains full-resolution backing pixels.
 
 **Parameters:**
 
@@ -1357,7 +1357,8 @@ get/set filters. Supports function filters, CSS filter strings, or mixed arrays.
 // get filters
 var filters = node.filters();
 
-// set CSS filters only (no caching required, uses native performance)
+// set CSS filters only (caching required, uses native performance)
+node.cache();
 node.filters(['blur(5px)', 'brightness(1.2)', 'contrast(1.5)']);
 
 // set function filters only (caching required)
@@ -1526,7 +1527,7 @@ get/set blur radius. Use with [Konva.Filters.Blur](/api/Konva.Filters.html#Blur)
 
 ### brightness(brightness) {#brightness}
 
-get/set filter brightness. With [Konva.Filters.Brighten](/api/Konva.Filters.html#Brighten) it is a number between -1 and 1  added to every channel: positive values brighten the pixels and negative values darken them.  With [Konva.Filters.Brightness](/api/Konva.Filters.html#Brightness) it is a CSS-like multiplier: 1 is no change, 1.5 is 50% brighter.
+get/set filter brightness. With [Konva.Filters.Brighten](/api/Konva.Filters.html#Brighten) it is a number between -1 and 1  added to every channel: positive values brighten the pixels and negative values darken them.  With [Konva.Filters.Brightness](/api/Konva.Filters.html#Brightness) it is a CSS-like multiplier: 1 is no change, 1.5 is 50% brighter.  Both filters leave pixels unchanged when the attribute is unset. An explicit 0 makes Brightness black.
 
 **Parameters:**
 
@@ -1746,7 +1747,7 @@ get/set filter alpha value. Use with [Konva.Filters.RGBA](/api/Konva.Filters.htm
 
 ### threshold(threshold) {#threshold}
 
-get/set threshold. With [Konva.Filters.Threshold](/api/Konva.Filters.html#Threshold) it is a value between 0 and 1. With [Konva.Filters.Mask](/api/Konva.Filters.html#Mask) it is the colour distance to the background, 0 to 255, default 10.
+get/set threshold. With [Konva.Filters.Threshold](/api/Konva.Filters.html#Threshold) it is a value between 0 and 1, default 0.5. With [Konva.Filters.Mask](/api/Konva.Filters.html#Mask) it is the colour distance to the background, 0 to 255, default 10.
 
 **Parameters:**
 
