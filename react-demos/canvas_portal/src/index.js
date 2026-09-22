@@ -5,6 +5,11 @@ import { Portal } from 'react-konva-utils';
 
 const App = () => {
   const [isDragging, setDragging] = React.useState(false);
+  const [rectanglePosition, setRectanglePosition] = React.useState({
+    x: 20,
+    y: 50,
+  });
+  const [linePosition, setLinePosition] = React.useState({ x: 20, y: 200 });
 
   return (
     <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -15,8 +20,8 @@ const App = () => {
         />
         <Portal selector=".top-layer" enabled={isDragging}>
           <Rect
-            x={20}
-            y={50}
+            x={rectanglePosition.x}
+            y={rectanglePosition.y}
             width={150}
             height={150}
             fill="red"
@@ -24,15 +29,17 @@ const App = () => {
             onDragStart={() => {
               setDragging(true);
             }}
-            onDragEnd={() => {
+            onDragEnd={(event) => {
+              // Konva moves the node directly, so save its position in state.
+              setRectanglePosition(event.target.position());
               setDragging(false);
             }}
           />
         </Portal>
         <Circle x={200} y={100} radius={50} fill="green" />
         <Line
-          x={20}
-          y={200}
+          x={linePosition.x}
+          y={linePosition.y}
           points={[0, 0, 100, 0, 100, 100]}
           tension={0.5}
           closed
@@ -41,6 +48,9 @@ const App = () => {
           fillLinearGradientEndPoint={{ x: 50, y: 50 }}
           fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
           draggable
+          onDragEnd={(event) => {
+            setLinePosition(event.target.position());
+          }}
         />
       </Layer>
       <Layer name="top-layer" />

@@ -17,3 +17,5 @@ description: "通过 StackOverflow、GitHub Issues、Discord 聊天、咨询和�
 5. 如果有值得分享的内容，请在 Twitter 上使用 `#konvajs` 标签。
 6. 访问[更新日志](https://github.com/konvajs/konva/blob/master/CHANGELOG.md)，了解最新变化。
 7. 需要咨询或策略评审？请访问[咨询页面](https://lavrton.com/consulting/)。
+
+8. 如果你需要完整的设计编辑器，而不是自定义画布，可以使用 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=support)。它是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK，并提供独立的文档和支持。

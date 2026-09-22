@@ -387,6 +387,8 @@ const App = () => {
         }
       });
 
+      // A snap can reuse the previous state coordinates.
+      // Update the node directly because React-Konva skips unchanged props.
       node.absolutePosition(absolutePosition);
     }
 

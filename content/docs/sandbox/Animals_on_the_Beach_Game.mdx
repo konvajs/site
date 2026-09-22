@@ -277,14 +277,16 @@ const Animal = ({ name, startX, startY, outline, onScore }) => {
       onDragStart={(e) => e.target.moveToTop()}
       onDragEnd={(e) => {
         const newPos = { x: e.target.x(), y: e.target.y() };
-        setPos(newPos);
         
         if (!inRightPlace && isNearOutline(newPos, outline)) {
-          setPos({ x: outline.x, y: outline.y });
+          // The snap target can match a previous state coordinate.
+          // Set the node directly because React-Konva skips unchanged props.
+          e.target.position({ x: outline.x, y: outline.y });
           setInRightPlace(true);
           setIsDraggable(false);
           onScore();
         }
+        setPos(e.target.position());
       }}
       onMouseOver={(e) => {
         e.target.image(glowImage);
@@ -544,4 +546,4 @@ const handleScore = () => score.value++;
   </TabItem>
 </Tabs>
 
-**Instructions:** Drag and drop the animals onto their silhouettes on the beach. When all animals are correctly placed, you win! 
+**Instructions:** Drag and drop the animals onto their silhouettes on the beach. When all animals are correctly placed, you win!

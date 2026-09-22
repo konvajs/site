@@ -39,7 +39,7 @@ function fencedBlocks(text) {
   const blocks = [];
   let active = null;
 
-  text.split('\n').forEach((line, index) => {
+  text.split(/\r?\n/).forEach((line, index) => {
     const match = /^\s*(`{3,}|~{3,})(.*)$/.exec(line);
     if (!match) {
       if (active) active.lines.push(line);
@@ -268,6 +268,22 @@ const fixtureCases = [
   ['custom wrapper', '<Shape x={10} draggable />;', 1, 1],
   ['native element', '<img x="10" draggable="true" />;', 0, 0],
 ];
+
+for (const newline of ['\n', '\r\n']) {
+  const blocks = fencedBlocks(
+    ['Intro', '```jsx live react', '<Rect x={10} draggable />;', '````'].join(newline)
+  );
+  if (
+    blocks.length !== 1 ||
+    blocks[0].metadata !== 'jsx live react' ||
+    blocks[0].body !== '<Rect x={10} draggable />;' ||
+    blocks[0].line !== 2
+  ) {
+    failures.push(
+      `The React drag-state checker failed its ${JSON.stringify(newline)} fence fixture.`
+    );
+  }
+}
 
 for (const [name, body, draggableCount, missingCount] of fixtureCases) {
   const source = ts.createSourceFile(

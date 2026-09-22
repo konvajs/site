@@ -89,9 +89,13 @@ npx crawl-chat-mcp --id=67d221efb4b9de65095a2579 --name=konva_documentation
 Konva 为 AI 工具提供机器可读的文档文件：
 
 - [`/llms.txt`](/llms.txt) — Konva 的简要概述，包含主要文档链接（遵循 [llmstxt.org](https://llmstxt.org/) 标准）
+- [`/llms-full.txt`](pathname:///zh-Hans/llms-full.txt) — 同一索引及所有文档页面的完整内容，适合通过单个文件读取文档的工具
+- [`/llms-small.txt`](pathname:///zh-Hans/llms-small.txt) — 不包含沙盒示例的精简版本，便于放入单个模型的上下文
 - [`<page>.md`](pathname:///zh-Hans/docs/overview.md) —— 每个文档页面都在相同路径下以 `.md` 扩展名提供纯 Markdown 版本
 
 这些文件帮助 AI 助手准确回答有关 Konva 的问题。
+
+如果你使用 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=ai-tools) 构建设计编辑器，可以参阅其[使用 AI 构建](https://polotno.com/docs/build-with-ai?utm_source=konvajs&utm_medium=docs&utm_content=ai-tools)页面，获取对应的文档文件和 MCP 配置。Polotno 是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK。
 
 ## 结合 Konva 使用 AI 的提示
 

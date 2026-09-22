@@ -345,6 +345,8 @@ const LimitedDragAndResize = () => {
         newAbsPos.y = stageSize.height - box.height - offsetY;
       }
       
+      // Repeated drags can clamp to the same state coordinates.
+      // Update the node directly because React-Konva skips unchanged props.
       shape.setAbsolutePosition(newAbsPos);
     });
 

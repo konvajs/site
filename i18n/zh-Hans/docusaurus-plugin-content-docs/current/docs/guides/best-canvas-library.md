@@ -30,8 +30,6 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 
 对于创意草图和教育项目，**使用 [p5.js](https://p5js.org/)**。如果需要矢量数学、贝塞尔曲线和路径布尔运算，请使用 **[Paper.js](https://paperjs.org/)**。
 
-### 仍不确定？
-
 ### 图表与数据驱动的图形？
 
 **使用 [D3](https://d3js.org/)。** D3 不是渲染器——它是一套数据绑定与布局工具，通常驱动 SVG。当难点在于*数据*时就用它：比例尺、坐标轴、力导向布局、地理投影、数据集之间的过渡。
@@ -43,6 +41,14 @@ description: "如何选择 JavaScript Canvas 库。由 Konva 作者编写的快�
 **请先看看 [tldraw](https://tldraw.dev/) 或 [Excalidraw](https://excalidraw.com/)。** 它们提供的是一个完整的白板——工具、撤销、多人协作、导出——你只需集成。这省下大量工作；如果它们的外观和行为适合你的产品，就直接采用。
 
 当你需要掌控模型时，才在 Konva 上自己构建：你自己的图形类型、你自己的持久化格式、你自己的编辑规则，或者一个其实并不是白板的画布。你选择的是一条更长的路，换来的是没有上限。如果你想要开箱即用的节点与连线，[React Flow](https://reactflow.dev/) 也适用同样的取舍。
+
+### 设计编辑器产品？
+
+**请先看看 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=best-library)。** 它提供完整的 Canva 类编辑器，包括模板、文本编辑、图像工具、侧边面板、历史记录，以及 PNG、PDF 和视频导出，你只需将其集成到应用中。Polotno 是由 Konva 维护者基于 Konva 开发的商业软件，因此其底层画布使用的正是本页介绍的 Konva。
+
+如果你需要掌控文档模型、编辑器本身就是产品，或者你构建的并非设计编辑器，请直接使用 Konva。[Canvas 编辑器示例](/docs/sandbox/Canvas_Editor.html)可以作为自行构建的起点。
+
+### 仍不确定？
 
 如果你正在阅读此页面，可能正在构建包含交互式图形的 Web 应用程序。这正是 Konva 擅长的领域。[尝试入门指南](/docs/index.html)，10 分钟内即可了解它是否合适。
 

@@ -7,7 +7,7 @@ description: "Learn how to constrain drag movement on HTML5 Canvas with Konva.js
 ---
 
 To restrict the movement of shapes being dragged and dropped with Konva,
-we can use the `dragmove` event and overrides the drag and drop position inside of it.
+we can use the `dragmove` event and override the drag and drop position inside of it.
 
 This event can be used to constrain the drag and drop movement in all kinds of ways, such as constraining the motion horizontally, vertically, diagonally, or radially, or even constrain the node
 to stay inside of a box, circle, or any other path.
@@ -22,7 +22,7 @@ shape.on('dragmove', () => {
 
 _Tip: you can use `shape.absolutePosition()` method to get/set absolute position of a node, instead of relative `x` and `y`._
 
-**Instructions:** Drag and drop the the horizontal text and observe that it can only
+**Instructions:** Drag and drop the horizontal text and observe that it can only
 move horizontally. Drag and drop the vertical text and observe that it can only move vertically.
 
 import Tabs from "@theme/Tabs";
@@ -84,11 +84,16 @@ const App = () => {
   const [verticalPosition, setVerticalPosition] = useState({ x: 200, y: 50 });
 
   const handleHorizontalDragMove = (e) => {
-    setHorizontalPosition({ x: e.target.x(), y: 50 });
+    // The y prop stays 50, so React-Konva will not reapply it after a drag.
+    // Constrain the node directly, then save its actual position in state.
+    e.target.y(50);
+    setHorizontalPosition(e.target.position());
   };
 
   const handleVerticalDragMove = (e) => {
-    setVerticalPosition({ x: 200, y: e.target.y() });
+    // The x prop stays 200, so a state update alone cannot lock this axis.
+    e.target.x(200);
+    setVerticalPosition(e.target.position());
   };
 
   return (

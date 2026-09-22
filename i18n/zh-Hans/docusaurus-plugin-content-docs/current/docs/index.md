@@ -106,6 +106,8 @@ Konva 为主要前端框架提供官方绑定：
 
 [查看 60 多个示例 →](/docs/sandbox.html)
 
+如果你需要完整的设计编辑器，而不只是 Canvas 库，可以使用 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=getting-started)。它是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK：`npm install polotno`。
+
 ## 后续步骤
 
 - [Konva 概览](/docs/overview.html) — 了解 Stage → Layer → Shape 架构

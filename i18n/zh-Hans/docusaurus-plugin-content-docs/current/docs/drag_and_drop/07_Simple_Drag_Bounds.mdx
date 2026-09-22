@@ -84,11 +84,16 @@ const App = () => {
   const [verticalPosition, setVerticalPosition] = useState({ x: 200, y: 50 });
 
   const handleHorizontalDragMove = (e) => {
-    setHorizontalPosition({ x: e.target.x(), y: 50 });
+    // The y prop stays 50, so React-Konva will not reapply it after a drag.
+    // Constrain the node directly, then save its actual position in state.
+    e.target.y(50);
+    setHorizontalPosition(e.target.position());
   };
 
   const handleVerticalDragMove = (e) => {
-    setVerticalPosition({ x: 200, y: e.target.y() });
+    // The x prop stays 200, so a state update alone cannot lock this axis.
+    e.target.x(200);
+    setVerticalPosition(e.target.position());
   };
 
   return (

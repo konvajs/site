@@ -120,10 +120,10 @@ const App = () => {
   });
 
   const handleBlueDragMove = (e) => {
-    setBluePosition({
-      x: e.target.x(),
-      y: Math.max(e.target.y(), 50),
-    });
+    // At the boundary, y stays 50 in state. React-Konva skips unchanged props.
+    // Constrain the node directly before saving its position in state.
+    e.target.y(Math.max(e.target.y(), 50));
+    setBluePosition(e.target.position());
   };
 
   const handleYellowDragMove = (e) => {
@@ -138,13 +138,15 @@ const App = () => {
       );
 
     if (scale < 1) {
-      setYellowPosition({
+      // Repeated drags can produce the same boundary coordinates.
+      // Set the node directly because React-Konva skips unchanged props.
+      e.target.absolutePosition({
         x: Math.round((position.x - x) * scale + x),
         y: Math.round((position.y - y) * scale + y),
       });
-    } else {
-      setYellowPosition(position);
     }
+
+    setYellowPosition(e.target.position());
   };
 
   return (

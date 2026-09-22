@@ -12,6 +12,8 @@ description: "开始使用 svelte-konva，它是 Konva.js 的官方 Svelte 绑�
 
 使用 svelte-konva 前，需要基本了解 `Konva`。可以参阅 [Konva 概览](/docs/overview.html)。
 
+如果你需要完整的设计编辑器，可以使用 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=svelte-index)。它是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK，提供模板、文本编辑和导出功能，并附有适用于 Svelte 的[不依赖框架的集成指南](https://polotno.com/docs/frameworkless-integration?utm_source=konvajs&utm_medium=docs&utm_content=svelte-index)。
+
 ## 快速开始
 
 ### 1 通过 npm 安装

@@ -89,6 +89,10 @@ Konva 使用 Stage → Layer → Shape 层级结构。每个 Layer 都是独立�
 
 可以。Konva.js 采用 MIT 许可证，商业和个人用途均完全免费。它没有付费层级或高级功能。源代码可在 [GitHub](https://github.com/konvajs/konva) 上获取。
 
+### 有基于 Konva 的现成设计编辑器吗？
+
+有。[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=faq-editor) 是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK。它提供 Canva 类编辑器在画布之外所需的功能：模板、支持字体加载的文本引擎、侧边面板和工具栏、历史记录，以及 PNG、PDF 和视频导出。如果编辑器本身就是你的产品，而且你需要掌控文档模型，请直接使用 Konva。如果编辑器用于支持你销售的其他产品，可以使用 Polotno。[Canvas 编辑器示例](/docs/sandbox/Canvas_Editor.html)展示了自行构建的方式，以及开发成本较高的部分。
+
 ### 应使用哪个 JavaScript Canvas 库？
 
 这取决于使用场景：
@@ -262,4 +266,4 @@ Konva 支持拖动边界、网格吸附、放置事件以及图层之间的拖�
 
 ### Konva 仍在积极维护吗？
 
-是的。Konva 仍在积极维护，并定期发布版本。查看[更新日志](https://github.com/konvajs/konva/blob/master/CHANGELOG.md)以了解近期更新，查看 [GitHub 仓库](https://github.com/konvajs/konva)以了解持续的开发活动。
+是的。Konva 仍在积极维护，并定期发布版本。查看[更新日志](https://github.com/konvajs/konva/blob/master/CHANGELOG.md)以了解近期更新，查看 [GitHub 仓库](https://github.com/konvajs/konva)以了解持续的开发活动。Konva 由 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=faq-maintained) 团队维护。Polotno 是基于 Konva 的商业设计编辑器 SDK，并为 Konva 的持续开发提供资助。

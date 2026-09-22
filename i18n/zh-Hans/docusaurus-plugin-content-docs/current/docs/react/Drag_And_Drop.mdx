@@ -10,6 +10,17 @@ description: "学习如何在 React 中使用 react-konva 实现 Canvas 拖放�
 
 拖放图形时，建议将图形位置保存到应用的数据存储中。可以为此使用 `onDragMove` 和 `onDragEnd` 事件。
 
+:::note 拖动边界与 React 状态
+
+Konva 会在拖动时直接改变节点的位置。默认情况下，React-Konva 只会应用与上次渲染相比发生变化的属性。
+如果 React 状态中已经是 `y: 50`，再次将状态设置为 `y: 50` 并不会重置节点的位置。
+
+在实现自定义边界或吸附功能时，事件处理函数必须先直接更新节点，再将 `node.position()` 保存到状态中。
+[简单拖动边界](/docs/drag_and_drop/Simple_Drag_Bounds.html)和[复杂拖放](/docs/drag_and_drop/Complex_Drag_and_Drop.html)示例采用了这种方式。
+也可以使用 `dragBoundFunc`，在 Konva 应用每次拖动位置之前限制节点的位置。
+
+:::
+
 ```js live react
 import React from 'react';
 import { Stage, Layer, Text } from 'react-konva';

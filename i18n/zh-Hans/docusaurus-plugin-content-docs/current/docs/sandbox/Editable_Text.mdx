@@ -274,6 +274,7 @@ const EditableText = () => {
   const [text, setText] = useState("Some text here");
   const [isEditing, setIsEditing] = useState(false);
   const [textWidth, setTextWidth] = useState(200);
+  const [position, setPosition] = useState({ x: 50, y: 80 });
   const textRef = useRef();
   const trRef = useRef();
 
@@ -296,6 +297,8 @@ const EditableText = () => {
     const scaleX = node.scaleX();
     const newWidth = node.width() * scaleX;
     setTextWidth(newWidth);
+    // The left resize anchor also changes the node position.
+    setPosition(node.position());
     node.setAttrs({
       width: newWidth,
       scaleX: 1,
@@ -308,14 +311,18 @@ const EditableText = () => {
         <Text
           ref={textRef}
           text={text}
-          x={50}
-          y={80}
+          x={position.x}
+          y={position.y}
           fontSize={20}
           draggable
           width={textWidth}
           onDblClick={handleTextDblClick}
           onDblTap={handleTextDblClick}
           onTransform={handleTransform}
+          onDragEnd={(e) => {
+            // Konva moves the node directly, so save its position in state.
+            setPosition(e.target.position());
+          }}
           visible={!isEditing}
         />
         {isEditing && (

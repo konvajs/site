@@ -29,11 +29,15 @@ const App = () => {
     );
   };
   const handleDragEnd = (e) => {
-    setStars(
-      stars.map((star) => {
+    // Konva moves the node directly, so save its final position in state.
+    const id = e.target.id();
+    const position = e.target.position();
+    setStars((currentStars) =>
+      currentStars.map((star) => {
         return {
           ...star,
           isDragging: false,
+          ...(star.id === id ? position : {}),
         };
       })
     );

@@ -137,3 +137,9 @@ const handleStageMouseDown = (e) => {
 };
 </script>
 ```
+
+## Transformer 不会做什么
+
+`Transformer` 绘制控制手柄并应用缩放。对象吸附、对齐参考线、多选共用包围盒和各图形的宽高比规则都需要你自行实现。你可以参考[对象吸附](/docs/sandbox/Objects_Snapping.html)中的方法。
+
+生产环境中的编辑器除了 Transformer，还需要文本编辑、模板和导出功能。如果你不想自行实现这些功能，可以使用 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=vue-transformer)。它是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK，已提供这些功能。

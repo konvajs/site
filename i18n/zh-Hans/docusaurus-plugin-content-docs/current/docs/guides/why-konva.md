@@ -36,6 +36,8 @@ Konva 补充了这些缺失的功能：
 - **数据可视化仪表板** — 图表库无法提供的自定义可视化，包含交互式工具提示和点击跳转功能
 - **表单构建器和配置器** — 拖放布局编辑器和产品配置器（[示例](/docs/sandbox/Window_Frame_Designer.html)）
 
+如果设计编辑器只是产品的一项功能，而不是产品本身，可以使用 [Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=why-konva)。它是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK，提供模板、文本编辑和导出功能。你可以直接集成编辑器，而不必自行构建。[Canvas 编辑器示例](/docs/sandbox/Canvas_Editor.html#自建还是集成)介绍了何时适合自行构建，何时适合集成现成编辑器。
+
 ## Konva 不适合哪些任务
 
 Konva 是一个专用工具，不会尝试完成所有任务：
