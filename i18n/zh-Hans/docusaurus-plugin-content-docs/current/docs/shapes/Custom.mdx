@@ -141,3 +141,240 @@ const shapeConfig = {
 ```
   </TabItem>
 </Tabs> 
+
+## 在 `width` 和 `height` 之外绘制
+
+Konva 根据自定义图形的 `width` 和 `height` 测量其大小。`getClientRect()`、[Transformer](/docs/select_and_transform/Basic_demo.html)、[缓存](/docs/performance/Shape_Caching.html)和[隔离组](/docs/groups_and_layers/Isolated_Groups.html)都会使用这个框。如果 `sceneFunc` 在框外绘制内容，Transformer 的边框就会太小，缓存绘制或隔离绘制也可能裁剪掉这部分内容。
+
+使用 `selfRectFunc`（需要 Konva 10.7.0 或更高版本）返回 `sceneFunc` 绘制的局部、未变换的矩形区域。Konva 会在其基础上加上描边、阴影和变换。设置 `selfRectFunc` 后，[完美绘制](/docs/performance/Disable_Perfect_Draw.html)也会使用与图形一样大的缓冲区，而不是与整个 Canvas 一样大的缓冲区：
+
+```javascript
+const bubble = new Konva.Shape({
+  width: 160,
+  height: 80,
+  sceneFunc: drawBubbleWithTail,
+  // the tail is 30px below the box
+  selfRectFunc: (shape) => ({
+    x: 0,
+    y: 0,
+    width: shape.width(),
+    height: shape.height() + 30,
+  }),
+});
+```
+
+**操作说明：两个气泡都在其 `height` 下方绘制了一个尾巴。左侧气泡没有设置 `selfRectFunc`，因此其 Transformer 边框没有包含尾巴。右侧气泡使用 `selfRectFunc` 声明了尾巴。调整两者的大小进行比较。**
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const TAIL = 30;
+
+// a box of width x height, with a tail below it
+function drawBubble(context, shape) {
+  const width = shape.width();
+  const height = shape.height();
+  context.beginPath();
+  context.moveTo(0, 0);
+  context.lineTo(width, 0);
+  context.lineTo(width, height);
+  context.lineTo(60, height);
+  context.lineTo(25, height + TAIL);
+  context.lineTo(30, height);
+  context.lineTo(0, height);
+  context.closePath();
+  context.fillStrokeShape(shape);
+}
+
+const bubbleConfig = {
+  y: 60,
+  width: 160,
+  height: 80,
+  fill: '#ffd166',
+  stroke: 'black',
+  strokeWidth: 2,
+  sceneFunc: drawBubble,
+};
+
+const plain = new Konva.Shape({ ...bubbleConfig, x: 40 });
+const declared = new Konva.Shape({
+  ...bubbleConfig,
+  x: 280,
+  selfRectFunc: (shape) => ({
+    x: 0,
+    y: 0,
+    width: shape.width(),
+    height: shape.height() + TAIL,
+  }),
+});
+
+layer.add(
+  new Konva.Text({ x: 40, y: 20, text: 'without selfRectFunc', fontSize: 16 }),
+  new Konva.Text({ x: 280, y: 20, text: 'with selfRectFunc', fontSize: 16 }),
+  plain,
+  declared,
+  new Konva.Transformer({ nodes: [plain] }),
+  new Konva.Transformer({ nodes: [declared] })
+);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Shape, Text, Transformer } from 'react-konva';
+import { useEffect, useRef } from 'react';
+
+const TAIL = 30;
+
+// a box of width x height, with a tail below it
+const drawBubble = (context, shape) => {
+  const width = shape.width();
+  const height = shape.height();
+  context.beginPath();
+  context.moveTo(0, 0);
+  context.lineTo(width, 0);
+  context.lineTo(width, height);
+  context.lineTo(60, height);
+  context.lineTo(25, height + TAIL);
+  context.lineTo(30, height);
+  context.lineTo(0, height);
+  context.closePath();
+  context.fillStrokeShape(shape);
+};
+
+const bubbleSelfRect = (shape) => ({
+  x: 0,
+  y: 0,
+  width: shape.width(),
+  height: shape.height() + TAIL,
+});
+
+const bubbleProps = {
+  y: 60,
+  width: 160,
+  height: 80,
+  fill: '#ffd166',
+  stroke: 'black',
+  strokeWidth: 2,
+  sceneFunc: drawBubble,
+};
+
+const App = () => {
+  const plainRef = useRef(null);
+  const declaredRef = useRef(null);
+  const plainTrRef = useRef(null);
+  const declaredTrRef = useRef(null);
+
+  useEffect(() => {
+    plainTrRef.current.nodes([plainRef.current]);
+    declaredTrRef.current.nodes([declaredRef.current]);
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Text x={40} y={20} text="without selfRectFunc" fontSize={16} />
+        <Text x={280} y={20} text="with selfRectFunc" fontSize={16} />
+        <Shape {...bubbleProps} x={40} ref={plainRef} />
+        <Shape
+          {...bubbleProps}
+          x={280}
+          selfRectFunc={bubbleSelfRect}
+          ref={declaredRef}
+        />
+        <Transformer ref={plainTrRef} />
+        <Transformer ref={declaredTrRef} />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-text :config="{ x: 40, y: 20, text: 'without selfRectFunc', fontSize: 16 }" />
+      <v-text :config="{ x: 280, y: 20, text: 'with selfRectFunc', fontSize: 16 }" />
+      <v-shape :config="plainConfig" ref="plainRef" />
+      <v-shape :config="declaredConfig" ref="declaredRef" />
+      <v-transformer ref="plainTrRef" />
+      <v-transformer ref="declaredTrRef" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const TAIL = 30;
+
+// a box of width x height, with a tail below it
+const drawBubble = (context, shape) => {
+  const width = shape.width();
+  const height = shape.height();
+  context.beginPath();
+  context.moveTo(0, 0);
+  context.lineTo(width, 0);
+  context.lineTo(width, height);
+  context.lineTo(60, height);
+  context.lineTo(25, height + TAIL);
+  context.lineTo(30, height);
+  context.lineTo(0, height);
+  context.closePath();
+  context.fillStrokeShape(shape);
+};
+
+const bubbleConfig = {
+  y: 60,
+  width: 160,
+  height: 80,
+  fill: '#ffd166',
+  stroke: 'black',
+  strokeWidth: 2,
+  sceneFunc: drawBubble,
+};
+
+const plainConfig = { ...bubbleConfig, x: 40 };
+const declaredConfig = {
+  ...bubbleConfig,
+  x: 280,
+  selfRectFunc: (shape) => ({
+    x: 0,
+    y: 0,
+    width: shape.width(),
+    height: shape.height() + TAIL,
+  }),
+};
+
+const plainRef = ref(null);
+const declaredRef = ref(null);
+const plainTrRef = ref(null);
+const declaredTrRef = ref(null);
+
+onMounted(() => {
+  plainTrRef.value.getNode().nodes([plainRef.value.getNode()]);
+  declaredTrRef.value.getNode().nodes([declaredRef.value.getNode()]);
+});
+</script>
+```
+  </TabItem>
+</Tabs>

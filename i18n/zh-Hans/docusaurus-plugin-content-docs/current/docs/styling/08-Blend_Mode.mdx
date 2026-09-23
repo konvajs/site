@@ -136,3 +136,20 @@ const rectConfig = {
 ```
   </TabItem>
 </Tabs>
+
+## 在组内混合
+
+图形的混合模式会将其与图层上已绘制的所有内容混合。如果只想让图形彼此混合，请将它们放入设置了 `isolated: true` 的组中（需要 Konva 10.7.0 或更高版本）。然后，组自身的 `globalCompositeOperation` 会将合成结果与其下方的内容混合：
+
+```javascript
+const group = new Konva.Group({
+  isolated: true,
+  // blends the whole group with the layer below it
+  globalCompositeOperation: 'multiply',
+});
+// blends only with the shapes drawn before it in this group
+shape.globalCompositeOperation('xor');
+group.add(background, shape);
+```
+
+请参阅[隔离组](/docs/groups_and_layers/Isolated_Groups.html)中的实时示例。

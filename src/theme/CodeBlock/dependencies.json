@@ -5,7 +5,7 @@
   "@angular/platform-browser": "22.1.7",
   "canvg": "4.0.3",
   "jspdf": "4.2.1",
-  "konva": "10.6.0",
+  "konva": "10.7.0",
   "ng2-konva": "12.1.1",
   "react": "19.3.0",
   "react-dom": "19.3.0",

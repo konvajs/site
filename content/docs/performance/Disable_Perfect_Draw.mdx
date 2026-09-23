@@ -20,7 +20,9 @@ In this case `Konva` is doing these steps:
 3. Apply opacity on layer's canvas
 4. Then draw on layer canvas result from buffer
 
-But using buffer canvas might drop performance. So you can disable such fixing:
+Using a buffer canvas is extra work on every draw. Since Konva 10.7.0, built-in shapes use a buffer only as large as the shape, and Konva frees it when it is no longer used. A [custom shape](/docs/shapes/Custom.html) gets a buffer the size of the whole canvas, unless it describes its painted area with `selfRectFunc`.
+
+If you draw many translucent shapes with fill and stroke, you can disable such fixing:
 
 ```javascript
 shape.perfectDrawEnabled(false);

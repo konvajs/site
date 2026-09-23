@@ -1,0 +1,240 @@
+---
+title: HTML5 Canvas Isolated Groups - Group Opacity and Blend Modes
+sidebar_label: Isolated Groups
+hide_table_of_contents: true
+slug: Isolated_Groups.html
+description: "Use Konva.Group isolated to apply opacity and blend modes to a whole group of shapes at once, and keep child blend modes and erasing inside the group."
+---
+
+By default a `Konva.Group` only organizes its children. When the group is drawn, every child is drawn directly onto the layer canvas:
+
+- The group `opacity` is multiplied into each child, so you can see where the children overlap.
+- A child with a `globalCompositeOperation` such as `multiply` or `destination-out` blends with everything already drawn on the layer, not just with its siblings.
+
+Set `isolated: true` to draw the group as one image. An isolated group draws its children into a separate transparent canvas first. Then it puts the result on the layer in one step, applying its own `opacity` and `globalCompositeOperation` once. This works like `isolation: isolate` in CSS and opacity on an SVG `<g>`.
+
+```javascript
+const group = new Konva.Group({
+  isolated: true,
+  opacity: 0.6,
+});
+```
+
+With isolation:
+
+- **Group opacity applies to the whole image.** Overlapping children don't show through each other.
+- **Group blend modes apply to the whole image.** `group.globalCompositeOperation('multiply')` blends the composed group with the content below it.
+- **Child blend modes stay inside the group.** A child with `destination-out` erases only the group's own content, not the rest of the layer.
+
+Isolation requires Konva 10.7.0 or newer. For the full list of attributes, see the [Konva.Group documentation](/api/Konva.Group.html).
+
+**Instructions: Drag both groups over the striped background. The left group is a regular group: its shapes show through each other, and the black circle with `destination-out` partly erases the stripes too. The right group is isolated: it fades as one image, and the hole shows the stripes behind it.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// stripes, to see what the groups let through
+for (let x = 0; x < stage.width(); x += 40) {
+  layer.add(
+    new Konva.Rect({
+      x: x,
+      width: 20,
+      height: stage.height(),
+      fill: '#8ecae6',
+    })
+  );
+}
+
+function createGroup(x, isolated) {
+  const group = new Konva.Group({
+    x: x,
+    y: 40,
+    opacity: 0.6,
+    isolated: isolated,
+    draggable: true,
+  });
+  group.add(
+    new Konva.Rect({
+      width: 120,
+      height: 120,
+      fill: '#e63946',
+    })
+  );
+  group.add(
+    new Konva.Circle({
+      x: 120,
+      y: 120,
+      radius: 70,
+      fill: '#1d3557',
+    })
+  );
+  // erases everything under it: the whole layer, or only the isolated group
+  group.add(
+    new Konva.Circle({
+      x: 60,
+      y: 60,
+      radius: 30,
+      fill: 'black',
+      globalCompositeOperation: 'destination-out',
+    })
+  );
+  group.add(
+    new Konva.Text({
+      y: 205,
+      text: isolated ? 'isolated: true' : 'default group',
+      fontSize: 18,
+    })
+  );
+  layer.add(group);
+}
+
+createGroup(40, false);
+createGroup(300, true);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Group, Rect, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+const stripes = Array.from({ length: Math.ceil(width / 40) }, (_, i) => i * 40);
+
+const App = () => {
+  const [groups, setGroups] = useState([
+    { id: 'default', x: 40, y: 40, isolated: false },
+    { id: 'isolated', x: 300, y: 40, isolated: true },
+  ]);
+
+  const handleDragEnd = (id, e) => {
+    const { x, y } = e.target.position();
+    setGroups((current) =>
+      current.map((group) => (group.id === id ? { ...group, x, y } : group))
+    );
+  };
+
+  return (
+    <Stage width={width} height={height}>
+      <Layer>
+        {/* stripes, to see what the groups let through */}
+        {stripes.map((x) => (
+          <Rect key={x} x={x} width={20} height={height} fill="#8ecae6" />
+        ))}
+        {groups.map((group) => (
+          <Group
+            key={group.id}
+            x={group.x}
+            y={group.y}
+            opacity={0.6}
+            isolated={group.isolated}
+            draggable
+            onDragEnd={(e) => handleDragEnd(group.id, e)}
+          >
+            <Rect width={120} height={120} fill="#e63946" />
+            <Circle x={120} y={120} radius={70} fill="#1d3557" />
+            {/* erases everything under it: the whole layer, or only the isolated group */}
+            <Circle
+              x={60}
+              y={60}
+              radius={30}
+              fill="black"
+              globalCompositeOperation="destination-out"
+            />
+            <Text
+              y={205}
+              text={group.isolated ? 'isolated: true' : 'default group'}
+              fontSize={18}
+            />
+          </Group>
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <!-- stripes, to see what the groups let through -->
+      <v-rect v-for="x in stripes" :key="x" :config="{ x, ...stripeConfig }" />
+      <v-group
+        v-for="group in groups"
+        :key="group.x"
+        :config="{ ...groupConfig, x: group.x, isolated: group.isolated }"
+      >
+        <v-rect :config="rectConfig" />
+        <v-circle :config="circleConfig" />
+        <!-- erases everything under it: the whole layer, or only the isolated group -->
+        <v-circle :config="holeConfig" />
+        <v-text
+          :config="{
+            ...labelConfig,
+            text: group.isolated ? 'isolated: true' : 'default group',
+          }"
+        />
+      </v-group>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stageConfig = { width, height };
+
+const stripes = Array.from({ length: Math.ceil(width / 40) }, (_, i) => i * 40);
+const stripeConfig = { width: 20, height, fill: '#8ecae6' };
+
+const groups = [
+  { x: 40, isolated: false },
+  { x: 300, isolated: true },
+];
+
+const groupConfig = { y: 40, opacity: 0.6, draggable: true };
+const rectConfig = { width: 120, height: 120, fill: '#e63946' };
+const circleConfig = { x: 120, y: 120, radius: 70, fill: '#1d3557' };
+const holeConfig = {
+  x: 60,
+  y: 60,
+  radius: 30,
+  fill: 'black',
+  globalCompositeOperation: 'destination-out',
+};
+const labelConfig = { y: 205, fontSize: 18 };
+</script>
+```
+  </TabItem>
+</Tabs>
+
+## Isolation or caching?
+
+[`group.cache()`](/docs/performance/Shape_Caching.html) also draws a group as one image, but it takes a snapshot. After you change a child, you have to call `cache()` again. An isolated group stays live: change any child, animate it, or drag it, and the next draw shows the result.
+
+The price is a draw through a buffer canvas every time the layer is drawn. Konva keeps that buffer only as large as the visible part of the group, reuses it between isolated groups, and frees it when it is no longer used. Use isolation for content that changes. Use `cache()` for a complex group that rarely changes, or when you need [filters](/docs/filters/Blur.html).
+
+## Things to know
+
+- Konva sizes the buffer from the group's bounds. If a [custom shape](/docs/shapes/Custom.html) paints outside its `width` and `height`, describe the painted area with `selfRectFunc`, or that paint can be clipped.
+- Isolation changes only how the group looks. Hit detection is unchanged: a shape that is erased by a sibling still receives events.
+- A cached group keeps its snapshot. If you call `cache()` on an isolated group, the snapshot is drawn until you call `clearCache()`.

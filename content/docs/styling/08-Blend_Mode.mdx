@@ -136,3 +136,20 @@ const rectConfig = {
 ```
   </TabItem>
 </Tabs>
+
+## Blending inside a group
+
+A shape's blend mode mixes it with everything already drawn on its layer. To blend shapes only with each other, put them in a group with `isolated: true` (Konva 10.7.0 or newer). The group's own `globalCompositeOperation` then blends the combined result with the content below:
+
+```javascript
+const group = new Konva.Group({
+  isolated: true,
+  // blends the whole group with the layer below it
+  globalCompositeOperation: 'multiply',
+});
+// blends only with the shapes drawn before it in this group
+shape.globalCompositeOperation('xor');
+group.add(background, shape);
+```
+
+See [Isolated Groups](/docs/groups_and_layers/Isolated_Groups.html) for a live demo.

@@ -421,6 +421,24 @@ shape.hitFunc(function(context) {
 });
 ```
 
+### selfRectFunc(selfRectFunc) {#selfRectFunc}
+
+get/set the function that returns the self rectangle of a custom shape: the local, untransformed area its sceneFunc paints, before the stroke and shadow Konva adds. Use it when drawing goes outside the width and height box, so bounds, cache(), isolated groups and perfect drawing include that paint. Paint outside the returned rectangle can be clipped. Meant for custom shapes, and for Text drawn with charRenderFunc; built-in shapes that compute their own bounds may ignore it.
+
+**Parameters:**
+
+- `selfRectFunc` (function): function returning \{x, y, width, height\}
+
+**Returns:** `function` 
+
+**Example:**
+
+```javascript
+shape.selfRectFunc(() => ({ x: -10, y: -10, width: 120, height: 120 }));
+// back to the automatic width and height box
+shape.selfRectFunc(undefined);
+```
+
 ### dash(dash) {#dash}
 
 get/set dash array for stroke.
@@ -908,7 +926,7 @@ shape.dashEnabled(true);
 
 ### strokeScaleEnabled(enabled) {#strokeScaleEnabled}
 
-get/set strokeScale enabled flag
+get/set strokeScale enabled flag. Text and TextPath always scale their stroke.
 
 **Parameters:**
 

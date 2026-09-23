@@ -3,7 +3,7 @@ title: 如何同时为多个图形应用透明度？
 sidebar_label: 透明组
 hide_table_of_contents: true
 slug: Transparent_Group.html
-description: "使用 Konva 组缓存，为一组重叠图形应用统一透明度。"
+description: "使用隔离的 Konva 组，为一组重叠图形应用统一透明度。"
 ---
 
 # 如何同时为多个图形应用透明度？
@@ -16,15 +16,11 @@ description: "使用 Konva 组缓存，为一组重叠图形应用统一透明�
 
 ### 如果不想看到透明图形的重叠区域，该怎么办？
 
-可以修正这种默认行为。只需使用 `group.cache()` 缓存组。缓存组会将其转换为位图，并绘制到外部 Canvas。下次绘制时，`Konva` 会使用生成的 Canvas 绘制整个组，并将不透明度应用到整个图像。
+为组设置 `isolated: true`（需要 Konva 10.7.0 或更高版本）。隔离组会先在单独的 Canvas 上绘制其中的图形（不应用组的不透明度），然后将该图像绘制到图层上，并只应用一次不透明度。组的内容保持实时更新，因此你可以更改、动画化或拖动其中的图形。请参阅[隔离组](/docs/groups_and_layers/Isolated_Groups.html)，了解隔离如何将混合模式限制在组内。
 
-因此，`Konva` 为此类组创建位图缓存时，会忽略组的透明度来绘制内部图形。
+在旧版本中，请改用 `group.cache()` 缓存组。缓存组是一张快照：组内发生任何更改后，都必须再次调用 `cache()`，这项操作开销较大，不适合在动画中或每次 mousemove 时执行。
 
-**请记住，缓存组会受到缓存节点的一些限制。如果进行了内部更改（例如更改图形属性），必须重新缓存该组。此操作开销较大，因此不要频繁执行，例如在动画中或每次 mousemove 时执行。**
-
-在以下示例中，左侧显示默认行为，右侧显示使用缓存组修正后的行为。
-
-尝试拖动两个组，查看透明度应用方式的差异。左侧组显示默认行为，可看到重叠区域。右侧组显示缓存后的行为，整个组被视为一个透明单元。 
+在以下示例中，左侧组使用默认行为，右侧组是隔离组。拖动两个组进行比较：左侧可以看到图形的重叠区域，而右侧组作为一个整体图像变透明。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -74,28 +70,20 @@ layer.add(group1);
 const group2 = group1.clone({ x: 250 });
 layer.add(group2);
 
-// to change opacity behavior we have to cache whole group
-group2.cache();
+// draw the whole group as one image, so opacity applies once
+group2.isolated(true);
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Group, Rect, Circle } from 'react-konva';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
-  const group2Ref = useRef(null);
   const [groups, setGroups] = useState({
     default: { x: 50, y: 50 },
-    cached: { x: 250, y: 50 },
+    isolated: { x: 250, y: 50 },
   });
-
-  useEffect(() => {
-    if (group2Ref.current) {
-      // Cache the second group to change opacity behavior
-      group2Ref.current.cache();
-    }
-  }, []);
 
   const sharedGroupProps = {
     opacity: 0.5,
@@ -109,12 +97,12 @@ const App = () => {
     }));
   };
 
-  const renderGroup = (id, ref = null) => (
+  const renderGroup = (id) => (
     <Group
       {...sharedGroupProps}
       x={groups[id].x}
       y={groups[id].y}
-      ref={ref}
+      isolated={id === 'isolated'}
       onDragEnd={(e) => handleDragEnd(id, e)}
     >
       <Rect width={100} height={100} fill="red" />
@@ -127,8 +115,8 @@ const App = () => {
       <Layer>
         {/* Default group with overlapping shapes */}
         {renderGroup('default')}
-        {/* Cached group with fixed opacity behavior */}
-        {renderGroup('cached', group2Ref)}
+        {/* Isolated group: opacity applies to the whole group */}
+        {renderGroup('isolated')}
       </Layer>
     </Stage>
   );
@@ -147,8 +135,8 @@ export default App;
         <v-rect :config="rectConfig" />
         <v-circle :config="circleConfig" />
       </v-group>
-      <!-- Cached group with fixed opacity behavior -->
-      <v-group ref="group2" :config="{ ...groupConfig, x: 250 }">
+      <!-- Isolated group: opacity applies to the whole group -->
+      <v-group :config="{ ...groupConfig, x: 250, isolated: true }">
         <v-rect :config="rectConfig" />
         <v-circle :config="circleConfig" />
       </v-group>
@@ -157,10 +145,6 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-
-const group2 = ref(null);
-
 const stageConfig = {
   width: window.innerWidth,
   height: 400,
@@ -184,13 +168,6 @@ const circleConfig = {
   radius: 70,
   fill: 'green',
 };
-
-onMounted(() => {
-  if (group2.value) {
-    // Cache the second group to change opacity behavior
-    group2.value.getNode().cache();
-  }
-});
 </script>
 ```
   </TabItem>

@@ -1,0 +1,240 @@
+---
+title: HTML5 Canvas 隔离组：组不透明度与混合模式
+sidebar_label: 隔离组
+hide_table_of_contents: true
+slug: Isolated_Groups.html
+description: "使用 Konva.Group 的 isolated 属性，将不透明度和混合模式一次性应用于整组图形，并将子节点的混合模式和擦除效果限制在组内。"
+---
+
+默认情况下，`Konva.Group` 只负责组织其子节点。绘制组时，每个子节点都会直接绘制到图层 Canvas 上：
+
+- 组的 `opacity` 会乘到每个子节点上，因此你可以看到子节点的重叠区域。
+- 设置了 `globalCompositeOperation`（例如 `multiply` 或 `destination-out`）的子节点，会与图层上已绘制的所有内容混合，而不仅仅是与其兄弟节点混合。
+
+设置 `isolated: true` 可以将组作为一个图像绘制。隔离组会先将子节点绘制到一个单独的透明 Canvas 上，然后一步将结果放到图层上，并只应用一次自身的 `opacity` 和 `globalCompositeOperation`。其效果类似于 CSS 中的 `isolation: isolate` 以及 SVG `<g>` 上的不透明度。
+
+```javascript
+const group = new Konva.Group({
+  isolated: true,
+  opacity: 0.6,
+});
+```
+
+启用隔离后：
+
+- **组的不透明度应用于整个图像。** 重叠的子节点不会互相透出。
+- **组的混合模式应用于整个图像。** `group.globalCompositeOperation('multiply')` 会将合成后的组与其下方的内容混合。
+- **子节点的混合模式限制在组内。** 设置了 `destination-out` 的子节点只会擦除组自身的内容，而不会擦除图层的其余部分。
+
+隔离功能需要 Konva 10.7.0 或更高版本。有关完整的属性列表，请参阅 [Konva.Group 文档](/api/Konva.Group.html)。
+
+**操作说明：将两个组拖到条纹背景上。左侧是普通组：其图形会互相透出，设置了 `destination-out` 的黑色圆形还会部分擦除条纹。右侧是隔离组：它作为一个整体图像变透明，孔洞中显示的是其后面的条纹。**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+// stripes, to see what the groups let through
+for (let x = 0; x < stage.width(); x += 40) {
+  layer.add(
+    new Konva.Rect({
+      x: x,
+      width: 20,
+      height: stage.height(),
+      fill: '#8ecae6',
+    })
+  );
+}
+
+function createGroup(x, isolated) {
+  const group = new Konva.Group({
+    x: x,
+    y: 40,
+    opacity: 0.6,
+    isolated: isolated,
+    draggable: true,
+  });
+  group.add(
+    new Konva.Rect({
+      width: 120,
+      height: 120,
+      fill: '#e63946',
+    })
+  );
+  group.add(
+    new Konva.Circle({
+      x: 120,
+      y: 120,
+      radius: 70,
+      fill: '#1d3557',
+    })
+  );
+  // erases everything under it: the whole layer, or only the isolated group
+  group.add(
+    new Konva.Circle({
+      x: 60,
+      y: 60,
+      radius: 30,
+      fill: 'black',
+      globalCompositeOperation: 'destination-out',
+    })
+  );
+  group.add(
+    new Konva.Text({
+      y: 205,
+      text: isolated ? 'isolated: true' : 'default group',
+      fontSize: 18,
+    })
+  );
+  layer.add(group);
+}
+
+createGroup(40, false);
+createGroup(300, true);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Group, Rect, Circle, Text } from 'react-konva';
+import { useState } from 'react';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+const stripes = Array.from({ length: Math.ceil(width / 40) }, (_, i) => i * 40);
+
+const App = () => {
+  const [groups, setGroups] = useState([
+    { id: 'default', x: 40, y: 40, isolated: false },
+    { id: 'isolated', x: 300, y: 40, isolated: true },
+  ]);
+
+  const handleDragEnd = (id, e) => {
+    const { x, y } = e.target.position();
+    setGroups((current) =>
+      current.map((group) => (group.id === id ? { ...group, x, y } : group))
+    );
+  };
+
+  return (
+    <Stage width={width} height={height}>
+      <Layer>
+        {/* stripes, to see what the groups let through */}
+        {stripes.map((x) => (
+          <Rect key={x} x={x} width={20} height={height} fill="#8ecae6" />
+        ))}
+        {groups.map((group) => (
+          <Group
+            key={group.id}
+            x={group.x}
+            y={group.y}
+            opacity={0.6}
+            isolated={group.isolated}
+            draggable
+            onDragEnd={(e) => handleDragEnd(group.id, e)}
+          >
+            <Rect width={120} height={120} fill="#e63946" />
+            <Circle x={120} y={120} radius={70} fill="#1d3557" />
+            {/* erases everything under it: the whole layer, or only the isolated group */}
+            <Circle
+              x={60}
+              y={60}
+              radius={30}
+              fill="black"
+              globalCompositeOperation="destination-out"
+            />
+            <Text
+              y={205}
+              text={group.isolated ? 'isolated: true' : 'default group'}
+              fontSize={18}
+            />
+          </Group>
+        ))}
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageConfig">
+    <v-layer>
+      <!-- stripes, to see what the groups let through -->
+      <v-rect v-for="x in stripes" :key="x" :config="{ x, ...stripeConfig }" />
+      <v-group
+        v-for="group in groups"
+        :key="group.x"
+        :config="{ ...groupConfig, x: group.x, isolated: group.isolated }"
+      >
+        <v-rect :config="rectConfig" />
+        <v-circle :config="circleConfig" />
+        <!-- erases everything under it: the whole layer, or only the isolated group -->
+        <v-circle :config="holeConfig" />
+        <v-text
+          :config="{
+            ...labelConfig,
+            text: group.isolated ? 'isolated: true' : 'default group',
+          }"
+        />
+      </v-group>
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stageConfig = { width, height };
+
+const stripes = Array.from({ length: Math.ceil(width / 40) }, (_, i) => i * 40);
+const stripeConfig = { width: 20, height, fill: '#8ecae6' };
+
+const groups = [
+  { x: 40, isolated: false },
+  { x: 300, isolated: true },
+];
+
+const groupConfig = { y: 40, opacity: 0.6, draggable: true };
+const rectConfig = { width: 120, height: 120, fill: '#e63946' };
+const circleConfig = { x: 120, y: 120, radius: 70, fill: '#1d3557' };
+const holeConfig = {
+  x: 60,
+  y: 60,
+  radius: 30,
+  fill: 'black',
+  globalCompositeOperation: 'destination-out',
+};
+const labelConfig = { y: 205, fontSize: 18 };
+</script>
+```
+  </TabItem>
+</Tabs>
+
+## 隔离还是缓存？
+
+[`group.cache()`](/docs/performance/Shape_Caching.html) 也会将组作为一个图像绘制，但它生成的是快照。更改子节点后，必须再次调用 `cache()`。隔离组则保持实时更新：更改、动画化或拖动任意子节点，下一次绘制就会显示结果。
+
+代价是每次绘制图层时都要经过一个缓冲 Canvas。Konva 会让该缓冲区只与组的可见部分一样大，在多个隔离组之间复用它，并在不再使用时将其释放。对于会变化的内容，请使用隔离。对于很少变化的复杂组，或者需要使用[滤镜](/docs/filters/Blur.html)时，请使用 `cache()`。
+
+## 注意事项
+
+- Konva 根据组的边界确定缓冲区的大小。如果[自定义图形](/docs/shapes/Custom.html)在其 `width` 和 `height` 之外绘制内容，请使用 `selfRectFunc` 描述绘制区域，否则这部分内容可能会被裁剪。
+- 隔离只改变组的外观。命中检测保持不变：被兄弟节点擦除的图形仍然会接收事件。
+- 缓存组会保留其快照。如果对隔离组调用 `cache()`，在调用 `clearCache()` 之前，将一直绘制该快照。

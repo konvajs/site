@@ -3,7 +3,7 @@ title: How to apply transparency for several shapes at once?
 sidebar_label: Transparent Group
 hide_table_of_contents: true
 slug: Transparent_Group.html
-description: "Apply uniform transparency to a group of overlapping shapes using Konva group caching."
+description: "Apply uniform transparency to a group of overlapping shapes with an isolated Konva group."
 ---
 
 # How to apply transparency for several shapes at once?
@@ -16,15 +16,11 @@ That means if you have a group with several shapes inside and that group has `gr
 
 ### What if we don't want to see overlapping areas of transparent shapes?
 
-There is a way to fix such default behavior. You just need to cache the group with `group.cache()`. Caching the group will convert it into a bitmap and draw it into an external canvas. On the next draw call, `Konva` will use that resulted canvas to draw the whole group with opacity applied to the whole image.
+Set `isolated: true` on the group (Konva 10.7.0 or newer). An isolated group draws its shapes into a separate canvas without the group opacity, then draws that image onto the layer with the opacity applied once. Its content stays live, so you can change, animate or drag the shapes inside it. See [Isolated Groups](/docs/groups_and_layers/Isolated_Groups.html) for how isolation also keeps blend modes inside the group.
 
-So while `Konva` is making a bitmap cache for such group, it will draw internal shapes ignoring transparency of the group.
+In older versions, cache the group with `group.cache()` instead. A cached group is a snapshot: after any change inside it, you have to call `cache()` again, which is too expensive to do in animations or on every mousemove.
 
-**Remember that if a group is cached, it has some limitations of cached nodes. If you are doing any internal changes (like changing shapes attributes), you have to recache the group. This is an expensive operation, so it is not recommended to do it frequently like inside animations or on every mousemove.**
-
-In the demo below, on the left you see the default behavior, on the right you see the fixed behavior with a cached group.
-
-Try dragging both groups to see the difference in how transparency is applied. The left group shows the default behavior with visible overlapping areas, while the right group shows the cached behavior where the entire group is treated as a single transparent unit. 
+In the demo below, the left group has the default behavior and the right group is isolated. Drag both groups to compare them: on the left you can see where the shapes overlap, while the right group fades as one image.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -74,28 +70,20 @@ layer.add(group1);
 const group2 = group1.clone({ x: 250 });
 layer.add(group2);
 
-// to change opacity behavior we have to cache whole group
-group2.cache();
+// draw the whole group as one image, so opacity applies once
+group2.isolated(true);
 ```
   </TabItem>
   <TabItem value="React">
 ```js live react
 import { Stage, Layer, Group, Rect, Circle } from 'react-konva';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
-  const group2Ref = useRef(null);
   const [groups, setGroups] = useState({
     default: { x: 50, y: 50 },
-    cached: { x: 250, y: 50 },
+    isolated: { x: 250, y: 50 },
   });
-
-  useEffect(() => {
-    if (group2Ref.current) {
-      // Cache the second group to change opacity behavior
-      group2Ref.current.cache();
-    }
-  }, []);
 
   const sharedGroupProps = {
     opacity: 0.5,
@@ -109,12 +97,12 @@ const App = () => {
     }));
   };
 
-  const renderGroup = (id, ref = null) => (
+  const renderGroup = (id) => (
     <Group
       {...sharedGroupProps}
       x={groups[id].x}
       y={groups[id].y}
-      ref={ref}
+      isolated={id === 'isolated'}
       onDragEnd={(e) => handleDragEnd(id, e)}
     >
       <Rect width={100} height={100} fill="red" />
@@ -127,8 +115,8 @@ const App = () => {
       <Layer>
         {/* Default group with overlapping shapes */}
         {renderGroup('default')}
-        {/* Cached group with fixed opacity behavior */}
-        {renderGroup('cached', group2Ref)}
+        {/* Isolated group: opacity applies to the whole group */}
+        {renderGroup('isolated')}
       </Layer>
     </Stage>
   );
@@ -147,8 +135,8 @@ export default App;
         <v-rect :config="rectConfig" />
         <v-circle :config="circleConfig" />
       </v-group>
-      <!-- Cached group with fixed opacity behavior -->
-      <v-group ref="group2" :config="{ ...groupConfig, x: 250 }">
+      <!-- Isolated group: opacity applies to the whole group -->
+      <v-group :config="{ ...groupConfig, x: 250, isolated: true }">
         <v-rect :config="rectConfig" />
         <v-circle :config="circleConfig" />
       </v-group>
@@ -157,10 +145,6 @@ export default App;
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-
-const group2 = ref(null);
-
 const stageConfig = {
   width: window.innerWidth,
   height: 400,
@@ -184,13 +168,6 @@ const circleConfig = {
   radius: 70,
   fill: 'green',
 };
-
-onMounted(() => {
-  if (group2.value) {
-    // Cache the second group to change opacity behavior
-    group2.value.getNode().cache();
-  }
-});
 </script>
 ```
   </TabItem>

@@ -33,6 +33,7 @@ After caching, instead of redrawing the shape every time it needs to be displaye
 2. Every cached node creates several canvas buffers. So don't overuse it, as it will consume a lot of memory.
 3. It is better to cache groups of shapes, then to cache each shape individually.
 4. Remember to always measure performance with and without caching to see the actual difference.
+5. You don't need caching to apply opacity or a blend mode to a whole group. An [isolated group](/docs/groups_and_layers/Isolated_Groups.html) does that and stays live, so you don't have to recache it after changes.
 
 
 Below is a demo showing the performance difference between cached and non-cached complex shapes:

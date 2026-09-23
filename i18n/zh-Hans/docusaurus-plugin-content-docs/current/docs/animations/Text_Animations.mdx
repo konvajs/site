@@ -39,6 +39,24 @@ var text = new Konva.Text({
 
 你可以根据各个字符的位置和属性，为它们应用变换、不透明度变化或其他效果。
 
+如果你的效果会将字符移出文本框，请使用 `selfRectFunc`（需要 Konva 10.7.0 或更高版本）描述字符可能到达的区域。这样，缓存、[隔离组](/docs/groups_and_layers/Isolated_Groups.html)和 Transformer 都会包含这些字符：
+
+```javascript
+const text = new Konva.Text({
+  text: 'Bouncing text',
+  // characters jump up to 20px above the text box
+  selfRectFunc: (shape) => ({
+    x: 0,
+    y: -20,
+    width: shape.width(),
+    height: shape.height() + 20,
+  }),
+  charRenderFunc: ({ context, index }) => {
+    context.translate(0, -Math.abs(Math.sin(index)) * 20);
+  },
+});
+```
+
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 

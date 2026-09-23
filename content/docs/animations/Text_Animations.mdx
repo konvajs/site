@@ -39,6 +39,24 @@ The `charRenderFunc` receives a context object with the following parameters:
 
 This allows you to apply transformations, opacity changes, or other effects to individual characters based on their position and properties.
 
+If your effect moves characters outside the text box, describe the area they can reach with `selfRectFunc` (Konva 10.7.0 or newer). Caching, [isolated groups](/docs/groups_and_layers/Isolated_Groups.html) and the Transformer then include those characters:
+
+```javascript
+const text = new Konva.Text({
+  text: 'Bouncing text',
+  // characters jump up to 20px above the text box
+  selfRectFunc: (shape) => ({
+    x: 0,
+    y: -20,
+    width: shape.width(),
+    height: shape.height() + 20,
+  }),
+  charRenderFunc: ({ context, index }) => {
+    context.translate(0, -Math.abs(Math.sin(index)) * 20);
+  },
+});
+```
+
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 

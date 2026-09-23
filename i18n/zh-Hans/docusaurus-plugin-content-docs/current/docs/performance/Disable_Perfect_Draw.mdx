@@ -20,7 +20,9 @@ description: "禁用 perfectDrawEnabled 以跳过具有不透明度的图形的�
 3. 在图层的 Canvas 上应用不透明度
 4. 将缓冲区中的结果绘制到图层 Canvas 上
 
-但使用缓冲 Canvas 可能降低性能。因此，可以禁用此修正：
+使用缓冲 Canvas 会让每次绘制都增加额外的工作。从 Konva 10.7.0 开始，内置图形使用的缓冲区只与图形本身一样大，并且 Konva 会在不再使用时将其释放。[自定义图形](/docs/shapes/Custom.html)会使用与整个 Canvas 一样大的缓冲区，除非它通过 `selfRectFunc` 描述了自己的绘制区域。
+
+如果要绘制大量带有填充和描边的半透明图形，可以禁用此修正：
 
 ```javascript
 shape.perfectDrawEnabled(false);

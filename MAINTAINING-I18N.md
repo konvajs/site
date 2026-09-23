@@ -8,14 +8,14 @@ delete that directory. The locale menu, localized build, localized sitemap, and
 locale checks then disappear automatically. `npm run check` still validates the
 complete English site.
 
-Status verified 2026-08-20.
+Status verified 2026-09-23.
 
 | | Count |
 | --- | --- |
-| English pages under `content/` (excluding the API) | 276 |
-| Translated into zh-Hans | 276 |
+| English pages under `content/` (excluding the API) | 277 |
+| Translated into zh-Hans | 277 |
 | Pages left untranslated on purpose (`content/api/`) | 34 |
-| Pages in the Chinese sitemap | 280 |
+| Pages in the Chinese sitemap | 281 |
 
 ---
 
