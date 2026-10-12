@@ -141,7 +141,7 @@ function EditableShape({ shape, selected, onSelect, onCommit }) {
       {selected && (
         <Transformer
           ref={transformerRef}
-          rotateAnchorOffset={26}
+          rotateMode="corners"
           anchorStroke="#2563eb"
           borderStroke="#2563eb"
           anchorSize={9}

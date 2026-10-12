@@ -12,6 +12,8 @@ description: "使用 Konva Transformer 的 rotationSnaps，将图形旋转吸附
 
 例如，如果吸附点为 45 度，用户无法将旋转角度设置为 43 度。它会舍入到 45 度。但是，用户仍可以将旋转角度设置为 35 度，因为该角度离 45 度太远，所以不会吸附。
 
+从 Konva 10.8.0 开始，用户还可以在旋转时按住 `Shift`，将旋转角度吸附到 15 度的倍数。此功能不需要 `rotationSnaps`。在 transformer 上设置 `shiftBehavior: 'none'` 可禁用此功能。如需像设计工具那样从角落旋转图形，请参阅[从角落旋转](/docs/select_and_transform/Rotate_Mode.html)。
+
 **操作说明：尝试旋转图形。观察 0、90、180 和 270 度处的吸附效果。**
 
 import Tabs from "@theme/Tabs";

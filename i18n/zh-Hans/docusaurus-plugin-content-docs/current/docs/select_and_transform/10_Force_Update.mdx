@@ -3,13 +3,15 @@ title: HTML5 Canvas 强制更新教程
 sidebar_label: 强制更新
 hide_table_of_contents: true
 slug: Force_Update.html
-description: "当 Konva Transformer 无法自动检测组内的深层更改时，使用 forceUpdate 手动刷新它。"
+description: "在未设置任何属性的更改（例如原地修改 Line 的 points 数组）之后，使用 forceUpdate 手动刷新 Konva Transformer。"
 ---
 
 `Konva.Transformer` 会自动跟踪已附加节点的属性。
 因此，它会自动调整自身的属性。
 
-但在某些情况下，`Konva.Transformer` 无法执行此操作。目前，`Konva.Transformer` 无法跟踪 `Konva.Group` 节点内部的深层更改。在这种情况下，需要使用 `forceUpdate` 方法重置变换工具。
+从 Konva 10.7.1 开始，Transformer 也会跟踪已附加的 `Konva.Group` 内部的更改：子节点的尺寸变化，以及子节点的添加或移除。在旧版本中，这些更改需要调用 `forceUpdate`，下面的演示就是这样做的。
+
+但是，`Konva.Transformer` 无法检测未设置任何属性的更改。例如，原地修改 `Konva.Line` 的 points 数组，或者依赖外部状态的自定义 `getSelfRect()`。在此类更改之后，请调用 `forceUpdate` 方法重置变换工具。
 
 **操作说明：单击按钮。观察 Transformer 的变化。**
 

@@ -1,0 +1,143 @@
+---
+title: HTML5 Canvas Rotate Shapes from Corners
+sidebar_label: Rotate from Corners
+hide_table_of_contents: true
+slug: Rotate_Mode.html
+description: "Rotate shapes from invisible zones outside the corners of Konva Transformer, as in design tools, with rotateMode. Hold Shift to snap rotation to 15 degree steps."
+---
+
+By default, `Konva.Transformer` rotates shapes with a rotate anchor on a short line above the box. Use `rotateMode` to select a different way to rotate:
+
+- `'handle'` (default) shows the rotate anchor.
+- `'corners'` hides the rotate anchor. Invisible zones just outside the box corners rotate the shape, as in most design tools. Over a zone, the cursor changes to a curved arrow that points in the direction of that corner.
+- `'both'` enables the rotate anchor and the corner zones.
+
+The resize anchors stay on top of the zones. Thus a drag on a corner anchor resizes the shape, and a drag just outside it rotates the shape. The zone size is two times `anchorSize`.
+
+In all modes, hold `Shift` while you rotate to snap the rotation to 15 degree steps. Set `shiftBehavior: 'none'` to disable this.
+
+While a corner zone rotates the shape, `transformer.getActiveAnchor()` returns the name of the zone, for example `'rotater-top-left'`. The rotate anchor is `'rotater'`.
+
+**Instructions: Move the pointer just outside a corner of the box, then drag to rotate the shape. Hold Shift to snap the rotation.**
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs>
+  <TabItem value="Vanilla" default>
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const rect = new Konva.Rect({
+  x: 80,
+  y: 80,
+  width: 160,
+  height: 90,
+  fill: '#7dd3fc',
+  stroke: 'black',
+  draggable: true,
+});
+layer.add(rect);
+
+const tr = new Konva.Transformer({
+  nodes: [rect],
+  rotateMode: 'corners',
+});
+layer.add(tr);
+```
+  </TabItem>
+  <TabItem value="React">
+```js live react
+import { Stage, Layer, Rect, Transformer } from 'react-konva';
+import { useRef, useEffect, useState } from 'react';
+
+const App = () => {
+  const [rectPosition, setRectPosition] = useState({ x: 80, y: 80 });
+  const rectRef = useRef();
+  const trRef = useRef();
+
+  useEffect(() => {
+    trRef.current.nodes([rectRef.current]);
+  }, []);
+
+  return (
+    <Stage width={window.innerWidth} height={window.innerHeight}>
+      <Layer>
+        <Rect
+          x={rectPosition.x}
+          y={rectPosition.y}
+          width={160}
+          height={90}
+          fill="#7dd3fc"
+          stroke="black"
+          draggable
+          ref={rectRef}
+          onDragEnd={(e) => setRectPosition(e.target.position())}
+          onTransformEnd={(e) => setRectPosition(e.target.position())}
+        />
+        <Transformer ref={trRef} rotateMode="corners" />
+      </Layer>
+    </Stage>
+  );
+};
+
+export default App;
+```
+  </TabItem>
+  <TabItem value="Vue">
+```js live vue
+<template>
+  <v-stage :config="stageSize">
+    <v-layer>
+      <v-rect :config="rectConfig" ref="rectRef" />
+      <v-transformer :config="transformerConfig" ref="transformerRef" />
+    </v-layer>
+  </v-stage>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const stageSize = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+const rectConfig = {
+  x: 80,
+  y: 80,
+  width: 160,
+  height: 90,
+  fill: '#7dd3fc',
+  stroke: 'black',
+  draggable: true,
+};
+
+const transformerConfig = {
+  rotateMode: 'corners',
+};
+
+const rectRef = ref(null);
+const transformerRef = ref(null);
+
+onMounted(() => {
+  transformerRef.value.getNode().nodes([rectRef.value.getNode()]);
+});
+</script>
+```
+  </TabItem>
+</Tabs>
+
+See also [Rotation Snaps](/docs/select_and_transform/Rotation_Snaps.html) to snap the rotation near specific angles.

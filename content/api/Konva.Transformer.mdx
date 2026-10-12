@@ -27,6 +27,7 @@ Transformer constructor.  Transformer is a special type of group that allow you 
 | rotateAnchorOffset (optional) | `Number` | Default is 50 |
 | rotateAnchorAngle (optional) | `Number` | Angle of the rotate anchor around the box, in degrees. Default is 0 (top) |
 | rotateAnchorCursor (optional) | `String` | Default is crosshair |
+| rotateMode (optional) | `String` | How the user rotates: 'handle' (the rotate anchor), 'corners' (invisible zones just outside the corners) or 'both'. Default is 'handle' |
 | padding (optional) | `Number` | Default is 0 |
 | borderEnabled (optional) | `Boolean` | Should we draw border? Default is true |
 | borderStroke (optional) | `String` | Border stroke color |
@@ -38,7 +39,7 @@ Transformer constructor.  Transformer is a special type of group that allow you 
 | anchorStrokeWidth (optional) | `Number` | Anchor stroke size |
 | anchorSize (optional) | `Number` | Default is 10 |
 | keepRatio (optional) | `Boolean` | Should we keep ratio when we are moving edges? Default is true |
-| shiftBehavior (optional) | `String` | How does transformer react on shift key press when we are moving edges? Default is 'default' |
+| shiftBehavior (optional) | `String` | How does transformer react on shift key press when we are moving edges? 'none' also turns off the Shift rotation snap. Default is 'default' |
 | centeredScaling (optional) | `Boolean` | Should we resize relative to node's center? Default is false |
 | enabledAnchors (optional) | `Array` | Array of names of enabled handles |
 | flipEnabled (optional) | `Boolean` | Can we flip/mirror shape on transform?. True by default |
@@ -109,7 +110,7 @@ tr.on('transformstart', function() {
 
 ### forceUpdate() {#forceUpdate}
 
-force update of Konva.Transformer. Use it when you updated attached Konva.Group and now you need to reset transformer size
+force update of Konva.Transformer. The transformer follows attribute changes of attached nodes and, for an attached group, any change of its descendants. Use it after a change that sets no attribute, for example a `Line` points array mutated in place or a custom `getSelfRect()` that depends on outside state.
 
 ### isTransforming() {#isTransforming}
 
@@ -324,6 +325,26 @@ var currentRotationAnchorCursor = transformer.rotateAnchorCursor();
 
 // set
 transformer.rotateAnchorCursor('grab');
+```
+
+### rotateMode(mode) {#rotateMode}
+
+get/set how the user rotates the nodes. 'handle' shows the rotate anchor, 'corners' makes invisible zones just outside the box corners rotate, 'both' enables both. Hold Shift while rotating to snap to 15 degree steps, unless shiftBehavior is 'none'. While a corner zone rotates, `getActiveAnchor()` returns its name, such as 'rotater-top-left'.
+
+**Parameters:**
+
+- `mode` (String)
+
+**Returns:** `String` 
+
+**Example:**
+
+```javascript
+// get
+var rotateMode = transformer.rotateMode();
+
+// set
+transformer.rotateMode('corners');
 ```
 
 ### rotationSnapTolerance(tolerance) {#rotationSnapTolerance}

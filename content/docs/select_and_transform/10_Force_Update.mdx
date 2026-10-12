@@ -3,13 +3,15 @@ title: HTML5 Canvas Force Update Tutorial
 sidebar_label: Force Update
 hide_table_of_contents: true
 slug: Force_Update.html
-description: "Manually refresh Konva Transformer with forceUpdate when it cannot automatically detect deep changes in groups."
+description: "Manually refresh Konva Transformer with forceUpdate after a change that sets no attribute, such as Line points mutated in place."
 ---
 
 `Konva.Transformer` automatically tracks properties of attached nodes.
 So it will adopt its own properties automatically.
 
-But in some cases `Konva.Transformer` can't do this. Currently `Konva.Transformer` can not track deep changes inside `Konva.Group` node. In this case you will need to use `forceUpdate` method to reset transforming tools.
+Since Konva 10.7.1, the transformer also follows changes inside an attached `Konva.Group`: a child that changes size, or a child that is added or removed. In older versions, you had to call `forceUpdate` for these changes, as the demo below does.
+
+But `Konva.Transformer` can not detect a change that sets no attribute. For example, a `Konva.Line` points array that you mutate in place, or a custom `getSelfRect()` that depends on outside state. After such a change, call the `forceUpdate` method to reset the transforming tools.
 
 **Instructions: Click the button. See how transformer is changed.**
 
