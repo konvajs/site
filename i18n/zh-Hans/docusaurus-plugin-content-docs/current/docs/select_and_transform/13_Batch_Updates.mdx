@@ -1,0 +1,107 @@
+---
+title: HTML5 Canvas 批量更新选中图形
+sidebar_label: 批量更新
+hide_table_of_contents: true
+slug: Batch_Updates.html
+description: "使用 Konva.beginUpdateBatch 在一个批次中修改附加到 Konva Transformer 的大量图形，让 Transformer 只更新一次，而不是每次更改都更新。"
+---
+
+`Konva.Transformer` 会跟踪已附加节点的每一次更改。每次更改之后，它都会重新测量所有已附加的节点来计算新的边界。只选中一个图形时，这很便宜。选中数百个图形时，逐个修改它们的循环会让每次更改都触发一次 Transformer 更新，而每次更新都要测量整个选区。撤销、对齐工具或者微移选区，都会付出这种平方级的代价。
+
+从 Konva 10.9.0 开始，可以用 `Konva.beginUpdateBatch()` 包裹这样的循环。它返回一个结束批次的函数。等待中的 Transformer 更新会在调用该函数时只执行一次：
+
+```js
+const finish = Konva.beginUpdateBatch();
+try {
+  selectedNodes.forEach((node) => node.setAttrs({ x: node.x() + 10 }));
+} finally {
+  finish();
+}
+```
+
+在批次内部：
+
+- 属性和 change 事件保持同步。`widthChange` 监听器能看到新的宽度。
+- Transformer 自身的 `x()`、`y()`、`width()`、`height()` 和 `getClientRect()` 在读取时计算，因此总是最新的。
+- Transformer 的锚点会在批次结束时布局，或者在有东西绘制或测量它们时提前布局。需要锚点的 change 监听器可以调用 `transformer.update()`。
+
+有些调用会自行开启批次，因此一次调用只触发一次 Transformer 更新：`setAttrs()`、`position()`、`destroyChildren()`、`removeChildren()`，以及每一帧 `Konva.Animation`，也就是每一步 `Konva.Tween`。显式的 `transformer.update()` 和 `forceUpdate()` 仍然是同步的。
+
+批次可以嵌套。请始终在 `finally` 块中调用返回的函数，并且不要让批次跨越 `await` 或动画帧保持打开。
+
+销毁已附加的节点不需要批次。从 10.9.0 开始，Transformer 会直接丢弃被销毁的节点，而不会触碰其他已附加的节点。
+
+**操作说明：单击按钮。两个按钮都会移动并旋转每一个选中的矩形。比较两者各自花费的时间。**
+
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const columns = Math.max(1, Math.floor((width - 40) / 24));
+const rects = [];
+for (let i = 0; i < 600; i++) {
+  const rect = new Konva.Rect({
+    x: 20 + (i % columns) * 24,
+    y: 60 + Math.floor(i / columns) * 24,
+    width: 16,
+    height: 16,
+    fill: '#7dd3fc',
+    stroke: 'black',
+    strokeWidth: 1,
+  });
+  rects.push(rect);
+}
+layer.add(...rects);
+
+const tr = new Konva.Transformer({ nodes: rects });
+layer.add(tr);
+
+function nudge() {
+  rects.forEach((rect) =>
+    rect.setAttrs({
+      x: rect.x() + 2,
+      rotation: rect.rotation() + 5,
+    })
+  );
+}
+
+const result = document.createElement('div');
+document.body.appendChild(result);
+
+function run(label, work) {
+  const start = performance.now();
+  work();
+  const ms = performance.now() - start;
+  result.textContent = `${label}: ${ms.toFixed(1)} ms for ${rects.length} shapes`;
+}
+
+const plain = document.createElement('button');
+plain.innerHTML = 'Nudge all, one update per change';
+document.body.appendChild(plain);
+plain.addEventListener('click', () => run('No batch', nudge));
+
+const batched = document.createElement('button');
+batched.innerHTML = 'Nudge all in one batch';
+document.body.appendChild(batched);
+batched.addEventListener('click', () =>
+  run('Batch', () => {
+    const finish = Konva.beginUpdateBatch();
+    try {
+      nudge();
+    } finally {
+      finish();
+    }
+  })
+);
+```

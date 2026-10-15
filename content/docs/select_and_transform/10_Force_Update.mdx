@@ -11,6 +11,8 @@ So it will adopt its own properties automatically.
 
 Since Konva 10.7.1, the transformer also follows changes inside an attached `Konva.Group`: a child that changes size, or a child that is added or removed. In older versions, you had to call `forceUpdate` for these changes, as the demo below does.
 
+When you change many attached nodes in one go, see [Batch Updates](/docs/select_and_transform/Batch_Updates.html) to pay for one transformer update instead of one per change.
+
 But `Konva.Transformer` can not detect a change that sets no attribute. For example, a `Konva.Line` points array that you mutate in place, or a custom `getSelfRect()` that depends on outside state. After such a change, call the `forceUpdate` method to reset the transforming tools.
 
 **Instructions: Click the button. See how transformer is changed.**

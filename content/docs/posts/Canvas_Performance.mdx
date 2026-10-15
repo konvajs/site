@@ -20,6 +20,7 @@ memory use, and interaction delay for the real scene.
 - Cache a complex, stable node after measurement shows a rendering benefit.
 - Reduce shadows, filters, and large transparent areas when they dominate frame time.
 - Draw only after a data change. Konva batches layer draws automatically.
+- Wrap a loop that changes many selected nodes in `Konva.beginUpdateBatch()`, so an attached `Konva.Transformer` updates once. See [Batch Updates](/docs/select_and_transform/Batch_Updates.html).
 
 Do not cache every node. Each cache uses memory and creates extra work when its
 content changes.

@@ -1,0 +1,107 @@
+---
+title: HTML5 Canvas Batch Updates of Selected Shapes
+sidebar_label: Batch Updates
+hide_table_of_contents: true
+slug: Batch_Updates.html
+description: "Change many shapes attached to a Konva Transformer in one batch with Konva.beginUpdateBatch, so the transformer updates once instead of once per change."
+---
+
+`Konva.Transformer` follows every change of its attached nodes. After each change it measures all attached nodes again to find the new bounds. With one selected shape that is cheap. With hundreds of selected shapes, a loop that changes every one of them costs one transformer update per change, and every update measures the whole selection. An undo, an alignment tool, or a nudge of the selection pays for that square.
+
+Since Konva 10.9.0, wrap such a loop in `Konva.beginUpdateBatch()`. It returns a function that finishes the batch. Pending transformer updates run once, when that function is called:
+
+```js
+const finish = Konva.beginUpdateBatch();
+try {
+  selectedNodes.forEach((node) => node.setAttrs({ x: node.x() + 10 }));
+} finally {
+  finish();
+}
+```
+
+Inside a batch:
+
+- Attributes and change events stay synchronous. A `widthChange` listener sees the new width.
+- The transformer's own `x()`, `y()`, `width()`, `height()` and `getClientRect()` are computed on read, so they are current.
+- The transformer's anchors are laid out when the batch finishes, or earlier if something draws or measures them. A change listener that needs the anchors can call `transformer.update()`.
+
+Some calls open a batch on their own, so one call costs one transformer update: `setAttrs()`, `position()`, `destroyChildren()`, `removeChildren()`, and every `Konva.Animation` frame, so every `Konva.Tween` step. Explicit `transformer.update()` and `forceUpdate()` stay synchronous.
+
+Batches nest. Always call the returned function in a `finally` block, and do not keep a batch open across an `await` or an animation frame.
+
+Destroying attached nodes needs no batch. Since 10.9.0, the transformer drops a destroyed node without touching the other attached nodes.
+
+**Instructions: Click a button. Both move and rotate every selected rectangle. Compare the time each one takes.**
+
+```js live vanilla
+import Konva from 'konva';
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const stage = new Konva.Stage({
+  container: 'container',
+  width: width,
+  height: height,
+});
+
+const layer = new Konva.Layer();
+stage.add(layer);
+
+const columns = Math.max(1, Math.floor((width - 40) / 24));
+const rects = [];
+for (let i = 0; i < 600; i++) {
+  const rect = new Konva.Rect({
+    x: 20 + (i % columns) * 24,
+    y: 60 + Math.floor(i / columns) * 24,
+    width: 16,
+    height: 16,
+    fill: '#7dd3fc',
+    stroke: 'black',
+    strokeWidth: 1,
+  });
+  rects.push(rect);
+}
+layer.add(...rects);
+
+const tr = new Konva.Transformer({ nodes: rects });
+layer.add(tr);
+
+function nudge() {
+  rects.forEach((rect) =>
+    rect.setAttrs({
+      x: rect.x() + 2,
+      rotation: rect.rotation() + 5,
+    })
+  );
+}
+
+const result = document.createElement('div');
+document.body.appendChild(result);
+
+function run(label, work) {
+  const start = performance.now();
+  work();
+  const ms = performance.now() - start;
+  result.textContent = `${label}: ${ms.toFixed(1)} ms for ${rects.length} shapes`;
+}
+
+const plain = document.createElement('button');
+plain.innerHTML = 'Nudge all, one update per change';
+document.body.appendChild(plain);
+plain.addEventListener('click', () => run('No batch', nudge));
+
+const batched = document.createElement('button');
+batched.innerHTML = 'Nudge all in one batch';
+document.body.appendChild(batched);
+batched.addEventListener('click', () =>
+  run('Batch', () => {
+    const finish = Konva.beginUpdateBatch();
+    try {
+      nudge();
+    } finally {
+      finish();
+    }
+  })
+);
+```

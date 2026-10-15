@@ -11,6 +11,8 @@ description: "在未设置任何属性的更改（例如原地修改 Line 的 po
 
 从 Konva 10.7.1 开始，Transformer 也会跟踪已附加的 `Konva.Group` 内部的更改：子节点的尺寸变化，以及子节点的添加或移除。在旧版本中，这些更改需要调用 `forceUpdate`，下面的演示就是这样做的。
 
+如果要一次修改许多已附加的节点，请参见[批量更新](/docs/select_and_transform/Batch_Updates.html)，这样只需支付一次 Transformer 更新的代价，而不是每次更改都更新一次。
+
 但是，`Konva.Transformer` 无法检测未设置任何属性的更改。例如，原地修改 `Konva.Line` 的 points 数组，或者依赖外部状态的自定义 `getSelfRect()`。在此类更改之后，请调用 `forceUpdate` 方法重置变换工具。
 
 **操作说明：单击按钮。观察 Transformer 的变化。**
