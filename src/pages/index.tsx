@@ -227,6 +227,13 @@ export const konvaUsers = [
     url: "https://moddy.io/moddy-2d/",
     small: true,
   },
+  {
+    name: "Knovum",
+    description: <Translate id="homepage.showcase.knovum">Local-first desktop AI workspace on an infinite 2D canvas</Translate>,
+    image: "/assets/users/knovum.jpg",
+    url: "https://github.com/madebyzan/knovum",
+    small: true,
+  },
 ];
 
 function AnimatedSubtitle() {
