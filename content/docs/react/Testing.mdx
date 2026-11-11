@@ -118,9 +118,9 @@ stage container. It attaches them to `window` when a drag begins, so the drag
 survives the pointer leaving the canvas. A synthetic drag has to follow that:
 
 ```js
-const container = stage.container();
+const content = stage.container().querySelector('.konvajs-content');
 
-container.dispatchEvent(new MouseEvent('mousedown', { clientX: 20, clientY: 20, bubbles: true }));
+content.dispatchEvent(new MouseEvent('mousedown', { clientX: 20, clientY: 20, bubbles: true }));
 window.dispatchEvent(new MouseEvent('mousemove', { clientX: 90, clientY: 60, bubbles: true }));
 window.dispatchEvent(new MouseEvent('mouseup',   { clientX: 90, clientY: 60, bubbles: true }));
 ```
