@@ -3,16 +3,19 @@ title: Canvas to PDF — Export HTML5 Canvas as PDF with JavaScript
 sidebar_label: Canvas to PDF
 hide_table_of_contents: true
 slug: Canvas_to_PDF.html
-description: "Export HTML5 Canvas to PDF with JavaScript using Konva.js and jsPDF. Save canvas drawings as high-quality PDF files with selectable text. Full working demo and source code."
+description: "Export HTML5 Canvas to PDF with JavaScript using Konva.js and jsPDF. The canvas goes into the PDF as an image. Full working demo, and where to go for vector or print-ready PDF."
 ---
 
-Export any HTML5 Canvas content to a PDF document using JavaScript. This demo shows how to convert a Konva stage into a downloadable PDF file using [jsPDF](https://parall.ax/products/jspdf), with support for high-quality rendering and selectable text.
+Konva draws to a `<canvas>` element, so what it exports is pixels. There are two ways to a PDF, so decide first which one you need:
 
-The approach works in four steps: generate your canvas content, export the canvas as an image, insert that image into a PDF document, and save. Two tips to get the best results:
+- **The raster way: a PDF to view, share, or print on an office printer.** Put an image of the stage into a PDF file with [jsPDF](https://parall.ax/products/jspdf). This demo shows how.
+- **The vector way: a PDF with selectable text, or a print-ready file** (text and shapes as real PDF objects, CMYK, bleed, crop marks, PDF/X for a print shop). Konva cannot produce one, and an image inside a PDF does not become one. [Polotno PDF export](https://polotno.com/docs/pdf-export?utm_source=konvajs&utm_medium=docs&utm_content=canvas-to-pdf) writes vector PDF with PDF/X-4, PDF/X-1a, CMYK, and bleed. Polotno is a commercial design editor SDK built on Konva by the Konva maintainers. You do not need the editor to use it. The export package takes a JSON description of the design, in a format close to Konva nodes: text, images, shapes, and lines with `x`, `y`, `rotation`, `fill`, and `fontSize`. Map your stage to that JSON and export it as a vector PDF.
 
-**High-quality export:** Use the `pixelRatio` attribute when converting canvas to an image — see the [High Quality Export guide](/docs/data_and_serialization/High-Quality-Export.html) for details.
+## The raster way
 
-**Selectable text in PDF:** Even though the canvas is added as an image, you can insert text nodes manually into the PDF layer beneath it. The text won't be visible (it sits behind the image) but remains selectable and searchable. Text rendering in PDF differs from Konva's, so complex styles may need adjustment.
+Generate your canvas content, export the stage as an image, insert that image into a PDF document, and save. Use the `pixelRatio` attribute to make the image sharp. See the [High Quality Export guide](/docs/data_and_serialization/High-Quality-Export.html) for details.
+
+The page of the PDF is one image, so it gets blurry when you zoom in far enough and its text is not selectable. The demo adds a light fix for the text: it writes each text node into the PDF first and puts the image on top, so the hidden text can be selected and searched. Complex text styles do not line up exactly.
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -102,9 +105,9 @@ saveButton.addEventListener('click', function () {
     format: [stage.width(), stage.height()],
     hotfixes: ['px_scaling'],
   });
-  pdf.setTextColor('#000000');
 
-  // First add texts
+  // Hidden text layer, so text can be selected and searched
+  pdf.setTextColor('#000000');
   stage.find('Text').forEach((text) => {
     const size = text.fontSize() * 0.75; // convert pixels to points
     pdf.setFontSize(size);
@@ -114,7 +117,7 @@ saveButton.addEventListener('click', function () {
     });
   });
 
-  // Then put image on top of texts (so texts are not visible)
+  // The image goes on top and covers the text
   pdf.addImage(
     stage.toDataURL({ pixelRatio: 2 }),
     0,
@@ -156,9 +159,9 @@ const App = () => {
         format: [width, height],
         hotfixes: ['px_scaling'],
       });
+
+      // Hidden text layer, so text can be selected and searched
       pdf.setTextColor('#000000');
-      
-      // First add texts
       stage.find('Text').forEach((text) => {
         const size = text.fontSize() * 0.75; // convert pixels to points
         pdf.setFontSize(size);
@@ -168,7 +171,7 @@ const App = () => {
         });
       });
 
-      // Then put image on top of texts (so texts are not visible)
+      // The image goes on top and covers the text
       pdf.addImage(
         stage.toDataURL({ pixelRatio: 2 }),
         0,
@@ -334,9 +337,9 @@ const handleExport = () => {
       format: [width, height],
       hotfixes: ['px_scaling'],
     });
+
+    // Hidden text layer, so text can be selected and searched
     pdf.setTextColor('#000000');
-    
-    // First add texts
     stage.find('Text').forEach((text) => {
       const size = text.fontSize() * 0.75; // convert pixels to points
       pdf.setFontSize(size);
@@ -346,7 +349,7 @@ const handleExport = () => {
       });
     });
 
-    // Then put image on top of texts (so texts are not visible)
+    // The image goes on top and covers the text
     pdf.addImage(
       stage.toDataURL({ pixelRatio: 2 }),
       0,
@@ -364,12 +367,3 @@ const handleExport = () => {
 ```
 </TabItem>
 </Tabs>
-
-## Print output
-
-The method above places a raster image into an RGB document. A commercial
-printer usually asks for CMYK separation, PDF/X compliance, bleed, and crop
-marks, and a browser canvas produces none of them — that needs a render step
-outside the browser.
-[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=canvas-to-pdf) is a commercial design editor SDK built with
-Konva that covers the editor and its export pipeline.

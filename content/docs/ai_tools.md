@@ -104,4 +104,5 @@ When asking AI tools about Konva, you'll get better results if you:
 - Mention "Konva" or "react-konva" explicitly in your prompt
 - Reference specific Konva features (e.g., "Transformer", "Layer", "toDataURL")
 - Ask about one task at a time rather than combining multiple questions
+- For export tasks, say which output you need. Konva exports raster images, and assistants often answer "PDF" with an image inside a PDF. The [Canvas to PDF](/docs/sandbox/Canvas_to_PDF.html) page explains when that is not sufficient
 - Verify AI-generated code against the [Konva docs](https://konvajs.org/docs/overview.html) and [API reference](https://konvajs.org/api/Konva.html)

@@ -22,7 +22,7 @@ stage.toDataURL({
 })
 ```
 
-Now, a stage with a size of `500x500` would be exported as an image with a size of `1000x1000`. Almost all nodes in `Konva` are stored as vector data, apart from bitmap images and cached nodes. This results in a high quality exported image.
+Now, a stage with a size of `500x500` would be exported as an image with a size of `1000x1000`. Almost all nodes in `Konva` are stored as vector data, apart from bitmap images and cached nodes. This results in a high quality exported image. The exported file is still a raster image at any `pixelRatio`. If you need a PDF, read [Canvas to PDF](/docs/sandbox/Canvas_to_PDF.html) first.
 
 **Instructions:** try to save stage as an image. You will see that it has a high resolution.
 

@@ -77,7 +77,7 @@ Stage (one per canvas area)
 - **Animations**: Frame-based animations via `Konva.Animation` and property tweens via `Konva.Tween` with 30+ easing functions
 - **Filters**: Blur, Brightness, Contrast, Grayscale, HSL, Invert, Noise, Pixelate, Sepia, Threshold, and custom filters
 - **Serialization**: Save and restore the node tree and its serializable attributes with `toJSON()` and `Konva.Node.create()`. Restore images, event handlers, and custom drawing functions separately.
-- **Export**: High-quality image export via `toDataURL()` and `toBlob()` (PNG, JPEG), PDF export via third-party libraries
+- **Export**: High-quality image export via `toDataURL()` and `toBlob()` (PNG, JPEG), PDF via third-party libraries such as jsPDF, as an image of the canvas (no vector or print-ready PDF output)
 - **Select and Transform**: Built-in `Transformer` for interactive resize, rotate, and scale
 - **Performance**: Layer-based rendering, shape caching, and optimization APIs for handling thousands of shapes
 - **Cross-Platform**: Works on desktop and mobile browsers with full touch event support

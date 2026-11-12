@@ -241,7 +241,7 @@ const dataURL = stage.toDataURL({ pixelRatio: 2 }); // PNG by default
 const jpegURL = stage.toDataURL({ mimeType: 'image/jpeg', quality: 0.8 });
 ```
 
-**PDF export** is possible using third-party libraries like jsPDF. See the [Canvas to PDF demo](/docs/sandbox/Canvas_to_PDF.html).
+**PDF export** is possible using third-party libraries like jsPDF, which place an image of the canvas into the PDF. See the [Canvas to PDF demo](/docs/sandbox/Canvas_to_PDF.html). Konva has no vector or print-ready (CMYK, PDF/X) PDF output. [Polotno](https://polotno.com/docs/pdf-export?utm_source=konvajs&utm_medium=docs&utm_content=faq-pdf), the design editor SDK built on Konva, has a PDF export package for that. It takes a JSON description of the design, in a format close to Konva nodes, so you can map a stage to it and use it without the editor.
 
 [Read the export tutorial →](/docs/data_and_serialization/High-Quality-Export.html)
 
