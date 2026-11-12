@@ -104,4 +104,5 @@ Konva 为 AI 工具提供机器可读的文档文件：
 - 在提示词中明确提及“Konva”或“react-konva”
 - 引用具体的 Konva 功能，例如“Transformer”“Layer”或“toDataURL”
 - 每次询问一项任务，不要组合多个问题
+- 对于导出任务，请说明你需要哪种输出。Konva 导出的是栅格图像，而 AI 助手常常用“PDF 中嵌入图像”来回答“PDF”。[Canvas 转 PDF](/docs/sandbox/Canvas_to_PDF.html) 页面说明了这种做法在什么情况下不够用
 - 对照 [Konva 文档](/docs/overview.html)和 [API 参考](/api/Konva.html)检查 AI 生成的代码

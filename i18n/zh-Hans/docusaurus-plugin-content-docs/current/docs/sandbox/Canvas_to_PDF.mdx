@@ -3,16 +3,19 @@ title: Canvas 转 PDF——使用 JavaScript 将 HTML5 Canvas 导出为 PDF
 sidebar_label: Canvas 转 PDF
 hide_table_of_contents: true
 slug: Canvas_to_PDF.html
-description: "使用 JavaScript、Konva.js 和 jsPDF 将 HTML5 Canvas 导出为 PDF。将 Canvas 绘图保存为高质量 PDF 文件，其中的文本仍可选中。包含完整的可运行示例和源代码。"
+description: "使用 JavaScript、Konva.js 和 jsPDF 将 HTML5 Canvas 导出为 PDF。Canvas 以图像形式写入 PDF。包含完整的可运行示例，并说明矢量或印刷级 PDF 的方案。"
 ---
 
-使用 JavaScript 将任意 HTML5 Canvas 内容导出为 PDF 文档。此示例展示如何使用 [jsPDF](https://parall.ax/products/jspdf) 将 Konva 舞台转换为可下载的 PDF 文件，并支持高质量渲染和可选中的文本。
+Konva 绘制到 `<canvas>` 元素上，因此它导出的是像素。生成 PDF 有两种方式，请先确定你需要哪一种：
 
-此方法包含四个步骤：生成 Canvas 内容，将 Canvas 导出为图像，将该图像插入 PDF 文档，然后保存。要获得最佳结果，请注意以下两点：
+- **栅格方式：用于查看、分享或在办公打印机上打印的 PDF。** 使用 [jsPDF](https://parall.ax/products/jspdf) 将舞台的图像放入 PDF 文件。此示例展示了具体做法。
+- **矢量方式：文本可选中的 PDF，或印刷级文件**（文本和图形是真正的 PDF 对象，支持 CMYK、出血、裁切标记以及印刷厂要求的 PDF/X）。Konva 无法生成这种文件，放入 PDF 的图像也不会变成矢量。[Polotno PDF 导出](https://polotno.com/docs/pdf-export?utm_source=konvajs&utm_medium=docs&utm_content=canvas-to-pdf)可生成矢量 PDF，支持 PDF/X-4、PDF/X-1a、CMYK 和出血。Polotno 是由 Konva 维护者基于 Konva 开发的商业设计编辑器 SDK。使用它并不需要编辑器。导出包接收设计的 JSON 描述，其格式与 Konva 节点相近：文本、图像、图形和线条，带有 `x`、`y`、`rotation`、`fill` 和 `fontSize` 等属性。将你的舞台映射为这份 JSON，即可导出矢量 PDF。
 
-**高质量导出：** 将 Canvas 转换为图像时，请使用 `pixelRatio` 属性。有关详细信息，请参阅[高质量导出指南](/docs/data_and_serialization/High-Quality-Export.html)。
+## 栅格方式
 
-**PDF 中的可选中文本：** 虽然 Canvas 会作为图像添加，但可以手动在其下方的 PDF 图层中插入文本节点。这些文本不可见（它们位于图像后方），但仍可选择和搜索。PDF 的文本渲染方式不同于 Konva，因此复杂样式可能需要调整。
+生成 Canvas 内容，将舞台导出为图像，将该图像插入 PDF 文档，然后保存。使用 `pixelRatio` 属性让图像保持清晰。有关详细信息，请参阅[高质量导出指南](/docs/data_and_serialization/High-Quality-Export.html)。
+
+PDF 的页面是一张图像，因此放大到一定程度后会变模糊，其中的文本也无法选中。此示例为文本添加了一个简单的补救办法：先将每个文本节点写入 PDF，再将图像覆盖在上面，这样隐藏的文本就可以选中和搜索。复杂的文本样式无法完全对齐。
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -102,9 +105,9 @@ saveButton.addEventListener('click', function () {
     format: [stage.width(), stage.height()],
     hotfixes: ['px_scaling'],
   });
-  pdf.setTextColor('#000000');
 
-  // First add texts
+  // Hidden text layer, so text can be selected and searched
+  pdf.setTextColor('#000000');
   stage.find('Text').forEach((text) => {
     const size = text.fontSize() * 0.75; // convert pixels to points
     pdf.setFontSize(size);
@@ -114,7 +117,7 @@ saveButton.addEventListener('click', function () {
     });
   });
 
-  // Then put image on top of texts (so texts are not visible)
+  // The image goes on top and covers the text
   pdf.addImage(
     stage.toDataURL({ pixelRatio: 2 }),
     0,
@@ -156,9 +159,9 @@ const App = () => {
         format: [width, height],
         hotfixes: ['px_scaling'],
       });
+
+      // Hidden text layer, so text can be selected and searched
       pdf.setTextColor('#000000');
-      
-      // First add texts
       stage.find('Text').forEach((text) => {
         const size = text.fontSize() * 0.75; // convert pixels to points
         pdf.setFontSize(size);
@@ -168,7 +171,7 @@ const App = () => {
         });
       });
 
-      // Then put image on top of texts (so texts are not visible)
+      // The image goes on top and covers the text
       pdf.addImage(
         stage.toDataURL({ pixelRatio: 2 }),
         0,
@@ -334,9 +337,9 @@ const handleExport = () => {
       format: [width, height],
       hotfixes: ['px_scaling'],
     });
+
+    // Hidden text layer, so text can be selected and searched
     pdf.setTextColor('#000000');
-    
-    // First add texts
     stage.find('Text').forEach((text) => {
       const size = text.fontSize() * 0.75; // convert pixels to points
       pdf.setFontSize(size);
@@ -346,7 +349,7 @@ const handleExport = () => {
       });
     });
 
-    // Then put image on top of texts (so texts are not visible)
+    // The image goes on top and covers the text
     pdf.addImage(
       stage.toDataURL({ pixelRatio: 2 }),
       0,
@@ -364,12 +367,3 @@ const handleExport = () => {
 ```
 </TabItem>
 </Tabs>
-
-## 打印输出
-
-上述方法会将光栅图像放入 RGB 文档。商业印刷
-通常要求 CMYK 分色、符合 PDF/X 标准、出血和裁切标记，
-但浏览器 Canvas 不提供这些功能。这需要在浏览器外
-执行渲染步骤。
-[Polotno](https://polotno.com/?utm_source=konvajs&utm_medium=docs&utm_content=canvas-to-pdf) 是一款使用 Konva
-构建的商业设计编辑器 SDK，它涵盖编辑器及其导出流程。

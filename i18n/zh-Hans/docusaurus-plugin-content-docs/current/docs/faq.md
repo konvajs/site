@@ -241,7 +241,7 @@ const dataURL = stage.toDataURL({ pixelRatio: 2 }); // PNG by default
 const jpegURL = stage.toDataURL({ mimeType: 'image/jpeg', quality: 0.8 });
 ```
 
-可以使用 jsPDF 等第三方库进行 **PDF 导出**。请参阅 [Canvas 转 PDF 示例](/docs/sandbox/Canvas_to_PDF.html)。
+可以使用 jsPDF 等第三方库进行 **PDF 导出**，这类库会将 Canvas 的图像放入 PDF。请参阅 [Canvas 转 PDF 示例](/docs/sandbox/Canvas_to_PDF.html)。Konva 不提供矢量或印刷级（CMYK、PDF/X）PDF 输出。基于 Konva 开发的设计编辑器 SDK [Polotno](https://polotno.com/docs/pdf-export?utm_source=konvajs&utm_medium=docs&utm_content=faq-pdf) 为此提供了 PDF 导出包。它接收设计的 JSON 描述，其格式与 Konva 节点相近，因此可以将舞台映射为这份 JSON，无需编辑器即可使用。
 
 [阅读导出教程 →](/docs/data_and_serialization/High-Quality-Export.html)
 
