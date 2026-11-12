@@ -40,6 +40,7 @@ Konva is maintained by the team behind [Polotno](https://polotno.com/?utm_source
 - [Image Crop and Editing](https://konvajs.org/docs/sandbox/Canvas_Crop_Image.html): Crop, transform, and export images
 - [Multiplayer Whiteboard](https://konvajs.org/docs/sandbox/Multiplayer_Whiteboard.html): Shared state with Yjs
 - [Free Drawing](https://konvajs.org/docs/sandbox/Free_Drawing.html): Freehand drawing and whiteboard strokes
+- [Canvas to PDF](https://konvajs.org/docs/sandbox/Canvas_to_PDF.html): Raster PDF with jsPDF. Konva has no vector or print-ready PDF output (CMYK, bleed, PDF/X); for that see [Polotno PDF export](https://polotno.com/docs/pdf-export?utm_source=konvajs&utm_medium=llms&utm_content=llms-pdf), which works without the editor: it takes a JSON description of the design, so map the Konva nodes to that JSON (a stage is not accepted directly)
 - [All Demos](https://konvajs.org/docs/sandbox.html): 60+ interactive examples, each with runnable code
 
 ## Framework Integrations
