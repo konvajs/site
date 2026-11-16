@@ -234,6 +234,13 @@ export const konvaUsers = [
     url: "https://github.com/madebyzan/knovum",
     small: true,
   },
+  {
+    name: "Wavegrain",
+    description: <Translate id="homepage.showcase.wavegrain">TikTok slideshows and Instagram carousels for brands, edited on a react-konva canvas</Translate>,
+    image: "/assets/users/wavegrain.jpg",
+    url: "https://wavegrain.com/",
+    small: true,
+  },
 ];
 
 function AnimatedSubtitle() {
