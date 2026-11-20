@@ -653,6 +653,12 @@
     "message": "标签",
     "description": "The title of the tag list page"
   },
+  "homepage.showcase.knovum": {
+    "message": "本地优先的桌面 AI 工作区，基于无限 2D 画布"
+  },
+  "homepage.showcase.wavegrain": {
+    "message": "为品牌制作 TikTok 幻灯片和 Instagram 轮播图，在 react-konva Canvas 上编辑"
+  },
   "homepage.showcase.polotno": {
     "message": "面向 Web 的设计编辑器 SDK"
   },
