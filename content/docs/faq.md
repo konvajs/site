@@ -223,10 +223,15 @@ Yes. Konva fully supports mobile browsers with:
 
 ### Can I use Konva with Node.js?
 
-Yes. Konva supports server-side rendering using the [`canvas`](https://www.npmjs.com/package/canvas) npm package:
+Yes. Konva renders on the server with a canvas library: [`canvas`](https://www.npmjs.com/package/canvas), [`skia-canvas`](https://www.npmjs.com/package/skia-canvas) or [`@napi-rs/canvas`](https://www.npmjs.com/package/@napi-rs/canvas). Install one and import its backend module:
 
 ```bash
 npm install konva canvas
+```
+
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend'; // or 'konva/skia-backend', or 'konva/napi-backend'
 ```
 
 This allows you to generate images on the server, create thumbnails, or run canvas operations in Node.js without a browser.

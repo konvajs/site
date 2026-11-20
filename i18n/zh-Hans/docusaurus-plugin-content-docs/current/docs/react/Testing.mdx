@@ -109,9 +109,9 @@ Konva 并不在图形上监听 `mousemove` 和 `mouseup`，甚至也不在舞台
 它把这些监听器挂到 `window` 上，这样指针移出 Canvas 后拖动仍然有效。模拟拖动必须遵循这一点：
 
 ```js
-const container = stage.container();
+const content = stage.container().querySelector('.konvajs-content');
 
-container.dispatchEvent(new MouseEvent('mousedown', { clientX: 20, clientY: 20, bubbles: true }));
+content.dispatchEvent(new MouseEvent('mousedown', { clientX: 20, clientY: 20, bubbles: true }));
 window.dispatchEvent(new MouseEvent('mousemove', { clientX: 90, clientY: 60, bubbles: true }));
 window.dispatchEvent(new MouseEvent('mouseup',   { clientX: 90, clientY: 60, bubbles: true }));
 ```
@@ -174,4 +174,4 @@ Konva 会保留指针在节点内的偏移。Konva 根据指针相对起点的�
 
 Konva 通过后端模块在 Node 中运行，这与上面所有内容都是不同的配置。参见
 [Node.js](/zh-Hans/docs/nodejs/nodejs-setup)——并且请注意，如果你忘记了具体写法，
-Konva 会打印出确切的安装命令和导入语句。
+Konva 会列出需要导入的后端模块。

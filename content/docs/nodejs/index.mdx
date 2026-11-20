@@ -3,7 +3,7 @@ title: Node.js Setup
 sidebar_label: Setup
 hide_table_of_contents: true
 slug: nodejs-setup
-description: "Set up Konva for server-side rendering in Node.js with canvas or skia-canvas backends for image generation and batch processing."
+description: "Set up Konva for server-side rendering in Node.js with node-canvas, skia-canvas or @napi-rs/canvas backends for image generation and batch processing."
 ---
 
 Konva can be used in Node.js environments for server-side rendering, image processing, and canvas operations. This guide will help you set up Konva in your Node.js project.
@@ -14,7 +14,7 @@ Konva v10+ dropped default support for Node.js environment. You now need to expl
 
 ### Installation
 
-Konva v10+ offers two backend options for Node.js:
+Konva v10+ offers three backend options for Node.js:
 
 **node-canvas Backend**:
 ```bash
@@ -26,33 +26,23 @@ npm install konva canvas
 npm install konva skia-canvas
 ```
 
+**napi-rs Backend (prebuilt binaries, no system libraries)**, since Konva 10.10:
+```bash
+npm install konva @napi-rs/canvas
+```
 
 ### Usage
 
-Import Konva and your chosen backend:
+Import Konva and the backend module of your library. Leave out the stage `container`: there is no DOM in Node.js.
 
-**Canvas Backend**:
 ```js
 import Konva from 'konva';
-import 'konva/canvas-backend';
-```
-
-**Skia Backend**:
-```js
-import Konva from 'konva';
-import 'konva/skia-backend';
-```
-
-**Complete Example**:
-```js
-import Konva from 'konva';
-import 'konva/canvas-backend'; // or 'konva/skia-backend'
+import 'konva/canvas-backend'; // or 'konva/skia-backend', or 'konva/napi-backend'
 
 // Create a stage
 const stage = new Konva.Stage({
-  container: 'container', // This will be ignored in Node.js
   width: 800,
-  height: 600
+  height: 600,
 });
 
 // ... the rest of your konva code
@@ -60,6 +50,26 @@ const stage = new Konva.Stage({
 // Export as data URL
 const dataURL = stage.toDataURL();
 ```
+
+A backend module also sets the global `DOMMatrix` and `Path2D` of its library, so code like `new Path2D()` in a `clipFunc` works as it does in a browser.
+
+### Custom Backend
+
+Since Konva 10.10, `Konva.setCanvasBackend()` takes a canvas library directly. Use it to configure the library yourself, or to leave the global `DOMMatrix` and `Path2D` alone, for example in a package that embeds Konva next to an app that uses another canvas library:
+
+```js
+import Konva from 'konva';
+import { Canvas, Image, Path2D } from '@napi-rs/canvas';
+
+Konva.setCanvasBackend({
+  name: 'my-canvas',
+  createCanvas: () => new Canvas(300, 150),
+  createImage: () => new Image(), // optional, to load images
+  createPath2D: (path) => new Path2D(path), // optional, for Konva.Util.createPath2D()
+});
+```
+
+`Konva.getCanvasBackend()` returns the name of the active backend, or `null` before one is set. Set the backend before you create stages: stages and nodes created earlier keep the canvases of the old library.
 
 
 ## Konva Version ≤ 9 (Legacy)

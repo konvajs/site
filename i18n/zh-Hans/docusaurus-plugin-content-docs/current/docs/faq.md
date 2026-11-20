@@ -223,10 +223,15 @@ Konva 提供渲染 [10,000 个图形](/docs/sandbox/10000_Shapes_with_Tooltip.ht
 
 ### 可以结合 Node.js 使用 Konva 吗？
 
-可以。Konva 支持使用 [`canvas`](https://www.npmjs.com/package/canvas) npm 包进行服务器端渲染：
+可以。Konva 可以借助一个 Canvas 库在服务器上渲染：[`canvas`](https://www.npmjs.com/package/canvas)、[`skia-canvas`](https://www.npmjs.com/package/skia-canvas) 或 [`@napi-rs/canvas`](https://www.npmjs.com/package/@napi-rs/canvas)。安装其中一个，并导入它的后端模块：
 
 ```bash
 npm install konva canvas
+```
+
+```js
+import Konva from 'konva';
+import 'konva/canvas-backend'; // or 'konva/skia-backend', or 'konva/napi-backend'
 ```
 
 这样可以在服务器上生成图像和创建缩略图，或在没有浏览器的情况下在 Node.js 中执行 Canvas 操作。

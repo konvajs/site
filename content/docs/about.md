@@ -81,7 +81,7 @@ Stage (one per canvas area)
 - **Select and Transform**: Built-in `Transformer` for interactive resize, rotate, and scale
 - **Performance**: Layer-based rendering, shape caching, and optimization APIs for handling thousands of shapes
 - **Cross-Platform**: Works on desktop and mobile browsers with full touch event support
-- **Node.js**: Server-side canvas rendering via the `canvas` npm package
+- **Node.js and Web Workers**: Server-side rendering with `canvas`, `skia-canvas` or `@napi-rs/canvas`, and off-main-thread rendering on `OffscreenCanvas`
 - **TypeScript**: Built-in TypeScript type definitions
 
 ## Links

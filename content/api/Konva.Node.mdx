@@ -1343,7 +1343,7 @@ shape.preventDefault(false);
 
 ### filters(filters) {#filters}
 
-get/set filters. Supports function filters, CSS filter strings, or mixed arrays. CSS filters are applied using native browser performance when possible, function filters use ImageData manipulation. CSS filters automatically fall back to function filters in unsupported browsers. Blur radii, pixelation sizes and CSS lengths use node coordinates, independent of cache pixelRatio. Custom filters receive (imageData, pixelRatio). ImageData contains full-resolution backing pixels.
+get/set filters. Supports function filters, CSS filter strings, or mixed arrays. CSS filters are applied using native browser performance when possible, function filters use ImageData manipulation. CSS filters automatically fall back to function filters in unsupported browsers. The fallback covers blur, brightness, contrast, grayscale, sepia and invert. A core build needs the Blur, Brightness and Contrast filters imported for the first three. Blur radii, pixelation sizes and CSS lengths use node coordinates, independent of cache pixelRatio. Custom filters receive (imageData, pixelRatio). ImageData contains full-resolution backing pixels.
 
 **Parameters:**
 

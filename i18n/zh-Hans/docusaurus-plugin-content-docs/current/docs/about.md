@@ -81,7 +81,7 @@ Stage (one per canvas area)
 - **选择与变换**：使用内置 `Transformer` 进行交互式调整大小、旋转和缩放
 - **性能**：基于图层的渲染、图形缓存和优化 API，可处理数千个图形
 - **跨平台**：支持完整触摸事件，可在桌面和移动浏览器上运行
-- **Node.js**：通过 `canvas` npm 包进行服务器端 Canvas 渲染
+- **Node.js 和 Web Worker**：通过 `canvas`、`skia-canvas` 或 `@napi-rs/canvas` 进行服务器端渲染，并在 `OffscreenCanvas` 上于主线程之外渲染
 - **TypeScript**：内置 TypeScript 类型定义
 
 ## 链接

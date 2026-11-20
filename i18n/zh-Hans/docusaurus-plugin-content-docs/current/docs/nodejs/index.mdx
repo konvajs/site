@@ -3,7 +3,7 @@ title: Node.js 配置
 sidebar_label: 配置
 hide_table_of_contents: true
 slug: nodejs-setup
-description: "使用 canvas 或 skia-canvas 后端，在 Node.js 中配置 Konva 以进行服务器端渲染、图像生成和批处理。"
+description: "使用 node-canvas、skia-canvas 或 @napi-rs/canvas 后端，在 Node.js 中配置 Konva 以进行服务器端渲染、图像生成和批处理。"
 ---
 
 Konva 可以在 Node.js 环境中用于服务器端渲染、图像处理和 Canvas 操作。本指南帮助你在 Node.js 项目中配置 Konva。
@@ -14,7 +14,7 @@ Konva v10+ 不再默认支持 Node.js 环境。现在需要显式导入 Canvas �
 
 ### 安装
 
-Konva v10+ 为 Node.js 提供两种后端选项：
+Konva v10+ 为 Node.js 提供三种后端选项：
 
 **node-canvas 后端**：
 ```bash
@@ -26,33 +26,23 @@ npm install konva canvas
 npm install konva skia-canvas
 ```
 
+**napi-rs 后端（预编译二进制文件，无需系统库）**，自 Konva 10.10 起提供：
+```bash
+npm install konva @napi-rs/canvas
+```
 
 ### 使用方法
 
-导入 Konva 和所选后端：
+导入 Konva 和所选库的后端模块。不要设置舞台的 `container`：Node.js 中没有 DOM。
 
-**Canvas 后端**：
 ```js
 import Konva from 'konva';
-import 'konva/canvas-backend';
-```
-
-**Skia 后端**：
-```js
-import Konva from 'konva';
-import 'konva/skia-backend';
-```
-
-**完整示例**：
-```js
-import Konva from 'konva';
-import 'konva/canvas-backend'; // or 'konva/skia-backend'
+import 'konva/canvas-backend'; // or 'konva/skia-backend', or 'konva/napi-backend'
 
 // Create a stage
 const stage = new Konva.Stage({
-  container: 'container', // This will be ignored in Node.js
   width: 800,
-  height: 600
+  height: 600,
 });
 
 // ... the rest of your konva code
@@ -60,6 +50,26 @@ const stage = new Konva.Stage({
 // Export as data URL
 const dataURL = stage.toDataURL();
 ```
+
+后端模块还会设置其库的全局 `DOMMatrix` 和 `Path2D`，因此 `clipFunc` 中的 `new Path2D()` 等代码可以像在浏览器中一样运行。
+
+### 自定义后端
+
+自 Konva 10.10 起，`Konva.setCanvasBackend()` 可以直接接收一个 Canvas 库。可以用它自行配置该库，或者不修改全局 `DOMMatrix` 和 `Path2D`，例如在一个嵌入 Konva 的包中，而使用它的应用使用另一个 Canvas 库：
+
+```js
+import Konva from 'konva';
+import { Canvas, Image, Path2D } from '@napi-rs/canvas';
+
+Konva.setCanvasBackend({
+  name: 'my-canvas',
+  createCanvas: () => new Canvas(300, 150),
+  createImage: () => new Image(), // optional, to load images
+  createPath2D: (path) => new Path2D(path), // optional, for Konva.Util.createPath2D()
+});
+```
+
+`Konva.getCanvasBackend()` 返回当前后端的名称，在设置后端之前返回 `null`。请在创建舞台之前设置后端：之前创建的舞台和节点会保留旧库的 Canvas。
 
 
 ## Konva 版本 ≤ 9（旧版）

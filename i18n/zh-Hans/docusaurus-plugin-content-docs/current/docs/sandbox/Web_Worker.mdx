@@ -8,13 +8,13 @@ description: "使用 OffscreenCanvas 在 Web Worker 中运行 Konva 渲染，以
 
 ## 如何在 Web Worker 中运行 Konva？
 
-**警告！此示例仍处于高度实验阶段！它可能无法在许多浏览器中运行。** 请查看[离屏 Canvas 支持情况表](https://caniuse.com/#feat=offscreencanvas)。
+自 Konva 10.10 起，Konva 无需任何配置即可在 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) 中使用 [OffscreenCanvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) 绘制。在另一个线程中渲染，可以让页面主线程保持空闲。
 
-通过一些额外工作，可以在 [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker) 中使用[离屏 Canvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas) 渲染 `Konva` 舞台，以提高性能或实现特殊用途。
+Worker 中没有 DOM，因此有三点不同：
 
-可以使用 Web Worker 和 `Konva` 创建可视化内容。
-
-但是，`Konva` 的主要功能之一是交互性（完整支持 Canvas 图形事件），而 Web Worker 中没有 DOM 事件。因此，必须编写某种“代理”，将所有 DOM 事件传入 Konva 引擎。这样，Web Worker 中也可以包含交互式对象。
+- **事件。** Worker 中没有 DOM 事件。为了保持图形的交互性，页面需要把事件传给 Worker，就像本示例这样。这部分代码调用了 Konva 的内部方法，请将其视为实验性用法。
+- **图像。** 没有 image 元素。请使用 `createImageBitmap()` 加载图像，并将 `ImageBitmap` 传给 `Konva.Image`。
+- **导出。** 请使用 `toBlob()`。`OffscreenCanvas` 无法生成 data URL，因此 `toDataURL()` 会抛出错误。
 
 此示例改编自[跳跃的兔子](/docs/sandbox/Jumping_Bunnies.html)性能压力测试。
 
@@ -32,15 +32,8 @@ import TabItem from "@theme/TabItem";
 ```js live vanilla
 // main.js
 const workerCode = `
-// load konva framework
+// load konva framework, 10.10+ draws on OffscreenCanvas in a worker
 importScripts('https://unpkg.com/konva@10/konva.min.js');
-
-// monkeypatch Konva for offscreen canvas usage
-Konva.Util.createCanvasElement = () => {
-  const canvas = new OffscreenCanvas(1, 1);
-  canvas.style = {};
-  return canvas;
-};
 
 // now we can create our canvas content
 var stage = new Konva.Stage({

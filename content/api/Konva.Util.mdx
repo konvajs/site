@@ -10,6 +10,26 @@ description: "Konva.Util namespace reference for Konva.js: properties, methods a
 
 ## Own Methods
 
+### createDOMMatrix(init) {#createDOMMatrix}
+
+Make a DOMMatrix of the canvas library Konva draws with. Without a createDOMMatrix in Konva.setCanvasBackend(), the class comes from the library's own context.
+
+**Parameters:**
+
+- `init` (Array) (optional): the six numbers a, b, c, d, e, f
+
+**Returns:** `DOMMatrix` 
+
+### createPath2D(path) {#createPath2D}
+
+Make a Path2D of the canvas library Konva draws with, for example for a clipFunc. Without a createPath2D in Konva.setCanvasBackend(), it is the global Path2D.
+
+**Parameters:**
+
+- `path` (String) (optional): SVG path data
+
+**Returns:** `Path2D` 
+
 ### getRandomColor() {#getRandomColor}
 
 return random hex color
