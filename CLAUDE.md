@@ -54,6 +54,10 @@ whether it is generated.
   depth, not match pairs.
 - **MDX parses bare `<canvas>` as JSX.** Wrap it in backticks in prose.
 - **The dev server serves one locale at a time**: `npm start -- --locale zh-Hans`.
+- **`jspdf` is pinned to 3.0.1 in `src/theme/CodeBlock/dependencies.json` on purpose.** From 3.0.2
+  it depends on `fast-png`, whose ESM build uses optional chaining that the Sandpack bundler
+  cannot parse, so the Canvas to PDF demo fails with "Unexpected token". Before raising the
+  pin, open the demo in a browser.
 - **Live code blocks** are the swizzled `src/theme/CodeBlock/`, not the deleted
   `src/theme-live-codeblock/`. Sandpack's React bundler is remote and cannot be verified
   headlessly.
