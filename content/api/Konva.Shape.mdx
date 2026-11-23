@@ -47,6 +47,9 @@ Shape constructor.  Shapes are primitive objects such as rectangles,  circles, t
 | fillRadialGradientStartRadius (optional) | `Number` |  |
 | fillRadialGradientEndRadius (optional) | `Number` |  |
 | fillRadialGradientColorStops (optional) | `Array` | array of color stops |
+| fillRadialGradientScale (optional) | `Object` | object with x and y component. Scales the gradient about its end point, for an elliptical gradient |
+| fillRadialGradientScaleX (optional) | `Number` |  |
+| fillRadialGradientScaleY (optional) | `Number` |  |
 | fillEnabled (optional) | `Boolean` | flag which enables or disables the fill.  The default value is true |
 | fillPriority (optional) | `String` | can be color, linear-gradient, radial-gradient, or pattern.  The default value is color.  The fillPriority property makes it really easy to toggle between different fill types.  For example, if you want to toggle between a fill color style and a fill pattern style, simply set the fill property and the fillPattern properties, and then use setFillPriority('color') to render the shape with a color fill, or use setFillPriority('pattern') to render the shape with the pattern fill configuration |
 | stroke (optional) | `String` | stroke color |
@@ -807,6 +810,71 @@ var colorStops = shape.fillRadialGradientColorStops();
 // create a radial gradient that starts with red, changes to blue
 // halfway through, and then changes to green
 shape.fillRadialGradientColorStops(0, 'red', 0.5, 'blue', 1, 'green');
+```
+
+### fillRadialGradientScale(scale) {#fillRadialGradientScale}
+
+get/set fill radial gradient scale. The whole gradient, both of its circles, is scaled about the end point, so a scale that differs on the two axes makes an elliptical gradient. A scale of 0 paints the last color stop. Applies to the path a shape builds and fills with `context.fillShape()` or `context.fillStrokeShape()`: built-in shapes and custom `sceneFunc` shapes. Shapes with their own fill function ignore it, among them `Konva.Text` and `Konva.TextPath`, which fill glyphs.
+
+**Parameters:**
+
+- `scale` (Object)
+- `scale.x` (Number)
+- `scale.y` (Number)
+
+**Returns:** `Object` 
+
+**Example:**
+
+```javascript
+// get fill radial gradient scale
+var gradientScale = shape.fillRadialGradientScale();
+
+// an ellipse half as tall as it is wide
+shape.fillRadialGradientScale({
+  x: 1,
+  y: 0.5
+});
+```
+
+### fillRadialGradientScaleX(x) {#fillRadialGradientScaleX}
+
+get/set fill radial gradient scale x
+
+**Parameters:**
+
+- `x` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+// get fill radial gradient scale x
+var gradientScaleX = shape.fillRadialGradientScaleX();
+
+// set fill radial gradient scale x
+shape.fillRadialGradientScaleX(2);
+```
+
+### fillRadialGradientScaleY(y) {#fillRadialGradientScaleY}
+
+get/set fill radial gradient scale y
+
+**Parameters:**
+
+- `y` (Number)
+
+**Returns:** `Number` 
+
+**Example:**
+
+```javascript
+// get fill radial gradient scale y
+var gradientScaleY = shape.fillRadialGradientScaleY();
+
+// set fill radial gradient scale y
+shape.fillRadialGradientScaleY(0.5);
 ```
 
 ### fillPatternRepeat(repeat) {#fillPatternRepeat}

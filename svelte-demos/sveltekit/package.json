@@ -22,7 +22,7 @@
   },
   "type": "module",
   "dependencies": {
-    "konva": "^10.10.0",
+    "konva": "^10.11.0",
     "svelte-konva": "^1.0.1"
   }
 }

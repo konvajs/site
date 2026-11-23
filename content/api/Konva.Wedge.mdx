@@ -50,6 +50,9 @@ Wedge constructor
 | fillRadialGradientStartRadius (optional) | `Number` |  |
 | fillRadialGradientEndRadius (optional) | `Number` |  |
 | fillRadialGradientColorStops (optional) | `Array` | array of color stops |
+| fillRadialGradientScale (optional) | `Object` | object with x and y component. Scales the gradient about its end point, for an elliptical gradient |
+| fillRadialGradientScaleX (optional) | `Number` |  |
+| fillRadialGradientScaleY (optional) | `Number` |  |
 | fillEnabled (optional) | `Boolean` | flag which enables or disables the fill.  The default value is true |
 | fillPriority (optional) | `String` | can be color, linear-gradient, radial-gradient, or pattern.  The default value is color.  The fillPriority property makes it really easy to toggle between different fill types.  For example, if you want to toggle between a fill color style and a fill pattern style, simply set the fill property and the fillPattern properties, and then use setFillPriority('color') to render the shape with a color fill, or use setFillPriority('pattern') to render the shape with the pattern fill configuration |
 | stroke (optional) | `String` | stroke color |
@@ -202,6 +205,9 @@ wedge.clockwise(true);
 - [fillRadialGradientStartRadius(radius)](/api/Konva.Shape.html#fillRadialGradientStartRadius)
 - [fillRadialGradientEndRadius(radius)](/api/Konva.Shape.html#fillRadialGradientEndRadius)
 - [fillRadialGradientColorStops(colorStops)](/api/Konva.Shape.html#fillRadialGradientColorStops)
+- [fillRadialGradientScale(scale)](/api/Konva.Shape.html#fillRadialGradientScale)
+- [fillRadialGradientScaleX(x)](/api/Konva.Shape.html#fillRadialGradientScaleX)
+- [fillRadialGradientScaleY(y)](/api/Konva.Shape.html#fillRadialGradientScaleY)
 - [fillPatternRepeat(repeat)](/api/Konva.Shape.html#fillPatternRepeat)
 - [fillEnabled(enabled)](/api/Konva.Shape.html#fillEnabled)
 - [strokeEnabled(enabled)](/api/Konva.Shape.html#strokeEnabled)

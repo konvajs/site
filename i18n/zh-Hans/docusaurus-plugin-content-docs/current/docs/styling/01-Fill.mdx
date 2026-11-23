@@ -511,3 +511,23 @@ export default {
 
   </TabItem>
 </Tabs>
+
+## 椭圆径向渐变
+
+径向渐变默认是圆形。要让它变成椭圆，就像 CSS 的 `radial-gradient(ellipse …)` 那样，可以设置 `fillRadialGradientScale`（Konva 10.11 及以上版本）。它以渐变的终点为中心缩放渐变，图形本身的大小不变。
+
+```js
+const rect = new Konva.Rect({
+  width: 300,
+  height: 150,
+  fillRadialGradientStartPoint: { x: 150, y: 75 },
+  fillRadialGradientStartRadius: 0,
+  fillRadialGradientEndPoint: { x: 150, y: 75 },
+  fillRadialGradientEndRadius: 150,
+  fillRadialGradientColorStops: [0, 'red', 0.5, 'yellow', 1, 'blue'],
+  // half as tall as it is wide: the ellipse touches all four sides
+  fillRadialGradientScale: { x: 1, y: 0.5 },
+});
+```
+
+`Konva.Text` 和 `Konva.TextPath` 会忽略这个缩放。
